@@ -32,7 +32,7 @@ with [get-view "Tigerstripe Explorer"] {
 }
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click
-    get-window "Generate Result" | get-button OK | click
+    get-window "Generation Result" | get-button OK | click
 }
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "model-refactoring/target/tigerstripe.gen/logs/New Generator Project.log" | get-property caption 

@@ -1,7 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="ArtifactRule" id="_hlIiAK_nEd-XIrot2Jqbgw" description="" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ArtifactRule" id="_hlIiAK_nEd-XIrot2Jqbgw" description="" type="ecl">
   <contexts>_AFuq4K9WEd-zMOysButwpg</contexts>
   <contexts>_TLUSEd7KEeC1arm-KQmhig</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click
+with [get-editor "New Generator Project/ts-plugin.xml"] {
+    click -nowait
+    get-section Testing | get-canvas | mouse-move 20 27
+    get-tab-folder | get-tab-item Properties | click
+    get-section "Global Properties" | get-button Add | click
+}
+with [get-window "New Generator Property"] {
+    with [get-editbox -after [get-label "Property Name:"]] {
+        key-type "CTRL+a"
+        set-text artifact
+    }
+    get-button OK | click
+}
+with [get-editor "New Generator Project/ts-plugin.xml"] {
+    get-section "Global Properties" | get-editbox -after [get-label "Default Value:"] | set-text artifact
+    get-tab-folder | get-tab-item Rules | click
+    get-section "Artifact Rules" | get-button Add | click
+}
+with [get-window "New Generator Rule"] {
+    with [get-editbox -after [get-label "Rule Name:"]] {
+        key-type "CTRL+a"
+        set-text SecondArtifactRule
+    }
+    get-button OK | click
+}
+with [get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact Rules"] {
+    get-canvas -after [get-label "Output File:"] | mouse-move 136 28
+    get-combo -after [get-label "Artifact Type:"] | set-text "Any Artifact"
+    get-canvas -after [get-label "Output File:"] | mouse-move 175 6
+    get-editbox -after [get-label "Description:"] | set-text "An artifact rule for testing"
+    get-button Browse | click
+}
+get-window "Select Velocity Template" | get-tree | select "artifact.vm" | double-click
+with [get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact Rules"] {
+    get-canvas -after [get-label "Output File:"] | mouse-move 86 0
+    get-editbox -after [get-label "Output File:"] | set-text "${ppProp.artifact}/${artifact.Name}.txt"
+    get-canvas -after [get-label "Output File:"] | mouse-move 6 1
+}
+get-button "Save (Ctrl+S)" | click
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "New Generator Project" | get-menu "Plugin/Deploy" | click
+}
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact Rules" | get-canvas 
+    -after [get-label "Output File:"] | mouse-move 13 29
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    click -nowait
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click -nowait
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "model-refactoring" | get-menu "Generate..." | click
+}
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/AssociatedEnt.txt" 
+    | get-property caption | equals "AssociatedEnt.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/AssociatedEnt.txt" | get-property caption 
+    | equals "AssociatedEnt.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Association0.txt" 
+    | get-property caption | equals "Association0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/Association0.txt" | get-property caption 
+    | equals "Association0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Association1.txt" 
+    | get-property caption | equals "Association1.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/Association1.txt" | get-property caption 
+    | equals "Association1.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Association2.txt" 
+    | get-property caption | equals "Association2.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/Association2.txt" | get-property caption 
+    | equals "Association2.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/AssociationClass0.txt" 
+    | get-property caption | equals "AssociationClass0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/AssociationClass0.txt" | get-property caption 
+    | equals "AssociationClass0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/DataBottom.txt" 
+    | get-property caption | equals "DataBottom.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/DataBottom.txt" | get-property caption 
+    | equals "DataBottom.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/DataMiddle.txt" 
+    | get-property caption | equals "DataMiddle.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/DataMiddle.txt" | get-property caption 
+    | equals "DataMiddle.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/DataTop.txt" 
+    | get-property caption | equals "DataTop.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/artifact/DataTop.txt" 
+    | get-property caption | equals "DataTop.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Dependency0.txt" 
+    | get-property caption | equals "Dependency0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/Dependency0.txt" | get-property caption 
+    | equals "Dependency0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Ent1.txt" 
+    | get-property caption | equals "Ent1.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/artifact/Ent1.txt" 
+    | get-property caption | equals "Ent1.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Ent2.txt" 
+    | get-property caption | equals "Ent2.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/artifact/Ent2.txt" 
+    | get-property caption | equals "Ent2.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Enumeration0.txt" 
+    | get-property caption | equals "Enumeration0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/Enumeration0.txt" | get-property caption 
+    | equals "Enumeration0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Event0.txt" 
+    | get-property caption | equals "Event0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/artifact/Event0.txt" 
+    | get-property caption | equals "Event0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Exception0.txt" 
+    | get-property caption | equals "Exception0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/Exception0.txt" | get-property caption 
+    | equals "Exception0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Query0.txt" 
+    | get-property caption | equals "Query0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/artifact/Query0.txt" 
+    | get-property caption | equals "Query0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/SessionFacade0.txt" 
+    | get-property caption | equals "SessionFacade0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "model-refactoring/target/tigerstripe.gen/artifact/SessionFacade0.txt" | get-property caption 
+    | equals "SessionFacade0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Update0.txt" 
+    | get-property caption | equals "Update0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/artifact/Update0.txt" 
+    | get-property caption | equals "Update0.txt" | verify-true
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-canvas -after [get-label "Generator Settings"] | mouse-move 18 8
+    get-canvas -index 1 | mouse-move 97 2
+    get-canvas | mouse-move 101 0
+}
+get-menu "Tigerstripe/Deployed Generators..." | click
+with [get-window "Deployed Tigerstripe Generators"] {
+    get-table | select "New Generator Project\\(3.0\\)" | get-menu "Un-deploy" | click
+    get-window "Un-Deploy Tigerstripe Generator?" | get-button OK | click
+    get-button OK | click
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

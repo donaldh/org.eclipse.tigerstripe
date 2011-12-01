@@ -5,12 +5,12 @@
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<CheckAnnotation>>entity0_testField0:String" 
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<CheckAnnotation>>entity0_testField0:String" 
     | get-menu Delete | click
 get-window "Delete..." | get-button Yes | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0" 
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0" 
     | double-click -nowait
 with [get-editor Entity0 | get-section Attributes | get-section] {
     get-table | select attribute1
@@ -20,19 +20,19 @@ get-window "Remove attribute" | get-button Yes | click
 get-button "Save (Ctrl+S)" | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0" 
     | get-property childCount | equals 4 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<TextAnnotation>>literal1=\"1\"" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<TextAnnotation>>literal1=\"1\"" 
     | get-property caption | equals "<<TextAnnotation>>literal1=\"1\"" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<IntegerAnnotation>>entity0_testLiteral0=\"0\"" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<IntegerAnnotation>>entity0_testLiteral0=\"0\"" 
     | get-property caption | equals "<<IntegerAnnotation>>entity0_testLiteral0=\"0\"" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<TextAnnotation>>method1\\(\\):void" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<TextAnnotation>>method1\\(\\):void" 
     | get-property caption | equals "<<TextAnnotation>>method1():void" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<TextAnnotation>>entity0_testMethod0\\(\\):void" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<TextAnnotation>>entity0_testMethod0\\(\\):void" 
     | get-property caption | equals "<<TextAnnotation>>entity0_testMethod0():void" | verify-true
 get-editor Entity0 | get-section Attributes | get-section | get-table | get-property itemCount | equals 0 | verify-true]]></content>
   </content>

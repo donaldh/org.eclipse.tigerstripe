@@ -1,0 +1,9 @@
+#foreach($a in $moduleEntities)
+  $a.fullyQualifiedName
+#if ($a.hasAnnotations())
+   yes!!!
+#foreach($an in $a.getAnnotations())
+  $an
+#end
+#end
+#end

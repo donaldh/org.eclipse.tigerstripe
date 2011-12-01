@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instancediagram:InstanceMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" basePackage="com.mycompany">
+  <classInstances name="Ent1" package="simple" artifactName="ent1"/>
+  <classInstances name="Ent2" package="simple" artifactName="ent2"/>
+  <classInstances name="Ent1" package="simple" artifactName="ent11"/>
+  <classInstances name="AssociationClass0" package="simple" artifactName="as0" associations="//@associationInstances.1 //@associationInstances.2" associationClassInstance="true"/>
+  <associationInstances name="Association1" package="simple" aEnd="//@classInstances.2" aEndName="ent1_1" zEnd="//@classInstances.0" zEndName="ent1_2" zEndIsNavigable="true"/>
+  <associationInstances name="AssociationClass0" package="simple" artifactName="as0::zEnd" aEnd="//@classInstances.3" aEndName="" aEndMultiplicityLowerBound="1" aEndMultiplicityUpperBound="" zEnd="//@classInstances.2" zEndName="ent1_4" zEndMultiplicityLowerBound="1" zEndMultiplicityUpperBound="" zEndIsNavigable="true"/>
+  <associationInstances name="AssociationClass0" package="simple" artifactName="as0::aEnd" aEnd="//@classInstances.1" aEndName="ent1_3" aEndMultiplicityLowerBound="1" aEndMultiplicityUpperBound="" zEnd="//@classInstances.3" zEndName="" zEndMultiplicityLowerBound="1" zEndMultiplicityUpperBound=""/>
+</instancediagram:InstanceMap>

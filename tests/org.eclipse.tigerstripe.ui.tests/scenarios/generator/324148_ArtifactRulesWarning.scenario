@@ -16,10 +16,26 @@ with [get-editor "Project1/tigerstripe.xml"] {
     }
 }
 get-button "Save (Ctrl+S)" | click
-get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | get-menu "Generate..." | click
+get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-button Finish | click
-get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-editbox -after [get-label "Run Log"] | get-property value | equals "[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Warning: Plugin \'GeneratorProject(0.0.0)\' has no rules." | verify-true
-get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-button OK | click
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-label "Warnings during generation." 
+    | get-property caption | equals "Warnings during generation." | verify-true
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
+    | get-item "GeneratorProject\\(0.0.0\\)"] {
+    get-property columns -index 0 | equals "GeneratorProject(0.0.0)" | verify-true
+    get-property columns -index 1 | equals "org.eclipse.tigerstripe.eclipse.BasePlugin" | verify-true
+}
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
+    | select "GeneratorProject\\(0.0.0\\)" | double-click -nowait
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-window "Log Entry Details" | get-editbox 
+    -after [get-label "Details:"] | get-property rawValue 
+    | equals "[GeneratorProject(0.0.0)Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]\\n"
+    + "Warning: Plugin \'GeneratorProject(0.0.0)\' has no rules.\\n"
+    + "" | verify-true
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result"] {
+    get-window "Log Entry Details" | get-button OK | click
+    get-button OK | click
+}
 get-view "Tigerstripe Explorer" | get-tree | select "GeneratorProject/ts-plugin.xml" | double-click
 with [get-editor "GeneratorProject/ts-plugin.xml"] {
     get-tab-folder | get-tab-item Rules | click
@@ -35,26 +51,62 @@ with [get-editor "GeneratorProject/ts-plugin.xml" | get-section "Artifact Rules"
     get-editbox -after [get-label "Output File:"] | set-text test
     get-combo -after [get-label "Artifact Type:"] | set-text Datatype
 }
-
 get-editor "GeneratorProject/ts-plugin.xml" | get-tab-folder | get-tab-item Overview | click
 get-button "Save (Ctrl+S)" | click
 get-editor "GeneratorProject/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" | click
 get-window "Deploy new generator" | get-button OK | click
 get-window "GeneratorProject Generator" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-button Finish | click
-get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-editbox -after [get-label "Run Log"] | get-property value | equals "[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Notice: None of the artifact(s) match the specified rule(s) \'aRule0\'. Warning: None of the artifact(s) match the generator\'s rule." | verify-true
-get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-button OK | click
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-label "Warnings during generation." 
+    | get-property caption | equals "Warnings during generation." | verify-true
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
+    | get-item "GeneratorProject\\(0.0.0\\)"] {
+    get-property columns -index 0 | equals "GeneratorProject(0.0.0)" | verify-true
+    get-property columns -index 1 | equals "org.eclipse.tigerstripe.eclipse.BasePlugin" | verify-true
+}
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
+    | select "GeneratorProject\\(0.0.0\\)" | double-click -nowait
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-window "Log Entry Details" | get-editbox 
+    -after [get-label "Details:"] | get-property rawValue 
+    | equals "[GeneratorProject(0.0.0)Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]\\n"
+    + "Notice: None of the artifact(s) match the specified rule(s) \'aRule0\'.\\n"
+    + "Warning: None of the artifact(s) match the generator\'s rule.\\n"
+    + "" | verify-true
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result"] {
+    get-window "Log Entry Details" | get-button OK | click
+    get-button OK | click
+}
 get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "New/Datatype" | click
 with [get-window "Create a new Datatype"] {
     get-editbox -after [get-label "Name:"] | set-text Datatype
     get-button Finish | click
 }
-
-get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | get-menu "Generate..." | click
+get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-button Finish | click
-get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-editbox -after [get-label "Run Log"] | get-property value | equals "[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Generation Successful." | verify-true
-get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-button OK | click
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-label "Generation Successful." 
+    | get-property caption | equals "Generation Successful." | verify-true
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
+    | get-item "GeneratorProject\\(0.0.0\\)"] {
+    get-property columns -index 0 | equals "GeneratorProject(0.0.0)" | verify-true
+    get-property columns -index 1 | equals "org.eclipse.tigerstripe.eclipse.BasePlugin" | verify-true
+}
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
+    | select "GeneratorProject\\(0.0.0\\)" | double-click -nowait
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-window "Log Entry Details" | get-editbox 
+    -after [get-label "Details:"] | get-property rawValue 
+    | equals "[GeneratorProject(0.0.0)Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]\\n"
+    + "Generation Successful.\\n"
+    + "" | verify-true
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result"] {
+    get-window "Log Entry Details" | get-button OK | click
+    get-button OK | click
+}
 get-menu "Tigerstripe/Deployed Generators..." | click
 with [get-window "Deployed Tigerstripe Generators"] {
     get-table | select "GeneratorProject\\(0.0.0\\)" | get-menu "Un-deploy" | click

@@ -48,7 +48,7 @@ get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click
-    get-window "Generate Result" | get-button OK | click
+    get-window "Generation Result" | get-button OK | click
 }
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen" 
     | get-property childCount | equals 2 | verify-true
@@ -69,7 +69,7 @@ get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click
-    get-window "Generate Result" | get-button OK | click
+    get-window "Generation Result" | get-button OK | click
 }
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen" 
     | get-property childCount | equals 22 | verify-true

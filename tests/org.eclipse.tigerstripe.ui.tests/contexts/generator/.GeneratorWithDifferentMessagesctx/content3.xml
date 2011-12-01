@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tigerstripe version="1.1">
+<project modelId="1" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>0.0.0</version>
+<description/>
+<provider/>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<repositories>
+<repository baseDir=".">
+<includes>src/**/*.java</includes>
+</repository>
+</repositories>
+<plugins>
+<plugin disableLogging="false" enabled="true" groupId="" logLevel="0" pluginId="New Generator Project(3.0)" version="3.0">
+<property name="artifact">artifact</property>
+</plugin>
+<plugin disableLogging="false" enabled="true" groupId="" logLevel="0" pluginId="SimpleGenerator29(0.0.0)" version="0.0.0"/>
+</plugins>
+<dependencies/>
+<references/>
+<facetReferences/>
+<advanced/>
+</tigerstripe>

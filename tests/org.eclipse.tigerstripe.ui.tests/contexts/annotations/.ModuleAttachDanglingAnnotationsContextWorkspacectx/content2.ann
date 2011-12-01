@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.tigerstripe.annotation="http:///org/eclipse/tigerstripe/annotation.ecore" xmlns:org.eclipse.tigerstripe.annotation.example="http://eclipse.org/tigerstripe/examples/annotation">
+  <ecoreDefinition>
+    <ecore:EPackage name="example" nsURI="http://eclipse.org/tigerstripe/examples/annotation" nsPrefix="org.eclipse.tigerstripe.annotation.example">
+      <eClassifiers xsi:type="ecore:EClass" name="CheckAnnotation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="checked">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntegerAnnotation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="integer">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TextAnnotation">
+        <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+          <details key="name" value="text_._annotation"/>
+          <details key="kind" value="elementOnly"/>
+        </eAnnotations>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="text">
+          <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+            <details key="kind" value="element"/>
+            <details key="name" value="text"/>
+            <details key="namespace" value="##targetNamespace"/>
+          </eAnnotations>
+          <eAnnotations source="org.eclipse.tigerstripe.annotation">
+            <details key="multiline" value="true"/>
+          </eAnnotations>
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </ecore:EPackage>
+  </ecoreDefinition>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/org.eclipse.tigerstripe.test.module/org.eclipse.tigerstripe.test.E13" id="__cZ3oQEcEeGoA6hYH87pvg">
+    <content xsi:type="org.eclipse.tigerstripe.annotation.example:CheckAnnotation"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/org.eclipse.tigerstripe.test.module/org.eclipse.tigerstripe.test.E13" id="_A31T0AEdEeGoA6hYH87pvg">
+    <content xsi:type="org.eclipse.tigerstripe.annotation.example:IntegerAnnotation"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+</xmi:XMI>

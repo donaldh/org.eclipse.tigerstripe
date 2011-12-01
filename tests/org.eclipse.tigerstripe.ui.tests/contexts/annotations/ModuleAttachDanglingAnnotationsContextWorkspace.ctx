@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ModuleAttachDanglingAnnotationsContextWorkspace" id="_Ue7PMAEdEeGqZPLc-tTWzw">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content2.project"/>
+      <files name=".visualstate" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content2.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content2.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content2.prefs"/>
+      </folders>
+      <folders name="annotations">
+        <files name="org.eclipse.tigerstripe.annotation.ann" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content2.ann"/>
+      </folders>
+      <folders name="src">
+        <files name="default.vwm" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content4.vwm"/>
+        <files name="default.wvd" contentURI=".ModuleAttachDanglingAnnotationsContextWorkspacectx/content4.wvd"/>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

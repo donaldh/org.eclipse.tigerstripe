@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AssociationClassExtendsContextWorkspace" id="_asEm0BGYEeGZBttbjQGKaA">
+  <content>
+    <projects name="Project">
+      <files name=".classpath" contentURI=".AssociationClassExtendsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".AssociationClassExtendsContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".AssociationClassExtendsContextWorkspacectx/content1.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".AssociationClassExtendsContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".AssociationClassExtendsContextWorkspacectx/content3.package"/>
+            <files name="AC.java" contentURI=".AssociationClassExtendsContextWorkspacectx/content1.java"/>
+            <files name="AC2.java" contentURI=".AssociationClassExtendsContextWorkspacectx/content2.java"/>
+            <files name="Entity1.java" contentURI=".AssociationClassExtendsContextWorkspacectx/content3.java"/>
+            <files name="Entity2.java" contentURI=".AssociationClassExtendsContextWorkspacectx/content4.java"/>
+            <files name="Entity3.java" contentURI=".AssociationClassExtendsContextWorkspacectx/content5.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

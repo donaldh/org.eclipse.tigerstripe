@@ -1,30 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="355040_SaveAnnotationforUnsavedMethodsArgument" version="3.0" id="_N0TmQfYlEeCee55EhZjojA" description="Annotation should be saved for unsaved methods argument&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;RemoveAnnotationsContextGroup&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;1. Add argument for the method and don't save changes&#xD;&#xA;2. Add annotation for the methods argument&#xD;&#xA;3. Save changes&#xD;&#xA;4. Select methods argument&#xD;&#xA;5. Check saved annotation" tags="Annotation/functionality" type="ecl" externalReference="http://docs.xored.com/display/TS/355040_SaveAnnotationforUnsavedMethodsArgument">
-  <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
-  <contexts>_Kb5-0NnQEeCrRbabNEcanQ</contexts>
-  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/entity0_testMethod0\\(\\):void" 
-    | double-click -nowait
-get-editor Entity0 | get-section Methods | get-section -index 1 | get-button Add -after [get-label Arguments] | click
-get-view "Annotation Property View" | click -nowait
-get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
-    | select "arg0: String"
-get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
-with [get-window "Create Annotation Wizard"] {
-    get-tree | select "Primitive/Check Annotation"
-    get-button Finish | click
-}
-get-button "Save (Ctrl+S)" | click
-with [get-editor Entity0 | get-section Methods] {
-    get-section | get-table | select "entity0_testMethod0\\(String\\):void"
-    get-section -index 1 | get-table -after [get-label Arguments] | select "arg0: String"
-}
-get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
-get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
-    | equals CheckAnnotation | verify-true]]></content>
-  </content>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="355040_SaveAnnotationforUnsavedMethodsArgument" version="3.0" id="__WcvYQnJEeG4YKJLWO2_8Q" description="Annotation should be saved for unsaved methods argument&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;RemoveAnnotationsContextGroup&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Add argument for the method and don't save changes&#xD;&#xA;    Try to add annotation for the methods argument&#xD;&#xA;    Check warning messages&#xD;&#xA;    Save changes&#xD;&#xA;    Select methods argument&#xD;&#xA;    Add annotation for the methods argument&#xD;&#xA;" tags="Annotation/functionality" type="ecl" externalReference="http://docs.xored.com/display/TS/355040_SaveAnnotationforUnsavedMethodsArgument">
+  <contexts>_pje2YGyZEeC-86eLlbu98w</contexts>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -44,8 +20,8 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
       <path>New Project</path>
       <path>src</path>
       <path>org.eclipse</path>
-      <path>&lt;&lt;Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0</path>
-      <path>entity0_testMethod0\(\):void</path>
+      <path>Entity0</path>
+      <path>entity0_testField0:String</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
       <element id="Tree0" kind="Tree"/>
@@ -60,6 +36,23 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
         <parent id="Editor0" kind="Editor"/>
       </data>
     </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="Expandable0" kind="Expandable"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" multiplicity="1">
+        <parent id="Expandable0" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <parent id="Expandable1" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Table0" kind="Table"/>
+      <path>entity0_testMethod0\(\):void</path>
+    </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Expandable" index="1" multiplicity="1">
         <parent id="Expandable0" kind="Expandable"/>
@@ -67,13 +60,13 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Label" pattern="Arguments" multiplicity="1">
-        <parent id="Expandable1" kind="Expandable"/>
+        <parent id="Expandable2" kind="Expandable"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="Add" multiplicity="1">
         <after id="Label0" kind="Label"/>
-        <parent id="Expandable1" kind="Expandable"/>
+        <parent id="Expandable2" kind="Expandable"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -84,6 +77,16 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
       <state id="State0" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <after id="Label0" kind="Label"/>
+        <parent id="Expandable2" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Table1" kind="Table"/>
+      <path>arg0: String</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Annotation Property View" multiplicity="1">
         <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
       </data>
@@ -91,14 +94,8 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
     <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
       <element id="View1" kind="View"/>
     </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <after id="Label0" kind="Label"/>
-        <parent id="Expandable1" kind="Expandable"/>
-      </data>
-    </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table0" kind="Table"/>
+      <element id="Table1" kind="Table"/>
       <path>arg0: String</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -109,7 +106,7 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Menu" multiplicity="1">
         <path>Add Annotation</path>
-        <parent id="Table1" kind="Table"/>
+        <parent id="Table2" kind="Table"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -120,23 +117,33 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
       <state id="State1" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Create Annotation Wizard" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="method void:entity0_testMethod0(String) is dirty" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="Window0" kind="Window" description="Create Annotation Wizard"/>
+      <data kind="Label" pattern="method void:entity0_testMethod0(String) is dirty. Please save an open editor with the artifact org.eclipse.Entity0, before adding the annotation" multiplicity="1">
+        <parent id="Window0" kind="Window" description="method void:entity0_testMethod0(String) is dirty"/>
       </data>
     </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree1" kind="Tree"/>
-      <path>Primitive</path>
-      <path>Check Annotation</path>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="method void:entity0_testMethod0(String) is dirty. Please save an open editor with the artifact org.eclipse.Entity0, before adding the annotation">
+      <element id="Label1" kind="Label"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Finish" multiplicity="1">
-        <parent id="Window0" kind="Window" description="Create Annotation Wizard"/>
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="method void:entity0_testMethod0(String) is dirty" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window1" kind="Window" description="method void:entity0_testMethod0(String) is dirty"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -148,7 +155,7 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -159,42 +166,34 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
       <state id="State3" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable0" kind="Expandable"/>
+      <data kind="Editor" pattern="Entity0" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Methods" multiplicity="1">
+        <parent id="Editor1" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" index="1" multiplicity="1">
+        <parent id="Expandable3" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Arguments" multiplicity="1">
+        <parent id="Expandable4" kind="Expandable"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Table" multiplicity="1">
-        <parent id="Expandable2" kind="Expandable"/>
+        <after id="Label2" kind="Label"/>
+        <parent id="Expandable4" kind="Expandable"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table2" kind="Table"/>
-      <path>entity0_testMethod0\(String\):void</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table0" kind="Table"/>
+      <element id="Table3" kind="Table"/>
       <path>arg0: String</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Annotation Property View" multiplicity="1">
-        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="View2" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="1">
-      <element id="Table5" kind="Table"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Annotation Property View" multiplicity="1">
@@ -203,25 +202,72 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Table" multiplicity="1">
-        <parent id="View3" kind="View"/>
+        <parent id="View2" kind="View"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>CheckAnnotation</path>
-        <parent id="Table6" kind="Table"/>
+      <data kind="Menu" multiplicity="1">
+        <path>Add Annotation</path>
+        <parent id="Table4" kind="Table"/>
       </data>
     </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="CheckAnnotation">
-      <element id="Item1" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu1" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State4" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Create Annotation Wizard" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="Window2" kind="Window" description="Create Annotation Wizard"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree1" kind="Tree"/>
+      <path>Primitive</path>
+      <path>Check Annotation</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Finish" multiplicity="1">
+        <parent id="Window2" kind="Window" description="Create Annotation Wizard"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button3" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State5" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow3" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <parent id="View3" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="1">
+      <element id="Table5" kind="Table"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow0" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
-        <bounds x="838" y="99" width="1024" height="768"/>
+        <bounds x="516" y="121" width="1024" height="768"/>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.1">
@@ -242,8 +288,8 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
           <path>New Project</path>
           <path>src</path>
           <path>org.eclipse</path>
-          <path>&lt;&lt;Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0</path>
-          <path>entity0_testMethod0\(\):void</path>
+          <path>Entity0</path>
+          <path>entity0_testField0:String</path>
         </selection>
       </controls>
     </elementMapping>
@@ -252,7 +298,7 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
       <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Entity0">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
-        <bounds x="3" y="26" width="488" height="395"/>
+        <bounds x="3" y="26" width="741" height="395"/>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.6">
@@ -260,18 +306,38 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
-        <bounds x="6" y="199" width="974" height="668"/>
+        <bounds x="6" y="428" width="974" height="152"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
+    <elementMapping command="//@teslaContent/@commands.8">
       <elements id="Expandable1" kind="Expandable"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="319" height="128"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.9">
+      <elements id="Table0" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="249" height="115"/>
+        <columns caption="Name" resizable="true" width="245"/>
+        <selection>
+          <path>entity0_testMethod0\(\):void</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.11">
+      <elements id="Expandable2" kind="Expandable"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="5" y="5" width="630" height="634"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
+    <elementMapping command="//@teslaContent/@commands.12">
       <elements id="Label0" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Arguments">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -279,7 +345,7 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
         <bounds x="5" y="421" width="59" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
+    <elementMapping command="//@teslaContent/@commands.13">
       <elements id="Button0" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -288,19 +354,11 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
         <caption>Add</caption>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.10">
+    <elementMapping command="//@teslaContent/@commands.14">
       <elements id="State0" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="View1" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="477" width="488" height="167"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.15">
-      <elements id="Table0" kind="Table"/>
+    <elementMapping command="//@teslaContent/@commands.17">
+      <elements id="Table1" kind="Table"/>
       <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="1">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
@@ -310,30 +368,167 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.17">
-      <elements id="Table1" kind="Table"/>
+    <elementMapping command="//@teslaContent/@commands.19">
+      <elements id="View1" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.22">
+      <elements id="Table2" kind="Table"/>
       <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
-        <bounds y="4" width="196" height="137"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.18">
-      <elements id="Menu0" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Add Annotation" enablement="true" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.19">
-      <elements id="State1" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.22">
-      <elements id="Window0" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Create Annotation Wizard">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="1088" y="195" width="500" height="500"/>
+        <bounds y="4" width="196" height="161"/>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.23">
+      <elements id="Menu0" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Add Annotation" enablement="true" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.24">
+      <elements id="State1" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.27">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="516" y="121" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.28">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="method void:entity0_testMethod0(String) is dirty">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="767" y="411" width="522" height="142"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.29">
+      <elements id="Label1" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="method void:entity0_testMethod0(String) is dirty. Please save an open editor with the artifact org.eclipse.Entity0, before adding the annotation">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="55" y="13" width="450" height="30"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.31">
+      <elements id="EclipseWindow2" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="516" y="121" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.32">
+      <elements id="Window1" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="method void:entity0_testMethod0(String) is dirty">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="767" y="411" width="522" height="142"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.33">
+      <elements id="Button1" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds width="92" height="25"/>
+        <caption>OK</caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.34">
+      <elements id="State2" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.37">
+      <elements id="Button2" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <caption></caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.38">
+      <elements id="State3" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.41">
+      <elements id="Editor1" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Entity0">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="395"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.42">
+      <elements id="Expandable3" kind="Expandable"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="6" y="428" width="974" height="668"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.43">
+      <elements id="Expandable4" kind="Expandable"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="630" height="634"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.44">
+      <elements id="Label2" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Arguments">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="421" width="59" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.45">
+      <elements id="Table3" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="464" height="145"/>
+        <selection>
+          <path>arg0: String</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.47">
+      <elements id="View2" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.48">
+      <elements id="Table4" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds y="4" width="196" height="161"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.49">
+      <elements id="Menu1" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Add Annotation" enablement="true" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.50">
+      <elements id="State4" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.53">
+      <elements id="Window2" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Create Annotation Wizard">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="766" y="211" width="500" height="500"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.54">
       <elements id="Tree1" kind="Tree"/>
       <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" borderWith="2" itemCount="2">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -345,8 +540,8 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.25">
-      <elements id="Button1" kind="Button"/>
+    <elementMapping command="//@teslaContent/@commands.56">
+      <elements id="Button3" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
@@ -354,100 +549,34 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
         <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.26">
-      <elements id="State2" kind="State"/>
+    <elementMapping command="//@teslaContent/@commands.57">
+      <elements id="State5" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.29">
-      <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.30">
-      <elements id="State3" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.33">
-      <elements id="Expandable2" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="644"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.34">
-      <elements id="Table2" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="631"/>
-        <columns caption="Name" resizable="true" width="245"/>
-        <selection>
-          <path>entity0_testMethod0\(String\):void</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.37">
-      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+    <elementMapping command="//@teslaContent/@commands.60">
+      <elements id="EclipseWindow3" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
-        <bounds x="838" y="99" width="1024" height="768"/>
+        <bounds x="516" y="121" width="1024" height="768"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.38">
-      <elements id="View2" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="477" width="488" height="167"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.39">
-      <elements id="Table5" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="4" width="196" height="137"/>
-        <selection>
-          <path>CheckAnnotation</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.41">
-      <elements id="EclipseWindow2" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Entity0.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="838" y="99" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.42">
+    <elementMapping command="//@teslaContent/@commands.61">
       <elements id="View3" kind="View"/>
       <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
-        <bounds x="256" y="477" width="488" height="167"/>
+        <bounds x="256" y="453" width="741" height="191"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.43">
-      <elements id="Table6" kind="Table"/>
+    <elementMapping command="//@teslaContent/@commands.62">
+      <elements id="Table5" kind="Table"/>
       <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="1">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
-        <bounds y="4" width="196" height="137"/>
+        <bounds y="4" width="196" height="161"/>
         <selection>
           <path>CheckAnnotation</path>
         </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.44">
-      <elements id="Item1" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="CheckAnnotation" selected="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="20" width="99" height="19"/>
       </controls>
     </elementMapping>
   </teslaContent>

@@ -1,5 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateProjectWithModifiedFromDefaultArtifactPackage" version="3.0" id="__D2ggE3tEeCncrIR0vm1Yg" description="This test checks creation new project when Artifact Package is set different from default package, which is set in Preferences.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Default context&#xD;&#xA;&#xD;&#xA;Reproducing steps:&#xD;&#xA;1. Create new Tigerstripe project&#xD;&#xA;2. Add artifact in this project, in the &quot;Create New artifact&quot; window change artifact package &#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateProjectWithModifiedFromDefaultArtifactPackage" version="3.0" id="__D2ggE3tEeCncrIR0vm1Yg" description="This test checks creation new project when Artifact Package is set different from default package, which is set in Preferences.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Default context&#xD;&#xA;&#xD;&#xA;Reproducing steps:&#xD;&#xA;1. Create new Tigerstripe project&#xD;&#xA;2. Add artifact in this project, in the &quot;Create New artifact&quot; window change artifact package &#xD;&#xA;" tags="Preferences" type="ecl">
   <contexts>_rHfkQKthEd-v8JwXbnu_tQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-menu &quot;New/Tigerstripe Project&quot; | click&#xD;&#xA;with [get-window &quot;New Tigerstripe Project&quot;] {&#xD;&#xA;    get-editbox -after [get-label &quot;Project Name:&quot;] | set-text &quot;Test_project&quot;&#xD;&#xA;    get-group &quot;Project Defaults&quot; | get-editbox -after [get-label &quot;Artifacts Package:&quot;] | get-property value | equals &quot;com.mycompany&quot; | verify-true&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Test_project/src&quot; | get-menu &quot;New/Datatype&quot; | click&#xD;&#xA;with [get-window &quot;Create a new Datatype&quot;] {&#xD;&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text DT&#xD;&#xA;    with [get-editbox -after [get-label &quot;Artifact Package:&quot;]] {&#xD;&#xA;        get-property value | equals &quot;com.mycompany&quot; | verify-true&#xD;&#xA;        set-text &quot;com.mytest&quot;&#xD;&#xA;    }&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src&quot;] {&#xD;&#xA;    get-property caption | equals src | verify-true&#xD;&#xA;    get-property childCount | equals 1 | verify-true&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src/com.mytest&quot;] {&#xD;&#xA;    get-property caption | equals &quot;com.mytest&quot; | verify-true&#xD;&#xA;    get-property childCount | equals 1 | verify-true&#xD;&#xA;}&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src/com.mytest/DT&quot; | get-property caption | equals DT | verify-true&#xD;&#xA;get-editor DT | get-section &quot;General Information&quot; | get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | equals &quot;com.mytest.DT&quot; | verify-true&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Test_project/src&quot; | get-menu &quot;New/Entity&quot; | click&#xD;&#xA;with [get-window &quot;Create a new Entity&quot;] {&#xD;&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Entity&#xD;&#xA;    get-editbox -after [get-label &quot;Artifact Package:&quot;] | set-text &quot;com.secondtest&quot;&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src/com.mytest&quot;] {&#xD;&#xA;    get-property caption | equals &quot;com.mytest&quot; | verify-true&#xD;&#xA;    get-property childCount | equals 1 | verify-true&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src/com.secondtest&quot;] {&#xD;&#xA;    get-property caption | equals &quot;com.secondtest&quot; | verify-true&#xD;&#xA;    get-property childCount | equals 1 | verify-true&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src&quot;] {&#xD;&#xA;    get-property caption | equals src | verify-true&#xD;&#xA;    get-property childCount | equals 2 | verify-true&#xD;&#xA;}&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src/com.mytest/DT&quot; | get-property caption | equals DT | verify-true&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test_project/src/com.secondtest/Entity&quot; | get-property caption | equals Entity | verify-true&#xD;&#xA;get-editor Entity | get-section &quot;General Information&quot; | get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | equals &quot;com.secondtest.Entity&quot; | verify-true&#xD;&#xA;with [get-editor DT] {&#xD;&#xA;    click -nowait&#xD;&#xA;    get-section &quot;General Information&quot; | get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | equals &quot;com.mytest.DT&quot; | verify-true&#xD;&#xA;}&#xD;&#xA;get-menu &quot;Window/Preferences&quot; | click&#xD;&#xA;with [get-window Preferences] {&#xD;&#xA;    get-tree | select &quot;Tigerstripe/General&quot;&#xD;&#xA;    get-group &quot;Artifact Preferences&quot; | get-editbox -after [get-label &quot;Default Artifact Package:&quot;] | get-property value | equals &quot;com.mycompany&quot; | verify-true&#xD;&#xA;    get-button OK | click&#xD;&#xA;}"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
+with [get-window "New Tigerstripe Project"] {
+    get-editbox -after [get-label "Project Name:"] | set-text "Test_project"
+    get-group "Project Defaults" | get-editbox -after [get-label "Artifacts Package:"] | get-property value | equals "com.mycompany" | verify-true
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Test_project/src" | get-menu "New/Datatype" | click
+with [get-window "Create a new Datatype"] {
+    get-editbox -after [get-label "Name:"] | set-text DT
+    with [get-editbox -after [get-label "Artifact Package:"]] {
+        get-property value | equals "com.mycompany" | verify-true
+        set-text "com.mytest"
+    }
+    get-button Finish | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src"] {
+    get-property caption | equals src | verify-true
+    get-property childCount | equals 1 | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/com.mytest"] {
+    get-property caption | equals "com.mytest" | verify-true
+    get-property childCount | equals 1 | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/com.mytest/DT" | get-property caption | equals DT | verify-true
+get-editor DT | get-section "General Information" | get-editbox -after [get-label "Qualified Name:"] | get-property value | equals "com.mytest.DT" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Test_project/src" | get-menu "New/Entity" | click
+with [get-window "Create a new Entity"] {
+    get-editbox -after [get-label "Name:"] | set-text Entity
+    get-editbox -after [get-label "Artifact Package:"] | set-text "com.secondtest"
+    get-button Finish | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/com.mytest"] {
+    get-property caption | equals "com.mytest" | verify-true
+    get-property childCount | equals 1 | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/com.secondtest"] {
+    get-property caption | equals "com.secondtest" | verify-true
+    get-property childCount | equals 1 | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src"] {
+    get-property caption | equals src | verify-true
+    get-property childCount | equals 2 | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/com.mytest/DT" | get-property caption | equals DT | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/com.secondtest/Entity" | get-property caption | equals Entity | verify-true
+get-editor Entity | get-section "General Information" | get-editbox -after [get-label "Qualified Name:"] | get-property value | equals "com.secondtest.Entity" | verify-true
+with [get-editor DT] {
+    click -nowait
+    get-section "General Information" | get-editbox -after [get-label "Qualified Name:"] | get-property value | equals "com.mytest.DT" | verify-true
+}
+get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/General"
+    get-group "Artifact Preferences" | get-editbox -after [get-label "Default Artifact Package:"] | get-property value | equals "com.mycompany" | verify-true
+    get-button OK | click
+}]]></content>
+  </content>
 </com.xored.q7.scenario:Scenario>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ts_plugin version="1.2">
+<project modelId="" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>3.0</version>
+<description>A generator for testing</description>
+<provider/>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<pluginNature type="Generic"/>
+<logger defautLevel="0" isEnabled="false" logPath="New Generator Project.log" maxRoll="9"/>
+<globalProperties>
+<property name="artifact" tipToolText="" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">artifact</property>
+</globalProperties>
+<globalRules>
+<rule description="" enabled="true" name="aRule0" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="com.test.ContextEntry" entry="anEntry0"/>
+<body outputFile="out" overwriteFiles="true" suppressFiles="true" template="templates/myTemplateFile.vm"/>
+</rule>
+</globalRules>
+<modelRules/>
+<artifactRules/>
+<classpathEntries/>
+<additionalFiles/>
+<advanced/>
+<annotationPlugins/>
+</ts_plugin>

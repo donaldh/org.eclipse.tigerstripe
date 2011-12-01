@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ProjectWithoutDescriptorWorkspaceContext" id="_hKI3MQEVEeGqZPLc-tTWzw">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".ProjectWithoutDescriptorctx/content2.classpath"/>
+      <files name=".project" contentURI=".ProjectWithoutDescriptorctx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".ProjectWithoutDescriptorctx/content2.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".ProjectWithoutDescriptorctx/content6.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".ProjectWithoutDescriptorctx/content5.package"/>
+            <files name="Entity.java" contentURI=".ProjectWithoutDescriptorctx/content2.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+    <projects name="project2">
+      <files name=".project" contentURI=".ProjectWithoutDescriptorctx/content3.project"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -77,7 +77,7 @@ get-editor "PaletteCreate.wvd" | click -nowait
 get-button "Save (Ctrl+S)" | click
 with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text "+entity2_testField2:String" | get-edit-part -name "entity2_testField2"] {
     get-property name | equals "entity2_testField2" | verify-true
-    get-property type | equals String | verify-true
+    get-property "element.type" | equals String | verify-true
 }
 with [get-editor Entity2] {
     click -nowait
@@ -97,7 +97,7 @@ get-editor "PaletteCreate.wvd" | click -nowait
 get-button "Save (Ctrl+S)" | click
 with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text "+entity2_testMethod2():void" | get-edit-part -name "entity2_testMethod2"] {
     get-property name | equals "entity2_testMethod2" | verify-true
-    get-property type | equals void | verify-true
+    get-property "element.type" | equals void | verify-true
 }
 get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/Enumeration2" | double-click -nowait
 with [get-editor Enumeration2 | get-section Constants] {
@@ -118,7 +118,7 @@ get-editor "PaletteCreate.wvd" | click -nowait
 get-button "Save (Ctrl+S)" | click
 with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enumeration2 | get-edit-part -text "+enumeration2_testLiteral2=0" | get-edit-part -name "enumeration2_testLiteral2"] {
     get-property name | equals "enumeration2_testLiteral2" | verify-true
-    get-property type | equals int | verify-true
+     get-property "element.type" | equals int | verify-true
 }]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
@@ -1754,9 +1754,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.49">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.50">
@@ -2176,9 +2177,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.91">
       <elements id="Button0_41" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.92">
@@ -2295,9 +2297,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.112">
       <elements id="Button1_64" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.113">
@@ -2403,9 +2406,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.131">
       <elements id="Button2_65" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.132">
@@ -2684,9 +2688,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.157">
       <elements id="Button3_66" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.158">
@@ -2795,9 +2800,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.176">
       <elements id="Button4_67" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.177">
@@ -3100,9 +3106,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.204">
       <elements id="Button5_68" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.205">
@@ -3219,9 +3226,10 @@ with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className Ma
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.224">
       <elements id="Button7_69" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.225">

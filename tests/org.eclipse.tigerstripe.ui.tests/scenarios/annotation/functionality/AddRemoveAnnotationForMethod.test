@@ -5,20 +5,20 @@
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/entity0_testMethod0\\(\\):void"
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/entity0_testMethod0\\(\\):void"
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
 with [get-window "Create Annotation Wizard"] {
     get-tree | select "Primitive/Check Annotation"
     get-button Finish | click
 }
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void" 
     | get-property caption | equals "<<CheckAnnotation>>entity0_testMethod0():void" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void"
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | click -nowait
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
@@ -26,14 +26,14 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Annotation Property View" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void"
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/entity0_testMethod0\\(\\):void" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/entity0_testMethod0\\(\\):void" 
     | get-property caption | equals "entity0_testMethod0():void" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0"
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0"
 get-view "Annotation Property View" | click -nowait
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 5 | verify-true]]></content>
   </content>

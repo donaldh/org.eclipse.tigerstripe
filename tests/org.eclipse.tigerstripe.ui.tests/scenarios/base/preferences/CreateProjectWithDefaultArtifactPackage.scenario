@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateProjectWithDefaultArtifactPackage" version="3.0" id="_tvEnAU3iEeCncrIR0vm1Yg" description="Check project Artifact Package after preferences update&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Default context&#xD;&#xA; &#xD;&#xA;Reproducing steps:&#xD;&#xA;1. Change value in the &quot;Default Artifact Package&quot; field of Preferences&#xD;&#xA;2. Create new Tigerstripe project and check Artifact Package&#xD;&#xA;3. Add artifact and check Artifact Package&#xD;&#xA;4. Set  value in the &quot;Default Artifact Package&quot; field of Preferences to default&#xD;&#xA;5. Create new Tigerstripe project and check Artifact Package&#xD;&#xA;6. Add artifact and check Artifact Package&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateProjectWithDefaultArtifactPackage" version="3.0" id="_tvEnAU3iEeCncrIR0vm1Yg" description="Check project Artifact Package after preferences update&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Default context&#xD;&#xA; &#xD;&#xA;Reproducing steps:&#xD;&#xA;1. Change value in the &quot;Default Artifact Package&quot; field of Preferences&#xD;&#xA;2. Create new Tigerstripe project and check Artifact Package&#xD;&#xA;3. Add artifact and check Artifact Package&#xD;&#xA;4. Set  value in the &quot;Default Artifact Package&quot; field of Preferences to default&#xD;&#xA;5. Create new Tigerstripe project and check Artifact Package&#xD;&#xA;6. Add artifact and check Artifact Package&#xD;&#xA;" tags="Preferences" type="ecl">
   <contexts>_rHfkQKthEd-v8JwXbnu_tQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-menu &quot;Window/Preferences&quot; | click&#xA;with [get-window Preferences] {&#xA;    get-tree | select &quot;Tigerstripe/General&quot;&#xA;    with [get-group &quot;Artifact Preferences&quot; | get-editbox -after [get-label &quot;Default Artifact Package:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text &quot;com.test&quot;&#xA;    }&#xA;    get-button Apply | click&#xA;    get-button OK | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-menu &quot;New/Tigerstripe Project&quot; | click&#xA;get-window &quot;New Tigerstripe Project&quot; | get-editbox -after [get-label &quot;Project Name:&quot;] | set-text Test1&#xA;get-window &quot;New Tigerstripe Project&quot; | get-group &quot;Project Defaults&quot; | get-editbox -after [get-label &quot;Artifacts Package:&quot;] | get-property value | equals &quot;com.test&quot; | verify-true&#xA;get-window &quot;New Tigerstripe Project&quot; | get-button Finish | click&#xA;get-editor &quot;Test1/tigerstripe.xml&quot; | get-section &quot;Project Defaults&quot; | get-editbox -after [get-label &quot;Default Artifact Package:&quot;] | get-property value | equals &quot;com.test&quot; | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Test1/src&quot; | get-menu &quot;New/Entity&quot; | click&#xA;get-window &quot;Create a new Entity&quot; | get-editbox -after [get-label &quot;Name:&quot;] | set-text Entity1&#xA;get-window &quot;Create a new Entity&quot; | get-editbox -after [get-label &quot;Artifact Package:&quot;] | get-property value | equals &quot;com.test&quot; | verify-true&#xA;get-window &quot;Create a new Entity&quot; | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test1/src/com.test&quot; | get-property caption | equals &quot;com.test&quot; | verify-true&#xA;get-menu &quot;Window/Preferences&quot; | click&#xA;get-window Preferences | get-button &quot;Restore Defaults&quot; | click&#xA;get-window Preferences | get-group &quot;Artifact Preferences&quot; | get-editbox -after [get-label &quot;Default Artifact Package:&quot;] | get-property value | equals &quot;com.mycompany&quot; | verify-true&#xA;with [get-window Preferences] {&#xA;    get-button Apply | click&#xA;    get-button OK | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Test1/src/com.test&quot; | get-menu &quot;New/Tigerstripe Project&quot; | click&#xA;get-window &quot;New Tigerstripe Project&quot; | get-editbox -after [get-label &quot;Project Name:&quot;] | set-text Test2&#xA;get-window &quot;New Tigerstripe Project&quot; | get-group &quot;Project Defaults&quot; | get-editbox -after [get-label &quot;Artifacts Package:&quot;] | get-property value | equals &quot;com.mycompany&quot; | verify-true&#xA;get-window &quot;New Tigerstripe Project&quot; | get-button Finish | click&#xA;get-editor &quot;Test2/tigerstripe.xml&quot; | get-section &quot;Project Defaults&quot; | get-editbox -after [get-label &quot;Default Artifact Package:&quot;] | get-property value | equals &quot;com.mycompany&quot; | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Test2/src&quot; | get-menu &quot;New/Entity&quot; | click&#xA;get-window &quot;Create a new Entity&quot; | get-editbox -after [get-label &quot;Name:&quot;] | set-text Entity2&#xA;get-window &quot;Create a new Entity&quot; | get-editbox -after [get-label &quot;Artifact Package:&quot;] | get-property value | equals &quot;com.mycompany&quot; | verify-true&#xA;get-window &quot;Create a new Entity&quot; | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Test2/src/com.mycompany&quot; | get-property caption | equals &quot;com.mycompany&quot; | verify-true"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/General"
+    with [get-group "Artifact Preferences" | get-editbox -after [get-label "Default Artifact Package:"]] {
+        key-type "M1+a"
+        set-text "com.test"
+    }
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
+get-window "New Tigerstripe Project" | get-editbox -after [get-label "Project Name:"] | set-text Test1
+get-window "New Tigerstripe Project" | get-group "Project Defaults" | get-editbox -after [get-label "Artifacts Package:"] | get-property value | equals "com.test" | verify-true
+get-window "New Tigerstripe Project" | get-button Finish | click
+get-editor "Test1/tigerstripe.xml" | get-section "Project Defaults" | get-editbox -after [get-label "Default Artifact Package:"] | get-property value | equals "com.test" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Test1/src" | get-menu "New/Entity" | click
+get-window "Create a new Entity" | get-editbox -after [get-label "Name:"] | set-text Entity1
+get-window "Create a new Entity" | get-editbox -after [get-label "Artifact Package:"] | get-property value | equals "com.test" | verify-true
+get-window "Create a new Entity" | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Test1/src/com.test" | get-property caption | equals "com.test" | verify-true
+get-menu "Window/Preferences" | click
+get-window Preferences | get-button "Restore Defaults" | click
+get-window Preferences | get-group "Artifact Preferences" | get-editbox -after [get-label "Default Artifact Package:"] | get-property value | equals "com.mycompany" | verify-true
+with [get-window Preferences] {
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Test1/src/com.test" | get-menu "New/Tigerstripe Project" | click
+get-window "New Tigerstripe Project" | get-editbox -after [get-label "Project Name:"] | set-text Test2
+get-window "New Tigerstripe Project" | get-group "Project Defaults" | get-editbox -after [get-label "Artifacts Package:"] | get-property value | equals "com.mycompany" | verify-true
+get-window "New Tigerstripe Project" | get-button Finish | click
+get-editor "Test2/tigerstripe.xml" | get-section "Project Defaults" | get-editbox -after [get-label "Default Artifact Package:"] | get-property value | equals "com.mycompany" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Test2/src" | get-menu "New/Entity" | click
+get-window "Create a new Entity" | get-editbox -after [get-label "Name:"] | set-text Entity2
+get-window "Create a new Entity" | get-editbox -after [get-label "Artifact Package:"] | get-property value | equals "com.mycompany" | verify-true
+get-window "Create a new Entity" | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Test2/src/com.mycompany" | get-property caption | equals "com.mycompany" | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -717,10 +755,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.13">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.14">
@@ -728,10 +767,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.17">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.18">
@@ -842,10 +882,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.39">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.40">
@@ -999,10 +1040,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.68">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.69">
@@ -1071,10 +1113,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.83">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Restore &amp;Defaults">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="97" height="25"/>
+        <caption><![CDATA[Restore &Defaults]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.84">
@@ -1138,10 +1181,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.95">
       <elements id="Button5" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.96">
@@ -1149,10 +1193,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.99">
       <elements id="Button6" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.100">
@@ -1268,10 +1313,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.122">
       <elements id="Button7" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.123">
@@ -1426,10 +1472,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.151">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.152">

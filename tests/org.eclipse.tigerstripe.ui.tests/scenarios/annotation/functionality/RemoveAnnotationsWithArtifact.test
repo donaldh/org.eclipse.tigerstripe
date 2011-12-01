@@ -5,7 +5,7 @@
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0" 
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0" 
     | get-menu Delete | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse" | get-property childCount 

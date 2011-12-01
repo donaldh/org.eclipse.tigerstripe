@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="361499_ModuleAttachDanglingAnnotations" version="3.0" id="_7wrXUAEdEeGqZPLc-tTWzw" description="Attach dangling annotation for the installed module&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ModuleAttachDanglingAnnotationsContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Select Entity in Model references in Tigerstripe explorer and select &quot;Annotations/Attach Dangling Annotation...&quot; in dropdown menu&#xD;&#xA;    Check items in dialog and attach annotation&#xD;&#xA;    Check warnings in Problems view&#xD;&#xA;    Select Method in Model references in Tigerstripe explorer and select &quot;Annotations/Attach Dangling Annotation...&quot; in dropdown menu&#xD;&#xA;    Check items in dialog and attach annotation&#xD;&#xA;    Check warnings in Problems view&#xD;&#xA;" tags="Annotation/module" type="ecl" externalReference="http://docs.xored.com/pages/editpage.action?pageId=12650232">
+  <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
+  <contexts>_Ue7PMAEdEeGqZPLc-tTWzw</contexts>
+  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view Problems | click -nowait
+get-view Problems | get-tree | get-item "Warnings \\(2 items\\)" | get-property caption | equals "Warnings (2 items)" 
+    | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1"
+    | get-menu "Annotations/Attach Dangling Annotation..." | click
+get-window "List of Dangling Annotations" | get-table | get-property itemCount | equals 2 | verify-true
+with [get-window "List of Dangling Annotations"] {
+    get-table 
+        | select "Check Annotation \\(tigerstripe:\\/Project1\\/org.eclipse.tigerstripe.test.module\\/org.eclipse.tigerstripe.test.E13\\)"
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1" 
+    | get-property caption | equals "<<CheckAnnotation>>E1" | verify-true
+get-view Problems | get-tree | get-item "Warnings \\(1 item\\)" | get-property caption | equals "Warnings (1 item)" 
+    | verify-true
+get-view "Annotation Property View" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1"
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
+    | equals CheckAnnotation | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/method0\\(\\):void" 
+    | get-menu "Annotations/Attach Dangling Annotation..." | click
+get-window "List of Dangling Annotations" | get-table | get-property itemCount | equals 1 | verify-true
+get-window "List of Dangling Annotations" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/<<IntegerAnnotation>>method0\\(\\):void" 
+    | get-property caption | equals "<<IntegerAnnotation>>method0():void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/<<IntegerAnnotation>>method0\\(\\):void"
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item IntegerAnnotation | get-property caption 
+    | equals IntegerAnnotation | verify-true
+get-view Problems | click -nowait
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true]]></content>
+  </content>
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Problems" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="View0" kind="View"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Problems" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View2" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Warnings \(2 items\)</path>
+        <parent id="Tree1" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Warnings (2 items)">
+      <element id="Item1" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow3" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View4" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree3" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\ts-168\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>E1</path>
+    </commands>
+    <elementMapping command="//@teslaContent/@commands.0">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="719" y="147" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.1">
+      <elements id="View0" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Problems">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="470" width="741" height="174"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.3">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="719" y="147" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.4">
+      <elements id="View2" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Problems">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="470" width="741" height="174"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.5">
+      <elements id="Tree1" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" multiSelection="true" headerVisible="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="741" height="174"/>
+        <columns caption="Description" resizable="true" movable="true" width="300" tooltip="Description"/>
+        <columns caption="Resource" index="1" resizable="true" movable="true" width="94" tooltip="Resource"/>
+        <columns caption="Path" index="2" resizable="true" movable="true" width="124" tooltip="Path"/>
+        <columns caption="Location" index="3" resizable="true" movable="true" width="64" tooltip="Location"/>
+        <columns caption="Type" index="4" resizable="true" movable="true" width="94" tooltip="Type"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.6">
+      <elements id="Item1" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Warnings (2 items)" childCount="2">
+        <columns>Warnings (2 items)</columns>
+        <columns></columns>
+        <columns></columns>
+        <columns></columns>
+        <columns></columns>
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="41" width="102" height="17"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.8">
+      <elements id="EclipseWindow3" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="719" y="147" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.9">
+      <elements id="View4" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.10">
+      <elements id="Tree3" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>Project1</path>
+          <path>Model References</path>
+          <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\ts-168\plugins</path>
+          <path>org.eclipse.tigerstripe.test</path>
+          <path>E1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+  </teslaContent>
+</com.xored.q7.scenario:Scenario>

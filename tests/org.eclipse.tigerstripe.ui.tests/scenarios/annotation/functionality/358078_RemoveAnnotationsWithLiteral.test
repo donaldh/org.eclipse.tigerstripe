@@ -5,12 +5,12 @@
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<IntegerAnnotation>>entity0_testLiteral0=\"0\"" 
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<IntegerAnnotation>>entity0_testLiteral0=\"0\"" 
     | get-menu Delete | click
 get-window "Delete..." | get-button Yes | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<TextAnnotation>>literal1=\"1\"" 
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<TextAnnotation>>literal1=\"1\"" 
     | double-click -nowait
 get-editor Entity0 | get-section Constants | get-section | get-button Remove | click
 get-window "Remove Constant" | get-button Yes | click
@@ -18,7 +18,7 @@ get-button "Save (Ctrl+S)" | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-editor Entity0 | get-section Constants | get-section | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0" 
     | get-property childCount | equals 4 | verify-true]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">

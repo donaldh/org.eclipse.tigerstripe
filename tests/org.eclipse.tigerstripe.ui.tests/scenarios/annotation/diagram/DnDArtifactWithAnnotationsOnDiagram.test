@@ -52,11 +52,11 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-set-d
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 239 201 none -detail 1 -operation 7
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-end "-41" -button none -detail 1
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity0 
-    | get-edit-part -text "<<Font, Color, CheckAnnotation, IntegerAnnotation, TextAnnotation>>" | get-property text 
-    | equals "<<Font, Color, CheckAnnotation, IntegerAnnotation, TextAnnotation>>" | verify-true
+    | get-edit-part -text "<<CheckAnnotation, IntegerAnnotation, TextAnnotation, Color, Font>>" | get-property text 
+    | equals "<<CheckAnnotation, IntegerAnnotation, TextAnnotation, Color, Font>>" | verify-true
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 
-    | get-edit-part -text "<<Color, IntegerAnnotation, CheckAnnotation, TextAnnotation, Font>>" | get-property text 
-    | equals "<<Color, IntegerAnnotation, CheckAnnotation, TextAnnotation, Font>>" | verify-true
+    | get-edit-part -text "<<CheckAnnotation, IntegerAnnotation, TextAnnotation, Color, Font>>" | get-property text 
+    | equals "<<CheckAnnotation, IntegerAnnotation, TextAnnotation, Color, Font>>" | verify-true
 with [get-editor "default.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Entity0] {
         with [get-edit-part -text "+entity0_testField0:String" | get-edit-part -name "entity0_testField0"] {

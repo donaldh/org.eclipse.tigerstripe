@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="SingleProjectWithModuleContextWorkspace" id="_NYomYBP_EeGZBttbjQGKaA">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".SingleProjectWithModuleContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".SingleProjectWithModuleContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".SingleProjectWithModuleContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".SingleProjectWithModuleContextWorkspacectx/content1.xml"/>
+      <folders name="src"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

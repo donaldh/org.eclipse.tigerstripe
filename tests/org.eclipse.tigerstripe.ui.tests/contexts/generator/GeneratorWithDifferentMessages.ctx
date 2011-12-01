@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="GeneratorWithDifferentMessages" id="_rp5wMQ9DEeGS_rReFf4A9w">
+  <content>
+    <projects name="New Generator Project">
+      <files name=".classpath" contentURI=".GeneratorWithDifferentMessagesctx/content4.classpath"/>
+      <files name=".project" contentURI=".GeneratorWithDifferentMessagesctx/content4.project"/>
+      <files name="ts-plugin.xml" contentURI=".GeneratorWithDifferentMessagesctx/content4.xml"/>
+      <folders name="classes">
+        <folders name="com">
+          <folders name="test">
+            <files name="ContextEntry.class" contentURI=".GeneratorWithDifferentMessagesctx/content22.class"/>
+          </folders>
+        </folders>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <folders name="test">
+            <files name="ContextEntry.java" contentURI=".GeneratorWithDifferentMessagesctx/content20.java"/>
+          </folders>
+        </folders>
+      </folders>
+      <folders name="templates">
+        <files name="myTemplateFile.vm" contentURI=".GeneratorWithDifferentMessagesctx/content3.vm"/>
+      </folders>
+    </projects>
+    <projects name="SimpleGenerator29">
+      <files name=".classpath" contentURI=".GeneratorWithDifferentMessagesctx/content5.classpath"/>
+      <files name=".project" contentURI=".GeneratorWithDifferentMessagesctx/content5.project"/>
+      <files name="ts-plugin.xml" contentURI=".GeneratorWithDifferentMessagesctx/content5.xml"/>
+      <folders name="classes"/>
+      <folders name="src"/>
+      <folders name="templates">
+        <files name="myTemplateFile.vm" contentURI=".GeneratorWithDifferentMessagesctx/content4.vm"/>
+      </folders>
+    </projects>
+    <projects name="model-refactoring">
+      <files name=".classpath" contentURI=".GeneratorWithDifferentMessagesctx/content6.classpath"/>
+      <files name=".project" contentURI=".GeneratorWithDifferentMessagesctx/content6.project"/>
+      <files name=".visualstate" contentURI=".GeneratorWithDifferentMessagesctx/content2.visualstate"/>
+      <files name="outside-class-diagram.vwm" contentURI=".GeneratorWithDifferentMessagesctx/content10.vwm"/>
+      <files name="outside-class-diagram.wvd" contentURI=".GeneratorWithDifferentMessagesctx/content10.wvd"/>
+      <files name="outside-instance-diagram.owm" contentURI=".GeneratorWithDifferentMessagesctx/content2.owm"/>
+      <files name="outside-instance-diagram.wod" contentURI=".GeneratorWithDifferentMessagesctx/content2.wod"/>
+      <files name="tigerstripe.xml" contentURI=".GeneratorWithDifferentMessagesctx/content6.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".GeneratorWithDifferentMessagesctx/content2.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="simple">
+          <files name=".package" contentURI=".GeneratorWithDifferentMessagesctx/content12.package"/>
+          <files name="AssociatedEnt.java" contentURI=".GeneratorWithDifferentMessagesctx/content21.java"/>
+          <files name="Association0.java" contentURI=".GeneratorWithDifferentMessagesctx/content22.java"/>
+          <files name="Association1.java" contentURI=".GeneratorWithDifferentMessagesctx/content23.java"/>
+          <files name="Association2.java" contentURI=".GeneratorWithDifferentMessagesctx/content24.java"/>
+          <files name="AssociationClass0.java" contentURI=".GeneratorWithDifferentMessagesctx/content25.java"/>
+          <files name="DataBottom.java" contentURI=".GeneratorWithDifferentMessagesctx/content26.java"/>
+          <files name="DataMiddle.java" contentURI=".GeneratorWithDifferentMessagesctx/content27.java"/>
+          <files name="DataTop.java" contentURI=".GeneratorWithDifferentMessagesctx/content28.java"/>
+          <files name="Dependency0.java" contentURI=".GeneratorWithDifferentMessagesctx/content29.java"/>
+          <files name="Ent1.java" contentURI=".GeneratorWithDifferentMessagesctx/content30.java"/>
+          <files name="Ent2.java" contentURI=".GeneratorWithDifferentMessagesctx/content31.java"/>
+          <files name="Enumeration0.java" contentURI=".GeneratorWithDifferentMessagesctx/content32.java"/>
+          <files name="Event0.java" contentURI=".GeneratorWithDifferentMessagesctx/content33.java"/>
+          <files name="Exception0.java" contentURI=".GeneratorWithDifferentMessagesctx/content34.java"/>
+          <files name="Query0.java" contentURI=".GeneratorWithDifferentMessagesctx/content35.java"/>
+          <files name="SessionFacade0.java" contentURI=".GeneratorWithDifferentMessagesctx/content36.java"/>
+          <files name="SuperEnt.java" contentURI=".GeneratorWithDifferentMessagesctx/content37.java"/>
+          <files name="Update0.java" contentURI=".GeneratorWithDifferentMessagesctx/content38.java"/>
+          <files name="default.vwm" contentURI=".GeneratorWithDifferentMessagesctx/content9.vwm"/>
+          <files name="default.wvd" contentURI=".GeneratorWithDifferentMessagesctx/content9.wvd"/>
+          <folders name="moved">
+            <files name=".package" contentURI=".GeneratorWithDifferentMessagesctx/content10.package"/>
+            <files name="inside-moved.vwm" contentURI=".GeneratorWithDifferentMessagesctx/content8.vwm"/>
+            <files name="inside-moved.wvd" contentURI=".GeneratorWithDifferentMessagesctx/content8.wvd"/>
+          </folders>
+          <folders name="movedOther">
+            <files name=".package" contentURI=".GeneratorWithDifferentMessagesctx/content11.package"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

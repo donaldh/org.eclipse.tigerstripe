@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="Generate" id="_nsSm0Ob4Ed-QJfLsU8E9fA" description="" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="Generate" id="_nsSm0Ob4Ed-QJfLsU8E9fA" description="" tags="Generator/Generate " type="ecl">
   <contexts>_AFuq4K9WEd-zMOysButwpg</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | get-menu "Plugin/Deploy" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-menu "Tigerstripe/Deployed Generators..." | click
+get-window "Deployed Tigerstripe Generators" | get-table | get-item "New Generator Project\\(3.0\\)" 
+    | get-property columns -index 0 | equals "New Generator Project(3.0)" | verify-true
+get-window "Deployed Tigerstripe Generators" | get-button OK | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/tigerstripe.xml" | double-click
+    select "model-refactoring/tigerstripe.xml" | double-click
+    select "model-refactoring/tigerstripe.xml" | double-click
+}
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click -nowait
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/allArtifacts.txt" 
+    | get-property caption | equals "allArtifacts.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/AssociatedEnt.txt" 
+    | get-property caption | equals "AssociatedEnt.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Association0.txt" 
+    | get-property caption | equals "Association0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Association1.txt" 
+    | get-property caption | equals "Association1.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Association2.txt" 
+    | get-property caption | equals "Association2.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/AssociationClass0.txt" 
+    | get-property caption | equals "AssociationClass0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/DataBottom.txt" 
+    | get-property caption | equals "DataBottom.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/DataMiddle.txt" 
+    | get-property caption | equals "DataMiddle.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/DataTop.txt" 
+    | get-property caption | equals "DataTop.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Dependency0.txt" 
+    | get-property caption | equals "Dependency0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Ent1.txt" 
+    | get-property caption | equals "Ent1.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Ent2.txt" 
+    | get-property caption | equals "Ent2.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Enumeration0.txt" 
+    | get-property caption | equals "Enumeration0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Event0.txt" 
+    | get-property caption | equals "Event0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Exception0.txt" 
+    | get-property caption | equals "Exception0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/moved.txt" 
+    | get-property caption | equals "moved.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/movedOther.txt" 
+    | get-property caption | equals "movedOther.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Query0.txt" 
+    | get-property caption | equals "Query0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/SessionFacade0.txt" 
+    | get-property caption | equals "SessionFacade0.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/simple.txt" 
+    | get-property caption | equals "simple.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/SuperEnt.txt" 
+    | get-property caption | equals "SuperEnt.txt" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/Update0.txt" 
+    | get-property caption | equals "Update0.txt" | verify-true
+get-menu "Tigerstripe/Deployed Generators..." | click
+with [get-window "Deployed Tigerstripe Generators"] {
+    get-table | select "New Generator Project\\(3.0\\)" | get-menu "Un-deploy" | click
+    get-window "Un-Deploy Tigerstripe Generator?" | get-button OK | click
+    get-button OK | click
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -943,10 +1021,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.9">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.10">
@@ -962,10 +1041,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.14">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.15">
@@ -1009,14 +1089,14 @@
     <elementMapping command="//@teslaContent/@commands.25">
       <elements id="Item0" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="New Generator Project(3.0)">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="4" y="24" width="96" height="18"/>
         <columns>New Generator Project(3.0)</columns>
         <columns>3.0</columns>
         <columns>Deploy</columns>
         <columns></columns>
         <columns>Generic</columns>
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="4" y="24" width="96" height="18"/>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.27">
@@ -1037,10 +1117,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.30">
@@ -1102,10 +1183,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.55">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable Generator" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="10" y="5" width="111" height="16"/>
+        <caption>Enable Generator</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.56">
@@ -1121,9 +1203,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.60">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.61">
@@ -1145,10 +1228,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.70">
       <elements id="Button5" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.71">
@@ -1164,10 +1248,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.75">
       <elements id="Button6" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.76">
@@ -1974,10 +2059,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.202">
       <elements id="Button0_133" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.203">
@@ -1985,10 +2071,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.206">
       <elements id="Button1_134" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.207">

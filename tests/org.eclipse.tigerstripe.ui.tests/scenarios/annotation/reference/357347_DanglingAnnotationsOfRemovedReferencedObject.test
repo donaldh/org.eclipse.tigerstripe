@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="357347_DanglingAnnotationsOfRemovedReferencedObject" version="3.0" id="_H5WsMO5NEeCeLo_urxYMqg" description="Check dangling annotation if annotated referenced object was deleted &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ProjectWithModuleContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Add annotation for Entity in referenced project in Project1&#xD;&#xA;    Delete project org.eclipse.tigerstripe.test.module&#xD;&#xA;    Check warning message in Problems View that there are annotations without artifacts&#xD;&#xA;" tags="Annotation/reference" type="ecl" externalReference="http://docs.xored.com/display/TS/357347_DanglingAnnotationsForRemovedReferencedObject">
+  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <contexts>_v39IsO5MEeCeLo_urxYMqg</contexts>
+  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[with [get-view "Tigerstripe Explorer" | get-tree] {
     select "Project1/Model References/org.eclipse.tigerstripe.test.module/src/com.mycompany/Entity" 
@@ -14,7 +16,7 @@ with [get-window "Delete Resources"] {
 get-view Problems | click -nowait
 with [get-view Problems | get-tree | get-item "Warnings \\(1 item\\)/Unresolved annotation \'Check Annotation\'"] {
     get-property columns -index 0 | equals "Unresolved annotation \'Check Annotation\'" | verify-true
-    get-property columns -index 1 | equals "org.eclipse.tigerstripe.annotation.ann" | verify-true
+    get-property columns -index 1 | equals "tigerstripe.examples.ann" | verify-true
     get-property columns -index 2 | equals "/Project1/annotations" | verify-true
     get-property columns -index 3 | equals "Project1/org.eclipse.tigerstripe.test.module/com.mycompany.Entity" 
         | verify-true

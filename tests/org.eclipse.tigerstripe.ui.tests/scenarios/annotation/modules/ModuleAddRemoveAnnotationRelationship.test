@@ -25,7 +25,7 @@ get-view "Tigerstripe Explorer" | get-tree
     | select "Project2/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
     | double-click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
+    | get-item "Project2/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
     | get-property caption | equals Association1 | verify-true
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 

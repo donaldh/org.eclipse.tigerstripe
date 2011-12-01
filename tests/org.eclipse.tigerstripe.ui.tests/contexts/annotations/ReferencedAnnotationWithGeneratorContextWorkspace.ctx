@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ReferencedAnnotationWithGeneratorContextWorkspace" id="_BVY2UAqQEeG4YKJLWO2_8Q">
+  <content>
+    <projects name="New Project">
+      <files name=".classpath" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content5.classpath"/>
+      <files name=".project" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content5.project"/>
+      <files name=".visualstate" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content2.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content5.xml"/>
+      <folders name="annotations">
+        <files name="tigerstripe.examples.ann" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content3.ann"/>
+      </folders>
+      <folders name="src">
+        <folders name="org">
+          <files name=".package" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content18.package"/>
+          <folders name="eclipse">
+            <files name=".package" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content17.package"/>
+            <files name="AssocClass0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content25.java"/>
+            <files name="Association0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content26.java"/>
+            <files name="Datatype0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content27.java"/>
+            <files name="Dependency0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content28.java"/>
+            <files name="Entity0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content29.java"/>
+            <files name="Entity1.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content30.java"/>
+            <files name="Enumeration0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content31.java"/>
+            <files name="Event0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content32.java"/>
+            <files name="Exception0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content33.java"/>
+            <files name="Query0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content34.java"/>
+            <files name="Session0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content35.java"/>
+            <files name="Update0.java" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content36.java"/>
+            <folders name="Package0">
+              <files name=".package" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content16.package"/>
+            </folders>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+    <projects name="SimpleGenerator29">
+      <files name=".classpath" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content6.classpath"/>
+      <files name=".project" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content6.project"/>
+      <files name="ts-plugin.xml" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content6.xml"/>
+      <folders name="classes"/>
+      <folders name="src"/>
+      <folders name="templates">
+        <files name="myTemplateFile.vm" contentURI=".ReferencedAnnotationWithGeneratorContextWorkspacectx/content3.vm"/>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

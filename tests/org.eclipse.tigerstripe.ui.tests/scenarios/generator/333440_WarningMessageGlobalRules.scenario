@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="333440_WarningMessageGlobalRules" version="3.0" id="_TFyfUSrEEeC2zcw_G6nY9g" description="Test warning message generated for global rules &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;1 Create Model project and generator project&#xD;&#xA;2 Define global rule for a generator&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1 Open ts-plugin.xml of MyGenerator&#xD;&#xA;2 Disable artifact rules and save changes.&#xD;&#xA;3 Under &quot;Overview&quot; tab select &quot;Package and deploy this generator&quot;.&#xD;&#xA;3 Open tigerstripe.xml of MyProject. Switch to Generator Settings and enable MyGenerator.&#xD;&#xA;4 Start model generation. The warning message should not be displayed&#xD;&#xA;&#xD;&#xA;    " tags="TS_Generator/Generate, I29" type="ecl" externalReference="http://docs.xored.com/display/TS/333440_WarningMessageGlobalRules">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="333440_WarningMessageGlobalRules" version="3.0" id="_TFyfUSrEEeC2zcw_G6nY9g" description="Test warning message generated for global rules &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;1 Create Model project and generator project&#xD;&#xA;2 Define global rule for a generator&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1 Open ts-plugin.xml of MyGenerator&#xD;&#xA;2 Disable artifact rules and save changes.&#xD;&#xA;3 Under &quot;Overview&quot; tab select &quot;Package and deploy this generator&quot;.&#xD;&#xA;3 Open tigerstripe.xml of MyProject. Switch to Generator Settings and enable MyGenerator.&#xD;&#xA;4 Start model generation. The warning message should not be displayed&#xD;&#xA;&#xD;&#xA;    " tags="TS_Generator/Generate, I29" type="ecl" externalReference="http://docs.xored.com/display/TS/333440_WarningMessageGlobalRules">
   <contexts>_5OPsMK6FEd-uWaeTFaimww</contexts>
   <contexts>_TLUSEd7KEeC1arm-KQmhig</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+with [get-editor "New Generator Project/ts-plugin.xml"] {
+    get-tab-folder | get-tab-item Rules | click
+    with [get-section "Artifact Rules"] {
+        get-section -after [get-label "Artifact Rules"] | get-table | select ArtifactRule
+        get-section -after [get-label "Artifact Rules"] -index 1 | get-button Enabled | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "New Generator Project/ts-plugin.xml"] {
+    get-tab-folder | get-tab-item Overview | click
+    get-section Testing | get-link "Package and deploy this generator" | click -nowait
+}
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click -nowait
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | get-menu "Generate..." | click
+get-window "Generate Tigerstripe Project" | get-button Finish | click
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-label "Generation Successful." 
+    | get-property caption | equals "Generation Successful." | verify-true
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-button OK | click
+get-menu "Tigerstripe/Deployed Generators..." | click
+with [get-window "Deployed Tigerstripe Generators"] {
+    get-table | select "New Generator Project\\(3.0\\)" | get-menu "Un-deploy" | click
+    get-window "Un-Deploy Tigerstripe Generator?" | get-button OK | click
+    get-button OK | click
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

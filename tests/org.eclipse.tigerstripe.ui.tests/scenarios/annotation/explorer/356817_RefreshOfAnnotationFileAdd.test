@@ -5,12 +5,12 @@
   <contexts>_Kb5-0NnQEeCrRbabNEcanQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Color,IntegerAnnotation,CheckAnnotation,TextAnnotation,Font>>Entity1" 
-    | get-property caption | equals "<<Color,IntegerAnnotation,CheckAnnotation,TextAnnotation,Font>>Entity1" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity1" 
+    | get-property caption | equals "<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity1" 
     | verify-true
 get-view "Annotation Property View" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Color,IntegerAnnotation,CheckAnnotation,TextAnnotation,Font>>Entity1"
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity1"
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 5 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "New Project/annotations/org.eclipse.tigerstripe.annotation.ann" 
     | select "New Project/annotations/org.eclipse.tigerstripe.annotation.ann" | get-menu "Open With/Text Editor" | click
@@ -28,11 +28,11 @@ get-menu "File/Refresh" | click
 get-menu "Project/Clean..." | click
 get-window Clean | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Color,IntegerAnnotation,TextAnnotation,CheckAnnotation,TextAnnotation,Font>>Entity1" 
-    | get-property caption | equals "<<Color,IntegerAnnotation,TextAnnotation,CheckAnnotation,TextAnnotation,Font>>Entity1" 
+    | get-item "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,TextAnnotation,Color,Font>>Entity1" 
+    | get-property caption | equals "<<CheckAnnotation,IntegerAnnotation,TextAnnotation,TextAnnotation,Color,Font>>Entity1" 
     | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Color,IntegerAnnotation,TextAnnotation,CheckAnnotation,TextAnnotation,Font>>Entity1"
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,TextAnnotation,Color,Font>>Entity1"
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 6 | verify-true]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
