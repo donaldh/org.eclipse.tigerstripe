@@ -15,12 +15,12 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelati
  */
 public class RelationshipAnchor {
 
-	private String targetTypeFQN;
-	private String relationshipFQN;
-	private String anchorName;
+	private final String targetTypeFQN;
+	private final String relationshipFQN;
+	private final String anchorName;
 	private boolean inherited;
 
-	private IRelationshipEnd end;
+	private final IRelationshipEnd end;
 
 	public RelationshipAnchor(IRelationshipEnd end) {
 		IRelationshipEnd otherEnd = end.getOtherEnd();

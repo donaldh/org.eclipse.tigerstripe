@@ -22,7 +22,6 @@ import static org.eclipse.tigerstripe.annotation.core.Filters.startWith;
 import static org.eclipse.tigerstripe.annotation.core.Helper.firstOrNull;
 import static org.eclipse.tigerstripe.annotation.core.Helper.makeUri;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,23 +44,20 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.transaction.ResourceSetChangeEvent;
-import org.eclipse.emf.transaction.ResourceSetListener;
-import org.eclipse.emf.transaction.ResourceSetListenerImpl;
-import org.eclipse.emf.transaction.RunnableWithResult;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.core.Helper;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
+import org.eclipse.tigerstripe.annotation.core.InTransaction;
+import org.eclipse.tigerstripe.annotation.core.InTransaction.Operation;
+import org.eclipse.tigerstripe.annotation.core.InTransaction.OperationWithResult;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 import org.eclipse.tigerstripe.annotation.core.Searcher;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
@@ -70,9 +66,11 @@ import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.refactoring.RefactoringChange;
+import org.eclipse.tigerstripe.annotation.core.storage.internal.ChangeListener;
 import org.eclipse.tigerstripe.annotation.core.storage.internal.Storage;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.internal.core.LazyProvider.Loader;
+
 
 public class AnnotationManager implements IAnnotationManager {
 
@@ -109,37 +107,14 @@ public class AnnotationManager implements IAnnotationManager {
 
 	private final MasterRouter masterRouter = new MasterRouter();
 	private final Storage storage;
-	private final TransactionalEditingDomain domain;
-	private final ResourceSetListener resourceSetListener;
+	private final ChangeListener changeListener;
 	private final IAnnotationFilesRecognizer annFilesRecognizer;
 	
 	public AnnotationManager() {
-		domain = AnnotationPlugin.getDomain();
 		annFilesRecognizer = new AnnotationFilesRecognizer();
-		storage = new Storage(domain, annFilesRecognizer);
-		resourceSetListener = makeResourceSetListener();
-		domain.addResourceSetListener(resourceSetListener);
-		removeUILock();
-	}
-	
-	private void removeUILock() {
-		try {
-			Field transactionLock = TransactionalEditingDomainImpl.class
-					.getDeclaredField("transactionLock");
-			Field writeLock = TransactionalEditingDomainImpl.class
-					.getDeclaredField("writeLock");
-			try {
-				transactionLock.setAccessible(true);
-				writeLock.setAccessible(true);
-				transactionLock.set(domain, new SimpleLock());
-				writeLock.set(domain, new SimpleLock());
-			} finally {
-				transactionLock.setAccessible(false);
-				writeLock.setAccessible(false);
-			}
-		} catch (Exception e) {
-			AnnotationPlugin.log(e);
-		}
+		storage = new Storage(annFilesRecognizer);
+		changeListener = makeChangeListener();
+		storage.addListener(changeListener);
 	}
 
 	private final LazyProvider<Map<String, AnnotationType>> types = new LazyProvider<Map<String, AnnotationType>>(
@@ -173,11 +148,11 @@ public class AnnotationManager implements IAnnotationManager {
 				}
 			});
 	
-	private ResourceSetListener makeResourceSetListener() {
-		return new ResourceSetListenerImpl() {
+	private ChangeListener makeChangeListener() {
+		return new ChangeListener() {
 			
-			public void resourceSetChanged(ResourceSetChangeEvent event) {
-				for (Notification n : event.getNotifications()) {
+			public void onChange(List<Notification> notifications) {
+				for (Notification n : notifications) {
 					if (n.isTouch()) {
 						continue;
 					}
@@ -219,7 +194,6 @@ public class AnnotationManager implements IAnnotationManager {
 					} 
 				}
 			}
-
 		};
 	}
 
@@ -254,8 +228,8 @@ public class AnnotationManager implements IAnnotationManager {
 	public Annotation addAnnotation(final Object object, final EObject content)
 			throws AnnotationException {
 		
-		Object result = Helper.runForWrite(domain, new RunnableWithResult.Impl<Object>() {
-
+		Object result = InTransaction.run(new OperationWithResult<Object>() {
+		
 			public void run() {
 				try {
 					setResult(doAddAnnotation(object, content));
@@ -366,7 +340,7 @@ public class AnnotationManager implements IAnnotationManager {
 
 	public void changed(final URI oldUri, final URI newUri, final boolean affectChildren) {
 		
-		Helper.runForWrite(domain, new Runnable() {
+		InTransaction.run(new Operation() {
 			
 			public void run() {
 				if (affectChildren) {
@@ -396,7 +370,7 @@ public class AnnotationManager implements IAnnotationManager {
 	public void copied(final URI fromUri, final URI toUri,
 			final boolean affectChildren) {
 		
-		Helper.runForWrite(domain, new Runnable() {
+		InTransaction.run(new Operation() {
 			
 			public void run() {
 				if (affectChildren) {
@@ -442,7 +416,7 @@ public class AnnotationManager implements IAnnotationManager {
 	
 	public void deleted(final URI uri, final boolean affectChildren) {
 		
-		Helper.runForWrite(domain, new Runnable() {
+		InTransaction.run(new Operation() {
 			
 			public void run() {
 				if (affectChildren) {
@@ -493,7 +467,7 @@ public class AnnotationManager implements IAnnotationManager {
 	
 	public Annotation[] getAnnotations(final Object object, final boolean deepest) {
 		
-		return Helper.runExclusive(domain, new RunnableWithResult.Impl<Annotation[]>() {
+		return InTransaction.run(new OperationWithResult<Annotation[]>() {
 
 			public void run() {
 				setResult(doGetAnnotations(object, deepest));
@@ -502,7 +476,7 @@ public class AnnotationManager implements IAnnotationManager {
 	}
 
 	public void removeAnnotation(final Annotation annotation) {
-		Helper.runForWrite(domain, new Runnable() {
+		InTransaction.run(new Operation() {
 			
 			public void run() {
 				if (isReadOnly(annotation)) {
@@ -516,7 +490,7 @@ public class AnnotationManager implements IAnnotationManager {
 	public void removeAnnotations(Object object) {
 		final URI uri = getUri(object);
 		if (uri != null) {
-			Helper.runForWrite(domain, new Runnable() {
+			InTransaction.run(new Operation() {
 				
 				public void run() {
 					doRemove(uri);
@@ -872,20 +846,20 @@ public class AnnotationManager implements IAnnotationManager {
 	}
 
 	public void addAnnotations(final Resource resource) {
-		Helper.runForWrite(domain, new Runnable() {
+		InTransaction.run(new Operation() {
 			
 			public void run() {
-				domain.getResourceSet().getResources().add(resource);				
+				storage.getResourceSet().getResources().add(resource);				
 				fireAnnotationsAdded(resource);
 			}
 		});
 	}
 
 	public void removeAnnotations(final Resource resource) {
-		Helper.runForWrite(domain, new Runnable() {
+		InTransaction.run(new Operation() {
 			
 			public void run() {
-				domain.getResourceSet().getResources().remove(resource);				
+				storage.getResourceSet().getResources().remove(resource);				
 				fireAnnotationsRemoved(resource);
 			}
 		});
@@ -968,11 +942,7 @@ public class AnnotationManager implements IAnnotationManager {
 
 	public void dispose() {
 		storage.dispose();
-		domain.removeResourceSetListener(resourceSetListener);
-	}
-
-	public TransactionalEditingDomain getDomain() {
-		return domain;
+		storage.removeListener(changeListener);
 	}
 
 	public Searcher getSearcher() {
@@ -981,5 +951,13 @@ public class AnnotationManager implements IAnnotationManager {
 
 	public boolean isAnnotationFile(IFile file) {
 		return annFilesRecognizer.isAnnotationFile(file);
+	}
+	
+	public Storage getStorage() {
+		return storage;
+	}
+
+	public ResourceSet getResourceSet() {
+		return storage.getResourceSet();
 	}
 }

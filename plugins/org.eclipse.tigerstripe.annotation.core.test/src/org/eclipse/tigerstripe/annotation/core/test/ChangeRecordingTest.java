@@ -57,7 +57,7 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 			assertNull(author.getFirstName());
 			assertNull(author.getLastName());
 			
-			InTransaction.write(new Operation() {
+			InTransaction.run(new Operation() {
 				
 				public void run() throws Throwable {
 					author.setFirstName("First");
@@ -86,7 +86,7 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 			//add and change annotation
 			Annotation annotation = AnnotationPlugin.getManager().addAnnotation(project, author);
 			
-			InTransaction.write(new Operation() {
+			InTransaction.run(new Operation() {
 				
 				public void run() throws Throwable {
 					author.setFirstName("name2");

@@ -263,7 +263,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 
 	protected void addAnnotation(final IModelComponent component, final EObject content) throws TigerstripeException{
 		
-		InTransaction.write(new Operation() {
+		InTransaction.run(new Operation() {
 			
 			public void run() throws Throwable {
 				try {

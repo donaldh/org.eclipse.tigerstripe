@@ -1,11 +1,11 @@
 package org.eclipse.tigerstripe.annotation.core.storage.internal;
 
+import static java.util.Collections.unmodifiableList;
 import static org.eclipse.core.resources.IResourceChangeEvent.POST_CHANGE;
 import static org.eclipse.core.resources.IResourceDelta.MARKERS;
 import static org.eclipse.emf.ecore.resource.Resource.RESOURCE__CONTENTS;
 import static org.eclipse.emf.ecore.xmi.XMLResource.OPTION_RESOURCE_HANDLER;
 import static org.eclipse.tigerstripe.annotation.core.Helper.makeUri;
-import static org.eclipse.tigerstripe.annotation.core.Helper.runForWrite;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -33,25 +34,20 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.transaction.ResourceSetChangeEvent;
-import org.eclipse.emf.transaction.ResourceSetListener;
-import org.eclipse.emf.transaction.ResourceSetListenerImpl;
-import org.eclipse.emf.transaction.RunnableWithResult;
-import org.eclipse.emf.transaction.Transaction;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.impl.InternalTransaction;
-import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.Filter;
-import org.eclipse.tigerstripe.annotation.core.Helper;
+import org.eclipse.tigerstripe.annotation.core.InTransaction;
 import org.eclipse.tigerstripe.annotation.core.Searcher;
 import org.eclipse.tigerstripe.annotation.internal.core.IAnnotationFilesRecognizer;
 
@@ -62,77 +58,98 @@ import org.eclipse.tigerstripe.annotation.internal.core.IAnnotationFilesRecogniz
  * 3. Implementing the {@link Searcher} interface and do search in all annotations using {@link Filter}
  */
 public class Storage implements IResourceChangeListener, ISchedulingRule,
-		AutosaveManager, Searcher {
+		AutosaveManager, ChangeListener, Searcher {
 
-	private final TransactionalEditingDomain domain;
+	private final ResourceSet resourceSet;
 	private final IAnnotationFilesRecognizer annFilesRecognizer;
 	private final SaveExecutor saveExecutor;
-	private final Set<Transaction> ignoreTransactions = new HashSet<Transaction>();
 	private final Map<Object, Object> options;
+	private final List<Notification> changes = new CopyOnWriteArrayList<Notification>();
+	private boolean disableNotifications = false;
 	
-	private final ResourceSetListener resourceSetListener = new ResourceSetListenerImpl(){
+	private final Adapter resourceSetAdapter = new EContentAdapter() {
 		
-		@Override
-		public void resourceSetChanged(ResourceSetChangeEvent event) {
-			InternalTransaction currentTransaction = (InternalTransaction) event.getTransaction();
-			InternalTransaction rootTransaction = currentTransaction.getRoot();
-			boolean ignoreTransaction = ignoreTransactions.contains(rootTransaction);
-			
-			if (ignoreTransaction) {
-				if (currentTransaction.equals(rootTransaction)) {
-					ignoreTransactions.remove(currentTransaction);
-				}
-				return;
-			}
-			
-			Set<Resource> toSave = new HashSet<Resource>();
-				for (Notification n : event.getNotifications()) {
-					if (n.isTouch()) {
-						continue;
-					}
-					Object notifier = n.getNotifier();
-					if (notifier instanceof Resource) {
-						Resource r = (Resource) notifier;
-						
-						if (n.getFeatureID(null) == RESOURCE__CONTENTS &&
-							r.getResourceSet() != null &&
-							r.isLoaded()) {
-							
-							toSave.add((Resource) notifier);
-						}
-					} else if (notifier instanceof EObject) {
-						EObject eo = (EObject) notifier;
-						if (eo.eResource() != null) {
-							toSave.add(eo.eResource());
-						}
-					} 
-				}
-			
-			for (Resource resource : toSave) {
-				save(resource);
-			}
-		}
+		public void notifyChanged(Notification notification) {
+			changes.add(notification);
+			super.notifyChanged(notification);
+		}; 
 	};
 	
-	public Storage(TransactionalEditingDomain domain, IAnnotationFilesRecognizer annFilesRecognizer) {
-		this.domain = domain;
+	public Storage(IAnnotationFilesRecognizer annFilesRecognizer) {
 		this.annFilesRecognizer = annFilesRecognizer;
 		
-		ResourceSet resourceSet = domain.getResourceSet();
+		resourceSet = new ResourceSetImpl();
 		Registry delegat = resourceSet.getResourceFactoryRegistry();
 		AnnotationResourceFactoryRegistry factoryRegistry = new AnnotationResourceFactoryRegistry(delegat);
 		resourceSet.setResourceFactoryRegistry(factoryRegistry);
 		
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, POST_CHANGE);
-		domain.addResourceSetListener(resourceSetListener);
 		
 		AnnotationResourceHandler handler = AnnotationResourceHandler.getInstance();
 		options = Collections.<Object, Object>singletonMap(OPTION_RESOURCE_HANDLER, handler);
 		resourceSet.getLoadOptions().putAll(options);
 		
-		saveExecutor = new SaveExecutor(domain, this, options);
+		saveExecutor = new SaveExecutor(this, options);
+		
+		resourceSet.eAdapters().add(resourceSetAdapter);
+		addListener(this);
 		
 		scanResources();
+	}
+
+	public void onChange(List<Notification> notifications) {
+		
+		Set<Resource> toSave = new HashSet<Resource>();
+			for (Notification n : notifications) {
+				if (n.isTouch()) {
+					continue;
+				}
+				Object notifier = n.getNotifier();
+				if (notifier instanceof Resource) {
+					Resource r = (Resource) notifier;
+					
+					if (n.getFeatureID(null) == RESOURCE__CONTENTS &&
+						r.getResourceSet() != null &&
+						r.isLoaded()) {
+						
+						toSave.add((Resource) notifier);
+					}
+				} else if (notifier instanceof EObject) {
+					EObject eo = (EObject) notifier;
+					if (eo.eResource() != null) {
+						toSave.add(eo.eResource());
+					}
+				} 
+			}
+		
+		for (Resource resource : toSave) {
+			save(resource);
+		}
+	}
+
+	public void checkpoint() {
+		if (!disableNotifications && !changes.isEmpty()) {
+			handleChanges();
+		}
+		changes.clear();
+		disableNotifications = false;
+	}
+	
+	private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
+	
+	public void addListener(ChangeListener listener) {
+		listeners.add(listener);
+	}
+	
+	public void removeListener(ChangeListener listener) {
+		listeners.remove(listener);
+	}
+	
+	private void handleChanges() {
+		List<Notification> notfications = unmodifiableList(new ArrayList<Notification>(changes)); 
+		for (ChangeListener	l : listeners) {
+			l.onChange(notfications);
+		}
 	}
 
 	private void scanResources() {
@@ -141,38 +158,35 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				
-				runForWrite(domain, new Runnable() {
-					
-					public void run() {
-						disableAutoSave();
-						for (IProject proj : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-							if (!proj.exists() || !proj.isOpen()) {
-								continue;
-							}
-							try {
-								proj.accept(new IResourceVisitor() {
-									public boolean visit(IResource resource) throws CoreException {
-										if (resource instanceof IContainer) {
-											return annFilesRecognizer
-													.couldContainAnnotationFiles((IContainer) resource);
-										} else if (resource instanceof IFile) {
-											IFile file = (IFile) resource;
-											if (annFilesRecognizer.isAnnotationFile(file)) {
-												annotationFileWasAdded(file);
-											}
+				checkpoint();
+				disableNotifications();
+				try {
+					for (IProject proj : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+						if (!proj.exists() || !proj.isOpen()) {
+							continue;
+						}
+						try {
+							proj.accept(new IResourceVisitor() {
+								public boolean visit(IResource resource) throws CoreException {
+									if (resource instanceof IContainer) {
+										return annFilesRecognizer
+										.couldContainAnnotationFiles((IContainer) resource);
+									} else if (resource instanceof IFile) {
+										IFile file = (IFile) resource;
+										if (annFilesRecognizer.isAnnotationFile(file)) {
+											annotationFileWasAdded(file);
 										}
-										return true;
 									}
-								});
-							} catch (CoreException e) {
-								AnnotationPlugin.log(e);
-							}
+									return true;
+								}
+							});
+						} catch (CoreException e) {
+							AnnotationPlugin.log(e);
 						}
 					}
-				});
-
-				
+				} finally {
+					checkpoint();
+				}
 				return Status.OK_STATUS;
 			}
 		};
@@ -183,7 +197,6 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 
 	public void dispose() {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-		domain.removeResourceSetListener(resourceSetListener);
 	}
 	
 	public void resourceChanged(IResourceChangeEvent event) {
@@ -249,25 +262,24 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		}
 		if (!added.isEmpty() || !changed.isEmpty() || !removed.isEmpty()
 				|| !removedProjects.isEmpty()) {
-					
-			runForWrite(domain, new Runnable() {
 				
-				public void run() {
-					disableAutoSave();
-					for (IFile file : added) {
-						annotationFileWasAdded(file);
-					}
-					for (IFile file : changed) {
-						annotationFileWasChanged(file);
-					}
-					for (IFile file : removed) {
-						annotationFileWasRemoved(file);
-					}
-					for (IProject proj : removedProjects) {
-						projectWasRemoved(proj);
-					}
+			disableNotifications();
+			try {
+				for (IFile file : added) {
+					annotationFileWasAdded(file);
 				}
-			});
+				for (IFile file : changed) {
+					annotationFileWasChanged(file);
+				}
+				for (IFile file : removed) {
+					annotationFileWasRemoved(file);
+				}
+				for (IProject proj : removedProjects) {
+					projectWasRemoved(proj);
+				}
+			} finally {
+				checkpoint();
+			}
 		}
 	}
 	
@@ -332,14 +344,8 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	/**
 	 * Disables autosave till transiaction not finished
 	 */
-	public void disableAutoSave() {
-		InternalTransaction activeTransaction = ((InternalTransactionalEditingDomain) domain)
-				.getActiveTransaction();
-		
-		if (activeTransaction == null) {
-			throw new IllegalStateException("Active transaction is null");
-		}
-		ignoreTransactions.add(activeTransaction.getRoot());
+	public void disableNotifications() {
+		disableNotifications = true;
 	}
 
 	private static boolean isSet(int flags, int mask) {
@@ -348,9 +354,9 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	
 	public List<Annotation> findTransactional(final Filter filter) {
 		
-		return Helper.runExclusive(domain, new RunnableWithResult.Impl<List<Annotation>>() {
-
-			public void run() {
+		return InTransaction.run(new InTransaction.OperationWithResult<List<Annotation>>() {
+			
+			public void run() throws Throwable {
 				setResult(find(filter));
 			}
 		});
@@ -403,7 +409,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 	
 	public ResourceSet getResourceSet() {
-		return domain.getResourceSet();
+		return resourceSet;
 	}
 	
 	public boolean contains(ISchedulingRule rule) {

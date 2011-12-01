@@ -1,7 +1,13 @@
 package org.eclipse.tigerstripe.annotation.core;
 
-import org.eclipse.emf.transaction.RunnableWithResult;
-import org.eclipse.tigerstripe.annotation.internal.core.WriteCommand;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.tigerstripe.annotation.core.storage.internal.Storage;
+import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 
 /**
  * Convenient way to execute something in a transaction of annotations plugin
@@ -15,84 +21,35 @@ public class InTransaction {
 	/**
 	 * Execute operation in a read only transaction 
 	 */
-	public static void read(final Operation operation) {
+	public static void run(final Operation operation) {
 		try {
-			AnnotationPlugin.getDomain().runExclusive(new Runnable() {
+			IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
+			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
 				
-				public void run() {
+				public void run(IProgressMonitor monitor) throws CoreException {
+					Storage storage = ((AnnotationManager)AnnotationPlugin.getManager()).getStorage();
+					storage.checkpoint();
 					try {
 						operation.run();
 					} catch (Throwable e) {
 						AnnotationPlugin.log(e);
+					} finally {
+						storage.checkpoint();
 					}
 				}
-			});
-		} catch (InterruptedException e) {
+			}, wroot, 0, new NullProgressMonitor());
+		} catch (Exception e) {
 			AnnotationPlugin.log(e);
 		}
-	}
-	
-	/**
-	 * Execute operation in a read only transaction
-	 * There is the ability to return the result 
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T read(final OperationWithResult<T> operation) {
-		try {
-			return (T) AnnotationPlugin.getDomain().runExclusive(new RunnableWithResult.Impl<T>() {
-				
-				public void run() {
-					try {
-						operation.run();
-						setResult(operation.getResult());
-					} catch (Throwable e) {
-						AnnotationPlugin.log(e);
-					}
-				}
-			});
-		} catch (InterruptedException e) {
-			AnnotationPlugin.log(e);
-			return null;
-		}
-	}
-	
-	/**
-	 * Execute operation in a write transaction
-	 */
-	public static void write(final Operation operation) {
-			
-			AnnotationPlugin.getDomain().getCommandStack().execute(new WriteCommand() {
-				
-				public void execute() {
-					try {
-						operation.run();
-					} catch (Throwable e) {
-						AnnotationPlugin.log(e);
-					}
-				}
-			});
-				
 	}
 
-	/**
-	 * Execute operation in a write transaction
-	 * There is the ability to return the result 
-	 */
-	public static <T> T write(final OperationWithResult<T> operation) {
-		
-		AnnotationPlugin.getDomain().getCommandStack().execute(new WriteCommand() {
-			
-			public void execute() {
-				try {
-					operation.run();
-				} catch (Throwable e) {
-					AnnotationPlugin.log(e);
-				}
-			}
-		});
+	public static <T> T run(final OperationWithResult<T> operation) {
+		Operation op = operation; 
+		run(op);
 		return operation.value;
 	}
 
+	
 	public static interface Operation {
 		
 		void run() throws Throwable;

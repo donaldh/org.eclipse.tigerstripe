@@ -119,7 +119,7 @@ public class TestAnnotationCreationAPI extends
 
 	public final void testAnnotationHelper() throws TigerstripeException {
 		
-		InTransaction.write(new Operation() {
+		InTransaction.run(new Operation() {
 			
 			public void run() throws Throwable {
 				

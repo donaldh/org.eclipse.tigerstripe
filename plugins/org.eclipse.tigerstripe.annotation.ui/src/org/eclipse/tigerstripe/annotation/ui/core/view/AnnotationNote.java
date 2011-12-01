@@ -47,7 +47,7 @@ public class AnnotationNote extends EObjectBasedNote implements INote {
 
 	public void save() {
 		
-		InTransaction.write(new Operation() {
+		InTransaction.run(new Operation() {
 			
 			public void run() throws Throwable {
 				original.setUri(annotation.getUri());

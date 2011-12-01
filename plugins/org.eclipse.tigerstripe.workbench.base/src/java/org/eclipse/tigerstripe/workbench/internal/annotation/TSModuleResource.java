@@ -119,7 +119,7 @@ public class TSModuleResource extends XMIResourceImpl {
 				options = new HashMap<Object, Object>(options); 
 			}
 			
-			options.putAll(AnnotationPlugin.getDomain().getResourceSet()
+			options.putAll(AnnotationPlugin.getManager().getResourceSet()
 					.getLoadOptions());
 			
 			// If an input stream can't be created, ensure that the resource is

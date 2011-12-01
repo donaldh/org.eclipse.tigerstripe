@@ -58,7 +58,7 @@ public class ProjectPattern extends Pattern implements IProjectPattern {
 	protected void addAnnotation(final ITigerstripeModelProject project,
 			final EObject content) throws TigerstripeException {
 
-		InTransaction.write(new Operation() {
+		InTransaction.run(new Operation() {
 
 			public void run() throws Throwable {
 				try {

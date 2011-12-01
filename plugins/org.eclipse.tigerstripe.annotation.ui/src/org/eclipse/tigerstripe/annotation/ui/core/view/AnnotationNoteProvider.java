@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWiza
 import org.eclipse.tigerstripe.annotation.ui.internal.core.AnnotationUIManager;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationSelectionUtils;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 public class AnnotationNoteProvider implements INoteProvider,
 		IRefactoringListener, IAnnotationListener, IResourceChangeListener {
@@ -87,11 +88,11 @@ public class AnnotationNoteProvider implements INoteProvider,
 	}
 
 	public void annotationAdded(Annotation annotation) {
-		fireUpdate();
+		fireUpdateAsync();
 	}
 
 	public void annotationChanged(Annotation annotations) {
-		fireUpdate();
+		fireUpdateAsync();
 	}
 
 	public void annotationRemoved(Annotation annotation) {
@@ -102,7 +103,7 @@ public class AnnotationNoteProvider implements INoteProvider,
 				break;
 			}
 		}
-		fireUpdate();
+		fireUpdateAsync();
 	}
 
 	public void refactoringPerformed(RefactoringChange change) {
@@ -151,6 +152,15 @@ public class AnnotationNoteProvider implements INoteProvider,
 		}
 	}
 
+	private void fireUpdateAsync() {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			
+			public void run() {
+				fireUpdate();
+			}
+		});
+	}
+	
 	private void fireUpdate() {
 		updateSelection();
 		for (INoteListener listener : getListeners()) {

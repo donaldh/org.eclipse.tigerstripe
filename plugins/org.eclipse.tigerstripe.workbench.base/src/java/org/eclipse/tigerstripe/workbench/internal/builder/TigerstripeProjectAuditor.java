@@ -312,7 +312,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	@Override
 	protected IProject[] build(final int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-		InTransaction.write(new InTransaction.Operation() {
+		InTransaction.run(new InTransaction.Operation() {
 			
 			public void run() throws Throwable {
 				checkAnnotations(kind);
@@ -861,7 +861,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	private void findAllAnnotations(IProject project,
 			Set<Annotation> annotations) {
-		for (Resource r : AnnotationPlugin.getDomain().getResourceSet().getResources()) {
+		for (Resource r : AnnotationPlugin.getManager().getResourceSet().getResources()) {
 			IFile file = WorkspaceSynchronizer.getFile(r);
 			if (file != null && project.equals(file.getProject())) {
 				for (EObject obj : r.getContents()) {
@@ -985,7 +985,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 							
 							Resource annres = null;
 							if (uri != null) {
-								annres = manager.getDomain().getResourceSet().getResource(uri, false);
+								annres = manager.getResourceSet().getResource(uri, false);
 							}
 							
 							if (annres != null) {

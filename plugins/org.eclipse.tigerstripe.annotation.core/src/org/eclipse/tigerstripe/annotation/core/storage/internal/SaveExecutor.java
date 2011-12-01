@@ -1,24 +1,20 @@
 package org.eclipse.tigerstripe.annotation.core.storage.internal;
 
 import static org.eclipse.core.resources.IResource.FOLDER;
-import static org.eclipse.core.resources.IWorkspace.AVOID_UPDATE;
-import static org.eclipse.tigerstripe.annotation.core.Helper.addToListInMap;
-import static org.eclipse.tigerstripe.annotation.core.Helper.runForWrite;
+import static org.eclipse.tigerstripe.annotation.core.AnnotationPlugin.warn;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -28,7 +24,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.Helper;
@@ -41,26 +36,25 @@ import org.eclipse.tigerstripe.annotation.core.Helper;
  */
 public class SaveExecutor {
 
-	private final TransactionalEditingDomain domain;
 	private final Set<IResource> savingResources = Collections
 			.synchronizedSet(new HashSet<IResource>());
 
 	private final Set<Resource> toSave = new HashSet<Resource>();
-	private final AutosaveManager autosaveManager;
+	private final Storage storage;
 	private final Map<Object, Object> saveOptions;
 	private final Job job;
 
-	public SaveExecutor(TransactionalEditingDomain domain,
-			AutosaveManager autosaveManager, Map<Object, Object> saveOptions) {
-		this.domain = domain;
-		this.autosaveManager = autosaveManager;
+	public SaveExecutor(Storage storage, Map<Object, Object> saveOptions) {
+		this.storage = storage;
 		this.saveOptions = saveOptions;
 	}
 
 	{
-		job = new Job("Save Annotation Files") {
+		job = new WorkspaceJob("Save Annotation Files") {
+
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+			public IStatus runInWorkspace(IProgressMonitor monitor)
+					throws CoreException {
 
 				Resource[] resources;
 				synchronized (SaveExecutor.this) {
@@ -68,92 +62,41 @@ public class SaveExecutor {
 					toSave.clear();
 				}
 
-				Map<IProject, List<ResourceTuple>> byProjects = new HashMap<IProject, List<ResourceTuple>>();
-
-				for (Resource resource : resources) {
-
-					URI uri = resource.getURI();
-					if (uri == null || uri.isArchive()) {
-						continue;
-					}
-
-					final IFile file = WorkspaceSynchronizer.getFile(resource);
-
-					if (file == null) {
-						AnnotationPlugin
-								.warn("Resource '%s' has no workspace resource. Can't save",
-										resource.getURI());
-						continue;
-					}
-
-					IProject proj = file.getProject();
-
-					if (proj == null) {
-						AnnotationPlugin
-								.warn("Resource '%s' has no workspace project. Can't save",
-										file.getFullPath());
-						continue;
-
-					}
-					if (!proj.exists()) {
-						continue;
-					}
-					addToListInMap(byProjects, proj, new ResourceTuple(file,
-							resource));
-				}
-				
-				for (Map.Entry<IProject, List<ResourceTuple>> e : byProjects
-						.entrySet()) {
-
-					final IProject project = e.getKey();
-					final List<ResourceTuple> tuples = e.getValue();
-					IWorkspaceRunnable action = new IWorkspaceRunnable() {
-
-						public void run(final IProgressMonitor monitor)
-								throws CoreException {
-
-							runForWrite(SaveExecutor.this.domain,
-								new Runnable() {
-
-									public void run() {
-										if (!project.exists()) {
-											return;
-										}
-										
-										autosaveManager.disableAutoSave();
-
-										for (ResourceTuple tuple : tuples) {
-											IFile file = tuple.file;
-											Resource resource = tuple.resource;
-											savingResources.add(file);
-											try {
-												if (resource.getContents()
-														.isEmpty()) {
-													resource.delete(null);
-													removeDanglingFolders(
-															file, monitor);
-												} else {
-													resource.save(saveOptions);
-												}
-											} catch (Exception e) {
-												AnnotationPlugin.log(e);
-											}
-										}
-
-									}
-								});
+				storage.checkpoint();
+				storage.disableNotifications();
+				try {
+					for (Resource resource : resources) {
+	
+						URI uri = resource.getURI();
+						if (uri == null || uri.isArchive()) {
+							continue;
 						}
-					};
-
-					try {
-						ResourcesPlugin.getWorkspace().run(action, project,
-								AVOID_UPDATE, monitor);
-					} catch (CoreException ex) {
-						AnnotationPlugin.log(ex);
+	
+						final IFile file = WorkspaceSynchronizer.getFile(resource);
+	
+						if (file == null) {
+							warn("Resource '%s' has no workspace resource. Can't save",
+									resource.getURI());
+							continue;
+						}
+						savingResources.add(file);
+						try {
+							if (resource.getContents().isEmpty()) {
+								resource.delete(null);
+								removeDanglingFolders(file, monitor);
+							} else {
+								resource.save(saveOptions);
+							}
+						} catch (Exception e) {
+							AnnotationPlugin.log(e);
+						}
 					}
+				} finally {
+					storage.checkpoint();
 				}
 				return Status.OK_STATUS;
 			}
+
 		};
 		job.addJobChangeListener(new JobChangeAdapter() {
 
@@ -162,6 +105,8 @@ public class SaveExecutor {
 				checkForRun();
 			}
 		});
+		IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
+		job.setRule(wroot);
 	}
 
 	public boolean isSaving(IResource resource) {
@@ -206,16 +151,6 @@ public class SaveExecutor {
 		}
 		if (toDelete != null) {
 			toDelete.delete(true, monitor);
-		}
-	}
-
-	private static class ResourceTuple {
-		final IFile file;
-		final Resource resource;
-
-		public ResourceTuple(IFile file, Resource resource) {
-			this.file = file;
-			this.resource = resource;
 		}
 	}
 }

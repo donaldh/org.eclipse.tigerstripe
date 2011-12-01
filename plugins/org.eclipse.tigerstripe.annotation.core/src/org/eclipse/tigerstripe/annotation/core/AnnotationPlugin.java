@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.osgi.framework.BundleContext;
 
@@ -84,10 +83,5 @@ public class AnnotationPlugin extends Plugin {
 
 	public static String getPluginId() {
 		return plugin.getBundle().getSymbolicName();
-	}
-	
-	public static TransactionalEditingDomain getDomain() {
-		return TransactionalEditingDomain.Registry.INSTANCE
-				.getEditingDomain("org.eclipse.tigerstripe.AnnotationsDomain");
 	}
 }

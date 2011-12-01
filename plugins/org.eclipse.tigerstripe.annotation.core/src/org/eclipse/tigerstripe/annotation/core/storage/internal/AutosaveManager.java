@@ -6,7 +6,7 @@ public interface AutosaveManager {
 	/**
 	 * Disables autosave per transaction
 	 */
-	void disableAutoSave();
+	void disableNotifications();
 
 	
 }

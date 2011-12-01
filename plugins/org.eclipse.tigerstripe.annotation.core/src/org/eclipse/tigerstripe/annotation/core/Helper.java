@@ -8,62 +8,12 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.transaction.RunnableWithResult;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.tigerstripe.annotation.internal.core.WriteCommand;
 
 /**
  * Set of the often used methods in the annotations plugin 
  */
 public class Helper {
 
-	/**
-	 * Type safe way to run something in a transaction 
-	 */
-	public static <T> T runForWrite(TransactionalEditingDomain domain,
-			final RunnableWithResult<T> runnable) {
-		runForWrite(domain, (Runnable) runnable);
-		return runnable.getResult();
-	}
-	
-	/**
-	 * Convenient way to run something in a transaction on the command stack. 
-	 */
-	public static void runForWrite(TransactionalEditingDomain domain,
-			final Runnable runnable) {
-		domain.getCommandStack().execute(new WriteCommand() {
-
-			public void execute() {
-				runnable.run();
-			}
-		});
-	}
-	
-	/**
-	 * Run the runnable in the domain, catch the {@link InterruptedException} and log it.
-	 */
-	public static Object runExclusive(TransactionalEditingDomain domain, Runnable runnable) {
-		try {
-			return domain.runExclusive(runnable);
-		} catch (InterruptedException e) {
-			AnnotationPlugin.log(e);
-			return null;
-		}
-	}
-
-	/**
-	 * Type safe way to run something in a transaction
-	 * Run the runnable in the domain, catch the {@link InterruptedException} and log it. 
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T runExclusive(TransactionalEditingDomain domain, RunnableWithResult<T> runnable) {
-		try {
-			return (T) domain.runExclusive(runnable);
-		} catch (InterruptedException e) {
-			AnnotationPlugin.log(e);
-			return null;
-		}
-	}
 	
 	/**
 	 * @return null if the given list is empty or first element 

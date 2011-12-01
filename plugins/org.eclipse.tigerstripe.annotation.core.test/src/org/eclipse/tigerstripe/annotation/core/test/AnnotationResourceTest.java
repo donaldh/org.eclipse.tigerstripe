@@ -55,7 +55,7 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 			AnnotationPlugin.getManager().addAnnotations(resource);
 			final MimeType type = getAnnotationContent();
 			
-			InTransaction.write(new Operation() {
+			InTransaction.run(new Operation() {
 				
 				public void run() throws Throwable {
 					type.setMimeType(MIME_TYPE_HTML);

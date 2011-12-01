@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringListener;
@@ -343,15 +343,11 @@ public interface IAnnotationManager {
 	ProviderManager getProviderManager();
 
 	/**
-	 * @return the single instance of the EMF domain. For all operations with
-	 *         annotation need to use this domain.
-	 */
-	TransactionalEditingDomain getDomain();
-
-	/**
 	 * @return the {@link Searcher} for convinient way for search annotations.
 	 */
 	Searcher getSearcher();
 	
 	boolean isAnnotationFile(IFile file);
+
+	ResourceSet getResourceSet();
 }

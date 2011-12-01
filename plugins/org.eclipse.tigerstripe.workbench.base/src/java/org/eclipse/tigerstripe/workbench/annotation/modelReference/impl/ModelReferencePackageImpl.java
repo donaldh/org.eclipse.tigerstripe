@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelReferencePackageImpl.java,v 1.1 2011/11/01 11:12:11 asalnik Exp $
+ * $Id: ModelReferencePackageImpl.java,v 1.2 2011/12/01 15:24:06 verastov Exp $
  */
 package org.eclipse.tigerstripe.workbench.annotation.modelReference.impl;
 

@@ -45,7 +45,7 @@ public class AnnotationUtilsTest extends AbstractResourceTestCase {
 	protected void tearDown() throws Exception {
 		deleteProject(project1);
 		deleteProject(project2);
-		assertEquals(0, AnnotationPlugin.getManager().getDomain().getResourceSet().getResources().size());
+		assertEquals(0, AnnotationPlugin.getManager().getResourceSet().getResources().size());
 	}
 	
 	public void testCopyAnnotations() throws AnnotationException {
