@@ -218,11 +218,19 @@ public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 
 	private void editSelected() {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-		Object selected = selection.getFirstElement();
+		final Object selected = selection.getFirstElement();
 		if (selected != null) {
-			PropertiesDialog dialog = new PropertiesDialog(getSection()
-					.getShell(), (Annotation) selected);
-			dialog.open();
+			
+			InTransaction.run(new Operation() {
+				
+				public void run() throws Throwable {
+					PropertiesDialog dialog = new PropertiesDialog(getSection()
+							.getShell(), (Annotation) selected);
+					dialog.open();
+				}
+			});
+
+			
 		}
 	}
 	
@@ -376,19 +384,15 @@ public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 			});
 			propertyTree.create(parent);
 			copy = EcoreUtil.copy(input.getContent());
-			propertyTree.setContent(copy, manager().isReadOnly(input));
+			propertyTree.setContent(input.getContent(), manager().isReadOnly(input));
 			return parent;
 		}
 
 		@Override
-		protected void okPressed() {
-			InTransaction.run(new Operation() {
-				
-				public void run() throws Throwable {
-					input.setContent(copy);
-				}
-			});
-			super.okPressed();
+		protected void cancelPressed() {
+			input.setContent(copy);
+			manager().disableNotifications();
+			super.cancelPressed();
 		}
 		
 	}

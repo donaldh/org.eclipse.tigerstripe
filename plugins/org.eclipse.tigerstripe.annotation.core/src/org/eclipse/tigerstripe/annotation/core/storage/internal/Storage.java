@@ -347,7 +347,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 
 	/**
-	 * Disables autosave till transiaction not finished
+	 * Disables notifications till transiaction not finished
 	 */
 	public void disableNotifications() {
 		disableNotifications = true;

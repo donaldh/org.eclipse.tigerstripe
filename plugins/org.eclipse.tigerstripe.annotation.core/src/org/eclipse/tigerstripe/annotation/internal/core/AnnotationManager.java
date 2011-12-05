@@ -960,4 +960,8 @@ public class AnnotationManager implements IAnnotationManager {
 	public ResourceSet getResourceSet() {
 		return storage.getResourceSet();
 	}
+
+	public void disableNotifications() {
+		storage.disableNotifications();
+	}
 }

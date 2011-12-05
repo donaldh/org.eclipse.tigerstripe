@@ -350,4 +350,9 @@ public interface IAnnotationManager {
 	boolean isAnnotationFile(IFile file);
 
 	ResourceSet getResourceSet();
+	
+	/**
+	 * Disables notifications till transaction not finished
+	 */
+	void disableNotifications();
 }
