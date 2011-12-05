@@ -23,9 +23,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -34,6 +37,9 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.batch.Main;
+import org.eclipse.osgi.service.resolver.BundleDescription;
+import org.eclipse.osgi.service.resolver.BundleSpecification;
+import org.eclipse.osgi.service.resolver.State;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -41,6 +47,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
+import org.osgi.framework.Bundle;
 
 /**
  * Whenever a Plugin Project needs to be deployed/packaged up, the operation is
@@ -53,7 +60,7 @@ public class PluggablePluginProjectPackager {
 
 	private static final String TEMPLATES_DIR = "templates";
 	private static final String CLASSES_DIR = "classes";
-	private GeneratorProjectDescriptor descriptor;
+	private final GeneratorProjectDescriptor descriptor;
 
 	public PluggablePluginProjectPackager(GeneratorProjectDescriptor descriptor) {
 		this.descriptor = descriptor;
@@ -116,7 +123,8 @@ public class PluggablePluginProjectPackager {
 			// Avoid duplicate entries
 			List<File> additionalFiles = new ArrayList<File>(
 					Arrays.asList(computeAdditionalFiles()));
-			additionalFiles.removeAll(Arrays.asList(templateFiles));
+			if (templateFiles != null)
+				additionalFiles.removeAll(Arrays.asList(templateFiles));
 			additionalFiles.removeAll(Arrays.asList(binFiles));
 			additionalFiles.removeAll(classpathEntryFiles);
 			additionalFiles.remove(descriptorFile);
@@ -268,6 +276,8 @@ public class PluggablePluginProjectPackager {
 					IPath path = JavaCore.getResolvedVariablePath(entry
 							.getPath());
 					classpath += path.toOSString() + File.pathSeparator;
+				} else {
+					System.out.println();
 				}
 			}
 
@@ -277,10 +287,13 @@ public class PluggablePluginProjectPackager {
 						+ entry.getRelativePath() + File.pathSeparator;
 			}
 
-			// Finally, add the TS-specific jars at the end
-			String tsApiJar = JavaCore.getClasspathVariable(
-					ITigerstripeConstants.EXTERNALAPI_LIB).toPortableString();
-			classpath += tsApiJar + File.pathSeparator;
+			// Finally, add the TS-specific jars and all its dependencies at the
+			// end
+			Set<IPath> pathes = collectBundlesJarPathes();
+			for (IPath p : pathes) {
+				classpath += p.toOSString() + File.pathSeparator;
+			}
+
 			String equinoxJar = JavaCore.getClasspathVariable(
 					ITigerstripeConstants.EQUINOX_COMMON).toPortableString();
 			classpath += equinoxJar + File.pathSeparator;
@@ -330,6 +343,50 @@ public class PluggablePluginProjectPackager {
 				BasePlugin.log(s);
 			}
 		}
+	}
+
+	private Set<IPath> collectBundlesJarPathes() {
+		Set<IPath> pathes = new HashSet<IPath>();
+		State state = Platform.getPlatformAdmin().getState();
+		Bundle bundle = Platform.getBundle(BasePlugin.PLUGIN_ID);
+		doCollectBundlesJarPathes(state, bundle, pathes);
+		return pathes;
+	}
+
+	private void doCollectBundlesJarPathes(State state, Bundle bundle,
+			Set<IPath> pathes) {
+		pathes.add(getBundleJarPath(bundle));
+		BundleDescription[] bundles = state
+				.getBundles(bundle.getSymbolicName());
+		BundleDescription description = bundles[0];
+		BundleSpecification[] requiredBundles = description
+				.getRequiredBundles();
+		for (BundleSpecification b : requiredBundles) {
+			doCollectBundlesJarPathes(state, Platform.getBundle(b.getName()),
+					pathes);
+		}
+	}
+
+	private IPath getBundleJarPath(Bundle b) {
+		try {
+			File bFile = FileLocator.getBundleFile(b);
+			if (bFile.getName().endsWith(".jar")) {
+				return (new Path(bFile.getAbsolutePath())).makeAbsolute();
+			} else {
+				File result;
+				File binFile = new File(bFile, "bin");
+				if (binFile.exists()) {
+					result = binFile;
+				} else {
+					result = bFile;
+				}
+				return new Path(result.getAbsolutePath()).makeAbsolute();
+
+			}
+		} catch (IOException e) {
+			BasePlugin.log(e);
+		}
+		return new Path("unknown_location_for_" + b.getSymbolicName());
 	}
 
 }

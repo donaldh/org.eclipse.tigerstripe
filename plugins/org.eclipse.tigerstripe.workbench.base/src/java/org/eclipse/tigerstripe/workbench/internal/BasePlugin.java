@@ -37,7 +37,7 @@ import org.osgi.framework.BundleContext;
 
 public class BasePlugin extends Plugin {
 
-	public final static String PLUGIN_ID = "org.eclipse.tigerstripe.eclipse.BasePlugin";
+	public final static String PLUGIN_ID = "org.eclipse.tigerstripe.workbench.base";
 
 	// The shared instance.
 	private static BasePlugin plugin;
