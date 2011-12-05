@@ -41,7 +41,7 @@ public class SDKEditorInput implements IEditorInput {
 
 	public String getToolTipText() {
 		// TODO Auto-generated method stub
-		return "Review and update the configuration elements for Tigerstipe";
+		return "Review and update the configuration elements for Tigerstripe";
 	}
 
 	public Object getAdapter(Class adapter) {

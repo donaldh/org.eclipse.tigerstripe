@@ -65,7 +65,7 @@ public class BasePlugin extends Plugin {
 
 		extensionPointRegistered();
 
-		new WorkspaceJob("Tigerstipe content refresh") {
+		new WorkspaceJob("Tigerstripe content refresh") {
 
 			@Override
 			public IStatus runInWorkspace(IProgressMonitor monitor)
