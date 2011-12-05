@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -69,8 +70,6 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 		IAnnotationListener {
 
-	public static int MASTER_TABLE_COMPONENT_WIDTH = 250;
-
 	private TableViewer viewer;
 	private Text description;
 	private Composite detailsComposite;
@@ -102,7 +101,7 @@ public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
 
-		sashForm.setWeights(new int[] { 1, 2 });
+		sashForm.setWeights(new int[] { 1, 1 });
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -132,11 +131,11 @@ public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 		viewer = new TableViewer(table);
 		table.setEnabled(!this.isReadonly());
 		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.widthHint = MASTER_TABLE_COMPONENT_WIDTH;
+		gd.widthHint = 50;
 		table.setLayoutData(gd);
 
 		Composite buttonClient = toolkit.createComposite(sectionClient);
-		buttonClient.setLayoutData(new GridData(GridData.FILL));
+		buttonClient.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		buttonClient.setLayout(TigerstripeLayoutFactory
 				.createButtonsGridLayout());
 
@@ -197,10 +196,8 @@ public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 				Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
 				
 				if (selected == null) {
-					setDetailsPartVisibility(false);
 					description.setText("");
 				} else {
-					setDetailsPartVisibility(true);
 					Annotation ann = (Annotation) selected;
 					AnnotationType type = manager().getType(ann);
 					description.setText(type.getDescription());
@@ -247,39 +244,15 @@ public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 		label.setText("Description:");
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		description = new Text(detailsComposite, SWT.MULTI
-				| SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
+				| SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		description.setBackground(parent.getBackground());
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.widthHint = 350;
-		gd.heightHint = 50;
-		gd.grabExcessHorizontalSpace = true;
-		gd.grabExcessVerticalSpace = true;
-		description.setLayoutData(gd);
+		GridDataFactory.fillDefaults().hint(50, 50).applyTo(description);
 		
-		setVisibleRecursive(detailsComposite, false);
-
-		toolkit.paintBordersFor(detailsComposite);
 		section.setClient(detailsComposite);
 	}
 
 	private static IAnnotationManager manager() {
 		return AnnotationPlugin.getManager();
-	}
-	
-	private void setDetailsPartVisibility(boolean visible) {
-		if (detailsComposite.isVisible() != visible) {
-			setVisibleRecursive(detailsComposite, visible);
-		}
-	}
-
-	private void setVisibleRecursive(Control control, boolean visible) {
-		control.setVisible(visible);
-
-		if (control instanceof Composite) {
-			for (Control subControl : ((Composite) control).getChildren()) {
-				setVisibleRecursive(subControl, visible);
-			}
-		}
 	}
 
 	public void annotationAdded(Annotation annotation) {
