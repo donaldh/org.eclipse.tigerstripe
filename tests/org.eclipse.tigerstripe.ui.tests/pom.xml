@@ -30,25 +30,28 @@
 					<plugin>
 						<groupId>com.xored.q7</groupId>
 						<artifactId>q7-maven-plugin</artifactId>
-						<version>${q7version}</version>
+						<version>${q7-maven-version}</version>
 						<extensions>true</extensions>
 						<configuration>
 							<aut>
 								<explicit>../../releng/org.eclipse.tigerstripe.rcp/target/products/org.eclipse.tigerstripe.rcp-${osgi.os}.${osgi.ws}.${osgi.arch}.zip</explicit>
-								<injections>
+								<vmArgs>
+                                  <vmArg>-Xms128m</vmArg>
+                                  <vmArg>-Xmx512m</vmArg>
+                                  <vmArg>-XX:MaxPermSize=128M</vmArg>
+                                </vmArgs>
+                                <!--injections>
 									<injection>
 										<site>${tigerstripe.ecl.update.site}</site>
 									</injection>
-								</injections>
+								</injections -->
 							</aut>
 							<q7>
-								<version>${q7version}</version>
+								<version>${q7-runner-version}</version>
+                                <licenseFile>../q7runner.l9</licenseFile>
 							</q7>
 							<testOptions>
-								<vmArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</vmArgs>
-								<execTimeout>120min</execTimeout>
-								<!-- q7 1.0.0 version's format <vmArgs>-Xms128m -Xmx512m -XX:PermSize=128M 
-									-XX:MaxPermSize=512M</vmArgs> <execTimeout>7200</execTimeout> -->
+								<execTimeout>7200</execTimeout>
 							</testOptions>
 						</configuration>
 					</plugin>
@@ -67,8 +70,7 @@
 			</activation>
 
 			<properties>
-	        	<q7-client-version>1.1.1-RC1</q7-client-version>
-	        	<q7-maven-version>1.1.1</q7-maven-version>
+	        	<q7-maven-version>1.1.2</q7-maven-version>
 			</properties>
 
 			<build>
@@ -81,13 +83,18 @@
 						<configuration>
 							<aut>
 								<uri>http://maven.xored.com/nexus/content/repositories/snapshots/org/eclipse/tigerstripe/org.eclipse.tigerstripe.rcp/0.7.0-SNAPSHOT/org.eclipse.tigerstripe.rcp-0.7.0-SNAPSHOT.zip</uri>
+								<injections>
+									<injection>
+										<site>http://download.xored.com/q7/${q7-maven-version}/runtime/</site>
+									</injection>
+								</injections>
 							</aut>	
 							<q7server>
 								<host>192.168.2.226</host>
 								<port>7504</port>
 							</q7server>
 							<q7client>
-								<version>${q7-client-version}</version>
+								<version>${q7-maven-version}</version>
 							</q7client>
 							<testOptions>
 								<execTimeout>18000</execTimeout>
@@ -117,6 +124,7 @@
 	</profiles>
 
 	<properties>
-		<q7version>1.0.0-RC3</q7version>
+		<q7-maven-version>1.1.2</q7-maven-version>
+		<q7-runner-version>1.1.2</q7-runner-version>
 	</properties>
 </project>
