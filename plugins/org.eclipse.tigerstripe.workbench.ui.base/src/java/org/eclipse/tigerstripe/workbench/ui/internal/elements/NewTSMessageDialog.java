@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.elements;
 
+import static org.eclipse.swt.layout.GridData.FILL_BOTH;
+import static org.eclipse.swt.layout.GridData.HORIZONTAL_ALIGN_BEGINNING;
+import static org.eclipse.swt.layout.GridData.VERTICAL_ALIGN_CENTER;
+
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -20,13 +24,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 
 public class NewTSMessageDialog extends Dialog {
 
 	private String titleString;
 	private String description;
-	private MyDialogMessageArea messageArea;
+	protected MyDialogMessageArea messageArea;
 
 	public NewTSMessageDialog(Shell parent, String titleString,
 			String description) {
@@ -88,11 +93,12 @@ public class NewTSMessageDialog extends Dialog {
 				composite, nColumns, convertHeightInCharsToPixels(1));
 	}
 
-	private class MyDialogMessageArea {
-		private Composite messageComposite;
-		private CLabel titleLabel;
-		private CLabel messageLabel;
-
+	protected class MyDialogMessageArea {
+		public Composite messageComposite;
+		public CLabel titleLabel;
+		public CLabel messageLabel;
+		public Link link;
+		
 		public void createContents(Composite parent) {
 			// Title label
 			titleLabel = new CLabel(parent, SWT.NONE);
@@ -110,9 +116,10 @@ public class NewTSMessageDialog extends Dialog {
 			messageLabel = new CLabel(messageComposite, SWT.NONE);
 			messageLabel.setFont(JFaceResources.getDialogFont());
 			messageLabel.setImage(null);
-			GridData textData = new GridData(GridData.GRAB_HORIZONTAL
-					| GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER);
+			GridData textData = new GridData(VERTICAL_ALIGN_CENTER);
 			messageLabel.setLayoutData(textData);
+			link = new Link(messageComposite, SWT.NONE);
+			link.setLayoutData(new GridData(HORIZONTAL_ALIGN_BEGINNING | VERTICAL_ALIGN_CENTER));
 		}
 
 		public void showTitle(String titleMessage) {

@@ -12,11 +12,14 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertiesSection;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
+import org.eclipse.tigerstripe.annotation.ui.internal.view.property.PropertyTree.SelectionHandler;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
@@ -41,7 +44,17 @@ public class PropertiesSection extends EPropertiesSection {
 		Composite composite = getWidgetFactory()
 				.createFlatFormComposite(parent);
 
-		tree = new PropertyTree();
+		tree = new PropertyTree(new SelectionHandler() {
+			
+			public void setNull() {
+				PropertiesSelectionManager.getInstance().setSelection(null);	
+			}
+			
+			public void set(EProperty object, TreeViewer viewer, boolean readOnly) {
+				PropertiesSelectionManager.getInstance().setSelection(
+						new PropertySelection(object, viewer, readOnly));
+			}
+		});
 		Control control = tree.create(composite);
 
 		FormData data = new FormData();

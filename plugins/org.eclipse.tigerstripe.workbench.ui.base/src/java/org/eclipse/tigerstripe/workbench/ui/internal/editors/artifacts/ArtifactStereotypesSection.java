@@ -62,7 +62,6 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		FormToolkit toolkit = getToolkit();
 
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());

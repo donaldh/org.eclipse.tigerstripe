@@ -58,7 +58,7 @@ import org.eclipse.tigerstripe.annotation.internal.core.IAnnotationFilesRecogniz
  * 3. Implementing the {@link Searcher} interface and do search in all annotations using {@link Filter}
  */
 public class Storage implements IResourceChangeListener, ISchedulingRule,
-		AutosaveManager, ChangeListener, Searcher {
+		AutosaveManager, Searcher {
 
 	private final ResourceSet resourceSet;
 	private final IAnnotationFilesRecognizer annFilesRecognizer;
@@ -92,12 +92,11 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		saveExecutor = new SaveExecutor(this, options);
 		
 		resourceSet.eAdapters().add(resourceSetAdapter);
-		addListener(this);
 		
 		scanResources();
 	}
 
-	public void onChange(List<Notification> notifications) {
+	public void saveResourceIfNeed(List<Notification> notifications) {
 		
 		Set<Resource> toSave = new HashSet<Resource>();
 			for (Notification n : notifications) {
@@ -128,8 +127,12 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 
 	public void checkpoint() {
+		checkpoint(true);
+	}
+	
+	void checkpoint(boolean saveResource) {
 		if (!disableNotifications && !changes.isEmpty()) {
-			handleChanges();
+			handleChanges(saveResource);
 		}
 		changes.clear();
 		disableNotifications = false;
@@ -145,10 +148,13 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		listeners.remove(listener);
 	}
 	
-	private void handleChanges() {
-		List<Notification> notfications = unmodifiableList(new ArrayList<Notification>(changes)); 
+	private void handleChanges(boolean saveResources) {
+		List<Notification> notifications = unmodifiableList(new ArrayList<Notification>(changes)); 
 		for (ChangeListener	l : listeners) {
-			l.onChange(notfications);
+			l.onChange(notifications);
+		}
+		if (saveResources) {
+			saveResourceIfNeed(notifications);
 		}
 	}
 
@@ -159,7 +165,6 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				checkpoint();
-				disableNotifications();
 				try {
 					for (IProject proj : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 						if (!proj.exists() || !proj.isOpen()) {
@@ -185,7 +190,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 						}
 					}
 				} finally {
-					checkpoint();
+					checkpoint(false);
 				}
 				return Status.OK_STATUS;
 			}

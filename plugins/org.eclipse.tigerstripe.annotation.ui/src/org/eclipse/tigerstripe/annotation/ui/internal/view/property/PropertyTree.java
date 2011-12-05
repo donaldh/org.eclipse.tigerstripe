@@ -57,7 +57,19 @@ public class PropertyTree {
 	// Cell editor support.
 	private final int columnToEdit = 1;
 	private boolean readOnly;
+	private final SelectionHandler handler;
 
+	public static interface SelectionHandler {
+		
+		void setNull();
+		
+		void set(EProperty object, TreeViewer viewer, boolean readOnly);
+	}
+	
+	public PropertyTree(SelectionHandler handler) {
+		this.handler = handler;
+	}
+	
 	public Control create(Composite parent) {
 		tree = new Tree(parent, SWT.FULL_SELECTION | SWT.SINGLE
 				| SWT.HIDE_SELECTION | SWT.BORDER);
@@ -87,7 +99,7 @@ public class PropertyTree {
 	}
 
 	protected void setNullSelection() {
-		PropertiesSelectionManager.getInstance().setSelection(null);
+		handler.setNull();
 	}
 
 	/**
@@ -145,11 +157,7 @@ public class PropertyTree {
 						Object object = it.next();
 						if (object instanceof EProperty) {
 							tree.setToolTipText(((EProperty) object).getDescription());
-							PropertiesSelectionManager.getInstance()
-									.setSelection(
-											new PropertySelection(
-													(EProperty) object, viewer,
-													readOnly));
+							handler.set((EProperty) object, viewer, readOnly);
 							return;
 						}
 					}

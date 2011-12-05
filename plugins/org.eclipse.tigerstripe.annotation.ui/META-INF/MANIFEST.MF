@@ -23,6 +23,7 @@ Export-Package: org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.tigerstripe.annotation.ui.core.properties,
  org.eclipse.tigerstripe.annotation.ui.core.view,
  org.eclipse.tigerstripe.annotation.ui.internal.actions,
+ org.eclipse.tigerstripe.annotation.ui.internal.view.property,
  org.eclipse.tigerstripe.annotation.ui.util,
  org.eclipse.tigerstripe.annotation.ui.wizard
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
