@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.NotificationArtifactCanonicalEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.NotificationArtifactGraphicalNodeEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.NotificationArtifactItemSemanticEditPolicy;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.OpenInEditorEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ArtifactPropertyChangeHandler;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
@@ -108,6 +109,8 @@ public class NotificationArtifactEditPart extends
 		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
 				new NotificationArtifactCanonicalEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
+		installEditPolicy(EditPolicyRoles.OPEN_ROLE,
+				new OpenInEditorEditPolicy());
 	}
 
 	/**

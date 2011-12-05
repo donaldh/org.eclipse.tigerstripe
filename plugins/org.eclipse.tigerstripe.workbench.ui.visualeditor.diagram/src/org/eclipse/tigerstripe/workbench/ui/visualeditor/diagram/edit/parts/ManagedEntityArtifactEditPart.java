@@ -33,9 +33,11 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.AssociationOpenEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.ManagedEntityArtifactCanonicalEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.ManagedEntityArtifactGraphicalNodeEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.ManagedEntityArtifactItemSemanticEditPolicy;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.OpenInEditorEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ArtifactPropertyChangeHandler;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
@@ -116,8 +118,12 @@ public class ManagedEntityArtifactEditPart extends
 		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
 				new ManagedEntityArtifactCanonicalEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
+		installEditPolicy(EditPolicyRoles.OPEN_ROLE,
+				new OpenInEditorEditPolicy());
 	}
 
+	
+	
 	/**
 	 * @generated
 	 */

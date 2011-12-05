@@ -60,6 +60,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.gmf.IconCachingCompartmentE
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.InitialDiagramPrefs;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.LiteralItemSemanticEditPolicy;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.OpenInEditorEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextNonResizableEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextSelectionEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
@@ -129,6 +130,8 @@ public class LiteralEditPart extends IconCachingCompartmentEditPart implements
 				new ListItemComponentEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new LabelDirectEditPolicy());
+		installEditPolicy(EditPolicyRoles.OPEN_ROLE,
+				new OpenInEditorEditPolicy());
 	}
 
 	/**

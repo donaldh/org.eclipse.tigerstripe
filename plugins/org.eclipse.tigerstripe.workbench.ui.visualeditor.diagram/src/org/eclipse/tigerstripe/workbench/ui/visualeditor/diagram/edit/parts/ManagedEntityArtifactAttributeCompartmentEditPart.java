@@ -23,6 +23,7 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.ManagedEntityArtifactAttributeCompartmentCanonicalEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.ManagedEntityArtifactAttributeCompartmentItemSemanticEditPolicy;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.OpenInEditorEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTypedElementDragDropEditPolicy;
 
 /**
@@ -88,6 +89,8 @@ public class ManagedEntityArtifactAttributeCompartmentEditPart extends
 		installEditPolicy(
 				EditPolicyRoles.CANONICAL_ROLE,
 				new ManagedEntityArtifactAttributeCompartmentCanonicalEditPolicy());
+		installEditPolicy(EditPolicyRoles.OPEN_ROLE,
+				new OpenInEditorEditPolicy());
 	}
 
 	@Override

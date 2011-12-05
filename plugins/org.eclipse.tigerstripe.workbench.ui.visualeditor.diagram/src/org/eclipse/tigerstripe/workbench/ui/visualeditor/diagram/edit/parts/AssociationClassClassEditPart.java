@@ -46,6 +46,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.A
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.AssociationClassClassGraphicalNodeEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.AssociationClassClassItemSemanticEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.MapCanonicalEditPolicy;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.OpenInEditorEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ArtifactPropertyChangeHandler;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
@@ -126,6 +127,8 @@ public class AssociationClassClassEditPart extends AdaptableTigerstripeShapeNode
 		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
 				new AssociationClassClassCanonicalEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
+		installEditPolicy(EditPolicyRoles.OPEN_ROLE,
+				new OpenInEditorEditPolicy());
 	}
 
 	/**

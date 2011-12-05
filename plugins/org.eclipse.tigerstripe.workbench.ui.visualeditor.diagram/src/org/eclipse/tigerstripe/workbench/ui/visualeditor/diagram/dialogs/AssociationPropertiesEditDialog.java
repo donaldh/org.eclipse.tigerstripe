@@ -62,6 +62,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.ModelElementAnnotationsHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.NewTSMessageDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -70,6 +71,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Visibility;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 
 public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
@@ -174,6 +176,18 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		Composite composite = new Composite(area, SWT.NONE);
 		initDialog();
 		createMessageArea(composite, 8);
+		messageArea.link.setText("<a>open in editor</a>");
+		messageArea.link.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (iAssociation != null) {
+					close();
+					TSOpenAction.openEditor(iAssociation, PlatformUI
+							.getWorkbench().getActiveWorkbenchWindow()
+							.getActivePage());
+				}
+			}
+		});
 		createAssociationEditControl(composite);
 		return area;
 	}
