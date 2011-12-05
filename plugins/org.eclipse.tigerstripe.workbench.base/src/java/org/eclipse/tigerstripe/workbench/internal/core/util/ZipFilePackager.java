@@ -16,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -29,9 +31,11 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
  * @since 1.2
  */
 public class ZipFilePackager {
-	private ZipOutputStream outputStream;
+	private final ZipOutputStream outputStream;
 
 	private boolean useCompression = true;
+
+	private final Set<String> zipped = new HashSet<String>();
 
 	/**
 	 * Create an instance of this class.
@@ -94,12 +98,12 @@ public class ZipFilePackager {
 		for (File file : files) {
 			String targetPath = file.getAbsolutePath().replace(cutOffPath, "");
 			if (file.isFile()) {
-				write(file, (baseDir + targetPath).replace(File.separatorChar,
-						'/'));
+				write(file,
+						(baseDir + targetPath).replace(File.separatorChar, '/'));
 			} else {
 				File[] content = file.listFiles();
-				write(content, (baseDir + targetPath).replace(
-						File.separatorChar, '/'));
+				write(content,
+						(baseDir + targetPath).replace(File.separatorChar, '/'));
 			}
 		}
 	}
@@ -183,6 +187,9 @@ public class ZipFilePackager {
 	 */
 	public void write(File resource, String destinationPath)
 			throws IOException, TigerstripeException {
+		// Check if a file with the same destination path was already added
+		if (!zipped.add(destinationPath))
+			return;
 		ZipEntry newEntry = new ZipEntry(destinationPath);
 		write(newEntry, resource);
 	}

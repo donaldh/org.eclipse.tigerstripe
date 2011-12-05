@@ -23,11 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -37,9 +35,6 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.batch.Main;
-import org.eclipse.osgi.service.resolver.BundleDescription;
-import org.eclipse.osgi.service.resolver.BundleSpecification;
-import org.eclipse.osgi.service.resolver.State;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -47,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
+import org.eclipse.tigerstripe.workbench.utils.OSGIUtils;
 import org.osgi.framework.Bundle;
 
 /**
@@ -266,37 +262,7 @@ public class PluggablePluginProjectPackager {
 			// Add all the libraries on the classpath
 			// The user may have added all kinds of JARs onto the classpath,
 			// these need to be there.
-			String classpath = "";
-			IClasspathEntry[] classpathEntries = jProject.getRawClasspath();
-			for (IClasspathEntry entry : classpathEntries) {
-				if (entry.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
-					IPath path = entry.getPath();
-					classpath += path.toOSString() + File.pathSeparator;
-				} else if (entry.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
-					IPath path = JavaCore.getResolvedVariablePath(entry
-							.getPath());
-					classpath += path.toOSString() + File.pathSeparator;
-				} else {
-					System.out.println();
-				}
-			}
-
-			// All the runtime classpath entries of the project
-			for (IPluginClasspathEntry entry : descriptor.getClasspathEntries()) {
-				classpath += descriptor.getBaseDir() + File.separator
-						+ entry.getRelativePath() + File.pathSeparator;
-			}
-
-			// Finally, add the TS-specific jars and all its dependencies at the
-			// end
-			Set<IPath> pathes = collectBundlesJarPathes();
-			for (IPath p : pathes) {
-				classpath += p.toOSString() + File.pathSeparator;
-			}
-
-			String equinoxJar = JavaCore.getClasspathVariable(
-					ITigerstripeConstants.EQUINOX_COMMON).toPortableString();
-			classpath += equinoxJar + File.pathSeparator;
+			String classpath = getProjectClasspath(jProject);
 
 			if (classpath.length() != 0) {
 				compilerArgs.add("-classpath");
@@ -345,48 +311,60 @@ public class PluggablePluginProjectPackager {
 		}
 	}
 
-	private Set<IPath> collectBundlesJarPathes() {
-		Set<IPath> pathes = new HashSet<IPath>();
-		State state = Platform.getPlatformAdmin().getState();
-		Bundle bundle = Platform.getBundle(BasePlugin.PLUGIN_ID);
-		doCollectBundlesJarPathes(state, bundle, pathes);
-		return pathes;
-	}
-
-	private void doCollectBundlesJarPathes(State state, Bundle bundle,
-			Set<IPath> pathes) {
-		pathes.add(getBundleJarPath(bundle));
-		BundleDescription[] bundles = state
-				.getBundles(bundle.getSymbolicName());
-		BundleDescription description = bundles[0];
-		BundleSpecification[] requiredBundles = description
-				.getRequiredBundles();
-		for (BundleSpecification b : requiredBundles) {
-			doCollectBundlesJarPathes(state, Platform.getBundle(b.getName()),
-					pathes);
-		}
-	}
-
-	private IPath getBundleJarPath(Bundle b) {
-		try {
-			File bFile = FileLocator.getBundleFile(b);
-			if (bFile.getName().endsWith(".jar")) {
-				return (new Path(bFile.getAbsolutePath())).makeAbsolute();
-			} else {
-				File result;
-				File binFile = new File(bFile, "bin");
-				if (binFile.exists()) {
-					result = binFile;
-				} else {
-					result = bFile;
-				}
-				return new Path(result.getAbsolutePath()).makeAbsolute();
-
+	private String getProjectClasspath(IJavaProject jProject)
+			throws JavaModelException {
+		Set<String> classpathEntries = new HashSet<String>();
+		IClasspathEntry[] projectClasspathEntries = jProject.getRawClasspath();
+		for (IClasspathEntry entry : projectClasspathEntries) {
+			if (entry.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
+				IPath path = entry.getPath();
+				classpathEntries.add(path.toOSString());
+			} else if (entry.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
+				IPath path = JavaCore.getResolvedVariablePath(entry.getPath());
+				classpathEntries.add(path.toOSString());
 			}
-		} catch (IOException e) {
-			BasePlugin.log(e);
 		}
-		return new Path("unknown_location_for_" + b.getSymbolicName());
+
+		// All the runtime classpath entries of the project
+		for (IPluginClasspathEntry entry : descriptor.getClasspathEntries()) {
+			classpathEntries.add(descriptor.getBaseDir() + File.separator
+					+ entry.getRelativePath());
+		}
+
+		// Finally, add the TS-specific jars and all its dependencies at the
+		// end
+		classpathEntries.addAll(getTigerstripeAPIClasspathEntries());
+
+		String equinoxJar = JavaCore.getClasspathVariable(
+				ITigerstripeConstants.EQUINOX_COMMON).toPortableString();
+		classpathEntries.add(equinoxJar);
+
+		StringBuilder classpath = new StringBuilder();
+		for (String entry : classpathEntries) {
+			if (classpath.length() > 0)
+				classpath.append(File.pathSeparator);
+			classpath.append(entry);
+		}
+		return classpath.toString();
+	}
+
+	private Set<String> tigerstripeAPIJars;
+
+	private Set<String> getTigerstripeAPIClasspathEntries() {
+		if (tigerstripeAPIJars == null) {
+			tigerstripeAPIJars = new HashSet<String>();
+			Bundle bundle = Platform.getBundle(BasePlugin.PLUGIN_ID);
+			IPath path = OSGIUtils.getBundleJarPath(bundle);
+			tigerstripeAPIJars.add(path.toOSString());
+			Set<String> allRequiredBundles = OSGIUtils
+					.getAllRequiredBundles(BasePlugin.PLUGIN_ID);
+			for (String bundleId : allRequiredBundles) {
+				bundle = Platform.getBundle(bundleId);
+				path = OSGIUtils.getBundleJarPath(bundle);
+				tigerstripeAPIJars.add(path.toOSString());
+			}
+		}
+		return tigerstripeAPIJars;
 	}
 
 }
