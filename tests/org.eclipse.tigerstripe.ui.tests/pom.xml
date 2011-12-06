@@ -48,7 +48,7 @@
 							</aut>
 							<q7>
 								<version>${q7-runner-version}</version>
-                                <licenseFile>../q7runner.l9</licenseFile>
+                                <licenseFile>${project.basedir}/../q7runner.l9</licenseFile>
 							</q7>
 							<testOptions>
 								<execTimeout>7200</execTimeout>
