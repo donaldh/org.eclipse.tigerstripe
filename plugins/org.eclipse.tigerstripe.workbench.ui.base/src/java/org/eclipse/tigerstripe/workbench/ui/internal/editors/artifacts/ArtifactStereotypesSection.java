@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -20,6 +19,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -38,6 +38,8 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
  * @author Alena Repina
  */
 public class ArtifactStereotypesSection extends ArtifactSectionPart {
+
+	public static int MASTER_TABLE_COMPONENT_WIDTH = 250;
 
 	private StereotypeSectionManager stereotypeMgr;
 
@@ -60,6 +62,7 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		FormToolkit toolkit = getToolkit();
 
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.colspan = 2;
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
@@ -72,7 +75,7 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
 
-		sashForm.setWeights(new int[] { 1, 1 });
+		sashForm.setWeights(new int[] { 1, 2 });
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -92,11 +95,11 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		annTable = toolkit.createTable(sectionClient, SWT.BORDER | SWT.FLAT);
 		annTable.setEnabled(!this.isReadonly());
 		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.widthHint = 50;
+		gd.widthHint = MASTER_TABLE_COMPONENT_WIDTH;
 		annTable.setLayoutData(gd);
 
 		Composite buttonClient = toolkit.createComposite(sectionClient);
-		buttonClient.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+		buttonClient.setLayoutData(new GridData(GridData.FILL));
 		buttonClient.setLayout(TigerstripeLayoutFactory
 				.createButtonsGridLayout());
 
@@ -147,10 +150,16 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		label.setText("Description:");
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		description = new Text(detailsComposite, SWT.MULTI
-				| SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+				| SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
 		description.setBackground(parent.getBackground());
-		GridDataFactory.fillDefaults().hint(50, 50).applyTo(description);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = 350;
+		gd.heightHint = 50;
+		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = true;
+		description.setLayoutData(gd);
 		
+		setVisibleRecursive(detailsComposite, false);
 
 		annTable.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -159,6 +168,7 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 			}
 		});
 
+		toolkit.paintBordersFor(detailsComposite);
 		section.setClient(detailsComposite);
 	}
 
@@ -174,8 +184,27 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 					result = stereotype.getDescription();
 				}
 			}
-		} 
+			setDetailsPartVisibility(true);
+		} else {
+			setDetailsPartVisibility(false);
+		}
 		description.setText(result);
+	}
+
+	private void setDetailsPartVisibility(boolean visible) {
+		if (detailsComposite.isVisible() != visible) {
+			setVisibleRecursive(detailsComposite, visible);
+		}
+	}
+
+	private void setVisibleRecursive(Control control, boolean visible) {
+		control.setVisible(visible);
+
+		if (control instanceof Composite) {
+			for (Control subControl : ((Composite) control).getChildren()) {
+				setVisibleRecursive(subControl, visible);
+			}
+		}
 	}
 
 	@Override

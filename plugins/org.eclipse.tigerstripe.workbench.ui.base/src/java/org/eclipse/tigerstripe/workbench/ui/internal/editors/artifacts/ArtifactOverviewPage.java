@@ -136,21 +136,15 @@ public class ArtifactOverviewPage extends TigerstripeFormPage implements IResour
 				labelProvider, contentProvider);
 		managedForm.addPart(part);
 
-		
 		composite = toolkit.createComposite(body);
 		composite.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(
-				2, true));
+				2, false));
 		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		
-		part = new ArtifactAnnotationSection(this, composite, toolkit,
-				labelProvider, contentProvider);
-		managedForm.addPart(part);
 
 		part = new ArtifactStereotypesSection(this, composite, toolkit,
 				labelProvider, contentProvider);
 		managedForm.addPart(part);
-		
-		
+
 		composite = toolkit.createComposite(body);
 		composite.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(
 				2, false));
