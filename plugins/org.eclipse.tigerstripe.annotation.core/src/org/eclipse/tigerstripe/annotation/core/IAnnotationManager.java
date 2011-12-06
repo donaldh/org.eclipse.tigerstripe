@@ -354,5 +354,5 @@ public interface IAnnotationManager {
 	/**
 	 * Disables notifications till transaction not finished
 	 */
-	void disableNotifications();
+	void silentMode();
 }

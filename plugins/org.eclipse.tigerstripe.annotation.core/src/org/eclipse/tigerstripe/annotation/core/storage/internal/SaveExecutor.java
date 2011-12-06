@@ -63,7 +63,7 @@ public class SaveExecutor {
 				}
 
 				storage.checkpoint();
-				storage.disableNotifications();
+				storage.silentMode();
 				try {
 					for (Resource resource : resources) {
 	

@@ -961,7 +961,7 @@ public class AnnotationManager implements IAnnotationManager {
 		return storage.getResourceSet();
 	}
 
-	public void disableNotifications() {
-		storage.disableNotifications();
+	public void silentMode() {
+		storage.silentMode();
 	}
 }

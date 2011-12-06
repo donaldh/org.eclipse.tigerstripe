@@ -65,7 +65,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	private final SaveExecutor saveExecutor;
 	private final Map<Object, Object> options;
 	private final List<Notification> changes = new CopyOnWriteArrayList<Notification>();
-	private boolean disableNotifications = false;
+	private boolean silentMode = false;
 	
 	private final Adapter resourceSetAdapter = new EContentAdapter() {
 		
@@ -130,12 +130,15 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		checkpoint(true);
 	}
 	
-	void checkpoint(boolean saveResource) {
-		if (!disableNotifications && !changes.isEmpty()) {
-			handleChanges(saveResource);
+	void checkpoint(boolean saveResources) {
+		if (!silentMode && !changes.isEmpty()) {
+			notifyAboutChanges();
+			if (saveResources) {
+				saveResourceIfNeed(changes);
+			}
 		}
 		changes.clear();
-		disableNotifications = false;
+		silentMode = false;
 	}
 	
 	private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
@@ -148,13 +151,10 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		listeners.remove(listener);
 	}
 	
-	private void handleChanges(boolean saveResources) {
-		List<Notification> notifications = unmodifiableList(new ArrayList<Notification>(changes)); 
+	private void notifyAboutChanges() {
+		List<Notification> notifications = unmodifiableList(changes);
 		for (ChangeListener	l : listeners) {
 			l.onChange(notifications);
-		}
-		if (saveResources) {
-			saveResourceIfNeed(notifications);
 		}
 	}
 
@@ -268,7 +268,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		if (!added.isEmpty() || !changed.isEmpty() || !removed.isEmpty()
 				|| !removedProjects.isEmpty()) {
 				
-			disableNotifications();
+			silentMode();
 			try {
 				for (IFile file : added) {
 					annotationFileWasAdded(file);
@@ -347,10 +347,10 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 
 	/**
-	 * Disables notifications till transiaction not finished
+	 * Disables autosave and notifications till transaction not finished
 	 */
-	public void disableNotifications() {
-		disableNotifications = true;
+	public void silentMode() {
+		silentMode = true;
 	}
 
 	private static boolean isSet(int flags, int mask) {

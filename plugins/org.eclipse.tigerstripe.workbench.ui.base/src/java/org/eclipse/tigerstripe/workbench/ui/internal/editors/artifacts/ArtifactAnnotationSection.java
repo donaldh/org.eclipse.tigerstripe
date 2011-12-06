@@ -364,7 +364,7 @@ public class ArtifactAnnotationSection extends ArtifactSectionPart implements
 		@Override
 		protected void cancelPressed() {
 			input.setContent(copy);
-			manager().disableNotifications();
+			manager().silentMode();
 			super.cancelPressed();
 		}
 		
