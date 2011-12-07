@@ -125,7 +125,7 @@
 
 	<properties>
 		<q7-maven-version>1.1.2</q7-maven-version>
-		<q7-client-version>1.1.1</q7-client-version>
+		<q7-client-version>1.1.1-RC1</q7-client-version>
 		<q7-runner-version>1.1.2</q7-runner-version>
 	</properties>
 </project>
