@@ -52,13 +52,14 @@ import org.eclipse.tigerstripe.annotation.core.Searcher;
 import org.eclipse.tigerstripe.annotation.internal.core.IAnnotationFilesRecognizer;
 
 /**
- * This class responsible for 
- * 1. Synchronizing state between the eclipse workspace and ResourceSet state
- * 2. Listening changing in resource set and send save request if resources was changed
- * 3. Implementing the {@link Searcher} interface and do search in all annotations using {@link Filter}
+ * This class responsible for <br>
+ * <ul>
+ * <li>Synchronizing state between the eclipse workspace and ResourceSet state</li>
+ * <li>Listening changing in resource set and send save request if resources was changed</li>
+ * <li>Implementing the {@link Searcher} interface and do search in all annotations using {@link Filter}</li>
+ * </ul>
  */
-public class Storage implements IResourceChangeListener, ISchedulingRule,
-		AutosaveManager, Searcher {
+public class Storage implements IResourceChangeListener, ISchedulingRule, Searcher {
 
 	private static final boolean DEBUG = true;
 	
@@ -67,7 +68,8 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	private final SaveExecutor saveExecutor;
 	private final Map<Object, Object> options;
 	private final List<Notification> changes = new CopyOnWriteArrayList<Notification>();
-	private boolean silentMode = false;
+	private boolean notificationsMode = true;
+	private boolean autosaveMode = false;
 	
 	private final Adapter resourceSetAdapter = new EContentAdapter() {
 		
@@ -129,19 +131,18 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 
 	public void checkpoint() {
-		checkpoint(true);
-	}
-	
-	void checkpoint(boolean saveResources) {
 		debug("*** checkpoint ***");
-		if (!silentMode && !changes.isEmpty()) {
-			notifyAboutChanges();
-			if (saveResources) {
+		if (!changes.isEmpty()) {
+			if (notificationsMode) {
+				notifyAboutChanges();
+			}
+			if (autosaveMode) {
 				saveResourceIfNeed(changes);
 			}
 		}
 		changes.clear();
-		silentMode = false;
+		notificationsMode = true;
+		autosaveMode = true;
 	}
 	
 	private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
@@ -168,6 +169,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				checkpoint();
+				autosave(false);
 				try {
 					for (IProject proj : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 						if (!proj.exists() || !proj.isOpen()) {
@@ -193,7 +195,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 						}
 					}
 				} finally {
-					checkpoint(false);
+					checkpoint();
 				}
 				return Status.OK_STATUS;
 			}
@@ -271,7 +273,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		if (!added.isEmpty() || !changed.isEmpty() || !removed.isEmpty()
 				|| !removedProjects.isEmpty()) {
 				
-			silentMode();
+			autosave(false);
 			try {
 				for (IFile file : added) {
 					annotationFileWasAdded(file);
@@ -361,11 +363,24 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 
 	/**
-	 * Disables autosave and notifications till transaction not finished
+	 * Enables/Disables notifications till transaction not finished
 	 */
+	public void notifications(boolean mode) {
+		debug("Notifications Mode is %s", mode);
+		notificationsMode = mode;
+	}
+
+	/**
+	 * Enables/Disables autosave till transaction not finished
+	 */
+	public void autosave(boolean mode) {
+		debug("Autosave Mode is %s", mode);
+		autosaveMode = mode;
+	}
+	
 	public void silentMode() {
-		debug("Silent mode is ON");
-		silentMode = true;
+		notifications(false);
+		autosave(false);
 	}
 
 	private static boolean isSet(int flags, int mask) {
