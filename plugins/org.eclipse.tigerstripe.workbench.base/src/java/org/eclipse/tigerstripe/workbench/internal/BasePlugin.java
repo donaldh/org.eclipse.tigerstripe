@@ -29,13 +29,17 @@ import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.builder.ProjectInfo;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleEvent;
+import org.osgi.framework.BundleListener;
 
-public class BasePlugin extends Plugin {
+public class BasePlugin extends Plugin implements BundleListener {
 
 	public final static String PLUGIN_ID = "org.eclipse.tigerstripe.workbench.base";
 
@@ -60,46 +64,56 @@ public class BasePlugin extends Plugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		context.addBundleListener(this);
+	}
 
-		executePostInstallationActions(context);
-
-		extensionPointRegistered();
-
-		new WorkspaceJob("Tigerstripe content refresh") {
-
-			@Override
-			public IStatus runInWorkspace(IProgressMonitor monitor)
-					throws CoreException {
-				monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
-				for (final IProject project : ResourcesPlugin.getWorkspace()
-						.getRoot().getProjects()) {
-					try {
-						final IAbstractTigerstripeProject tsProject = TigerstripeCore
-								.findProject(project);
-						if (tsProject instanceof ITigerstripeModelProject) {
-							final ITigerstripeModelProject modelProject = (ITigerstripeModelProject) tsProject;
-							modelProject.getArtifactManagerSession().refresh(
-									null);
-						}
-					} catch (TigerstripeException te) {
-						getLog().log(
-								new Status(IStatus.ERROR, PLUGIN_ID, te
-										.getMessage(), te));
-					}
-				}
-
-				monitor.done();
-				return Status.OK_STATUS;
+	public void bundleChanged(BundleEvent event) {
+		
+		Bundle bundle = event.getBundle();
+		if (bundle.equals(plugin.getBundle()) && event.getType() == BundleEvent.STARTED) {
+			
+			try {
+				executePostInstallationActions(bundle.getBundleContext());
+			} catch (TigerstripeException e) {
+				log(e);
 			}
-		}.schedule();
+			extensionPointRegistered();
 
-		startWorkspaceListener();
+			WorkspaceJob job = new WorkspaceJob("Tigerstripe content refresh") {
+	
+				@Override
+				public IStatus runInWorkspace(IProgressMonitor monitor)
+						throws CoreException {
+					monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
+					for (final IProject project : ResourcesPlugin.getWorkspace()
+							.getRoot().getProjects()) {
+						
+						if (project.isOpen() && TigerstripeProjectNature.hasNature(project)) {
+							try {
+								final IAbstractTigerstripeProject tsProject = TigerstripeCore
+								.findProject(project);
+								if (tsProject instanceof ITigerstripeModelProject) {
+									final ITigerstripeModelProject modelProject = (ITigerstripeModelProject) tsProject;
+									modelProject.getArtifactManagerSession().refresh(
+											null);
+								}
+							} catch (TigerstripeException te) {
+								log(te);
+							}
+						}
+					}
+					monitor.done();
+					return Status.OK_STATUS;
+				}
+			};
+			job.schedule();
+			startWorkspaceListener();
+		}
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
-
 		stopWorkspaceListener();
 	}
 
@@ -298,5 +312,4 @@ public class BasePlugin extends Plugin {
 			}
 		}
 	}
-
 }

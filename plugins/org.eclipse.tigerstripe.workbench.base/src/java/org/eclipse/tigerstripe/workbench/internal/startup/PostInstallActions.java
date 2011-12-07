@@ -10,23 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.startup;
 
-import static org.eclipse.tigerstripe.workbench.internal.BasePlugin.PLUGIN_ID;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -89,20 +82,7 @@ public class PostInstallActions {
 
 				baseBundleRoot = findBaseBundleRoot(context);
 				workbenchFeatureVersion = findWorkbenchFeatureVersion(context);
-				Job job = new Job("Create Properties File For Headless") {
-					
-					@Override
-					protected IStatus run(IProgressMonitor monitor) {
-						try {
-							createPropertiesFileForHeadlessRun(context);
-							return Status.OK_STATUS;
-						} catch (TigerstripeException e) {
-							return new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e);
-						}
-					}
-				};
-				job.setPriority(Job.INTERACTIVE);
-				job.schedule();
+				createPropertiesFileForHeadlessRun(context);
 				
 				// checkForUpgrade(workbenchFeatureVersion);
 				

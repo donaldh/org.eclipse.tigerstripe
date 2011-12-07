@@ -60,6 +60,8 @@ import org.eclipse.tigerstripe.annotation.internal.core.IAnnotationFilesRecogniz
 public class Storage implements IResourceChangeListener, ISchedulingRule,
 		AutosaveManager, Searcher {
 
+	private static final boolean DEBUG = true;
+	
 	private final ResourceSet resourceSet;
 	private final IAnnotationFilesRecognizer annFilesRecognizer;
 	private final SaveExecutor saveExecutor;
@@ -131,6 +133,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 	
 	void checkpoint(boolean saveResources) {
+		debug("*** checkpoint ***");
 		if (!silentMode && !changes.isEmpty()) {
 			notifyAboutChanges();
 			if (saveResources) {
@@ -289,6 +292,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 	
 	private void projectWasRemoved(IProject proj) {
+		debug("Project was REMOVED %s", proj);
 		Iterator<Resource> it = getResourceSet().getResources().iterator();
 		while (it.hasNext()) {
 			Resource resource = it.next();
@@ -296,8 +300,8 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 			if (file == null) {
 				continue;
 			}
-			saveExecutor.removeFromQueue(file);
 			if (proj.equals(file.getProject())) {
+				saveExecutor.removeFromQueue(file);
 				it.remove();
 			}
 		}
@@ -307,10 +311,12 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		if (resource == null) {
 			return;
 		}
+		debug("Save request %s ", resource);
 		saveExecutor.save(resource);
 	}
 	
 	private void annotationFileWasChanged(final IFile file) {
+		debug("Annotation file was CHANGED %s", file);
 		saveExecutor.removeFromQueue(file);
 		Resource resource = getResourceSet().getResource(makeUri(file), false);
 		if (resource != null) {
@@ -324,6 +330,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 	
 	private void annotationFileWasAdded(final IFile file) {
+		debug("Annotation file was ADDED %s", file);
 		ResourceSet rs = getResourceSet();
 		URI uri = makeUri(file);
 		Resource resource = rs.getResource(uri, false);
@@ -338,6 +345,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	}
 	
 	private void annotationFileWasRemoved(final IFile file) {
+		debug("Annotation file was REMOVED %s", file);
 		saveExecutor.removeFromQueue(file);
 		Resource resource = getResourceSet().getResource(makeUri(file), false);
 		if (resource != null) {
@@ -346,10 +354,17 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 		}
 	}
 
+	private void debug(String msg, Object...args) {
+		if (DEBUG) {
+			System.out.println(String.format(msg, args));
+		}
+	}
+
 	/**
 	 * Disables autosave and notifications till transaction not finished
 	 */
 	public void silentMode() {
+		debug("Silent mode is ON");
 		silentMode = true;
 	}
 
