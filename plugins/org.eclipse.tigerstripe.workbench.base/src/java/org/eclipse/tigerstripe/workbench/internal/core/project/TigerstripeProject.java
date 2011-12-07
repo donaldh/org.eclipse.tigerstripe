@@ -69,7 +69,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * @author Eric Dillon
+ * @author Eric Dillon, Navid Mehregani
  * 
  *         This represent a TigerstripeProject. It corresponds to the
  *         "Tigerstripe.xml" project descriptor.
@@ -131,6 +131,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public static final String REFERENCE_TAG = "reference";
 
 	public static final String FACET_TAG = "facetReference";
+	
+	public static final String ENABLED_ATTRIBUTE = "enabled";
 
 	/**
 	 * The references to all plugins used by this project
@@ -455,7 +457,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				Element depElm = document.createElement(DEPENDENCY_TAG);
 
 				depElm.setAttribute("path", Util.fixWindowsPath(dep.getPath()));
-				dependenciesElm.appendChild(depElm);
+				depElm.setAttribute(ENABLED_ATTRIBUTE, dep.isEnabled()?"true":"false");  // Set enabled attribute
+				
+				dependenciesElm.appendChild(depElm);	
 			}
 		}
 
@@ -476,6 +480,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 						.getResolvedModel().getName() : "");
 			}
 			refElm.setAttribute("modelId", mRef.getToModelId());
+			
+			refElm.setAttribute(ENABLED_ATTRIBUTE, mRef.isEnabled()?"true":"false");  // Set enabled attribute
+			
 			referencesElm.appendChild(refElm);
 		}
 
@@ -590,9 +597,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			Node node = dependencyNode.item(i);
 			NamedNodeMap namedAttributes = node.getAttributes();
 			Node path = namedAttributes.getNamedItem("path");
-
+			Node enabledNode = namedAttributes.getNamedItem(ENABLED_ATTRIBUTE);
+			boolean isEnabled = true;
+			
+			// NM: Set enabled bit
+			if (enabledNode!=null) {
+				isEnabled = enabledNode.getNodeValue().equalsIgnoreCase("false")?false:true;
+			}
+			
 			String pathStr = Util.fixWindowsPath(path.getNodeValue());
 			Dependency dep = new Dependency(this, pathStr);
+			dep.setEnabled(isEnabled);
+			
 			addDependency(dep);
 		}
 	}
@@ -648,18 +664,27 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			NamedNodeMap namedAttributes = node.getAttributes();
 			Node pathNode = namedAttributes.getNamedItem("path");
 			Node modelIdNode = namedAttributes.getNamedItem("modelId");
+			Node enabledNode = namedAttributes.getNamedItem(ENABLED_ATTRIBUTE);
 
 			String modelId = "";
 			String path = pathNode.getNodeValue();
+			boolean isEnabled = true;
 			if (modelIdNode != null) {
 				modelId = modelIdNode.getNodeValue();
 			} else {
 				// default back to path if no modelId saved
 				modelId = path;
 			}
+			
+			// NM: Set enabled bit
+			if (enabledNode!=null) {
+				isEnabled = enabledNode.getNodeValue().equalsIgnoreCase("false")?false:true;
+			}
 
 			// Build a model Reference for that
 			LegacyModelReference mRef = new LegacyModelReference(modelId, path);
+			mRef.setEnabled(isEnabled);
+			
 			modelReferences.add(mRef);
 		}
 	}
@@ -751,6 +776,49 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				result.add(model);
 		}
 		return result.toArray(new ITigerstripeModelProject[result.size()]);
+	}
+	
+	// NM: Return just the enabled dependencies
+	public IDependency[] getEnabledDependencies() {
+		IDependency[] result = getDependencies();
+		if (result==null || result.length==0)
+			return result;
+		
+		ArrayList<IDependency> finalResult = new ArrayList<IDependency>();
+		for (int i=0; i < result.length; i++) {
+			if (result[i].isEnabled())
+				finalResult.add(result[i]);
+		}
+		
+		return finalResult.toArray(new IDependency[finalResult.size()]);
+	}
+	
+	// NM: Return just the enabled model references
+	public ModelReference[] getEnabledModelReferences() {
+		ModelReference[] result = getModelReferences();
+		if (result==null || result.length==0)
+			return result;
+		
+		ArrayList<ModelReference> finalResult = new ArrayList<ModelReference>();
+		for (int i=0; i < result.length; i++) {
+			if (result[i].isEnabled())
+				finalResult.add(result[i]);
+		}
+		
+		return finalResult.toArray(new ModelReference[finalResult.size()]);
+	}
+	
+	// NM: Return just the enabled referenced projects
+	public ITigerstripeModelProject[] getEnabledReferencedProjects() {
+		List<ITigerstripeModelProject> result = new ArrayList<ITigerstripeModelProject>();
+		ModelReference[] enabledModelReferences = getEnabledModelReferences();
+		for (ModelReference mRef : enabledModelReferences) {
+			ITigerstripeModelProject model = mRef.getResolvedModel();
+			if (model != null)
+				result.add(model);
+		}
+		return result.toArray(new ITigerstripeModelProject[result.size()]);
+		
 	}
 
 	public boolean hasReference(ITigerstripeModelProject project) {

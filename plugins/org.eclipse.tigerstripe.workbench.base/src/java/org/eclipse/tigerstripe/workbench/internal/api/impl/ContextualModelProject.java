@@ -65,7 +65,7 @@ public class ContextualModelProject implements ITigerstripeModelProject {
 		project.setProjectDetails(projectDetails);
 	}
 
-	public Object getAdapter(Class adapter) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		return project.getAdapter(adapter);
 	}
 
@@ -245,8 +245,7 @@ public class ContextualModelProject implements ITigerstripeModelProject {
 		project.removePluginConfig(config);
 	}
 
-	public ITigerstripeModelProject[] getReferencedProjects()
-			throws TigerstripeException {
+	public ITigerstripeModelProject[] getReferencedProjects() throws TigerstripeException {
 		ITigerstripeModelProject[] real = project.getReferencedProjects();
 		ITigerstripeModelProject[] viewed = new ITigerstripeModelProject[real.length]; 
 		for (int i = 0; i < real.length; ++i) {
@@ -276,6 +275,26 @@ public class ContextualModelProject implements ITigerstripeModelProject {
 	public ModelReference[] getModelReferences() throws TigerstripeException {
 		return wrapRefs(project.getModelReferences());
 	}
+	
+	public IDependency[] getEnabledDependencies() throws TigerstripeException {
+		return project.getEnabledDependencies();
+	}
+	
+	public ModelReference[] getEnabledModelReferences() throws TigerstripeException {
+		return wrapRefs(project.getEnabledModelReferences());
+	}
+	
+	public ITigerstripeModelProject[] getEnabledReferencedProjects() throws TigerstripeException {
+		ITigerstripeModelProject[] real = project.getEnabledReferencedProjects();
+		ITigerstripeModelProject[] viewed = new ITigerstripeModelProject[real.length]; 
+		for (int i = 0; i < real.length; ++i) {
+			if (real[i] != null) {
+				viewed[i] = new ContextualModelProject(real[i], context);
+			}
+		}
+		return viewed;
+	}
+
 
 	public ModelReference[] getReferencingModels(int level)
 			throws TigerstripeException {

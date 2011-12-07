@@ -24,16 +24,19 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -41,13 +44,16 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -62,15 +68,30 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+/**
+ * Section used to define Tigerstripe dependencies.  Look under tigerstripe.xml > Dependencies
+ * 
+ * @author nmehrega
+ */
 public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart {
 
-	private TableViewer viewer;
+	private CheckboxTableViewer viewer;
 
 	private Button removeButton;
+	
+	private Button selectAllButton;
+	
+	private Button deselectAllButton;
 
 	private MasterDetails masterDetails;
 
 	private ClasspathChangesListener classpathListener;
+	
+	private Button modifyRuntimeDependencies;
+	
+	private static final String DEP_CHECKBOX_LABEL = "Modify dependencies at generation time (advanced)"; 
+	
+	private static final String ADVANCED_PROPERTY_MODIFY_DEP_AT_RUNTIME = "modifyDependenciesAtGenerationTime";
 
 	private class ClasspathChangesListener implements IElementChangedListener {
 
@@ -167,7 +188,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			ITableLabelProvider {
 
 		public String getColumnText(Object obj, int index) {
-
+			
 			if (obj instanceof ModelReference) {
 				ModelReference ref = (ModelReference) obj;
 
@@ -229,11 +250,69 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	public void initialize(IManagedForm form) {
 		super.initialize(form);
 		createContent();
-
+		initializeDependencyEnablement();
+		
 		classpathListener = new ClasspathChangesListener();
 		JavaCore.addElementChangedListener(classpathListener,
 				ElementChangedEvent.POST_CHANGE);
 	}
+	
+	private void initializeDependencyEnablement() {
+		
+		TigerstripeProject tsProject = getActualTSProject();
+		String enableModificationOfDepAtRuntime = null;
+		
+		if (tsProject != null) 
+			enableModificationOfDepAtRuntime = tsProject.getAdvancedProperty(ADVANCED_PROPERTY_MODIFY_DEP_AT_RUNTIME);
+		
+		if (enableModificationOfDepAtRuntime!=null && enableModificationOfDepAtRuntime.equalsIgnoreCase("true")) {
+			modifyRuntimeDependencies.setSelection(true);
+			int numOfDependencies = viewer.getTable().getItemCount();
+			for (int i=0; i < numOfDependencies; i++) { 
+				Object element = viewer.getElementAt(i);
+				if (element instanceof ModelReference) {
+					ModelReference reference = (ModelReference)element;
+					viewer.setChecked(reference, reference.isEnabled());
+					
+				} else if (element instanceof IDependency) {
+					IDependency dependency = (IDependency)element;
+					viewer.setChecked(dependency, dependency.isEnabled());
+				}
+			}
+			
+			selectAllButton.setEnabled(true);
+			deselectAllButton.setEnabled(true);
+			
+		} else {
+			// Dependency modification at runtime is off
+			modifyRuntimeDependencies.setSelection(false);
+			selectAllButton.setEnabled(false);
+			deselectAllButton.setEnabled(false);
+			
+			viewer.setAllChecked(true);
+		}
+	}
+	
+	private TigerstripeProject getActualTSProject() {
+		Object input = viewer.getInput();
+		
+		if (input instanceof TigerstripeProjectHandle) {
+			TigerstripeProject tsProject = null;
+			try {
+				tsProject = ((TigerstripeProjectHandle)input).getTSProject();
+			} catch (TigerstripeException e) {
+				String exceptionMessage = e.getMessage();
+				EclipsePlugin.logErrorMessage("Problem occured while getting Tigerstripe Project: " + exceptionMessage==null?"":exceptionMessage, e);
+				return null;
+			}
+			
+			return tsProject;
+		}
+		
+		return null;		
+	}
+	
+	
 
 	@Override
 	public void dispose() {
@@ -256,17 +335,38 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				.applyTo(parent);
 
 		Composite masterContainer = getToolkit().createComposite(parent);
-		Composite detailsContainer = getToolkit().createComposite(parent,
-				SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(1, 1).numColumns(2)
-				.applyTo(masterContainer);
+		Composite detailsContainer = getToolkit().createComposite(parent, SWT.NONE);
+		GridLayoutFactory.fillDefaults().margins(1, 1).numColumns(2).applyTo(masterContainer);
 		GridLayoutFactory.fillDefaults().applyTo(detailsContainer);
-		GridDataFactory.fillDefaults().grab(true, true)
-				.applyTo(masterContainer);
-		GridDataFactory.fillDefaults().grab(true, true)
-				.applyTo(detailsContainer);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(masterContainer);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(detailsContainer);
 
 		createTable(masterContainer, getToolkit());
+		
+		modifyRuntimeDependencies = new Button(parent, SWT.CHECK);
+		modifyRuntimeDependencies.setEnabled(true); 
+		modifyRuntimeDependencies.setText(DEP_CHECKBOX_LABEL); 
+		modifyRuntimeDependencies.addSelectionListener(new SelectionAdapter() {
+			
+			public void widgetSelected(SelectionEvent e) {
+				TigerstripeProject tsProject = getActualTSProject();
+				
+				if (tsProject!=null) 
+					tsProject.setAdvancedProperty(ADVANCED_PROPERTY_MODIFY_DEP_AT_RUNTIME,  modifyRuntimeDependencies.getSelection()?"true":"false");
+				
+				if (modifyRuntimeDependencies.getSelection()) {
+					selectAllButton.setEnabled(true);
+					deselectAllButton.setEnabled(true);
+					
+				} else {
+					enableAllDependencies(true);
+					selectAllButton.setEnabled(false);
+					deselectAllButton.setEnabled(false);
+				} 
+			}
+			
+		});
+		
 
 		getToolkit().paintBordersFor(masterContainer);
 
@@ -279,8 +379,57 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				.build();
 	}
 
+	private void enableAllDependencies(boolean markAsDirty) {
+		
+		viewer.setAllChecked(true);
+		
+		// Walk through all dependencies and enable them.
+		int numOfDependencies = viewer.getTable().getItemCount();
+		for (int i=0; i < numOfDependencies; i++) { 
+			Object element = viewer.getElementAt(i);
+			if (element instanceof ModelReference) {
+				ModelReference reference = (ModelReference)element;
+				reference.setEnabled(true);							
+			} else if (element instanceof IDependency) {
+				IDependency dependency = (IDependency)element;
+				dependency.setEnabled(true);
+			}
+		}
+	
+		if (markAsDirty) {
+			getActualTSProject().setDirty();
+			markPageModified();
+			Object input = viewer.getInput();
+			if (input instanceof TigerstripeProjectHandle) 
+				((TigerstripeProjectHandle)input).markCacheAsDirty();
+		}
+	}
+	
+	private void disableAllDependencies() {
+		viewer.setAllChecked(false);
+			
+		// Walk through all dependencies and enable them.
+		int numOfDependencies = viewer.getTable().getItemCount();
+		for (int i=0; i < numOfDependencies; i++) { 
+			Object element = viewer.getElementAt(i);
+			if (element instanceof ModelReference) {
+				ModelReference reference = (ModelReference)element;
+				reference.setEnabled(false);							
+			} else if (element instanceof IDependency) {
+				IDependency dependency = (IDependency)element;
+				dependency.setEnabled(false);
+			}
+		}
+	
+		getActualTSProject().setDirty();
+		markPageModified();
+		Object input = viewer.getInput();
+		if (input instanceof TigerstripeProjectHandle) 
+			((TigerstripeProjectHandle)input).markCacheAsDirty();
+	}
+	
 	private void createTable(Composite parent, FormToolkit toolkit) {
-		Table t = toolkit.createTable(parent, SWT.NULL | SWT.MULTI);
+		Table t = toolkit.createTable(parent, SWT.NULL | SWT.MULTI | SWT.CHECK);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 2;
 		t.setLayoutData(gd);
@@ -291,6 +440,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		buttonsClient.setLayoutData(new GridData(
 				GridData.VERTICAL_ALIGN_BEGINNING));
 
+		// Add Dependency button
 		Button addButton = toolkit.createButton(buttonsClient, "Add", SWT.PUSH);
 		addButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -301,6 +451,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			}
 		});
 		addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		// Remove Dependency button
 		removeButton = toolkit.createButton(buttonsClient, "Remove", SWT.PUSH);
 		removeButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -310,8 +462,29 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				removeButtonSelected();
 			}
 		});
+		removeButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		// Select All button
+		selectAllButton = toolkit.createButton(buttonsClient, "Select All", SWT.PUSH);
+		selectAllButton.addSelectionListener(new SelectionAdapter() {
+			
+			public void widgetSelected(SelectionEvent e) {
+				enableAllDependencies(true);
+			}
+		});
+		selectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		// Deselect All button
+		deselectAllButton = toolkit.createButton(buttonsClient, "Deselect All", SWT.PUSH);
+		deselectAllButton.addSelectionListener(new SelectionAdapter() {
+			
+			public void widgetSelected(SelectionEvent e) {
+				disableAllDependencies();
+			}
+		});
+		deselectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		viewer = new TableViewer(t);
+		viewer = new CheckboxTableViewer(t);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				refresh();
@@ -326,11 +499,36 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				return labelProvider.getColumnText(obj, 0);
 			}
 		};
-		viewer.setSorter(new DependenciesSorter(textAdapter,
-				DEPENDENCY_KIND_RESOLVER));
+		viewer.setSorter(new DependenciesSorter(textAdapter, DEPENDENCY_KIND_RESOLVER));
 
 		AbstractTigerstripeProjectHandle handle = (AbstractTigerstripeProjectHandle) getTSProject();
 		viewer.setInput(handle);
+		
+		viewer.addCheckStateListener(new ICheckStateListener() {
+			
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				if (!modifyRuntimeDependencies.getSelection()) {
+					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Operation Not Enabled", "To modify dependencies at generation time (i.e. run generation on certain modules), you'll need to explicitly enable the option below: '" + DEP_CHECKBOX_LABEL + "'");
+					viewer.setChecked(event.getElement(), true);
+				} else {
+					getActualTSProject().setDirty(); 
+					
+					Object source = event.getElement();	
+					if (source instanceof IDependency) {
+						((IDependency)source).setEnabled(event.getChecked());
+					} else if (source instanceof ModelReference) {
+						((ModelReference)source).setEnabled(event.getChecked());
+					}
+					
+					Object input = viewer.getInput();
+					if (input instanceof TigerstripeProjectHandle) 
+						((TigerstripeProjectHandle)input).markCacheAsDirty();
+					
+					markPageModified();
+				}
+			}
+		});
+		
 	}
 
 	protected void addButtonSelected() {
@@ -376,6 +574,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 					try {
 						getTSProject().addModelReference(ref);
 						viewer.refresh(true);
+						viewer.setChecked(ref, true);  // NM: Check newly added dependency
 						markPageModified();
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
@@ -384,17 +583,17 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				}
 				if (res instanceof IResource) {
 					try {
-						IDependency dep = getTSProject()
-								.makeDependency(((IResource) res)
-										.getProjectRelativePath().toOSString());
+						IDependency dep = getTSProject().makeDependency(((IResource) res).getProjectRelativePath().toOSString());
 						getTSProject().addDependency(dep, new NullProgressMonitor());
 						viewer.refresh(true);
+						viewer.setChecked(dep, true);  // NM: Check newly added dependency
 						markPageModified();
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					}
 				}
 			}
+			
 		}
 		viewer.refresh();
 	}
@@ -450,6 +649,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		updateForm();
 		masterDetails.switchTo(((IStructuredSelection) viewer.getSelection())
 				.getFirstElement());
+		
+		if (!modifyRuntimeDependencies.getSelection()) 
+			enableAllDependencies(false);  // Don't mark the page as dirty after a refresh.
+		
 	}
 
 	protected void updateForm() {
@@ -465,6 +668,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		}
 
 		viewer.refresh(true);
+		
 	}
 
 	// [nmehrega] Bugzilla 322566: Update the viewer's input if our working copy
@@ -476,6 +680,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		Object input = viewer.getInput();
 		if (tsProjectWorkingCopy != null && tsProjectWorkingCopy != input) {
 			viewer.setInput(tsProjectWorkingCopy);
+			initializeDependencyEnablement();  // Ugly, but necessary
 		}
 	}
 

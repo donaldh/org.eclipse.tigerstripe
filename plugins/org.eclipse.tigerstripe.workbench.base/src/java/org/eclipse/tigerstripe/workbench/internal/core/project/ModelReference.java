@@ -36,13 +36,14 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * is done from that project instead of from the workspace. This allows to find
  * locally included modules that may be in this context project.
  * 
- * @author erdillon
+ * @author erdillon, nmehrega
  * 
  */
 public class ModelReference {
 
 	private String toModelId = null;
 	private ITigerstripeModelProject projectContext = null;
+	private boolean enabled = true;
 
 	public final static int INFINITE_LEVEL = -1;
 
@@ -51,6 +52,7 @@ public class ModelReference {
 		assert (toModelId != null && toModelId.length() != 0);
 		this.toModelId = toModelId;
 		this.projectContext = projectContext;
+		this.enabled = true;
 	}
 
 	public ModelReference(String toModelId) {
@@ -206,6 +208,14 @@ public class ModelReference {
 			} catch (Exception ee) {
 				return "-(???)-> " + getToModelId();
 			}
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(boolean value) {
+		this.enabled = value;
 	}
 
 }

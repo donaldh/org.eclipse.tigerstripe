@@ -39,25 +39,23 @@ public class ModelRuleHelper {
 
 			int level = 1;
 			// include dependencies
-			for (IDependency dependecny : contextProject.getDependencies()) {
+			for (IDependency dependecny : contextProject.getEnabledDependencies()) {
 
-				ITigerstripeModuleProject modProj = dependecny
-						.makeModuleProject(contextProject);
-				resultSet.add(new ModelProject(modProj, contextProject,
-						level));
+				ITigerstripeModuleProject modProj = dependecny.makeModuleProject(contextProject);
+				resultSet.add(new ModelProject(modProj, contextProject, level));
 			}
 
-			ITigerstripeModelProject[] references = contextProject
-					.getReferencedProjects();
+			ITigerstripeModelProject[] references = contextProject.getEnabledReferencedProjects();
 			// Direct references - local projects and installed modules
 			for (ITigerstripeModelProject ref : references) {
 				resultSet.add(new ModelProject(ref, contextProject, level));
 			}
+			
+			// NM: Don't include transitive dependencies 
 			// others child references
-			for (ITigerstripeModelProject ref : references) {
-				resultSet
-						.addAll(getChildModules(ref, contextProject, level));
-			}
+//			for (ITigerstripeModelProject ref : references) {
+//				resultSet.addAll(getChildModules(ref, contextProject, level));
+//			}
 		}
 		
 		return resultSet;

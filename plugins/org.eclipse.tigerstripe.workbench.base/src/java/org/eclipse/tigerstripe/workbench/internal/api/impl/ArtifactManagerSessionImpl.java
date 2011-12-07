@@ -609,7 +609,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
 			ExecutionContext context) throws TigerstripeException {
 
-		return getArtifactManager().getArtifactByFullyQualifiedName(fqn, true,
+		return getArtifactManager().getArtifactByFullyQualifiedName(fqn, false,   // NM: Exclude dependencies 
 				context);
 	}
 

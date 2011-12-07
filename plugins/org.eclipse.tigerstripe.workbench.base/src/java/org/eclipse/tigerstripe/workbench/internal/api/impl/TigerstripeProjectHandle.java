@@ -285,6 +285,18 @@ public abstract class TigerstripeProjectHandle extends
 			throws WorkingCopyException, TigerstripeException {
 		return getTSProject().getReferencedProjects();
 	}
+	
+	public ITigerstripeModelProject[] getEnabledReferencedProjects() throws TigerstripeException {
+		return getTSProject().getEnabledReferencedProjects();
+	}
+	
+	public ModelReference[] getEnabledModelReferences() throws TigerstripeException {
+		return getTSProject().getEnabledModelReferences();
+	}
+
+	public IDependency[] getEnabledDependencies() throws TigerstripeException {
+		return getTSProject().getEnabledDependencies();
+	}
 
 	public void removeModelReference(ModelReference modelRef)
 			throws WorkingCopyException, TigerstripeException {
@@ -599,6 +611,11 @@ public abstract class TigerstripeProjectHandle extends
 			tsProject.dispose();
 		}
 		wasDisposed = true;
+	}
+	
+	// NM: Marks the cache as dirty so it'll refresh it next time
+	public void markCacheAsDirty() {
+		dependenciesCacheNeedsRefresh = true;
 	}
 
 }

@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 /**
  * Handle on a Tigerstripe Project
  * 
- * @author Eric Dillon
+ * @author Eric Dillon, Navid Mehregani
  * @since 0.3
  */
 public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
@@ -62,7 +62,8 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 			IProgressMonitor monitor) throws TigerstripeException;
 
 	public IDependency[] getDependencies() throws TigerstripeException;
-
+	
+	
 	/**
 	 * 
 	 * @param dependency
@@ -164,14 +165,19 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	// Project references are direct references to other projects that are
 	// required
 	// for the local project to build properly.
-	public ITigerstripeModelProject[] getReferencedProjects()
-			throws TigerstripeException;
+	public ITigerstripeModelProject[] getReferencedProjects() throws TigerstripeException;
 
 	// For the UI to present all Projects referenced from tigerstripe.xml
 	// public IDescriptorReferencedProject[] getDescriptorsReferencedProjects()
 	// throws TigerstripeException;
 
 	public ModelReference[] getModelReferences() throws TigerstripeException;
+	
+	public IDependency[] getEnabledDependencies() throws TigerstripeException;
+	
+	public ITigerstripeModelProject[] getEnabledReferencedProjects() throws TigerstripeException;
+	
+	public ModelReference[] getEnabledModelReferences() throws TigerstripeException;
 
 	public ModelReference[] getReferencingModels(int level)
 			throws TigerstripeException;

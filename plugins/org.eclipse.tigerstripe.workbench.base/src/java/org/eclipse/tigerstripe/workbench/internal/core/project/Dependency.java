@@ -34,7 +34,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 /**
  * A dependency as declared in a Project Definition
  * 
- * @author Eric Dillon
+ * @author Eric Dillon, Navid Mehregani
  * 
  */
 public class Dependency extends AbstractContainedObject implements IDependency,
@@ -49,14 +49,18 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 	private boolean isValid = false;
 
 	private TigerstripeProject project;
+	
+	private boolean isEnabled = true;
 
 	public Dependency(TigerstripeProject project, String relativePath) {
 		setProject(project);
 		setPath(relativePath);
+		this.isEnabled = true;
 	}
 
 	public Dependency(String absolutePath) {
 		setPath(absolutePath);
+		this.isEnabled = true;
 	}
 
 	private void setProject(TigerstripeProject project) {
@@ -276,4 +280,13 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 		}
 		return URI.createFileURI(path);
 	}
+
+	public void setEnabled(boolean enabled) {
+		isEnabled = enabled;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+	
 }

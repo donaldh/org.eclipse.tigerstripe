@@ -1016,8 +1016,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 		// Bug: 928: also, we need to propagate that state change to all
 		// referenced projects/dependencies
-		for (ITigerstripeModelProject project : getTSProject()
-				.getReferencedProjects()) {
+		for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 			try {
 				project.getArtifactManagerSession().generationStart();
 			} catch (TigerstripeException e) {
@@ -1043,8 +1042,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 		// Bug: 928: also, we need to propagate that state change to all
 		// referenced projects/dependencies
-		for (ITigerstripeModelProject project : getTSProject()
-				.getReferencedProjects()) {
+		for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 			try {
 				project.getArtifactManagerSession().generationComplete();
 			} catch (TigerstripeException e) {
@@ -1201,8 +1199,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			if (monitor == null)
 				monitor = new NullProgressMonitor();
 
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
+			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					IArtifactManagerSession session = project
 							.getArtifactManagerSession();
@@ -2027,7 +2024,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			return new IDependency[0];
 		}
 
-		return getTSProject().getDependencies();
+		return getTSProject().getEnabledDependencies();
 	}
 
 	// Access to artifacts living in the Referenced projects
@@ -2037,8 +2034,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			readLock.lock();
 			addSelfToCycle(context, Cycles.REFERENCES_ALL);
 			ArrayList<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
+			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					if (!context.addToCycle(Cycles.REFERENCES_ALL,
 							project.getModelId())) {
@@ -2048,9 +2044,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							.getArtifactManagerSession();
 					IArtifactQuery query = session
 							.makeQuery(IQueryAllArtifacts.class.getName());
-					query.setIncludeDependencies(true); // DO NOT INCLUDE
+					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies 			
 					query.setExecutionContext(context);
-					// DEPENDENCIES
 					list.addAll(project.getArtifactManagerSession()
 							.queryArtifact(query));
 				} catch (TigerstripeException e) {
@@ -2071,7 +2066,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			readLock.lock();
 			addSelfToCycle(context, Cycles.INSTALLED_MODULES_ALL);
 			ArrayList<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
-			for (ModelReference ref : getTSProject().getModelReferences()) {
+			for (ModelReference ref : getTSProject().getEnabledModelReferences()) {
 				try {
 					if (!ref.isInstalledModuleReference())
 						continue;
@@ -2086,9 +2081,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							.getArtifactManagerSession();
 					IArtifactQuery query = session
 							.makeQuery(IQueryAllArtifacts.class.getName());
-					query.setIncludeDependencies(true); // DO NOT INCLUDE
+					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies	
 					query.setExecutionContext(context);
-					// DEPENDENCIES
 					list.addAll(project.getArtifactManagerSession()
 							.queryArtifact(query));
 				} catch (TigerstripeException e) {
@@ -2123,8 +2117,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			readLock.lock();
 			addSelfToCycle(context, Cycles.REFERENCES_FQN);
 			IAbstractArtifact result = null;
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
+			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					if (!context.addToCycle(Cycles.REFERENCES_FQN,
 							project.getModelId())) {
@@ -2154,8 +2147,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			readLock.lock();
 			addSelfToCycle(context, Cycles.REFERENCES_BY_MODEL);
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
+			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					if (!context.addToCycle(Cycles.REFERENCES_BY_MODEL,
 							project.getModelId())) {
@@ -2166,7 +2158,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					IQueryArtifactsByType query = (IQueryArtifactsByType) session
 							.makeQuery(IQueryArtifactsByType.class.getName());
 					query.setArtifactType(model.getClass().getName());
-					query.setIncludeDependencies(true); // dependencies of
+					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies
 					query.setExecutionContext(context);
 					// referenced project
 					// shall not be included
@@ -2190,7 +2182,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			readLock.lock();
 			addSelfToCycle(context, Cycles.INSTALLED_MODULES_FQN);
 			IAbstractArtifact result = null;
-			for (ModelReference ref : getTSProject().getModelReferences()) {
+			for (ModelReference ref : getTSProject().getEnabledModelReferences()) {
 				try {
 					if (!ref.isInstalledModuleReference())
 						continue;
@@ -2225,7 +2217,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			readLock.lock();
 			addSelfToCycle(context, Cycles.INSTALLED_MODULES_BY_MODEL);
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-			for (ModelReference ref : getTSProject().getModelReferences()) {
+			for (ModelReference ref : getTSProject().getEnabledModelReferences()) {
 				try {
 					if (!ref.isInstalledModuleReference())
 						continue;
@@ -2241,7 +2233,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					IQueryArtifactsByType query = (IQueryArtifactsByType) session
 							.makeQuery(IQueryArtifactsByType.class.getName());
 					query.setArtifactType(model.getClass().getName());
-					query.setIncludeDependencies(true); // dependencies of
+					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies				
 					query.setExecutionContext(context);
 					// referenced project
 					// shall not be included
@@ -2286,6 +2278,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			if (localArt != null) {
 				result.add(localArt);
 			}
+			
 			// get modules references then
 			Collection<IAbstractArtifact> moduleArts = getAllKnownArtifactsByFullyQualifiedNameInModules(
 					fqn, context);
@@ -2369,8 +2362,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			readLock.lock();
 			addSelfToCycle(context, Cycles.REFERENCES_FQN_ALL);
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
+			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					if (!context.addToCycle(Cycles.REFERENCES_FQN_ALL,
 							project.getModelId())) {
@@ -2506,11 +2498,10 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 		ArrayList<ITigerstripeModelProject> models = new ArrayList<ITigerstripeModelProject>();
 		
-		for (ITigerstripeModelProject project : tsProject
-				.getReferencedProjects()) {
+		for (ITigerstripeModelProject project : tsProject.getEnabledReferencedProjects()) {
 			models.add(project);
 		}
-		for (IDependency d : tsProject.getDependencies()) {
+		for (IDependency d : tsProject.getEnabledDependencies()) {
 			models.add(d.makeModuleProject(tsProject.getTSProject()));
 		}
 		return models;
@@ -2685,8 +2676,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			throws TigerstripeException {
 		if (newFacet == null) {
 			// reseting all referenced projects
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
+			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					project.getArtifactManagerSession().resetActiveFacet();
 				} catch (TigerstripeException e) {
@@ -2704,8 +2694,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 		} else {
 			// this is a new facet being set
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
+			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					project.getArtifactManagerSession().setActiveFacet(
 							newFacet, monitor);

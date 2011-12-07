@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleExcep
  * <b>NOTE: The path to a dependency is considered relative to the project it is
  * being attached to.</b>
  * 
- * @author Eric Dillon
+ * @author Eric Dillon, Navid Mehregani
  * 
  */
 public interface IDependency {
@@ -99,4 +99,18 @@ public interface IDependency {
 	 * 	Returns the URI for this 
 	 */
 	public URI getURI();
+	
+	/**
+	 * Used to indicate whether or not this dependency should be enabled at runtime
+	 * 
+	 * @param enabled  True to enable dependency; false otherwise
+	 */
+	public void setEnabled(boolean enabled);
+	
+	/**
+	 * Used to indicate whether or not this dependency should be enabled at runtime
+	 * 
+	 * @return True if dependency should be enabled at runtime; false otherwise 
+	 */
+	public boolean isEnabled();
 }

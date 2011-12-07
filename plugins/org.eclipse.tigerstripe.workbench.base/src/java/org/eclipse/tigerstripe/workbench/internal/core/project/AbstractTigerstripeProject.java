@@ -63,7 +63,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * @author Eric Dillon
+ * @author Eric Dillon, Navid Mehregani
  * 
  *         This represent a TigerstripeProject. It corresponds to the
  *         "Tigerstripe.xml" project descriptor.
@@ -142,7 +142,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		TigerstripeWorkspaceNotifier.INSTANCE.removeTigerstripeChangeListener(this);
 	}
 	
-	protected void setDirty() {
+	public void setDirty() {
 		this.isLocalDirty = true;
 	}
 
