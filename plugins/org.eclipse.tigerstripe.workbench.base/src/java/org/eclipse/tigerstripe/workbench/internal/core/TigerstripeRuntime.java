@@ -24,6 +24,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
+import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
@@ -308,6 +309,19 @@ public class TigerstripeRuntime {
 
 		if (buildProperties == null) {
 
+			if (!PostInstallActions.hasRun()) { 
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					String msg = e.getMessage();
+					if (msg==null)
+						msg = "";
+					
+					TigerstripeRuntime.logErrorMessage("Exception while sleeping: " + msg);
+				}
+			}
+			
+			
 			if (tigerstripeRuntimeRoot == null) {
 				// If not setup by now, it means we're running Headless. Let's
 				// get this

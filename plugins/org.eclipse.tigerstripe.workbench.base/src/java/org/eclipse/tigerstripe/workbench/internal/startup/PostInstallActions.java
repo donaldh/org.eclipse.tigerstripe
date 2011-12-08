@@ -379,4 +379,8 @@ public class PostInstallActions {
 		return TigerstripeCore.getRuntimeDetails().getBaseBundleValue(
 				Constants.BUNDLE_VERSION);
 	}
+	
+	public static boolean hasRun() {
+		return hasRun;
+	}
 }
