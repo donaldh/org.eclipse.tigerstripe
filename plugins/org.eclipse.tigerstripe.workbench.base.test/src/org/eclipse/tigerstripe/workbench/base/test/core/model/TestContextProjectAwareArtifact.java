@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
@@ -113,9 +114,6 @@ public class TestContextProjectAwareArtifact extends
 				.getArtifactByFullyQualifiedName(getTestEntityFQN()));
 		checkContextProjectAware(session.getArtifactByFullyQualifiedName(
 				getTestEntityFQN(), true), project);
-		checkContextProjectAware(session.getArtifactByFullyQualifiedName(
-				getTestEntityFQN(), new ExecutionContext(
-						new NullProgressMonitor())), project);
 		checkContextProjectAwares(
 				session.getAllKnownArtifactsByFullyQualifiedName(getTestEntityFQN()),
 				false, project);

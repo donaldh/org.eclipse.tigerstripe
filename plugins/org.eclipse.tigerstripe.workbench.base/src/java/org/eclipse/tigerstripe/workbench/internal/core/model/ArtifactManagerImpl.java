@@ -644,8 +644,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 						ArtifactManager phantomMgr = ((ArtifactManagerSessionImpl) phantomArtifactMgrSession)
 								.getArtifactManager();
 
-						result.addAll(phantomMgr.getArtifactsByModel(model,
-								false, context));
+						result.addAll(toContextProjectAwareArtifacts(phantomMgr
+								.getArtifactsByModel(model, false, context)));
 					}
 				}
 			}
@@ -740,8 +740,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					if (phantomArtifactMgrSession != null) {
 						IQueryAllArtifacts query = new QueryAllArtifacts();
 						query.setExecutionContext(context);
-						Collection<IAbstractArtifact> res = phantomArtifactMgrSession
-								.queryArtifact(query);
+						Collection<IAbstractArtifact> res = toContextProjectAwareArtifacts(phantomArtifactMgrSession
+								.queryArtifact(query));
 						for (IAbstractArtifact art : res) { // Bug 752 don't add
 							// these multiple
 							// times
@@ -951,9 +951,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					if (result == null) {
 						try {
 							if (phantomArtifactMgrSession != null)
-								result = phantomArtifactMgrSession
+								result =toContextProjectAwareArtifact(phantomArtifactMgrSession
 										.getArtifactByFullyQualifiedName(name,
-												context);
+												context));
 						} catch (TigerstripeException e) {
 							TigerstripeRuntime.logErrorMessage(
 									"TigerstripeException detected", e);
@@ -1972,6 +1972,18 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		}
 	}
 
+	private <T> T toContextProjectAwareArtifact(T element) {
+		if (element == null) {
+			return null;
+		}
+		ITigerstripeModelProject context = getTSProject().getTSProject();
+		if (element instanceof IContextProjectAware || context == null) {
+			return element; 
+		} else {
+			return ContextProjectAwareProxy.newInstance(element, context);
+		}
+	}
+	
 	private <T> Collection<T> toContextProjectAwareArtifacts(
 			Collection<T> source) {
 		ITigerstripeModelProject context = getTSProject().getTSProject();
@@ -1979,6 +1991,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			Collection<T> result = new ArrayList<T>(
 					source.size());
 			for (T element : source) {
+				if (element == null) {
+					result.add(null);
+				}
 				if (!(element instanceof IContextProjectAware)) {
 					element = ContextProjectAwareProxy
 							.newInstance(element, context);

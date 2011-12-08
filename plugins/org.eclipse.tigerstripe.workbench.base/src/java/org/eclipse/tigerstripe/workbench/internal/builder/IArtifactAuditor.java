@@ -16,6 +16,15 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 public interface IArtifactAuditor {
 
+	public static final IArtifactAuditor EMPTY = new IArtifactAuditor() {
+
+		public void setDetails(IProject project, IAbstractArtifact artifact) {
+		}
+
+		public void run(IProgressMonitor monitor) {
+		}
+	};
+	
 	public void setDetails(IProject project, IAbstractArtifact artifact);
 
 	public void run(IProgressMonitor monitor);

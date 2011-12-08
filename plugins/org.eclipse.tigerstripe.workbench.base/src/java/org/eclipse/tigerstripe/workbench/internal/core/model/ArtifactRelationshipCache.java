@@ -260,22 +260,37 @@ public class ArtifactRelationshipCache {
 
 			if (oldRelationship != relationship) {
 				// let's remove all entries about this old one
-				String oldAEnd = oldRelationship.getRelationshipAEnd()
-						.getType().getFullyQualifiedName();
-				String oldZEnd = oldRelationship.getRelationshipZEnd()
-						.getType().getFullyQualifiedName();
+				
+				{
+					IRelationshipEnd aEnd = oldRelationship
+							.getRelationshipAEnd();
+					if (aEnd != null && aEnd.getType() != null) {
 
-				removeRelationshipForFQN(oldAEnd, oldRelationship, ORIGINATING);
-				removeRelationshipForFQN(oldZEnd, oldRelationship, TERMINATING);
+						String oldAEnd = aEnd.getType().getFullyQualifiedName();
+						removeRelationshipForFQN(oldAEnd, oldRelationship,
+								ORIGINATING);
+						addRelationshipEndDelta(deltas, aEnd.getType()
+								.getArtifact(),
+								oldRelationship.getFullyQualifiedName(), null,
+								ORIGINATING);
+					}
+				}
+				
+				{
+					IRelationshipEnd zEnd = oldRelationship
+							.getRelationshipZEnd();
+					if (zEnd != null && zEnd.getType() != null) {
+						String oldZEnd = zEnd.getType().getFullyQualifiedName();
 
-				addRelationshipEndDelta(deltas, oldRelationship
-						.getRelationshipAEnd().getType().getArtifact(),
-						oldRelationship.getFullyQualifiedName(), null,
-						ORIGINATING);
-				addRelationshipEndDelta(deltas, oldRelationship
-						.getRelationshipZEnd().getType().getArtifact(),
-						oldRelationship.getFullyQualifiedName(), null,
-						TERMINATING);
+						removeRelationshipForFQN(oldZEnd, oldRelationship,
+								TERMINATING);
+
+						addRelationshipEndDelta(deltas, zEnd.getType()
+								.getArtifact(),
+								oldRelationship.getFullyQualifiedName(), null,
+								TERMINATING);
+					}
+				}
 			} else {
 				// Bug 969: either end may have been changed in place.
 				// We simply remove it from the cache as it would be improperly

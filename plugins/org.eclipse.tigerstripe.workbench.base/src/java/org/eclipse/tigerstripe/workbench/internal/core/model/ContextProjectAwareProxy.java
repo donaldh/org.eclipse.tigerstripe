@@ -21,9 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
@@ -84,38 +82,21 @@ public class ContextProjectAwareProxy implements
 		}
 		return makeInstance(obj, context);
 	}
-
-	private final static Map<Object, Map<ITigerstripeModelProject, Object>> proxiesCache = new WeakHashMap<Object, Map<ITigerstripeModelProject, Object>>();
 	
 	@SuppressWarnings("unchecked")
 	private synchronized static <T> T makeInstance(T obj, ITigerstripeModelProject context) {
-
-		/*
-		 * Disable cache  
-		 */
-		
-//		Map<ITigerstripeModelProject, Object> projectsMap = proxiesCache.get(obj);
-//		if (projectsMap == null) {
-//			projectsMap = new WeakHashMap<ITigerstripeModelProject, Object>();
-//			proxiesCache.put(obj, projectsMap);
-//		}
-//		Object object = projectsMap.get(context);
-//		if (object == null) {
-			Class<? extends Object> clazz = obj.getClass();
-			Object unusedProxy = InstanceManager.findUnusedProxy(clazz);
-			if (unusedProxy == null) {
-				return (T) java.lang.reflect.Proxy.newProxyInstance(clazz
-						.getClassLoader(), collectRequiredInterfaces(obj),
-						new ContextProjectAwareProxy(obj, context));
-			} else {
-				ContextProjectAwareProxy h = (ContextProjectAwareProxy) Proxy.getInvocationHandler(unusedProxy);
-				h.context = context;
-				h.obj = obj;
-				return (T) unusedProxy;
-			}
-//			projectsMap.put(context, object);	
-//		}
-//		return (T) object;
+		Class<? extends Object> clazz = obj.getClass();
+		Object unusedProxy = InstanceManager.findUnusedProxy(clazz);
+		if (unusedProxy == null) {
+			return (T) java.lang.reflect.Proxy.newProxyInstance(clazz
+					.getClassLoader(), collectRequiredInterfaces(obj),
+					new ContextProjectAwareProxy(obj, context));
+		} else {
+			ContextProjectAwareProxy h = (ContextProjectAwareProxy) Proxy.getInvocationHandler(unusedProxy);
+			h.context = context;
+			h.obj = obj;
+			return (T) unusedProxy;
+		}
 	}
 
 	private static Class<?>[] collectRequiredInterfaces(Object obj) {

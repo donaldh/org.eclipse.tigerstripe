@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -122,9 +123,11 @@ public enum ArtifactAuditorFactory {
 			return new DependencyArtifactAuditor();
 		} else if (artifact instanceof IPackageArtifact) {
 			return new PackageArtifactAuditor();
+		} else if (artifact instanceof IPrimitiveTypeArtifact) {
+			return IArtifactAuditor.EMPTY;
 		} else {
 			throw new TigerstripeException(
-					"Internal Error, can't find artifact auditor.");
+					"Internal Error, can't find artifact auditor for " + artifact);
 		}
 	}
 }
