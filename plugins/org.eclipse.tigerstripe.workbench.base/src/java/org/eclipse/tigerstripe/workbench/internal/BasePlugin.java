@@ -72,11 +72,7 @@ public class BasePlugin extends Plugin implements BundleListener {
 		Bundle bundle = event.getBundle();
 		if (bundle.equals(plugin.getBundle()) && event.getType() == BundleEvent.STARTED) {
 			
-			try {
-				executePostInstallationActions(bundle.getBundleContext());
-			} catch (TigerstripeException e) {
-				log(e);
-			}
+			PostInstallActions.init();
 			extensionPointRegistered();
 
 			WorkspaceJob job = new WorkspaceJob("Tigerstripe content refresh") {
@@ -158,11 +154,6 @@ public class BasePlugin extends Plugin implements BundleListener {
 			ResourcesPlugin.getWorkspace().removeResourceChangeListener(
 					listener);
 		}
-	}
-
-	private void executePostInstallationActions(BundleContext context)
-			throws TigerstripeException {
-		(new PostInstallActions()).run(context);
 	}
 
 	public static void internalLogMessage(Level level, String message,

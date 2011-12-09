@@ -30,6 +30,7 @@ import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
+import org.eclipse.tigerstripe.workbench.utils.OSGIUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
@@ -42,6 +43,22 @@ import org.osgi.framework.Constants;
  */
 public class PostInstallActions {
 
+	public static void init() {
+		new Lazy();
+	}
+	
+	public static class Lazy {
+		
+		static {
+			try {
+				new PostInstallActions().run();
+			} catch (TigerstripeException e) {
+				BasePlugin.logErrorMessage(
+						"Error while PostInstallActions initialization", e);
+			}
+		}
+	}
+	
 	// TODO this should create a log file!!
 
 	private static Boolean hasRun = false;
@@ -54,7 +71,7 @@ public class PostInstallActions {
 
 	private String baseBundleRoot = null;
 
-	public void run(final BundleContext context) throws TigerstripeException {
+	void run() throws TigerstripeException {
 
 		// CSCto45728 [NM]: Commenting out synchronized block as it was causing a deadlock
 		// According to API of plugin start method, implementers should avoid synchronized blocks as it may result in deadlocks
@@ -65,24 +82,24 @@ public class PostInstallActions {
 
 				// We don't want to recreate if it exists as it might contain a
 				// key
-				if (!tigerstripeRuntimeExists(context)) {
-					createTigerstripeRuntimeDir(context);
+				if (!tigerstripeRuntimeExists()) {
+					createTigerstripeRuntimeDir();
 				}
 				TigerstripeRuntime
 						.setTigerstripeRuntimeRoot(tigerstripeRuntimeDir);
 				TigerstripeRuntime.initLogger();
 
-				if (!tigerstripePluginExists(context)) {
-					createTigerstripePluginDir(context);
+				if (!tigerstripePluginExists()) {
+					createTigerstripePluginDir();
 				}
 
-				if (!tigerstripeModulesExists(context)) {
-					createTigerstripeModulesDir(context);
+				if (!tigerstripeModulesExists()) {
+					createTigerstripeModulesDir();
 				}
 
-				baseBundleRoot = findBaseBundleRoot(context);
-				workbenchFeatureVersion = findWorkbenchFeatureVersion(context);
-				createPropertiesFileForHeadlessRun(context);
+				baseBundleRoot = findBaseBundleRoot();
+				workbenchFeatureVersion = findWorkbenchFeatureVersion();
+				createPropertiesFileForHeadlessRun();
 				
 				// checkForUpgrade(workbenchFeatureVersion);
 				
@@ -114,8 +131,6 @@ public class PostInstallActions {
 //				};
 //
 //				setUpAnnotation.schedule();
-
-				hasRun = true;
 			}
 //		}
 	}
@@ -163,8 +178,7 @@ public class PostInstallActions {
 //			// TODO NOT IMPLEMENTED
 //		}
 //	}
-
-	private boolean tigerstripeRuntimeExists(BundleContext context)
+	private boolean tigerstripeRuntimeExists()
 			throws TigerstripeException {
 
 		String installationPath = installLocation.getURL().getPath();
@@ -180,7 +194,7 @@ public class PostInstallActions {
 				"Unable to located base installation location of Eclipse");
 	}
 
-	private void createTigerstripeRuntimeDir(BundleContext context)
+	private void createTigerstripeRuntimeDir()
 			throws TigerstripeException {
 		File tsRuntimeDirFile = new File(tigerstripeRuntimeDir);
 		tsRuntimeDirFile.mkdirs();
@@ -190,7 +204,7 @@ public class PostInstallActions {
 							+ tsRuntimeDirFile.toURI().toString());
 	}
 
-	private boolean tigerstripePluginExists(BundleContext context)
+	private boolean tigerstripePluginExists()
 			throws TigerstripeException {
 		String pluginPath = tigerstripeRuntimeDir + File.separator
 				+ TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR;
@@ -198,7 +212,7 @@ public class PostInstallActions {
 		return tsPluginDirFile.exists();
 	}
 
-	private void createTigerstripePluginDir(BundleContext context)
+	private void createTigerstripePluginDir()
 			throws TigerstripeException {
 		File pluginsDir = new File(tigerstripeRuntimeDir + File.separator
 				+ TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR);
@@ -209,7 +223,7 @@ public class PostInstallActions {
 							+ pluginsDir.toURI().toString());
 	}
 
-	private boolean tigerstripeModulesExists(BundleContext context)
+	private boolean tigerstripeModulesExists()
 			throws TigerstripeException {
 		String modulesPath = tigerstripeRuntimeDir + File.separator
 				+ TigerstripeRuntime.TIGERSTRIPE_MODULES_DIR;
@@ -217,7 +231,7 @@ public class PostInstallActions {
 		return tsModulesDirFile.exists();
 	}
 
-	private void createTigerstripeModulesDir(BundleContext context)
+	private void createTigerstripeModulesDir()
 			throws TigerstripeException {
 		File modulesDir = new File(tigerstripeRuntimeDir + File.separator
 				+ TigerstripeRuntime.TIGERSTRIPE_MODULES_DIR);
@@ -284,10 +298,8 @@ public class PostInstallActions {
 	/**
 	 * Save in the ${tigerstripe.home} directory a set of properties detailing
 	 * the install so it can be read outside of Eclipse in a headless run
-	 * 
-	 * @param context
 	 */
-	private void createPropertiesFileForHeadlessRun(BundleContext context)
+	private void createPropertiesFileForHeadlessRun()
 			throws TigerstripeException {
 		// ED-20090109: I believe this should be removed?
 		Properties installProperties = new Properties();
@@ -335,7 +347,7 @@ public class PostInstallActions {
 		}
 	}
 
-	private String findBaseBundleRoot(BundleContext context) {
+	private String findBaseBundleRoot() {
 		Bundle baseBundle = Platform
 				.getBundle(TigerstripeRuntime.BASEBUNDLE_ID);
 		if (baseBundle != null)
@@ -375,12 +387,8 @@ public class PostInstallActions {
 				"unknown_location_for_org.eclipse.tigerstripe.workbench.base");
 	}
 
-	private String findWorkbenchFeatureVersion(BundleContext context) {
+	private String findWorkbenchFeatureVersion() {
 		return TigerstripeCore.getRuntimeDetails().getBaseBundleValue(
 				Constants.BUNDLE_VERSION);
-	}
-	
-	public static boolean hasRun() {
-		return hasRun;
 	}
 }

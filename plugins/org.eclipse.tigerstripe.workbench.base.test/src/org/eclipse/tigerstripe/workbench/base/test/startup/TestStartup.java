@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
 
 /**
  * Upon startup Tigerstripe will create a "tigerstripe" directory within the
@@ -33,6 +34,7 @@ public class TestStartup extends TestCase {
 
 	public void testStartup() {
 		// Force the Tigerstripe Base plugin to activate
+		PostInstallActions.init();
 		TigerstripeCore.getRuntimeDetails();
 
 		org.eclipse.osgi.service.datalocation.Location installLocation = Platform

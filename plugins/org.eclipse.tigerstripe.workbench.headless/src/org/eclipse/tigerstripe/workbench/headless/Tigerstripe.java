@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
@@ -68,6 +69,7 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 		printTigerstipeVersionInfo();
 		setPluginParams(context);
 		try {
+			PostInstallActions.init();
 			printProfile();
 			initializeWorkspace();
 

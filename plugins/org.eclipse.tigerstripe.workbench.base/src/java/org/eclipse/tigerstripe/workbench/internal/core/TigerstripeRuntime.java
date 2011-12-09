@@ -309,18 +309,7 @@ public class TigerstripeRuntime {
 
 		if (buildProperties == null) {
 
-			if (!PostInstallActions.hasRun()) { 
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					String msg = e.getMessage();
-					if (msg==null)
-						msg = "";
-					
-					TigerstripeRuntime.logErrorMessage("Exception while sleeping: " + msg);
-				}
-			}
-			
+			PostInstallActions.init();
 			
 			if (tigerstripeRuntimeRoot == null) {
 				// If not setup by now, it means we're running Headless. Let's
