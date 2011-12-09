@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.InstanceManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -545,7 +546,16 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
 		IPath path = null;
-
+		
+		// Check if Artifact Manager is already disposed for the artifact
+		if (art instanceof IArtifactComponentInternal){
+			IArtifactComponentInternal component = (IArtifactComponentInternal)art;
+			ArtifactManager manager = component.getArtifactManager();
+			if (manager == null || manager.wasDisposed()){
+				return null;
+			}
+		}
+		
 		TigerstripeProject tsProject = art.getTSProject();
 
 		if (tsProject != null) {

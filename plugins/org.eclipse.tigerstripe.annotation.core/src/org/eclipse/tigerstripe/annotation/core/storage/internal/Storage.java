@@ -61,7 +61,7 @@ import org.eclipse.tigerstripe.annotation.internal.core.IAnnotationFilesRecogniz
  */
 public class Storage implements IResourceChangeListener, ISchedulingRule, Searcher {
 
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	
 	private final ResourceSet resourceSet;
 	private final IAnnotationFilesRecognizer annFilesRecognizer;

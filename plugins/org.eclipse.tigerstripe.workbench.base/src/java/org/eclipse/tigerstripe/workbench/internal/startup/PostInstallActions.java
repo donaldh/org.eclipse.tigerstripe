@@ -132,6 +132,7 @@ public class PostInstallActions {
 //
 //				setUpAnnotation.schedule();
 			}
+			hasRun = true;
 //		}
 	}
 
