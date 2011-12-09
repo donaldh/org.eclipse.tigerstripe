@@ -286,6 +286,10 @@ public class ContextualModelProject implements ITigerstripeModelProject {
 	
 	public ITigerstripeModelProject[] getEnabledReferencedProjects() throws TigerstripeException {
 		ITigerstripeModelProject[] real = project.getEnabledReferencedProjects();
+		
+		if (real==null)
+			return new ITigerstripeModelProject[0];
+		
 		ITigerstripeModelProject[] viewed = new ITigerstripeModelProject[real.length]; 
 		for (int i = 0; i < real.length; ++i) {
 			if (real[i] != null) {
