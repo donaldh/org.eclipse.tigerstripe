@@ -2,7 +2,6 @@
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="InvalidAnnotationsContextWorkspace" id="_dvRHMdhiEeCNGZrtYiQLKw">
   <content>
     <projects name="New Project">
-      <files name=".ann" contentURI=".InvalidAnnotationsContextWorkspacectx/content7.ann"/>
       <files name=".classpath" contentURI=".InvalidAnnotationsContextWorkspacectx/content3.classpath"/>
       <files name=".project" contentURI=".InvalidAnnotationsContextWorkspacectx/content3.project"/>
       <files name="tigerstripe.xml" contentURI=".InvalidAnnotationsContextWorkspacectx/content3.xml"/>
