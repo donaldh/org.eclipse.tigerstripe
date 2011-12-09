@@ -812,10 +812,12 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public ITigerstripeModelProject[] getEnabledReferencedProjects() {
 		List<ITigerstripeModelProject> result = new ArrayList<ITigerstripeModelProject>();
 		ModelReference[] enabledModelReferences = getEnabledModelReferences();
-		for (ModelReference mRef : enabledModelReferences) {
-			ITigerstripeModelProject model = mRef.getResolvedModel();
-			if (model != null)
-				result.add(model);
+		if (enabledModelReferences !=null) {
+			for (ModelReference mRef : enabledModelReferences) {
+				ITigerstripeModelProject model = mRef.getResolvedModel();
+				if (model != null)
+					result.add(model);
+			}
 		}
 		return result.toArray(new ITigerstripeModelProject[result.size()]);
 		
