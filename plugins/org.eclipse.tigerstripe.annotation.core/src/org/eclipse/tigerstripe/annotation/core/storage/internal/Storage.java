@@ -2,7 +2,6 @@ package org.eclipse.tigerstripe.annotation.core.storage.internal;
 
 import static java.util.Collections.unmodifiableList;
 import static org.eclipse.core.resources.IResourceChangeEvent.POST_CHANGE;
-import static org.eclipse.core.resources.IResourceDelta.MARKERS;
 import static org.eclipse.emf.ecore.resource.Resource.RESOURCE__CONTENTS;
 import static org.eclipse.emf.ecore.xmi.XMLResource.OPTION_RESOURCE_HANDLER;
 import static org.eclipse.tigerstripe.annotation.core.Helper.makeUri;
@@ -233,7 +232,14 @@ public class Storage implements IResourceChangeListener, ISchedulingRule, Search
 						return false;
 					}
 					
-					if (!isSet(delta.getFlags(), MARKERS)) {
+					boolean markersChanged = isSet(delta.getFlags(),IResourceDelta.MARKERS);
+					boolean contentChanged = isSet(delta.getFlags(), IResourceDelta.CONTENT);
+					boolean encodingChanged = isSet(delta.getFlags(),IResourceDelta.ENCODING);
+					
+					boolean annotationsChanged = !(markersChanged && !contentChanged) && !encodingChanged;
+					
+					if (annotationsChanged) {
+						
 						IResource resource = delta.getResource();
 						
 						if (resource instanceof IFile) {
