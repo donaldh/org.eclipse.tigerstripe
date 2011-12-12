@@ -231,43 +231,44 @@ public class Storage implements IResourceChangeListener, ISchedulingRule, Search
 					if (delta == null) {
 						return false;
 					}
+
+					boolean resourceChanged = delta.getKind() == IResourceDelta.CHANGED;
 					
-					boolean markersChanged = isSet(delta.getFlags(),IResourceDelta.MARKERS);
-					boolean contentChanged = isSet(delta.getFlags(), IResourceDelta.CONTENT);
-					boolean encodingChanged = isSet(delta.getFlags(),IResourceDelta.ENCODING);
-					
-					boolean annotationsChanged = !(markersChanged && !contentChanged) && !encodingChanged;
-					
-					if (annotationsChanged) {
-						
-						IResource resource = delta.getResource();
-						
-						if (resource instanceof IFile) {
-							IFile file = (IFile) resource;
-							if (annFilesRecognizer.isAnnotationFile(file)) {
-								if (saveExecutor.isSaving(resource)) {
-									saveExecutor.removeFromSaving(resource);
-									return false;
-								}
-								
-								switch (delta.getKind()) {
-								case IResourceDelta.ADDED:
-									added.add(file);
-									break;
-								case IResourceDelta.CHANGED:
-									changed.add(file);
-									break;
-								case IResourceDelta.REMOVED:
-									removed.add(file);
-									break;
-								}
+					if (resourceChanged) {
+						boolean significantChanges = (delta.getFlags() & ~(IResourceDelta.MARKERS | IResourceDelta.ENCODING)) != 0;
+						if (!significantChanges) {
+							// Changes doesn't affect annotations, so ignore
+							return true;
+						}
+					}
+
+					IResource resource = delta.getResource();
+
+					if (resource instanceof IFile) {
+						IFile file = (IFile) resource;
+						if (annFilesRecognizer.isAnnotationFile(file)) {
+							if (saveExecutor.isSaving(resource)) {
+								saveExecutor.removeFromSaving(resource);
+								return false;
 							}
-						} else if (resource instanceof IProject) {
+
 							switch (delta.getKind()) {
+							case IResourceDelta.ADDED:
+								added.add(file);
+								break;
+							case IResourceDelta.CHANGED:
+								changed.add(file);
+								break;
 							case IResourceDelta.REMOVED:
-								removedProjects.add((IProject) resource);
+								removed.add(file);
 								break;
 							}
+						}
+					} else if (resource instanceof IProject) {
+						switch (delta.getKind()) {
+						case IResourceDelta.REMOVED:
+							removedProjects.add((IProject) resource);
+							break;
 						}
 					}
 					return true;
