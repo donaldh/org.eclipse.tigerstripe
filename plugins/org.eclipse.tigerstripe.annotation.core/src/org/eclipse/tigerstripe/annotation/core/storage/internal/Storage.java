@@ -310,6 +310,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule, Search
 			}
 			if (proj.equals(file.getProject())) {
 				saveExecutor.removeFromQueue(file);
+				resource.unload();
 				it.remove();
 			}
 		}
