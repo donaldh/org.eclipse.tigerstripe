@@ -34,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
-import org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.InstanceManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -511,6 +510,21 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	
 	public static URI toURI(IAbstractArtifact art, IModelComponent component,
 			String newName) throws TigerstripeException {
+		ITigerstripeModelProject context = null;
+
+		// Check if TigerstripeModelProject is already disposed for the component
+		if (component instanceof IContextProjectAware) {
+			context = ((IContextProjectAware) component).getContextProject();
+			if (context == null || context.wasDisposed()) {
+				return null;
+			}
+		} else {
+			ITigerstripeModelProject project = art.getTigerstripeProject();
+			if (project == null || project.wasDisposed()) {
+				return null;
+			}
+		}
+		
 		IPath artifactPath = getArtifactPath(art, newName);
 
 		String fragment = null;
@@ -536,25 +550,11 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			}
 			fragment = b.toString();
 		}
-
-		ITigerstripeModelProject context = null;
-		if (component instanceof IContextProjectAware) {
-			context = ((IContextProjectAware) component).getContextProject();
-		}
 		return toURI(artifactPath, fragment, context);
 	}
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
 		IPath path = null;
-		
-		// Check if Artifact Manager is already disposed for the artifact
-		if (art instanceof IArtifactComponentInternal){
-			IArtifactComponentInternal component = (IArtifactComponentInternal)art;
-			ArtifactManager manager = component.getArtifactManager();
-			if (manager == null || manager.wasDisposed()){
-				return null;
-			}
-		}
 		
 		TigerstripeProject tsProject = art.getTSProject();
 
