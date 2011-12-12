@@ -15,6 +15,7 @@ import static org.eclipse.jdt.core.IJavaElement.PACKAGE_FRAGMENT;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -225,7 +226,7 @@ public class NewTigerstripeExplorerContentProvider extends
 		}
 
 		// Filter all children for logical nodes
-		Set<Object> filteredChildren = new HashSet<Object>();
+		Set<Object> filteredChildren = new LinkedHashSet<Object>();
 		for (Object object : rawChildren) {
 			filter(object, parentElement, filteredChildren);
 		}
