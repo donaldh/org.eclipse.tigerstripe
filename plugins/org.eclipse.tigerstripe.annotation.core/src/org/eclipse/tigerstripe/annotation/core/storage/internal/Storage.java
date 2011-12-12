@@ -60,7 +60,7 @@ import org.eclipse.tigerstripe.annotation.internal.core.IAnnotationFilesRecogniz
  */
 public class Storage implements IResourceChangeListener, ISchedulingRule, Searcher {
 
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	
 	private final ResourceSet resourceSet;
 	private final IAnnotationFilesRecognizer annFilesRecognizer;
@@ -391,10 +391,6 @@ public class Storage implements IResourceChangeListener, ISchedulingRule, Search
 		autosave(false);
 	}
 
-	private static boolean isSet(int flags, int mask) {
-		return (flags & mask) == mask;
-	}
-	
 	public List<Annotation> findTransactional(final Filter filter) {
 		
 		return InTransaction.run(new InTransaction.OperationWithResult<List<Annotation>>() {
