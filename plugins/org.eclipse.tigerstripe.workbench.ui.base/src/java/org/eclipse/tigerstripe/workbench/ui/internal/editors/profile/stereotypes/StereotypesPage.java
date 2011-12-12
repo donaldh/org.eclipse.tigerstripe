@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.stereotypes;
 
+import static org.eclipse.jface.dialogs.IMessageProvider.ERROR;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
@@ -19,10 +21,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class StereotypesPage extends TigerstripeFormPage {
+public class StereotypesPage extends TigerstripeFormPage implements Validatable {
 
 	public static final String PAGE_ID = "workbenchProfile.stereotypes"; //$NON-NLS-1$
 	private IManagedForm managedForm;
+	private StereotypesSection section;
 
 	public StereotypesPage(FormEditor editor) {
 		super(editor, PAGE_ID, "Stereotypes");
@@ -57,6 +60,21 @@ public class StereotypesPage extends TigerstripeFormPage {
 				.createPageTableWrapLayout(2, false);
 		body.setLayout(layout);
 
-		managedForm.addPart(new StereotypesSection(this, body, toolkit));
+		section = new StereotypesSection(this, body, toolkit);
+		managedForm.addPart(section);
+	}
+
+	public boolean hasErrors() {
+		return managedForm.getForm().getMessageType() == ERROR;
+	}
+
+	public String getErrorMessage() {
+		return managedForm.getForm().getMessage();
+	}
+
+	public void validate() {
+		if (section != null) {
+			section.validate();
+		}
 	}
 }

@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.stereotypes;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -24,9 +30,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
@@ -36,6 +44,7 @@ import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
@@ -209,4 +218,78 @@ public class StereotypesSection extends BaseStereotypeSectionPart implements
 	protected String getDescription() {
 		return "Stereotypes:";
 	}
+	
+	@Override
+	public void markPageModified() {
+		validate();
+		super.markPageModified();
+	}
+
+	private final List<String> errors = new ArrayList<String>();
+	
+	public boolean hasErrors() {
+		return !errors.isEmpty();
+	}
+	
+	public void validate() {
+		errors.clear();
+		WorkbenchProfile profile = getProfile();
+		if (profile != null) {
+			Set<String> names = new HashSet<String>();
+			for (IStereotype stereotype : profile.getStereotypes()) {
+				if (stereotype != null) {
+					String name = stereotype.getName();
+					if (name == null || name.trim().isEmpty()) {
+						errors.add("Stereotype name is empty");
+					} else if (!names.add(name)) {
+						errors.add("Stereotype name is duplicated: " + name);
+					}
+				}
+			}
+		}
+		updateErrorMessage();
+	}
+
+	private WorkbenchProfile getProfile() {
+		try {
+			return ((ProfileEditor) getPage().getEditor()).getProfile();
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return null;
+		}
+	}
+	
+	private void updateErrorMessage() {
+		ScrolledForm form = getManagedForm().getForm();
+		if (errors.isEmpty()) {
+			form.setMessage("", IMessageProvider.NONE);	
+		} else {
+			form.setMessage(toErrorString(errors), IMessageProvider.ERROR);	
+		}
+	}
+
+	private String toErrorString(List<String> errors) {
+		if (errors.isEmpty()) {
+			return "";
+		}
+		StringBuilder msg = new StringBuilder(errors.get(0));
+		for (int i = 1;i < errors.size(); ++i) {
+			msg.append("\n").append(errors.get(i));
+		}
+		return msg.toString();
+	}
+
+	private boolean duplicateName(String name) throws TigerstripeException {
+		byte hits = 0;
+		for (IStereotype stereotype : getProfile().getStereotypes()) {
+			if (name.equals(stereotype.getName())) {
+				++hits;
+			}
+			if (hits > 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
