@@ -411,6 +411,9 @@ public class EclipsePlugin extends AbstractUIPlugin {
 				IMethod meth = (IMethod) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) meth
 						.getContainingArtifact();
+				if (art == null) {
+					return null;
+				}
 				Object obj = art.getAdapter(IResource.class);
 				if (obj != null)
 					selectedElement = obj;
