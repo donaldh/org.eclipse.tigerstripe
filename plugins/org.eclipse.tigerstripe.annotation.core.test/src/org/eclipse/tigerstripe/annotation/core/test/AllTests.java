@@ -20,7 +20,6 @@ public class AllTests {
 				"Test for org.eclipse.tigerstripe.annotation.core.test");
 		// $JUnit-BEGIN$
 		suite.addTestSuite(NoTest.class);
-		suite.addTestSuite(ExternalResourceTest.class);
 		suite.addTestSuite(DelegatesTest.class);
 		suite.addTestSuite(AnnotationUtilsTest.class);
 		suite.addTestSuite(AddRemoveAnnotationTest.class);
