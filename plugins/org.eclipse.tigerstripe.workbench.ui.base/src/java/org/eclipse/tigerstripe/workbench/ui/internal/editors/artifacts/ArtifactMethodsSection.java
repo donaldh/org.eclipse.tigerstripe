@@ -115,9 +115,9 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 		public String getColumnText(Object obj, int index) {
 			IMethod method = (IMethod) obj;
 			if (methodsInModel.contains(method)) {
-				return method.getLabelString();
+				return method.getLabelString(false);
 			} else {
-				return method.getLabelString() + "("
+				return method.getLabelString(false) + "("
 						+ method.getContainingArtifact().getName() + ")";
 			}
 		}

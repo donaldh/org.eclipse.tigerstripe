@@ -702,7 +702,7 @@ public class MethodInfoEditComponent {
 					label = directionPrefix + " ";
 				}
 
-				label = label + arg.getStereotypeString() + arg.getName()
+				label = label + arg.getName()
 						+ ": "
 						+ Misc.removeJavaLangString(fqn);
 
