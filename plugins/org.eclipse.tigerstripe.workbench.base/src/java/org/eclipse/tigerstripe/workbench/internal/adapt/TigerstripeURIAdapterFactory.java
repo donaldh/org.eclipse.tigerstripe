@@ -613,8 +613,11 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 				StringBuilder res = new StringBuilder();
 				res.append(container);
 				for (int i = 0; i < path.segmentCount(); i++) {
-					res.append(File.separator);
-					res.append(path.segment(i));
+					String segment = path.segment(i);
+					if (!segment.equals(container)) {
+						res.append(File.separator);
+						res.append(path.segment(i));
+					}
 				}
 				resPath = new Path(path.getDevice(), res.toString());
 			}
