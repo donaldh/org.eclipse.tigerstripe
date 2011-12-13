@@ -75,7 +75,13 @@ public class StereotypesPage extends TigerstripeFormPage implements Validatable 
 	}
 
 	public String getErrorMessage() {
-		return managedForm.getForm().getMessage();
+		if (managedForm != null) {
+			ScrolledForm form = managedForm.getForm();
+			if (form != null) {
+				return form.getMessage();
+			}
+		}
+		return "";
 	}
 
 	public void validate() {
