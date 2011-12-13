@@ -357,6 +357,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				if (modifyRuntimeDependencies.getSelection()) {
 					selectAllButton.setEnabled(true);
 					deselectAllButton.setEnabled(true);
+					getActualTSProject().setDirty();
+					markPageModified();
 					
 				} else {
 					enableAllDependencies(true);
