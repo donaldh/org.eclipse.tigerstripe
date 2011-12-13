@@ -616,7 +616,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 					String segment = path.segment(i);
 					if (!(i == 0 && segment.equals(container))) {
 						res.append(File.separator);
-						res.append(path.segment(i));
+						res.append(segment);
 					}
 				}
 				resPath = new Path(path.getDevice(), res.toString());
