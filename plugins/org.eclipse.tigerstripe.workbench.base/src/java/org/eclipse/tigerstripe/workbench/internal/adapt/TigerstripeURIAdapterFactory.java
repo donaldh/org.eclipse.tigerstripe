@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.InstanceManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -418,6 +419,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	public static URI toURI(IArgument argument) throws TigerstripeException {
 		IMethod method = argument.getContainingMethod();
 		IAbstractArtifact art = getArtifact(method);
+		if (art == null || isArtifactDisposed(art)) {
+			return null;
+		}
 
 		IPath artifactPath = getArtifactPath(art, null);
 
@@ -427,6 +431,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	public static URI toURI(ITigerstripeModelProject project)
 			throws TigerstripeException {
+		if (project == null || project.wasDisposed()) {
+			return null;
+		}
 		IPath path = new Path(project.getModelId());
 		return toURI(path, null);
 	}
@@ -472,11 +479,17 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	
 	public static URI memberToURI(IAbstractArtifact art, String memberId)
 			throws TigerstripeException {
+		if (art == null || isArtifactDisposed(art)) {
+			return null;
+		}
 		return toURI(getArtifactPath(art, null), memberId);
 	}
 	
 	public static URI argumentToURI(IAbstractArtifact art, String methodId,
 			String argumentId) throws TigerstripeException {
+		if (art == null || isArtifactDisposed(art)) {
+			return null;
+		}
 		String fragment = methodId + ";;" + argumentId;
 		return toURI(getArtifactPath(art, null), fragment);
 	}
@@ -501,7 +514,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			throws TigerstripeException {
 		// System.out.println("toURI: "+component+" / "+newName);
 		IAbstractArtifact art = getArtifact(component);
-		if (art == null) {
+		if (art == null || isArtifactDisposed(art)) {
 			return null;
 		}
 		
@@ -510,19 +523,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	
 	public static URI toURI(IAbstractArtifact art, IModelComponent component,
 			String newName) throws TigerstripeException {
-		ITigerstripeModelProject context = null;
-
-		// Check if TigerstripeModelProject is already disposed for the component
-		if (component instanceof IContextProjectAware) {
-			context = ((IContextProjectAware) component).getContextProject();
-			if (context == null || context.wasDisposed()) {
-				return null;
-			}
-		} else {
-			ITigerstripeModelProject project = art.getTigerstripeProject();
-			if (project == null || project.wasDisposed()) {
-				return null;
-			}
+		if (art == null || isArtifactDisposed(art)) {
+			return null;
 		}
 		
 		IPath artifactPath = getArtifactPath(art, newName);
@@ -549,6 +551,11 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 				b.append(";zEnd");
 			}
 			fragment = b.toString();
+		}
+
+		ITigerstripeModelProject context = null;
+		if (component instanceof IContextProjectAware) {
+			context = ((IContextProjectAware) component).getContextProject();
 		}
 		return toURI(artifactPath, fragment, context);
 	}
@@ -631,5 +638,20 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			BasePlugin.log(e);
 		}
 		return null;
+	}
+
+	private static boolean isArtifactDisposed(IAbstractArtifact artifact) {
+		if (artifact == null) {
+			return true;
+		}
+		if (artifact instanceof IAbstractArtifactInternal) {
+			IAbstractArtifactInternal artifactInternal = (IAbstractArtifactInternal) artifact;
+			ArtifactManager artifactManager = artifactInternal
+					.getArtifactManager();
+			if (artifactManager == null || artifactManager.wasDisposed()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
