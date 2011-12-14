@@ -264,9 +264,11 @@ public class JavaURIConverter {
 
 	public static IJavaElement toJava(URI uri) {
 		String path = uri.toString();
+		boolean isJar = false;
 		int sourceIndex = path.indexOf(".java");
 		if (sourceIndex < 0) {
 			sourceIndex = path.indexOf(".jar");
+			isJar = sourceIndex >= 0;
 		}
 		if (sourceIndex >= 0) {
 			int next = path.indexOf('/', sourceIndex);
@@ -274,6 +276,9 @@ public class JavaURIConverter {
 			if (next >= 0 && path.length() > next + 1 && first >= 0) {
 				String newPath = path.substring(next + 1);
 				String allPath = path.substring(first + 1, next);
+				if (isJar) {
+					return getJar(allPath);
+				}
 				int b = newPath.indexOf('/');
 				if (b < 0) {
 					// this is type
@@ -319,6 +324,17 @@ public class JavaURIConverter {
 			if (resource != null)
 				return (IJavaElement) Platform.getAdapterManager().getAdapter(
 						resource, IJavaElement.class);
+		}
+		return null;
+	}
+
+	private static IJavaElement getJar(String allPath) {
+		IResource res = ResourcesPlugin.getWorkspace().getRoot()
+				.findMember(new Path(allPath));
+		if (res != null) {
+			IJavaElement element = (IJavaElement) Platform.getAdapterManager()
+					.getAdapter(res, IJavaElement.class);
+			return element;
 		}
 		return null;
 	}
