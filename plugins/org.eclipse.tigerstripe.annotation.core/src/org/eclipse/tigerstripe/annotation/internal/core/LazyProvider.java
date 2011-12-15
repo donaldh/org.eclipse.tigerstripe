@@ -2,7 +2,7 @@ package org.eclipse.tigerstripe.annotation.internal.core;
 
 public class LazyProvider<T> {
 
-	private T value;
+	private volatile T value;
 	private final Loader<T> loader;
 
 	public LazyProvider(Loader<T> loader) {
