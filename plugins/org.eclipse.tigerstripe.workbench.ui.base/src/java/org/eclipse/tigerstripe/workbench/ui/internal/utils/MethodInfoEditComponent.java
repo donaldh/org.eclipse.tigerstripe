@@ -643,6 +643,19 @@ public class MethodInfoEditComponent {
 		exceptionViewer.setLabelProvider(new ExceptionLabelProvider());
 		exceptionViewer.setInput("ccc"); // input is ignored
 
+		exceptionViewer.getTable().addFocusListener(
+				new SelectionProviderIntermediateFocusListener() {
+					@Override
+					public IWorkbenchSite getWorkbenchSite() {
+						return site;
+					}
+
+					@Override
+					public ISelectionProvider getSelectionProvider() {
+						return argViewer;
+					}
+				});
+
 		Point p = buttonsClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
