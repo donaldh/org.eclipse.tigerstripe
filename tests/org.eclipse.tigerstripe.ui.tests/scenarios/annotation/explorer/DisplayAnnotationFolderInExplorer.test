@@ -6,7 +6,7 @@ Tags: Annotation/explorer
 External-Reference: http://docs.xored.com/display/TS/DisplayAnnotationFolderInExplorer
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 12/15/11 7:27 PM
+Save-Time: 12/16/11 12:37 PM
 Id: _Kj24gNqiEeC6qsfYFclGSA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -61,6 +61,10 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/annotations" 
     | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/annotations/tigerstripe.examples.ann" 
     | get-property caption | equals "tigerstripe.examples.ann" | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+	click // Set the focus
+	select "New Project/src/org.eclipse/Datatype0"
+}
 get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
 with [get-window "Create Annotation Wizard"] {
     get-tree | select "Styles/Color"

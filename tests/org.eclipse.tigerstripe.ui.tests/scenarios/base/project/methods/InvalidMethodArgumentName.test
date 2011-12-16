@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Methods/Argument
 External-Reference: http://docs.xored.com/display/TS/InvalidMethodArgumentName
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 12/15/11 7:33 PM
+Save-Time: 12/16/11 1:02 PM
 Id: _e5rQMKxBEeCV6eq_iSql8g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -48,9 +48,15 @@ get-editor Entity1 | get-section Methods | get-section -index 1 | get-table -aft
     | get-item "arg0: String" | get-property caption | equals "arg0: String" | verify-true
 get-button "Save.*" | click
 with [get-editor Entity1 | get-section Methods] {
-    get-section | get-table | select "method0\\(String\\):void" | double-click -nowait
+    with [get-section | get-table] {
+    	click // Set the focus
+    	select "method0\\(String\\):void" | double-click -nowait
+    }
     with [get-section -index 1] {
-        get-table -after [get-label Arguments] | select "arg0: String"
+        with [get-table -after [get-label Arguments]] {
+        	click // Set the focus
+        	select "arg0: String"
+       	}
         get-button Edit -index 1 | click
     }
 }
@@ -73,7 +79,10 @@ with [get-window "Argument Details"] {
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
     | get-item "argument0: String" | get-property caption | equals "argument0: String" | verify-true
 with [get-editor Entity1 | get-section Methods | get-section -index 1] {
-    get-table -after [get-label Arguments] | select "argument0: String"
+    with [get-table -after [get-label Arguments]] {
+    	click // Set the focus
+    	select "argument0: String"
+    }
     get-button Edit -index 1 | click
 }
 get-window "Argument Details" | get-editbox -after [get-label Description] | get-property rawValue | equals "" 

@@ -1,8 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateAnnotationThroughPropertyView" version="3.0" id="_Wha1kGvnEeC-86eLlbu98w" description="Create New Annotation through Context Menu in Tigerstripe Explorer&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create TS project (EmptyProject)&#xD;&#xA;&#xD;&#xA;1. Select project &#xD;&#xA;2. Open Annotation view&#xD;&#xA;3. Select Add Annotation in context menu in Annotation Property View&#xD;&#xA;4. In the &quot;Create Annotation Wizard&quot; window choose Personality->Person&#xD;&#xA;5. Check Annotation view" tags="Annotation/functionality" type="ecl" externalReference="http://docs.xored.com/display/TS/CreateAnnotationThroughPropertyView">
-  <contexts>_IhHLkKwQEd-DHcdNat_asw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project"
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CreateAnnotationThroughPropertyView
+Tags: Annotation/functionality
+External-Reference: http://docs.xored.com/display/TS/CreateAnnotationThroughPropertyView
+Element-Version: 3.0
+Contexts: _IhHLkKwQEd-DHcdNat_asw
+Save-Time: 12/16/11 12:40 PM
+Id: _Wha1kGvnEeC-86eLlbu98w
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Create New Annotation through Context Menu in Tigerstripe Explorer
+
+Precondition:
+Create TS project (EmptyProject)
+
+1. Select project 
+2. Open Annotation view
+3. Select Add Annotation in context menu in Annotation Property View
+4. In the "Create Annotation Wizard" window choose Personality->Person
+5. Check Annotation view
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project"
 get-view "Annotation Property View" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree | select "New Project"
 get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
@@ -14,379 +40,62 @@ with [get-window "Annotation Conflict"] {
     get-list | select "Tigerstripe Model Component" 
     get-button OK | click
 }
+with [get-view "Tigerstripe Explorer" | get-tree] {
+	click // Set the focus
+	select "New Project"
+}
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
     | equals CheckAnnotation | verify-true
 return-from-os-dialog "MESSAGE_BOX" 64
-get-view "Annotation Property View" | get-table | get-menu "Remove All" | click]]></content>
-  </content>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow7" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View7" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree7" kind="Tree"/>
-      <path>New Project</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Annotation Property View" multiplicity="1">
-        <parent id="EclipseWindow7" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
-      <element id="View8" kind="View"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree7" kind="Tree"/>
-      <path>New Project</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="View8" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>Add Annotation</path>
-        <parent id="Table0" kind="Table"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu1" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State3" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Create Annotation Wizard" multiplicity="1">
-        <parent id="EclipseWindow7" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="Window2" kind="Window" description="Create Annotation Wizard"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree8" kind="Tree"/>
-      <path>Primitive</path>
-      <path>Check Annotation</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Finish" multiplicity="1">
-        <parent id="Window2" kind="Window" description="Create Annotation Wizard"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button2" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State4" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Annotation Conflict" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="List" multiplicity="1">
-        <parent id="Window3" kind="Window" description="Annotation Conflict"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window3" kind="Window" description="Annotation Conflict"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button3" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State5" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Annotation Property View" multiplicity="1">
-        <parent id="EclipseWindow8" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="View9" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="1">
-      <element id="Table1" kind="Table"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Annotation Property View" multiplicity="1">
-        <parent id="EclipseWindow9" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="View11" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>CheckAnnotation</path>
-        <parent id="Table2" kind="Table"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="CheckAnnotation">
-      <element id="Item6" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Annotation Property View" multiplicity="1">
-        <parent id="EclipseWindow11" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="View13" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>Remove All</path>
-        <parent id="Table3" kind="Table"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSWTDialogInfo" kind="MessageBox" path="64"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu2" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State6" kind="State"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow7" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="758" y="131" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View7" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree7" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>New Project</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.4">
-      <elements id="View8" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="453" width="741" height="191"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="Table0" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="4" width="196" height="161"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="Menu1" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Add Annotation" enablement="true" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
-      <elements id="State3" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="Window2" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Create Annotation Wizard">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="1008" y="227" width="500" height="500"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="Tree8" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" borderWith="2" itemCount="3">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="42" y="5" width="427" height="187"/>
-        <selection>
-          <path>Personality</path>
-          <path>Person</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.15">
-      <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="13" width="92" height="25"/>
-        <caption><![CDATA[&Finish]]></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.16">
-      <elements id="State4" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.19">
-      <elements id="Window3" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Annotation Conflict">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="100" y="100" width="400" height="300"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.20">
-      <elements id="List0" kind="List"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="40" width="374" height="161"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.21">
-      <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="13" width="92" height="25"/>
-        <caption>OK</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.22">
-      <elements id="State5" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.25">
-      <elements id="EclipseWindow8" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="758" y="131" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.26">
-      <elements id="View9" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="453" width="741" height="191"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.27">
-      <elements id="Table1" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="4" width="196" height="161"/>
-        <selection>
-          <path>CheckAnnotation</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.29">
-      <elements id="EclipseWindow9" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="758" y="131" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.30">
-      <elements id="View11" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="453" width="741" height="191"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.31">
-      <elements id="Table2" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="4" width="196" height="161"/>
-        <selection>
-          <path>CheckAnnotation</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.32">
-      <elements id="Item6" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="CheckAnnotation" selected="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="20" width="99" height="19"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.34">
-      <elements id="EclipseWindow11" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="758" y="131" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.35">
-      <elements id="View13" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="453" width="741" height="191"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.36">
-      <elements id="Table3" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="4" width="196" height="161"/>
-        <selection>
-          <path>CheckAnnotation</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.37">
-      <elements id="Menu2" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Remove All" enablement="true" index="2" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.38">
-      <elements id="State6" kind="State"/>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUdFOwjAUfd9XLH2nFU0EFzZikAgR
+jQpR30htL1vD1o62c9vfe2dgvBjj28k5p+eeezuZNkUefoF1yuiYDOkFCUELI5VOY1L53WBMpkkwEaag
+jbEg6WFEnQDNrTLR+gjCplBRH3LZhWCsdhHyMcm8LyPG6rqmpkipsSn7eFyeLL8m949QZT8qO4zYSaUg
+kCKh5gXEZGaBe7jV2njuscAms6ZKs2drSrC+fVNQk/OGV105JWOyfc/4cH//pecwG4yvYZV/VjdjtHqe
+upic89iu0qIDPFe+Rb0tcSqIHC/VeLDIv8IOLJ4N+t7SCHdcq1tBKlfmvGWbNftP3SQIQzy59jjAJdtl
+tljtH+qXuRzcLYR84n7LXT1hvSPo8F8flATfUEsHCFDl5LYhAQAA6QEAAFBLAQIUABQACAAIAAAAIQBQ
+5eS2IQEAAOkBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABXAQAAAAA=
+
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtXNty2zYQfc9XsOxM3yJedR3LqaM4
+HU/ixlNr6s5k8gCTkISaJDQgZNn9+gLgVTJIUTZJX6I3kQSB3bO7B7tYjo4+3PmecgtJiHAwVo2Oriow
+cLCLgvlYXdHZ+4H64fjdkYP9zh0m0O1QGHqg47DfnSXBFDvY6xCwHk35/UsHBoAgrNz5aJTOavJZ2TpB
+OGL3x+qC0uVI09brdQf78w4mc+2f87N0SLg5ZG2JEaauG2zY10tnAX3wHgUhBYEDk7dKBUzn09gwTQzT
+xDCND9NSPSC/rDQjV7nirBobWmHmFdox3wptziIuNpCCjoeWIRRwQX/GITO1U/HO8TtF4Ub0QeCGCoN4
+RO+X7O1SJUeX0IMOnUSviTnYLC6gQLlBgTtWT6MFr9gFXquKv/IoWnrIQfSe+ZKqiVW1ZNlmZPgbQbb0
+ElAKCfO1KZozt6MELaFyerf02FzkoWTRNGyiJSAwoAraVqavylV0Yeiwuanw6/xa75V4pHLhATrDxI/U
+5wBwaduAYkogrKYrBy1VUSDYgLA0kpdBlcjKrv1EBC5sKoKQPBGB2XJx/CdcKxcE/8smONLEnfZ96SQI
+MAVcAS7KEhJ6r0RD3oY/TZgCN6qyRnRxBRAdqzPghVBmLK714KG//Iw+MgXX3h5RJkGtTUo4h8GqVFgG
+2onrKpmrZ0huqyM019UNHGpX6A/mEkyQeObH+rTElzgShpqHpRYX5oHzGZNI5njZkF+IRcVtK1k1r1jD
+dk/4JeWyCYFcqBylXaH/AHHfCpfVtzdG6pjqFpIb2hWi+Szb6KCYIi8I8hFFtzAf1tGjyQI6N9LAb9oW
+H1eUMm0y5/yMAhQuXqN5GqOrCKNUzRiytijLfgmUlTPfBAczhhR9phrjKwolSxd7p1XqnTK9WufDBzH4
+7csr07Dh0LOeKfS6zxB6L7COr7H2GrzKfGW/MmPYbJlxEobMAqrCrEPQ9YqyFxCF/gSvAnb3FngrmEm3
+mZ9wPQx50SDem7Llc3KIU63R6ScmOH+iKgsCZxVPuX7VtNOzgB5i5ukxM/wJYsYwnrc2P2MRtKs2F0l6
+5eLcbLg4l9CAA4QzpCSwJbCMErjePTUPQpOEcMlEDeYHTng6J2Tx8pZJwXr5B3Z/QR/fsvLW83bwgfXC
+D+v44cbV9BMCHp6fBTOcHc+FIZjDj/guQUio2bPrO6MoPSc0n+WcsLc7848FPQfLJSM1JX42VjXt92Rc
+R9/SKqx8gpf4h4MDSrC3U7kVGiUUAAPuYXy5sUrJigXcNSYuJFeILrgDKxRRD+5kh9STr4FzMycsvXQn
+2MNEYSuPVdPWVWVOIAzi39diy+E/tfRNNg/MvZk9uOb3mE5jtd9lJQGPK8vg3Q9XiKibNttbIJovmAr9
+3iCLlgSOyB6bJqhsle3kONzRh9vDBhGdP7SABPK0I9oO0JaAuaunKJt2DuTu0K4ZZFMKcnEXaQ+Qo/Pj
+hyDzKQAKOFEktwR5p4e2yd20Xtrgczn83W4GP/8dw89+Vod/B+KcfhIRkztKWV8tMtPWOzXZzS4MDnn7
+rL7gKEyP2gkQs9sTIWJ3rTRG+raRWcwYGjXHSF8eIyW9vX2iJEq2KoVJfoMw24gIjnPG98NeDuVe3SgP
+pCgX9CD3w5i/F5WOce3FvHijgyvFH4QOcGF8qT1Jt6FUt5JW52O3TDmdyxtALeQuhV2ldrjC0PUobTHN
+furGXV3P0buu1521WIU7qrzpWMOOuskL+X3TaoMlGNK2GeUtKco2Rzwli0G/yiZ6wZIuHACPVXCbm+jm
+gHY2WKMrtWNJk3E/WybdpAfWbCk0jDifTy02NDODmXnzx5x5fPTL98mnk+nJ99+i5vOPH8cM6/hhrdD3
+iulS3mZ97EJyXpb361qgS1kTsDWmjPxBzyoPO0+UVu1Eacqrbt44TrMq0UV+BPCTaOhurmyHHbtRxppB
+a/XtJlMpU146l3Rp3zp3ffvSDFWZ8oSrpC392IXk21GVru3hjKq5MypTvlUV95cPdfgTwC4pxAv65a0U
+4q0fVFUqy8sy7fIeaUMZtSnPtqo00Q8U1hyFWfI8rKTdf+CwJ6AtT83KvkU4cNjL4TBLnu8Vf5+xr/G2
+jim3vw1RIrW4Faok3DXVL2ZWuQyH+eioOzjkXY1Kn1QctogGtwh58VHy8cdhi3gC2vKaouzzlMMW8YK2
+CHmVUvCRzH7GkzSysi+bZEZlq8E7Ybw621mWvFdX8knO9kLiI519/h7h+N3/UEsHCG6mHYuXBgAAeEEA
+AFBLAQIUABQACAAIAAAAIQBuph2LlwYAAHhBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYA
+AAAAAQABADYAAADNBgAAAAA=
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

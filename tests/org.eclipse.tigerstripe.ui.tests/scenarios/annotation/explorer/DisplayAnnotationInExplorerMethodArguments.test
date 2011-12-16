@@ -6,7 +6,7 @@ Tags: Annotation/explorer
 External-Reference: http://docs.xored.com/display/TS/DisplayAnnotationInExplorerMethodArguments
 Element-Version: 3.0
 Contexts: _pje2YGyZEeC-86eLlbu98w
-Save-Time: 12/15/11 7:45 PM
+Save-Time: 12/16/11 1:00 PM
 Id: _AXyxIMlfEeCcX6bW5MhRtg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -37,8 +37,14 @@ get-editor Entity0 | get-section Methods | get-section -index 1 | get-button Add
 get-view "Annotation Property View" | click -nowait
 get-button "Save.*" | click
 with [get-editor Entity0 | get-section Methods] {
-    get-section | get-table | select "entity0_testMethod0\\(String\\):void"
-    get-section -index 1 | get-table -after [get-label Arguments] | select "arg0: String"
+    with [get-section | get-table] {
+    	click // Set the focus
+    	select "entity0_testMethod0\\(String\\):void"
+    }
+    with [get-section -index 1 | get-table -after [get-label Arguments]] {
+    	click // Set the focus
+    	select "arg0: String"
+    }
 }
 get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
 with [get-window "Create Annotation Wizard"] {
@@ -66,6 +72,16 @@ get-view "Tigerstripe Explorer" | get-tree
     | get-item "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\):void" | get-property caption 
     | equals "entity0_testMethod0(String):void" | verify-true
 return-from-os-dialog "MESSAGE_BOX" 64
+with [get-editor Entity0 | get-section Methods] {
+    with [get-section | get-table] {
+    	click // Set the focus
+    	select "entity0_testMethod0\\(String\\):void"
+    }
+    with [get-section -index 1 | get-table -after [get-label Arguments]] {
+    	click // Set the focus
+    	select "arg0: String"
+    }
+}
 get-view "Annotation Property View" | get-table | get-menu Remove | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
