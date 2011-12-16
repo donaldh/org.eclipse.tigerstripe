@@ -5,7 +5,7 @@ Element-Name: ProjectReferences
 External-Reference: 
 Element-Version: 2.0
 Contexts: _DRHZcMz9Ed-6Q5V9pxn_5A
-Save-Time: 12/16/11 3:01 PM
+Save-Time: 12/16/11 6:12 PM
 Id: _9srn4cz5Ed-6Q5V9pxn_5A
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -185,8 +185,12 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring-referen
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring-reference/src/simple/Ent3/attribute0:Ent10" | get-property caption | equals "attribute0:Ent10" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring-reference/src/simple/Ent3/method0\\(Ent10\\):Ent10\\[0..1\\]" | get-property caption | equals "method0(Ent10):Ent10[0..1]" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring-reference/src/simple/Dependency1/Ent10" | get-property caption | equals Ent10 | verify-true
-get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Ent10" | get-menu "Refactor Model/Move..." | click
-get-window "Save Modified Resources" | get-button OK | click
+get-button "Save All.*" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    click
+    select "model-refactoring/src/simple/Ent10"
+    get-menu "Refactor Model/Move..." | click
+}
 get-window Move | get-tree | select "model-refactoring"
 with [get-window Move] {
     get-tree -after [get-label "Choose destination for \'Ent10:"] | select "model-refactoring/src/simple/moved"

@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Enumeration
 External-Reference: http://docs.xored.com/display/TS/AddEnumerationAsMethodType
 Element-Version: 3.0
 Contexts: _3uHT4H-DEeCcSOu_oe8o1g
-Save-Time: 12/15/11 6:48 PM
+Save-Time: 12/16/11 6:22 PM
 Id: _XpuOYIXmEeC_HYrDuY0PAA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -66,11 +66,18 @@ with [get-editor Entity2 | get-section Methods | get-section -index 1 | get-comb
     get-property values -index 1 | equals literal1 | verify-true
 }
 get-button "Save.*" | click
-with [get-editor Entity2 | get-section Methods | get-section -index 1] {
-    get-button Add -after [get-label Arguments] | click
-    get-table -after [get-label Arguments] | click // To set focus on the arguments table
-    get-table -after [get-label Arguments] | select "arg0: String"
-    get-button Edit -index 1 | click
+with [get-editor Entity2 | get-section Methods] {
+    with [get-section | get-table] {
+    	click // Set the focus
+    	select "method0\\(String\\):void"
+    }
+    with [get-section -index 1] {
+        with [get-table -after [get-label Arguments]] {
+        	click // Set the focus
+        	select "arg0: String"
+       	}
+        get-button Edit -after [get-label Arguments] | click
+    }
 }
 with [get-window "Argument Details"] {
     get-button "Select..." | click

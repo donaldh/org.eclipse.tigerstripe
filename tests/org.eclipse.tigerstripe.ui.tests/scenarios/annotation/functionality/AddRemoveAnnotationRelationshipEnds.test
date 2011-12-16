@@ -6,7 +6,7 @@ Tags: Annotation/functionality
 External-Reference: http://docs.xored.com/display/TS/AddRemoveAnnotationRelationshipEnds
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_OHSl4JyPEeCwQoDghmuRmQ,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/16/11 1:21 PM
+Save-Time: 12/16/11 5:29 PM
 Id: _YCShQclDEeCcX6bW5MhRtg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -54,6 +54,10 @@ set-dialog-result MessageBox 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Association/entity1:Entity1" 
     | get-property caption | equals "entity1:Entity1" | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+	click // Set the focus
+	select select "Project/src/com.mycompany/Association/entity1:Entity1"
+}
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Association/entity2:Entity2"
 get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
@@ -64,6 +68,10 @@ with [get-window "Create Annotation Wizard"] {
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "Project/src/com.mycompany/Association/<<TextAnnotation>>entity2:Entity2" | get-property caption 
     | equals "<<TextAnnotation>>entity2:Entity2" | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+	click // Set the focus
+	select select "Project/src/com.mycompany/Association/<<TextAnnotation>>entity2:Entity2"
+}
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Annotation Property View" | get-table | get-item TextAnnotation | get-property caption 
     | equals TextAnnotation | verify-true
@@ -71,6 +79,10 @@ set-dialog-result MessageBox 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Association/entity2:Entity2" 
     | get-property caption | equals "entity2:Entity2" | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+	click // Set the focus
+	select select "Project/src/com.mycompany/Association/entity2:Entity2"
+}
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
