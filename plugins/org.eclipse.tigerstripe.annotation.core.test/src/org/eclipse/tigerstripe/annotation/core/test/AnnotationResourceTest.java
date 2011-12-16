@@ -11,16 +11,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test;
 
-import static org.eclipse.tigerstripe.annotation.core.IAnnotationManager.ANNOTATION_FILE_EXTENSION;
-
 import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
@@ -49,8 +47,8 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 		deleteProject(project1);
 	}
 	
-	public void testReadWrite() throws AnnotationException {
-		Resource resource = createResourceWithAnnotation(false);
+	public void testReadWrite() throws AnnotationException, IOException {
+		Resource resource = createResourceWithAnnotation();
 		try {
 			AnnotationPlugin.getManager().addAnnotations(resource);
 			final MimeType type = getAnnotationContent();
@@ -77,16 +75,18 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 		return (MimeType)annotations[0].getContent();
 	}
 	
-	protected Resource createResourceWithAnnotation(boolean readOnly) {
+	protected Resource createResourceWithAnnotation() throws IOException {
+		
 		File file = project1.getLocation().toFile();
 		File parent = file.getParentFile();
 		
-		File newAnnotationFile = new File(parent, "ann." + ANNOTATION_FILE_EXTENSION);
-		if (newAnnotationFile.exists())
+		File newAnnotationFile = new File(parent, "annotations.ann");
+		if (newAnnotationFile.exists()) {
 			newAnnotationFile.delete();
+		}
 		
 		URI uri = URI.createFileURI(newAnnotationFile.getAbsolutePath());
-		Resource resource = getResource(uri);
+		Resource resource = new XMIResourceImpl(uri);
 		
 		Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
 		annotation.setUri(URI.createURI("resource:/project1"));
@@ -94,37 +94,6 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 		annotation.setContent(ModelFactory.eINSTANCE.createMimeType());
 		
 		resource.getContents().add(annotation);
-		save(resource);
-
-		if (readOnly)
-			newAnnotationFile.setReadOnly();
-		
-		return resource;
-	}
-	
-	protected void save(Resource resource) {
-		try {
-            resource.save(null);
-        }
-        catch (IOException e) {
-        	//ignore exception
-        }
-	}
-	
-	protected Resource getResource(URI uri) {
-		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource resource = rs.getResource(uri, false);
-		if (resource == null) {
-			resource = rs.createResource(uri);
-		}
-		if (resource != null) {
-			try {
-	            resource.load(null);
-            }
-            catch (IOException e) {
-            	//ignore exception
-            }
-		}
 		return resource;
 	}
 }

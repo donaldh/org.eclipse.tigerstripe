@@ -1,6 +1,7 @@
 package org.eclipse.tigerstripe.annotation.core.storage.internal;
 
 import static org.eclipse.core.resources.IResource.FOLDER;
+import static org.eclipse.core.resources.IWorkspace.AVOID_UPDATE;
 import static org.eclipse.tigerstripe.annotation.core.AnnotationPlugin.warn;
 import static org.eclipse.tigerstripe.annotation.core.Helper.toArray;
 
@@ -13,7 +14,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -99,7 +99,7 @@ public class SaveExecutor {
 								storage.checkpoint();
 							}
 						}
-					}, null, IWorkspace.AVOID_UPDATE, monitor);
+					}, null, AVOID_UPDATE, monitor);
 				} catch (CoreException e) {
 					AnnotationPlugin.log(e);
 				}
