@@ -556,6 +556,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		ITigerstripeModelProject context = null;
 		if (component instanceof IContextProjectAware) {
 			context = ((IContextProjectAware) component).getContextProject();
+			if (context != null && context.wasDisposed()) {
+				return null;
+			}
 		}
 		return toURI(artifactPath, fragment, context);
 	}
