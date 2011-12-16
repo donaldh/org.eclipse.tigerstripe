@@ -2,6 +2,7 @@ package org.eclipse.tigerstripe.annotation.core.storage.internal;
 
 import static org.eclipse.core.resources.IResource.FOLDER;
 import static org.eclipse.tigerstripe.annotation.core.AnnotationPlugin.warn;
+import static org.eclipse.tigerstripe.annotation.core.Helper.toArray;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,9 +13,10 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -26,7 +28,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.Helper;
 
 /**
  * This class respond for saving resources into workspace.
@@ -50,53 +51,60 @@ public class SaveExecutor {
 	}
 
 	{
-		job = new WorkspaceJob("Save Annotation Files") {
+		job = new Job("Save Annotation Files") {
 
 			@Override
-			public IStatus runInWorkspace(IProgressMonitor monitor)
-					throws CoreException {
+			protected IStatus run(IProgressMonitor monitor) {
 
-				Resource[] resources;
-				synchronized (SaveExecutor.this) {
-					resources = Helper.toArray(Resource.class, toSave);
-					toSave.clear();
-				}
-
-				storage.checkpoint();
-				storage.silentMode();
 				try {
-					for (Resource resource : resources) {
-	
-						URI uri = resource.getURI();
-						if (uri == null || uri.isArchive()) {
-							continue;
-						}
-	
-						final IFile file = WorkspaceSynchronizer.getFile(resource);
-	
-						if (file == null) {
-							warn("Resource '%s' has no workspace resource. Can't save",
-									resource.getURI());
-							continue;
-						}
-						savingResources.add(file);
-						try {
-							if (resource.getContents().isEmpty()) {
-								resource.delete(null);
-								removeDanglingFolders(file, monitor);
-							} else {
-								resource.save(saveOptions);
+					ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+						
+						public void run(IProgressMonitor monitor) throws CoreException {
+							Resource[] resources;
+							synchronized (SaveExecutor.this) {
+								resources = toArray(Resource.class, toSave);
+								toSave.clear();
 							}
-						} catch (Exception e) {
-							AnnotationPlugin.log(e);
+							
+							storage.checkpoint();
+							storage.silentMode();
+							try {
+								for (Resource resource : resources) {
+									
+									URI uri = resource.getURI();
+									if (uri == null || uri.isArchive()) {
+										continue;
+									}
+									
+									final IFile file = WorkspaceSynchronizer.getFile(resource);
+									
+									if (file == null) {
+										warn("Resource '%s' has no workspace resource. Can't save",
+												resource.getURI());
+										continue;
+									}
+									savingResources.add(file);
+									try {
+										if (resource.getContents().isEmpty()) {
+											resource.delete(null);
+											removeDanglingFolders(file, monitor);
+										} else {
+											resource.save(saveOptions);
+										}
+									} catch (Exception e) {
+										AnnotationPlugin.log(e);
+									}
+								}
+							} finally {
+								storage.checkpoint();
+							}
 						}
-					}
-				} finally {
-					storage.checkpoint();
+					}, null, IWorkspace.AVOID_UPDATE, monitor);
+				} catch (CoreException e) {
+					AnnotationPlugin.log(e);
 				}
 				return Status.OK_STATUS;
 			}
-
 		};
 		job.addJobChangeListener(new JobChangeAdapter() {
 
