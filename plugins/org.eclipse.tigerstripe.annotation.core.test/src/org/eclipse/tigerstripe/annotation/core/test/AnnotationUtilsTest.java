@@ -12,6 +12,8 @@
 package org.eclipse.tigerstripe.annotation.core.test;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
@@ -19,6 +21,7 @@ import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
+import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 
 /**
  * @author Yuri Strot
@@ -45,8 +48,18 @@ public class AnnotationUtilsTest extends AbstractResourceTestCase {
 	protected void tearDown() throws Exception {
 		deleteProject(project1);
 		deleteProject(project2);
-		assertEquals(0, AnnotationPlugin.getManager().getResourceSet()
-				.getResources().size());
+
+		EList<Resource> resources = AnnotationPlugin.getManager()
+				.getResourceSet().getResources();
+		debugResources(resources);
+		assertEquals(0, resources.size());
+	}
+
+	private void debugResources(EList<Resource> resources) {
+		System.out.println("DEBUG ANNOTATION RESOURCES");
+		for (Resource resource : resources) {
+			System.out.println("[RESOURCE] " + resource.getURI());
+		}
 	}
 	
 	public void testCopyAnnotations() throws AnnotationException {
