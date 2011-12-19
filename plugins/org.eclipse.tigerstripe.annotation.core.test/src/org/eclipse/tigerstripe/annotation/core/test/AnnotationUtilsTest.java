@@ -21,7 +21,6 @@ import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
-import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 
 /**
  * @author Yuri Strot
@@ -56,7 +55,7 @@ public class AnnotationUtilsTest extends AbstractResourceTestCase {
 	}
 
 	private void debugResources(EList<Resource> resources) {
-		System.out.println("DEBUG ANNOTATION RESOURCES");
+		System.out.println("DEBUG ANNOTATION RESOURCES | " + Thread.currentThread().getId());
 		for (Resource resource : resources) {
 			System.out.println("[RESOURCE] " + resource.getURI());
 		}
@@ -69,23 +68,18 @@ public class AnnotationUtilsTest extends AbstractResourceTestCase {
 		MimeType type2 = ModelFactory.eINSTANCE.createMimeType();
 		type2.setMimeType(MIME_TYPE_2);
 		
-		try {
-			manager.addAnnotation(project1, type1);
-			manager.addAnnotation(project1, type2);
-			
-			AnnotationUtils.copyAnnotations(project1, project2);
-			Annotation[] annotations = manager.getAnnotations(project1, false);
-			assertEquals(2, annotations.length);
-			MimeType content1 = (MimeType)annotations[0].getContent();
-			MimeType content2 = (MimeType)annotations[1].getContent();
-			String mimeType1 = content1.getMimeType();
-			String mimeType2 = content2.getMimeType();
-			assertTrue((MIME_TYPE_1.equals(mimeType1) && MIME_TYPE_2.equals(mimeType2)) ||
-					(MIME_TYPE_2.equals(mimeType1) && MIME_TYPE_1.equals(mimeType2)));
-		}
-		catch (Exception e) {
-			manager.removeAnnotations(project1);
-		}
+		manager.addAnnotation(project1, type1);
+		manager.addAnnotation(project1, type2);
+		
+		AnnotationUtils.copyAnnotations(project1, project2);
+		Annotation[] annotations = manager.getAnnotations(project1, false);
+		assertEquals(2, annotations.length);
+		MimeType content1 = (MimeType)annotations[0].getContent();
+		MimeType content2 = (MimeType)annotations[1].getContent();
+		String mimeType1 = content1.getMimeType();
+		String mimeType2 = content2.getMimeType();
+		assertTrue((MIME_TYPE_1.equals(mimeType1) && MIME_TYPE_2.equals(mimeType2)) ||
+				(MIME_TYPE_2.equals(mimeType1) && MIME_TYPE_1.equals(mimeType2)));
 	}
 
 }

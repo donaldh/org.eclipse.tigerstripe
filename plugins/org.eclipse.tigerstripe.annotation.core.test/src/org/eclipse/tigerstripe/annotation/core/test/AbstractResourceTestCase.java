@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test;
 
+import static org.eclipse.core.resources.ResourcesPlugin.getWorkspace;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
@@ -28,11 +29,13 @@ public abstract class AbstractResourceTestCase extends TestCase {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		project.create(new NullProgressMonitor());
 		project.open(new NullProgressMonitor());
+		getWorkspace().checkpoint(false);
 		return project;
 	}
 	
 	protected void deleteProject(IProject project) throws CoreException {
 		project.delete(true, false, new NullProgressMonitor());
+		getWorkspace().checkpoint(false);
 	}
 
 }

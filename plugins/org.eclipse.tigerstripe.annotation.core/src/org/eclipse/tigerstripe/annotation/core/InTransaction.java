@@ -43,6 +43,24 @@ public class InTransaction {
 		}
 	}
 
+	public static void readOnly(final Operation operation) {
+		try {
+			IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
+			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+
+				public void run(IProgressMonitor monitor) throws CoreException {
+					try {
+						operation.run();
+					} catch (Throwable e) {
+						AnnotationPlugin.log(e);
+					}
+				}
+			}, wroot, 0, new NullProgressMonitor());
+		} catch (Exception e) {
+			AnnotationPlugin.log(e);
+		}
+	}
+	
 	public static <T> T run(final OperationWithResult<T> operation) {
 		Operation op = operation; 
 		run(op);

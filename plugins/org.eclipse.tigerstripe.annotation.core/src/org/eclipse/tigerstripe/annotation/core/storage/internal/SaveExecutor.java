@@ -65,7 +65,12 @@ public class SaveExecutor {
 								resources = toArray(Resource.class, toSave);
 								toSave.clear();
 							}
-							
+							storage.debug(
+									"[EXECUTOR] start for saving resources, count: %s",
+									resources.length);
+							if (resources.length == 0) {
+								return;
+							}
 							storage.checkpoint();
 							storage.silentMode();
 							try {
@@ -86,9 +91,11 @@ public class SaveExecutor {
 									savingResources.add(file);
 									try {
 										if (resource.getContents().isEmpty()) {
+											storage.debug("[EXECUTOR] removing annotation file %s", file);
 											resource.delete(null);
 											removeDanglingFolders(file, monitor);
 										} else {
+											storage.debug("[EXECUTOR] saving annotation file %s", file);
 											resource.save(saveOptions);
 										}
 									} catch (Exception e) {
@@ -132,8 +139,8 @@ public class SaveExecutor {
 		checkForRun();
 	}
 
-	public synchronized void removeFromQueue(IFile file) {
-		toSave.remove(file);
+	public synchronized void removeFromQueue(Resource resource) {
+		toSave.remove(resource);
 	}
 	
 	public synchronized void checkForRun() {

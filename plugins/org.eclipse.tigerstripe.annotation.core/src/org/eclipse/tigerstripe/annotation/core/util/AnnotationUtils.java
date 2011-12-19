@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.util;
 
+import static org.eclipse.emf.ecore.util.EcoreUtil.copy;
+
 import java.util.Collection;
 import java.util.Set;
 
@@ -67,7 +69,8 @@ public class AnnotationUtils {
 		boolean haveCopied = false;
 		for (Annotation annotation : annotations) {
 			AnnotationPlugin.getManager().addAnnotation(to,
-					annotation.getContent());
+					copy(annotation.getContent()));
+			
 			haveCopied = true;
 		}
 		return haveCopied;

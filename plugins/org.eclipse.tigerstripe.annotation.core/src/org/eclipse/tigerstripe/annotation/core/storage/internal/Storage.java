@@ -310,8 +310,9 @@ public class Storage implements IResourceChangeListener, ISchedulingRule, Search
 				continue;
 			}
 			if (proj.equals(file.getProject())) {
-				saveExecutor.removeFromQueue(file);
+				saveExecutor.removeFromQueue(resource);
 				resource.unload();
+				debug("Remove resource from resource set %s", resource.getURI());
 				it.remove();
 			}
 		}
@@ -321,15 +322,15 @@ public class Storage implements IResourceChangeListener, ISchedulingRule, Search
 		if (resource == null) {
 			return;
 		}
-		debug("Save request %s ", resource);
+		debug("Save request %s ", resource.getURI());
 		saveExecutor.save(resource);
 	}
 	
 	private void annotationFileWasChanged(final IFile file) {
 		debug("Annotation file was CHANGED %s", file);
-		saveExecutor.removeFromQueue(file);
 		Resource resource = getResourceSet().getResource(makeUri(file), false);
 		if (resource != null) {
+			saveExecutor.removeFromQueue(resource);
 			resource.unload();
 			try {
 				resource.load(getResourceSet().getLoadOptions());
@@ -356,17 +357,18 @@ public class Storage implements IResourceChangeListener, ISchedulingRule, Search
 	
 	private void annotationFileWasRemoved(final IFile file) {
 		debug("Annotation file was REMOVED %s", file);
-		saveExecutor.removeFromQueue(file);
 		Resource resource = getResourceSet().getResource(makeUri(file), false);
 		if (resource != null) {
+			saveExecutor.removeFromQueue(resource);
 			resource.unload();
 			getResourceSet().getResources().remove(resource);
+			debug("Remove resource from resource set %s", resource.getURI());
 		}
 	}
 
-	private void debug(String msg, Object...args) {
+	public void debug(String msg, Object...args) {
 		if (DEBUG) {
-			System.out.println(String.format(msg, args));
+			System.out.println(String.format(msg, args)+ " | "+ Thread.currentThread().getId());
 		}
 	}
 
