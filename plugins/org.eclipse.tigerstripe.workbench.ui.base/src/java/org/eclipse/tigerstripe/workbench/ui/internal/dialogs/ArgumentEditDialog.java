@@ -25,7 +25,6 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.refactoring.contentassist.ControlContentAssistHelper;
 import org.eclipse.jdt.internal.ui.refactoring.contentassist.JavaTypeCompletionProcessor;
-import org.eclipse.jdt.internal.ui.wizards.dialogfields.ComboDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IListAdapter;
@@ -65,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.fields.ComboDialogField;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.runtime.messages.NewWizardMessages;
@@ -180,12 +180,12 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		// attributeDimensionDialogField.setLabelText("Attribute Dimensions:");
 		// //$NON-NLS-1$
 
-		multiplicityCombo = new ComboDialogField(0);
+		multiplicityCombo = new ComboDialogField(SWT.READ_ONLY);
 		multiplicityCombo.setItems(IModelComponent.EMultiplicity.labels());
 		multiplicityCombo.setLabelText("Multiplicity");
 		multiplicityCombo.setDialogFieldListener(adapter);
 
-		directionCombo = new ComboDialogField(0);
+		directionCombo = new ComboDialogField(SWT.READ_ONLY);
 		directionCombo.setItems(IArgument.EDirection.labels());
 		directionCombo.setLabelText("Direction");
 		directionCombo.setDialogFieldListener(adapter);
