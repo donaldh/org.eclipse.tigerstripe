@@ -6,7 +6,7 @@ Tags: Generator/EnableDependencyOnRuntime, I44
 External-Reference: 
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_HNJU4CVgEeGRa87APBuv3g
-Save-Time: 12/13/11 4:53 PM
+Save-Time: 12/19/11 7:29 PM
 Id: _f8FNcCVYEeGRa87APBuv3g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -28,6 +28,34 @@ Enable Generator project
 Generate project
 See generated file in target foler - file is generated only for enabled referenced project
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "SimpleGenerator29/ts-plugin.xml" | double-click -nowait
+get-editor "SimpleGenerator29/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "SimpleGenerator29 Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project/tigerstripe.xml" | double-click -nowait
+with [get-editor "Project/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    with [get-section Dependencies] {
+        get-button "Modify dependencies at generation time (advanced)" | click
+        get-button "Deselect All" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select Project | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project/target/tigerstripe.gen" | get-property childCount | equals 1 | verify-true
+    get-item "Project/target/tigerstripe.gen/Project.txt" | get-property caption | equals "Project.txt" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content
