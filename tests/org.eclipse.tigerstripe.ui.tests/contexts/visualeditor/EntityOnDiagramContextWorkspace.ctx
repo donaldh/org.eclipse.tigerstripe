@@ -1,25 +1,177 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="EntityOnDiagramContextWorkspace" id="_wrsM4KFXEeCjS6NbCUXM_w" tags="Entity, ClassDiagram">
-  <content>
-    <projects name="Project1">
-      <files name=".classpath" contentURI=".EntityOnDiagramContextWorkspacectx/content2.classpath"/>
-      <files name=".project" contentURI=".EntityOnDiagramContextWorkspacectx/content2.project"/>
-      <files name="tigerstripe.xml" contentURI=".EntityOnDiagramContextWorkspacectx/content2.xml"/>
-      <folders name=".settings">
-        <files name="org.eclipse.core.resources.prefs" contentURI=".EntityOnDiagramContextWorkspacectx/content2.prefs"/>
-      </folders>
-      <folders name="src">
-        <folders name="com">
-          <files name=".package" contentURI=".EntityOnDiagramContextWorkspacectx/content6.package"/>
-          <folders name="mycompany">
-            <files name=".package" contentURI=".EntityOnDiagramContextWorkspacectx/content5.package"/>
-            <files name="ClassDiagram.vwm" contentURI=".EntityOnDiagramContextWorkspacectx/content3.vwm"/>
-            <files name="ClassDiagram.wvd" contentURI=".EntityOnDiagramContextWorkspacectx/content3.wvd"/>
-            <files name="Entity.java" contentURI=".EntityOnDiagramContextWorkspacectx/content2.java"/>
-            <files name="Entity2.java" contentURI=".EntityOnDiagramContextWorkspacectx/content3.java"/>
-          </folders>
-        </folders>
-      </folders>
-    </projects>
-  </content>
-</com.xored.q7.workspace:WorkspaceContext>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: EntityOnDiagramContextWorkspace
+Tags: Entity, Class Diagram
+Element-Version: 2.0
+Save-Time: 12/20/11 4:15 PM
+Id: _wrsM4KFXEeCjS6NbCUXM_w
+
+------=_contents/Project1/tigerstripe.xml-1170153e-60f1-35a9-b041-358f43728798
+Content-Type: q7/binary
+Entry-Name: contents/Project1/tigerstripe.xml
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSlUkFqwzAQvBf6B6NjoFZy68F2CJRC
+oYUQ2gdspbVRKktCWpv6910nTmvnUArFYHZ2NaOZtYvtZ2uzHmMy3pVik69Fhk55bVxTirfXx7t7kSUC
+p8F6h6VwXmyr25uCTMMkiibgnL4R4zBEf0RFWes12iddiv25sRGZg5ZVTqd8R6GjBxN54uNQEcQGSc6U
+8wZdIa/PMXW6sVrn/BTyAnmiMSmmEkM5WemNxngBASMNkwuNNXSWdpFMDYr2oD6gQVEp3+btwO8Abijk
+hTUqyCnaWEcMPhm2ZDAt8JC9Q0I2XIr8lNQ4ZTt2VqWo5GolV/kReijkd39U/qEv4aQebNcYl+Q5ZECn
++TvxTJ6vrjEyniCnQTose6B7YKDn9X65D942RhhXl4O1h85ievYKrKhqsAkLec37m5b1zQumxKtN/1Sa
+SjzwbiL9Kibneef/FOMvUEsHCB63pfhRAQAA9QIAAFBLAQIUABQACAAIAAAAIQAet6X4UQEAAPUCAAAI
+AAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACHAQAAAAA=
+------=_contents/Project1/tigerstripe.xml-1170153e-60f1-35a9-b041-358f43728798--
+------=_contents/Project1/src/com/mycompany/Entity2.java-0a8521a9-e132-3923-9000-639810d96a39
+Content-Type: q7/binary
+Entry-Name: contents/Project1/src/com/mycompany/Entity2.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1Vm1v2zYQ/uwA+Q+EMKBJUdNyUKxD
+CwNLWxc1+uKg9tDPtHSSuVCURlJ2hWH/fUfSsuxItuO+KEjs6LnX5453HDz9uc/lBXlK3ihgBmKy5mZJ
+5jwFpY3iBVyZ7Jp8zdX9AmS0JCsa0hf4exMOh+HvN3+Ew+fPvX5eVIqnS0OuomtyE4YvyBuuo5zMKm0g
+08/IREbUid4KQZyoJgo0qBXElMyXXJNC5aliGWEyJmYJhEVRnhVMVlymJMP4FGdCOyNMAb6JUWbFuGAL
+AaSUMSinh4KZJnni/hlHghcayF25EDwiH3kEEv9dDWnoLK2XHBOrXXHQqIWxxNwSsCgNz+UzFxG+bJwx
+45SXxhQvB4P1ek3B+6G5SgcCUiYGUIj+ahjSpcmElXYab6fk83ROxm8nczJ/P5mRd5OPY9J/ZAFqMz/3
+GVxeFCy6ZykQZIFm1Yb2V5cX9mew6ZFtDn+aJj6aMYmK8VgabiosIc+Yqvr3UI2C35gyPGGRoZOZQQqZ
+imcFRDzhkaZ3XvIDVIEz6h74ZrA6fMEFGptXBYyCrBSG74hwPQOtsSrv0HCuqk9glnmsR0GCvQFOsNfj
++naB8aEEGZF9JCsEZCCx+xAJ2vlg5H0usYUwcCA1Lyh7NJtJrXGn8gJQEDRNwVztBJ6CBIU1traMKqHD
+94qJ8tf7bPstvIGKGE15PApyrf+m4CpKI9eYtc1FdVua/DPL7JHco9aCpbh/DdqMkyRXpgU74/btEfNo
+4dbkGR7ULuMeem2bRp/wfkBIu/r/AB1IcMPFHNAaht/205lrp+75ifocHPgDiegmmM5gd/AO0k6kfyy9
+Ru1IrzRSx4SOd8ujNL+7mc5jW0GWr76bg0f21yEnv/QstfvwUeXbbhS7fPxqZvXIjgTTmviNcoMy//o9
+hN/w8dvIPk7ff9mrQ8JBxA2GG2Na2DXOxF4IW/QLsHgqRdWNThVeKyDuBv+S/J9y72RsIIO765PdXAVm
+Zhcjigx3cLz6JP2Fe+2G/hZ6+LnNA3nqbYiaYZ44fpnxNxQIX51HEF5hQDSx+K0zIk+CMHjSvD4Wif3c
+BJNwS6w2zDSR4fbGtSNCm14YnBld5hb6bv2sMVz1X8CUSh6oUkeFex7qvAmcW96HWFd9Q0p3S6xcuLgq
+ob5p1Hzz+oZjAU9jq/4HyNmfMdsB4Dnb7a/2zK6RQ2OlAz9weNuSJ+ATdh4Mkrah7jm/C5/wwCU2qIzA
+XxY7WTk2Ers9HRLsOLHb0bbKsWq+WuEV4r3etf2LR+S//wFQSwcIEM2/O70DAADYDQAAUEsBAhQAFAAI
+AAgAAAAhABDNvzu9AwAA2A0AAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
+APMDAAAAAA==
+------=_contents/Project1/src/com/mycompany/Entity2.java-0a8521a9-e132-3923-9000-639810d96a39--
+------=_contents/Project1/.project-38a7e760-d04d-34a2-9cf8-67624b30b9fe
+Content-Type: q7/binary
+Entry-Name: contents/Project1/.project
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTFUstOxDAMPIPEP6x6J2FvHLJdIRBn
+xOMDUseULG1SOekCf4+TprAVQkIIiZtn/JiRbbV97bvVHilY7zbVWpxVK3TgjXXtpnq4vz49r7b1ybEa
+yO8Q4hUGIDtErmb2SDndY30z5dZKZph48H2PLtZKzlFiy5CQgVygZrSduRsQEirwklu1M5kpUp5agdDZ
+IaDYmSjAEwd6r3MD0qcF7tDUjkk7FCyXhJJfVH6kG23L+4q8BhQvnp4bXtiTaDSn4A06vMVHJOYwXIzG
+Rv/fpg5S5VJ/4qsw883YUhwJS/UEfu8wWcsTvpu2OP6UP+yZ42Tn49OWz/sOUEsHCLtGMY/3AAAA+wIA
+AFBLAQIUABQACAAIAAAAIQC7RjGP9wAAAPsCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYA
+AAAAAQABADYAAAAtAQAAAAA=
+------=_contents/Project1/.project-38a7e760-d04d-34a2-9cf8-67624b30b9fe--
+------=_contents/Project1/src/com/mycompany/ClassDiagram.vwm-361b79f4-f81a-3f23-9e84-16fb43715250
+Content-Type: q7/binary
+Entry-Name: contents/Project1/src/com/mycompany/ClassDiagram.vwm
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1kkFLw0AQhe+C/2GZe5M2XiQkFg8K
+ggWhFrxuk2mymJ2N2UnT/HsnpokK4kW8DMzse28+djdZn2yljth44yiFVbAEhZS53FCRwu75fnEN65vL
+i4Taqoo3ulYna+JZHw16SSAfyzyFkrmOw7DrusDZInBNEb5sHmaJ/y7prj4U0XK5EtnjNivR6oUhz5oy
+nFzD5hSGCmqvPT7p7FUXmELmbGB7qbWmHgRSqUQ3bA46Y69kWcx9jaNV0ElM+R2x4f72rAJF2opinIKq
+f4mW8LpxNYoV/dk3bQtKk2OAJ0bKPaijrlo5PejKI4QjWDiT/R00+k/SgY25MfuWP93TQF57RN3KgApQ
+xu/IvA0Z3LRfIixy6fLJP3az+ehM/uO9JOH0zaR5B1BLBwi0P9rrJQEAAJsCAABQSwECFAAUAAgACAAA
+ACEAtD/a6yUBAACbAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAWwEA
+AAAA
+------=_contents/Project1/src/com/mycompany/ClassDiagram.vwm-361b79f4-f81a-3f23-9e84-16fb43715250--
+------=_contents/Project1/.classpath-fc32c863-d072-3093-a68a-bd9396a3404d
+Content-Type: q7/binary
+Entry-Name: contents/Project1/.classpath
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkM0OgjAQhM+a+A6kd6vePIAGDSQY
+o6bimZSyQrW2pC3+vL1VQ/SiB287s5NvN+NPryfhnUEbrmSARniIPJBMFVyWAdqlcX+MppNe12eCGlNT
+WznReSuQVt+8I5dFgIxmyHuYr3HwPcmUbJNKlxiY4LUBfCgsFrSRrHLX8YJE2Xy9SsNkFZFftDPVLW1D
+1nGyjLKQpEkcztNttkxmf3xieekqsZrXgC9KH3PXSYVz6lYnVYAgsAftPDC/4KqxdWNbfs7lM+wPPru8
+A1BLBwhZpFk0ywAAAIEBAABQSwECFAAUAAgACAAAACEAWaRZNMsAAACBAQAACAAAAAAAAAAAAAAAAAAA
+AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAAQEAAAAA
+------=_contents/Project1/.classpath-fc32c863-d072-3093-a68a-bd9396a3404d--
+------=_contents/Project1/src/com/mycompany/.package-ec7ae2ad-08f9-3290-b7ba-b75d7c9e05d0
+Content-Type: q7/binary
+Entry-Name: contents/Project1/src/com/mycompany/.package
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUsFu2zAMPSdA/oEIdmiKRnaCYh02
+DFjRZJiBYC2QbDvLMmMTlSVDUmxkw/59tOysh112qGwfTL1HPpIvuX7dM5vCNTw4lAEL6ChUcKASnQ+O
+GrwK9QJ+WPeco1EVtCIVd/yt09Uqfbt+l65ubwe+bc6OyirAlVrAOk3v4IG8srA/+4C1v4HMKBGh91pD
+hHpw6NG1WAg4VOShcbZ0sgZpCggVglTK1o00ZzIl1KzPkdQ+JpEOOVIwppWkZa4RTqZAF3kMrD3YY/zZ
+Kk2NR3g65ZoU7Eih4d92JdKYqauIG7uUIvTMYi0F9QPIT4GsuYmKOPhSTIZIrkJo3idJ13UChzrCujLR
+WEqdYKOX7SoVVah1j46MzSN8fTzAdpMd4PAl28PnbLeF5X8u4JLmdU8ymzZSPcsSgafwYTbtn2R0xl/l
+n8KLKjHi+4vJhPx9znGpAnyE+ZF3hPPxpm401mh413wz/zcPGV7WUSqEiwLGvZEuEAeDyPaBRy9dsW9Q
+0ZGUF9mF8eRsgwxEL0oMV/MxwXwxlImnRIOO59pnDe40yBqb6rsePCEv6pWW3kN9Hm3HqF+z6YTfJAFj
+A3A71rGiAJ4Ma45OGUgdsa0NtmzBHMFHq9JPtjazG0dtL8IHGbjckYzUoC2besB953Gwzb5lG9a5XO3i
+Bn7/AVBLBwgc9Od4+gEAAOgDAABQSwECFAAUAAgACAAAACEAHPTnePoBAADoAwAACAAAAAAAAAAAAAAA
+AAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAMAIAAAAA
+------=_contents/Project1/src/com/mycompany/.package-ec7ae2ad-08f9-3290-b7ba-b75d7c9e05d0--
+------=_contents/Project1/.settings/org.eclipse.core.resources.prefs-b1b411c9-485b-30dc-a1b5-080468dcf59d
+Content-Type: q7/binary
+Entry-Name: contents/Project1/.settings/org.eclipse.core.resources.prefs
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRTDilNVfAqzVMwslAwNLUyMrMyNlfw
+8w8LDlEwMjA05OVKTc7JLChO1SsoSk1LLUrNS04t1itLLSrOzM+zBUnnJeenZOal6+sXFyXrJ+fn6udW
+AsmCxLxKfeecxOJil8zE9KLEXL2y8lzb0BA3XQsS9JSXpcD0AABQSwcIfJWJ3ngAAACoAAAAUEsBAhQA
+FAAIAAgAAAAhAHyVid54AAAAqAAAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
+NgAAAK4AAAAAAA==
+------=_contents/Project1/.settings/org.eclipse.core.resources.prefs-b1b411c9-485b-30dc-a1b5-080468dcf59d--
+------=_contents/Project1/src/com/.package-f978ad84-3c3b-3ebd-abe0-11d625dd60da
+Content-Type: q7/binary
+Entry-Name: contents/Project1/src/com/.package
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUsFu2zAMPSdA/4EIdkiKRraDYh02
+DFjRZJiBYC2QbDvLMmMTlWVBUmxkw/59tJysh112qGwdRD6Sj+RLrl/3XE3hGh4cyoAl9BRq2FOFzgdH
+FuehWcCP1j0XaFQNnUjFHd9VmmXp29W7NLu9HeNbe3JU1QHmagGrNL2DB/Kqhd3JB2z8DeRGiQi91xoi
+1INDj67DUsC+Jg/WtZWTDUhTQqgRpFJtY6U5kamgYX6OpPYxiXTIlpIxnSQtC41wNCW6GMfAxkN7iI+N
+0mQ9wtOx0KRgSwoNP7tMpDFTXxM3dilF6DmKuZQ0DKA4BmrNTWTExpdiMsTgOgT7Pkn6vhc41hGtqxKN
+ldQJWr3sslTUodEDOkasH+Hr4x4263wP+y/5Dj7n2w0s/3MBlzSve5Kr6fAlZy385fopvPAQVqpnWeHg
+mEzI3xdslyrAR5gdeCs4O3saq7FBw9tlz+zfPGR4PQepEM4ZB9wb6QKxMYh8F3jY0pU7i4oOpLzILxFP
+rrXIQPSiwjCfnRPMFmOZeCo06HiSQ9bgjiOtc1Pcpx1VIC/slZbeA++e/b+uphP+kwRMG4AbaR1zCeDJ
+MNuoihHeE0vYYMdyKxB8lCX9ZBlztHXUDeV9kIELHchIDbplAY+47zwIltS3fM0Ml9n2wzD5338AUEsH
+COazGo3zAQAA1AMAAFBLAQIUABQACAAIAAAAIQDmsxqN8wEAANQDAAAIAAAAAAAAAAAAAAAAAAAAAAAu
+Y29udGVudFBLBQYAAAAAAQABADYAAAApAgAAAAA=
+------=_contents/Project1/src/com/.package-f978ad84-3c3b-3ebd-abe0-11d625dd60da--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStlV1PwyAUhu9N/A+EawXd1Jll04up
+iTFTo1ncnUHKKlsLFXDt/r2nHe0+3HSx3gHnnPd5gVPaucziCE2FsVKrLj4mRxgJxXUgVdjFn250eI4v
+L/b3OlzHJNNGBOSjRVJtJjZhXLRfylFPKycyh7JYtiu5Ri4HAGXbsN7F784lbUrTNCU6Dok2IR32b8uU
+zYiqikKcFnH60aJVnAgOaxgpFkPutXLSzR7UlWShYbF3VbnESAZd/Joa2z+5uxlei974+ez+rTcY9l9T
+jBwLbalxgHoRsxZ5JQyHgBAcAwgqV0xgmhg9FtxZT3+cT4+xj0PGSEaiDBOeKybMvWPkhQZPt7D+i2vu
+MurzG0sadAvFm6rBKBW2EJwM4YadkYkgcHU1QHn1MkRHASiXG7HCOehDuzjONSPQQHD9kUysIHkXECOs
+/jRcWNiCGNlaR5DXL3mj3tw2t9bwVZ8rUejd5ei3K2N8wkLxZ79nlQJdo6y4iGfgI2Fqturlv92cbnGz
+xim+L69Gpmn8Z16zqN6dlU6DGqy8+kfWXIyM2ZTVaMCifAdOox6ouQn0vdk3fgBrKx1aPofzt5IuHst8
+vNP/A3K/AFBLBwgS91ixwQEAAJMGAABQSwECFAAUAAgACAAAACEAEvdYscEBAACTBgAACAAAAAAAAAAA
+AAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA9wEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/Project1/src/com/mycompany/Entity.java-60acd428-0ab8-3eba-82c7-984a28cdc8ea
+Content-Type: q7/binary
+Entry-Name: contents/Project1/src/com/mycompany/Entity.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS9Ve9P2zAQ/QwS/8Mp2gdA1E0RGtOm
+SivQadUYILXSPjvONfFqx5HttIum/e+7OLQFUVj5oSXKh+TePb93d7G7h2977e3CIZxb5B5TWEifw0Rm
+aJ23ssR9rw/gh7GzBAuRw5zF7JSe47jXi98ff4h7JydtvilrK7Pcw744gOM4PoVz6YSBce08ancEo0Kw
+AB0oBQHqwKJDO8eUwSSXDkprMss18CIFnyNwIYwueVHLIgNN+qzkygUSbpG+pISZc6l4ohCqIkUb8gio
+HZhpeBkKJUuHcFMlSgq4lAILep33WByYFrkkY8ulJDrKIi2pbAqQVF6a4igooo/rxbgPybn35cdud7FY
+MGzXYcZmXYUZV10sVWfei1nutWrQIePiGq6uJzC8GE1g8nU0hi+jyyF0tmzAkuZtr+7ebsnFjGcIVAWm
+69uyf9rbbe7u7YysPHz2a31M84IS02Hhpa+phVJzW3dmWPejd9x6OeXCs9HYUwm5TcclCjmVwrGbFvkN
+6yiQhgt/eeqOTKQiskldYj/SlfLyDkS6MTpHXflCxMbW39HnJnX9aEqzgQG4syPdICF9hIA+3I/oUqHG
+gqaPItFDP6S8IwsaIRKOsKwLYZ90M1pm3FhTIgHRsQz9fnRLEB3csZBhgZa63bB6W+EGFXOuqv+5+kMF
+ZUtVg3dMpv3IOPeTYegyE2FYl5xJPai8ueK6+U3vlbsJVmp2hs4Pp1Nj/cbwwBtNf+bjobNmStw/qB8B
+udDwV3ilOq6NTpDYyPoGMavY8420GkPwFULdWugG01vLd0916wmTq9DLu71V5ouH4XnVtKjN/MXledv5
+eMagPxyirXqz2t+bo6A9KPlyAxWKOwft/k6Q3+2h0Nx//gJQSwcIiKp0bJECAACLCAAAUEsBAhQAFAAI
+AAgAAAAhAIiqdGyRAgAAiwgAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
+AMcCAAAAAA==
+------=_contents/Project1/src/com/mycompany/Entity.java-60acd428-0ab8-3eba-82c7-984a28cdc8ea--
+------=_contents/Project1/src/com/mycompany/ClassDiagram.wvd-ee855863-f812-30f9-9808-2671835875b4
+Content-Type: q7/binary
+Entry-Name: contents/Project1/src/com/mycompany/ClassDiagram.wvd
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1l11zojAYhe93Zv8Dk70u+FE76sh2
+ldbt91q1s93edDISaaYhwRBE//2GVK0VwhS0N44Db573cJIcQud04RNjjniIGbVB1awAA9EJczH1bPAw
+7h81wenP7986lAkoZE37DEOPQ99Y+Li9GVdLxkkSDdvyug1ehAjalhXHscl8z2Tcsx5vL9cla9aHOjQh
+OAiRqvX8qcUjKrCPLCnJrFnrIRtERIgNkl+glGDXBs+txy5rXvcfz5Ezfrr5+/x65PhXMTDEMkA2GGNP
+yhUcBwgYFPrykkNgGK4eyIznLjB8BMOIIx9R8UCxsMEALxAB0gHD6ExeMHE5oqrjG3Rjyx1z0baUo0Gv
+q5VSrVTqb8yi1PvarZZ6XKk0gFUWC3OwJyWxQ/deq7ax5YHkhmJJUJhFPeMwRnyU3N+FpzVbnyGOGBdy
+fWciZ+WQfUwE4jroiRbasdaGljR4mGfw8Z4GDw9v8PArDB4WMTinB6MijZcbOWNvTGXtnQqREfIYMh4u
+31vmWI3CiQyg5H9mI705+daQTFraFWMqax1GGJchVG/WGo165TMtbjBFWS166dW3oSGiYnQbJ+O6fQsp
+9JB7LtNdLLtynUzhRADjhaPpTiDPY/+HZf2Cq5rQ3JJK4JJFwmFUBjrEH7usRfdYRN1wV3HGXC7kC6ze
+AMbSBq3qqsfOuimyLS+c6M+/6z48bPZfOPHZq5ZaOvsVFuZgy2W/xM6YVu2e2a/gac37RJNCzsohtdGk
+oCda6F7Zn7CDPIP3yX4FP7zBwVcYHBQxuFj2q42csTcOnv2qkd6cgtmvaGlXDpn9SYun9Or7wuyv7pn9
+SnHGXMrsb7ZU9FfllsnOfr03A/k4qfdi8hWiOzjlsH5H2M2G6U4FJQ8aCVJ3YNLPXKCfJzW2Y703f7sp
+L/4HUEsHCNaqIZitAgAAXw4AAFBLAQIUABQACAAIAAAAIQDWqiGYrQIAAF8OAAAIAAAAAAAAAAAAAAAA
+AAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAADjAgAAAAA=
+------=_contents/Project1/src/com/mycompany/ClassDiagram.wvd-ee855863-f812-30f9-9808-2671835875b4--

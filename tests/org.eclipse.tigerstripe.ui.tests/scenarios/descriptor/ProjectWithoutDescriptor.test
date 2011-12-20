@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: ProjectWithoutDescriptor
-Tags: descriptor
+Tags: Descriptor
 External-Reference: http://docs.xored.com/display/TS/ProjectWithoutDescriptor
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_hKI3MQEVEeGqZPLc-tTWzw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/9/11 12:14 PM
+Save-Time: 12/20/11 4:16 PM
 Id: _3tqugAEVEeGqZPLc-tTWzw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -55,14 +55,14 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9N32lVEsGFQUhA
-gkgCgkp8IbMtW8nWbu0dG/56OwPTEOGtvffcL+ee2+mVSYx2wliplY9vyQ1GQjHNpQp9nMOm0ca97vVV
-h+mElNoITrIWsUyowEjtLQ4PVCbSqyl3FcVxlfVc3ccRQOpRWhQF0UlItAnpajo+Sv4l10OuS3+6NGvR
-Y5cI5koYqSARPp4ZvRUM3iVEOoeBsMzIFLTBv3s1K0eS+3jdhCwP+8O3oRhlH7Nn1oDl+1eBEQSh9TH/
-Mwz71MEFi10iJQijgvhFbIRx8YjaHtfMHtxXTrm0aRzs6XJBz7pyaSLk8lTgsLa7fhxtFq8TiIa8sWs/
-FatPla9h3qG14kQfTcbN6fx0g/P6h8H9th9AeIFffS6d10m+AVBLBwg0fQLwKwEAACkCAABQSwECFAAU
-AAgACAAAACEANH0C8CsBAAApAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2
-AAAAYQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kdFPwjAQxt9N/B+WvtOqJIILg5CA
+BJEEBJX4QmZ3bCVbu7U3Nvzr7QxMQ4S39u67X777rtMrk9jZgTZCSY/c0hvigOQqEDL0SI6bRpv0utdX
+Ha4SWioNAc1a1HCQvhbKXRweTpkIt6bcVRTLlca1dY9EiKnLWFEUVCUhVTpkq+n4KPmXXA/ZLvvpsqzF
+jl0K3JaII/0EPDLTagsc3wVGKscBGK5FikqT372alSMReGTdxCwP+8O3IYyyj9kzb+Dy/asgDvqh8cjf
+YdynFg48tomUCFr68QtsQNt4oLYXKG4O7iungTBp7O/ZcsHOurJpOo7NU6LFmu76cbRZvE4wGgaNXfup
+WH3KfI3zDqsVJ/poMm5O56cbnNc/DO63fR/DC/zqc+m8VvINUEsHCCf7hoQqAQAAKQIAAFBLAQIUABQA
+CAAIAAAAIQAn+4aEKgEAACkCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
+AABgAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
