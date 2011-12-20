@@ -5,7 +5,7 @@ Element-Name: 366628_InfoMessageDuringGeneration
 External-Reference: 
 Element-Version: 3.0
 Contexts: _GtgbACrQEeGkG88Zwqa1vA
-Save-Time: 12/20/11 1:36 PM
+Save-Time: 12/20/11 7:03 PM
 Id: _YiSucCrUEeGkG88Zwqa1vA
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -20,7 +20,7 @@ get-window "simpleRunnableGenerator Generator" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select "project/tigerstripe.xml" | double-click -nowait
 with [get-editor "project/tigerstripe.xml"] {
     get-tab-folder | get-tab-item "Generator Settings" | click
-    with [get-section "simpleRunnableGenerator(0.0.0) (disabled) [Generic]"] {
+    with [get-section "simpleRunnableGenerator (disabled) [simpleRunnableGenerator]"] {
         click
         get-button "Enable Generator" | click
     }

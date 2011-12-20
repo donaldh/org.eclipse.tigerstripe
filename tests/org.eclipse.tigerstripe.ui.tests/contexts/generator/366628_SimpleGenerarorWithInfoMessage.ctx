@@ -3,7 +3,7 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 366628_SimpleGenerarorWithInfoMessage
 Element-Version: 2.0
-Save-Time: 12/20/11 2:08 PM
+Save-Time: 12/20/11 6:58 PM
 Id: _GtgbACrQEeGkG88Zwqa1vA
 
 ------=_contents/simpleRunnableGenerator/.DS_Store-11cc430e-66e9-3f03-ab2d-523521de99c6
@@ -40,6 +40,17 @@ AmUP9WX3Wah5Jv+21QotF3SUcoA6WvGl/mathcNibbrzx8lFyrU/WzlDdPT9NRf/yhdQSwcIEqIuRfwA
 AABoAgAAUEsBAhQAFAAIAAgAAAAhABKiLkX8AAAAaAIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50
 UEsFBgAAAAABAAEANgAAADIBAAAAAA==
 ------=_contents/simpleRunnableGenerator/.project-75e5763d-b082-3d46-a524-3c349410653f--
+------=_contents/simpleRunnableGenerator/.settings/org.eclipse.jdt.core.prefs-fb17614e-c249-3b29-b43e-cb03636302d6
+Content-Type: q7/binary
+Entry-Name: contents/simpleRunnableGenerator/.settings/org.eclipse.jdt.core.prefs
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkLtqAzEQRXt/xUJ6ESUkGIMaYwIJ
+wUlh3Gulu8sYvRhJBv+9tXnUlpthGOZwHw+HimEHMzw9DnK9eVlv5POw/zoe2kHKFYyjlCESYwIjGGRx
+BmeKQclV5Fn8f5xsESYy2vCJHLgtFjOCoOAo4CPz9lKwHBWCHh1sJ180zyjfTpcpsldSvHaCNdQM+xmN
+dqoFyOAzbqI+OdItZ4eOxVhnsYTbVz+CVRMF63JL5I9bfB0109LFfWiOlQ3eqJ9LHJuKFzq3Fsq7RSg0
+UbMM5sidMEL1d6K/Tn+6vAJQSwcINsIlt9sAAABqAgAAUEsBAhQAFAAIAAgAAAAhADbCJbfbAAAAagIA
+AAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAABEBAAAAAA==
+------=_contents/simpleRunnableGenerator/.settings/org.eclipse.jdt.core.prefs-fb17614e-c249-3b29-b43e-cb03636302d6--
 ------=_contents/simpleRunnableGenerator/classes/com/xmp/cisco/navid/MyRunnableRule.class-fa8c3730-4746-303e-a3cd-562fc85e228e
 Content-Type: q7/binary
 Entry-Name: contents/simpleRunnableGenerator/classes/com/xmp/cisco/navid/MyRunnableRule.class
@@ -248,16 +259,16 @@ AAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA7AkAAAAA
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtVT1vwjAQ3fkVkXfsQiVAiA8hWiEG
-hsJA1QWZ5AiGxA62Iem/rwM4giQIqg4d2s2+9+587/mr00/CwDmAVEzwLqrhJ+QAd4XHuN9Fe72qtlC/
-V+m4IsSJkODhXRPHQm5VRF1oz+1oKLiGRDtJyNpZtXpazdTnqm3iXbTWOmoTEscxFqGPhfTJ+2RsKeVL
-ZFnE4OSIk12TZDgG18SQw2louM+NRqPeWsxYGAUwAg6SSiHnTK/HfCUmoBT1DZl5XbQYaX85GMq3Vxht
-R63WR7yjtcMA9SqOY+QaOVynYzOLpNiAq9V5kfMUnVCDr1gAFsRuQJXpTK8RKSfY9HJYM9/YpyWLABtf
-Llki8Ax05i0Zv4kp6VqsQ2zz5VrU0anpnnO6tI5pIW9oe5ktZjq1+4a0n2pX1SjY+4zfVW6h+w0W0s0x
-ukh/pEChRBJGVyWKazDlihylQOL0wLwCKdfQ5NPuzXQfwMng695Ou3wuneuqLFwSLISKgZy+tA1Q6Bsm
-/xuYv6F/9Qxv6IH+/g5oMA8f1aDKX8oOyb6AdPjQ59erfAFQSwcIBg1QtKEBAABOBwAAUEsBAhQAFAAI
-AAgAAAAhAAYNULShAQAATgcAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
-ANcBAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtVcFOAjEQvfMVm95pRRMkBDBGDfHA
+QTlovJCyOyzF3XZpB3b9e2eR3QC7IIkHD3pr+17fzLyZtL2bLI68NVinjO6zFr9gHmjfBEqHfbbCWbPD
+bgaNnm9inhkLAV9e89TYd5dIH7ovxerOaIQMvSxW3VLtMlcjfe26dN5nc8SkK0SaptzEITc2FK+jx4JS
+H6K8JQgXG1wsr0WJc/DpjHlaxsS9arfbl53JWMVJBEPQYKU19kXh/FHPzAickyGRVdBnkyGG09s7+/QA
+w/dhp/OWLmVrfcsGDc+jcqkcjfmadok1C/DRbYNst+wLJXymIihA7kfSUWY4Z6KeUFyvh1GFZB9alQAn
+X3ZZJgoI2vKmSh/FnPULrCeK5OtrcRunnlday2nhGBp7pLb78WSMud1HSvtp7a6ZRKtQ6ZOVcweINJ6u
+TPJAhuaKpiJSiQO+CJDnA0KRYeZ2NMVW9IS9R+RrXKhcp1nduX6OQEUii5M9iWoM5XxzQKmQtFyroEI6
+SGj0UQzA8yqCry7u51Zr2YnjmsOq49+0YJMG7Hf5G5P/DTx8Bv7qDC/kWv5+BxDodZUIrv457onyn8mX
+Z/2wg8YnUEsHCCE6d6jAAQAAswcAAFBLAQIUABQACAAIAAAAIQAhOneowAEAALMHAAAIAAAAAAAAAAAA
+AAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAD2AQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_contents/simpleRunnableGenerator/bin/.DS_Store-9508c54a-9cc4-3172-b2b5-320ac1e37442
 Content-Type: q7/binary
