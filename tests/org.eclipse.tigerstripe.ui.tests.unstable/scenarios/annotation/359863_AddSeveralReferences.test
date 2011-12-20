@@ -6,7 +6,7 @@ Tags: Annotation/functionality/ComplexAnnotationAttributes
 External-Reference: http://docs.xored.com/display/TS/359863_AddSeveralReferences, http://jira4.xored.com/browse/QS-1573
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_SSBA8Kw8Ed-cSZ2bfD-mDg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/7/11 12:33 PM
+Save-Time: 12/20/11 4:38 PM
 Id: _pbHn0AqKEeG4YKJLWO2_8Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -60,10 +60,11 @@ with [get-view "Annotation Property View"] {
     }
     get-button "Append element to the end of the list" | click
     with [get-tree] {
-        get-cell 4 0 | click
-        select "stringRefsToAttributes/EString" | get-cell 4 0 | click
-        get-cell 4 1 | click
-        select "stringRefsToAttributes/EString" | activate-cell-edit
+    
+    get-cell 4 0 | click
+    select "stringRefsToAttributes/EString" | get-cell 4 0 | click
+    get-cell 4 1 | click
+    select "stringRefsToAttributes/EString" | activate-cell-edit
         get-button "..." | click
     }
 }
