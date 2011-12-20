@@ -172,7 +172,7 @@ public class GenerateResultDialog extends Dialog {
 
 		boolean errorFound = false;
 		for (PluginRunStatus res : result) {
-			if (!res.isOK()) {
+			if (res.getSeverity() == IStatus.ERROR) {
 				errorFound = true;
 				continue;
 			}
