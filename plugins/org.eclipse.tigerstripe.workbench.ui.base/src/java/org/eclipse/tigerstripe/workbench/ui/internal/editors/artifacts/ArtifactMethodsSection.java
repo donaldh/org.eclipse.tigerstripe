@@ -117,8 +117,9 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 			if (methodsInModel.contains(method)) {
 				return method.getLabelString(false);
 			} else {
-				return method.getLabelString(false) + "("
-						+ method.getContainingArtifact().getName() + ")";
+				IAbstractArtifact containingArtifact = method.getContainingArtifact();
+				return method.getLabelString(false) +
+				(containingArtifact == null ? "" : "(" + containingArtifact.getName() + ")");
 			}
 		}
 

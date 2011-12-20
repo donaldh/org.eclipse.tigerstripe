@@ -2043,16 +2043,24 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	}
 
+	private boolean canContainDuplicates;
+	
+	public void setCanContainsDuplicates(boolean canContainDuplicates) {
+		this.canContainDuplicates = canContainDuplicates;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#addContainedModelComponent(org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent)
 	 */
 	public void addContainedModelComponent(IModelComponent component) {
 		// Don't add if its already there.
-		if (!containedComponents.contains(component)) {
+		if (!canContainDuplicates && !containedComponents.contains(component)) {
 			containedComponents.add(component);
 		}
 	}
 
+	
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#clearContainedModelComponents()
 	 */
@@ -2103,8 +2111,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 		String textual = this.asText();
 		StringReader reader = new StringReader(textual);
-		IAbstractArtifact cloned = getArtifactManager().extractArtifact(reader,
+		AbstractArtifact cloned = (AbstractArtifact) getArtifactManager().extractArtifact(reader,
 				monitor);
+		cloned.canContainDuplicates = true;
 		return cloned;
 	}
 }
