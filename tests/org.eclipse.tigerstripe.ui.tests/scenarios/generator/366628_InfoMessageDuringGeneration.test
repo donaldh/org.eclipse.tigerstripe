@@ -6,7 +6,7 @@ Tags: TS_Generator, I45
 External-Reference: http://docs.xored.com/display/TS/366628_InfoMessageDuringGeneration
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_GtgbACrQEeGkG88Zwqa1vA
-Save-Time: 12/21/11 4:04 PM
+Save-Time: 12/21/11 4:48 PM
 Id: _YiSucCrUEeGkG88Zwqa1vA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -42,7 +42,7 @@ get-window "simpleRunnableGenerator Generator" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select "project/tigerstripe.xml" | double-click -nowait
 with [get-editor "project/tigerstripe.xml"] {
     get-tab-folder | get-tab-item "Generator Settings" | click
-    with [get-section "simpleRunnableGenerator (disabled) [simpleRunnableGenerator]"] {
+    with [get-section "simpleRunnableGenerator.*"] {
         click
         get-button "Enable Generator" | click
     }

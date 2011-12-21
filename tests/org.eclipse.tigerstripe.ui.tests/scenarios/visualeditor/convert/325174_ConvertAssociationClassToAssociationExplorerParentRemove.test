@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts, I37, TS_Project/VisualEditor/Convert
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertAssociationClassToAssociationExplorerParentRemove
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_fPm4sKOVEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 7:38 PM
+Save-Time: 12/21/11 4:56 PM
 Id: _l7cbYKOREeCnVOKduz-xbg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -24,7 +24,7 @@ Steps:
     Open AC2 and extend it to Entity1
     Open all editors and check editors count
     Select Association Class AC2 in Tigerstripe Explorer and select 'Refactor/convert to Association'
-    Check editors count
+    Check editors count - all editors except class diagram are closed
     Check that artifact AC2 is converted and extend is removed
     On class diagram check AC2 item is not displayed
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
@@ -80,13 +80,8 @@ with [get-window "Convert com.mycompany.AC2" | get-group] {
 }
 get-window "Convert com.mycompany.AC2" | get-button OK | click
 with [get-tab-folder] {
-    get-property pages -index 0 | equals AC | verify-true
-    get-property pages -index 1 | equals A1 | verify-true
-    get-property pages -index 2 | equals Entity1 | verify-true
-    get-property pages -index 3 | equals Entity2 | verify-true
-    get-property pages -index 4 | equals Entity3 | verify-true
-    get-property pages -index 5 | equals "Class Diagram.wvd" | verify-true
-    get-property tabCount | equals 6 | verify-true
+    get-property pages -index 0 | equals "Class Diagram.wvd" | verify-true
+    get-property tabCount | equals 1 | verify-true
 }
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/AC2" | double-click -nowait
 with [get-editor AC2] {
