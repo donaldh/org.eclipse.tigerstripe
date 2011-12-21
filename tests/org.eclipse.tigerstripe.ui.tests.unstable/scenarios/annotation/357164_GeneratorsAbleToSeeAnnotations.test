@@ -1,0 +1,110 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 357164_GeneratorsAbleToSeeAnnotations 
+Tags: Annotation/generator, TS_Generator
+External-Reference: http://docs.xored.com/display/TS/357164_GeneratorsAbleToSeeAnnotations
+Element-Version: 3.0
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_duue0dqKEeC6qsfYFclGSA,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 12/9/11 11:02 AM
+Id: _KmwdgNqMEeC6qsfYFclGSA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+QS-1590
+
+Generator is able to see annotations on artifacts in referenced modules
+
+Precondition
+GeneratorProjectWithAnnotations
+ 1. Create a TS project.  Create an entity and annotate it with something.
+ 2. Modify the project dependency so it depends on a referenced module
+ 3. Annotate some of the artifacts in the referenced module
+ 4. Create a generator that prints out the entities and the annotations on
+ entities 
+
+Steps
+    Enable generator
+    Run generation
+    Check generated file to view annotations for entity in refernced module
+    Check generated file to view annotations for entity in project
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "SimpleGenerator29/ts-plugin.xml" | double-click -nowait
+get-editor "SimpleGenerator29/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click -nowait
+get-window "Deploy new generator" | get-button OK | click
+get-window "SimpleGenerator29 Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project/tigerstripe.xml" | double-click -nowait
+with [get-editor "Project/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "SimpleGenerator29(0.0.0) (enabled) [Generic]"] {
+        click -nowait
+        get-button "Enable Generator" | click
+    }
+    get-section "SimpleGenerator29(0.0.0) (disabled) [Generic]" | get-button "Enable Generator" | click
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select Project | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "Project/target/tigerstripe.gen/org.eclipse.tigerstripe.test.module.txt" | double-click -nowait
+get-editor "org.eclipse.tigerstripe.test.module.txt" | get-editbox | get-property rawValue 
+    | equals ".*CheckAnnotation.*" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUlFPwjAQfjfxPzR9lhVEARcGWRSI
+Ekx0mODTUtZbmdla1nZs/Hs7AyMaJb717r777vvuOhxXWYp2oHQihYc7ThsjEJFkieAeLkzcGuDx6PJi
+GMnMqaQC5uR9R0cgqEqkGxweqMoSt2G5rlksr9CuzXt4Y8zWJaQsS0dm3JGKk9Xi8Qj5lblpslXyVSV5
+nxyrDkQ2hZGgGXi4e9vv9G7CGQhQ1Eil/XUKSxkA+EJIQ40VpRE+uezW+hLm4XCelYw/54sJ3PdyHb9P
+o3QW+BgZyrWHT+2EH8mv0DI4jbLI/dZKgCi1e6sMKEHTV4hB2SVCY4LJSB881n5Yorcp3ZNlQP6lHdsD
+IGRPIIydoUfhdBYHb3OzmbDWbvBUrtaiCM3LkDSIH3hWFNBm+fy7zb/xdw+9D58afoa/Ds79CAv5BFBL
+Bwg9E6zMQAEAAFwCAABQSwECFAAUAAgACAAAACEAPROszEABAABcAgAACAAAAAAAAAAAAAAAAAAAAAAA
+LmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAdgEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

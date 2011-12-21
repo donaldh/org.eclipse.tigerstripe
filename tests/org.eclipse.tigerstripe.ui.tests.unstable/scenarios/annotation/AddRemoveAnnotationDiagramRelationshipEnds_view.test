@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: AddRemoveAnnotationDiagramRelationshipEnds_view
-Tags: Annotation
+Tags: Annotation/Diagram
 External-Reference: http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramRelationshipEnds_view, http://jira4.xored.com/browse/QS-1655
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_OHSl4JyPEeCwQoDghmuRmQ,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 4:58 PM
+Save-Time: 12/21/11 12:19 PM
 Id: _aNjNAMlFEeCcX6bW5MhRtg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -95,13 +95,14 @@ Content-Type: q7/binary
 Entry-Name: .q7.content
 
 UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkm9PwjAQxt+b+B2WvpZVlH8uDLII
-qBhQNo28W8p6bCVri21h8O3tCExjDInvendPf/fctd3+jufOFpRmUvio7l4jB0QiKROpjzZmWeugfu/y
-optI7u6kAup+tl2dgCCKSS86HpwdZ15FuSkpliu0Z/M+yoxZexgXReFKnrpSpXg+eTpJ/iRXl2wVH6r4
-s41PVRcSm0KOIBx8FFAaApdbCISQhhjrYcBIqggPIT+EOmProaA63jIo0Pe4t6VRRn0Uk+lqGkzy0RDu
-k3lr8dGcZKFJkWNIqm2HCmwz+7XtCUluF7UzoATJQ1iCsluDyjWViT4OVQ5AmV7nZI/fIvxPs1fOkbhi
-ijR+IBdKFhrwLKrVW80msk/kOPaRhLGmdC8ePSyj92eTDWlt2xkX84XYxGbWxZXil/7lMcob4/2rnb+Y
-yUGa8U3Iz+jvBq1VQEx6hl8G5/6MlXwBUEsHCOHwAJhaAQAAfgIAAFBLAQIUABQACAAIAAAAIQDh8ACY
-WgEAAH4CAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACQAQAAAAA=
+qBhQNo28W8p6bCVrO9vC4NtbCExjDInver2nv3vurt3+lufOBpRmUvio7l4jB0QiKROpj9ZmWeugfu/y
+optI7m6lAup+tl2dgCCKSS86HpwtZ15FudlTLFdoz977KDOm8DAuy9KVPHWlSvF88nSS/EmuHtksPmTx
+Zxufsi4k9go5gnDwUUBpCFxuIBBCGmKshwEjqSI8hPwQ6owVQ0F1vGFQou92b/dGGfVRTKaraTDJR0O4
+T+atxUdzkoUmRY4hqbYVKjA+km1mV9jakOR2YFsDSpA8hCUoOz2o3FOZ6GNz+0Yo00VOdvgtwv80feUc
+iSumSOMHcqFkqQHPolq91WwiuyrHscsSxprSvXj0sIzen002pLVNZ1zOF2Idm1kXV4pf+pfHKG+Md692
+DuVMDtKMr0N+Rn83aK0CYtIz/H1w7u9YyRdQSwcI35Oxr1wBAACGAgAAUEsBAhQAFAAIAAgAAAAhAN+T
+sa9cAQAAhgIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAJIBAAAAAA==
+
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
