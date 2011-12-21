@@ -245,7 +245,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 									IMPLEMENTED_ARTIFACTS_ATTR,
 									EXTENDED_ARTIFACT_ATTR);
 
-					if (convertParents) {
+					if (convertParents || (children.contains(fqn) && convertChildren)) {
 						IAbstractArtifact extended = hierarchyHelper
 								.getExtended(fqn);
 						if (extended != null) {
