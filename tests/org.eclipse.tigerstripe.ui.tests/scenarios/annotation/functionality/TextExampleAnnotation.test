@@ -6,7 +6,7 @@ Tags: Annotation/functionality
 External-Reference: http://docs.xored.com/display/TS/TextExampleAnnotation
 Element-Version: 3.0
 Contexts: _pje2YGyZEeC-86eLlbu98w
-Save-Time: 12/21/11 12:11 PM
+Save-Time: 12/21/11 6:49 PM
 Id: _oTluQccOEeCbRKPVX6qmIQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -23,6 +23,22 @@ Steps:
 2. Check empty fields
 3. Update values and check changed example 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity1"
+get-view "Annotation Property View" | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity1"
+get-view "Annotation Property View" | get-table | select Font
+get-view "Annotation Property View" | get-group Font | get-combo | get-property selection | equals "" | verify-true
+get-view "Annotation Property View" | get-group Font | get-combo | set-text Arial
+with [get-view "Annotation Property View" | get-group Font] {
+    get-combo | get-property selection | equals Arial | verify-true
+    get-label "Example Text" | get-property "getFont().getFontData().FontData[0].getName()" | equals Arial 
+        | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content
