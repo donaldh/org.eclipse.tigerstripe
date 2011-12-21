@@ -2,7 +2,7 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: TextExampleAnnotation
-Tags: Annotation/functionality
+Tags: Annotation/functionality, skipExecution
 External-Reference: http://docs.xored.com/display/TS/TextExampleAnnotation
 Element-Version: 3.0
 Contexts: _pje2YGyZEeC-86eLlbu98w

@@ -2,7 +2,7 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertDatatypeToEntityExtendsRemove
-Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37, Stereotype
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37, Stereotype, skipExecution
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityExtendsRemove
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_zw4toKd1EeCodoOuG34GLw,_9D6jAatgEd-v8JwXbnu_tQ

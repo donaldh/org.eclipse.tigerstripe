@@ -2,7 +2,7 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertDatatypeToEntityDiagramChildrenConvert
-Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37, skipExecution
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityDiagramChildrenConvert
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_llELsKLhEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
