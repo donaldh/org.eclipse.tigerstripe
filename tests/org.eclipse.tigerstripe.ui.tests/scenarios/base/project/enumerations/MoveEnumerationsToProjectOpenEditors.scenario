@@ -1,9 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="MoveEnumerationsToProjectOpenEditors" version="3.0" id="_kK38sILDEeCrs9yxFtn9Ig" description="Move Enumerations from one project to a another project. All editors are opened&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;SeveralProjectsContext&#xD;&#xA;SeveralEnumerationsContextWorkbench&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create project2 with package2&#xD;&#xA;2. Move Enumeration1 to project2/package2&#xD;&#xA;3. Verify that artifact is moved&#xD;&#xA;4. Move Enumeration1 to project2/package2 via 'Refactor model/move'&#xD;&#xA;5. Check errors in Problems view&#xD;&#xA;6. Remove extends link&#xD;&#xA;7. Check empty Problems view" tags="TS_Project/Edit/Artifacts/Enumeration/constant" type="ecl">
-  <contexts>_3uHT4H-DEeCcSOu_oe8o1g</contexts>
-  <contexts>_tjAwwILDEeCrs9yxFtn9Ig</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: MoveEnumerationsToProjectOpenEditors
+Tags: TS_Project/Edit/Artifacts/Enumeration/constant
+External-Reference: 
+Element-Version: 3.0
+Contexts: _3uHT4H-DEeCcSOu_oe8o1g,_tjAwwILDEeCrs9yxFtn9Ig
+Save-Time: 12/22/11 5:08 PM
+Id: _kK38sILDEeCrs9yxFtn9Ig
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Move Enumerations from one project to a another project. All editors are opened
+
+Precondition:
+SeveralProjectsContext
+SeveralEnumerationsContextWorkbench
+
+Steps:
+1. Create project2 with package2
+2. Move Enumeration1 to project2/package2
+3. Verify that artifact is moved
+4. Move Enumeration3 to project2/package2 via 'Refactor model/move'
+5. Check errors in Problems view
+6. Remove extends link
+7. Check empty Problems view
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
 with [get-window "New Tigerstripe Project"] {
     get-editbox -after [get-label "Project Name:"] | set-text Project2
     get-button Finish | click
@@ -43,8 +72,8 @@ with [get-window Move] {
     get-tree | select "Project2/src/com/mycompany/package2"
     get-button Finish | click
 }
-get-view Problems | get-tree | get-item "Errors \\(1 item\\)" | get-property caption | equals "Errors (1 item)" | verify-true
-get-view Problems | get-tree | get-item "Errors \\(1 item\\)/com.mycompany.Enumeration2 cannot be resolved to a type" | get-property caption | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
+get-view Problems | get-tree | get-item "Errors \\(.*\\)" | get-property caption | equals "Errors (1 item)" | verify-true
+get-view Problems | get-tree | get-item "Errors \\(.*\\)/com.mycompany.Enumeration2 cannot be resolved to a type" | get-property caption | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany.package2/Enumeration3" | double-click -nowait
 get-editor Enumeration3 | get-section "General Information" | get-button Select | click
 with [get-window "Super Enumeration"] {
@@ -54,6 +83,17 @@ with [get-window "Super Enumeration"] {
 get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true]]></content>
-  </content>
-</com.xored.q7.scenario:Scenario>
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kc1uwjAQhO+V+g6W79ilVAKiBIRa
+KlCLqJQceosiZ0lNiRfsDQlvXwcB/VVv9u7sN+N1OG7KDduDdRpNxLvihjMwCnNtiohXtOoM+Hh0fRUq
+LEWDFnKx6wunwGRWYxCfDqwpdXCh3LYUzzUu8PWIvxFtAynruhZYFgJtIV8X87PkT/JlyHflsSt3fXnu
+ClC+xJnJSoj4AvcwNVUJNiPv7xJ8sbgGRcstmGmuCa3jn2/stel0HvH0/ak3cPPnhyncWzc8NI9khvOC
+M8oKF/EkTk8c2ULkxJJeZYqc/GLm8xlHmSE/ddj6MKA23O+LMb8xQ9CQG6W9apbczTqtj4qXVYowwG4R
+yovih57Wk7r+leubvr389yFe8gFQSwcI3L+FfRoBAADbAQAAUEsBAhQAFAAIAAgAAAAhANy/hX0aAQAA
+2wEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFABAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

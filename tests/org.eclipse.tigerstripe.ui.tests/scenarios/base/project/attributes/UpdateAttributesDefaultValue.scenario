@@ -1,0 +1,82 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: UpdateAttributesDefaultValue
+Tags: TS_Project/Edit/Artifacts/Attribute, TS_Project/VisualEditor
+External-Reference: http://docs.xored.com/display/TS/UpdateAttributesDefaultValue, http://jira4.xored.com/browse/QS-798
+Element-Version: 3.0
+Contexts: _eq7awK8jEd-YepE1dWFlXA
+Save-Time: 12/22/11 4:57 PM
+Id: _nHmAkInWEeCErZSBFQ0SKQ
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Default value can be added and removed
+
+Precondition
+ClassDiagramContext
+
+Steps:
+1. Create attribute and check empty default value
+2. Save changes and close editor
+3. Reopen editor and check saved value
+4. Check attribute default value on the diagram
+5. Check attribute default value in Tigerstripe explorer
+6. Remove default value and save changes
+7. Check attribute default value on the diagram
+8. Check attribute default value in Tigerstripe explorer
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5o+wwpqMlwYZOqI
+hJiIQ0BfSFnvZnFrR9u58fd2BhYeDG/NveecnnPPcFznGfoBpbkUPu47PYxAxJJxkfq4NEl3gMej66th
+LHOnlgqYs3cdHYOgiksvOj5QnXOvVblpVKyu0J6d+/jLmMIjpKoqR+apI1VK1i/TE+Rf5ZZkt+RvS/Yu
+OW0diO0II0Fz8PF7waiBwBjFt6UB/QQJLTOzpFlpMa2r28YVZz7eiOc8+J6KVQiPofqMHibzXjSbY2Ro
+qn28iDavSu4gNiRk3JBAGZ7Q2GjSftFBZ6Al1yXNGqhUVuNQWEsQZ/aOtQElaPYGCSh7VGhDMRnrY+Ym
+H+O6yOiBLCJyKUsHHek7rujdGX+rZKWBzKOuez/Ati2EbF/CWAN6tIG9S6vZYBey7gcUYZ+tJtk6GJIW
+Ydsll+u1kF9QSwcIbphbR0oBAAApAgAAUEsBAhQAFAAIAAgAAAAhAG6YW0dKAQAAKQIAAAgAAAAAAAAA
+AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIABAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
