@@ -6,7 +6,7 @@ Tags: Annotation/Diagram
 External-Reference: http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramRelationshipEnds_view, http://jira4.xored.com/browse/QS-1655
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_OHSl4JyPEeCwQoDghmuRmQ,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/21/11 12:19 PM
+Save-Time: 12/22/11 12:25 PM
 Id: _aNjNAMlFEeCcX6bW5MhRtg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -32,12 +32,13 @@ Entry-Name: .content
 Content-Type: text/ecl
 
 get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/ClassDiagram" | double-click -nowait
+get-view "Annotation Property View" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
-    | get-target-connection 0] {
-    mouse-move 155 46 button1 -height 79 -width 291
-    mouse-press 155 46 button1 -height 79 -width 291
-    mouse-release 155 46 button1 524288 -height 79 -width 291
-    mouse-hover 155 46 -height 79 -width 291
+    | get-target-connection 0 | get-edit-part -text "+entity1"] {
+    mouse-move 21 6 button1 -height 15 -width 42
+    mouse-press 21 6 button1 -height 15 -width 42
+    mouse-release 21 6 button1 524288 -height 15 -width 42
+    mouse-hover 21 6 -height 15 -width 42
 }
 
 get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
@@ -46,6 +47,12 @@ with [get-window "Create Annotation Wizard"] {
     get-tree | select "Primitive/Text Annotation"
     get-button Finish | click
 }
+
+with [get-window "Annotation Conflict"] {
+    get-list | select "Tigerstripe Model Component"
+    get-button OK | click
+}
+
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | mouse-hover 282 273 -height 356 
     -width 486
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
@@ -78,6 +85,12 @@ with [get-window "Create Annotation Wizard"] {
     get-tree | select "Primitive/Integer Annotation"
     get-button Finish | click
 }
+
+with [get-window "Annotation Conflict"] {
+    get-list | select "Tigerstripe Model Component"
+    get-button OK | click
+}
+
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
     | get-target-connection 0 | get-edit-part -text "<<IntegerAnnotation>> +entity2" | get-property text 
     | equals "<<IntegerAnnotation>> +entity2" | verify-true
