@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertEntityToDatatypeDiagramChildrenConvert
-Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37, skipExecution
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagramChildrenConvert
 Element-Version: 3.0
-Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 8:44 PM
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w
+Save-Time: 12/22/11 11:44 AM
 Id: _lL9EEKFgEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -49,18 +49,20 @@ get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPa
     | equals 2 | verify-true
 with [get-editor "ClassDiagram.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Entity] {
-        mouse-move 33 36 button1 -height 50 -width 49
-        mouse-press 33 36 button1 -height 50 -width 49
+        mouse-move 19 18 button1 -height 50 -width 49
+        mouse-press 19 18 button1 -height 50 -width 49
+        mouse-release 19 18 button1 524288 -height 50 -width 49
+        mouse-hover 20 17 -height 50 -width 49
+        mouse-move 20 17 button3 -height 50 -width 49
+        mouse-press 20 17 button3 -height 50 -width 49
+        mouse-release 20 17 button3 2097152 -height 50 -width 49
     }
     get-menu "Show Properties View" | click
 }
-with [get-view Properties] {
-    with [get-canvas -index 3] {
-        mouse-press 51 13 button1
-        mouse-release 51 13 button1 524288
-    }
-    get-tree | select EMF
-    get-canvas -index 3 | mouse-move 64 2
+with [get-view Properties | get-canvas -index 3] {
+    mouse-press 55 9 button1
+    mouse-release 55 9 button1 524288
+    mouse-move 45 1
 }
 with [get-view Properties | get-tree] {
     get-item "EMF/Extends" | get-property columns -index 0 | equals Extends | verify-true
@@ -138,15 +140,15 @@ get-editor Entity | get-section "General Information" | get-editbox -after [get-
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdUstuwjAQvFfqP1g+Q1weJYAICEGo
-KKVqG6i4RcYxwSixwV4I/H2dFuhDLYfe7J3x7OysW519mqAd10Yo6eGSc4MRl0xFQsYe3sKiWMed9vVV
-i6nU2SvNI2fjOoZxSbVQzeB4QPtUNM8q5VzF6krTtHUPLwHWTUKyLHNUGjtKx2Q2Hp4ovyqfH1mUvKNk
-45IT6nBmSxhJmnIPV8q3Jbca9pS0DsCXIOAwUX0KFA5r3hc01jTtLUUSaS6PLPw5cyV3KyIPh8lDw/dH
-g9jnvVVQe5z3prNxmGEENDYengThk1YrzoC8CrOliR8JUJocFQvoCyGHSFeDWFAGhnx4KqBhxbVq1pSH
-OUts0nvgWtLkhS+49cb4eexIMXNMJU8gEmad0AOZBORf09oNImR3KMG2NO1wcLcIpiNY+lFxV7/PZnO5
-DeG5Rc6MH/xMm3F1NJh9T+ZvfqNfW3UpxBf088ulL2Upb1BLBwi1pWV2ZAEAAJ0CAABQSwECFAAUAAgA
-CAAAACEAtaVldmQBAACdAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA
-mgEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkl9PwjAUxd9N/A5Nn2GVPzIgDEJg
+GESMOjC8LaUro2Rrob0w+PZ2CijGGONb2/Pr6bn3ttXZpwnacW2Ekh4uOTcYcclUJGTs4S0sinXcaV9f
+tZhKnb3SPHI2rmMYl1QL1QyOC7RPRfPsUs5drK80TXvu4SXAuklIlmWOSmNH6ZjMxsMT8qPz+ZJVybtK
+Ni45qQ5n9ggjSVPu4Ur5tuRWw56SNgH4EgQcJqpPgcJhzfuCxpqmvaVIIs3lkcKfNVfytCLycJg8NHx/
+NIh93lsFtcd5bzobhxlGQGPj4UkQPmm14gzIqzBbmviRAKXJ0bGAvgC5RLoaxIIyMOQjUwENK651s6E8
+zFliO70HriVNXviC22yMn8uOFDPHruQdiIRZJ/RAJgH5V7V2ggjZGUqwT5p2OLhbBNMRLP2ouKvfZ7O5
+3Ibw3CJn4hvf6NdWXQrxX/lMm3F1NJhddvKCzze/fSmLvAFQSwcIhQMMuWUBAACdAgAAUEsBAhQAFAAI
+AAgAAAAhAIUDDLllAQAAnQIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
+AJsBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

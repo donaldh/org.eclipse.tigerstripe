@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertDatatypeToEntityExtendsRemove
-Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37, Stereotype, skipExecution
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37, Stereotype
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityExtendsRemove
 Element-Version: 3.0
-Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_zw4toKd1EeCodoOuG34GLw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/21/11 5:46 PM
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_HIKogSxWEeGA_eix0GUw3A,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 12/22/11 11:46 AM
 Id: _2W9AIKb1EeCodoOuG34GLw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -19,11 +19,11 @@ Convert Datatype with extends to another Datatype to Entity on Tigerstripe Explo
 Convert extended Entity to Datatype on Tigerstripe Explorer
 
 Precondition:
-DatatypeMethodsDiagramProfileContextWorkspace
+DatatypeMethodsDiagramAllProfileContextWorkspace
 
 Steps:
 1. Apply profile 
-2. Add stereotypes for Datatype1 and Datatype1 
+2. Add stereotypes for Datatype1 and Datatype2 
 3. Check items count in Tigerstripe Explorer and on Class Diagram
 4. Clear error log
 
@@ -163,7 +163,7 @@ get-editor Datatype2 | get-section Constants | get-section | get-table | get-ite
     | get-property caption | equals "literal0=\"0\"" | verify-true
 get-editor Datatype2 | get-section Methods | get-section | get-table | get-item "method0\\(\\):void" 
     | get-property caption | equals "method0():void" | verify-true
-get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-true
+get-tab-folder -index 1 | get-menu "Close All" | click
 get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
@@ -175,15 +175,15 @@ wait-until-eclipse-is-ready
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVUttOAjEQfTfxH5o+41YuyiWshOBK
-EI3K4uVtU9uy1ux2sB1Y8OvtGtgYoya+NO2cM2fOzLQ/2OQZWSvrNJiQ1oNjSpQRILVJQ7rCxVGHDs4O
-D/oC8mADVsngrR04oQy3Gnrx7kI2ue5VKo1Sxesa1/PxkL4gLnuMFUURQJ4GYFP2dD3ZU35UrpI8yj5R
-9tZmezRQwocoMTxXIW02TurtVjIC4x3gOUeO26WaQ2RQ4zbaoDLSzVQOa59SmWyWJrUMadJ47A4n0+d6
-pEYg4WY1brbGVwUlyFMX0nmc3Fp4VQLZg3YrnkVSI1i2K1cjXwglxIYW9YILdGxvpUYmzXaNxKisgjLg
-tf0ZUiUyP25v0BqezdTC40aoqncJwu1GU45BarfM+JbNY/aflv32CPH7M+grubPkYryI76f4Esmjdeey
-eHo2qwTv+qxifOO/Fy2Eqfw2nt/53fPT1yHH9A/98vHXd/KUD1BLBwgp7HseZwEAAJkCAABQSwECFAAU
-AAgACAAAACEAKex7HmcBAACZAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2
-AAAAnQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVUlFv0zAQfkfiP1h+7uK1GXSrmk3R
+FkIpCFg6trfIs6+Zp8TX2dcm/fc4qI0Qgkm8WPZ933333Z3nV11Tsx04b9AmfBydcgZWoTa2SviW1ifn
+/Ory7Zu5wibq0IGOXqaRV2ClMzgrDhfWNWY2qEx6laBr/SzEE/5EtJkJ0bZthE0VoavEw5fFkfJX5SEp
+oOIXKl6m4ohGoEKIMysbSHg8eTeenpXXaIMDupEkab+BFWaWDO2zjsBqfwsN7kLKYDLuTRqd8HJyf5Eu
+lo/jDK5R49dtHp/ln1vOSFY+4aui/ObwGRSJH8ZvZZ1pQ+jEodyI/UboIZE6MmupyIujlRFbxNMRKwgc
+YB8I2uFMOKg6jDsYdFbWt7AOuFUw9K5R+cNo+jFo4ze13ItVIf6n5bA9xsL+LIVK/rL8kK+LuyU9Zfpk
+d/6pfXi025K+z8XA+IP/cbHEqujuM8jTEkx3mt+1cfpv/sXN++dUUvWKfv947TsFyk9QSwcI7DGmbHQB
+AACZAgAAUEsBAhQAFAAIAAgAAAAhAOwxpmx0AQAAmQIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50
+UEsFBgAAAAABAAEANgAAAKoBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

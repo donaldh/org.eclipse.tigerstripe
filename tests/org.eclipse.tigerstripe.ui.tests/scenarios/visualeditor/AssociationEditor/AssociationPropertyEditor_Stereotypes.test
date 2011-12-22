@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/AssociationPropertyEditor, Stereotypes
 External-Reference: http://docs.xored.com/display/TS/AssociationPropertyEditor_Stereotypes
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_1vqZYOILEeCOm5a5GamGdA
-Save-Time: 12/21/11 7:12 PM
+Save-Time: 12/22/11 12:05 PM
 Id: _F3uzsOINEeCOm5a5GamGdA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -94,6 +94,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className Map
 }
 get-window "Association Property Editor" | get-editbox -after [get-label "Stereotypes :"] | get-property rawValue 
     | equals "" | verify-true    
+get-window "Association Property Editor" | get-button OK | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
