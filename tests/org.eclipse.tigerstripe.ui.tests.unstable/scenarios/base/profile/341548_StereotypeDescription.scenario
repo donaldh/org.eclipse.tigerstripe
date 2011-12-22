@@ -1,948 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="341548_StereotypeDescription" version="3.0" id="_dfDoMGcoEeCtOtMnB4cfpA" description="Check support/guidance for Stereotype description &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA; 1. Create TS project with profile&#xD;&#xA; 2. Create Datatype artifact&#xD;&#xA; 3. Add 'attribute_stereo' and 'datatype_stereo' attributes for Datatype artifact type &#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA; 1. Open profile and add descriptions for stereotypes&#xD;&#xA; 2. Save profile as active&#xD;&#xA; 3. Add stereotypes to Datatype artifact. &#xD;&#xA; 4. Check description of the selected stereotype in the 'Add Stereotype' dialog &#xD;&#xA; 5. Click context help button in the dialog. Check details about the stereotype. &#xD;&#xA; 6. Select stereotype in the editor. Check displayed stereotype description.&#xD;&#xA; 7. Reset profile" tags="TS_Project/Profile, I33" type="ecl" externalReference="http://docs.xored.com/display/TS/341548_StereotypeDescription">
-  <contexts>_yFRb4BGBEeC46s5Prxi4vQ</contexts>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View0" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree0" kind="Tree"/>
-      <path>Project1</path>
-      <path>default.wbp</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree0" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Project1/default.wbp" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabFolder" multiplicity="1">
-        <parent id="Editor0" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabItem" pattern="Stereotypes" multiplicity="1">
-        <parent id="TabFolder0" kind="TabFolder"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="TabItem0" kind="TabItem"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State0" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Editor0" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Stereotype Definitions" multiplicity="1">
-        <parent id="Expandable0" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable1" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table0" kind="Table"/>
-      <path>attribute_stereo</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Stereotype Details" multiplicity="1">
-        <parent id="Expandable0" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Description:" multiplicity="1">
-        <parent id="Expandable2" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Text" multiplicity="1">
-        <after id="Label0" kind="Label"/>
-        <parent id="Expandable2" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="Description for the stereotype">
-      <element id="Text0" kind="Text"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button0" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State1" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabItem" pattern="Overview" multiplicity="1">
-        <parent id="TabFolder0" kind="TabFolder"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="TabItem1" kind="TabItem"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State2" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="General Information" multiplicity="1">
-        <parent id="Editor0" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Link" pattern="Save as active profile and reload" multiplicity="1">
-        <parent id="Expandable3" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
-      <element id="Link0" kind="Link"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Save as Active Profile" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window0" kind="Window" description="Save as Active Profile"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button1" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForRestart"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow0_23" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View0_23" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree0_23" kind="Tree"/>
-      <path>Project1</path>
-      <path>src</path>
-      <path>com.mycompany</path>
-      <path>Datatype</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree0_23" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Datatype" multiplicity="1">
-        <parent id="EclipseWindow0_23" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Stereotypes" multiplicity="1">
-        <parent id="Editor0_23" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable0_23" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Add" multiplicity="1">
-        <parent id="Expandable1_24" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button0_23" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State0_23" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Stereotype Selection" multiplicity="1">
-        <parent id="EclipseWindow0_23" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Window0_23" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table0_23" kind="Table"/>
-      <path>attribute_stereo</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Stereotype Selection" multiplicity="1">
-        <parent id="EclipseWindow1_24" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Description:" multiplicity="1">
-        <parent id="Window1_24" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Text" multiplicity="1">
-        <after id="Label0_23" kind="Label"/>
-        <parent id="Window1_24" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="value" value="Description for the stereotype Click on Help button for more details.">
-      <element id="Text0_23" kind="Text"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Stereotype Selection" multiplicity="1">
-        <parent id="EclipseWindow2_25" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Help" multiplicity="1">
-        <parent id="Window2_25" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button1_24" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State1_24" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Stereotype Selection" multiplicity="1">
-        <parent id="EclipseWindow4_26" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="attribute_stereo description" multiplicity="1">
-        <parent id="Window4_26" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="attribute_stereo description" multiplicity="1">
-        <parent id="Expandable3_25" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="attribute_stereo description">
-      <element id="Label2_24" kind="Label"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Stereotype Selection" multiplicity="1">
-        <parent id="EclipseWindow6_27" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window6_27" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button3_25" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State2_25" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Stereotype Details" multiplicity="1">
-        <parent id="EclipseWindow6_27" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window7_28" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button4_26" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State3_26" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Datatype" multiplicity="1">
-        <parent id="EclipseWindow6_27" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Stereotypes" multiplicity="1">
-        <parent id="Editor1_24" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable5_26" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable6_27" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table3_24" kind="Table"/>
-      <path>attribute_stereo</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Datatype" multiplicity="1">
-        <parent id="EclipseWindow7_28" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Stereotypes" multiplicity="1">
-        <parent id="Editor2_25" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable7_28" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Description:" multiplicity="1">
-        <parent id="Expandable8_29" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Text" multiplicity="1">
-        <after id="Label5_25" kind="Label"/>
-        <parent id="Expandable8_29" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="value" value="Description for the stereotype">
-      <element id="Text1_24" kind="Text"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow8_29" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button5_27" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State4_27" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>Tigerstripe</path>
-        <path>Active Profile Details...</path>
-        <parent id="EclipseWindow8_29" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu0_23" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State5_28" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Active Profile Details" multiplicity="1">
-        <parent id="EclipseWindow8_29" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Reset Profile" multiplicity="1">
-        <parent id="Window8_29" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button6_28" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State6_29" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Reset Active profile to Factory Defaults?" multiplicity="1">
-        <parent id="Window8_29" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window9_30" kind="Window"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button7_29" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForRestart"/>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow0" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View0" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree0" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>Project1</path>
-          <path>default.wbp</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="Editor0" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Project1/default.wbp">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="TabFolder0" kind="TabFolder"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Overview" tabCount="6">
-        <pages>Overview</pages>
-        <pages>General</pages>
-        <pages>Stereotypes</pages>
-        <pages>Primitive Types</pages>
-        <pages>Artifacts</pages>
-        <pages>Source</pages>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="TabItem0" kind="TabItem"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="State0" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.11">
-      <elements id="Expandable0" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="729" height="98"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="Expandable1" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="363" height="95"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="Table0" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="278" height="59"/>
-        <selection>
-          <path>attribute_stereo</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.15">
-      <elements id="Expandable2" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="10" width="365" height="609"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.16">
-      <elements id="Label0" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Description: ">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="62" width="66" height="15"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.17">
-      <elements id="Text0" kind="Text"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="72" y="62" width="269" height="60"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.19">
-      <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.20">
-      <elements id="State1" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.23">
-      <elements id="TabItem1" kind="TabItem"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.24">
-      <elements id="State2" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.27">
-      <elements id="Expandable3" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="44" width="351" height="358"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.28">
-      <elements id="Link0" kind="Link"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.30">
-      <elements id="Window0" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Save as Active Profile">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="870" y="397" width="522" height="215"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.31">
-      <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds width="92" height="25"/>
-        <caption>OK</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.32">
-      <elements id="State3" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.35">
-      <elements id="EclipseWindow0_23" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/default.wbp - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.36">
-      <elements id="View0_23" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.37">
-      <elements id="Tree0_23" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>Project1</path>
-          <path>src</path>
-          <path>com.mycompany</path>
-          <path>Datatype</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.40">
-      <elements id="Editor0_23" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Datatype">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.41">
-      <elements id="Expandable0_23" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="122"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.42">
-      <elements id="Expandable1_24" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="98"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.43">
-      <elements id="Button0_23" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="55" height="25"/>
-        <caption>Add</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.44">
-      <elements id="State0_23" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.47">
-      <elements id="Window0_23" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Stereotype Selection">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="932" y="188" width="398" height="528"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.48">
-      <elements id="Table0_23" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="360" height="270"/>
-        <selection>
-          <path>attribute_stereo</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.50">
-      <elements id="EclipseWindow1_24" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Datatype.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.51">
-      <elements id="Window1_24" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Stereotype Selection">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="932" y="188" width="398" height="528"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.52">
-      <elements id="Label0_23" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Description:">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="343" width="360" height="15"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.53">
-      <elements id="Text0_23" kind="Text"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" value="Description for the stereotype Click on Help button for more details." readOnly="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="366" width="360" height="60"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.55">
-      <elements id="EclipseWindow2_25" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Datatype.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.56">
-      <elements id="Window2_25" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Stereotype Selection">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="932" y="188" width="398" height="528"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.57">
-      <elements id="Button1_24" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Help" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.58">
-      <elements id="State1_24" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.61">
-      <elements id="EclipseWindow4_26" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Datatype.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.62">
-      <elements id="Window4_26" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Stereotype Selection">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="932" y="188" width="632" height="528"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.63">
-      <elements id="Expandable3_25" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" containMenu="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="10" width="227" height="115"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.64">
-      <elements id="Label2_24" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" containMenu="true" caption="attribute_stereo description">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor red="25" green="76" blue="127"/>
-        <bounds x="11" y="3" width="156" height="15"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.66">
-      <elements id="EclipseWindow6_27" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Datatype.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.67">
-      <elements id="Window6_27" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Stereotype Selection">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="932" y="188" width="632" height="528"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.68">
-      <elements id="Button3_25" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="13" width="92" height="25"/>
-        <caption>OK</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.69">
-      <elements id="State2_25" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.72">
-      <elements id="Window7_28" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Stereotype Details">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="914" y="347" width="435" height="290"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.73">
-      <elements id="Button4_26" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="13" width="92" height="25"/>
-        <caption>OK</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.74">
-      <elements id="State3_26" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.77">
-      <elements id="Editor1_24" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Datatype" dirty="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.78">
-      <elements id="Expandable5_26" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="122"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.79">
-      <elements id="Expandable6_27" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="98"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.80">
-      <elements id="Table3_24" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="249" height="85"/>
-        <selection>
-          <path>attribute_stereo</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.82">
-      <elements id="EclipseWindow7_28" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Datatype.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.83">
-      <elements id="Editor2_25" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Datatype" dirty="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.84">
-      <elements id="Expandable7_28" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="122"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.85">
-      <elements id="Expandable8_29" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="322" width="640" height="98"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.86">
-      <elements id="Label5_25" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Description:">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="15"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.87">
-      <elements id="Text1_24" kind="Text"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" value="Description for the stereotype" readOnly="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="25" width="630" height="65"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.89">
-      <elements id="EclipseWindow8_29" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Datatype.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="619" y="156" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.90">
-      <elements id="Button5_27" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.91">
-      <elements id="State4_27" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.94">
-      <elements id="Menu0_23" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Active Profile Details..." enablement="true" index="6" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.95">
-      <elements id="State5_28" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.98">
-      <elements id="Window8_29" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Active Profile Details">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="125" y="125" width="500" height="300"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.99">
-      <elements id="Button6_28" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Reset profile to factory defaults">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="77" y="173" width="77" height="25"/>
-        <caption>Reset Profile</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.100">
-      <elements id="State6_29" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.103">
-      <elements id="Window9_30" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Reset Active profile to Factory Defaults?">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="114" y="132" width="522" height="215"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.104">
-      <elements id="Button7_29" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds width="92" height="25"/>
-        <caption>OK</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.105">
-      <elements id="State7_30" kind="State"/>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 341548_StereotypeDescription
+Tags: TS_Project/Profile, I33
+External-Reference: http://docs.xored.com/display/TS/341548_StereotypeDescription,  http://bugs.xored.com/browse/XMP-358
+Element-Version: 3.0
+Contexts: _yFRb4BGBEeC46s5Prxi4vQ
+Save-Time: 12/22/11 1:45 PM
+Id: _dfDoMGcoEeCtOtMnB4cfpA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Check support/guidance for Stereotype description 
+
+Precondition
+ 1. Create TS project with profile
+ 2. Create Datatype artifact
+ 3. Add 'attribute_stereo' and 'datatype_stereo' attributes for Datatype artifact type 
+
+Steps:
+ 1. Open profile and add descriptions for stereotypes
+ 2. Save profile as active
+ 3. Add stereotypes to Datatype artifact. 
+ 4. Check description of the selected stereotype in the 'Add Stereotype' dialog 
+ 5. Click context help button in the dialog. Check details about the stereotype. 
+ 6. Select stereotype in the editor. Check displayed stereotype description.
+ 7. Reset profile
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UUFuwjAQvFfqHyyfwS5NKCgioFJa
+xAGVEg69RcHZpK4SO9iGhN+zVJD2UHGytbM7O7MzmjRlQQ5grNQqpD32QAkooVOp8pDuXdYd0sn4/m4k
+dMkabSBluwGzAlRipA6iy4c0pQxalsczC/IqG2A9pF/OVQHndV0zXeZMm5x/LhfXln+Z2yFE+Q/KdwN+
+RRkILFGikhJC6vm9vj+MIwcGtDtWMAMrjKwciqG/3ryzKpmGNE6zmV7OhX6FF/fulmrqi6x6psQluQ3p
+JopXRn+DcBzfTBbQIQvPQxipQwqiwBM1uEwlxRoyXKoEtHpTLezFzll6Km1VJEe+ifgtmR1CLvPbff53
+fmt0bQHPtep6/SHFJAjBLJRDBXYcH9/WW386n6IT/8n2V6aR/uFjxNsOTI7fjg5bTlBLBwhwBhqJNwEA
+AAUCAABQSwECFAAUAAgACAAAACEAcAYaiTcBAAAFAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQ
+SwUGAAAAAAEAAQA2AAAAbQEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
