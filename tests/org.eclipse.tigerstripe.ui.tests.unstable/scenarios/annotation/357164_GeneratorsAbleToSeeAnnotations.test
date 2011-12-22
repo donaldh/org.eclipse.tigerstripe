@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 357164_GeneratorsAbleToSeeAnnotations 
 Tags: Annotation/generator, TS_Generator
-External-Reference: http://docs.xored.com/display/TS/357164_GeneratorsAbleToSeeAnnotations
+External-Reference: http://docs.xored.com/display/TS/357164_GeneratorsAbleToSeeAnnotations http://jira4.xored.com/browse/QS-1590
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_duue0dqKEeC6qsfYFclGSA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/9/11 11:02 AM
+Save-Time: 12/22/11 2:10 PM
 Id: _KmwdgNqMEeC6qsfYFclGSA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -65,14 +65,14 @@ get-editor "org.eclipse.tigerstripe.test.module.txt" | get-editbox | get-propert
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUlFPwjAQfjfxPzR9lhVEARcGWRSI
-Ekx0mODTUtZbmdla1nZs/Hs7AyMaJb717r777vvuOhxXWYp2oHQihYc7ThsjEJFkieAeLkzcGuDx6PJi
-GMnMqaQC5uR9R0cgqEqkGxweqMoSt2G5rlksr9CuzXt4Y8zWJaQsS0dm3JGKk9Xi8Qj5lblpslXyVSV5
-nxyrDkQ2hZGgGXi4e9vv9G7CGQhQ1Eil/XUKSxkA+EJIQ40VpRE+uezW+hLm4XCelYw/54sJ3PdyHb9P
-o3QW+BgZyrWHT+2EH8mv0DI4jbLI/dZKgCi1e6sMKEHTV4hB2SVCY4LJSB881n5Yorcp3ZNlQP6lHdsD
-IGRPIIydoUfhdBYHb3OzmbDWbvBUrtaiCM3LkDSIH3hWFNBm+fy7zb/xdw+9D58afoa/Ds79CAv5BFBL
-Bwg9E6zMQAEAAFwCAABQSwECFAAUAAgACAAAACEAPROszEABAABcAgAACAAAAAAAAAAAAAAAAAAAAAAA
-LmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAdgEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkm9PwjAQxt+b+B2avpYV5P/CIIsC
+UYIJDhN8tZT1Nka2lrWFjW9vZ2CoUeK79u65X5+762BUpAk6gFSx4A5uWHWMgAeCxTxy8F6HtR4eDW9v
+BoFIrUJIYFbWtVQAnMpY2N7pgIo0tivKfUkxXK5sE3fwRuudTUie55ZII0vIiKzmT2fJr+SqyGTJZ5Zk
+XXLOWhCYEEacpuDgZrvb6LT8KXCQVAup3HUCS+EBuJwLTbUxpRC+dNks/cXMwf4szVn0ks3H8NDJVPg+
+CZKp52KkaaQcfCkn0Rl+h5be5SmjPO6MBQgSM7dCg+Q0eYUQpBkiVE0wEahTj2U/LFa7hB7J0iP/837C
+bGNJW184aylyBWTh1Rrtfh2bNSFkFsW1caKG/mQaem8zvRmz2qH3nK/WfO/rxYBUih96tt9DnWWz78P4
+W99/7GxdqqMr/PJy7d8YyQdQSwcIU5T/XFMBAACCAgAAUEsBAhQAFAAIAAgAAAAhAFOU/1xTAQAAggIA
+AAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIkBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

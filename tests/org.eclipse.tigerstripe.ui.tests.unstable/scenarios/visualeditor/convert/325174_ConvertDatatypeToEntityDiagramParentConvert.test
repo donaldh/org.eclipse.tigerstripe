@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertDatatypeToEntityDiagramParentConvert
 Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37
-External-Reference: 
+External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityDiagramParentConvert http://jira4.xored.com/browse/QS-947
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_llELsKLhEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/22/11 12:38 PM
+Save-Time: 12/22/11 1:58 PM
 Id: _c1D7YKLxEeCnVOKduz-xbg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -150,14 +150,15 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV1PwjAUhu9N/A9Nr2EVUIcLgxA2
-DQ4jBiR4tZSujJKthe6MDX+9nQH8iHJ3es7TJ29PO70yTdCO60wo6eKGdYURl0xFQsYuzmFZb+Ne9/Ki
-w1RqlUrzyNraVsa4pFooZ3IoUJkK52RpVhbjlZlj+i5eAWwcQoqisFQaW0rHZP40PCJ/mk+XzJR8TsnW
-JsepxZlpYSRpyl3cat407OtwoKRJAB4FCvsNnypfgoC9J2isaTqmmks4MPjrxa0qq4hcHLKGZ78Fo9Ln
-Azl7DqL8vV4uYoyAxpmLp5NwrNWaMyAzkeU08SMBSpODsYa+AdWI9DWIJWWQkWOiGhq2bOMzpYs5S7DZ
-K0JmsxJ4CVk3vH9YTl4DWPlRfdd+LOYLmYfw0iEn4hefJP4oC0arn4n/5++823WfQnzGXx3OfbRBPgBQ
-SwcIx5jD70EBAAAzAgAAUEsBAhQAFAAIAAgAAAAhAMeYw+9BAQAAMwIAAAgAAAAAAAAAAAAAAAAAAAAA
-AC5jb250ZW50UEsFBgAAAAABAAEANgAAAHcBAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVklFPwjAUhd9N/A9Nn2UVQSeEYQxM
+o8MoDgk+LaUro2Rrsb2w4a+3MwPRKIlvtz2nX869t52rIkvRmmsjlPRw3TnFiEumYiETD69gVrvEV93j
+ow5TmVMozWPnzXUM45JqodphVaAiE+0d5aykWK40bXvv4TnAsk1InueOyhJH6YRMHu62ll/Ju0dWJZ8q
+eXPJVnU4s1cYSZpxDzfOzutuM+opaRNAnwKFzZKPlC9BwKYvaKJp9kQ1l1B58FfHjTKriD0csXrffQ0G
+hc97cvwYxKv3WjFNMAKaGA+PwuhJqwVnQMbCrGjqxwKUJhXxBO0ZSolcaxAzysCQbaITdNdwLc+WHuYs
+tZMugGtJ02c+4zYe47u2Y8VMNZVyArEwy5RuyCgk/+8WVcyF0LS5B51qlRtOhmGt1XSxXTJCds0SbCrT
+jW5uZ+FLAHM/rq0v7/PJVK4iGHbIzvHDn6b+wASD+ffx/e1v9S8W1xSSA/zycOjXWcsHUEsHCP5sL0V1
+AQAAwAIAAFBLAQIUABQACAAIAAAAIQD+bC9FdQEAAMACAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVu
+dFBLBQYAAAAAAQABADYAAACrAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

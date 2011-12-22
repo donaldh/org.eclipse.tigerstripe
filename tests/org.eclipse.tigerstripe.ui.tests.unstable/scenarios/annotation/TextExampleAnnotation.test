@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: TextExampleAnnotation
 Tags: Annotation/functionality
-External-Reference: http://docs.xored.com/display/TS/TextExampleAnnotation
+External-Reference: http://docs.xored.com/display/TS/TextExampleAnnotation http://jira4.xored.com/browse/QS-1667
 Element-Version: 3.0
 Contexts: _pje2YGyZEeC-86eLlbu98w
-Save-Time: 12/22/11 12:02 PM
+Save-Time: 12/22/11 2:11 PM
 Id: _oTluQccOEeCbRKPVX6qmIQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -43,13 +43,14 @@ with [get-view "Annotation Property View" | get-group Font] {
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UU1PwkAQvZv4HzZ7Z1cxAWwoxBhi
-iBrlIwa9kGU7rWv2o3S3tv33TA2UC/E2mffmzZs342ltNPmFwitnY3rLbigBK12ibBbTMqS9EZ1Orq/G
-0hlWuwISth8yL8GKQrlodSxIbVTUqfRbFdS1PsJ+TL9DyCPOq6pizmTMFRnfvM5PlIvK3RCi/A/l+yE/
-oQwktiixwkBM11CHWS1MruHBWhdEQBf0fNRda0clMd26tS4XUr7N4HG3fH7/2Az2Zr6gJIjMx/Q8zNPS
-yrYQWoUG8SbHPSA1hlMHKLC/hBQKTAo6p4mT/nhIazpRPtei4esVv2wQUyUEc7UBYT/Z5j/Q/3xqvtBc
-bzSAF70r70fVmHcM/AL//w1IOQBQSwcIgfPgFxoBAADRAQAAUEsBAhQAFAAIAAgAAAAhAIHz4BcaAQAA
-0QEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFABAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UU1PwkAQvZv4HzZ7Z1fQFGwoxBhi
+iBrlIwa9kGU71CXtbtnd2vbfMzVQPBBvk3nz3rx5MxxXWUp+wDpldES77IYS0NLESicRLfy2M6Dj0fXV
+UJqMVcZCzPZ95iRoYZUJF8eCVJkKW5Veo4K62oXYj+i393nIeVmWzGQJMzbhq9fpaeSicktClP+ifN/n
+J5SBxBYlWmQQ0SVUflKJLE/hQWvjhUcX9HzUbWNHxRFdm2VazKR8m8DjZv78/rEK9tl0RokXiYvomcy3
+hZZNIVLla8TrHPeATDGcyoPF/hy2YDEpaJ3GRrrjIY3pWLk8FTVfLvhFg+RI2ykr7v7wNtaUDvhs0ekG
+QZ9i9oRg+tqjiBut8x30Pp/qLzyhMwjgJd0U94NyyNsJ/BX//1k4cgBQSwcIISCiIS8BAAD3AQAAUEsB
+AhQAFAAIAAgAAAAhACEgoiEvAQAA9wEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAAB
+AAEANgAAAGUBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
