@@ -1,0 +1,34 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CopyPaste Entity into the same location
+External-Reference: 
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
+Save-Time: 12/23/11 3:54 PM
+Id: _rzL3sC1CEeGOB4M1I_u2lA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Right-click a Datatype in Tigerstripe Explorer and select "Copy" command;
+2. Right-click the same folder and select "Paste" command;
+3. Make sure "Name conflict" window is displayed;
+4. Set new name(or use the offered one) and press OK button;
+5. Make sure that the Datatype was copied with all attributes/methods. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kFFPgzAUhd9N/A9N39eOYTJCYIsS
+1KnLXPayN4Klg0ZoWXsZ4K+3GIeZMb713vP13HtusOyqEp24NkLJEDtkihGXTGVC5iFu4DDx8HJxfRUw
+VZFOaZ6R45wYxmWqhfJ33w/UVcIfXWaDi/WVxrf9EBcAtU9p27ZEVTlROqf79eqM/Ok8frIq/VLpcU7P
+KuHMtjCSacVDHKm6f00NcBRLENAjIUEhKDgyVkelYinYvfBPTHdYUGQhTvTHi2siJ4r5w+buZu2skmZW
+3mIEfW2dOSuxDY+QjS+Bd2AWiX48vG+foYizycl7avdvsklgG9CR+MW7qrv3dtPkcsIFPxT/Xdcin1BL
+Bwh235E2BAEAAKgBAABQSwECFAAUAAgACAAAACEAdt+RNgQBAACoAQAACAAAAAAAAAAAAAAAAAAAAAAA
+LmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAOgEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

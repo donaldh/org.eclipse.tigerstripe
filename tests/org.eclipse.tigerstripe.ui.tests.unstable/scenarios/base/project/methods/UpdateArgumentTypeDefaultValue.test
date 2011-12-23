@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: UpdateArgumentTypeDefaultValue
 Tags: TS_Project/Edit/Artifacts/Methods/Argument 
-External-Reference: http://docs.xored.com/display/TS/UpdateArgumentTypeDefaultValue
+External-Reference: http://docs.xored.com/display/TS/UpdateArgumentTypeDefaultValue, http://build.xored.com/browse/TS-CVSDEPLOY-77, http://bugs.xored.com/browse/XMP-512
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 12/22/11 5:36 PM
+Save-Time: 12/23/11 3:55 PM
 Id: _O3bxQKxlEeCV6eq_iSql8g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -216,14 +216,14 @@ get-editor Entity0 | get-section Methods | get-section | get-table
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFUUFuwjAQvFfqHyzfiVuQAEUYhAoH
-hBBtk6Kql8jYm+DKsRPbacLvayrIqWpvq93Z2ZnZ2aIrFfoC66TRFD9GDxiB5kZIXVDc+HwwxYv5/d2M
-mzLqjAUR1ZPIcdDMShMn1wJ1pYx7luGFJfBqF4c+xSfvq5iQtm0jUxaRsQV5321ukF+Z+6UwJT9TUk/I
-bRoBDy2MNCuB4rdKMA9LWzQlaJ+eK1hBzhrlD0w1AdXrGl10SUFxth8du5dtp9bwdBhDncmkVtMCI88K
-R3GaZM/WfAL3ZC2kJ0vrZc64d2QH/mSEI7djKKyEexQDVyG4zoPVTL1CDjakCL0LYbi7mrwYEtJVip1J
-mpB/xIfoEQrhax/I3TxjezHebNvpWgx48jE85qtBuSpmpEeEV5G/fxUg31BLBwhAZRFJMQEAAPYBAABQ
-SwECFAAUAAgACAAAACEAQGURSTEBAAD2AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAA
-AAEAAQA2AAAAZwEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9klFrwjAQx98H+w4hz2szlU0Rq4j6
+IE50qxO3lxKTa81IE03StX77xaFF2PAt3P3vd/+7S29Q5RJ9g7FCqwg3wkeMQDHNhcoiXLg06OBB//6u
+x3QeVtoADw/t0DJQ1Ajdjc8PVOWiW1OaJ4rnKtv18QjvnNt3CSnLMtR5FmqTkc18epH8S66LfJb8Zsmh
+TS7ZEJgPYaRoDhF+33PqYGiyIgflVsc9jCGlhXRrKguvqn21Tr4Ej3CyaG2r11klJzBaP8MhEfFBdjKM
+HM1shFdxsjT6C5gjEy4cGRonUsqcJXNwO80tuTRDvsT3izAw6RdXOTCKyjdIwfgtQj0F18yehzwNxIXd
+S3okq5jcNv+AzoBtISS/ImyNLi14QDBax+PJ8mXxEbTbV/LM/lVv5svgqdHE/p4I+Ysq5x3bfkIX/Hk6
+KzsTHrD4s7lNx0E+znqkVvj7k9sfwEt+AFBLBwjEoeNQWwEAAEsCAABQSwECFAAUAAgACAAAACEAxKHj
+UFsBAABLAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAkQEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
