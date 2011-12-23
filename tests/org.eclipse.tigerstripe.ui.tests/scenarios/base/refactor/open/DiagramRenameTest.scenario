@@ -5,8 +5,8 @@ Element-Name: DiagramRenameTest
 Tags: TS_Project/VisualEditor/Refactor
 External-Reference: http://docs.xored.com/display/TS/DiagramRenameTest
 Element-Version: 3.0
-Contexts: _NG89gMz6Ed-6Q5V9pxn_5A
-Save-Time: 12/22/11 11:51 AM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_fWx6AC1FEeGLGPctzMXQtA
+Save-Time: 12/23/11 4:28 PM
 Id: _TTOAkC6kEeC10pY5Az195Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -186,18 +186,6 @@ get-editor "default.wvd" | click -nowait
 get-button "Save (Ctrl+S)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataTop | get-target-connection 0 | get-edit-part -text Dependency00 | get-property name | equals Dependency00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Dependency00" | get-property caption | equals Dependency00 | verify-true
-
-get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Exception0" | get-item "model-refactoring/src/simple/Exception0" | drag-start 40 10 none
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    drag-enter 1 257 none -detail 2 -operation 7
-    drag-over 99 145 none -detail 1 -operation 7
-    drag-exit -button none
-    drag-accept 99 145 none -detail 1 -operation 7
-}
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 99 145 none -detail 1 -operation 7
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
-get-button "Save All (Ctrl+Shift+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Exception0" | get-menu "Refactor Model/Rename..." | click
 with [get-window "Refactor Model Artifact"] {
     with [get-editbox -after [get-label "New name:"]] {
@@ -210,44 +198,6 @@ with [get-window "Refactor Model Artifact"] {
 get-button "Save All (Ctrl+Shift+S)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exception00 | get-edit-part -text Exception00 | get-property name | equals Exception00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Exception00" | get-property caption | equals Exception00 | verify-true
-with [get-view "Tigerstripe Explorer" | get-tree] {
-    select "model-refactoring/src/simple/Update0" | get-item "model-refactoring/src/simple/Update0" | drag-start 15 7 none
-    with [get-item "model-refactoring/src/simple/DataTop"] {
-        drag-enter 111 11 none -detail 2 -operation 7
-        drag-over 111 11 none -detail 2 -operation 7
-    }
-    get-item "model-refactoring/src/simple/DataBottom/recur:DataBottom" | drag-over 108 8 none -operation 7
-    get-item "model-refactoring/src/simple/DataBottom" | drag-over 132 5 none -detail 2 -operation 7
-    get-item "model-refactoring/src/simple/AssociationClass00/ent1_4:Ent10" | drag-over 119 6 none -operation 7
-    get-item "model-refactoring/src/simple/AssociationClass00/ent1_3:Ent10" | drag-over 125 6 none -operation 7
-    get-item "model-refactoring/src/simple/AssociationClass00" | drag-over 151 2 none -detail 2 -operation 7
-    get-item "model-refactoring/src/simple/Association2" | drag-over 156 3 none -detail 2 -operation 7
-    get-item "model-refactoring/src/simple/Association1" | drag-over 163 3 none -detail 2 -operation 7
-    get-item "model-refactoring/src/simple/Association00/ent1_0:Ent10" | drag-over 155 -button none -operation 7
-    get-item "model-refactoring/src/simple/Association00/associatedEnt_0:AssociatedEnt" | drag-over 175 1 none -operation 7
-    get-item "model-refactoring/src/simple/Association00" | drag-over 204 14 none -detail 2 -operation 7
-    get-item "model-refactoring/src/simple/DataTop" | drag-exit -button none
-}
-with [get-control Any -index 121] {
-    drag-enter 1 99 none -detail 16 -operation 5
-    drag-over 1 99 none -detail 1 -operation 5
-    drag-exit -button none
-}
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    drag-enter 1 71 none -detail 2 -operation 7
-    drag-over 52 46 none -detail 1 -operation 7
-    drag-exit -button none
-    drag-accept 52 46 none -detail 1 -operation 7
-}
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 52 46 none -detail 1 -operation 7
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    mouse-move 25 61 button1 -height 407 -width 825
-    mouse-press 25 61 button1 -height 407 -width 825
-    mouse-release 25 61 button1 524288 -height 407 -width 825
-}
-get-button "Save All (Ctrl+Shift+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Update0" | get-menu "Refactor Model/Rename..." | click
 with [get-window "Refactor Model Artifact"] {
     with [get-editbox -after [get-label "New name:"]] {
@@ -260,27 +210,6 @@ with [get-window "Refactor Model Artifact"] {
 get-button "Save All (Ctrl+Shift+S)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Update00 | get-edit-part -text Update00 | get-property name | equals Update00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Update00" | get-property caption | equals Update00 | verify-true
-get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Event0" | get-item "model-refactoring/src/simple/Event0" | drag-start 21 10 none
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    drag-enter 59 229 none -detail 2 -operation 7
-    drag-over 98 168 none -detail 1 -operation 7
-    with [get-edit-part -name Exception00 | get-figure 0] {
-        drag-over 2 19 none -detail 1 -operation 7
-        drag-over 2 22 none -detail 1 -operation 7
-    }
-    drag-over 73 223 none -detail 1 -operation 7
-    drag-exit -button none
-    drag-accept 73 223 none -detail 1 -operation 7
-}
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 73 223 none -detail 1 -operation 7
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    mouse-move 155 213 button1 -height 407 -width 825
-    mouse-press 155 213 button1 -height 407 -width 825
-    mouse-release 155 213 button1 524288 -height 407 -width 825
-}
-get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Event0" | get-menu "Refactor Model/Rename..." | click
 with [get-window "Refactor Model Artifact"] {
     with [get-editbox -after [get-label "New name:"]] {
@@ -293,32 +222,6 @@ with [get-window "Refactor Model Artifact"] {
 get-button "Save All (Ctrl+Shift+S)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Event00 | get-edit-part -text Event00 | get-property name | equals Event00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Event00" | get-property caption | equals Event00 | verify-true
-get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Query0" | get-item "model-refactoring/src/simple/Query0" | drag-start 20 9 none
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    drag-enter 519 422 none -detail 2 -operation 7
-    drag-over 841 390 none -detail 1 -operation 7
-    drag-exit -button none
-}
-with [get-control Any -index 121] {
-    drag-enter 845 414 none -detail 16 -operation 5
-    drag-over 845 382 none -detail 1 -operation 5
-    drag-exit -button none
-}
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    drag-enter 840 355 none -detail 2 -operation 7
-    drag-over 746 271 none -detail 1 -operation 7
-    drag-exit -button none
-    drag-accept 746 271 none -detail 1 -operation 7
-}
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 746 271 none -detail 1 -operation 7
-get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    mouse-move 710 363 button1 -height 407 -width 825
-    mouse-press 710 363 button1 -height 407 -width 825
-    mouse-release 710 363 button1 524288 -height 407 -width 825
-}
-get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Query0" | get-menu "Refactor Model/Rename..." | click
 with [get-window "Refactor Model Artifact"] {
     with [get-editbox -after [get-label "New name:"]] {
@@ -353,14 +256,14 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/sim
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UctuwjAQvFfqP0S+Y0Or8IgICFFU
-9UBbIELtKbLsJXVJ7GCbEvh6NhWkh1a9rXfGs7Ozw3FV5MEXWKeMjkmHtkkAWhipdBaTvd+0+mQ8ur0Z
-ClPQyliQdNejToDmVplodSmCqlBRo3JXq6CudhH2Y/LhfRkxdjgcqCkyamzG3uZPV8qfys0nRNk3ynY9
-dkUpCGyRQPMCYvKgeGZ5sYT6mYDz5Geh+9qKkjFJk+Rlsp12tzOYdtrlezg5dQbhggSeZy4mySp9teYT
-hGdr5fY8n0nljWVL2HCBBfKOJc4CkWNAlQereY4gWEwLGrfSCHdZpjYulStzfmTJiv02iakGAeaqPeq5
-Ufr82B9k81N3JlvdRbgelJVOw8mQNQy8Avv/DEg5A1BLBwjbtLVMJQEAANEBAABQSwECFAAUAAgACAAA
-ACEA27S1TCUBAADRAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAWwEA
-AAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdluwjAQfK/Uf4j8TgytOBoRUERT
+eqFyRC19ilxnE1wSO9iGBL6+TgWpeqhvuzvj2dlxf1hmqbUDqZjgLmrZTWQBpyJiPHHRVseNHhoOzs/6
+VGR2KSRE9qZrKwqcSCacxbGwyow5tcpFpWJ0uXLM3EUrrXMH46IobJEltpAJXk7uTpQ/letHBsWfKN50
+8Qm1gZoRsjjJwEXXjCSSZHOo2gCURl8HXVZWWOSiMAievPWos/Zh1Grmr23v0Lpqz5ClSaJcFCzCqRTv
+QDV+ZmpLUj9iWkg8h5hQUxjePje7gKYmoFKD5CQ1IEiTFtRuI0HV8ZjKeMRUnpI9Dhb4t0mTqmWZXLk2
+emoQytt4PXvQKz9q7Hr3xfKNb0M96+Oa8YMfv5Qdb9S68WH8OJ5SfZgsZ9r7xq+a/77NUD4AUEsHCLdU
+w448AQAAAQIAAFBLAQIUABQACAAIAAAAIQC3VMOOPAEAAAECAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29u
+dGVudFBLBQYAAAAAAQABADYAAAByAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
