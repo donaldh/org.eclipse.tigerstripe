@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 44572_CustomPrimitiveTypes
 Tags: Profile, TS_Project/Edit/Artifacts
-External-Reference: http://docs.xored.com/display/TS/344572_CustomPrimitiveTypes
+External-Reference: http://docs.xored.com/display/TS/344572_CustomPrimitiveTypes, http://bugs.xored.com/browse/XMP-872
 Element-Version: 3.0
 Contexts: _CqRlYHZCEeCl96NjdO1nlQ
-Save-Time: 12/22/11 4:11 PM
+Save-Time: 12/23/11 1:19 PM
 Id: _xQJbYHZCEeCl96NjdO1nlQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -68,12 +68,12 @@ with [get-editor Entity1] {
     }
 }
 with [get-window "Artifact Type Selection"] {
-    get-table | select " double"
+    get-table | select " datetime"
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-editbox -after [get-label "Type:"] 
-    | get-property rawValue | equals "double" | verify-true
+    | get-property rawValue | equals "datetime" | verify-true
 get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
@@ -87,14 +87,14 @@ get-editor Entity1 | get-label "Error Detected: primitive cannot be resolved to 
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kUtPAjEUhfcm/oema23loeiEQsyE
-RE1UXgt1MxnbO2NJp4W2wPDvvRgYFxp2N/fx5Zxz+8O6MmQDPmhnBW2xK0rASqe0LQVdx+Lylg4H52d9
-6SpWOw+KrXosSLC51y6ZHQpSVzppKO09Bbk2JNgX9CvGZcL5drtlriqZ8yV/e348rvxLbo5wyn+mfNXj
-xykDiS1KbF6BoN3uda+dpesQXTX2utJRb2C+W0Kgv846e01aCZrVk6fP94ePdASpubt5WajXljUTSmJe
-BkHH3hXawAWZzzKsFyAjHykd+b2PushlRGhEtqAgDWZVR/A2N1MowGNw0AhXToaDr70HpcPS5Ds+n/HO
-CcEYNSEYto1IDoMsXU3NX7F93mzga/jp3+DKN1BLBwgtqetNIgEAAOYBAABQSwECFAAUAAgACAAAACEA
-LanrTSIBAADmAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAWAEAAAAA
-
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UctOwzAQvCPxD5bPbUwfkBI1rVBU
+CZCAvg7AJUqdTXDlR2u7JP17tqgNSDxuq92d2Z2Z4bhWkryDdcLomHaCC0pAc5MLXcZ054v2gI5H52dD
+blRQGwt5sA0Dx0FnVphocSxIrUTUsHQPLMirXYT9mL55v4kYq6oqMKoMjC3Z88PdaeVX5gaEU/Y5ZduQ
+naYBcGxRojMFMe33L8NumuycN2pqhRJevMNyvwFHv5T1Dj+JPKZpPbtfvdy+JhNI5PXV4zp/6mg5o8Rn
+pYvp1JpCSGiR5SLFeg3cs0kuPLuxXhQZ90jqkTumwCV6VXuwOpNzKMCicdA8nhvujroOGnLhNjLbs+WC
+9f5+uEWO6NWu/I5eWVM5QNem7UHYpRgIIRiJ9njfjdJkO5c/JQ1Zs4EBsv8TxJUPUEsHCBYbpRU2AQAA
+DAIAAFBLAQIUABQACAAIAAAAIQAWG6UVNgEAAAwCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBL
+BQYAAAAAAQABADYAAABsAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
