@@ -19,6 +19,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -27,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeStereotypePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.contract.ContractUtils;
@@ -34,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.RegExpFQNSetPred;
+import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -149,6 +155,45 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		return false;
 	}
 
+	/**
+	 * Returns true if the given artifact should be excluded because of the
+	 * annotations it carries.
+	 * 
+	 * @param capable
+	 * @return
+	 */
+	public boolean isExcludedByAnnotation(IAnnotationCapable capable)
+			throws TigerstripeException {
+
+		if (capable == null) {
+			return false;
+		}
+		IContractSegment facet = facetRef.resolve();
+
+		IAnnotationManager manager = AnnotationPlugin.getManager();
+		Annotation[] annotations = manager.getAnnotations(capable, true);
+
+		for (Annotation a : annotations) {
+			if (a == null) {
+				BasePlugin.log(new IllegalArgumentException("Annotation is null"));
+				continue;
+			}
+			AnnotationType type = manager.getType(a);
+			if (type == null || type.getId() == null) {
+				BasePlugin.log(new IllegalArgumentException("Annotation type is null"));
+				continue;
+			}
+			for (ScopeAnnotationPattern pattern : facet.getCombinedScope()
+					.getAnnotationPatterns(ISegmentScope.EXCLUDES)) {
+				if (type.getId().equals(pattern.annotationID)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public void resolve(IProgressMonitor monitor) throws TigerstripeException {
 		monitor.beginTask("Resolving facet scope", IProgressMonitor.UNKNOWN);
 
@@ -190,7 +235,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// We only take the "Class Artifacts" not the relationships.
 			if (!(artifact instanceof IRelationship && !(artifact instanceof IDependencyArtifact))
 					&& primaryPredicate.evaluate(artifact)
-					&& !isExcludedByStereotype(artifact)) {
+					&& !isExcludedByStereotype(artifact)
+					&& !isExcludedByAnnotation(artifact)) {
 				if (artifact instanceof IDependencyArtifact) {
 					dependencies.add((IDependencyArtifact) artifact);
 				} else {
