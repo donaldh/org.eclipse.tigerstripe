@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 341677_StereotypeAttrDescription
-Tags: TS_Project/Profile/Add, I33
-External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescription,   http://bugs.xored.com/browse/XMP-358
+Tags: TS_Project/Profile, I33
+External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescription
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/22/11 1:46 PM
+Save-Time: 12/23/11 6:22 PM
 Id: _RMXh0WcYEeCtOtMnB4cfpA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -90,14 +90,14 @@ get-window "Active Profile Details" | get-button OK | click
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFUctuwjAQvFfqP1g+QwxNeCgiIOhL
-HFApQSo9RcHZBFeJHWxDwt93qSDtoWpPXu2OZ2d2RpO6yMkRtBFKBrTrdCgByVUiZBbQg03bQzoZ396M
-uCqcWmlInP3AMRxkrIXyw0tB6kL4DcvdmQV5pfGxH9CdtaXPWFVVjioyR+mMbRbzK+RX5uYTTtnXlO0H
-7Dp1gGOLEhkXEFDX6/YHgyi0oEHZUwlTa/UDGK5FaVEQ/fbnnpWJJKDRarHZdd74+yPc2xe7kDOPp+WU
-EhtnJqDrMFpq9QHcMnxTkQObJkmLzF0XIbgioMBzPFWNS2WcryDF5ZJDoztR3FxsnS0kwpR5fGLrkP0n
-t0UIuZBsD9lPkq1WlQG83bLt9oYUYyEEg5EWZZhxdHpabb3Z8wwteX3TW+paeMfXEWsQGCP7O0eEfAJQ
-SwcIubvFf0EBAAASAgAAUEsBAhQAFAAIAAgAAAAhALm7xX9BAQAAEgIAAAgAAAAAAAAAAAAAAAAAAAAA
-AC5jb250ZW50UEsFBgAAAAABAAEANgAAAHcBAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFUctOwzAQvCPxD5bPYLckNCiqW7W8
+1ENFaZAopyg4m9QosVPbtOnfs0VtuCA4ebUznp2dHY7buiJbsE4ZLWif9SgBLU2udCnopy8ub+h4dH42
+lKZmrbGQs03EnASdWWXi5FiQtlZxp3J1UEFd7WLsC7r2vok53+12zNQlM7bkq/nsRPlVufuEKP9G+Sbi
+J5SBxBYlOqtB0CDsD6IoTTxYMH7fwMR7ewdOWtV4NER/9gsOzlQuaLqcr9a9V/l2D7f+yc/1NJRFM6HE
+Z6UT9CVJF9Z8gPQc30JVcEFmQYAwygsKssKYWhyos2oJBQ7WEjrPuZHuuNLBfq5cU2V7/pLwf61i1IRg
+2NqjvBul+4flezh9nKLNcOCuF7ZV4fZ5yDsGnob/fRukfAFQSwcIbX4r1ikBAADmAQAAUEsBAhQAFAAI
+AAgAAAAhAG1+K9YpAQAA5gEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
+AF8BAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

@@ -1,8 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ShowRelationshipAnchorsInExplorer" version="3.0" id="_WIdAwEvOEeCpX88hChjiUw" description="Display Relationship Anchors of Tigerstripe project in the &quot;Tigerstripe Explorer&quot; using preferences&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create project with artifacts:&#xD;&#xA; Datatype with name &quot;DT_test&quot;&#xD;&#xA; Entity&#xD;&#xA; Enumeration&#xD;&#xA; Event&#xD;&#xA; Session facade  with name &quot;SF_test&quot;&#xD;&#xA; AssociationClass between Entity and SF_test &#xD;&#xA; Association between DT_test and Entity &#xD;&#xA; Dependency between Event and Enumeration&#xD;&#xA;&#xD;&#xA;Reproducing steps:&#xD;&#xA;1. Check relationship and artifacts in Tigerstripe explorer&#xD;&#xA;2. Check &quot;Show Relationship Anchors&quot; checkbox in &quot;Preferences->Tigerstripe->Explorer&quot; and save change&#xD;&#xA;3. Verify that anchors of relationship in the objects are displayed in the Tigerstrype Explorer&#xD;&#xA;4. Uncheck &quot;Show Relationship Anchors&quot; checkbox in &quot;Preferences->Tigerstripe->Explorer&quot; and save change &#xD;&#xA;5. Verify that anchors of relationship in the objects are not displayed in the Tigerstrype Explorer" tags="Preferences, TS_Project/Profile " type="ecl">
-  <contexts>_pGxrsGdIEeCWiLpyewgyVA</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/DT_test"] {
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: ShowRelationshipAnchorsInExplorer
+Tags: TS_Project/Preferences, TS_Project/Profile 
+External-Reference: http://docs.xored.com/display/TS/ShowRelationshipAnchorsInExplorer
+Element-Version: 3.0
+Contexts: _pGxrsGdIEeCWiLpyewgyVA
+Save-Time: 12/23/11 4:56 PM
+Id: _WIdAwEvOEeCpX88hChjiUw
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Display Relationship Anchors of Tigerstripe project in the "Tigerstripe Explorer" using preferences
+
+Precondition:
+Create project with artifacts:
+ Datatype with name "DT_test"
+ Entity
+ Enumeration
+ Event
+ Session facade  with name "SF_test"
+ AssociationClass between Entity and SF_test 
+ Association between DT_test and Entity 
+ Dependency between Event and Enumeration
+
+Reproducing steps:
+1. Check relationship and artifacts in Tigerstripe explorer
+2. Check "Show Relationship Anchors" checkbox in "Preferences->Tigerstripe->Explorer" and save change
+3. Verify that anchors of relationship in the objects are displayed in the Tigerstrype Explorer
+4. Uncheck "Show Relationship Anchors" checkbox in "Preferences->Tigerstripe->Explorer" and save change 
+5. Verify that anchors of relationship in the objects are not displayed in the Tigerstrype Explorer
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/DT_test"] {
     get-property caption | equals "DT_test" | verify-true
     get-property childCount | equals 4 | verify-true
 }
@@ -84,6 +119,18 @@ with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/te
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Association/dT_test:DT_test" | get-property caption | equals "dT_test:DT_test" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Association/entity:Entity" | get-property caption | equals "entity:Entity" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Dependency/Event" | get-property caption | equals Event | verify-true
-get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Dependency/Enum" | get-property caption | equals Enum | verify-true]]></content>
-  </content>
-</com.xored.q7.scenario:Scenario>
+get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Dependency/Enum" | get-property caption | equals Enum | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFUV1rwjAUfR/sP4Q8b80+HpRiFRGR
+wsbEbtM3Kcm1jaRJTDLT/vtdh3YMxvYWzj335Jx7RpO2UeQIzkujM3qf3FECmhshdZXRj7C7HdLJ+Ppq
+xE2TtMaBSA6DxHPQpZMmLc4P0jYy7VUeTiqoq32KeEbrEGzKWIwxMU2VGFexzXN+ofyq3C/hlH1N2WHA
+LtMEOEKU6LKBjBa1iStQZcDPfS3tVPPaOJ/reWsV8hz9Dvh4siZFRrfrXEzj/Pgyh5ndDIf1rN7Lt0hJ
+KCuf0ddiu3RmDzywpYMdODwK+BvyAzc7qYDgSmfRBnCFt2sDOF2q1WWnDyIM9+ecp0xCeqvKjr0W7H//
+WAAhWIEOqO/HW7tonV+IHL2v5ZPtIFbd+3TEegYWxv5uDCmfUEsHCGpGuxwqAQAA/AEAAFBLAQIUABQA
+CAAIAAAAIQBqRrscKgEAAPwBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
+AABgAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

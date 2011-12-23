@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: TigerstripeDiagramPreferencesNew
 Tags: TS_Project/Preferences
-External-Reference: 
+External-Reference: http://docs.xored.com/display/TS/TigerstripeDiagramPreferences
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_f2ESsIT_EeCmi8Lmf0Z3Ew,_EN-N8IUCEeCmi8Lmf0Z3Ew
-Save-Time: 12/22/11 1:36 PM
+Save-Time: 12/23/11 5:03 PM
 Id: _0Q4a8IUIEeCmi8Lmf0Z3Ew
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -397,13 +397,14 @@ get-view Properties | get-group Routing | get-button "Closest distance" | get-pr
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kctuwjAQRfeV+g+R99gUKhFFCSxo
-WqWPCBSQUDeRm0yCK2wH25D07ztUhT7UsrPnHt87Mw4nndx4ezBWaBWRK9onHqhCl0LVEdm5queTyfjy
-Iiy0pJ02UNLtiNoCFDdCB9nnweukCE4ug4ML+iobYD0ia+eagLG2bamWNdWmZqun5Ij86Xx6hCr7UNl2
-xI4qhQJLxFNcQkQWosZkZ0QDN4LXhsuZgQoMzgE2hZZ8zTc8dCbKiOT9+TX3k2USw1QK/1FW/edhjKjj
-tUXLLJ8Z/QqFY9+8UH1rMBCKDcGdeB5uRTnonB3nt3dVtnxw67js7f37dvWidrmbh+xE/OKrQZzZZJH/
-zP+fj9Neiv1Oz/CHy7lPQuQdUEsHCFfZKxQYAQAA7wEAAFBLAQIUABQACAAIAAAAIQBX2SsUGAEAAO8B
-AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABOAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UctuwjAQvFfqP0S+E1OoRBSRcqBp
+lT4QNCChXiI32QRXsR1sQ8Lfd1NB+lDLzd4Zz86Mx5NGlM4etOFKBuTK7RMHZKoyLouA7Gze88jk5vJi
+nCrhNkpD5m5HrklBMs2VHx8PTiO436kMWhXUlcbHeUA21lY+pXVdu0oUrtIFXT9HJ8qfyt0jROknSrcj
+ekJdSHFEHMkEBGTJC9xsNa/glrNCMzHXkIPGHGBmUJOvfMPWGc8CkvQX18yLVlEIU8G9J5H3X4chUi0r
+DErGyVyrd0gt/aaF6KHChZCW2FJjQUtWvpzgznKmUnNM1LrPuKlKdqDLmJ51SrBmx8GipUVtc5Pc3efx
+6tFuwqy39x7q9ZvcJXYxph3jFz8fhLGJlsnPSP/zw1lvhhVMz/Dby7l/R8oHUEsHCNHkxzEzAQAAQgIA
+AFBLAQIUABQACAAIAAAAIQDR5McxMwEAAEICAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYA
+AAAAAQABADYAAABpAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

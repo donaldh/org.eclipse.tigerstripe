@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 341548_StereotypeDescription
 Tags: TS_Project/Profile, I33
-External-Reference: http://docs.xored.com/display/TS/341548_StereotypeDescription,  http://bugs.xored.com/browse/XMP-358
+External-Reference: http://docs.xored.com/display/TS/341548_StereotypeDescription
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/22/11 1:45 PM
+Save-Time: 12/23/11 6:21 PM
 Id: _dfDoMGcoEeCtOtMnB4cfpA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -33,14 +33,14 @@ Steps:
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UUFuwjAQvFfqHyyfwS5NKCgioFJa
-xAGVEg69RcHZpK4SO9iGhN+zVJD2UHGytbM7O7MzmjRlQQ5grNQqpD32QAkooVOp8pDuXdYd0sn4/m4k
-dMkabSBluwGzAlRipA6iy4c0pQxalsczC/IqG2A9pF/OVQHndV0zXeZMm5x/LhfXln+Z2yFE+Q/KdwN+
-RRkILFGikhJC6vm9vj+MIwcGtDtWMAMrjKwciqG/3ryzKpmGNE6zmV7OhX6FF/fulmrqi6x6psQluQ3p
-JopXRn+DcBzfTBbQIQvPQxipQwqiwBM1uEwlxRoyXKoEtHpTLezFzll6Km1VJEe+ifgtmR1CLvPbff53
-fmt0bQHPtep6/SHFJAjBLJRDBXYcH9/WW386n6IT/8n2V6aR/uFjxNsOTI7fjg5bTlBLBwhwBhqJNwEA
-AAUCAABQSwECFAAUAAgACAAAACEAcAYaiTcBAAAFAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQ
-SwUGAAAAAAEAAQA2AAAAbQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UcFSwjAQvTvjP2Ry1kRsEaZDYKwo
+w4ERKQdvnZpua5w2KUmE9u9dHKgXh1N29r28fft2MmvriuzBOmW0oAN2RwloaXKlS0G/fXE7prPp9dVE
+mpq1xkLOdiPmJOjMKhMlp4K0tYp6lfujCupqF2Ff0E/vm4jzw+HATF0yY0v+vlqeKf8q958Q5b8o3434
+GWUgsUWJzmoQNAgHw3CcJh4sGN81MAcnrWo8mqF/uwVHVyoXNM2LuVktpHmGJ//qVzoOZdE8UuKz0gm6
+TdK1NV8gPce3UBXckGUQIIzSgoKsMKIWh+ms2kCBQ7WE3m9upDutc7SeK9dUWce3Cb9oEyMmBEPWHqXd
+NO1eNh9hvIjRYvjghmvbqnD/NuE9A0/CL98EKT9QSwcIvDpZ7CMBAADeAQAAUEsBAhQAFAAIAAgAAAAh
+ALw6WewjAQAA3gEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFkBAAAA
+AA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

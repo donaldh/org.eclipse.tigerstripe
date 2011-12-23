@@ -2,10 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: UpdateProfileArtifacts
+Tags: TS_Project/Profile 
 External-Reference: http://jira4.xored.com/browse/QS-1670
 Element-Version: 3.0
 Contexts: _bEZkQBPREeCrTY2DkyxR-A
-Save-Time: 12/22/11 4:48 PM
+Save-Time: 12/23/11 6:21 PM
 Id: _03nFEA5qEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -143,13 +144,13 @@ wait-until-eclipse-is-ready
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFPg0AQhe8m/ofN3tmlrYoh0AYV
-kx40lGpSvTQUBlwLu7CsQv99B9PixXjbzHvz7ZvnLfqqJN+gW6GkTyfMpgRkqjIhC59+mdy6pYv55YWX
-qor1SkPGGoe1KchEC+WuTw/SV8IdKdOBglzZujj36Ycxtct513VMVQVTuuCbp+XZ8id5XEKV/6i8cfhZ
-ZZDiiBKZVODT1zpLDERa5aKEQBuRJ6lp6e9VsyGPyHy6tWfyMQyumxDun7um2AQyWmYdJeZQIwjSEq/v
-DWiZlDHkoLEKGKN8Cp1cnaIOsXZadS3w1dqa3Dg2xZYIwZ6kQUQ73+7C9/3qLorxL/3yNn3YH/rYCjw+
-OrBV/n+taDkCUEsHCE5ZBL4PAQAAoQEAAFBLAQIUABQACAAIAAAAIQBOWQS+DwEAAKEBAAAIAAAAAAAA
-AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABFAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF9PwjAUxd9N/A5N32n5o2IWBpmK
+CQ8aGJigL0vp7mZha1lb3fj2XAzMF+Nbc8+5v557RpOmLMg3WKeMDmmPdSkBLU2qdB7SL5917ulkfH01
+kqZkjbGQsmrInAQtrDLB8vwgTamCltI/UZCrXYDzkH56vw84r+uamTJnxuZ8/TK7WP4kt0uo8h+VV0N+
+URlIHFGiRQkhfdunwsPcmkwVEFmvMiG9o79XDU55VBrSpDvQz9PotprC42td5etIz2dpTYkXuQvpapkg
+ZQvS8zONoHTY4x8gCyym8WC1KGLIwGJL0KbcKituzlecEm+sqR3wxbLTuxt2KRZICFaoPSLcONlMP3aL
+h3mMMezqvf+0OzRxJxrx1oGF8/8bR8sRUEsHCK9NRjQeAQAAvAEAAFBLAQIUABQACAAIAAAAIQCvTUY0
+HgEAALwBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABUAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

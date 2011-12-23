@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: MoveEnumerationsToProjectOpenEditors
 Tags: TS_Project/Edit/Artifacts/Enumeration/constant
-External-Reference: 
+External-Reference: http://docs.xored.com/display/TS/MoveEnumerationsToProjectOpenEditors
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_LNpPES0lEeGLGPctzMXQtA,_tjAwwILDEeCrs9yxFtn9Ig
-Save-Time: 12/23/11 12:40 PM
+Save-Time: 12/23/11 6:10 PM
 Id: _kK38sILDEeCrs9yxFtn9Ig
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -86,14 +86,14 @@ get-button "Save (Ctrl+S)" | click
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kctuwjAQRfeV+g+W99i0LKARAaE2
-IAq0oFCJXZQ6QzAldrAHEvr1dSqg7+48c8/cebjdLbMN2YOxUiufXrE6JaCETqRKfbrDZa1Fu53Li7bQ
-GSu1gYRtm8wKULGR2guPD1Jm0ju7XFcuzldZz+V9ukLMPc6LomA6S5k2KV9MhifkV+dzkVP5u8q3TX5S
-GQiXokTFGfh0ovcQqF0GJkbX38711Og1CHzMQQWJRG0s/dixUU0nE59GL6NGyw7HdwHcGntzKPuoboYp
-JRin1qfzMDr68MqE9wzKZSzQ8k/N3HzKYqzQVR1yNwyIDXX3IsRdTCGUaDtRf7AMn0a4CpLavnVfLJ7V
-LsJZm5+Jb/z4IZ8GYX0TwGA8mAp8nSxm2Pubx3WvKH7s8YWvgv8+0CFvUEsHCPsHEckwAQAACwIAAFBL
-AQIUABQACAAIAAAAIQD7BxHJMAEAAAsCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAA
-AQABADYAAABmAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUk1vwjAMvU/af6hyp2HjAKsoCG0F
+MWCDlUncqi51S1iblMTQsl+/dILue9ottp/f87PT7ZdZau1BaS6FSy7sJrFAMBlxkbhkh3GjQ/q987Mu
+k5ldSgWRvW3bmoEIFZeOf3xYZcadmuWyYjG8Qjsm75I1Yu5QWhSFLbPEliqhq9n4BPmRuW4yVfpWpds2
+PVVtYCZFLBFm4JKZ3IMndhmoEI2+Xsq5khtgeJ+D8CKOUmny7rFVTccjlwTPk1ZHj6c3HlwrfXUohyiu
+xgmxMEy0S5Z+cOShFQkdKORxyFDTD2JmPqExFGi6DrkZBlhqNlgiKBGmDxCDMuuE2k4kmT66rZxFXOdp
+eKBLn/7LhbmEZZlbCDQSuhcMR7H/OMG1FzX2ndti9SR2AS66tEZ8wU/v8rnnN1MPRtPRnOHLbLXAwe94
+3AyK4tuGPuGr4K+vYSCvUEsHCPgU6uZRAQAAZQIAAFBLAQIUABQACAAIAAAAIQD4FOrmUQEAAGUCAAAI
+AAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACHAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

@@ -2,10 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: DisplayStereotypesInExplorer
-External-Reference: 
+Tags: TS_Project/Preferences, Stereotypes
+External-Reference: http://docs.xored.com/display/TS/DisplayStereotypesInExplorer
 Element-Version: 3.0
 Contexts: _pGxrsGdIEeCWiLpyewgyVA
-Save-Time: 12/22/11 1:18 PM
+Save-Time: 12/23/11 4:54 PM
 Id: _2iKvUEuoEeCaoMSzIEHw9Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -219,13 +220,14 @@ wait-until-eclipse-is-ready
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UMlOwzAQvSPxD9bcsWk5FKK4FYKo
-RNADilhuVeRMg6V4qe02Dl+Pg2i4IG6jt2ney1dRdeSIzkujOczoJRDUwjRStxwOYXdxDavl+VkujKLR
-OGzofkG9QF07abLq5yBRyWxKmY8pKVf7LOEcPkKwGWN931OjWmpcy9435UnyZ/JkSiz7Ztl+wU4sRZEg
-ILpWyOFeetvVQxXQoQmDRV/qItouSRz8drsav5INh+1cPh5fioMp8K42m+qzLB76m2cgo5cDig5SY0JS
-Zx0wBr/c2nV0ft2UyfEmn+yAfTu83uZsUqSF2P8TJckXUEsHCGThBhHrAAAAbQEAAFBLAQIUABQACAAI
-AAAAIQBk4QYR6wAAAG0BAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAAh
-AQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kc1OwzAQhO9IvIPlM9hQDoUoboUg
+KhFUKqT83KLI2QajxE5tt0l4ejbQBg6oJ692xp9md8NpW5VkC9YpowU9Z2eUgJYmV7oQdONXp5d0Ojk+
+CqWpWGss5Gw9Zk6CzqwyQbIrSFupYKCMegpytQuwL+i793XAedM0zFQFM7bgb/N4b/mXPHxClX+rfD3m
+e5WBxBYlOqtA0Fvl6jLrEg8WjO9qcLGO2rpEi6W/s130qVQuaDpS99vnaGMiuMnMPPmMo7vm6pESnxVO
+0GWSLqz5AOn5wsIKoVqCOyF/+GjFR1CQJa6rRUFn5dPeO2TPjXS70fox8p+cfJnwg5Fx3YTgwrVHtJuk
+9ay1bpbHGPdVPdQdNEX3ch3ywYHn4Yfvg5YvUEsHCBi2nZYhAQAA6gEAAFBLAQIUABQACAAIAAAAIQAY
+tp2WIQEAAOoBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABXAQAAAAA=
+
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

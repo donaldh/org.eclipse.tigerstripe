@@ -2,10 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: CreateStereotypes
+Tags: TS_Project/Profile
 External-Reference: http://jira4.xored.com/browse/QS-1670
 Element-Version: 3.0
 Contexts: _7M3rEA53EeCNwqgXAnPIdw
-Save-Time: 12/22/11 4:29 PM
+Save-Time: 12/23/11 6:18 PM
 Id: _NsXNkA5qEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -49,13 +50,13 @@ Save changes.
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kMFOwzAQRO9I/IO199otoQRFcauo
-6qGHRkAuuVXB2QZDYje2weHvcVAbhIS4WTuzz7OTroeuJR9orNSKw4LOgaASupaq4fDujrN7WK+ur1Kh
-OzpogzXtY2oFqspInRTnBxk6mUyUm5ESuMomYc7hxblTwpj3nuquodo0rNzvLpY/ydNSUNm3yvqYXVSK
-IoyAqKpDDhuDlcPCoUHtPk9o4eegaIwiaw6H3Jb5W7bst7jJfd+UmXrY1R7IuMEBRRsOHwJDVe0THgNL
-CZxSvEpT3Z5TjomejfYW2WMxW9zFcwgFERIqUi4g7OoQ7yOzzZbR779SNjlCoez/RoPlC1BLBwgOFxY3
-/gAAAJwBAABQSwECFAAUAAgACAAAACEADhcWN/4AAACcAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRl
-bnRQSwUGAAAAAAEAAQA2AAAANAEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kFFPwjAUhd9N/A/NfacFEWeWFUII
+DzxA0PHAG5ndZRa3lrXVzX/vnYEZE+NTm3tOv3t6kllblewDndfWSBjxITA0yubaFBLew3HwCLPp7U2i
+bMVb6zDndcS9QpM5beP0cmFtpeOectdRiGt8THMJryGcYyGapuG2Krh1hdivV1fLn+T+EaniWxV1JK4q
+R0UjYCarUMLCYRYwDejQhs8zevj50LiLonMJh43fb97mk3qJi01TF/u52a7yBljICi9hlx62zp5QBUHn
+UZdE71gSUJVUSUt0k5XPeKQtRmGf76Rddn/J32V9cbbxKJ7SweghGgJVxxiVZwIh/PQQrcduOZ+Mf6dI
+RO+gqsX/XZPlC1BLBwhn0wK2EAEAALYBAABQSwECFAAUAAgACAAAACEAZ9MCthABAAC2AQAACAAAAAAA
+AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAARgEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

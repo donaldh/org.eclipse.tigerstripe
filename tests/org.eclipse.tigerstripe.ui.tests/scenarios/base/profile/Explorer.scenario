@@ -2,10 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: Explorer
-External-Reference: 
+Tags: TS_Project/Preferences, TS_Project/Profile
+External-Reference: http://docs.xored.com/display/TS/Explorer
 Element-Version: 3.0
 Contexts: _XzgU8BMFEeCrTY2DkyxR-A
-Save-Time: 12/22/11 4:40 PM
+Save-Time: 12/23/11 5:02 PM
 Id: _aHf4kA5qEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -142,12 +143,13 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompan
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UE1LAzEQvQv+hzD3JlqVlmXTsmrF
-HipSFdZTWbJpDN0ku9loUn+9U7HrRbzNzPtg3svnyTTkQ/peO8vhnJ4BkVa4WlvF4T1sR1OYz05PcuEM
-Tc7LmnYT2gtpK69d9vQzkGR0NriMDy7oa/sM7xzeQmgzxmKM1BlFnVesXC2PlD+dBxGi7Btl3YQdUSoF
-noDYykgOi9Q2uHr4zXFx+EDXHDbV/fZyV1x1C3nzEDtVFvZxWUcgYd+iVIoGMB0hmM8GmUI/25Sf6mV6
-vbpDhX9+Hd/u9mk9KnI2MLAN9n8dSPkCUEsHCAslK4PiAAAAWQEAAFBLAQIUABQACAAIAAAAIQALJSuD
-4gAAAFkBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAAYAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UNFKwzAUfRf8h5Bnl+hUNkq7MXXi
+HiZlrTCfSklva1ybtEm07b7eO9kqgviW3HPuueccf95VJfkEY6VWAb1il5SAEjqTqgjoh8tHUzqfnZ/5
+Qles0wYy1kyYFaBSI7UXHR+kq6Q3qIwPKqirrIfzgL45V3uct23LdFUwbQq+Xa9OlD+VhyVE+TfKmwk/
+oQwEjihRaQUBXXZ1iV9Df3JcHxzILKBJ+pTf7Ba3zRLun9um2C5UuMpaSlxa2IDGURIa/Q7C8dBADgaz
+g70gv+Y6lyUec32Nx0CU2FDnwKi03JxWBruZFvaY5uA8k7Yu057HER9cYpuEYJ/KoYydJdt98TK9Wz+i
+QxO/jh92fbcZLXw+MLB9/n/9SPkCUEsHCHXfqCobAQAAyQEAAFBLAQIUABQACAAIAAAAIQB136gqGwEA
+AMkBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABRAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

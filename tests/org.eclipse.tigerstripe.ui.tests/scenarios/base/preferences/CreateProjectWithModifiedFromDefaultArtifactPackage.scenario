@@ -1,8 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateProjectWithModifiedFromDefaultArtifactPackage" version="3.0" id="__D2ggE3tEeCncrIR0vm1Yg" description="This test checks creation new project when Artifact Package is set different from default package, which is set in Preferences.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Default context&#xD;&#xA;&#xD;&#xA;Reproducing steps:&#xD;&#xA;1. Create new Tigerstripe project&#xD;&#xA;2. Add artifact in this project, in the &quot;Create New artifact&quot; window change artifact package &#xD;&#xA;" tags="Preferences" type="ecl">
-  <contexts>_rHfkQKthEd-v8JwXbnu_tQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CreateProjectWithModifiedFromDefaultArtifactPackage
+Tags: TS_Project/Preferences, TS_Project/Create
+External-Reference: http://docs.xored.com/display/TS/CreateProjectWithModifiedFromDefaultArtifactPackage
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ
+Save-Time: 12/23/11 5:01 PM
+Id: __D2ggE3tEeCncrIR0vm1Yg
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+This test checks creation new project when Artifact Package is set different from default package, which is set in Preferences.
+
+Precondition:
+Default context
+
+Reproducing steps:
+1. Create new Tigerstripe project
+2. Add artifact in this project, in the "Create New artifact" window change artifact package 
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
 with [get-window "New Tigerstripe Project"] {
     get-editbox -after [get-label "Project Name:"] | set-text "Test_project"
     get-group "Project Defaults" | get-editbox -after [get-label "Artifacts Package:"] | get-property value | equals "com.mycompany" | verify-true
@@ -57,6 +82,18 @@ with [get-window Preferences] {
     get-tree | select "Tigerstripe/General"
     get-group "Artifact Preferences" | get-editbox -after [get-label "Default Artifact Package:"] | get-property value | equals "com.mycompany" | verify-true
     get-button OK | click
-}]]></content>
-  </content>
-</com.xored.q7.scenario:Scenario>
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdUU1PAjEQvZv4H5qeZcvHAbJhIQYw
+oiHhK1FPm9rOlspuC21hl3/voLDxYDx4m8zMe/PevP6wKnJyBOe1NQltRU1KwAgrtVEJPYSs0aPDwe1N
+X9giqqwDGe27kRdguNM2Xl0KUhU6rlnaZxbkNT7GfkI3IexixsqyjGyhIusUe51Nryu/MtcgnLKvKdt3
+2XUagcAWJYYXkNCRAx5g7uwHiPCiw2aG8jMN8sHZYgwZP+Th3gWdcRHmXGy5QmgttnMWq2VC03TcVmrS
+CRMYGeGmy+axaL0pSgJXPqHrVXo5weYOMnD4JvB35Ef/WwgCTjuUBSLHX1YBnOH58oqojUkr/MX32aPU
+fpfzE1uv2H/8YESEYEgm4EU/SN1jtl08h81ENo69p/L13RzSsOizegMjZX9niiufUEsHCL6qkbc2AQAA
+HgIAAFBLAQIUABQACAAIAAAAIQC+qpG3NgEAAB4CAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBL
+BQYAAAAAAQABADYAAABsAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
