@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: MoveEnumerationsToProject 
 Tags: TS_Project/Edit/Artifacts/Enumeration
-External-Reference: http://docs.xored.com/display/TS/MoveEnumerationsToProject
+External-Reference: http://docs.xored.com/display/TS/MoveEnumerationsToProject  http://jira4.xored.com/browse/QS-1674
 Element-Version: 3.0
 Contexts: _3uHT4H-DEeCcSOu_oe8o1g
-Save-Time: 12/23/11 6:10 PM
+Save-Time: 12/26/11 11:12 AM
 Id: _3RgzMIK_EeCrs9yxFtn9Ig
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -92,14 +92,14 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UcFOAjEQvZv4D03vdERMwA0LMYqB
-GKJh9+Bt03SHWrPbQtuFxa93MLB6UG+TmTdv3nsznrZ1xXbog3E25X1xxRla5UpjdcqbuO6N+HRyeTFW
-rhat81iK7VAEhVZ645LsVLC2NknHcn1kIV4bEuqn/C3GTQKw3++Fq7VwXsPrcnGG/MrcLdEUvqawHcJ5
-KlBRizMra0z50u1wZpsavYx0P+Tuxbt3VJHxb2eDoyZTprwYrPTHcvFUzPDeh9tD+xjt7UJzFqUOKc+z
-4rQNs9JEuPPRrKWKAX6cIPBhQ5dRVRRXG9FbWa1wjZ6yw0576VQ4WTvaKE3YVPIAeQZ/SuaUNWOUto3E
-GybFoJnnN/PeA6lV2XNTOBy5vh5Dh6DfwP/PIcgnUEsHCPqNzukkAQAA5wEAAFBLAQIUABQACAAIAAAA
-IQD6jc7pJAEAAOcBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABaAQAA
-AAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPzR9ZxUhAguDGMVA
+DFHZHnxbanepJVsLbceGv56LGZMH9a3pPR/33DOe1kVO9mCdMjqi3eCGEtDCZErLiJZ+3RnS6eT6aixM
+EdTGQhbsBoEToLlVJoybB6kLFbYqtycV1NUuxP+Ifnq/DRmrqiowhQyMlex9uThDflVuSThl31O2G7Dz
+NACBX5RoXkBEl2YPM10WYLlHf5eYV2s2IDyhP8l6p51UFtG0t5Jfy8VzOoMH60aH+snr0UJS4rl0EU3i
+tGGzWaY8u7derbnwjl1YIPiwRWcQOZ6r9mA1z1ewBou3g3b3zAjXRDvFyJTb5vzAkpj9vTJpuBtlef+C
+/GFN5YC9xZ3u3aBPsRJCsBTt0d5N0l45T/rzziOGEvFLmRoYmq4csxaBFbL/O0TIEVBLBwj+ZKXCNwEA
+AA4CAABQSwECFAAUAAgACAAAACEA/mSlwjcBAAAOAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQ
+SwUGAAAAAAEAAQA2AAAAbQEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

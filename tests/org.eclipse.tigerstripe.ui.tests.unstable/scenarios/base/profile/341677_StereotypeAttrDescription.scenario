@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 341677_StereotypeAttrDescription
 Tags: TS_Project/Profile, I33
-External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescription
+External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescription http://jira4.xored.com/browse/QS-1677
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/23/11 6:22 PM
+Save-Time: 12/26/11 11:58 AM
 Id: _RMXh0WcYEeCtOtMnB4cfpA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -90,14 +90,14 @@ get-window "Active Profile Details" | get-button OK | click
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFUctOwzAQvCPxD5bPYLckNCiqW7W8
-1ENFaZAopyg4m9QosVPbtOnfs0VtuCA4ebUznp2dHY7buiJbsE4ZLWif9SgBLU2udCnopy8ub+h4dH42
-lKZmrbGQs03EnASdWWXi5FiQtlZxp3J1UEFd7WLsC7r2vok53+12zNQlM7bkq/nsRPlVufuEKP9G+Sbi
-J5SBxBYlOqtB0CDsD6IoTTxYMH7fwMR7ewdOWtV4NER/9gsOzlQuaLqcr9a9V/l2D7f+yc/1NJRFM6HE
-Z6UT9CVJF9Z8gPQc30JVcEFmQYAwygsKssKYWhyos2oJBQ7WEjrPuZHuuNLBfq5cU2V7/pLwf61i1IRg
-2NqjvBul+4flezh9nKLNcOCuF7ZV4fZ5yDsGnob/fRukfAFQSwcIbX4r1ikBAADmAQAAUEsBAhQAFAAI
-AAgAAAAhAG1+K9YpAQAA5gEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
-AF8BAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFkc1uwjAQhO+V+g6WzyWGJiVVREDQ
+P3FABYJUeoqCswlGiR1sF8Lbd1NB2kPVnmx5dr+d9QxGdVmQA2gjlAxpz+lSApKrVMg8pB8269zT0fD6
+asBV6dRKQ+rsfcdwkIkWKojOF1KXImgptw0FudIE+B7SrbVVwNjxeHRUmTtK52w9m15KfiW3TaiyL5Xt
+fXZRHeD4RIlMSgip6/X6vh9HFjQoe6pgbK1+BMO1qCwaot/7uY0zkYY0Xs7W2+4bf3+CB/tqZ3Li8awa
+U2KT3IR0FcVzrXbALcMzEwXckKnrooz4kAIv8JtqHCiTYgkZDpYcWs+p4ua8UmM/FaYqkhNbRew/q+RM
+2AmdeD8QG62OBtgi6jT9FAMhBCORFk2YYXx6Xm68ycsEl/H65m6ua+EdFgPWVmCA7O8EseQTUEsHCPzj
+jRQ8AQAADAIAAFBLAQIUABQACAAIAAAAIQD8440UPAEAAAwCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29u
+dGVudFBLBQYAAAAAAQABADYAAAByAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

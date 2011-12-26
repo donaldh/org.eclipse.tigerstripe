@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: AddRemoveStereotypesMethod
 Tags: TS_Project/Edit/Artifacts/Method/Argument, TS_Project/Profile, Stereotypes
-External-Reference: http://docs.xored.com/display/TS/AddRemoveStereotypesMethod
+External-Reference: http://docs.xored.com/display/TS/AddRemoveStereotypesMethod http://jira4.xored.com/browse/QS-1677
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/23/11 6:04 PM
+Save-Time: 12/26/11 11:58 AM
 Id: _HXcHoKlREeCm-7rnSkpsQQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -336,14 +336,14 @@ wait-until-eclipse-is-ready
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9PwjAUxd9N/A5Nn2H1D4pZGAQM
-ijEksPHAG5nt3aiu7WgLjG/vncLkwfDU5p7TX+7p6Q0qVZAdWCeNjuhtcEMJaG6E1HlEtz5rP9FB//qq
-x40KKmNBBJtu4Djo1EoTJscLqZQMG8pdTUGudiHOI7r2vgwZ2+/3gVF5YGzOltO3k+VfcvMIVfajsk2X
-ndQAOI4o0amCiA6FiEGZHSQeLBh/KMFNwa+NoH/J7uudpIjoarLkE/NexGN4Vu2u1clX6eZzSnyau4gu
-ktXMmk/gno2F9GxovcxS7h37ReIg3yrQvkXOrHhmsoAWOVsBiXhEFHiBf1qhoNMihgwNmkMTUBjujvnr
-rEK6skgPbJGwC7mwEUKwE+0R7Pqrw0v80Rm9jjBT59E9zGwlO7t5jzUObJBdrhAt31BLBwjc7iFYNwEA
-AA0CAABQSwECFAAUAAgACAAAACEA3O4hWDcBAAANAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQ
-SwUGAAAAAAEAAQA2AAAAbQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UcFOAjEQvZv4D03PsBVF1hAWAgbF
+GBKW5cCNLO2wFLft0hZY/t5BYeWgnqaZ9+bNvL5Or1Q52YN10uiINoI7SkBzI6TOIrrzq/oT7XVvbzrc
+qKA0FkSwDQPHQadWmnZyfpBSyXalcn9SQV3t2tiP6Nr7os3Y4XAIjMoCYzM2H79dKL8qV0OIsi+UbUN2
+QQPg2KJEpwoi2hdiCsrsIfFgwfhjAW4Mfm0E/XH2cLpJioguRnM+Mu/5dAjPqh5anXwULo4p8WnmIjpL
+FhNrNsA9GwrpWd96uUq5d+xbEhvZToH2NXJFxbqSOdTI1QmoiCWiwHP80xIBneZTWCFBc6gMCsPd2f/J
+q5CuyNMjmyXsb1/kPLuRNm1eDS+tOThgcVJvtMKQYm6EYHLa43rXXRxfpsvm4HWAzpst9zixpWzu4w6r
+GJgz+z9opHwCUEsHCDjdvGFLAQAAMwIAAFBLAQIUABQACAAIAAAAIQA43bxhSwEAADMCAAAIAAAAAAAA
+AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACBAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
