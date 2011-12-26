@@ -52,6 +52,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 
 /**
  * This is a helper class that is used to delegate the "apply()" method of
@@ -136,7 +137,7 @@ public class ModelChangeDeltaProcessor {
 	}
 
 	protected static void processIAbstractArtifactChange(
-			IAbstractArtifact artifact, IModelChangeDelta delta,
+			IAbstractArtifact artifact, ModelChangeDelta delta,
 			Collection<Object> toCleanUp, Collection<IAbstractArtifact> toSave)
 			throws TigerstripeException {
 		ITigerstripeModelProject project = artifact.getProject();
@@ -216,9 +217,29 @@ public class ModelChangeDeltaProcessor {
 					// propagate to annotations framework
 					manager.fireChanged(oldObj, newObj,
 							IRefactoringChangesListener.ABOUT_TO_CHANGE);
-
-					session.renameArtifact(rcArtifact,
-							(String) delta.getNewValue());
+					
+					Object source = delta.getSource();
+					if (source instanceof ModelRefactorRequest) {
+						ModelRefactorRequest request = (ModelRefactorRequest) source;
+						ITigerstripeModelProject originalProject = request
+								.getOriginalProject();
+						ITigerstripeModelProject destinationProject = request
+								.getDestinationProject();
+						// Check if artifacts moving between projects or inside one
+						if (originalProject.equals(destinationProject)) {
+							session.renameArtifact(rcArtifact,
+									(String) delta.getNewValue());
+						} else {
+							session.removeArtifact(rcArtifact);
+							rcArtifact.setFullyQualifiedName((String) delta
+									.getNewValue());
+							destinationProject.getArtifactManagerSession()
+									.addArtifact(rcArtifact);
+						}
+					} else {
+						session.renameArtifact(rcArtifact,
+								(String) delta.getNewValue());
+					}
 
 					IModelComponent container = artifact
 							.getContainingModelComponent();
