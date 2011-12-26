@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: ColorAnnotation
-Tags: Annotations/functionality
+Tags: Annotation/functionality
 External-Reference: http://docs.xored.com/display/TS/ColorAnnotation
 Element-Version: 3.0
 Contexts: _pje2YGyZEeC-86eLlbu98w
-Save-Time: 12/21/11 12:13 PM
+Save-Time: 12/26/11 1:47 PM
 Id: _9zIlkMb5EeCcO-GLhlk1dg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -48,9 +48,9 @@ Entry-Name: .q7.content
 UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UNFKw0AQfBf8h+Pec2cr2jYkLVKk
 FFoE64P6UtLLJj17uUvvLibx691Im4KIb8vM7OzsRLOmUOQTrJNGx3TAbigBLUwqdR7TymfBmM6m11eR
 MAVrjIWUHUfMCdCJlSbcnAbSFDLsXYadC/pqFyIe0733Zch5XdfMFDkzNuev6+VZ8qdzv4Qs/2H5ccTP
-LAOBECU6KSCmc6OMfdDa+MTjfXp557YLItOYbidfS3VY7+4eYS6egsVqrw6DNKfEJ7mL6WXZ8azSopsS
-JX2LgrbEEyAU9tJ4sIg/QwYWS4I+ZGqEO/3Q5U2lK1XS8pcN/50NqyQEy9Qe3dx0W37A8G3RvmOuYHwP
-K7WrJuM64r0Cq+f/d4+Sb1BLBwgeJESuFgEAAMYBAABQSwECFAAUAAgACAAAACEAHiRErhYBAADGAQAA
+LAOBECU6KSCmc6OMfdDa+MTjfXp557YLItOYbidfS3VY7+4eYS6egsVqrw6DNKfEJ7mL6WWZZ5UW3ZAo
+6Vvk2xIvgFBYS+PBIv4MGVjsCPqMqRHu9EIXN5WuVEnLXzb8dzRskhDsUnt0c9Nt+QHDt0X7jrGC8T2s
+1K6ajOuI9wpsnv9fPUq+AVBLBwg52d8uFgEAAMUBAABQSwECFAAUAAgACAAAACEAOdnfLhYBAADFAQAA
 CAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAATAEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
