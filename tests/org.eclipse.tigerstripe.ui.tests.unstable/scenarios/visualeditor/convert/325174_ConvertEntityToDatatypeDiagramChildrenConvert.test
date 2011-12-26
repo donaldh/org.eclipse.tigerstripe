@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertEntityToDatatypeDiagramChildrenConvert
 Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
-External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagramChildrenConvert
+External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagramChildrenConvert http://jira4.xored.com/browse/QS-947
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w
-Save-Time: 12/22/11 11:44 AM
+Save-Time: 12/26/11 4:28 PM
 Id: _lL9EEKFgEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -49,10 +49,6 @@ get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPa
     | equals 2 | verify-true
 with [get-editor "ClassDiagram.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Entity] {
-        mouse-move 19 18 button1 -height 50 -width 49
-        mouse-press 19 18 button1 -height 50 -width 49
-        mouse-release 19 18 button1 524288 -height 50 -width 49
-        mouse-hover 20 17 -height 50 -width 49
         mouse-move 20 17 button3 -height 50 -width 49
         mouse-press 20 17 button3 -height 50 -width 49
         mouse-release 20 17 button3 2097152 -height 50 -width 49
@@ -140,15 +136,15 @@ get-editor Entity | get-section "General Information" | get-editbox -after [get-
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkl9PwjAUxd9N/A5Nn2GVPzIgDEJg
-GESMOjC8LaUro2Rrob0w+PZ2CijGGONb2/Pr6bn3ttXZpwnacW2Ekh4uOTcYcclUJGTs4S0sinXcaV9f
-tZhKnb3SPHI2rmMYl1QL1QyOC7RPRfPsUs5drK80TXvu4SXAuklIlmWOSmNH6ZjMxsMT8qPz+ZJVybtK
-Ni45qQ5n9ggjSVPu4Ur5tuRWw56SNgH4EgQcJqpPgcJhzfuCxpqmvaVIIs3lkcKfNVfytCLycJg8NHx/
-NIh93lsFtcd5bzobhxlGQGPj4UkQPmm14gzIqzBbmviRAKXJ0bGAvgC5RLoaxIIyMOQjUwENK651s6E8
-zFliO70HriVNXviC22yMn8uOFDPHruQdiIRZJ/RAJgH5V7V2ggjZGUqwT5p2OLhbBNMRLP2ouKvfZ7O5
-3Ibw3CJn4hvf6NdWXQrxX/lMm3F1NJhddvKCzze/fSmLvAFQSwcIhQMMuWUBAACdAgAAUEsBAhQAFAAI
-AAgAAAAhAIUDDLllAQAAnQIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
-AJsBAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkl9PwjAUxd9N/A5Nn2GVPzogDEJg
+GEWMODS8LaUro2Rrsb0w+PZ2OhCMMca39p5fT869t+3uLk3QlmsjlPRwxbnCiEumIiFjD29gUW7gbufy
+os1U6uyU5pHz5jqGcUm1UK2gOKBdKlpHl2ruYn2ladm6h5cA6xYhWZY5Ko0dpWMyG98dkB+dj4+sSj5U
+8uaSg+pwZksYSZpyD9eq1xW3HvaVtAnAlyBgP1UDChT2az4QNNY07S9FEmkuCwp/9VzL04rIw2Hy0PT9
+0TD2eX8V3DzO+y+zcZhhBDQ2Hp4G4ZNWK86AvAqzoYkfCVCaFI4ldALkEulpEAvKwJDPTCV0V3Otmw3l
+Yc4SO+kdcC1p8swX3GZj/Nh2pJgpppJPIBJmndA9mQbkP92iwnUlNK2f2M61ygwnk6DcrLvYrhkhu2gJ
+NpfphMPbRfAygqUflbeN+2w2l5sQJm1yJL7xzcHNqkch/iufaTOuj4az83Gf8fnlt39nkXdQSwcIOreA
+OncBAADCAgAAUEsBAhQAFAAIAAgAAAAhADq3gDp3AQAAwgIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250
+ZW50UEsFBgAAAAABAAEANgAAAK0BAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
