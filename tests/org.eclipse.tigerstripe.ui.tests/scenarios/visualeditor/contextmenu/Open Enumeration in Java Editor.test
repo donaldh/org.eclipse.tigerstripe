@@ -1,0 +1,140 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: Open Enumeration in Java Editor
+Tags: Explorer
+External-Reference: 
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
+Save-Time: 12/26/11 12:58 PM
+Id: _jOd-EC-GEeGOB4M1I_u2lA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Right-click Enumeration and select Open with - Java editor;
+2. Make sure that the Enumeration has been opened in Java editor.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "MyProject/src/com.mycompany/Enumeration2" | select "MyProject/src/com.mycompany/Enumeration2" 
+        | get-menu "Open With/Java Editor" | click
+}
+get-editor "Enumeration2.java" | get-editbox | get-property text 
+    | equals "* Created with Tigerstripe(tm) Workbench v.0.7.0.201112221341\n"
+    + "package com.mycompany;\n\n\n"
+    + "/**\n"
+    + " * \n"
+    + " *\n"
+    + " * @tigerstripe.enum\n"
+    + " *\t\tisAbstract = \"false\"\n"
+    + " *      base-type=\"int\"\n"
+    + " *      extensible=\"false\"\n"
+    + " * @tigerstripe.interface package = \"$artifact.IStandardSpecifics.InterfaceProperties.get(\"\n"
+    + " *      generate = \"true\"\n"
+    + " * * \n"
+    + " */\n"
+    + "public abstract class Enumeration2\n"
+    + " {\n\n\n"
+    + "    /**\n"
+    + "     * \n"
+    + "     * @tigerstripe.label\n"
+    + "     *  value = \'0\'\n"
+    + "     *  \n"
+    + "     *\n"
+    + "     * \n"
+    + "     */\n"
+    + "    public final static int literal0 = 0;\n\n"
+    + "}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UMtOwzAQvCPxD5bvsftAahTFrQCZ
+0qKqqnrpLTKxmxpiO3WcxPw9DqJBRYjb7s7szO6kC69K0ApbS6MJHKMRBELnhktdENi4YxTDxfz2Js2N
+Qt5YwdF5hupcaGalSfbfBfBKJoPKpFcJurpOwpzAk3NVgnHXdcioAhlb4MNmdaH8qTwsBRR/ofg8wxcU
+iTyMINBMCQK3ldCA6kYJy1w4AEgN1qxlgHLpjIU/7037wyQnMHvb8og+RksqltuHu814lTWT8h4Cx4qa
+QOqrMhiEVfdRBQeRlzCEAECIQTvhXT3P7PPxfffiTpRHbbzuDq+6ydwuxQPjF39q/FO8H2XXjlf8vvkv
+5UD5BFBLBwhQ6OTjCgEAALABAABQSwECFAAUAAgACAAAACEAUOjk4woBAACwAQAACAAAAAAAAAAAAAAA
+AAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAQAEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+dGVudFBLBQYAAAAAAQABADYAAABGDwAAAAA=
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
