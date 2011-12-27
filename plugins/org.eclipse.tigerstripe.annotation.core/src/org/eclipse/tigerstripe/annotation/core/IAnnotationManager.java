@@ -86,6 +86,13 @@ public interface IAnnotationManager {
 	void removeAnnotation(Annotation annotation);
 
 	/**
+	 * Remove annotation without transaction
+	 * 
+	 */
+	void doRemoveAnnotation(Annotation annotation);
+
+	
+	/**
 	 * Remove all annotations for annotable object
 	 * 
 	 * @param object

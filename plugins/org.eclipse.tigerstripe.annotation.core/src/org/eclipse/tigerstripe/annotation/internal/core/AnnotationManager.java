@@ -479,10 +479,7 @@ public class AnnotationManager implements IAnnotationManager {
 		InTransaction.run(new Operation() {
 			
 			public void run() {
-				if (isReadOnly(annotation)) {
-					return;
-				}
-				EcoreUtil.remove(annotation);
+				doRemoveAnnotation(annotation);
 			}
 		});
 	}
@@ -499,6 +496,13 @@ public class AnnotationManager implements IAnnotationManager {
 		}
 	}
 
+	public void doRemoveAnnotation(Annotation annotation) {
+		if (isReadOnly(annotation)) {
+			return;
+		}
+		EcoreUtil.remove(annotation);
+	}
+	
 	public String getPackageLabel(EPackage pckg) {
 		return getPackageLables().get(pckg);
 	}

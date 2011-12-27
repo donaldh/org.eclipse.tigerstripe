@@ -44,6 +44,4 @@ public class AnnotationMarkerRemoverAll extends AnnotationMarkerRemover {
 		return PlatformUI.getWorkbench().getSharedImages()
 				.getImage(ISharedImages.IMG_ELCL_REMOVEALL);
 	}
-
-	
 }
