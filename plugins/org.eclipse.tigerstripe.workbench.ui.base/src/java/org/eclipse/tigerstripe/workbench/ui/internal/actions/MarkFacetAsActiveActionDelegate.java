@@ -11,14 +11,11 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -36,7 +33,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotif
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.SchedulingUtils;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -120,19 +116,26 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 
 				};
 
-				IProject iTargetProject = (IProject) targetProject
-						.getAdapter(IProject.class);
-				if (iTargetProject != null) {
-					List<IResource> projects = new ArrayList<IResource>();
-					projects.add(iTargetProject);
-					try {
-						projects.addAll(Arrays.asList(iTargetProject
-								.getReferencedProjects()));
-					} catch (CoreException e) {
-						EclipsePlugin.log(e);
-					}
-					activateJob.setRule(SchedulingUtils.multiRuleFor(projects));
-				}
+				// IProject iTargetProject = (IProject) targetProject
+				// .getAdapter(IProject.class);
+				// if (iTargetProject != null) {
+				// List<IResource> projects = new ArrayList<IResource>();
+				// projects.add(iTargetProject);
+				// try {
+				// projects.addAll(Arrays.asList(iTargetProject
+				// .getReferencedProjects()));
+				// } catch (CoreException e) {
+				// EclipsePlugin.log(e);
+				// }
+				// activateJob.setRule(SchedulingUtils.multiRuleFor(projects));
+				// }
+				
+				// Set rule on workspace root since this job works with
+				// annotations (see
+				// org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate.isExcludedByAnnotation(IAnnotationCapable))
+				IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
+				activateJob.setRule(wroot);
+				
 				activateJob.setUser(true);
 				activateJob.schedule();
 			} catch (TigerstripeException e) {
