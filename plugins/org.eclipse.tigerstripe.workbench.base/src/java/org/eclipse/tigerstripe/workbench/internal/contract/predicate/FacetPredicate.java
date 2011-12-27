@@ -172,6 +172,10 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		Annotation[] annotations = manager.getAnnotations(capable, true);
+		
+		if (annotations == null) {
+			return false;
+		}
 
 		for (Annotation a : annotations) {
 			if (a == null) {
