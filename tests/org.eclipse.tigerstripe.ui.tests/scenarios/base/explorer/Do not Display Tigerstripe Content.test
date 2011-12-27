@@ -1,0 +1,32 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: Do not Display Tigerstripe Content
+Tags: Explorer, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-884
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
+Save-Time: 12/27/11 2:29 PM
+Id: _iy5pEDBaEeGOB4M1I_u2lA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPzR9lo4vw7IwiMhU
+JEQRH3hbxnYZDVs72o6Vf++dgRmM8a295/Tcc06HY5tn5AhKcyl82mFtSkDEMuEi9Wlpti2Xjke3N8NY
+5sxKBQk7DJiOQUSKS291PhCbc69R6dYqqCu0h3Of7owpPMepqorJPGVSpc56MbtQ/lRuHiHqfKPOYeBc
+UAYxjigRUQ4+nUoipCFTrossOpFPnqIRo3gB5FEKA8LQn4S92htPfBry030RTCdRAM9vk/6iMwvLbvZA
+iYlS7dPAFhnuUHdE73kRWIhLgwIInwrcCXGGRVkDSkTZB2xBYWvQuN6UqT6HqgNslKw0YOj3luv2KfZJ
+CDaK3qzRo1C9bPfLudkFSevovlbrjShDsxw6DeMXvyftk7tqh9fOr/j15b8PQ8oXUEsHCD9c2Uw2AQAA
++wEAAFBLAQIUABQACAAIAAAAIQA/XNlMNgEAAPsBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBL
+BQYAAAAAAQABADYAAABsAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

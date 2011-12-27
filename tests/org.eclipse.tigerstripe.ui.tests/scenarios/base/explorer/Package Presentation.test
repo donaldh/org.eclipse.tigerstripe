@@ -6,7 +6,7 @@ Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 3:01 PM
+Save-Time: 12/27/11 12:38 PM
 Id: _jLt8UC-XEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -15,6 +15,10 @@ Content-Type: text/plain
 
 TEST STEPS
 
+1. Open Tigerstripe menu and select Package presentation - Flat;
+2. Make sure that com.mycompany folder presents in explorer;
+3. Select Package presentation - Hierarchical;
+4. Make sure two folders com/mycompany are shown instead of one com.mycompany.
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
