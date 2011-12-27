@@ -1,0 +1,115 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 359863_GenerateWithReferenceAnnotation
+Tags: Annotation/functionality/ComplexAnnotationAttributes, TS_Generator
+External-Reference: http://docs.xored.com/display/TS/359863_GenerateWithReferenceAnnotation http://jira4.xored.com/browse/QS-1590
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_BVY2UAqQEeG4YKJLWO2_8Q,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 12/27/11 11:51 AM
+Id: _XfkkEAqREeG4YKJLWO2_8Q
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Generate project with referenced annotations 
+
+Precondition
+ReferencedAnnotationWithGeneratorContextWorkspace
+
+Steps
+    Open annotation view for Entity0 artifact
+    Check referenced attributes in annotation
+    Run generation
+    Open generated file
+    Check referenced attributes names (org.eclipse.Entity0:entity0_testField0, org.eclipse.Entity1:attribute0 and org.eclipse.Entity1:attribute2) in generated file
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "SimpleGenerator29/ts-plugin.xml" | double-click -nowait
+get-editor "SimpleGenerator29/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click -nowait
+get-window "Deploy new generator" | get-button OK | click
+get-window "SimpleGenerator29 Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/<<ReferencesExample>>Entity0"
+get-view "Annotation Property View" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/<<ReferencesExample>>Entity0"
+with [get-view "Annotation Property View" | get-tree | get-item stringRefsToAttributes] {
+    get-property columns -index 0 | equals stringRefsToAttributes | verify-true
+    get-property columns -index 1 | equals "org.eclipse.Entity0:entity0_testField0, org.eclipse.Entity1:attribute0" 
+        | verify-true
+    get-property columns -index 2 | equals "" | verify-true
+}
+with [get-view "Annotation Property View" | get-tree | get-item stringRefToAttribute] {
+    get-property columns -index 0 | equals stringRefToAttribute | verify-true
+    get-property columns -index 1 | equals "org.eclipse.Entity1:attribute2" | verify-true
+    get-property columns -index 2 | equals "" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Project" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/target/tigerstripe.gen/New_Project.txt" | double-click 
+    -nowait
+get-editor "New_Project.txt" | get-editbox | get-property rawValue | equals ".*stringRefToAttribute: org.eclipse.Entity1:attribute2, stringRefsToAttributes: .*org.eclipse.Entity0:entity0_testField0, org.eclipse.Entity1:attribute0.*" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUl1z0zAQfGeG/6DRM7GapB9xJm7H
+lEyhpQOOS5vw4lHss6PGlmLpHDv8emQmcYChHd5Ot3s7u3eaXDVFTragjVDSo33nhBKQsUqEzDxaYdob
+0avLt28msSqcRmlInPLCMTFIroUah/uCNIUYdyqDVsXqSjO2fY+uEDdjxuq6dlSROUpnbH7/6UD5p3I3
+ZFH2C2XlBTugDsS2RYnkBXh0eOaOzofRDUjQHOFJ4GoGKWibA3wpFXK0tugx5bD1JxKPRvN0vZ765WwK
+N6eLu9vPT18G0SigBHlmPHocZmkl47bgucAdu1bFJofmiPuIWiwrBPOOPIQHK0pbpd3GWoQ4t3ttELRV
+6Mx1IRMVm/0O2ryJMJuc79hDyP4vG9nrPAvNT38TWmpVG2BB2OufuSfU3pEQe0mJ1oq5jPTHdB3c4Wqa
+9Laj23q+lFWEwYR1jL/4s5nbz+5FOYXrx8X2h1uFX7/X/sv894+LwTe/DP7c7st898P5s88xe8VP+3jt
+I1rKT1BLBwjL1iBUggEAANMCAABQSwECFAAUAAgACAAAACEAy9YgVIIBAADTAgAACAAAAAAAAAAAAAAA
+AAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAuAEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+bnRlbnRQSwUGAAAAAAEAAQA2AAAAAwgAAAAA
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
