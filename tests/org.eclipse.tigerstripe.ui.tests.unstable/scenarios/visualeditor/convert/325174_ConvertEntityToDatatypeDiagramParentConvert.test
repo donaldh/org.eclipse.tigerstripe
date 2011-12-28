@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertEntityToDatatypeDiagramParentConvert
 Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
-External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagramParentConvert
+External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagramParentConvert http://bugs.xored.com/browse/XMP-874 http://jira4.xored.com/browse/QS-947
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 8:46 PM
+Save-Time: 12/28/11 1:11 PM
 Id: _qjoMAKFjEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -109,15 +109,15 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdUstuwjAQvFfqP1g+Q1weJRQREOJR
-UURFG6hyi4xjgqPEBnsh8Pd1WqAPtT30Zu+MZ2d23e4eshTtuTZCSQ9XnBuMuGQqEjL28A5W5Sbudq6v
-2kxlzkFpHjlb1zGMS6qFavmnAzpkonVRqRYqVlealq17eA2waRGS57mjsthROibBdHym/Kh8eWRR8oaS
-rUvOqMOZLWEkacY9XKveVtx62FfSOoChBAHHuRpQoHDc8IGgsabZjGou4cTBH4lrhVcReTjcJmram4yS
-Ie8nfuNx2V8E0zDHCGhsPDz3w5lWCWdAXoTZ0XQYCVCanBRL6BOhgEhPg1hRBoa8Oyqhcc21ataShzlL
-7ZwPwLWk6TNfcWuO8UvoSDFzmkmRPxJmk9IjmfvkH1nt9hCy+5NgG5pOOLpf+YsJrIdRed98yIOl3IXw
-1CYXxjd+rs20PhkFX+fyO/9u0Eh6FOI/9IvLX9/JUl4BUEsHCJz/KPRjAQAAmQIAAFBLAQIUABQACAAI
-AAAAIQCc/yj0YwEAAJkCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACZ
-AQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkl1PwjAUhu9N/A9Nr2VVmQ4IgxA+
+jBIMODDcLaUrs8vWQntg8O/tdCB+Jt51PU+fvOfsNNu7LEVbro1Q0sdXziVGXDIVCRn7eAPLSg23W+dn
+TaYyZ6c0j5y15xjGJdVCNYLygHaZaBwt14XFeqVp2HsfvwCsGoTkee6oLHaUjsl8dH9AfjQfH9kqeauS
+tUcOVYcze4WRpBn3cfX65spzw66SNgH0JQjYT1WPAoX9ivcEjTXNxlRzCSWDPzquFllF5ONwnahRZzhI
++rybBLePi+5sPgpzjIDGxsfTIBxrlXAG5FmYDU37kQClSWm8QCdAUSIdDWJJGRjynugC3Vc9a7ORfMxZ
+aue8A64lTZ/4kttwjB+bjhQz5UyK/iNhVindk2lA/t8rKp2LTXzqXGiVG27/w7hS89wDlAhN3e/UJKjU
+XQ/bPUDIboIEG920wsHdMpgN4aUfVba1h3y+kJsQJk1yJL7wuTYjdziYf57w73y9d5t0KMR/+IuPvxbT
+Iq9QSwcIZ0bIWYABAADjAgAAUEsBAhQAFAAIAAgAAAAhAGdGyFmAAQAA4wIAAAgAAAAAAAAAAAAAAAAA
+AAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAALYBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
