@@ -109,14 +109,16 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		moveDiagrams(monitor.newChild(1));
 		moveResources(monitor.newChild(1));
 
+		boolean crossProjectCmd = isCrossProjectCmd();
+
 		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor.newChild(1),
-				toCleanUp);
+				toCleanUp, crossProjectCmd);
 		// long time1 = System.currentTimeMillis();
 		// System.out.println("Done with Deltas: " + (time1 - time));
 
 		updateDiagrams(monitor.newChild(1));
-
-		if (isCrossProjectCmd()) {
+		
+		if (crossProjectCmd) {
 			// At this stage the artifacts have been refactored inside the
 			// source project the refactored artifacts need to be moved over to
 			// the new project now.
@@ -349,7 +351,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 	}
 
 	protected ITigerstripeModelProject[] applyAllDeltas(
-			IProgressMonitor monitor, Collection<Object> toCleanUp) {
+			IProgressMonitor monitor, Collection<Object> toCleanUp, boolean crossProjectCmd) {
 		monitor.beginTask("Applying deltas", 2 * deltas.size());
 
 		Set<ITigerstripeModelProject> affectedProjects = new HashSet<ITigerstripeModelProject>();
@@ -378,17 +380,18 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			}
 			monitor.worked(1);
 		}
-		for (IAbstractArtifact art : toSave) {
-			try {
-				art.doSave(monitor);
+		if (!crossProjectCmd) {
+			for (IAbstractArtifact art : toSave) {
+				try {
+					art.doSave(monitor);
 
-				if (art.getProject() != null)
-					affectedProjects.add(art.getProject());
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
+					if (art.getProject() != null)
+						affectedProjects.add(art.getProject());
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
 			}
 		}
-
 		monitor.done();
 
 		return affectedProjects
