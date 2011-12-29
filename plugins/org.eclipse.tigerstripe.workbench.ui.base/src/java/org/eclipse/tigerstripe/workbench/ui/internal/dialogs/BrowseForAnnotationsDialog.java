@@ -41,10 +41,12 @@ public class BrowseForAnnotationsDialog {
 			if (element instanceof AnnotationType) {
 				ILabelProvider prov = AnnotationUIPlugin.getManager()
 						.getLabelProvider((AnnotationType) element);
-				if (prov != null)
-					return prov.getText(element);
-				else
-					return ((AnnotationType) element).getName();
+				if (prov != null) {
+					String text = prov.getText(element);
+					if (text != null && text.length() > 0)
+						return text;
+				}
+				return ((AnnotationType) element).getName();
 			}
 
 			return null;
