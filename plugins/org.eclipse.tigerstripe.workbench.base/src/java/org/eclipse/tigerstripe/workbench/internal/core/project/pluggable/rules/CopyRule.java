@@ -13,7 +13,11 @@ package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
@@ -183,8 +187,14 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 				if (getCopyFrom() == ICopyRule.FROM_PLUGIN) {
 					src = "deployed plugin.";
 				}
-				throw new TigerstripeException("Cannot find '"
-						+ expandedFromDir + "' for copy in " + src);
+				
+				// NM bugzilla 367979: As requested by Ken, I'm changing this to a warning instead of throwing an exception, which would
+				// mark generation as a failure.  Most model projects will not have the source folder so the copy rule should 
+				// fail silently 
+				IStatus warning = new Status(IStatus.WARNING, BasePlugin.getPluginId(), "Cannot find '"	+ expandedFromDir + "' for copy in " + src);
+				PluginLogger.reportStatus(warning);
+				return;
+				
 			} else if (srcFile.isFile()) {
 				getReport().getCopiedFiles().add(srcFile.getAbsolutePath());
 				try {
