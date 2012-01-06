@@ -658,13 +658,13 @@
      </content-type>
      
  </extension>
- <extension
+ <!--<extension
        point="org.eclipse.tigerstripe.workbench.base.tigerstripeChangeListener">
     <listener
           class="org.eclipse.tigerstripe.workbench.model.ModelResourcesChangeListener"
           level="ALL">
     </listener>
- </extension>
+ </extension>-->
  <extension
        id="org.eclipse.tigerstripe.workbench.base.targetOutOfDateMarker"
        name="Target Out-of-date Marker"
