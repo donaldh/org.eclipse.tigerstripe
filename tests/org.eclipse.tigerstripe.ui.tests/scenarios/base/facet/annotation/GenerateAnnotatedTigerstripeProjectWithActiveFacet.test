@@ -1,0 +1,90 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: GenerateAnnotatedTigerstripeProjectWithActiveFacet
+Tags: Facet/Generate
+External-Reference: 
+Element-Version: 3.0
+Contexts: _RR91gMiqEeCVYvz9uSPZwA,_5j0PQDHSEeGSksgVyHPBRg,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 1/9/12 3:13 PM
+Id: _G3yKQDHUEeGSksgVyHPBRg
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Project Generation with Active Facets with annotation in Tigerstripe project 
+
+Precondition
+GeneratorAndProjectAnnotationScopeFacetWorkspaceContext
+AnnotationsContextPreferences
+
+Steps
+Mark facet as active
+Deploy generator
+Enable generator in TS project
+Run generation
+Verify created artifacts in target folder
+Verify that inactive artifacts are not generated
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "New Project/default.wfc" | get-menu "Facets/Mark as Active" | click
+    select "New Generator Project/ts-plugin.xml" | double-click -nowait
+}
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project \\{default\\}/tigerstripe.xml" | double-click -nowait
+with [get-editor "New Project/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save.*" | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project \\{default\\}" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Project \\{default\\}/target/tigerstripe.gen/AssocClass0.txt"
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project \\{default\\}/target/tigerstripe.gen/AssocClass0.txt" 
+    | get-property caption | equals "AssocClass0.txt" | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "New Project \\{default\\}/target/tigerstripe.gen/AssocClass0.txt" | get-property caption 
+        | equals "AssocClass0.txt" | verify-true
+    get-item "New Project \\{default\\}/target/tigerstripe.gen/Association0.txt" | get-property caption 
+        | equals "Association0.txt" | verify-true
+    get-item "New Project \\{default\\}/target/tigerstripe.gen/Entity0.txt" | get-property caption | equals "Entity0.txt" 
+        | verify-true
+    get-item "New Project \\{default\\}/target/tigerstripe.gen/Entity1.txt" | get-property caption | equals "Entity1.txt" 
+        | verify-true
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Datatype0.txt"}
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Dependency0.txt"}
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Enumeration0.txt"}
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Event0.txt"}
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Exception0.txt"}
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Query0.txt"}
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Session0.txt"}
+    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Update0.txt"}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5q+s4JEgYVBpiAo
+IRlMEX0hs7uWImuhu2zDr7cQwWDUp7bnnHvOvbfNdpEsSQYmlVp5tOKUKQHFdSyV8OgG30p12m6dnzW5
+TpxCG4iddc1JOajISO2GXxdSJNI9ulzsXKyvSl2Le3SOuHIZy/Pc0YlwtBFsOrw7SH51PhZZlu1Ztq6x
+A+sAtxAlKkrAoz1QYCIEXymN9owfpLCtoJErCIxeAMcniXOfo8zgNuKA9Hvi6q5XGXt01qtuB6NO/7EL
+vfA9FZNtP7geC0owEqlH93XsEGXR7cpGA19Sux1C7H4UQoFpazYeNypiKNdduJk8Zx+NTRi85H6THRU/
+9JeLcmBzw9Pcv/WNztXCj1B041JWv8+nr2ozw9GJfvf477us5BNQSwcIdanA5CwBAAD5AQAAUEsBAhQA
+FAAIAAgAAAAhAHWpwOQsAQAA+QEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
+NgAAAGIBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

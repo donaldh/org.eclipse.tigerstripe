@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: DefineFacetScopeSortAnnotationInclusion
-Tags: Facet/Define
+Tags: Facet/Define, Annotation, skipExecution
 External-Reference: http://bugs.xored.com/browse/XMP-890
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_tk1N0DFbEeGSksgVyHPBRg
-Save-Time: 12/29/11 10:51 AM
+Save-Time: 1/9/12 4:45 PM
 Id: _DXr5UDFgEeGSksgVyHPBRg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -59,14 +59,14 @@ with [get-editor "New Project/default.wfc" | get-section "Annotation Scope Detai
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9N31lBY8CFQTQD
-QaMBFg1vZOvuysLWQtux8e+5Q5jBGN/ae0+/e+5pf1jlGdmDNqmSHu04bUpAchWnUni0sEmrR4eD25s+
-V7lTKQ2xs+s6hoMMdarc4HwgVZ66DeWupiBXGhfrHl1bu3UZK8vSUblwlBZs+T69SP4kN4+wy05dtuuy
-S9cBjiVKZJiDR31IUgnjkIMNuNpCoLR9klLZ0KKdqeRZUfuiP2ve1wbT2KMrf6kfPv2xGMFLsDHi6zCZ
-PS8EJTYUxqMnJvvmY+2wxWnAM4yosqBlmC0gAY15QeM3KoQ5r1Nbj7QqDeC6s1bvsU0xSUIwS2mRYAYr
-PUk28ze7HsWtfe+1XEayWNl5nzWKX3q76Xy0/XF0bfdKX1/++yqUHAFQSwcIZnOXCi8BAAD1AQAAUEsB
-AhQAFAAIAAgAAAAhAGZzlwovAQAA9QEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAAB
-AAEANgAAAGUBAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9Nn2EdGgMuDKIZ
+CBoNsGh4I1t3V5Zt7Wg7Nv69HcIIxvjW3nv65ZzT4bjOM7QHqRLBXdyzbIyAUxElnLm41HF3gMej25sh
+FblVCwmRtetbigIPZCIc/3RAdZ44LeWuoRguV46Zu3irdeEQUlWVJXJmCcnI+n1+lvxJbh+ZLTluya5P
+zlsLqBlhxIMcXOxBnHCYBhS0T0UBvpD6iXOhA23szDnNysYXvsS8bwwmkYs33lo+fHpTNoEXP1Xs6zBb
+PK8YRjpgysVHJvnhd9CF2UEqTYpJDbTUR7I+FMYI0My0V2uQPMhWEIM0VUIbJSyZOiVtUoVSVApME4vu
+4NHGpmSETM1cG4IabeQsTpdvejuJuvvBa7UOebnRyyFpFb/0Ou192N40vE5ypW8u//2ikXwDUEsHCA7m
+Az08AQAAEAIAAFBLAQIUABQACAAIAAAAIQAO5gM9PAEAABACAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29u
+dGVudFBLBQYAAAAAAQABADYAAAByAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

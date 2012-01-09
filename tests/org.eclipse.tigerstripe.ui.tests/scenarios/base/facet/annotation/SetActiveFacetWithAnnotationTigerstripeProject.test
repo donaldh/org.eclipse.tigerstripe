@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: SetActiveFacetWithAnnotationTigerstripeProject
-Tags: Facet/Active
+Tags: Facet/Active, Annotation
 External-Reference: http://bugs.xored.com/browse/XMP-891
 Element-Version: 3.0
 Contexts: _tk1N0DFbEeGSksgVyHPBRg,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/29/11 11:06 AM
+Save-Time: 1/9/12 4:45 PM
 Id: _IuEd0DHREeGSksgVyHPBRg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -65,14 +65,14 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPyx9Z2WaCCMMggKC
-iQaHQfSFjO5SCqyF9m4Df70dAgajvrX3np6v1pvbZOVkoI1QMiCeWyYOSKZiIXlAUpyVqqTZuLyoM5W4
-W6UhdjcV1zCQkRaqNjwcnG0iaieWq4LF8kpTs/OAzBHXNUrzPHdVwl2lOR0/9o+QX5lPj+yW7rd0U6HH
-rQvMjogjowQCMgRsMRQZdCMG+Cpw3pJSYYTWzIvg1hVqsYaBVgtgSL7TXhc+RRyQST/txOV2L+zA/XBp
-+GjXG9yGnDgYcROQPS/90rCz3dqKAlvZprYIWkarEGagbW1wsj1NuTmkKhJMtcoN2NSDUtX3iC3UcWyl
-Ei2DaUxw6T2V293puXydnhA/8GHoe/xRbDpwN3rLPvx0OHjPW3/j/fbNohUh78SlrPqQj6cyneDzGb64
-/PfDFvIJUEsHCEqylZBIAQAALAIAAFBLAQIUABQACAAIAAAAIQBKspWQSAEAACwCAAAIAAAAAAAAAAAA
-AAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAB+AQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPyx9lg00EbYwCcoQ
+TDBzM4i+kLFdSoG10N594K+3IB/BqG/tPafnnnPabJXp0shBKia4S2pmlRjAY5EwTl2S4bTSIK27y4tm
+LFKzFBISc103VQw8kkw44f5glClzjirXWxWty5Wj5y6ZIa4cyyqKwhQpNYWk1mjQP1B+VT4+0qi1Q611
+3TqgJsR6RAwepeCSELAdI8uhG8WAbwxnbc4FRqjNvDKqXaFkK/ClmEOM5JT2ZuuTJS4Z9zMvqXZ6gQeP
+4ULR4abn3weUGBhR5ZKdrvW948o4iWt8s9IGIF7q1koEyaNlAFOQukI4RphkVO0TbtNMpCgU6Ab8SsOu
+EV2uYeh6OWoFdTfGRe252ulOzq00rSPjBz8I7BodsLUHD8P3/NPOQv+jaP/Ntzu383aE1EsqeeOpGE14
+NsaXM/728t9va8oXUEsHCPBcnuBOAQAAOAIAAFBLAQIUABQACAAIAAAAIQDwXJ7gTgEAADgCAAAIAAAA
+AAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACEAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
