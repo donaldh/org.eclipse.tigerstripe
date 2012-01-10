@@ -296,7 +296,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		// First of all ignore all that is excluded
 		if (primaryPredicate.isExcluded(artifact)
-				|| isExcludedByStereotype(artifact)) {
+				|| isExcludedByStereotype(artifact)
+				|| isExcludedByAnnotation(artifact)) {
 			TigerstripeRuntime.logTraceMessage("Excluding "
 					+ artifact.getFullyQualifiedName() + " per primary scope.");
 			return;
@@ -460,7 +461,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 
 		for (IField field : artifact.getFields()) {
-			if (!isExcludedByStereotype(field)) {
+			if (!isExcludedByStereotype(field) && !isExcludedByAnnotation(field)) {
 				IType type = field.getType();
 				IAbstractArtifact arti = (IAbstractArtifact) type.getArtifact();
 				if (!type.isPrimitive() && arti != null
@@ -605,7 +606,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		ArtifactManager mgr = ((ArtifactManagerSessionImpl) session)
 				.getArtifactManager();
 
-		if (isExcludedByStereotype(artifact)) {
+		if (isExcludedByStereotype(artifact) || isExcludedByAnnotation(artifact)) {
 			TigerstripeRuntime.logTraceMessage("Excluding "
 					+ artifact.getFullyQualifiedName() + " by annotation.");
 			return result;

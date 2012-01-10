@@ -364,7 +364,7 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 			if (ref.getFacetPredicate() instanceof FacetPredicate) {
 				FacetPredicate predicate = (FacetPredicate) ref
 						.getFacetPredicate();
-				return !predicate.isExcludedByStereotype(this);
+				return !predicate.isExcludedByStereotype(this) && !predicate.isExcludedByAnnotation(this);
 			} else
 				return true;
 		} else
