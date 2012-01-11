@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences/DiagramPreferences
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ
-Save-Time: 1/11/12 11:49 AM
+Save-Time: 1/11/12 2:08 PM
 Id: _Px00ADwPEeGvce_60BRGbQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -24,6 +24,7 @@ Entry-Name: .content
 Content-Type: text/ecl
 
 get-menu "Window/Preferences" | click
+get-window Preferences | get-tree | select "Tigerstripe/Diagrams"
 with [get-window Preferences] {
     with [get-group General] {
         get-button "Name Only" | click
