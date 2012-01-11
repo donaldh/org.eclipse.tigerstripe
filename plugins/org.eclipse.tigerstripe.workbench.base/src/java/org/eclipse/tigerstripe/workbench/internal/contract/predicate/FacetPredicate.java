@@ -164,35 +164,29 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	 */
 	public boolean isExcludedByAnnotation(IAnnotationCapable capable)
 			throws TigerstripeException {
-
+		
 		if (capable == null) {
 			return false;
 		}
+		
 		IContractSegment facet = facetRef.resolve();
 
 		IAnnotationManager manager = AnnotationPlugin.getManager();
-		Annotation[] annotations = manager.getAnnotations(capable, true);
-		
-		if (annotations == null) {
+		Annotation[] annotations = manager.doGetAnnotations(capable, true);
+		if (annotations == null || annotations.length == 0) {
 			return false;
 		}
 
-		for (Annotation a : annotations) {
-			if (a == null) {
-				BasePlugin.log(new IllegalArgumentException("Annotation is null"));
-				continue;
-			}
-			AnnotationType type = manager.getType(a);
-			if (type == null || type.getId() == null) {
-				BasePlugin.log(new IllegalArgumentException("Annotation type is null"));
-				continue;
-			}
-			for (ScopeAnnotationPattern pattern : facet.getCombinedScope()
-					.getAnnotationPatterns(ISegmentScope.EXCLUDES)) {
-				if (type.getId().equals(pattern.annotationID)) {
-					return true;
-				}
-			}
+		HashSet<String> annotationSet = new HashSet<String>(annotations.length);
+		for (int i = 0; i < annotations.length; i++) {
+			AnnotationType type = manager.getType(annotations[i]);
+			annotationSet.add(type.getId());
+		}
+
+		for (ScopeAnnotationPattern pattern : facet.getCombinedScope()
+				.getAnnotationPatterns(ISegmentScope.EXCLUDES)) {
+			if (annotationSet.contains(pattern.annotationID))
+				return true;
 		}
 
 		return false;
@@ -239,8 +233,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// We only take the "Class Artifacts" not the relationships.
 			if (!(artifact instanceof IRelationship && !(artifact instanceof IDependencyArtifact))
 					&& primaryPredicate.evaluate(artifact)
-					&& !isExcludedByStereotype(artifact)
-					&& !isExcludedByAnnotation(artifact)) {
+					&& !isExcludedByStereotype(artifact)) {
 				if (artifact instanceof IDependencyArtifact) {
 					dependencies.add((IDependencyArtifact) artifact);
 				} else {
@@ -296,8 +289,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		// First of all ignore all that is excluded
 		if (primaryPredicate.isExcluded(artifact)
-				|| isExcludedByStereotype(artifact)
-				|| isExcludedByAnnotation(artifact)) {
+				|| isExcludedByStereotype(artifact)) {
 			TigerstripeRuntime.logTraceMessage("Excluding "
 					+ artifact.getFullyQualifiedName() + " per primary scope.");
 			return;
@@ -475,7 +467,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		}
 
 		for (IMethod method : artifact.getMethods()) {
-			if (!isExcludedByStereotype(method)) {
+			if (!isExcludedByStereotype(method) && !isExcludedByAnnotation(method)) {
 				// first the return type
 				IType returnType = method.getReturnType();
 				IAbstractArtifact arti = (IAbstractArtifact) returnType
@@ -606,7 +598,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		ArtifactManager mgr = ((ArtifactManagerSessionImpl) session)
 				.getArtifactManager();
 
-		if (isExcludedByStereotype(artifact) || isExcludedByAnnotation(artifact)) {
+		if (isExcludedByStereotype(artifact)) {
 			TigerstripeRuntime.logTraceMessage("Excluding "
 					+ artifact.getFullyQualifiedName() + " by annotation.");
 			return result;

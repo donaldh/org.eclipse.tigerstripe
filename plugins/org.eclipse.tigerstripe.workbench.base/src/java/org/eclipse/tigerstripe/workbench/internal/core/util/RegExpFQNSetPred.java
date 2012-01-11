@@ -13,11 +13,14 @@ package org.eclipse.tigerstripe.workbench.internal.core.util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 public class RegExpFQNSetPred implements Predicate {
@@ -173,13 +176,16 @@ public class RegExpFQNSetPred implements Predicate {
 			if (m.matches())
 				return true;
 		}
+		
+		Set<String> annotationSet = getAnnotations(artifact);
 
-		for (String annotationId : isIncludedByAnnotation) {
-
-			List<Object> annotations = artifact.getAnnotations(annotationId);
-			if (annotations.size() != 0)
-				return true;
+		if (!annotationSet.isEmpty()) {
+			for (String annotationId : isIncludedByAnnotation) {
+				if (annotationSet.contains(annotationId))
+					return true;
+			}
 		}
+		
 		return false;
 	}
 
@@ -196,12 +202,16 @@ public class RegExpFQNSetPred implements Predicate {
 			if (m.matches())
 				return true;
 		}
+		
+		Set<String> annotationSet = getAnnotations(artifact);
 
-		for (String annotationId : isExcludedByAnnotation) {
-			List<Object> annotations = artifact.getAnnotations(annotationId);
-			if (annotations.size() != 0)
-				return true;
+		if (!annotationSet.isEmpty()) {
+			for (String annotationId : isExcludedByAnnotation) {
+				if (annotationSet.contains(annotationId))
+					return true;
+			}
 		}
+
 		return false;
 	}
 
@@ -217,6 +227,21 @@ public class RegExpFQNSetPred implements Predicate {
 
 	private boolean containsAnnotationIdPattern(String annotationId) {
 		return annotationIds.contains(annotationId);
+	}
+
+	private Set<String> getAnnotations(IAbstractArtifact artifact) {
+		IAnnotationManager manager = AnnotationPlugin.getManager();
+		Annotation[] annotations = manager.doGetAnnotations(artifact, true);
+		if (annotations == null || annotations.length == 0) {
+			return Collections.emptySet();
+		}
+
+		HashSet<String> annotationSet = new HashSet<String>(annotations.length);
+		for (int i = 0; i < annotations.length; i++) {
+			AnnotationType type = manager.getType(annotations[i]);
+			annotationSet.add(type.getId());
+		}
+		return annotationSet;
 	}
 
 }
