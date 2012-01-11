@@ -1,0 +1,100 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CancelDiagramPreferenceChanges
+Tags: TS_Project/Preferences/DiagramPreferences
+External-Reference: 
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ
+Save-Time: 1/11/12 11:49 AM
+Id: _Px00ADwPEeGvce_60BRGbQ
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open Windows-Preferences-Tigerstripe-Diagrams;
+2. Change some preferences and press Cancel button;
+3. Reopen preference window and check that no changes were applied. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    with [get-group General] {
+        get-button "Name Only" | click
+        get-button Hide | click
+    }
+    get-button Cancel | click
+}
+
+get-menu "Window/Preferences" | click
+with [get-window Preferences | get-group General] {
+    get-button "Name Only" | get-property selected | equals false | verify-true
+    get-button Hide | get-property selected | equals false | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kM1OwzAQhO9IvIPle+0AEq2iuBW0
+VfkRUkI59Ba5zsYxJHZru0l4e1xE0wOI22pn9tvdSWZ9U6MWrFNGM3xFIoxAC1MoLRk++HI0wbPp5UUi
+TEN6Y6Eg+zFxAjS3ysTrnwL1jYoHyvWRErjaxaHPcOX9Lqa06zpiGkmMlXTz8niy/EkehoJKv1W6H9OT
+SkCEFkaaN8DwnGsB9UJxaXmTWijBhhdgXnEtweHzdzfHu1TBcJ72UXS36NIlrFoB+W10/7raZhh5Lh3D
+b+s8teYdhKdnnKO/NgS2/9yFC0DUOISEUIhJe+i9m+b2ofzInn21LEbt5KnbbPUh91lCB0cIlf6farB8
+AVBLBwgjzfbVBwEAAKABAABQSwECFAAUAAgACAAAACEAI8321QcBAACgAQAACAAAAAAAAAAAAAAAAAAA
+AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAPQEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+AAAA
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
