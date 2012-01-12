@@ -129,6 +129,12 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 				}
 			}
 
+			// project added
+			for (IResourceDelta child : delta
+					.getAffectedChildren(IResourceDelta.ADDED)) {
+				addListenerIfNeed((IProject) child.getResource());
+			}
+
 			// project removed
 			for (IResourceDelta child : delta
 					.getAffectedChildren(IResourceDelta.REMOVED)) {
