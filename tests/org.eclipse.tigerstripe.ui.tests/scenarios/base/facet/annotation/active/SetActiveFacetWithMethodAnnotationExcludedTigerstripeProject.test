@@ -1,0 +1,39 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetWithMethodAnnotationExcluded
+Tags: Facet/Active, Annotation, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-911
+Element-Version: 3.0
+Contexts: _BwQRgDwhEeGvPsO-LSiu4Q,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 1/12/12 5:13 PM
+Id: _BZJjoDwiEeGvPsO-LSiu4Q
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with annotatated method in Tigerstripe project (include)
+
+Preconditon
+GeneratorAndProjectFacetWorkspaceContext
+
+Steps
+Add  text annotation type in excluded pattern section of annotation scope in facet
+Add annotation of Reference Example type to method0 of Entity0
+Set Facet as active
+Check that entity with annotated method marks as included 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9Nn2FzaoQtDDJk
+GolEYIkiL2R0l1HcWli7dfrr7RBGNOpbb+/pl3NOO70yTVABmaCcudgyLjACRnhEWeziXK6abdzrnp91
+CE+NkmcQGbuWIQiwMKPcCQ4HVKbUqSmXFUVzmXD0vYvXUm4d01RKGTyNDZ7F5mz0cJT8Sq4f6a2535q7
+lnncGkD0FUYsTMHFAUiPSFrAXUhAvlC5HoFc88hjjMtQakt+SZI8ggifkl5VHmnk4kV/PtzwgaI+3Bdj
+8dR8DGh+PcFIhrFw8Z5pfvEb6IRsIPFGt34JJK9GLX/fai9AEl1gKSFjYTKFFWS6TajTLPNYHMJWwZYZ
+VwJ0GeOmbVlY94yQbppJTRDdRV9NpvFArb8765i14od+OrWteER3Ptw+vxYfdh6M58r7W28PbjZeKGM/
+ahbtoZotWb6Q3/nV8N/Ha8knUEsHCOuodVtUAQAAQwIAAFBLAQIUABQACAAIAAAAIQDrqHVbVAEAAEMC
+AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACKAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

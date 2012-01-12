@@ -1,19 +1,19 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: SetActiveFacetWithAnnotationTigerstripeProject
+Element-Name: SetActiveFacetWithAnnotationIncludedTigerstripeProject
 Tags: Facet/Active, Annotation
 External-Reference: http://bugs.xored.com/browse/XMP-891
 Element-Version: 3.0
 Contexts: _tk1N0DFbEeGSksgVyHPBRg,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/9/12 4:45 PM
+Save-Time: 1/11/12 5:37 PM
 Id: _IuEd0DHREeGSksgVyHPBRg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
 Content-Type: text/plain
 
-Set Active Facets with annotation in Tigerstripe project 
+Set Active Facet with Annotation Included Pattern in Tigerstripe project 
 
 Precondition
 SeveralAnnotationScopeFacetWorkspaceContext
@@ -65,14 +65,14 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPyx9lg00EbYwCcoQ
-TDBzM4i+kLFdSoG10N594K+3IB/BqG/tPafnnnPabJXp0shBKia4S2pmlRjAY5EwTl2S4bTSIK27y4tm
-LFKzFBISc103VQw8kkw44f5glClzjirXWxWty5Wj5y6ZIa4cyyqKwhQpNYWk1mjQP1B+VT4+0qi1Q611
-3TqgJsR6RAwepeCSELAdI8uhG8WAbwxnbc4FRqjNvDKqXaFkK/ClmEOM5JT2ZuuTJS4Z9zMvqXZ6gQeP
-4ULR4abn3weUGBhR5ZKdrvW948o4iWt8s9IGIF7q1koEyaNlAFOQukI4RphkVO0TbtNMpCgU6Ab8SsOu
-EV2uYeh6OWoFdTfGRe252ulOzq00rSPjBz8I7BodsLUHD8P3/NPOQv+jaP/Ntzu383aE1EsqeeOpGE14
-NsaXM/728t9va8oXUEsHCPBcnuBOAQAAOAIAAFBLAQIUABQACAAIAAAAIQDwXJ7gTgEAADgCAAAIAAAA
-AAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACEAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5Y+ywaaCCNMMgUE
+E8zcDKIvZOsupcBa6O428OstCCMY9a295/Tcc05b7U2yNHJQKZfCITWzSgwQVMZcMIdkOK00SPvu8qJF
+ZWJupILYXNfNlIIIFZfN4HAwNglvlirXOxWtK9KmnjtkhrhqWlZRFKZMmCkVs8bDwZHyq3L5SKPWHrXW
+deuImkD1iBgiTMAhAaBLkefQCyngG8eZK4TEELWZgaDLLIb4lTPtDhVfgafkHCiSU+qbnV8eO2QyyLpx
+tdP3u/AYLFI22va9e58RA0OWOmSvb33vujJOSzS+XWkjQJe6vQ2CEuHShykoXSWUUaKMpYeku1SRkkUK
+ugmv0rBrRJdsGLpmgVohvZvgovZc7fSicystq2T84Pu+XWNDvu7Cw+g9/7SzwPso3L/5dud27obIunEl
+bzwV40hkE3w54+8u//26pnwBUEsHCOTpVyZUAQAAQAIAAFBLAQIUABQACAAIAAAAIQDk6VcmVAEAAEAC
+AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACKAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

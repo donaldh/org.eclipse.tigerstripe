@@ -1,0 +1,36 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetWithAttributeAnnotationExcluded
+Tags: Facet/Active, Annotation, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-911
+Element-Version: 3.0
+Save-Time: 1/12/12 5:13 PM
+Id: _tcE5wDw4EeGvPsO-LSiu4Q
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with annotatated attribute in Tigerstripe project (include)
+
+Preconditon
+GeneratorAndProjectFacetWorkspaceContext
+
+Steps
+Add annotation of Reference Example type to attribute of Entity0
+Set Facet as active
+Check that entity with annotated attribute marks as included 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkFFPgzAUhd9N/A9Nn0crOjMlw4VE
+NCYapzzom4FyxxqhZe0t4L+3zI29+Nbec/v1nLNcDU1NOjBWahXTkF1QAkroUqoqpg43wQ1d3Z2fLYVu
+2KANlGy3YFaAyo3UUXY4kKGR0US5HCmeq2zk5zHdIrYR533fM91UTJuKf748HVf+JU+PvMr3Kt8t+FFl
+IPyIEpU3ENMMMBEoO3jIBeCHxG2CaGThEBKlNOboXaWDqF0JJT2FvRptyjKmXyjS6/6+n6fw2K3ta/Cc
+STd/owTzysZ0j+V/X8zICTkj9lu26QDCjVe//tN6OyBq3+GAYFRev8MGjC8UpkCFq+wh75itMLq34PtY
+B7dhSLnv+hdQSwcIOIQhxA4BAACUAQAAUEsBAhQAFAAIAAgAAAAhADiEIcQOAQAAlAEAAAgAAAAAAAAA
+AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEQBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

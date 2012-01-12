@@ -1,0 +1,36 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetWithLiteralAnnotationIncluded
+Tags: Facet/Active, Annotation, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-912
+Element-Version: 3.0
+Save-Time: 1/12/12 5:12 PM
+Id: __15wwDw4EeGvPsO-LSiu4Q
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with annotatated literal in Tigerstripe project (include)
+
+Preconditon
+GeneratorAndProjectFacetWorkspaceContext
+
+Steps
+Add annotation of Reference Example type to literal of Entity0
+Set Facet as active
+Check that entity with annotated literal marks as included 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkNFPwjAQxt9N/B+ae2atQwy6MAmJ
+aEgwojzoGyndMRq3drTdOv97O4Tx4lvvvuvv7vsm07YsSIPGSq1SiOkNEFRCZ1LlKdRuF93D9PH6aiJ0
+SVttMKOHMbUCFTdSJ+vTg7SlTHrKsKMErrJJ6Kewd65KGPPeU13mVJucfb0uziP/kvtPQWVHlR3G7KxS
+FKEFRPESU1ijmwknG3zmAt2ndPuldGh4MVNKO+7CTQslijrDDC5Wb7sjZZbCZhPfef/kR3N8aVb2LVqu
+ZT16B+J4blM4QtnfggG5IAfEfstq3qKouzKM/1ThGBRFSLAN+xUvPnCHJsSJvZ1tnduT287Z1mhvMaSx
+ih7iIbCQ9C9QSwcIZPZqhQ4BAACSAQAAUEsBAhQAFAAIAAgAAAAhAGT2aoUOAQAAkgEAAAgAAAAAAAAA
+AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEQBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

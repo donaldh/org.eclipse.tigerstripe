@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: GenerateAnnotatedTigerstripeProjectWithActiveFacet
+Element-Name: GenerateAnnotatedTigerstripeProjectWithActiveFacetInclusion
 Tags: Facet/Generate
 External-Reference: 
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_5j0PQDHSEeGSksgVyHPBRg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/9/12 3:13 PM
+Save-Time: 1/11/12 1:22 PM
 Id: _G3yKQDHUEeGSksgVyHPBRg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -79,12 +79,12 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5q+s4JEgYVBpiAo
-IRlMEX0hs7uWImuhu2zDr7cQwWDUp7bnnHvOvbfNdpEsSQYmlVp5tOKUKQHFdSyV8OgG30p12m6dnzW5
-TpxCG4iddc1JOajISO2GXxdSJNI9ulzsXKyvSl2Le3SOuHIZy/Pc0YlwtBFsOrw7SH51PhZZlu1Ztq6x
-A+sAtxAlKkrAoz1QYCIEXymN9owfpLCtoJErCIxeAMcniXOfo8zgNuKA9Hvi6q5XGXt01qtuB6NO/7EL
-vfA9FZNtP7geC0owEqlH93XsEGXR7cpGA19Sux1C7H4UQoFpazYeNypiKNdduJk8Zx+NTRi85H6THRU/
-9JeLcmBzw9Pcv/WNztXCj1B041JWv8+nr2ozw9GJfvf477us5BNQSwcIdanA5CwBAAD5AQAAUEsBAhQA
-FAAIAAgAAAAhAHWpwOQsAQAA+QEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
-NgAAAGIBAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPyx9ZwWJAguDTEFA
+QzKYIvpCZnctRdZCd/eBv96OCAajPrU95/Sc09t2t4jXVgY6EUq6pGZXiQWSqUhI7pIU3ypN0u2cn7WZ
+iu1CaYjsbcNOGMhQC+UEXxuriIVzdLkoXYyvTByDu2SJuHEozfPcVjG3leZ0Ph4dJL86Hy8Zlu5Zum3Q
+A2sDMxCxZBiDSwYgQYcInpQKzRo9CG6qoBYb8LVaAcMngUuPocjgNmSAI8nWadmVfD+9XpYWkUsWg/ru
+ftIbPvZhELwnfLYb+tdTTiwMeeKSvQE9ZBp0tzEdgK2JGZNlmUFJhAKTzmI6bdX4WGz7cDN7zj5aaeC/
+5F6bHhU/9Jerqm9yg9Pcv/Wt3tXKC5H3o0rWvMvnrzJd4OREXx7++zcj+QRQSwcIWs7MCTIBAAACAgAA
+UEsBAhQAFAAIAAgAAAAhAFrOzAkyAQAAAgIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAA
+AAABAAEANgAAAGgBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

@@ -1,0 +1,37 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetWithAnnotationExportedModule
+Tags: Facet/Active, Annotation, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-899
+Element-Version: 3.0
+Contexts: _VxOmcDq2EeGvPsO-LSiu4Q,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 1/12/12 4:26 PM
+Id: _5dbkMDq2EeGvPsO-LSiu4Q
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with annotation in exported module 
+
+Precondition
+GeneratorAndReferencedProjectsAnnotationScopeFacetWorkspaceContext
+
+Steps
+Set ProjectWithReference/default2.wfc facet as active
+Check ProjectWithReference and New Project projects names and greyed artifacts
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVtvgkAQhd+b9D9s9lmg2otCREMq
+bdqUaCWxlxcDy4hbYRfZ5dL++i5WaXp925k58+XM2eG4ThNUQi4oZzbu6icYASM8oiy2cSFX2gCPR8dH
+Q8JTveY5RPq2rwsCLMgpt/z9A9UptVpKr6EoLhOW6tt4LWVmGUZVVTpPY53nsfHo3Rwkv5LbJTU1dlNj
+2zcOUx2IamHEghRs7IN0iKQlXAUE5AOVa4cxLgOpzLh1xnMJkcejIlEbrcfTxiONbLw8j8KNN9n2XLgu
+Z2Kq3fm0OLvHSAaxsPGOaXzwO+gT3EFiQzO3BlI0pZK/ZsoLkEQFWEvIWZDMYQW5ShPaa8IiFvtjm8PC
+nFcCVBgzbWCaWOWMkEqaSUUQo+Winqbkh7Oh0Sq+6edzsxt7dOvC5eKpfDMLf/ZcOX/rzcnFixPI2I20
+cnBbPYasWMqv/Kb47+OV5B1QSwcISN8CM1MBAABDAgAAUEsBAhQAFAAIAAgAAAAhAEjfAjNTAQAAQwIA
+AAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIkBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

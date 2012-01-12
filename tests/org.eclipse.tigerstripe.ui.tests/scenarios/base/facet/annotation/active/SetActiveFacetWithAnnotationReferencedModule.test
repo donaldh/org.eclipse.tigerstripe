@@ -1,0 +1,332 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetWithAnnotationReferencedModule
+Tags: Facet/Active, Annotation
+External-Reference: http://bugs.xored.com/browse/XMP-891
+Element-Version: 3.0
+Contexts: _Mrg78DqyEeGvPsO-LSiu4Q,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
+Save-Time: 1/10/12 10:07 AM
+Id: _N32BoDqxEeGvPsO-LSiu4Q
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with annotation in referenced module 
+
+Precondition
+GeneratorAndReferencedProjectsAnnotationScopeFacetWorkspaceContext
+
+Steps
+Set ProjectWithReference/default2.wfc facet as active
+Check ProjectWithReference project name and greyed artifacts
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "ProjectWithReference/default2.wfc" 
+    | get-menu "Facets/Mark as Active" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference \\{default2\\}" | get-property caption | equals "ProjectWithReference \\{default2\\}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}" | get-property styleRanges -index 0 
+        | equals "0, 31, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
+    get-item "New Project \\{default2\\}" | get-property caption | equals "New Project \\{default2\\}" | verify-true
+    get-item "New Project \\{default2\\}" | get-property styleRanges -index 0 
+        | equals "0, 22, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}" | get-property caption 
+        | equals "New Project \\{default2\\}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}" | get-property styleRanges 
+        -index 0 | equals "0, 22, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Entity1" 
+        | get-property caption | equals "<<ReferencesExample>>Entity1" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Entity1" 
+        | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {100, 100, 200}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Entity1" 
+        | get-property styleRanges -index 1 | equals "21, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/AssocClass0" 
+        | get-property caption | equals AssocClass0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/AssocClass0" 
+        | get-property styleRanges -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Association0" 
+        | get-property caption | equals Association0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Association0" 
+        | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Datatype0" 
+        | get-property caption | equals Datatype0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Datatype0" 
+        | get-property styleRanges -index 0 | equals "0, 9, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Dependency0" 
+        | get-property caption | equals Dependency0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Dependency0" 
+        | get-property styleRanges -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Entity0" 
+        | get-property caption | equals Entity0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Entity0" 
+        | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Enumeration0" 
+        | get-property caption | equals Enumeration0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Enumeration0" 
+        | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Event0" 
+        | get-property caption | equals Event0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Event0" 
+        | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Exception0" 
+        | get-property caption | equals Exception0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Exception0" 
+        | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Query0" 
+        | get-property caption | equals Query0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Query0" 
+        | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Session0" 
+        | get-property caption | equals Session0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Session0" 
+        | get-property styleRanges -index 0 | equals "0, 8, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Update0" 
+        | get-property caption | equals Update0 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Update0" 
+        | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse.Package0"
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "New Project \\{default2\\}/src/org.eclipse/AssocClass0" | get-property caption | equals AssocClass0 
+        | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/AssocClass0" | get-property styleRanges -index 0 
+        | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Association0" | get-property caption | equals Association0 
+        | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Association0" | get-property styleRanges -index 0 
+        | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Datatype0" | get-property caption | equals Datatype0 | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Datatype0" | get-property styleRanges -index 0 
+        | equals "0, 9, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Dependency0" | get-property caption | equals Dependency0 
+        | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Dependency0" | get-property styleRanges -index 0 
+        | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Entity0" | get-property caption | equals Entity0 | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Entity0" | get-property styleRanges -index 0 
+        | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Entity1" | get-property caption | equals Entity1 | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Entity1" | get-property styleRanges -index 0 
+        | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Enumeration0" | get-property caption | equals Enumeration0 
+        | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Enumeration0" | get-property styleRanges -index 0 
+        | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Event0" | get-property caption | equals Event0 | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Event0" | get-property styleRanges -index 0 
+        | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Exception0" | get-property caption | equals Exception0 
+        | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Exception0" | get-property styleRanges -index 0 
+        | equals "0, 10, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Query0" | get-property caption | equals Query0 | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Query0" | get-property styleRanges -index 0 
+        | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Session0" | get-property caption | equals Session0 | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Session0" | get-property styleRanges -index 0 
+        | equals "0, 8, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Update0" | get-property caption | equals Update0 | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Update0" | get-property styleRanges -index 0 
+        | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPzR9dpuAkW1hkClo
+NE6RJYq+kLFdSs3Wurb7wF9vhzCDMbz13nPuuefcDkZ1lqIShKScebhjnmMELOYJZcTDhVoZNh4NT08G
+Mc/MmgtIzLxvyhhYJCh3w90D1Rl1W5Vuo6J1mXR138NrpT5dy6qqyuQZMbkg1jy421P+VW6HNGptUSvv
+W3vUhFi3MGJRBh4OQfmxoiXcRDGoV6rWPmNcRUqbmcEKhA4EScCTItUzrcte45ImHl489rpXfJzXE7gt
+p/LJeAhpcfGMkYqI9PBW1frZcIZ+pTW++dTrIU71zWoFgkVpu68NsCyI3OVrsiwFryTo/FPDdjpYnxYh
+fVymtIIcLgJB+vY43xxaGVgt4w/fGV9++JEik8Qo7ftqvmTFQh3hz2ZOhwQ0n8D1y1v55RTh9L3yD/hN
+ceyvNeUbUEsHCOcjtc1IAQAANgIAAFBLAQIUABQACAAIAAAAIQDnI7XNSAEAADYCAAAIAAAAAAAAAAAA
+AAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAB+AQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
