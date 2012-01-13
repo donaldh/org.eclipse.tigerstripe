@@ -11,22 +11,28 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.Images;
+import org.eclipse.tigerstripe.annotation.ui.util.AnnotationGroup;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
  * @author Eric Dillon
@@ -35,35 +41,96 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  */
 public class BrowseForAnnotationsDialog {
 
+	private final class AnnotationTypeContentProvider implements
+			ITreeContentProvider {
+		public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
+		}
+
+		public void dispose() {
+		}
+
+		public boolean hasChildren(Object arg0) {
+			if (arg0 instanceof AnnotationGroup){
+				AnnotationGroup group = (AnnotationGroup) arg0;
+				return !group.getTypes().isEmpty();
+			}
+			return false;
+		}
+
+		public Object getParent(Object arg0) {
+			return null;
+		}
+
+		public Object[] getElements(Object arg0) {
+			return (Object[]) arg0;
+		}
+
+		public Object[] getChildren(Object arg0) {
+			if (arg0 instanceof AnnotationGroup){
+				AnnotationGroup group = (AnnotationGroup) arg0;
+				return group.getTypes().toArray();
+			}
+			return null;
+		}
+	}
+
 	private class AnnotationTypeLabelProvider extends LabelProvider {
+		
+		private Image defaultImage;
+		
 		@Override
 		public String getText(Object element) {
-			if (element instanceof AnnotationType) {
-				ILabelProvider prov = AnnotationUIPlugin.getManager()
-						.getLabelProvider((AnnotationType) element);
-				if (prov != null) {
-					String text = prov.getText(element);
-					if (text != null && text.length() > 0)
-						return text;
-				}
-				return ((AnnotationType) element).getName();
+			if (element instanceof AnnotationGroup) {
+				AnnotationGroup group = (AnnotationGroup) element;
+				return group.getName();
+			} else if (element instanceof TargetAnnotationType) {
+				TargetAnnotationType target = (TargetAnnotationType) element;
+				return target.getType().getName();
 			}
-
 			return null;
 		}
 
 		@Override
 		public Image getImage(Object element) {
-			if (element instanceof AnnotationType) {
+			if (element instanceof AnnotationGroup) {
+				return getDefaultImage();
+			} else if (element instanceof TargetAnnotationType) {
+				TargetAnnotationType target = (TargetAnnotationType) element;
+				AnnotationType type = target.getType();
 				ILabelProvider prov = AnnotationUIPlugin.getManager()
-						.getLabelProvider((AnnotationType) element);
+						.getLabelProvider(type);
+				Image image = null;
 				if (prov != null)
-					return prov.getImage(element);
+					image = prov.getImage(type.createInstance());
+				if (image == null)
+					image = getDefaultImage();
+				return image;
 			}
-
 			return null;
 		}
 
+		private Image getDefaultImage() {
+			if (defaultImage == null) {
+				defaultImage = Images.getImage(Images.ANNOTATIONS);
+			}
+			return defaultImage;
+		}
+
+	}
+
+	private static final class AnnotationTypeSelectionValidator implements
+			ISelectionStatusValidator {
+		
+		public static final IStatus OK_STATUS = new Status(IStatus.OK, EclipsePlugin.PLUGIN_ID, null);
+		public static final IStatus ERROR_STATUS = new Status(IStatus.ERROR, EclipsePlugin.PLUGIN_ID, null);
+
+		public IStatus validate(Object[] arg0) {
+			for (Object o : arg0){
+				if (!(o instanceof TargetAnnotationType))
+					return ERROR_STATUS;
+			}
+			return OK_STATUS;
+		}
 	}
 
 	private Collection<AnnotationType> existingAnnotationTypes;
@@ -92,14 +159,13 @@ public class BrowseForAnnotationsDialog {
 	public AnnotationType[] browseAvailableAnnotationTypes(Shell parentShell)
 			throws TigerstripeException {
 
-		ElementListSelectionDialog elsd = new ElementListSelectionDialog(
-				parentShell, new AnnotationTypeLabelProvider());
+		ElementTreeSelectionDialog elsd = new ElementTreeSelectionDialog(
+				parentShell, new AnnotationTypeLabelProvider(), new AnnotationTypeContentProvider());
 
 		elsd.setTitle(getTitle());
 		elsd.setMessage(getMessage());
-
-		Object[] availableAnnotationTypes = getAvailableAnnotationTypesList();
-		elsd.setElements(availableAnnotationTypes);
+		elsd.setValidator(new AnnotationTypeSelectionValidator());
+		elsd.setInput(getContent());
 
 		if (elsd.open() == Window.OK) {
 
@@ -107,7 +173,7 @@ public class BrowseForAnnotationsDialog {
 			if (objects != null && objects.length != 0) {
 				AnnotationType[] result = new AnnotationType[objects.length];
 				for (int i = 0; i < result.length; i++) {
-					result[i] = (AnnotationType) objects[i];
+					result[i] = ((TargetAnnotationType) objects[i]).getType();
 				}
 
 				return result;
@@ -120,39 +186,52 @@ public class BrowseForAnnotationsDialog {
 	 * 
 	 * @return
 	 */
-	private Object[] getAvailableAnnotationTypesList()
+	private Object[] getContent()
 			throws TigerstripeException {
 
-		List<AnnotationType> annotationTypes = new ArrayList<AnnotationType>();
+		List<TargetAnnotationType> targets = new ArrayList<TargetAnnotationType>();
 
-		annotationTypes.addAll(Arrays.asList(AnnotationPlugin.getManager()
-				.getTypes()));
+		for (AnnotationType type : AnnotationPlugin.getManager().getTypes()){
+			targets.add(new TargetAnnotationType(type, null));
+		}
 
-		if (annotationTypes.size() == 0)
-			return new Object[0];
+		if (targets.size() == 0)
+			return new TargetAnnotationType[0];
 
 		// now go thru the list and remove those that can't be re added
 		for (AnnotationType instance : existingAnnotationTypes) {
 			int target = -1;
-			for (int i = 0; i < annotationTypes.size(); i++) {
-				if (annotationTypes.get(i).getId().equals(instance.getId())) {
+			for (int i = 0; i < targets.size(); i++) {
+				if (targets.get(i).getType().getId().equals(instance.getId())) {
 					target = i;
 					break;
 				}
 			}
 			if (target != -1)
-				annotationTypes.remove(target);
+				targets.remove(target);
 		}
 
-		Collections.sort(annotationTypes, new Comparator<AnnotationType>() {
+//		Collections.sort(targets, new Comparator<TargetAnnotationType>() {
+//
+//			public int compare(TargetAnnotationType o1, TargetAnnotationType o2) {
+//				return o1.getType().getName().compareTo(o2.getType().getName());
+//			}
+//
+//		});
 
-			public int compare(AnnotationType o1, AnnotationType o2) {
-				return o1.getName().compareTo(o2.getName());
+		AnnotationGroup[] groups = AnnotationGroup.getGroups(targets
+				.toArray(new TargetAnnotationType[targets.size()]));
+
+		List<Object> result = new ArrayList<Object>();
+		for (AnnotationGroup group : groups) {
+			if (group.getName() != null) {
+				result.add(group);
+			} else {
+				result.addAll(group.getTypes());
 			}
+		}
 
-		});
-
-		return annotationTypes.toArray();
+		return result.toArray();
 	}
 
 	public String getMessage() {
