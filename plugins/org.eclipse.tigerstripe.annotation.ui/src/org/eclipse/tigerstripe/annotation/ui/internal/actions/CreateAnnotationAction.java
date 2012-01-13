@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.core.IExtendedMenuCreator;
 import org.eclipse.tigerstripe.annotation.ui.core.IMenuProvider;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationGroup;
+import org.eclipse.tigerstripe.annotation.ui.util.AnnotationGroup;
 
 
 /**

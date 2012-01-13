@@ -34,7 +34,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.Images;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationGroup;
+import org.eclipse.tigerstripe.annotation.ui.util.AnnotationGroup;
 
 /**
  * @author Yuri Strot

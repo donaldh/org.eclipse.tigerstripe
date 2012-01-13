@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.util;
+package org.eclipse.tigerstripe.annotation.ui.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
