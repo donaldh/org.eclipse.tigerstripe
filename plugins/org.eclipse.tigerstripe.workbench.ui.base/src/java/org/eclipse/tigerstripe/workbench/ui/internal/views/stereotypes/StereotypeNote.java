@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.ui.core.view.EObjectBasedNote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -56,6 +57,9 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 	}
 
 	public boolean isReadOnly() {
+		if (capable instanceof IAbstractArtifact) {
+			return ((IAbstractArtifact) capable).isReadonly();
+		}
 		return false;
 	}
 

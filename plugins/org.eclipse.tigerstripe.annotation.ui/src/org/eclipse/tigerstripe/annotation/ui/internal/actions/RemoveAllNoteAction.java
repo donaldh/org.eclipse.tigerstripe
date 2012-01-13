@@ -43,7 +43,10 @@ public class RemoveAllNoteAction extends Action {
 				.setMessage("Are you sure you want to delete all annotations from this object?");
 		if (message.open() == SWT.YES) {
 			for (int i = 0; i < notes.length; i++) {
-				notes[i].remove();
+				INote note = notes[i];
+				if (!note.isReadOnly()) {
+					notes[i].remove();
+				}
 			}
 		}
 	}
