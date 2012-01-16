@@ -327,6 +327,13 @@ public class Literal extends ArtifactComponent implements ILiteral {
 				return false;
 		} else if (!value.equals(other.value))
 			return false;
+		String name = getName();
+		String otherName = other.getName();
+		if (name == null) {
+			if (otherName != null)
+				return false;
+		} else if (!name.equals(otherName))
+			return false;
 		return true;
 	}
 

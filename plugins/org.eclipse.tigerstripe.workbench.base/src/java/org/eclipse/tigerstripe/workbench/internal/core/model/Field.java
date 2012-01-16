@@ -522,6 +522,13 @@ public class Field extends ArtifactComponent implements IField {
 				return false;
 		} else if (!type.equals(other.type))
 			return false;
+		String name = getName();
+		String otherName = other.getName();
+		if (name == null) {
+			if (otherName != null)
+				return false;
+		} else if (!name.equals(otherName))
+			return false;
 		return true;
 	}
 
