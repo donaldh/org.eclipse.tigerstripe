@@ -254,9 +254,14 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		scope.addAll(dependencies);
 
-		for (IAbstractArtifact art : scope) {
-			resolvedPredicate.addIsIncludedPattern(ContractUtils
-					.mapFromUserPattern(art.getFullyQualifiedName()));
+		if (scope.isEmpty()) {
+			// If there's no artifacts in the scope we should add exclude rule
+			resolvedPredicate.addIsExcludedPattern(".*");
+		} else {
+			for (IAbstractArtifact art : scope) {
+				resolvedPredicate.addIsIncludedPattern(ContractUtils
+						.mapFromUserPattern(art.getFullyQualifiedName()));
+			}
 		}
 
 		monitor.done();
