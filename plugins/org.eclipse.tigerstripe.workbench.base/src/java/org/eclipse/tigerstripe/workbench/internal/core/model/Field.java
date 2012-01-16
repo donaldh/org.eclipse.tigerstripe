@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -460,6 +461,68 @@ public class Field extends ArtifactComponent implements IField {
 
 	public String getMemberName() {
 		return "field";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime
+				* result
+				+ ((containingModelComponent == null) ? 0
+						: containingModelComponent.hashCode());
+		result = prime * result
+				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = prime * result + (isOrdered ? 1231 : 1237);
+		result = prime * result + (isUnique ? 1231 : 1237);
+		result = prime * result + (optional ? 1231 : 1237);
+		result = prime * result + (readOnly ? 1231 : 1237);
+		result = prime * result + ((refBy == null) ? 0 : refBy.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (Proxy.isProxyClass(obj.getClass())) {
+			return obj.equals(this);
+		}
+		if (!(obj instanceof Field)) {
+			return false;
+		}
+		Field other = (Field) obj;
+		if (containingModelComponent == null) {
+			if (other.containingModelComponent != null)
+				return false;
+		} else if (!containingModelComponent
+				.equals(other.containingModelComponent))
+			return false;
+		if (defaultValue == null) {
+			if (other.defaultValue != null)
+				return false;
+		} else if (!defaultValue.equals(other.defaultValue))
+			return false;
+		if (isOrdered != other.isOrdered)
+			return false;
+		if (isUnique != other.isUnique)
+			return false;
+		if (optional != other.optional)
+			return false;
+		if (readOnly != other.readOnly)
+			return false;
+		if (refBy == null) {
+			if (other.refBy != null)
+				return false;
+		} else if (!refBy.equals(other.refBy))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
 	}
 
 }

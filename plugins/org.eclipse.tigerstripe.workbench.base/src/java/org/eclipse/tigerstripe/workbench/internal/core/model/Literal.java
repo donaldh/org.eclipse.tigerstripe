@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -284,6 +285,49 @@ public class Literal extends ArtifactComponent implements ILiteral {
 
 	public String getMemberName() {
 		return "literal";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime
+				* result
+				+ ((containingModelComponent == null) ? 0
+						: containingModelComponent.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (Proxy.isProxyClass(obj.getClass())) {
+			return obj.equals(this);
+		}
+		if (!(obj instanceof Literal)) {
+			return false;
+		}
+		Literal other = (Literal) obj;
+		if (containingModelComponent == null) {
+			if (other.containingModelComponent != null)
+				return false;
+		} else if (!containingModelComponent
+				.equals(other.containingModelComponent))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
 	}
 
 }
