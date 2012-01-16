@@ -2,11 +2,11 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: SetActiveFacetAddTheSameAnnotation
-Tags: Facet/Active, Annotation
-External-Reference: http://bugs.xored.com/browse/XMP-913
+Tags: Facet/Active, Annotation, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-913, http://bugs.xored.com/browse/XMP-912
 Element-Version: 3.0
 Contexts: _-4wv8DtwEeGvPsO-LSiu4Q,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/12/12 4:51 PM
+Save-Time: 1/13/12 11:46 AM
 Id: _1F8qsDtzEeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -64,14 +64,14 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "New Project \\{default\\}
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9Nn93qhMi2MMgi
-YDQSkRmDvpCxXUYNa9narYNfb4cwxahvt/ecfr3nttuv0jUqIReUMw9b5iVGwCIeU5Z4uJBLw8b93vlZ
-N+KpWfEcYjPrmCICFuaUu8GhQFVK3YZyVVM0lwlX9z28knLjEqKUMnmamDxPyGx8d7T8Sm4uaZXsVZJ1
-yFE1IdItjFiYgocDkH4kaQmjMNJlHD+vINCKzxiXodQj4a+ErXo2Gnt4bo3sTAzkbgi35UQ8Gg8BLdpP
-GMkwER7es8gn9wJ9R8ntRj8K0VpvqpKQs3A9hSXkem3QjL0oEnFIVSdY5FwJ0KknhmO1sF4oQnqlTGqC
-6M2NtirtgVSno3RJ4/jhn04dKxnTbAg3L6/lzimCyZvy//Y7g+t3P5TJMDZK+17NFqyYy1N+ffjvh7Xl
-A1BLBwiAlHGsQwEAACwCAABQSwECFAAUAAgACAAAACEAgJRxrEMBAAAsAgAACAAAAAAAAAAAAAAAAAAA
-AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAeQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkl1PwjAUhu9N/A9Nr9nmgMi2MMgi
+w2gkIjMGvSFjO4wqa2Ht1smvt+NjBKPGu9Pzvn16Ptrtl+kKFZBxwqiLTf0KI6ARiwlNXJyLhWbhfu/y
+ohuxVC9ZBrG+6eg8AhpmhDnBIUBlSpya0qwoiku5o/IuXgqxdgxDSqmzNNFZlhjT0d3R8iO5vqRUY6ca
+m45xVHWIVAojGqbg4gCEFwlSwDCMVBjHz0sIlOJRykQoVEn41GGrqo3ELp6ZQ2vDB2Lrw20x5o/aQ0Dy
+9hNGIky4i3csY89toBOqgfgHWfslRPmeLD7XqgaIVmpwpYCMhqsJLCBTU4S6i3me8EOTVUPzjEkOaghj
+zTZbDfQPVxOrLSCk9kCFeof3ZlpbFtZAyPP6u0bt+OafTGwzGZGNDzcvr8XWzoPxm/R+99uD63cvFIkf
+a4V1L6dzms/EOb86/PUtlOULUEsHCPVT8RlUAQAAYQIAAFBLAQIUABQACAAIAAAAIQD1U/EZVAEAAGEC
+AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACKAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
