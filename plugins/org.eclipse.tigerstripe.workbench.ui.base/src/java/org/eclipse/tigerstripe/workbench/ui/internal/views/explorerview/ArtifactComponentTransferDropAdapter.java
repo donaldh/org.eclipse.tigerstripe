@@ -41,6 +41,12 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
+import org.eclipse.tigerstripe.annotation.core.InTransaction;
+import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
@@ -243,7 +249,8 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 
             }
 
-            public void run() {
+            @SuppressWarnings("restriction")
+			public void run() {
                 IModelComponent[] components = getIModelComponents();
 
                 if (isAllArtifacts(components))
@@ -255,8 +262,10 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 
                     Map<String, IAbstractArtifact> srcArtifacts = new HashMap<String, IAbstractArtifact>();
 
+                    final AnnotationManager manager = (AnnotationManager) AnnotationPlugin.getManager();
                     for (IModelComponent component : components) {
-                        URI oldValue = null, newValue = null;
+                        final URI oldValue;
+						final URI newValue;
                         IAbstractArtifact srcArtifact = null;
                         if (component instanceof IField) {
                             IField field = (IField) component;
@@ -328,6 +337,9 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
                             newValue = (URI) lit.getAdapter(URI.class);
                             
                             srcArtifacts.put(FQN, srcArtifact);
+                        } else {
+                        	oldValue = null;
+                        	newValue = null;
                         }
 
 						if (srcArtifact != null) {
@@ -340,6 +352,16 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 							delta.setNewValue(newValue);
 							TigerstripeWorkspaceNotifier.INSTANCE
 									.signalModelChange(delta);
+							
+						}
+						
+						if (oldValue != null && newValue != null) {
+							InTransaction.run(new InTransaction.Operation() {
+								
+								public void run() throws Throwable {
+									manager.uriChanged(oldValue, newValue);
+								}
+							});
 						}
                     }
 
