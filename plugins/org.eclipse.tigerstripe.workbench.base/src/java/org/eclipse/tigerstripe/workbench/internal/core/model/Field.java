@@ -466,19 +466,18 @@ public class Field extends ArtifactComponent implements IField {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
-		result = prime
-				* result
-				+ ((containingModelComponent == null) ? 0
-						: containingModelComponent.hashCode());
+		int result = 1;
+		String name = getName();
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result
 				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
-		result = prime * result + (isOrdered ? 1231 : 1237);
-		result = prime * result + (isUnique ? 1231 : 1237);
-		result = prime * result + (optional ? 1231 : 1237);
-		result = prime * result + (readOnly ? 1231 : 1237);
-		result = prime * result + ((refBy == null) ? 0 : refBy.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		if (containingModelComponent != null) {
+			String parentName = containingModelComponent instanceof IAbstractArtifact ? ((IAbstractArtifact) containingModelComponent)
+					.getFullyQualifiedName() : containingModelComponent
+					.getName();
+			result = prime * result + parentName.hashCode();
+		}
 		return result;
 	}
 
@@ -486,42 +485,16 @@ public class Field extends ArtifactComponent implements IField {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
+		if (obj == null)
+			return false;
 		if (Proxy.isProxyClass(obj.getClass())) {
 			return obj.equals(this);
 		}
 		if (!(obj instanceof Field)) {
 			return false;
 		}
+		
 		Field other = (Field) obj;
-		if (containingModelComponent == null) {
-			if (other.containingModelComponent != null)
-				return false;
-		} else if (!containingModelComponent
-				.equals(other.containingModelComponent))
-			return false;
-		if (defaultValue == null) {
-			if (other.defaultValue != null)
-				return false;
-		} else if (!defaultValue.equals(other.defaultValue))
-			return false;
-		if (isOrdered != other.isOrdered)
-			return false;
-		if (isUnique != other.isUnique)
-			return false;
-		if (optional != other.optional)
-			return false;
-		if (readOnly != other.readOnly)
-			return false;
-		if (refBy == null) {
-			if (other.refBy != null)
-				return false;
-		} else if (!refBy.equals(other.refBy))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
 		String name = getName();
 		String otherName = other.getName();
 		if (name == null) {
@@ -529,6 +502,38 @@ public class Field extends ArtifactComponent implements IField {
 				return false;
 		} else if (!name.equals(otherName))
 			return false;
+
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+
+		if (defaultValue == null) {
+			if (other.defaultValue != null)
+				return false;
+		} else if (!defaultValue.equals(other.defaultValue))
+			return false;
+
+		if (containingModelComponent == null) {
+			if (other.containingModelComponent != null)
+				return false;
+		} else if (other.containingModelComponent == null)
+			return false;
+		else {
+			String parentName = containingModelComponent instanceof IAbstractArtifact ? ((IAbstractArtifact) containingModelComponent)
+					.getFullyQualifiedName() : containingModelComponent
+					.getName();
+			String otherParentName = other.containingModelComponent instanceof IAbstractArtifact ? ((IAbstractArtifact) other.containingModelComponent)
+					.getFullyQualifiedName() : other.containingModelComponent
+					.getName();
+			if (parentName == null) {
+				if (otherParentName != null)
+					return false;
+			} else if (!parentName.equals(otherParentName))
+				return false;
+		}
+
 		return true;
 	}
 
