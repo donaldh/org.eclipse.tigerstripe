@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences, TS_Project/Profile
 External-Reference: http://docs.xored.com/display/TS/Explorer
 Element-Version: 3.0
 Contexts: _XzgU8BMFEeCrTY2DkyxR-A
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:44 PM
 Id: _aHf4kA5qEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -76,7 +76,7 @@ wait-until-eclipse-is-ready
 get-menu "Tigerstripe/Active Profile Details..." | click
 get-window "Active Profile Details" | get-editbox -after [get-label Name] | get-property value | is-equal Project3Profile | verify
 get-window "Active Profile Details" | get-button OK | click
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Explorer"
     with [get-group "Display Stereotypes and Annotations"] {
@@ -130,7 +130,7 @@ with [get-editor Datatype | get-section Stereotypes] {
 get-window "Remove Stereotype" | get-button Yes | click
 get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/Datatype" | get-property caption | is-equal Datatype | verify
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-button "Restore Defaults" | click
     get-button Apply | click

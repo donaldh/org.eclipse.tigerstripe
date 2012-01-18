@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences, TS_Project/Create
 External-Reference: http://docs.xored.com/display/TS/CreateProjectWithModifiedFromDefaultArtifactPackage
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ
-Save-Time: 12/23/11 5:01 PM
+Save-Time: 1/18/12 1:44 PM
 Id: __D2ggE3tEeCncrIR0vm1Yg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -77,7 +77,7 @@ with [get-editor DT] {
     click -nowait
     get-section "General Information" | get-editbox -after [get-label "Qualified Name:"] | get-property value | equals "com.mytest.DT" | verify-true
 }
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/General"
     get-group "Artifact Preferences" | get-editbox -after [get-label "Default Artifact Package:"] | get-property value | equals "com.mycompany" | verify-true

@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences/ExplorerPreferences
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ
-Save-Time: 1/11/12 12:49 PM
+Save-Time: 1/18/12 1:44 PM
 Id: _LYbRMDwXEeGvce_60BRGbQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -24,7 +24,7 @@ Entry-Name: .content
 Content-Type: text/ecl
 
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Explorer"
     with [get-group "Display Stereotypes and Annotations"] {
@@ -35,7 +35,7 @@ with [get-window Preferences] {
     get-group "Relationship Anchors" | get-button "Show Relationship Anchors" | click
     get-button Cancel | click
 }
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 
 get-window Preferences | get-tree | select "Tigerstripe/Explorer"
 with [get-window Preferences] {

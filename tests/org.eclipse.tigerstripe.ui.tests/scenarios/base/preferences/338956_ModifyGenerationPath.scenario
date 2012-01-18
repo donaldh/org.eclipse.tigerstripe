@@ -6,7 +6,7 @@ Tags: I32, TS_Project/Preferences
 External-Reference: http://docs.xored.com/display/TS/338956_ModifyGenerationPath
 Element-Version: 3.0
 Contexts: _5OPsMK6FEd-uWaeTFaimww
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:45 PM
 Id: _lOLIsWP2EeC2TMO2606CMQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -34,7 +34,7 @@ Steps:
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Generation"
     get-editbox -after [get-label "Generation Path:"] | key-type "M1+a"
@@ -73,7 +73,7 @@ with [get-window "Generate Tigerstripe Project"] {
     get-window "Generation Result" | get-button OK | click
 }
 get-view "Tigerstripe Explorer" | get-tree | get-item "P1/targettest" | get-property caption | equals targettest | verify-true
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Generation"
     get-button "Restore Defaults" | click

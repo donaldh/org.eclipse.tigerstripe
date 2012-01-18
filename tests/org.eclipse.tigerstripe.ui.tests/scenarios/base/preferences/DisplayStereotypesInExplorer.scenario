@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences, Stereotypes
 External-Reference: http://docs.xored.com/display/TS/DisplayStereotypesInExplorer
 Element-Version: 3.0
 Contexts: _pGxrsGdIEeCWiLpyewgyVA
-Save-Time: 12/23/11 4:54 PM
+Save-Time: 1/18/12 1:44 PM
 Id: _2iKvUEuoEeCaoMSzIEHw9Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -84,7 +84,7 @@ with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/te
     get-property caption | equals "SF_test" | verify-true
     get-property index | equals 7 | verify-true
 }
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Explorer"
@@ -123,7 +123,7 @@ with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/te
     get-property caption | equals "<<ST_for_Artifacts>>SF_test" | verify-true
     get-property index | equals 7 | verify-true
 }
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Explorer"
     with [get-group "Display Stereotypes and Annotations"] {
@@ -182,7 +182,7 @@ with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/te
     get-property childCount | equals 1 | verify-true
 }
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/SF_test/method0\\(\\):void" | get-property caption | equals "method0():void" | verify-true
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     with [get-group "Display Stereotypes and Annotations"] {
         get-button "on Relationship ends" | click
@@ -196,7 +196,7 @@ with [get-window Preferences] {
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/DT_test/<<ST_for_Method>>method1\\(\\):void" | get-property caption | equals "<<ST_for_Method>>method1():void" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Entity/<<ST_for_Method>>method0\\(<<ST_for_Argument>>String\\):void" | get-property caption | equals "<<ST_for_Method>>method0(<<ST_for_Argument>>String):void" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/SF_test/method0\\(\\):void" | get-property caption | equals "method0():void" | verify-true
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-group "Display Stereotypes and Annotations" | get-button "on Methods" | click
     get-button Apply | click

@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences/ExplorerPreferences
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_pu4uwDwWEeGvce_60BRGbQ
-Save-Time: 1/11/12 1:42 PM
+Save-Time: 1/18/12 1:44 PM
 Id: __4phkDweEeGvce_60BRGbQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -23,7 +23,7 @@ TEST STEPS
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Explorer"
     get-group "Relationship Anchors" | get-button "Show Relationship Anchors" | click
@@ -40,7 +40,7 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
     get-item "MyProject/src/com.mycompany/Entity0/datatype1:Datatype1 \\(Association7\\)" | get-property caption 
         | equals "datatype1:Datatype1 (Association7)" | verify-true
 }
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-group "Relationship Anchors" | get-button "Show Relationship Anchors" | click
     get-button Apply | click

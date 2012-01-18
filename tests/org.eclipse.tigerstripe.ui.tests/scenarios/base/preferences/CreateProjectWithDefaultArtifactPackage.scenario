@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences
 External-Reference: http://docs.xored.com/display/TS/CreateProjectWithDefaultArtifactPackage
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ
-Save-Time: 12/23/11 4:58 PM
+Save-Time: 1/18/12 1:44 PM
 Id: _tvEnAU3iEeCncrIR0vm1Yg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -31,7 +31,7 @@ Reproducing steps:
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/General"
     with [get-group "Artifact Preferences" | get-editbox -after [get-label "Default Artifact Package:"]] {
@@ -51,7 +51,7 @@ get-window "Create a new Entity" | get-editbox -after [get-label "Name:"] | set-
 get-window "Create a new Entity" | get-editbox -after [get-label "Artifact Package:"] | get-property value | equals "com.test" | verify-true
 get-window "Create a new Entity" | get-button Finish | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test1/src/com.test" | get-property caption | equals "com.test" | verify-true
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 get-window Preferences | get-button "Restore Defaults" | click
 get-window Preferences | get-group "Artifact Preferences" | get-editbox -after [get-label "Default Artifact Package:"] | get-property value | equals "com.mycompany" | verify-true
 with [get-window Preferences] {

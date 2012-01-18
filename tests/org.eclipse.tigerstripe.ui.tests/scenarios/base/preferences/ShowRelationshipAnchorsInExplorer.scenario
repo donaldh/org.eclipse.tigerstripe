@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences, TS_Project/Profile
 External-Reference: http://docs.xored.com/display/TS/ShowRelationshipAnchorsInExplorer
 Element-Version: 3.0
 Contexts: _pGxrsGdIEeCWiLpyewgyVA
-Save-Time: 12/23/11 4:56 PM
+Save-Time: 1/18/12 1:44 PM
 Id: _WIdAwEvOEeCpX88hChjiUw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -57,7 +57,7 @@ with [get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/te
     get-property caption | equals "SF_test" | verify-true
     get-property childCount | equals 1 | verify-true
 }
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Explorer"
     get-group "Relationship Anchors" | get-button "Show Relationship Anchors" | click

@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences/ExplorerPreferences
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_pu4uwDwWEeGvce_60BRGbQ
-Save-Time: 1/11/12 12:43 PM
+Save-Time: 1/18/12 1:44 PM
 Id: _vZ6-8DwWEeGvce_60BRGbQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -23,7 +23,7 @@ TEST STEPS
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Explorer"

@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences/DiagramPreferences
 External-Reference: http://bugs.xored.com/browse/XMP-896
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 1/11/12 11:08 AM
+Save-Time: 1/18/12 1:44 PM
 Id: _mhCaMDqLEeGvce_60BRGbQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -36,7 +36,7 @@ get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPa
     | get-edit-part -text "+method0():void" | get-property "styles.DrawerStyle[0].collapsed" | equals false 
     | verify-true
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Diagrams"
@@ -54,7 +54,7 @@ get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPa
     | get-edit-part -text "+method0():void" | get-property "styles.DrawerStyle[0].collapsed" | equals true 
     | verify-true
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Diagrams"

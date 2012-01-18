@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences/DiagramPreferences
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_pOT80DwMEeGvce_60BRGbQ
-Save-Time: 1/11/12 11:47 AM
+Save-Time: 1/18/12 1:44 PM
 Id: _1uW9ADwMEeGvce_60BRGbQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -37,7 +37,7 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
         | verify-true
 }
 
-get-menu "Window/Preferences" | click
+get-preferences-menu | click 
 
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/Diagrams"
