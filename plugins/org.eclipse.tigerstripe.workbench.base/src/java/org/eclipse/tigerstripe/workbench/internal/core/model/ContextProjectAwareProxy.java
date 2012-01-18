@@ -42,6 +42,21 @@ public class ContextProjectAwareProxy implements
 	volatile Object obj;
 	volatile ITigerstripeModelProject context;
 
+
+	public static void changeTraget(Object proxy, Object target) {
+		ContextProjectAwareProxy handler = (ContextProjectAwareProxy) Proxy.getInvocationHandler(proxy);
+		handler.obj = target;
+	}
+	
+	public static boolean isContextualProxy(Object obj) {
+
+		if (obj == null) {
+			return false;
+		}
+		return Proxy.isProxyClass(obj.getClass())
+				&& obj instanceof IContextProjectAware;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static <T> T expose(T proxy) { 
 		
