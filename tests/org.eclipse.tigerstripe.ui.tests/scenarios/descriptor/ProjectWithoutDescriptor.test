@@ -6,7 +6,7 @@ Tags: Descriptor
 External-Reference: http://docs.xored.com/display/TS/ProjectWithoutDescriptor
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_hKI3MQEVEeGqZPLc-tTWzw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 4:16 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _3tqugAEVEeGqZPLc-tTWzw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -39,7 +39,7 @@ with [get-window "Select Tigerstripe Project"] {
     get-table | select "org.eclipse.tigerstripe.test.module \\(1.0.0\\)"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Error Log" | get-button "Clear Log Viewer" | click
 get-view "Tigerstripe Explorer" | get-tree 
     | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*s/org.eclipse.tigerstripe.test/E2"

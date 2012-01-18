@@ -1,5 +1,165 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="NewAssociations" id="_GVAHoP0VEd-lsuiu6qRsWA" description="Create new Association and edit details (aEnd and zEnd types). Create new Association Class and edit details, methods and attributes" type="ecl">
-  <contexts>_9Z7WcLAaEd-GWvy5TzCqJA</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Project/src/org.eclipse&quot; | get-menu &quot;New/Association&quot; | click&#xD;&#xA;with [get-window &quot;Create a new Association&quot;] {&#xD;&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Association0&#xD;&#xA;    get-button Browse -after [get-label &quot;aEnd Type&quot;] | click&#xD;&#xA;    with [get-window &quot;Association End Type&quot;] {&#xD;&#xA;        get-table -after [get-label &quot;Select the type of the Association End.&quot;] | select &quot;org.eclipse.Entity0&quot;&#xD;&#xA;        get-button OK | click&#xD;&#xA;    }&#xD;&#xA;    get-button Browse -after [get-label &quot;zEnd Type&quot;] | click&#xD;&#xA;    with [get-window &quot;Association End Type&quot;] {&#xD;&#xA;        get-table -after [get-label &quot;Select the type of the Association End.&quot;] | select &quot;org.eclipse.Entity1&quot;&#xD;&#xA;        get-button OK | click&#xD;&#xA;    }&#xD;&#xA;    get-button Finish | click&#xD;&#xA;    }&#xD;&#xA;   with [get-editor Association0] {&#xD;&#xA;    click&#xD;&#xA;    with [get-section &quot;General Information&quot;] {&#xD;&#xA;        get-editbox -after [get-label &quot;Project:&quot;] | get-property value | is-equal &quot;New Project&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | is-equal &quot;org.eclipse.Association0&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;        get-editbox -after [get-link &quot;Extends:&quot;] | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;    }&#xD;&#xA;    get-canvas | mouse-move 0 0&#xD;&#xA;    get-canvas -index 1 | mouse-move 64 29&#xD;&#xA;    get-section Details | get-canvas -after [get-label Details] -index 1 | mouse-move 333 12&#xD;&#xA;    with [get-section &quot;aEnd Details&quot; | get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;        key-type &quot;Ctrl+a&quot;&#xD;&#xA;        set-text &quot;aEnd_Entity0&quot;&#xD;&#xA;    }&#xD;&#xA;    with [get-section &quot;zEnd Details&quot; | get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;        key-type &quot;Ctrl+a&quot;&#xD;&#xA;        set-text &quot;zEnd_Entity1&quot;&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xD;&#xA;with [get-editor Association0] {&#xD;&#xA;    get-section &quot;aEnd Details&quot; | get-editbox -after [get-label &quot;Type:&quot;] | get-property value | is-equal &quot;org.eclipse.Entity0&quot; | verify&#xD;&#xA;    get-section &quot;zEnd Details&quot; | get-editbox -after [get-label Type] | get-property value | is-equal &quot;org.eclipse.Entity1&quot; | verify&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    click&#xD;&#xA;    with [get-tree] {&#xD;&#xA;        select &quot;New Project/src/org.eclipse/Association0&quot; | get-item &quot;New Project/src/org.eclipse/Association0&quot; | get-property caption | is-equal Association0 | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/Association0/aEnd_Entity0:Entity0&quot; | get-property caption | is-equal &quot;aEnd_Entity0:Entity0&quot; | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/Association0/zEnd_Entity1:Entity1&quot; | get-property caption | is-equal &quot;zEnd_Entity1:Entity1&quot; | verify&#xD;&#xA;        select &quot;New Project/src&quot; | get-menu &quot;New/Association Class&quot; | click&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;&#xA;with [get-window &quot;Create a new Association Class&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text AssocClass0&#xA;    get-button Browse -after [get-label &quot;aEnd Type&quot;] | click&#xA;    with [get-window &quot;Association Class End Type&quot;] {&#xA;        get-table -after [get-label &quot;Select the type of the Association Class End.&quot;] | select &quot;org.eclipse.Entity0&quot;&#xA;        get-button OK | click&#xA;    }&#xA;    get-button Browse -after [get-label &quot;zEnd Type&quot;] | click&#xA;    with [get-window &quot;Association Class End Type&quot;] {&#xA;        get-table -after [get-label &quot;Select the type of the Association Class End.&quot;] | select &quot;org.eclipse.Entity1&quot;&#xA;        get-button OK | click&#xA;    }&#xA;    get-button Finish | click&#xA;}&#xD;&#xA;get-editor AssocClass0 | click&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    click&#xD;&#xA;    get-tree | select &quot;New Project/src/org.eclipse/AssocClass0&quot; | double-click&#xD;&#xA;}&#xD;&#xA;with [get-editor AssocClass0] {&#xD;&#xA;    click&#xD;&#xA;    with [get-section &quot;General Information&quot;] {&#xD;&#xA;        get-editbox -after [get-label &quot;Project:&quot;] | get-property value | is-equal &quot;New Project&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | is-equal &quot;org.eclipse.AssocClass0&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;        get-editbox -after [get-link &quot;Extends:&quot;] | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;    }&#xD;&#xA;    get-canvas | mouse-move 481 30&#xD;&#xA;    with [get-section Details | get-canvas] {&#xD;&#xA;        mouse-move 172 92&#xD;&#xA;        mouse-move 335 29&#xD;&#xA;    }&#xD;&#xA;    with [get-section &quot;aEnd Details&quot; | get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;        key-type &quot;Ctrl+a&quot;&#xD;&#xA;        set-text &quot;aEnd_entity0_0&quot;&#xD;&#xA;    }&#xD;&#xA;    with [get-section &quot;zEnd Details&quot; | get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;        key-type &quot;Ctrl+a&quot;&#xD;&#xA;        set-text &quot;zEnd_entity1_0&quot;&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xD;&#xA;with [get-editor AssocClass0] {&#xD;&#xA;    get-section &quot;aEnd Details&quot; | get-editbox -after [get-label &quot;Type:&quot;] | get-property value | is-equal &quot;org.eclipse.Entity0&quot; | verify&#xD;&#xA;    get-section &quot;zEnd Details&quot; | get-editbox -after [get-label Type] | get-property value | is-equal &quot;org.eclipse.Entity1&quot; | verify&#xD;&#xA;    with [get-section Attributes] {&#xD;&#xA;        click&#xD;&#xA;        get-button Add | click&#xD;&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;            key-type &quot;Ctrl+a&quot;&#xD;&#xA;            set-text &quot;assocClass0_testField0&quot;&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xD;&#xA;with [get-editor AssocClass0] {&#xD;&#xA;    with [get-section Attributes] {&#xD;&#xA;        get-table -after [get-label Attributes] | get-item &quot;assocClass0_testField0&quot; | get-property columns -index 0 | is-equal &quot;assocClass0_testField0&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Type:&quot;] | get-property value | is-equal String | verify&#xD;&#xA;        get-button Public | get-property selected | is-equal true | verify&#xD;&#xA;        get-button Readonly | get-property selected | is-equal false | verify&#xD;&#xA;    }&#xD;&#xA;    with [get-section Methods] {&#xD;&#xA;        click&#xD;&#xA;        get-button Add | click&#xD;&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;            key-type &quot;Ctrl+a&quot;&#xD;&#xA;            set-text &quot;assocClass0_testMethod0&quot;&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xD;&#xA;get-editor AssocClass0 | get-section Methods | get-table -after [get-label Methods] | get-item &quot;assocClass0_testMethod0\\(\\):void&quot; | get-property columns -index 0 | is-equal &quot;assocClass0_testMethod0():void&quot; | verify&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    click&#xD;&#xA;    with [get-tree] {&#xD;&#xA;        select &quot;New Project/src/org.eclipse/AssocClass0&quot; | get-item &quot;New Project/src/org.eclipse/AssocClass0&quot; | get-property caption | is-equal AssocClass0 | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/AssocClass0/aEnd_entity0_0:Entity0&quot; | get-property caption | is-equal &quot;aEnd_entity0_0:Entity0&quot; | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/AssocClass0/zEnd_entity1_0:Entity1&quot; | get-property caption | is-equal &quot;zEnd_entity1_0:Entity1&quot; | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/AssocClass0/assocClass0_testField0:String&quot; | get-property caption | is-equal &quot;assocClass0_testField0:String&quot; | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/AssocClass0/assocClass0_testMethod0\\(\\):void&quot; | get-property caption | is-equal &quot;assocClass0_testMethod0():void&quot; | verify&#xD;&#xA;    }&#xD;&#xA;}"/>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: NewAssociations
+External-Reference: 
+Element-Version: 2.0
+Contexts: _9Z7WcLAaEd-GWvy5TzCqJA
+Save-Time: 1/18/12 1:28 PM
+Id: _GVAHoP0VEd-lsuiu6qRsWA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Create new Association and edit details (aEnd and zEnd types). Create new Association Class and edit details, methods and attributes
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse" | get-menu "New/Association" | click
+with [get-window "Create a new Association"] {
+    get-editbox -after [get-label "Name:"] | set-text Association0
+    get-button Browse -after [get-label "aEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table -after [get-label "Select the type of the Association End."] | select "org.eclipse.Entity0"
+        get-button OK | click
+    }
+    get-button Browse -after [get-label "zEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table -after [get-label "Select the type of the Association End."] | select "org.eclipse.Entity1"
+        get-button OK | click
+    }
+    get-button Finish | click
+    }
+   with [get-editor Association0] {
+    click
+    with [get-section "General Information"] {
+        get-editbox -after [get-label "Project:"] | get-property value | is-equal "New Project" | verify
+        get-editbox -after [get-label "Qualified Name:"] | get-property value | is-equal "org.eclipse.Association0" | verify
+        get-editbox -after [get-label "Description:"] | get-property value | is-equal "" | verify
+        get-editbox -after [get-link "Extends:"] | get-property value | is-equal "" | verify
+    }
+    get-canvas | mouse-move 0 0
+    get-canvas -index 1 | mouse-move 64 29
+    get-section Details | get-canvas -after [get-label Details] -index 1 | mouse-move 333 12
+    with [get-section "aEnd Details" | get-editbox -after [get-label "Name:"]] {
+        key-type "Ctrl+a"
+        set-text "aEnd_Entity0"
+    }
+    with [get-section "zEnd Details" | get-editbox -after [get-label "Name:"]] {
+        key-type "Ctrl+a"
+        set-text "zEnd_Entity1"
+    }
+}
+get-button "Save \(.*\)" | click
+with [get-editor Association0] {
+    get-section "aEnd Details" | get-editbox -after [get-label "Type:"] | get-property value | is-equal "org.eclipse.Entity0" | verify
+    get-section "zEnd Details" | get-editbox -after [get-label Type] | get-property value | is-equal "org.eclipse.Entity1" | verify
+}
+with [get-view "Tigerstripe Explorer"] {
+    click
+    with [get-tree] {
+        select "New Project/src/org.eclipse/Association0" | get-item "New Project/src/org.eclipse/Association0" | get-property caption | is-equal Association0 | verify
+        get-item "New Project/src/org.eclipse/Association0/aEnd_Entity0:Entity0" | get-property caption | is-equal "aEnd_Entity0:Entity0" | verify
+        get-item "New Project/src/org.eclipse/Association0/zEnd_Entity1:Entity1" | get-property caption | is-equal "zEnd_Entity1:Entity1" | verify
+        select "New Project/src" | get-menu "New/Association Class" | click
+    }
+}
+
+with [get-window "Create a new Association Class"] {
+    get-editbox -after [get-label "Name:"] | set-text AssocClass0
+    get-button Browse -after [get-label "aEnd Type"] | click
+    with [get-window "Association Class End Type"] {
+        get-table -after [get-label "Select the type of the Association Class End."] | select "org.eclipse.Entity0"
+        get-button OK | click
+    }
+    get-button Browse -after [get-label "zEnd Type"] | click
+    with [get-window "Association Class End Type"] {
+        get-table -after [get-label "Select the type of the Association Class End."] | select "org.eclipse.Entity1"
+        get-button OK | click
+    }
+    get-button Finish | click
+}
+get-editor AssocClass0 | click
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "New Project/src/org.eclipse/AssocClass0" | double-click
+}
+with [get-editor AssocClass0] {
+    click
+    with [get-section "General Information"] {
+        get-editbox -after [get-label "Project:"] | get-property value | is-equal "New Project" | verify
+        get-editbox -after [get-label "Qualified Name:"] | get-property value | is-equal "org.eclipse.AssocClass0" | verify
+        get-editbox -after [get-label "Description:"] | get-property value | is-equal "" | verify
+        get-editbox -after [get-link "Extends:"] | get-property value | is-equal "" | verify
+    }
+    get-canvas | mouse-move 481 30
+    with [get-section Details | get-canvas] {
+        mouse-move 172 92
+        mouse-move 335 29
+    }
+    with [get-section "aEnd Details" | get-editbox -after [get-label "Name:"]] {
+        key-type "Ctrl+a"
+        set-text "aEnd_entity0_0"
+    }
+    with [get-section "zEnd Details" | get-editbox -after [get-label "Name:"]] {
+        key-type "Ctrl+a"
+        set-text "zEnd_entity1_0"
+    }
+}
+get-button "Save \(.*\)" | click
+with [get-editor AssocClass0] {
+    get-section "aEnd Details" | get-editbox -after [get-label "Type:"] | get-property value | is-equal "org.eclipse.Entity0" | verify
+    get-section "zEnd Details" | get-editbox -after [get-label Type] | get-property value | is-equal "org.eclipse.Entity1" | verify
+    with [get-section Attributes] {
+        click
+        get-button Add | click
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "Ctrl+a"
+            set-text "assocClass0_testField0"
+        }
+    }
+}
+get-button "Save \(.*\)" | click
+with [get-editor AssocClass0] {
+    with [get-section Attributes] {
+        get-table -after [get-label Attributes] | get-item "assocClass0_testField0" | get-property columns -index 0 | is-equal "assocClass0_testField0" | verify
+        get-editbox -after [get-label "Type:"] | get-property value | is-equal String | verify
+        get-button Public | get-property selected | is-equal true | verify
+        get-button Readonly | get-property selected | is-equal false | verify
+    }
+    with [get-section Methods] {
+        click
+        get-button Add | click
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "Ctrl+a"
+            set-text "assocClass0_testMethod0"
+        }
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor AssocClass0 | get-section Methods | get-table -after [get-label Methods] | get-item "assocClass0_testMethod0\\(\\):void" | get-property columns -index 0 | is-equal "assocClass0_testMethod0():void" | verify
+with [get-view "Tigerstripe Explorer"] {
+    click
+    with [get-tree] {
+        select "New Project/src/org.eclipse/AssocClass0" | get-item "New Project/src/org.eclipse/AssocClass0" | get-property caption | is-equal AssocClass0 | verify
+        get-item "New Project/src/org.eclipse/AssocClass0/aEnd_entity0_0:Entity0" | get-property caption | is-equal "aEnd_entity0_0:Entity0" | verify
+        get-item "New Project/src/org.eclipse/AssocClass0/zEnd_entity1_0:Entity1" | get-property caption | is-equal "zEnd_entity1_0:Entity1" | verify
+        get-item "New Project/src/org.eclipse/AssocClass0/assocClass0_testField0:String" | get-property caption | is-equal "assocClass0_testField0:String" | verify
+        get-item "New Project/src/org.eclipse/AssocClass0/assocClass0_testMethod0\\(\\):void" | get-property caption | is-equal "assocClass0_testMethod0():void" | verify
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1LwzAUfRf8D+G+L5mCVkuzEUSm
+oiJT1uHLKGmsgSZZe9O189d7Fdcn2dvlfF3OyeaDq9nOtGiDl3DGp8CM16G0vpLQxY/JFcxnpyeZDo4P
+oTUlbxKO2viitSF9/TvY4Gw6ppz/pFCux5RwCZ8xblMh+r7nwVU8tJVYP90fJP8mjyZixS8rmkQcWG40
+QcB84YyEZ9MrxKBtEek9ArOlhM1ipe7Cy3R1W05q7Gx32SwxV8Difkseo2ugWoxRMR/NEHG2uX5Pcv2o
+CnIs8t3+4u3rpnlQmRgVNIM4vgNJvgFQSwcId0A+8+EAAABSAQAAUEsBAhQAFAAIAAgAAAAhAHdAPvPh
+AAAAUgEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAABcBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

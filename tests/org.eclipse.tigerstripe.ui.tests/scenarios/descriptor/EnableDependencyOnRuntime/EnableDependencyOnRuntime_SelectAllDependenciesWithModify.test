@@ -6,7 +6,7 @@ Tags: Descriptor/EnableDependencyOnRuntime, I44
 External-Reference: 
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_HNJU4CVgEeGRa87APBuv3g
-Save-Time: 12/13/11 3:50 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _XUXoYCVmEeGRa87APBuv3g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -28,6 +28,33 @@ Verify that all dependencies are checked
 Save changes
 Verify that all dependencies are checked
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project/tigerstripe.xml" | double-click -nowait
+with [get-editor "Project/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    with [get-section Dependencies] {
+        get-button "Modify dependencies at generation time (advanced)" | click
+        get-button "Deselect All" | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor "Project/tigerstripe.xml" | get-section Dependencies 
+    | get-button "Modify dependencies at generation time (advanced)" | click
+with [get-editor "Project/tigerstripe.xml" | get-section Dependencies | get-table] {
+    get-item "Project2 \\(0.0.0\\)" | get-property checked | equals true | verify-true
+    get-item "com.cisco.testModule \\(2.0.0\\)" | get-property checked | equals true | verify-true
+    get-item "org.eclipse.tigerstripe.test.module \\(1.0.0\\)" | get-property checked | equals true | verify-true
+}
+get-button "Save \(.*\)" | click
+with [get-editor "Project/tigerstripe.xml" | get-section Dependencies | get-table] {
+    get-item "Project2 \\(0.0.0\\)" | get-property checked | equals true | verify-true
+    get-item "com.cisco.testModule \\(2.0.0\\)" | get-property checked | equals true | verify-true
+    get-item "org.eclipse.tigerstripe.test.module \\(1.0.0\\)" | get-property checked | equals true | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

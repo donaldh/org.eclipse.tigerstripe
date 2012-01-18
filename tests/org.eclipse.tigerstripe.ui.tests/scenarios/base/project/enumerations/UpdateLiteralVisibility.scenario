@@ -1,15 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="UpdateLiteralVisibility" version="3.0" id="_dU4goIKUEeCVyu1SjxvhoQ" description="Check Literal Visibility checkboxes&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;SeveralEnumerationsContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create literal and check default Visibility values = Public&#xD;&#xA;2. Save changes.&#xD;&#xA;3. Update literal value to Protected&#xD;&#xA;4. Reopen literal and check value&#xD;&#xA;5. Update literal value to Private&#xD;&#xA;6. Save changes&#xD;&#xA;7. Check warning message in Problems view" tags="TS_Project/Edit/Artifacts/Enumeration/constant" type="ecl">
-  <contexts>_3uHT4H-DEeCcSOu_oe8o1g</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration1" | double-click -nowait
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: UpdateLiteralVisibility
+Tags: TS_Project/Edit/Artifacts/Enumeration/constant
+External-Reference: 
+Element-Version: 3.0
+Contexts: _3uHT4H-DEeCcSOu_oe8o1g
+Save-Time: 1/18/12 1:28 PM
+Id: _dU4goIKUEeCVyu1SjxvhoQ
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Check Literal Visibility checkboxes
+
+Precondition:
+SeveralEnumerationsContextGroup
+
+Steps:
+1. Create literal and check default Visibility values = Public
+2. Save changes.
+3. Update literal value to Protected
+4. Reopen literal and check value
+5. Update literal value to Private
+6. Save changes
+7. Check warning message in Problems view
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration1" | double-click -nowait
 get-editor Enumeration1 | get-section Constants | get-section | get-button Add | click
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Public | get-property selected | equals true | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Protected | get-property selected | equals false | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Private | get-property selected | equals false | verify-true
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Protected | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Enumeration1 | close
 with [get-view "Tigerstripe Explorer"] {
     click -nowait
@@ -18,7 +47,7 @@ with [get-view "Tigerstripe Explorer"] {
 get-editor Enumeration1 | get-section Constants | get-section | get-table | select "literal0=0"
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Protected | get-property selected | equals true | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Private | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-menu "Project/Clean..." | click
 get-window Clean | get-button OK | click
 get-view Problems | get-tree | get-item "Warnings \\(1 item\\)" | get-property caption | equals "Warnings (1 item)" | verify-true
@@ -29,1112 +58,75 @@ with [get-view "Tigerstripe Explorer"] {
     get-tree | select "Project1/src/com.mycompany/Enumeration1" | double-click -nowait
 }
 get-editor Enumeration1 | get-section Constants | get-section | get-table | select "literal0=0"
-get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Private | get-property selected | equals true | verify-true]]></content>
-  </content>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow60" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View22" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree22" kind="Tree"/>
-      <path>Project1</path>
-      <path>src</path>
-      <path>com.mycompany</path>
-      <path>Enumeration1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree22" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow60" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor36" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable94" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Add" multiplicity="1">
-        <parent id="Expandable95" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button57" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State67" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow61" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor37" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable98" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Public" multiplicity="1">
-        <parent id="Expandable99" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="enablement" value="true">
-      <element id="Button58" kind="Button"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow62" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor38" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable100" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Public" multiplicity="1">
-        <parent id="Expandable101" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="true">
-      <element id="Button60" kind="Button"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow63" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor39" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable102" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Protected" multiplicity="1">
-        <parent id="Expandable103" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="false">
-      <element id="Button61" kind="Button"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow64" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor40" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable104" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Private" multiplicity="1">
-        <parent id="Expandable105" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="false">
-      <element id="Button62" kind="Button"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow66" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button63" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State68" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow66" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor42" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable108" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Protected" multiplicity="1">
-        <parent id="Expandable109" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button64" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State69" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button63" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State70" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Close">
-      <element id="Editor42" kind="Editor"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow66" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
-      <element id="View25" kind="View"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View25" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree25" kind="Tree"/>
-      <path>Project1</path>
-      <path>src</path>
-      <path>com.mycompany</path>
-      <path>Enumeration1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree25" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow66" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor43" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable110" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable111" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table20" kind="Table"/>
-      <path>literal0=0</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow67" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor44" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable114" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Protected" multiplicity="1">
-        <parent id="Expandable115" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="true">
-      <element id="Button65" kind="Button"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow69" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor45" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable116" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Private" multiplicity="1">
-        <parent id="Expandable117" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button66" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State71" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow69" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button67" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State72" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Problems" multiplicity="1">
-        <parent id="EclipseWindow70" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View27" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Warnings \(1 item\)</path>
-        <parent id="Tree27" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Warnings (1 item)">
-      <element id="Item33" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Problems" multiplicity="1">
-        <parent id="EclipseWindow71" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View28" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Warnings \(1 item\)</path>
-        <path>The field Enumeration1.literal0 is never read locally</path>
-        <parent id="Tree28" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="The field Enumeration1.literal0 is never read locally">
-      <element id="Item35" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow73" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Close">
-      <element id="Editor47" kind="Editor"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow73" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
-      <element id="View31" kind="View"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View31" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree31" kind="Tree"/>
-      <path>Project1</path>
-      <path>src</path>
-      <path>com.mycompany</path>
-      <path>Enumeration1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree31" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow73" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor48" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable118" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable119" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table21" kind="Table"/>
-      <path>literal0=0</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Enumeration1" multiplicity="1">
-        <parent id="EclipseWindow74" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Constants" multiplicity="1">
-        <parent id="Editor49" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" index="1" multiplicity="1">
-        <parent id="Expandable120" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Private" multiplicity="1">
-        <parent id="Expandable121" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="true">
-      <element id="Button68" kind="Button"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow60" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View22" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree22" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>Project1</path>
-          <path>src</path>
-          <path>com.mycompany</path>
-          <path>Enumeration1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="Editor36" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="Expandable94" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="Expandable95" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="Button57" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="259" y="5" width="55" height="25"/>
-        <caption>Add</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
-      <elements id="State67" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="EclipseWindow61" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="Editor37" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1" dirty="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.14">
-      <elements id="Expandable98" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.15">
-      <elements id="Expandable99" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.16">
-      <elements id="Button58" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="5" width="54" height="16"/>
-        <caption>Public</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.18">
-      <elements id="EclipseWindow62" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.19">
-      <elements id="Editor38" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1" dirty="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.20">
-      <elements id="Expandable100" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.21">
-      <elements id="Expandable101" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.22">
-      <elements id="Button60" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds y="5" width="54" height="16"/>
-        <caption>Public</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.24">
-      <elements id="EclipseWindow63" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.25">
-      <elements id="Editor39" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1" dirty="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.26">
-      <elements id="Expandable102" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.27">
-      <elements id="Expandable103" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.28">
-      <elements id="Button61" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="59" y="5" width="72" height="16"/>
-        <caption>Protected</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.30">
-      <elements id="EclipseWindow64" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.31">
-      <elements id="Editor40" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1" dirty="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.32">
-      <elements id="Expandable104" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.33">
-      <elements id="Expandable105" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.34">
-      <elements id="Button62" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="136" y="5" width="57" height="16"/>
-        <caption>Private</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.36">
-      <elements id="EclipseWindow66" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.37">
-      <elements id="Button63" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.38">
-      <elements id="State68" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.41">
-      <elements id="Editor42" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.42">
-      <elements id="Expandable108" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.43">
-      <elements id="Expandable109" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.44">
-      <elements id="Button64" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="59" y="5" width="72" height="16"/>
-        <caption>Protected</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.45">
-      <elements id="State69" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.48">
-      <elements id="State70" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.52">
-      <elements id="View25" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.54">
-      <elements id="Tree25" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>Project1</path>
-          <path>src</path>
-          <path>com.mycompany</path>
-          <path>Enumeration1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.57">
-      <elements id="Editor43" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.58">
-      <elements id="Expandable110" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.59">
-      <elements id="Expandable111" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.60">
-      <elements id="Table20" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="115"/>
-        <columns caption="Name" resizable="true" width="122"/>
-        <columns caption="Value" index="1" resizable="true" width="122"/>
-        <selection>
-          <path>literal0=0</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.62">
-      <elements id="EclipseWindow67" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.63">
-      <elements id="Editor44" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.64">
-      <elements id="Expandable114" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.65">
-      <elements id="Expandable115" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.66">
-      <elements id="Button65" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="59" y="5" width="72" height="16"/>
-        <caption>Protected</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.68">
-      <elements id="EclipseWindow69" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.69">
-      <elements id="Editor45" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.70">
-      <elements id="Expandable116" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.71">
-      <elements id="Expandable117" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.72">
-      <elements id="Button66" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="136" y="5" width="57" height="16"/>
-        <caption>Private</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.73">
-      <elements id="State71" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.76">
-      <elements id="Button67" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.77">
-      <elements id="State72" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.80">
-      <elements id="EclipseWindow70" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.81">
-      <elements id="View27" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Problems">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="470" width="741" height="174"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.82">
-      <elements id="Tree27" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" multiSelection="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="741" height="174"/>
-        <columns caption="Description" resizable="true" movable="true" width="333" tooltip="Description"/>
-        <columns caption="Resource" index="1" resizable="true" movable="true" width="94" tooltip="Resource"/>
-        <columns caption="Path" index="2" resizable="true" movable="true" width="124" tooltip="Path"/>
-        <columns caption="Location" index="3" resizable="true" movable="true" width="64" tooltip="Location"/>
-        <columns caption="Type" index="4" resizable="true" movable="true" width="94" tooltip="Type"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.83">
-      <elements id="Item33" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Warnings (1 item)" childCount="1">
-        <columns>Warnings (1 item)</columns>
-        <columns></columns>
-        <columns></columns>
-        <columns></columns>
-        <columns></columns>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="41" width="97" height="17"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.85">
-      <elements id="EclipseWindow71" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.86">
-      <elements id="View28" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Problems">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="256" y="470" width="741" height="174"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.87">
-      <elements id="Tree28" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" multiSelection="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="741" height="174"/>
-        <columns caption="Description" resizable="true" movable="true" width="333" tooltip="Description"/>
-        <columns caption="Resource" index="1" resizable="true" movable="true" width="94" tooltip="Resource"/>
-        <columns caption="Path" index="2" resizable="true" movable="true" width="124" tooltip="Path"/>
-        <columns caption="Location" index="3" resizable="true" movable="true" width="64" tooltip="Location"/>
-        <columns caption="Type" index="4" resizable="true" movable="true" width="94" tooltip="Type"/>
-        <selection>
-          <path>Warnings \(1 item\)</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.88">
-      <elements id="Item35" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="The field Enumeration1.literal0 is never read locally">
-        <columns>The field Enumeration1.literal0 is never read locally</columns>
-        <columns>Enumeration1.java</columns>
-        <columns>/Project1/src/com/mycompany</columns>
-        <columns>line 38</columns>
-        <columns>Java Problem</columns>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="60" y="18" width="270" height="17"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.90">
-      <elements id="EclipseWindow73" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.91">
-      <elements id="Editor47" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.93">
-      <elements id="View31" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.95">
-      <elements id="Tree31" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>Project1</path>
-          <path>src</path>
-          <path>com.mycompany</path>
-          <path>Enumeration1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.98">
-      <elements id="Editor48" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.99">
-      <elements id="Expandable118" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.100">
-      <elements id="Expandable119" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.101">
-      <elements id="Table21" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="115"/>
-        <columns caption="Name" resizable="true" width="122"/>
-        <columns caption="Value" index="1" resizable="true" width="122"/>
-        <selection>
-          <path>literal0=0</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.103">
-      <elements id="EclipseWindow74" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enumeration1.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="565" y="90" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.104">
-      <elements id="Editor49" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.105">
-      <elements id="Expandable120" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="316"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.106">
-      <elements id="Expandable121" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="5" width="630" height="282"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.107">
-      <elements id="Button68" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="136" y="5" width="57" height="16"/>
-        <caption>Private</caption>
-      </controls>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Private | get-property selected | equals true | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFvwjAMhe+T9h+i3EnWgQSqWtC0
+VQJt0zYV0G5VlpoS1CaQuFD+/Qwa7DLtZvk9f7ZfMumamu3BB+NsyiNxxxlY7Upjq5S3uOqN+GR8e5No
+14jOeSjFbiiCBqu8cXH+U7CuMfGVcn+iENeGmPopXyNuYykPh4NwTSWcr+Tn6+xi+ZN8HSJVnlW5G8qL
+KkBTizOrGkj5YlsqhBeD4FW9NMF8mdrgkf++1T8dZMqUF+ViULnZ8yKDx+WxjfJNt1+7D85QVSHl87x4
+924DGmVWGpQPHs1KaQwys21DeCQcnWQDKos0ddzSftA1p4gYo5AsQodhXPTb6Xww7T3RHp2/tYWDkYuq
+RF4dFKn8P1OyfANQSwcIm+ijYhEBAACeAQAAUEsBAhQAFAAIAAgAAAAhAJvoo2IRAQAAngEAAAgAAAAA
+AAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEcBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+ADYAAADvCwAAAAA=
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

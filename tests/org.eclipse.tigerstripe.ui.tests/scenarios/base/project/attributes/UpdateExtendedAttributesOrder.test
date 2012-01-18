@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Attribute
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 12/27/11 12:10 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _fwAPIC-yEeGcHog4af2eaw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,6 +25,40 @@ Open Entity and move down attribute0
 Open Entity2
 Verify attributes order
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project/src/com.mycompany/Entity" | double-click -nowait
+    select "Project/src/com.mycompany/Entity2" | double-click -nowait
+}
+with [get-editor Entity2 | get-section Attributes | get-section | get-table] {
+    get-item "attribute0\\(Entity\\)" | get-property caption | equals "attribute0(Entity)" | verify-true
+    get-item "attribute0\\(Entity\\)" | get-property index | equals 0 | verify-true
+    get-item "attribute1\\(Entity\\)" | get-property caption | equals "attribute1(Entity)" | verify-true
+    get-item "attribute1\\(Entity\\)" | get-property index | equals 1 | verify-true
+    get-item "attribute2\\(Entity\\)" | get-property caption | equals "attribute2(Entity)" | verify-true
+    get-item "attribute2\\(Entity\\)" | get-property index | equals 2 | verify-true
+}
+with [get-editor Entity] {
+    click
+    with [get-section Attributes | get-section] {
+        get-table | select attribute0
+        get-button Down | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor Entity2 | click
+with [get-editor Entity2 | get-section Attributes | get-section | get-table] {
+    get-item "attribute1\\(Entity\\)" | get-property caption | equals "attribute1(Entity)" | verify-true
+    get-item "attribute1\\(Entity\\)" | get-property index | equals 0 | verify-true
+    get-item "attribute0\\(Entity\\)" | get-property caption | equals "attribute0(Entity)" | verify-true
+    get-item "attribute0\\(Entity\\)" | get-property index | equals 1 | verify-true
+    get-item "attribute2\\(Entity\\)" | get-property caption | equals "attribute2(Entity)" | verify-true
+    get-item "attribute2\\(Entity\\)" | get-property index | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

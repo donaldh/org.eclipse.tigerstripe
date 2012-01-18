@@ -6,7 +6,7 @@ Tags: Facet/Active, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _Mrg78DqyEeGvPsO-LSiu4Q,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 1/16/12 12:59 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _-q0B4EACEeG1Htud4Cd1VA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -40,7 +40,7 @@ with [get-editor "ProjectWithReference/default2.wfc"] {
     }
 }
 get-window "Remove Scope Pattern" | get-button OK | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
     get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Datatype0" 
         | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {100, 100, 200}" 

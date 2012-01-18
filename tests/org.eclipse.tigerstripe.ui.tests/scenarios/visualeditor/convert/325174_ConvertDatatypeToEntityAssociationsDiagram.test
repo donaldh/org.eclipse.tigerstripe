@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityAssociationsDiagram
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_IVw9waLSEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 7:47 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _GaA_kaLOEeCczrPE__AtaQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -63,7 +63,7 @@ get-window "Convert com.mycompany.Datatype"
     | get-label "All associations or dependencies related to artifact will be removed" | get-property caption 
     | equals "All associations or dependencies related to artifact will be removed" | verify-true
 get-window "Convert com.mycompany.Datatype" | get-button OK | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
     get-property childrenCount | equals 4 | verify-true
     get-edit-part -name Datatype | get-edit-part -text Datatype 

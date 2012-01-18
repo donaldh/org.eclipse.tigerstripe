@@ -6,7 +6,7 @@ Tags: TS_Project/Profile
 External-Reference: http://docs.xored.com/display/TS/AddStereotype
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/23/11 6:13 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _PqnSsA5ZEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -42,7 +42,7 @@ with [get-window "Stereotype Selection"] {
     get-table -after [get-label "Please select a Stereotype"] | select "datatype_stereo"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Datatype | get-section Stereotypes | get-table -after [get-label Stereotypes] | get-item "datatype_stereo" | get-property caption | is-equal "datatype_stereo" | verify
 get-editor Datatype | get-section Stereotypes | get-button Add | click
 with [get-window "Stereotype Selection"] {
@@ -51,7 +51,7 @@ with [get-window "Stereotype Selection"] {
 }
 get-window "Stereotype Details" | get-button OK | click
 get-editor Datatype | get-section Stereotypes | get-table -after [get-label Stereotypes] | get-item "attribute_stereo" | get-property caption | is-equal "attribute_stereo" | verify
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click

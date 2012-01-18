@@ -6,7 +6,7 @@ Tags: Facet/Define, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _FyZMUDs7EeCt76CYYPZ_qw
-Save-Time: 1/10/12 4:17 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _uuOxIDtnEeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,6 +25,44 @@ Save changes
 Reopen facet
 Verify exclusion
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/default.wfc" | double-click -nowait
+with [get-editor "model-refactoring/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    get-section "Annotation Scope Details" | get-button Add -after [get-label "Annotations excluded patterns:"] | click
+}
+with [get-window "Annotation Type Selection"] {
+    get-table | select "Check Annotation"
+    get-button OK | click
+}
+get-editor "model-refactoring/default.wfc" | get-section "Annotation Scope Details" | get-button Add 
+    -after [get-label "Annotations excluded patterns:"] | click
+with [get-window "Annotation Type Selection"] {
+    get-table | select "Integer Annotation"
+    get-button OK | click
+}
+get-editor "model-refactoring/default.wfc" | get-section "Annotation Scope Details" | get-button Add 
+    -after [get-label "Annotations excluded patterns:"] | click
+with [get-window "Annotation Type Selection"] {
+    get-table | select Font
+    get-button OK | click
+}
+get-tab-folder -index 1 | get-property pages -index 0 | equals "*model-refactoring/default.wfc" | verify-true
+get-editor "model-refactoring/default.wfc" | get-section "Annotation Scope Details" | get-table 
+    -after [get-label "Annotations excluded patterns:"] | get-property itemCount | equals 3 | verify-true
+get-button "Save \(.*\)" | click
+get-editor "model-refactoring/default.wfc" | close
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "model-refactoring/default.wfc" | double-click -nowait
+}
+get-editor "model-refactoring/default.wfc" | get-tab-folder | get-tab-item Scope | click
+get-editor "model-refactoring/default.wfc" | get-section "Annotation Scope Details" | get-table 
+    -after [get-label "Annotations excluded patterns:"] | get-property itemCount | equals 3 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

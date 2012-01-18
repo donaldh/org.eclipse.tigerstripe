@@ -6,7 +6,7 @@ Tags: Annotation/functionality
 External-Reference: 
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_dvRHMdhiEeCNGZrtYiQLKw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 4:21 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _HhXyYe4_EeCeLo_urxYMqg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -34,7 +34,7 @@ get-view "Tigerstripe Explorer" | get-tree
     | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Font,Color>>Entity0" 
     | double-click -nowait
 get-editor Entity0 | get-section Attributes | get-section | get-button Add | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree 
     | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Font,Color>>Entity0/attribute0:String" 
     | get-menu "Annotations/Attach Dangling Annotation..." | click

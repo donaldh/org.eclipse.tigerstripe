@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/ContextMenu, I36
 External-Reference: http://docs.xored.com/display/TS/ExtendsLink_Remove
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_XbmosJx1EeCwQoDghmuRmQ,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 5:38 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _DXzGsJx2EeCwQoDghmuRmQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -33,6 +33,142 @@ Steps:
     In Properties View check that Extends link is not displayed on diagram
     In Editor for extended Entity check that extends is removed
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/default" | double-click -nowait
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name One | get-target-connection 0] {
+        mouse-move 69 27 button1 -height 45 -width 181
+        mouse-press 69 27 button1 -height 45 -width 181
+        mouse-release 69 27 button1 524288 -height 45 -width 181
+        mouse-hover 69 27 -height 45 -width 181
+        mouse-press 69 27 button3 -height 45 -width 181
+        mouse-release 69 27 button3 2097152 -height 45 -width 181
+    }
+    get-menu "Show Properties View" | click
+}
+get-tab-folder -index 2 | get-property activePage | equals Properties | verify-true
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Two 
+    | get-edit-part -className ManagedEntityArtifactAttributeCompartmentEditPart] {
+    mouse-move 21 2 button1 -height 12 -width 43
+    mouse-press 21 2 button1 -height 12 -width 43
+    mouse-release 21 2 button1 524288 -height 12 -width 43
+}
+with [get-view Properties] {
+    with [get-canvas -index 3] {
+        mouse-press 48 13 button1
+        mouse-release 48 13 button1 524288
+    }
+    get-tree | select EMF
+    get-canvas -index 3 | mouse-move 3 2
+}
+with [get-view Properties | get-tree] {
+    get-item "EMF/Extends" | get-property columns -index 0 | equals Extends | verify-true
+    get-item "EMF/Extends" | get-property columns -index 1 | equals "Managed Entity Artifact One" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name One 
+    | get-target-connection 0] {
+    mouse-move 59 29 button1 -height 45 -width 181
+    mouse-press 59 29 button1 -height 45 -width 181
+}
+get-view Properties | get-tree | select View
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name One | get-target-connection 0] {
+        mouse-release 59 29 button1 524288 -height 45 -width 181
+        mouse-hover 59 29 -height 45 -width 181
+        mouse-press 59 29 button3 -height 45 -width 181
+        mouse-release 59 29 button3 2097152 -height 45 -width 181
+    }
+    get-menu "Remove from Diagram" | click
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Two] {
+    mouse-move 10 17 button1 -height 50 -width 43
+    mouse-press 10 17 button1 -height 50 -width 43
+    mouse-release 10 17 button1 524288 -height 50 -width 43
+    mouse-hover 10 17 -height 50 -width 43
+}
+with [get-view Properties | get-tree] {
+    get-item "EMF/Extends" | get-property columns -index 0 | equals Extends | verify-true
+    get-item "EMF/Extends" | get-property columns -index 1 | equals "" | verify-true
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Two" | double-click -nowait
+get-editor Two | get-section "General Information" | get-editbox -after [get-link "Extends:"] | get-property rawValue 
+    | equals "com.mycompany.One" | verify-true
+with [get-editor "default.wvd"] {
+    click
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart] {
+            with [get-edit-part -name Two | get-edit-part -text Two] {
+                mouse-move 26 15 button3 -height 16 -width 43
+                mouse-press 26 15 button3 -height 16 -width 43
+                mouse-release 26 15 button3 2097152 -height 16 -width 43
+            }
+            mouse-hover 121 181 -height 356 -width 596
+        }
+        key-type DEL
+    }
+}
+get-button "Save \(.*\)" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Two"
+    get-item "Project1/src/com.mycompany/Two" | drag-start 13 6
+    get-item "Project1/src/com.mycompany/Two" | drag-enter 87 4 -detail 2 -operation 7
+    get-item "Project1/src/com.mycompany/Two" | drag-over 144 4 -detail 2 -operation 7
+    get-item "Project1/src/com.mycompany/Two" | drag-exit
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter -y 100 -detail 2 -operation 7
+    drag-over 75 101 -detail 1 -operation 7
+    drag-exit
+    drag-accept 75 101 -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-set-data "-41"
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 75 101 -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-end "-41" -detail 1
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    get-edit-part -name Two | get-handle ResizeHandle -index 5 | mouse-hover 4 4 -height 7 -width 7
+    mouse-hover 164 245 -height 356 -width 596
+}
+get-button "Save \(.*\)" | click
+with [get-view Properties | get-tree] {
+    get-item "EMF/Extends" | get-property columns -index 0 | equals Extends | verify-true
+    get-item "EMF/Extends" | get-property columns -index 1 | equals "Managed Entity Artifact One" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name One 
+    | get-target-connection 0] {
+    mouse-move 39 26 button1 -height 40 -width 155
+    mouse-press 39 26 button1 -height 40 -width 155
+    mouse-release 39 26 button1 524288 -height 40 -width 155
+}
+get-view Properties | get-tree | select View
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name One | get-target-connection 0] {
+        mouse-hover 39 26 -height 40 -width 155
+        mouse-press 39 26 button3 -height 40 -width 155
+        mouse-release 39 26 button3 2097152 -height 40 -width 155
+    }
+    get-menu "Remove from Model" | click
+}
+get-window "Delete from Model" | get-button OK | click
+get-button "Save \(.*\)" | click
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Two 
+    | get-edit-part -text Two] {
+    mouse-move 14 15 button1 -height 16 -width 43
+    mouse-press 14 15 button1 -height 16 -width 43
+    mouse-release 14 15 button1 524288 -height 16 -width 43
+    mouse-hover 14 15 -height 16 -width 43
+}
+with [get-view Properties | get-tree] {
+    get-item "EMF/Extends" | get-property columns -index 0 | equals Extends | verify-true
+    get-item "EMF/Extends" | get-property columns -index 1 | equals "" | verify-true
+}
+get-editor Two | click
+get-editor Two | get-section "General Information" | get-editbox -after [get-link "Extends:"] | get-property rawValue 
+    | equals "" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

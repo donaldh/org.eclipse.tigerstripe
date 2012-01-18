@@ -1,457 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="324146_AddMethodSessionFacade" id="_GmeugdUbEd-EHrO7kvtrmw" description="Check that TS Explorer is not get out of sync with the methods created for an Entity or Session Facade.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create a Session Facade artifact&#xD;&#xA;2. Don't expand the artifact in Explorer.  Open it in the editor by double&#xD;&#xA;clicking on it.&#xD;&#xA;3. Add a method and save the file&#xD;&#xA;4. Expand the artifact in Explorer.  The newly created method should be&#xD;&#xA;displayed&#xD;&#xA;5. In the Session Facade artifact, add two more methods and click on Save. &#xD;&#xA;" tags="TS_Project/Edit/Artifacts/Method, I25" type="ecl" externalReference="http://docs.xored.com/display/TS/324146_AddMethodSessionFacade">
-  <contexts>_GizKINWkEd-EHrO7kvtrmw</contexts>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View0" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>New Project</path>
-        <path>src</path>
-        <path>org.eclipse</path>
-        <path>TestSessionFacade</path>
-        <parent id="Tree0" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="0">
-      <element id="Item0" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="TestSessionFacade" multiplicity="1">
-        <parent id="EclipseWindow1" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Canvas" index="1" multiplicity="1">
-        <parent id="Editor0" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:MouseCommand" x="17" y="25" kind="Move" boundsWidth="206" boundsHeight="30">
-      <element id="Canvas0" kind="Canvas"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Methods" multiplicity="1">
-        <parent id="Editor0" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Add" multiplicity="1">
-        <parent id="Expandable0" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button0" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State0" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Toolbar" index="4" multiplicity="1">
-        <parent id="EclipseWindow1" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow1" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button1" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State1" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow2" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View1" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>New Project</path>
-        <path>src</path>
-        <path>org.eclipse</path>
-        <path>TestSessionFacade</path>
-        <path>method0\(\):void</path>
-        <parent id="Tree1" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="method0():void">
-      <element id="Item1" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="TestSessionFacade" multiplicity="1">
-        <parent id="EclipseWindow3" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Canvas" index="1" multiplicity="1">
-        <parent id="Editor1" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:MouseCommand" x="84" y="26" kind="Move" boundsWidth="206" boundsHeight="30">
-      <element id="Canvas1" kind="Canvas"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Methods" multiplicity="1">
-        <parent id="Editor1" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Add" multiplicity="1">
-        <parent id="Expandable1" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button2" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State2" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Toolbar" index="4" multiplicity="1">
-        <parent id="EclipseWindow3" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow3" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button3" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State3" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View2" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>New Project</path>
-        <path>src</path>
-        <path>org.eclipse</path>
-        <path>TestSessionFacade</path>
-        <path>method1\(\):void</path>
-        <parent id="Tree2" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="method1():void">
-      <element id="Item2" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow5" kind="EclipseWindow"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>New Project</path>
-        <path>src</path>
-        <path>org.eclipse</path>
-        <path>TestSessionFacade</path>
-        <parent id="Tree3" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="2">
-      <element id="Item3" kind="Item"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow0" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View0" kind="View"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree0" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.3">
-      <elements id="Item0" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="TestSessionFacade">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="54" width="102" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="EclipseWindow1" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="Editor0" kind="Editor"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="Canvas0" kind="Canvas"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor red="25" green="76" blue="127"/>
-        <bounds y="1" width="206" height="30"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
-      <elements id="Expandable0" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="1396" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.10">
-      <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="630" y="5" width="55" height="25"/>
-        <caption>Add</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.11">
-      <elements id="State0" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.14">
-      <elements id="Toolbar0" kind="Toolbar"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" width="107" height="22"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.15">
-      <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.16">
-      <elements id="State1" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.19">
-      <elements id="EclipseWindow2" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.20">
-      <elements id="View1" kind="View"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.21">
-      <elements id="Tree1" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse</path>
-          <path>TestSessionFacade</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.22">
-      <elements id="Item1" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="method0():void">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="117" y="72" width="86" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.24">
-      <elements id="EclipseWindow3" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.25">
-      <elements id="Editor1" kind="Editor"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.26">
-      <elements id="Canvas1" kind="Canvas"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor red="25" green="76" blue="127"/>
-        <bounds y="1" width="206" height="30"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.28">
-      <elements id="Expandable1" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="1396" height="668"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.29">
-      <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="630" y="5" width="55" height="25"/>
-        <caption>Add</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.30">
-      <elements id="State2" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.33">
-      <elements id="Toolbar1" kind="Toolbar"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" width="107" height="22"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.34">
-      <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.35">
-      <elements id="State3" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.38">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.39">
-      <elements id="View2" kind="View"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.40">
-      <elements id="Tree2" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse</path>
-          <path>TestSessionFacade</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.41">
-      <elements id="Item2" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="method1():void">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="117" y="90" width="86" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.43">
-      <elements id="EclipseWindow5" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.44">
-      <elements id="View3" kind="View"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.45">
-      <elements id="Tree3" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse</path>
-          <path>TestSessionFacade</path>
-          <path>method1\(\):void</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.46">
-      <elements id="Item3" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="TestSessionFacade" childCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="54" width="102" height="18"/>
-      </controls>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 324146_AddMethodSessionFacade
+Tags: TS_Project/Edit/Artifacts/Method, I25
+External-Reference: http://docs.xored.com/display/TS/324146_AddMethodSessionFacade
+Element-Version: 2.0
+Contexts: _GizKINWkEd-EHrO7kvtrmw
+Save-Time: 1/18/12 1:28 PM
+Id: _GmeugdUbEd-EHrO7kvtrmw
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Check that TS Explorer is not get out of sync with the methods created for an Entity or Session Facade.
+
+Steps:
+1. Create a Session Facade artifact
+2. Don't expand the artifact in Explorer.  Open it in the editor by double
+clicking on it.
+3. Add a method and save the file
+4. Expand the artifact in Explorer.  The newly created method should be
+displayed
+5. In the Session Facade artifact, add two more methods and click on Save. 
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/TestSessionFacade" 
+    | get-property childCount | equals 0 | verify-true
+with [get-editor TestSessionFacade] {
+    get-canvas -index 1 | mouse-move 17 25
+    get-section Methods | get-button Add | click
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/TestSessionFacade/method0\\(\\):void" | get-property caption 
+    | equals "method0():void" | verify-true
+with [get-editor TestSessionFacade] {
+    get-canvas -index 1 | mouse-move 84 26
+    get-section Methods | get-button Add | click
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/TestSessionFacade/method1\\(\\):void" | get-property caption 
+    | equals "method1():void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/TestSessionFacade" 
+    | get-property childCount | equals 2 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9Nn2UVRDELg/CA
+SAxqHEbfltpeRmVtoS1s+Ou9U1hiYnhr7jn9enpuf1jpguzAeWVNQtvRJSVghJXK5AndhkXrlg4H52d9
+YXVUWQcy2vQiL8Bwp2ycHg6k0ipuKJ2aglzjY5wndBnCOmasLMvI6jyyLmfvs+nR8i+5uYQq+1HZpseO
+agQCR5QYriGhV51uu3uTjaScQVhamYKvc9xxwSWalExoNtGwzeXrx1i2xvfuqbfaBadLSgLPfULnafbs
+7CeIwMZSBTZyQS24CJ79Ei/ItHON5v0anwNRYEdVAGd48QILcFgYNIGlFf7wnzq7VH5d8D2bp+x0TiyZ
+EKzZBGT7QTZRXw/Tx7fV38R91jhwKez0VtDyDVBLBwihS+tlIgEAAOABAABQSwECFAAUAAgACAAAACEA
+oUvrZSIBAADgAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAWAEAAAAA
+
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+AAA=
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

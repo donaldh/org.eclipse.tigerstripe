@@ -1,8 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="232727_ValidateDefaultValue" version="3.0" id="_Y1afYakaEeCQuoNCiruvtQ" description="Validate default value literals via profile &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;Empty project&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create Profile&#xD;&#xA;2. Open Primitive types &#xD;&#xA;3. Check 'validation pattern' for all of the primitives in the Tigerstripe profile&#xD;&#xA;4. Add new primitives &#xD;&#xA;5. Add invalid reqular expressions +?* &#xD;&#xA;6. Check error message&#xD;&#xA;7. Remove invalid reqular expressions" tags="TS_Project/Profile, I37" type="ecl" externalReference="http://docs.xored.com/display/TS/232727_ValidateDefaultValue">
-  <contexts>_IhHLkKwQEd-DHcdNat_asw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project/src" | get-menu "New/Workbench Profile" | click
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 232727_ValidateDefaultValue
+Tags: TS_Project/Profile, I37
+External-Reference: http://docs.xored.com/display/TS/232727_ValidateDefaultValue
+Element-Version: 3.0
+Contexts: _IhHLkKwQEd-DHcdNat_asw
+Save-Time: 1/18/12 1:28 PM
+Id: _Y1afYakaEeCQuoNCiruvtQ
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Validate default value literals via profile 
+
+Precondition
+Empty project
+
+Steps:
+1. Create Profile
+2. Open Primitive types 
+3. Check 'validation pattern' for all of the primitives in the Tigerstripe profile
+4. Add new primitives 
+5. Add invalid reqular expressions +?* 
+6. Check error message
+7. Remove invalid reqular expressions
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src" | get-menu "New/Workbench Profile" | click
 get-window "New Tigerstripe Workbench Profile" | get-button Finish | click
 with [get-editor "New Project/default.wbp"] {
     get-tab-folder | get-tab-item "Primitive Types" | click
@@ -76,7 +105,7 @@ with [get-editor "New Project/default.wbp" | get-section | get-section "Primitiv
     key-type "M1+v"
     set-text "+?*11"
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-menu "Project/Clean..." | click
 with [get-window Clean] {
     get-button "Clean all projects" | click
@@ -94,7 +123,7 @@ with [get-editor "New Project/default.wbp" | get-section] {
     get-section "Primitive Type Details" | get-editbox -after [get-label "Validation (Regular Expression):"] 
         | set-text ""
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "New Project" | get-menu "New/Workbench Profile" | click
 with [get-window "New Tigerstripe Workbench Profile"] {
@@ -115,7 +144,7 @@ with [get-editor "New Project/default1.wbp"] {
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-menu "Project/Clean..." | click
 with [get-window Clean] {
     get-button "Clean all projects" | click
@@ -127,6 +156,18 @@ get-view Problems | get-tree
     + "\\^" | get-property caption 
     | equals "Primitive type \'atype2\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r?\n"
     + "\\+\\?\\*12\r?\n"
-    + "\\^" | verify-true]]></content>
-  </content>
-</com.xored.q7.scenario:Scenario>
+    + "\\^" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UUFuwjAQvFfqHyyfi13gkCpK4ABI
+oLaoFFSVU2TZm+CS2GA7JPy+SwU5VZxs74xnZ2eTcVuV5ATOa2tS2mfPlICRVmlTpLQOee+FjkePD4m0
+FWutA8WOEfMSjHDaxuvrhbSVjjuVwUUFdY2PsZ7SXQiHmPOmaZitCmZdwb/fFzfKv8rdJ0T5H8qPEb+h
+DCSWKDGiAmw3HESDKPsSpVYiwBRyUZcBnzVSOlPDiymtUppt+yLfir2YwWRV2+VEu/oUVpQEUfiUbtbZ
+h7M/IAPHM9clPJHFMEL4fMBmIEtMqA3gjCg/IQeHcUFnV1npr9NcnCvtD6U4882a33OJAROCEZuAyn6U
+LXbzt/1rs5qp3nQu1VKETPgm4R0DF8LvbwQpv1BLBwiT0MIPIgEAANwBAABQSwECFAAUAAgACAAAACEA
+k9DCDyIBAADcAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAWAEAAAAA
+
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

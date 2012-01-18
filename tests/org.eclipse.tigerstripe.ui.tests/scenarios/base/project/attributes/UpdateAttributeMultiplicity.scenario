@@ -1,8 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="UpdateAttributeMultiplicity" version="3.0" id="_0fInIItPEeCRoeGZa_Dvtg" description="Check default Attribute Multiplicity and qualifiers values &#x9;&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ArtifactsContext&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Add attribute to the entity and check default Attribute Multiplicity and qualifiers values&#xD;&#xA;    Open Multiplicity list and check available items&#xD;&#xA;    Check disabled qualifiers checkboxes if multiplicity = 1 or 0&#xD;&#xA;    Select multiplicity item and save changes&#xD;&#xA;    Check Tigerstripe explorer attribute value" tags="TS_Project/Edit/Artifacts/Attribute" type="ecl" externalReference="http://docs.xored.com/display/TS/Base+Tigerstripe+Project+Tests">
-  <contexts>_aOd6IKw8Ed-cSZ2bfD-mDg</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity1" | double-click -nowait
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: UpdateAttributeMultiplicity
+Tags: TS_Project/Edit/Artifacts/Attribute
+External-Reference: http://docs.xored.com/display/TS/Base+Tigerstripe+Project+Tests
+Element-Version: 3.0
+Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
+Save-Time: 1/18/12 1:28 PM
+Id: _0fInIItPEeCRoeGZa_Dvtg
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Check default Attribute Multiplicity and qualifiers values 	
+
+Precondition
+ArtifactsContext
+
+Steps
+    Add attribute to the entity and check default Attribute Multiplicity and qualifiers values
+    Open Multiplicity list and check available items
+    Check disabled qualifiers checkboxes if multiplicity = 1 or 0
+    Select multiplicity item and save changes
+    Check Tigerstripe explorer attribute value
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity1" | double-click -nowait
 get-editor Entity1 | get-section Attributes | get-section | get-button Add | click
 with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"]] {
     get-property selection | equals 1 | verify-true
@@ -28,10 +55,10 @@ with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-b
     get-property caption | equals Unique | verify-true
     get-property selected | equals true | verify-true
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String" | get-property caption | equals "attribute0:String" | verify-true
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text 0
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[0\\]" | get-property caption | equals "attribute0:String[0]" | verify-true
 with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
     get-property enablement | equals true | verify-true
@@ -49,7 +76,7 @@ with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-b
     get-property selected | equals true | verify-true
 }
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "0..1"
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[0..1\\]" | get-property caption | equals "attribute0:String[0..1]" | verify-true
 with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
     get-property enablement | equals true | verify-true
@@ -67,7 +94,7 @@ with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-b
     get-property selected | equals true | verify-true
 }
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "0..*"
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[0..\\*\\]" | get-property caption | equals "attribute0:String[0..*]" | verify-true
 with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
     get-property enablement | equals true | verify-true
@@ -85,7 +112,7 @@ with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-b
     get-property selected | equals true | verify-true
 }
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "*"
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[\\*\\]" | get-property caption | equals "attribute0:String[*]" | verify-true
 with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
     get-property enablement | equals true | verify-true
@@ -103,9 +130,9 @@ with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-b
     get-property selected | equals true | verify-true
 }
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text 1
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "1..*"
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[1..\\*\\]" | get-property caption | equals "attribute0:String[1..*]" | verify-true
 with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
     get-property enablement | equals true | verify-true
@@ -120,133 +147,41 @@ with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-b
     get-property selected | equals true | verify-true
 }
 get-editor Entity1 | close
-get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[1..\\*\\]" | get-property caption | equals "attribute0:String[1..*]" | verify-true]]></content>
-  </content>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View0" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>New Project</path>
-        <path>src</path>
-        <path>org.eclipse</path>
-        <path>Entity1</path>
-        <path>attribute0:String\[1..\*\]</path>
-        <parent id="Tree0" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="attribute0:String[1..*]">
-      <element id="Item3" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>New Project</path>
-        <path>src</path>
-        <path>org.eclipse.Package0</path>
-        <parent id="Tree3" kind="Tree"/>
-      </data>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow0" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="648" y="150" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View0" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree0" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse</path>
-          <path>Entity1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.3">
-      <elements id="Item3" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="attribute0:String[1..*]">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="117" y="162" width="114" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="EclipseWindow2" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="648" y="150" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="View3" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="Tree3" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse</path>
-          <path>Entity1</path>
-          <path>attribute0:String\[1..\*\]</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="Item5" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="org.eclipse.Package0" index="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="79" y="288" width="114" height="18"/>
-      </controls>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[1..\\*\\]" | get-property caption | equals "attribute0:String[1..*]" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9Ud9rwjAQfh/sfyh5FRvnYI5iFTdl
+lCET28HwpcTk2mW0SU1Oq//9zqHdy9hbuPvy/brx9FhXwQGc19bE7C4csACMtEqbMmZ7LPqPbDq5vRlL
+W4dH60CFu1HoJRjhtI3SyyM41jrqWIZnFuI1PqJ5zD4Rm4jztm1DW5ehdSX/WCZXyJ/M3Sfa8p8t3434
+dRuCpBELjKghZu+NEggzRKe3e4TlvkLdVFpqPLHfaPdnU1rFLB8UiUkSXC3geW3hZSPy+QFLFqAofcyy
+NF85+wUS+UJp5DOHuhASPe8UCHpqSBhkRW0dEZwR1RoKcFQddNaVlf6S7JxCad9U4sSzlD8JD71Ml+SN
+KBvoXRR7GXj0jPoOAmrcIJH7SS7e1EPy2j4uVF+mm+G2mPfreTnmHYLuw/8/EEG+AVBLBwiBYTsUNwEA
+AOsBAABQSwECFAAUAAgACAAAACEAgWE7FDcBAADrAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQ
+SwUGAAAAAAEAAQA2AAAAbQEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtWFtP2zAUfp+0/2Blb0jETXqhRBQ2
+sT4gjQkJNCYNHtzEpB6JHTnOWv79jp0LKU2bdqJsGrw59vG5fOf4O6c9OpnHEfpFZcoEH1mO3bEQ5b4I
+GA9HVqbu9ofWyfH7d0e+iO25kDSwFU0jYvuwthMplPBFZEsy8670/qVPOZFMoHnMvEqtq9WCIZ56sD+y
+pkolHsaz2cwWcWgLGeLv52eVSLooMusaCbfTcUDsy6U/pTHZZzxVhPu0vLXWwUofBjFsxLARw1oMV3FQ
+/bmRRh3yhloxiG6gOWMt+jK2qMV8LCBF/YglKTVw0fhOQ+bisbkDOURIZzEmPEgRYOyphwSur43Su6QR
+9dVpfi1XAmoCogi6ZzwYWePc5DV8iJmF4ixSLImYz9QDlJOFc7u4NLwrN74xCtYTohSVUHBXLITaU5Il
+FI3nSQTK5LJzhR7QlBBJuULsaUBQto1hBjT1Qbky1V03to8KSXQREXUnZFxAoEHQ/r4QHleS0g0D1tBV
+cRoc/4rHZ4rG6z1W0+OvdIYupPgJqo6w2Vk8T6XfuA8PonwcjedjrsCg03gGNSXZJFO0413Cioc3Pxzb
+vtm7uV0Wr0DV+FegmmTsAtRPaUqlslDlIlwgpiot9ItEGXwvea+d37utMgBpiUundQq6Vj0fldNG2xW4
+VPPN8I83/gzh6BMLTSW925CPPmA8zv15MYr4v5nKfSVM1X09TGVfEP+ehLTTwjPdbXmmePPnJEngAaLi
+cGRh/LEUhIHtCUOkG3fHygNfcCVF1Ap9xryyXGF6nOT2RpaSGVTGRMiAymumphplBDwd0dZKfsRqAhiG
+UmQ8OBXwuBCYhnm0B66HgBYv1hPDlXqJH6+CJlq7WjuZ6E0Ia2QNekML6fz3QcuMBcbLjtsDMqQsnEIU
+B4NhLSclJEVeFjOxeXac5uysaeVb5CJnqOVMNEBfMdaLAd41cNfQdns1sPuHvecH220Ge02L3wLsnP6W
+wdYqCOPnlGfllmGcnJ0Mm+e7DNjoFOBRiyTUnIZ+/zENel2kAZbbpKENeZBMSzerrXZiXE2N7WNcyyCH
+n/rzbMXRbS6ONaPUlsWRd5tirGud53aceXiAjnOQM97AfWQ8p1YJzg74rr9BN1oxAb11o513o8HqbrRi
+XHvrRn8M9sHqbrRiEHzrRv9WN9r+j4Xdta/h6vbV30X7avp5A1XDAzp/uYoBUweH5uW6w+EzNDHz+2qb
+f8fhzm9QSwcIgQBRpJ8DAAB5FwAAUEsBAhQAFAAIAAgAAAAhAIEAUaSfAwAAeRcAAAgAAAAAAAAAAAAA
+AAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAANUDAAAAAA==
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

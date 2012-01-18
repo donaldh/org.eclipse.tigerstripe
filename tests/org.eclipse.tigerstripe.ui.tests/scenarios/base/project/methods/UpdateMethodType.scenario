@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Method
 External-Reference: http://docs.xored.com/pages/viewpage.action?pageId=7766213
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 12/28/11 7:42 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _zV1K4IqNEeCdZvrM6ZcCaw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -48,7 +48,7 @@ with [get-editor Entity1 | get-section Methods] {
 }
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-editbox -after [get-label "Type:"] 
     | get-property rawValue | equals void | verify-true
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-button isVoid | get-property selected 
     | equals true | verify-true
 with [get-editor Entity1 | get-section Methods | get-section -index 1] {
@@ -99,7 +99,7 @@ with [get-window "Artifact Type Selection"] {
 }
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-combo -after [get-label "Default Value:"] 
     | get-property selection | equals "" | verify-true
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view Problems | click -nowait
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-button Browse | click
@@ -107,7 +107,7 @@ with [get-window "Artifact Type Selection"] {
     get-table | select "org.eclipse.Entity0"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "New Project/src/org.eclipse/Entity0" | get-item "New Project/src/org.eclipse/Entity0" | drag-start 25 7 none
     with [get-item "New Project/src/org.eclipse/Exception0"] {
@@ -203,7 +203,7 @@ with [get-editor Entity1 | get-section Methods | get-section -index 1 | get-comb
     get-property values -index 1 | equals false | verify-true
     get-property values -index 2 | equals "" | verify-true
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity1 | get-section Methods | get-section | get-table | get-item "method0\\(\\):boolean" 
     | get-property caption | equals "method0():boolean" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/method0\\(\\):boolean" 

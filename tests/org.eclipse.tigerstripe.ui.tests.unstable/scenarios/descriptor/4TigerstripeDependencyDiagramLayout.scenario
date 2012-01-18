@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Descriptor/Diagram, I27
 External-Reference: http://docs.xored.com/display/TS/4TigerstripeDependencyDiagramLayout http://jira4.xored.com/browse/QS-1166
 Element-Version: 3.0
 Contexts: _E-NZMfhGEd-iKuOiJgVXVQ
-Save-Time: 12/22/11 2:47 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _aP67MTcvEeCs2Yz8DnW68g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -31,6 +31,138 @@ Select "Layout" item in dropdown menu. diagram should be optimized
 Save changes. Move to another tab on the editor. Re-open diagram tab - diagram should be as previous. 
 Save & close editor. Re-open editor. Re-open diagram tab - diagram should be as previous 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+with [get-editor "Project1/tigerstripe.xml"] {
+    with [get-tab-folder] {
+        get-tab-item "Dependency Diagram" | click
+        get-tab-item Dependencies | click
+    }
+    get-section Dependencies | get-button Add | click
+}
+with [get-window "Select Tigerstripe Project"] {
+    get-table | select Project2
+    get-button OK | click
+}
+get-button "Save \(.*\)" | click
+get-editor "Project1/tigerstripe.xml" | get-tab-folder | get-tab-item "Dependency Diagram" | click
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part 
+    -text Project1] {
+    get-property x | equals 30 | verify-true
+    get-property y | equals 30 | verify-true
+    get-property width | equals 200 | verify-true
+    get-property height | equals 80 | verify-true
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram] {
+    with [get-edit-part -className DiagramEditPart | get-edit-part -text Project1] {
+        mouse-move 132 45 button1 -height 80 -width 200
+        mouse-press 132 45 button1 -height 80 -width 200
+        mouse-release 132 45 button1 524288 -height 80 -width 200
+        with [get-handle ResizeHandle -index 1] {
+            mouse-move 2 2 button1 -height 7 -width 7
+            mouse-press 2 2 button1 -height 7 -width 7
+        }
+    }
+    mouse-drag 230 113 -mask 524288 -height 375 -width 741
+    mouse-drag 236 119 -mask 524288 -height 375 -width 741
+    with [get-edit-part -className DiagramEditPart] {
+        mouse-drag 286 171 button1 524288 -height 375 -width 741
+        mouse-release 286 171 button1 524288 -height 375 -width 741
+        get-edit-part -text Project1 | get-handle ResizeHandle -index 1 | mouse-hover 2 2 -height 7 -width 7
+        with [get-edit-part -text Project2] {
+            mouse-move 132 64 button1 -height 80 -width 200
+            mouse-press 132 64 button1 -height 80 -width 200
+            mouse-drag 140 64 -mask 524288 -height 80 -width 200
+        }
+    }
+    mouse-drag 401 100 -mask 524288 -height 375 -width 741
+    mouse-drag 606 144 button1 524288 -height 375 -width 741
+    mouse-release 606 144 button1 524288 -height 375 -width 741
+    with [get-edit-part -className DiagramEditPart | get-edit-part -text Project1] {
+        mouse-move 118 107 button1 -height 143 -width 258
+        mouse-press 118 107 button1 -height 143 -width 258
+        mouse-drag 118 112 -mask 524288 -height 143 -width 258
+    }
+    mouse-drag 154 148 -mask 524288 -height 375 -width 741
+    mouse-drag 146 234 button1 524288 -height 375 -width 741
+    mouse-release 146 234 button1 524288 -height 375 -width 741
+    get-edit-part -className DiagramEditPart | get-edit-part -text Project1 | mouse-hover 118 107 -height 143 -width 258
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part 
+    -text Project1] {
+    get-property x | equals 28 | verify-true
+    get-property y | equals 127 | verify-true
+    get-property width | equals 258 | verify-true
+    get-property height | equals 143 | verify-true
+}
+with [get-editor "Project1/tigerstripe.xml" | get-tab-folder] {
+    get-tab-item Dependencies | click
+    get-tab-item "Dependency Diagram" | click
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part 
+    -text Project1] {
+    get-property x | equals 28 | verify-true
+    get-property y | equals 127 | verify-true
+    get-property width | equals 258 | verify-true
+    get-property height | equals 143 | verify-true
+}
+get-editor "Project1/tigerstripe.xml" | close
+get-window "Save Resource" | get-button No | click
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+}
+get-editor "Project1/tigerstripe.xml" | get-tab-folder | get-tab-item "Dependency Diagram" | click
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part 
+    -text Project1] {
+    get-property x | equals 30 | verify-true
+    get-property y | equals 30 | verify-true
+    get-property width | equals 200 | verify-true
+    get-property height | equals 80 | verify-true
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram] {
+    mouse-move 166 120 button3 -height 375 -width 741
+    mouse-press 166 120 button3 -height 375 -width 741
+    mouse-release 166 120 button3 2097152 -height 375 -width 741
+    get-menu Layout | click
+    get-edit-part -className DiagramEditPart | get-edit-part -text Project2 | mouse-hover 172 51 -height 80 -width 200
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part 
+    -text Project2] {
+    get-property x | equals 30 | verify-true
+    get-property y | equals 170 | verify-true
+    get-property width | equals 200 | verify-true
+    get-property height | equals 80 | verify-true
+}
+get-button "Save \(.*\)" | click
+with [get-editor "Project1/tigerstripe.xml" | get-tab-folder] {
+    get-tab-item Dependencies | click
+    get-tab-item "Dependency Diagram" | click
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part 
+    -text Project2] {
+    get-property x | equals 30 | verify-true
+    get-property y | equals 170 | verify-true
+    get-property width | equals 200 | verify-true
+    get-property height | equals 80 | verify-true
+}
+get-editor "Project1/tigerstripe.xml" | close
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+}
+get-editor "Project1/tigerstripe.xml" | get-tab-folder | get-tab-item "Dependency Diagram" | click
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part 
+    -text Project2] {
+    get-property x | equals 30 | verify-true
+    get-property y | equals 170 | verify-true
+    get-property width | equals 200 | verify-true
+    get-property height | equals 80 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

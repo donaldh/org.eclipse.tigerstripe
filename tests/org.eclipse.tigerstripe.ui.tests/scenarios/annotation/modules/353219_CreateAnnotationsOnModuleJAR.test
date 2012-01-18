@@ -1,8 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="353219_CreateAnnotationsOnModuleJAR.test" version="3.0" id="_SY-54MoIEeC0xcEXnuyT1g" description="Create annotations on module JAR attributes from menu and&#xD;&#xA;Annotation Property View.&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;DependantProjectsWithPackagesContextGroup&#xD;&#xA;&#xD;&#xA;Steps to Reproduce:&#xD;&#xA;1. Export TS module as JAR file for project Two&#xD;&#xA;2. Add  JAR file in project One&#xD;&#xA;3. Open tigerstripe.xml file for TS project and add a dependency on a TS module JAR file&#xD;&#xA;4. In project One, expand model project dependencies > Expand entity > select an entity attribute.  &#xD;&#xA;5. Add annotation for the attribute from menu.&#xD;&#xA;6. Add anoter annotation for the attribute from Annotation Property View.&#xD;&#xA;7. Check that annotations are saved" tags="I38, Annotation/module" type="ecl" externalReference="http://docs.xored.com/display/TS/353219_CreateAnnotationsOnModuleJAR">
-  <contexts>_h-k60POVEd-s8v7FVtLgHw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select Two | get-menu "Export..." | click
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 353219_CreateAnnotationsOnModuleJAR.test
+Tags: I38, Annotation/module
+External-Reference: http://docs.xored.com/display/TS/353219_CreateAnnotationsOnModuleJAR
+Element-Version: 3.0
+Contexts: _h-k60POVEd-s8v7FVtLgHw
+Save-Time: 1/18/12 1:28 PM
+Id: _SY-54MoIEeC0xcEXnuyT1g
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Create annotations on module JAR attributes from menu and
+Annotation Property View.
+
+Precondition
+DependantProjectsWithPackagesContextGroup
+
+Steps to Reproduce:
+1. Export TS module as JAR file for project Two
+2. Add  JAR file in project One
+3. Open tigerstripe.xml file for TS project and add a dependency on a TS module JAR file
+4. In project One, expand model project dependencies > Expand entity > select an entity attribute.  
+5. Add annotation for the attribute from menu.
+6. Add anoter annotation for the attribute from Annotation Property View.
+7. Check that annotations are saved
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select Two | get-menu "Export..." | click
 with [get-window Export] {
     get-tree | select "Tigerstripe/Tigerstripe Module"
     get-button "Next >" | click
@@ -31,7 +61,7 @@ with [get-window "Select Tigerstripe Project"] {
     get-table | select "Two_0.0.0.jar"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "One/Two_0.0.0.jar/com.mycompany/Ent2" 
     | get-menu "Annotations/Create/Primitive/Text Annotation" | click
 get-view "Annotation Property View" | click -nowait
@@ -42,6 +72,18 @@ with [get-window "Create Annotation Wizard"] {
     get-button Finish | click
 }
 get-view "Tigerstripe Explorer" | get-tree | select "One/Two_0.0.0.jar/com.mycompany/Ent2" | double-click -nowait
-get-view "Annotation Property View" | get-table | get-property itemCount | equals 2 | verify-true]]></content>
-  </content>
-</com.xored.q7.scenario:Scenario>
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 2 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUcFqAjEUvBf6DyHnbqJurXZxFRFL
+LRWLitiThOS5Lt1NNInu+vc+RddLKb2FN5N5M/M6vTLPyAGsS42OaZ3VKAEtjUp1EtO9Xwdt2us+PnSk
+yVlpLCi2azEnQQubmmh2fZAyT6NKpXFWQV3tIpzHdOP9NuK8KApm8oQZm/DleHSj/KpcfUKUX1C+a/Eb
+ykDiiBItcohp2Awb9dfVwILw0NfaeOHRh5vosVH7DD76U+bBeXrPGZ4dpiqmq9l30Hwem9EQBrVSDpd6
+f5zXE0q8SFxMR2H7idwleX4RRPS4xcUgM2yr9GC1yKawBovVQWVdGemuyc4pVOq2mTjy+Yz/wzHF0gnB
+2rXHDa672gQ/L7WvyWKoAtc+tN4W/jN5Lzq8YuCR+N9XQsoJUEsHCCh5p2IqAQAA8AEAAFBLAQIUABQA
+CAAIAAAAIQAoeadiKgEAAPABAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
+AABgAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

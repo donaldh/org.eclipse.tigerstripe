@@ -1,8 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="256661_SpellCheckingFeatures" version="3.0" id="_zIO_QI24EeCQJ7V2A3r4wA" description="Check spell-checking functionality within artifact's Description field in TS editors &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ArtifactsContext&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Open Preferences/General/Editors/Text Editors/Spelling&#xD;&#xA;    Check enabled checkbox &quot;Enable spell checking&quot;&#xD;&#xA;    Add not correctly spelled word in artifact's Description field&#xD;&#xA;    Select correctly spelled word in dropdown menu and update word&#xD;&#xA;    Disable spell checking in dropdown menu&#xD;&#xA;    Check disabled checkbox &quot;Enable spell checking&quot; in Preferences/General/Editors/Text Editors/Spelling&#xD;&#xA;" tags="TS_Project/Edit/Artifacts, I35" type="ecl" externalReference="http://docs.xored.com/display/TS/256661_SpellCheckingFeatures">
-  <contexts>_aOd6IKw8Ed-cSZ2bfD-mDg</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-preferences-menu | click
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 256661_SpellCheckingFeatures
+Tags: TS_Project/Edit/Artifacts, I35
+External-Reference: http://docs.xored.com/display/TS/256661_SpellCheckingFeatures
+Element-Version: 3.0
+Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
+Save-Time: 1/18/12 1:28 PM
+Id: _zIO_QI24EeCQJ7V2A3r4wA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Check spell-checking functionality within artifact's Description field in TS editors 
+
+Precondition
+ArtifactsContext
+
+Steps:
+    Open Preferences/General/Editors/Text Editors/Spelling
+    Check enabled checkbox "Enable spell checking"
+    Add not correctly spelled word in artifact's Description field
+    Select correctly spelled word in dropdown menu and update word
+    Disable spell checking in dropdown menu
+    Check disabled checkbox "Enable spell checking" in Preferences/General/Editors/Text Editors/Spelling
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-preferences-menu | click
 get-window Preferences | get-tree | select "General/Editors/Text Editors/Spelling"
 get-window Preferences | get-button "Enable spell checking" | get-property selected | equals true | verify-true
 get-window Preferences | get-button OK | click
@@ -21,172 +50,51 @@ with [get-editor Entity0 | get-section "General Information" | get-editbox -afte
     key-type BS
     get-menu "Disable spell checking" | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity0 | get-section "General Information" | get-editbox -after [get-label "Description:"] 
     | set-text-offset 2 0
 get-preferences-menu | click
 get-window Preferences | get-tree | select "General/Editors/Text Editors/Spelling"
-get-window Preferences | get-button OK | click]]></content>
-  </content>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow79" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View45" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree48" kind="Tree"/>
-      <path>New Project</path>
-      <path>src</path>
-      <path>org.eclipse</path>
-      <path>Entity0</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree48" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Entity0" multiplicity="1">
-        <parent id="EclipseWindow79" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="General Information" multiplicity="1">
-        <parent id="Editor57" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Description:" multiplicity="1">
-        <parent id="Expandable36" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Text" multiplicity="1">
-        <after id="Label22" kind="Label"/>
-        <parent id="Expandable36" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:TypeText" state="0" text="creat">
-      <element id="Text18" kind="Text"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetTextOffset" offset="2" line="0">
-      <element id="Text18" kind="Text"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>Change to 'cheat'</path>
-        <parent id="Text18" kind="Text"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu19" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State48" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetTextOffset" offset="5" line="0">
-      <element id="Text18" kind="Text"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow79" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button42" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State49" kind="State"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow79" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="809" y="86" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View45" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree48" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse</path>
-          <path>Entity0</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="Editor57" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Entity0">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="Expandable36" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="562" height="267"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="Label22" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Description: ">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="5" y="57" width="66" height="15"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="Text18" kind="Text"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" containMenu="true" value="">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="442" height="96"/>
-        <rawValue></rawValue>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.11">
-      <elements id="Menu19" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Change to 'cheat'" enablement="true" index="5" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="State48" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.16">
-      <elements id="Button42" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.17">
-      <elements id="State49" kind="State"/>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+get-window Preferences | get-button OK | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5o+yyoDBlkYhAAm
+0xjEEWN8WWp7N6pbO9rihl9vMTBfDG/NPafnnnPueNqUBfoCbYSSEe56txiBZIoLmUd4b7POCE8n11dj
+pkqvURq4txt6hoGkWqgwOT1QU4qwVfGPKk5XmtDNI7y1tgoJqevaU2XuKZ2T18f4TPlXuf3kUPKLkt2Q
+nFEPmBthJGkJbt0gCIJumlRQFPMtsE/n/Q6o3Wsw+C9b7+hK8Ain3/EqXcd+fwnz9f3wxZ/1dL+eYWRp
+biK8SdInrT6AWbLkwpKZtiKjzJobFPcGjnWo3FJghWuqsaAlLZ4hA+1qg9Y2V8ycUh0TcGGqgh7IJiEX
+3bqmEXJdS+ukzSSlKx7ED/VoyTssefPfs0WnXORj0jLcZcjl0zjKD1BLBwh6v9rqLgEAAOUBAABQSwEC
+FAAUAAgACAAAACEAer/a6i4BAADlAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEA
+AQA2AAAAZAEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTlWV1v2zYUfR+w/0DwpRuGWLYi+Qtx
+OszNigDNWsBBs1daom0ukihQVOz++11Sn44lWWptt9ieQpPU5b3nHt7Lg9y83fkeeqEiYjyY4UGvjxEN
+HO6yYD3DsVxdjfHb259/unG439txQd2epJFHeg6Me6Hgkjvc6wmynT6q+YVDAyIYRzufTXOzpjILBwXR
+FOZneCNlODWM7Xbb4/66x8Xa+PvhPt8S7W/ZXusdZr8/gG0fFs6G+uSKBZEkgUOzrxodzO0ZsM3Q2wy9
+zVDbjDwOqn62sqhCbmnVgK0tLMfsiL2YpVYgHwipjPgkcCMEeE3ll5DOcKPH0wX1qCPnyWeJETDjEknQ
+MwvcGb5zPBZG9Al+8C1GfuxJFnrMYfILUAMbyblGdvC53PjMKJweEimpAPI8sjXwSAoWUnS3Cz0wJg6d
+S+2ApZAIGkjEXgc0muDqOF0aOWBdaqqWT7tC6U70ySNyxYWfYqBQUA5fCJBHQWnLiBV2lo3LSJ7HZZl4
+DZjlHsOEn/mhXLbGuBxA7gdkdnP7F92iT4L/AzZuDD1TXo2EUzELVQBugM5IxepdIAGZfmnlm8N8x+Ol
+R+eA+XO3KM/PiTuXSS5K1yQN//91M6AewAqBJJWQeE8DKoiH7gPlGNEcbYmKBtUe4X2Qv0toH8iSeqWo
+3hW5mLYNJ0fneogPEfs+tYzuZJP7ZAXhau81AKaJ9/AwfpRAH2FPEgs8QyRsh5sn4Td8JyiR1eUC1gdF
+uVBfn6xcSGXu42oVUXCJ67/w7sLIY4F27tL+HKHBAw3iZhZDDZ9vSLCmSHL0Bt58RL7Zq/r7FKiN5bRp
+fw+NT+U7A6qzgfpmoiAZ5JVYA3SibDwRJv/kInE8O1rTVh+s54s2thffmYhp/7DE/COWUvWLvO4uyAtF
+v8yl8H5b/Pqf6q5n5HKCopUX7xTVS/J50obPqc8PJAxB8KJ0cYYN4/dsY++AolH7HOdpc3ggBfeOxhiz
+aUYPENLL5MAZliKGF86SC5eKJyY3inkI3nsePcqcgqBL4jyvBY8Dd85BRSE4GlqEBY1rDS/XIB0vvZgm
+w1KvBUu09GlpZakmIawZHvcBBLgTY2jBW+ZqJ/umhdGGsvUGghgNxyUeZ4ikednPRPvsDKqz06SDOuQi
+kaKHmaiAPpemFwP8WsNt93O4TauEtj2xTo+2WY12k9rrgHaicw/RViYIC1RLzKZ0Gc4laDbLJPXngI/c
+r8zVebDtIg9qnOYBhl3ycAx6VZkyN/OpYyK42PFaCBcrdWK42HEoiBMuvPbnZOywayrlEVXVgSGZ6q29
+kZkKvvAlNIuaN7IGBROuJ/bpL+GwBuaWIqgD3PNkawXel7lcgO9Q41vAaw/NAl5zODo9vKNqeBvlaBdQ
+U2FfUeZI+hYsS310OajtpJ+McqyHwwLqwRmIPK7pJg1Srks30eq8VTd5IRqzy7YMyyoxeTIsmxBk+1m5
+dHtj5MNTv5tqHk61KrQb+OrDe+jGJVYfqPmq5MCpNKGiQyKHuDRdML413JqXS6P2/erDaip0oyrqhm8m
+UysaIedKoR4I1/Q2weq5m2OacSBvNjo1d2tKdKPwOzhMa8Eu/9OEb/4FUEsHCCWQKFS0BAAALx0AAFBL
+AQIUABQACAAIAAAAIQAlkChUtAQAAC8dAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAA
+AQABADYAAADqBAAAAAA=
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

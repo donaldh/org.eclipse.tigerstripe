@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Methods/Argument
 External-Reference: http://docs.xored.com/display/TS/UpdateMethodArgumentMultiplicity, http://bugs.xored.com/browse/XMP-512
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 12/23/11 3:55 PM
+Save-Time: 1/18/12 1:27 PM
 Id: _xV1OMKxcEeCV6eq_iSql8g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,6 +25,163 @@ Steps:
     Save changes and check updated argument name and method name in table and Tigerstripe explorer
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(\\):void" | double-click -nowait
+with [get-editor Entity0 | get-section Methods | get-section -index 1] {
+    get-button Add -after [get-label Arguments] | click
+    get-table -after [get-label Arguments] | select "arg0: String"
+    get-button Edit -index 1 | click
+}
+with [get-window "Argument Details" | get-combo -after [get-label Multiplicity]] {
+    get-property selection | equals 1 | verify-true
+    get-property values -index 0 | equals 0 | verify-true
+    get-property values -index 1 | equals "0..1" | verify-true
+    get-property values -index 2 | equals "0..*" | verify-true
+    get-property values -index 3 | equals "*" | verify-true
+    get-property values -index 4 | equals 1 | verify-true
+    get-property values -index 5 | equals "1..*" | verify-true
+}
+get-window "Argument Details" | get-button Ordered | get-property enablement | equals false | verify-true
+with [get-window "Argument Details" | get-button Unique] {
+    get-property enablement | equals false | verify-true
+    get-property selected | equals true | verify-true
+}
+get-window "Argument Details" | get-button OK | click
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\):void" | get-property caption 
+    | equals "entity0_testMethod0(String):void" | verify-true
+get-editor Entity0 | get-section Methods | get-section | get-table | select "entity0_testMethod0\\(String\\):void"
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | get-item "arg0: String" | get-property caption | equals "arg0: String" | verify-true
+with [get-editor Entity0 | get-section Methods | get-section -index 1] {
+    get-table -after [get-label Arguments] | select "arg0: String"
+    get-button Edit -index 1 | click
+}
+get-window "Argument Details" | get-combo -after [get-label Multiplicity] | set-text 0
+with [get-window "Argument Details" | get-button Ordered] {
+    get-property enablement | equals false | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-window "Argument Details" | get-button Unique] {
+    get-property enablement | equals false | verify-true
+    get-property selected | equals true | verify-true
+}
+get-window "Argument Details" | get-button OK | click
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | get-item "arg0: String\\[0\\]" | get-property caption | equals "arg0: String[0]" | verify-true
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[0\\]\\):void" | get-property caption 
+    | equals "entity0_testMethod0(String[0]):void" | verify-true
+get-editor Entity0 | get-section Methods | get-section | get-table 
+    | select "entity0_testMethod0\\(String\\[0\\]\\):void"
+get-editor Entity0 | get-section Methods | get-section | get-table 
+    | get-item "entity0_testMethod0\\(String\\[0\\]\\):void" | get-property caption 
+    | equals "entity0_testMethod0(String[0]):void" | verify-true
+with [get-editor Entity0 | get-section Methods | get-section -index 1] {
+    get-table -after [get-label Arguments] | select "arg0: String\\[0\\]"
+    get-button Edit -index 1 | click
+}
+get-window "Argument Details" | get-combo -after [get-label Multiplicity] | set-text "0..1"
+with [get-window "Argument Details" | get-button Ordered] {
+    get-property enablement | equals false | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-window "Argument Details" | get-button Unique] {
+    get-property enablement | equals false | verify-true
+    get-property selected | equals true | verify-true
+}
+get-window "Argument Details" | get-button OK | click
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | get-item "arg0: String\\[0..1\\]" | get-property caption | equals "arg0: String[0..1]" | verify-true
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[0..1\\]\\):void" 
+    | get-property caption | equals "entity0_testMethod0(String[0..1]):void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[0..1\\]\\):void" | double-click -nowait
+get-editor Entity0 | get-section Methods | get-section | get-table 
+    | get-item "entity0_testMethod0\\(String\\[0..1\\]\\):void" | get-property caption 
+    | equals "entity0_testMethod0(String[0..1]):void" | verify-true
+with [get-editor Entity0 | get-section Methods | get-section -index 1] {
+    get-table -after [get-label Arguments] | select "arg0: String\\[0..1\\]"
+    get-button Edit -index 1 | click
+}
+get-window "Argument Details" | get-combo -after [get-label Multiplicity] | set-text "0..*"
+with [get-window "Argument Details" | get-button Ordered] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals false | verify-true
+}
+get-window "Argument Details" | get-button OK | click
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[0..\\*\\]\\):void" 
+    | get-property caption | equals "entity0_testMethod0(String[0..*]):void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[0..\\*\\]\\):void" | double-click 
+    -nowait
+get-editor Entity0 | get-section Methods | get-section | get-table 
+    | get-item "entity0_testMethod0\\(String\\[0..\\*\\]\\):void" | get-property caption 
+    | equals "entity0_testMethod0(String[0..*]):void" | verify-true
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | get-item "arg0: String\\[0..\\*\\]" | get-property caption | equals "arg0: String[0..*]" | verify-true
+with [get-editor Entity0 | get-section Methods | get-section -index 1] {
+    get-table -after [get-label Arguments] | select "arg0: String\\[0..\\*\\]"
+    get-button Edit -index 1 | click
+}
+get-window "Argument Details" | get-combo -after [get-label Multiplicity] | set-text "*"
+with [get-window "Argument Details" | get-button Ordered] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-window "Argument Details" | get-button Unique] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals true | verify-true
+}
+get-window "Argument Details" | get-button OK | click
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | get-item "arg0: String\\[\\*\\]" | get-property caption | equals "arg0: String[*]" | verify-true
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[\\*\\]\\):void" 
+    | get-property caption | equals "entity0_testMethod0(String[*]):void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[\\*\\]\\):void" | double-click -nowait
+get-editor Entity0 | get-section Methods | get-section | get-table 
+    | get-item "entity0_testMethod0\\(String\\[\\*\\]\\):void" | get-property caption 
+    | equals "entity0_testMethod0(String[*]):void" | verify-true
+with [get-editor Entity0 | get-section Methods | get-section -index 1] {
+    get-table -after [get-label Arguments] | select "arg0: String\\[\\*\\]"
+    get-button Edit -index 1 | click
+}
+get-window "Argument Details" | get-combo -after [get-label Multiplicity] | set-text "1..*"
+with [get-window "Argument Details" | get-button Ordered] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-window "Argument Details" | get-button Unique] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals true | verify-true
+}
+get-window "Argument Details" | get-button OK | click
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | get-item "arg0: String\\[1..\\*\\]" | get-property caption | equals "arg0: String[1..*]" | verify-true
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[1..\\*\\]\\):void" 
+    | get-property caption | equals "entity0_testMethod0(String[1..*]):void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\[1..\\*\\]\\):void" | double-click 
+    -nowait
+get-editor Entity0 | get-section Methods | get-section | get-table 
+    | get-item "entity0_testMethod0\\(String\\[1..\\*\\]\\):void" | get-property caption 
+    | equals "entity0_testMethod0(String[1..*]):void" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

@@ -6,7 +6,7 @@ Tags: TS_Project/Profile
 External-Reference: http://jira4.xored.com/browse/QS-1670
 Element-Version: 3.0
 Contexts: _bEZkQBPREeCrTY2DkyxR-A
-Save-Time: 12/23/11 6:21 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _03nFEA5qEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -72,7 +72,7 @@ with [get-editor "Project4/profile.wbp"] {
         select "%12%" | get-item -index 0 | click -nowait
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "Project4/profile.wbp"] {
     get-tab-folder | get-tab-item Overview | click
     get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
@@ -102,7 +102,7 @@ with [get-editor "Project4/tigerstripe.xml"] {
         get-button "Enable Generator" | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select Project4 | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-button Finish | click
 get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-editbox -after [get-label "Run Log"] | get-property value | equals "[Project: Project4 version=0.0.1, Plugin: New Generator Project(3.0) version=3.0] Notice: None of the artifact(s) match the specified rule(s) \'ArtifactRule\'. Generation Successful." | verify-true
@@ -132,7 +132,7 @@ with [get-editor "Project4/profile.wbp"] {
         select "%12%" | get-item -index 0 | click -nowait
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "Project4/profile.wbp"] {
     get-tab-folder | get-tab-item Overview | click
     get-section "General Information" | get-link "Save as active profile and reload" | click -nowait

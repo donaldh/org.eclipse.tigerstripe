@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/AssociationPropertyEditor, Stereotypes
 External-Reference: http://docs.xored.com/display/TS/AssociationPropertyEditor_Stereotypes
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_1vqZYOILEeCOm5a5GamGdA
-Save-Time: 12/22/11 12:05 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _F3uzsOINEeCOm5a5GamGdA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -71,7 +71,7 @@ get-tab-folder | get-property activePage | equals "*ClassDiagram.wvd" | verify-t
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
     | get-target-connection 0 | get-edit-part -text "<<aStereotype0>>Association" | get-property text 
     | equals "<<aStereotype0>>Association" | verify-true
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click

@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences, TS_Project/Profile
 External-Reference: http://docs.xored.com/display/TS/Explorer
 Element-Version: 3.0
 Contexts: _XzgU8BMFEeCrTY2DkyxR-A
-Save-Time: 12/23/11 5:02 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _aHf4kA5qEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -96,7 +96,7 @@ with [get-window "Stereotype Selection"] {
     get-table -after [get-label "Please select a Stereotype"] | select "datatype_stereotype"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<datatype_stereotype>>Datatype" | get-property caption | is-equal "<<datatype_stereotype>>Datatype" | verify
 get-view "Tigerstripe Explorer" | get-tree | select "Project3/src/com.mycompany/Entity" | double-click
 get-editor Entity | get-section Stereotypes | get-button Add | click
@@ -105,14 +105,14 @@ with [get-window "Stereotype Selection"] {
     get-button OK | click
 }
 get-window "Stereotype Details" | get-button OK | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<entity_stereo_attribute>>Entity" | get-property caption | is-equal "<<entity_stereo_attribute>>Entity" | verify
 get-editor Entity | get-section Stereotypes | get-button Add | click
 with [get-window "Stereotype Selection"] {
     get-table -after [get-label "Please select a Stereotype"] | select "entity_method_stereotype"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<entity_stereo_attribute,entity_method_stereotype>>Entity" | get-property caption | is-equal "<<entity_stereo_attribute,entity_method_stereotype>>Entity" | verify
 get-view "Tigerstripe Explorer" | get-tree | select "Project3/src/com.mycompany/Enumeration" | double-click
 get-editor Enumeration | get-section Stereotypes | get-button Add | click
@@ -120,7 +120,7 @@ with [get-window "Stereotype Selection"] {
     get-table -after [get-label "Please select a Stereotype"] | select "enum_literal_stereotype"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<enum_literal_stereotype>>Enumeration" | get-property caption | is-equal "<<enum_literal_stereotype>>Enumeration" | verify
 get-view "Tigerstripe Explorer" | get-tree | select "Project3/src/com.mycompany/<<datatype_stereotype>>Datatype" | double-click
 with [get-editor Datatype | get-section Stereotypes] {
@@ -128,7 +128,7 @@ with [get-editor Datatype | get-section Stereotypes] {
     get-button Remove | click
 }
 get-window "Remove Stereotype" | get-button Yes | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/Datatype" | get-property caption | is-equal Datatype | verify
 get-menu "Window/Preferences" | click
 with [get-window Preferences] {

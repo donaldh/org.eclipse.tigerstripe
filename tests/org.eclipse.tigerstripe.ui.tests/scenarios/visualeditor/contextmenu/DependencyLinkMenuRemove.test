@@ -1,10 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="DependencyLinkMenuRemove" version="3.0" id="_D5nrUJ4sEeC0FMmSWvz47w" description="Dependency link removes when I select 'Remove' items for Dependency link&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;EntityWithDependencyContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Check that Dependency link is displayed on diagram&#xD;&#xA;    Select Dependency link and open dropdown menu&#xD;&#xA;    Select 'Remove from Diagram' item&#xD;&#xA;    Check that Dependency link is not displayed on diagram&#xD;&#xA;    In Tigerstripe Editor check that Dependency is still exists&#xD;&#xA;    Remove Entity1 from diagram and add it back &#xD;&#xA;    Select Dependency link and open dropdown menu&#xD;&#xA;    Select 'Remove from Model' item&#xD;&#xA;    Check that Dependency link is not displayed on diagram&#xD;&#xA;    In Tigerstripe Editor check that Dependency is removed" tags="TS_Project/VisualEditor/ContextMenu" type="ecl" externalReference="http://docs.xored.com/display/TS/DependencyLinkMenuRemove">
-  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
-  <contexts>_3O7l0J2FEeC0FMmSWvz47w</contexts>
-  <contexts>_6z53YJyTEeCwQoDghmuRmQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: DependencyLinkMenuRemove
+Tags: TS_Project/VisualEditor/ContextMenu
+External-Reference: http://docs.xored.com/display/TS/DependencyLinkMenuRemove
+Element-Version: 3.0
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_3O7l0J2FEeC0FMmSWvz47w,_6z53YJyTEeCwQoDghmuRmQ
+Save-Time: 1/18/12 1:28 PM
+Id: _D5nrUJ4sEeC0FMmSWvz47w
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Dependency link removes when I select 'Remove' items for Dependency link
+
+Precondition
+EntityWithDependencyContextWorkspace
+
+Steps:
+    Check that Dependency link is displayed on diagram
+    Select Dependency link and open dropdown menu
+    Select 'Remove from Diagram' item
+    Check that Dependency link is not displayed on diagram
+    In Tigerstripe Editor check that Dependency is still exists
+    Remove Entity1 from diagram and add it back 
+    Select Dependency link and open dropdown menu
+    Select 'Remove from Model' item
+    Check that Dependency link is not displayed on diagram
+    In Tigerstripe Editor check that Dependency is removed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
     | get-target-connection 0 | get-property text | equals Dependency2 | verify-true
 with [get-editor "ClassDiagram.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-target-connection 0] {
@@ -17,7 +47,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram] {
     }
     get-menu "Remove from Diagram" | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
     verify-error {get-target-connection 0 | get-edit-part -text Dependency2}
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Dependency2" | get-property caption 
@@ -57,7 +87,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className Map
     mouse-press 157 289 button1 -height 356 -width 596
     mouse-release 157 289 button1 524288 -height 356 -width 596
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany" | get-property childCount | equals 4 
     | verify-true
 with [get-editor "ClassDiagram.wvd" | get-diagram] {
@@ -80,1402 +110,105 @@ get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPa
     verify-error {get-target-connection 0 | get-edit-part -text Dependency2}
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany" | get-property childCount | equals 3 
     | verify-true
-get-button "Save (Ctrl+S)" | click]]></content>
-  </content>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
-        <parent id="EclipseWindow96" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramViewer" multiplicity="1">
-        <parent id="Editor71" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
-        <path>editpart</path>
-        <path>classname</path>
-        <parent id="DiagramViewer65" kind="DiagramViewer"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
-        <path>editpart</path>
-        <path>name</path>
-        <parent id="DiagramFigure354" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" multiplicity="1">
-        <path>editpart.target.connection</path>
-        <path>address</path>
-        <indexes>0</indexes>
-        <parent id="DiagramFigure357" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="text" value="Dependency2">
-      <element id="DiagramFigure358" kind="DiagramFigure"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
-        <parent id="EclipseWindow98" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramViewer" multiplicity="1">
-        <parent id="Editor72" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
-        <path>editpart</path>
-        <path>classname</path>
-        <parent id="DiagramViewer66" kind="DiagramViewer"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="Entity1" multiplicity="1">
-        <path>editpart</path>
-        <path>name</path>
-        <parent id="DiagramFigure359" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" multiplicity="1">
-        <path>editpart.source.connection</path>
-        <path>address</path>
-        <indexes>0</indexes>
-        <parent id="DiagramFigure360" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
-        <path>editpart</path>
-        <path>name</path>
-        <parent id="DiagramFigure359" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" multiplicity="1">
-        <path>editpart.target.connection</path>
-        <path>address</path>
-        <indexes>0</indexes>
-        <parent id="DiagramFigure362" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="52" y="47" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="61">
-      <element id="DiagramFigure363" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="52" y="47" button="1" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="61">
-      <element id="DiagramFigure363" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="52" y="47" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="291" figureHeight="61">
-      <element id="DiagramFigure363" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="52" y="47" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="61">
-      <element id="DiagramFigure363" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="52" y="47" button="3" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="61">
-      <element id="DiagramFigure363" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="52" y="47" button="3" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="2097152" figureWidth="291" figureHeight="61">
-      <element id="DiagramFigure363" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>Remove from Diagram</path>
-        <parent id="DiagramViewer66" kind="DiagramViewer"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu40" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State59" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow98" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button37" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State60" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow99" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View63" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Project</path>
-        <path>src</path>
-        <path>com.mycompany</path>
-        <path>Dependency2</path>
-        <parent id="Tree58" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Dependency2">
-      <element id="Item85" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
-        <parent id="EclipseWindow101" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramViewer" multiplicity="1">
-        <parent id="Editor73" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
-        <path>editpart</path>
-        <path>classname</path>
-        <parent id="DiagramViewer67" kind="DiagramViewer"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="Entity1" multiplicity="1">
-        <path>editpart</path>
-        <path>name</path>
-        <parent id="DiagramFigure364" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="ManagedEntityArtifactAttributeCompartmentEditPart" multiplicity="1">
-        <path>editpart</path>
-        <path>classname</path>
-        <parent id="DiagramFigure365" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="29" y="11" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="56" figureHeight="12">
-      <element id="DiagramFigure366" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="29" y="11" button="1" boundsWidth="613" boundsHeight="373" figureWidth="56" figureHeight="12">
-      <element id="DiagramFigure366" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="29" y="11" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="56" figureHeight="12">
-      <element id="DiagramFigure366" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="0" code="127" character="127" meta="0">
-      <element id="DiagramViewer67" kind="DiagramViewer"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="406" y="190" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="356">
-      <element id="DiagramFigure364" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow101" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View65" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree60" kind="Tree"/>
-      <path>Project</path>
-      <path>src</path>
-      <path>com.mycompany</path>
-      <path>Entity1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Project</path>
-        <path>src</path>
-        <path>com.mycompany</path>
-        <path>Entity1</path>
-        <parent id="Tree60" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" x="18" y="6" style="detail:0,button:0,mask:0,operations:0">
-      <element id="Item87" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Project</path>
-        <path>src</path>
-        <path>com.mycompany</path>
-        <path>Entity2</path>
-        <parent id="Tree60" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="126" y="1" style="detail:2,button:0,mask:0,operations:7">
-      <element id="Item88" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="126" y="1" style="detail:2,button:0,mask:0,operations:7">
-      <element id="Item88" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
-      <element id="Item88" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" y="118" style="detail:2,button:0,mask:0,operations:7">
-      <element id="DiagramFigure364" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="121" y="128" style="detail:1,button:0,mask:0,operations:7">
-      <element id="DiagramFigure364" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
-      <element id="DiagramFigure364" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Accept" x="121" y="128" style="detail:1,button:0,mask:0,operations:7">
-      <element id="DiagramFigure364" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Project</path>
-        <parent id="Tree60" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" x="-41" style="detail:0,button:0,mask:0,operations:0">
-      <element id="Item89" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Drop" x="121" y="128" style="detail:1,button:0,mask:0,operations:7">
-      <element id="DiagramFigure364" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="End" x="-41" style="detail:1,button:0,mask:0,operations:0">
-      <element id="Item89" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
-        <path>editpart</path>
-        <path>classname</path>
-        <parent id="DiagramViewer67" kind="DiagramViewer"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="Entity1" multiplicity="1">
-        <path>editpart</path>
-        <path>name</path>
-        <parent id="DiagramFigure367" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="ResizeHandle" index="5" multiplicity="1">
-        <path>handle</path>
-        <path>class</path>
-        <parent id="DiagramFigure368" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="4" y="4" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="7" figureHeight="7">
-      <element id="DiagramFigure369" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="157" y="289" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="356">
-      <element id="DiagramFigure367" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="157" y="289" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="356">
-      <element id="DiagramFigure367" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="157" y="289" button="1" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="356">
-      <element id="DiagramFigure367" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="157" y="289" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="596" figureHeight="356">
-      <element id="DiagramFigure367" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow101" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button38" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State61" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="327" y="172" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="356">
-      <element id="DiagramFigure367" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" multiplicity="1">
-        <path>editpart.source.connection</path>
-        <path>address</path>
-        <indexes>0</indexes>
-        <parent id="DiagramFigure368" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
-        <path>editpart</path>
-        <path>name</path>
-        <parent id="DiagramFigure367" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="DiagramFigure" multiplicity="1">
-        <path>editpart.target.connection</path>
-        <path>address</path>
-        <indexes>0</indexes>
-        <parent id="DiagramFigure371" kind="DiagramFigure"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="79" y="49" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="280" figureHeight="70">
-      <element id="DiagramFigure372" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="79" y="49" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="280" figureHeight="70">
-      <element id="DiagramFigure372" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="79" y="49" button="1" boundsWidth="613" boundsHeight="373" figureWidth="280" figureHeight="70">
-      <element id="DiagramFigure372" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="79" y="49" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="280" figureHeight="70">
-      <element id="DiagramFigure372" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="79" y="49" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="280" figureHeight="70">
-      <element id="DiagramFigure372" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="79" y="49" button="3" boundsWidth="613" boundsHeight="373" figureWidth="280" figureHeight="70">
-      <element id="DiagramFigure372" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="79" y="49" button="3" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="2097152" figureWidth="280" figureHeight="70">
-      <element id="DiagramFigure372" kind="DiagramFigure"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>Remove from Model</path>
-        <parent id="DiagramViewer67" kind="DiagramViewer"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu41" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State62" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Delete from Model" multiplicity="1">
-        <parent id="EclipseWindow101" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window12" kind="Window" description="Delete from Model"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button39" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State63" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow102" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View66" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Project</path>
-        <path>src</path>
-        <path>com.mycompany</path>
-        <parent id="Tree61" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="3">
-      <element id="Item94" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow104" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button40" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State64" kind="State"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow96" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="725" y="76" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="Editor71" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="373"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="DiagramViewer65" kind="DiagramViewer"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="373"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.3">
-      <elements id="DiagramFigure354" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart" itemAddress="[0]" width="596" height="356" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="Tigerstripe"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
-        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
-        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
-        <__properties name="view.name" value="ClassDiagram.wvd"/>
-        <__properties name="view.measurementUnit" value="Pixel"/>
-        <__properties name="view.edges[Edge:0].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].type" value="3008"/>
-        <__properties name="view.edges[Edge:0].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4031"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4038"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
-        <__properties name="dependencies[Dependency:0].name" value="Dependency2"/>
-        <__properties name="dependencies[Dependency:0].stereotypes" value="[]"/>
-        <__properties name="dependencies[Dependency:0].package" value="com.mycompany"/>
-        <__properties name="dependencies[Dependency:0].isReadonly" value="false"/>
-        <__properties name="dependencies[Dependency:0].isAbstract" value="false"/>
-        <__properties name="dependencies[Dependency:0].aEndMultiplicity" value="1"/>
-        <__properties name="dependencies[Dependency:0].aEndIsNavigable" value="false"/>
-        <__properties name="dependencies[Dependency:0].zEndMultiplicity" value="1"/>
-        <__properties name="dependencies[Dependency:0].zEndIsNavigable" value="false"/>
-        <__properties name="basePackage" value="com.mycompany"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.4">
-      <elements id="DiagramFigure357" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart" itemAddress="[0, 0]" x="430" y="95" width="56" height="50" childrenCount="3">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="1003"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
-        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
-        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
-        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
-        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
-        <__properties name="name" value="Entity2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <backgroundColor red="250" green="245" blue="210"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="DiagramFigure358" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramConnection" text="Dependency2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart" itemAddress="[-2, 0, 0, 1]" x="153" y="84" width="291" height="61" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="3008"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="name" value="Dependency2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <__properties name="aEnd.name" value="Entity1"/>
-        <__properties name="aEnd.stereotypes" value="[]"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="aEnd.package" value="com.mycompany"/>
-        <__properties name="aEnd.isReadonly" value="false"/>
-        <__properties name="aEnd.isAbstract" value="false"/>
-        <__properties name="aEndMultiplicity" value="1"/>
-        <__properties name="aEndIsNavigable" value="false"/>
-        <__properties name="zEnd.name" value="Entity2"/>
-        <__properties name="zEnd.stereotypes" value="[]"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="zEnd.package" value="com.mycompany"/>
-        <__properties name="zEnd.isReadonly" value="false"/>
-        <__properties name="zEnd.isAbstract" value="false"/>
-        <__properties name="zEndMultiplicity" value="1"/>
-        <__properties name="zEndIsNavigable" value="false"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="EclipseWindow98" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="725" y="76" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="Editor72" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="373"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
-      <elements id="DiagramViewer66" kind="DiagramViewer"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="373"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.10">
-      <elements id="DiagramFigure359" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart" itemAddress="[0]" width="596" height="356" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="Tigerstripe"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
-        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
-        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
-        <__properties name="view.name" value="ClassDiagram.wvd"/>
-        <__properties name="view.measurementUnit" value="Pixel"/>
-        <__properties name="view.edges[Edge:0].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].type" value="3008"/>
-        <__properties name="view.edges[Edge:0].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4031"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4038"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
-        <__properties name="dependencies[Dependency:0].name" value="Dependency2"/>
-        <__properties name="dependencies[Dependency:0].stereotypes" value="[]"/>
-        <__properties name="dependencies[Dependency:0].package" value="com.mycompany"/>
-        <__properties name="dependencies[Dependency:0].isReadonly" value="false"/>
-        <__properties name="dependencies[Dependency:0].isAbstract" value="false"/>
-        <__properties name="dependencies[Dependency:0].aEndMultiplicity" value="1"/>
-        <__properties name="dependencies[Dependency:0].aEndIsNavigable" value="false"/>
-        <__properties name="dependencies[Dependency:0].zEndMultiplicity" value="1"/>
-        <__properties name="dependencies[Dependency:0].zEndIsNavigable" value="false"/>
-        <__properties name="basePackage" value="com.mycompany"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.11">
-      <elements id="DiagramFigure360" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart" itemAddress="[0, 1]" x="110" y="100" width="56" height="50" childrenCount="3">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="1003"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
-        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
-        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
-        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
-        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
-        <__properties name="name" value="Entity1"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <backgroundColor red="250" green="245" blue="210"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="DiagramFigure361" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramConnection" text="Dependency2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart" itemAddress="[-2, 0, 0, 1]" x="153" y="84" width="291" height="61" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="3008"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="name" value="Dependency2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <__properties name="aEnd.name" value="Entity1"/>
-        <__properties name="aEnd.stereotypes" value="[]"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="aEnd.package" value="com.mycompany"/>
-        <__properties name="aEnd.isReadonly" value="false"/>
-        <__properties name="aEnd.isAbstract" value="false"/>
-        <__properties name="aEndMultiplicity" value="1"/>
-        <__properties name="aEndIsNavigable" value="false"/>
-        <__properties name="zEnd.name" value="Entity2"/>
-        <__properties name="zEnd.stereotypes" value="[]"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="zEnd.package" value="com.mycompany"/>
-        <__properties name="zEnd.isReadonly" value="false"/>
-        <__properties name="zEnd.isAbstract" value="false"/>
-        <__properties name="zEndMultiplicity" value="1"/>
-        <__properties name="zEndIsNavigable" value="false"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="DiagramFigure362" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart" itemAddress="[0, 0]" x="430" y="95" width="56" height="50" childrenCount="3">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="1003"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
-        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
-        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
-        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
-        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
-        <__properties name="name" value="Entity2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <backgroundColor red="250" green="245" blue="210"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.14">
-      <elements id="DiagramFigure363" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramConnection" text="Dependency2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart" itemAddress="[-2, 0, 0, 1]" x="153" y="84" width="291" height="61" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="3008"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="name" value="Dependency2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <__properties name="aEnd.name" value="Entity1"/>
-        <__properties name="aEnd.stereotypes" value="[]"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="aEnd.package" value="com.mycompany"/>
-        <__properties name="aEnd.isReadonly" value="false"/>
-        <__properties name="aEnd.isAbstract" value="false"/>
-        <__properties name="aEndMultiplicity" value="1"/>
-        <__properties name="aEndIsNavigable" value="false"/>
-        <__properties name="zEnd.name" value="Entity2"/>
-        <__properties name="zEnd.stereotypes" value="[]"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="zEnd.package" value="com.mycompany"/>
-        <__properties name="zEnd.isReadonly" value="false"/>
-        <__properties name="zEnd.isAbstract" value="false"/>
-        <__properties name="zEndMultiplicity" value="1"/>
-        <__properties name="zEndIsNavigable" value="false"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.21">
-      <elements id="Menu40" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Remove from Diagram" enablement="true" index="19" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.22">
-      <elements id="State59" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.25">
-      <elements id="Button37" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:ToolItem" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool" index="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.26">
-      <elements id="State60" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.29">
-      <elements id="EclipseWindow99" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="725" y="76" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.30">
-      <elements id="View63" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="572"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.31">
-      <elements id="Tree58" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="572"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.32">
-      <elements id="Item85" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Dependency2">
-        <styleRanges>0, 11, fontStyle=normal, foreground=Color {0, 0, 0}</styleRanges>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="54" width="76" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.34">
-      <elements id="EclipseWindow101" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="725" y="76" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.35">
-      <elements id="Editor73" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="373"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.36">
-      <elements id="DiagramViewer67" kind="DiagramViewer"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="741" height="373"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.37">
-      <elements id="DiagramFigure364" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart" itemAddress="[0]" width="596" height="356" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="Tigerstripe"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
-        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
-        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
-        <__properties name="view.name" value="ClassDiagram.wvd"/>
-        <__properties name="view.measurementUnit" value="Pixel"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
-        <__properties name="basePackage" value="com.mycompany"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.38">
-      <elements id="DiagramFigure365" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart" itemAddress="[0, 1]" x="110" y="100" width="56" height="50" childrenCount="3">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="1003"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
-        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
-        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
-        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
-        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
-        <__properties name="name" value="Entity1"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <backgroundColor red="250" green="245" blue="210"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.39">
-      <elements id="DiagramFigure366" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactAttributeCompartmentEditPart" itemAddress="[0, 1, 2]" x="110" y="121" width="56" height="12">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="5003"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[DrawerStyle:0].collapsed" value="false"/>
-        <__properties name="view.styles[SortingStyle:1].sorting" value="None"/>
-        <__properties name="view.styles[SortingStyle:1].sortingKeys" value="{}"/>
-        <__properties name="view.styles[FilteringStyle:2].filtering" value="None"/>
-        <__properties name="view.styles[FilteringStyle:2].filteringKeys" value="[]"/>
-        <__properties name="name" value="Entity1"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <backgroundColor red="250" green="245" blue="210"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.45">
-      <elements id="View65" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="572"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.46">
-      <elements id="Tree60" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="572"/>
-        <selection>
-          <path>Project</path>
-          <path>src</path>
-          <path>com.mycompany</path>
-          <path>Entity1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.48">
-      <elements id="Item87" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Entity1" index="1" selected="true">
-        <styleRanges>0, 7, fontStyle=normal, foreground=Color {0, 0, 0}</styleRanges>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="72" width="40" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.50">
-      <elements id="Item88" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Entity2" index="2">
-        <styleRanges>0, 7, fontStyle=normal, foreground=Color {0, 0, 0}</styleRanges>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="90" width="40" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.58">
-      <elements id="Item89" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Project" childCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="41" width="41" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.62">
-      <elements id="DiagramFigure367" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart" itemAddress="[0]" width="596" height="356" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="Tigerstripe"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
-        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
-        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
-        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
-        <__properties name="view.name" value="ClassDiagram.wvd"/>
-        <__properties name="view.measurementUnit" value="Pixel"/>
-        <__properties name="view.edges[Edge:0].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].type" value="3008"/>
-        <__properties name="view.edges[Edge:0].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4031"/>
-        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4038"/>
-        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
-        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
-        <__properties name="dependencies[Dependency:0].name" value="Dependency2"/>
-        <__properties name="dependencies[Dependency:0].stereotypes" value="[]"/>
-        <__properties name="dependencies[Dependency:0].package" value="com.mycompany"/>
-        <__properties name="dependencies[Dependency:0].isReadonly" value="false"/>
-        <__properties name="dependencies[Dependency:0].isAbstract" value="false"/>
-        <__properties name="dependencies[Dependency:0].aEndMultiplicity" value="1"/>
-        <__properties name="dependencies[Dependency:0].aEndIsNavigable" value="false"/>
-        <__properties name="dependencies[Dependency:0].zEndMultiplicity" value="1"/>
-        <__properties name="dependencies[Dependency:0].zEndIsNavigable" value="false"/>
-        <__properties name="basePackage" value="com.mycompany"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.63">
-      <elements id="DiagramFigure368" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart" itemAddress="[0, 1]" x="121" y="128" width="56" height="50" childrenCount="3">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="1003"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
-        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
-        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
-        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
-        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
-        <__properties name="name" value="Entity1"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <backgroundColor red="250" green="245" blue="210"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.64">
-      <elements id="DiagramFigure369" kind="DiagramFigure"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.70">
-      <elements id="Button38" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:ToolItem" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool" index="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.71">
-      <elements id="State61" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.75">
-      <elements id="DiagramFigure370" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramConnection" text="Dependency2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart" itemAddress="[-2, 0, 0, 1]" x="164" y="94" width="280" height="70" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="3008"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="name" value="Dependency2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <__properties name="aEnd.name" value="Entity1"/>
-        <__properties name="aEnd.stereotypes" value="[]"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="aEnd.package" value="com.mycompany"/>
-        <__properties name="aEnd.isReadonly" value="false"/>
-        <__properties name="aEnd.isAbstract" value="false"/>
-        <__properties name="aEndMultiplicity" value="1"/>
-        <__properties name="aEndIsNavigable" value="false"/>
-        <__properties name="zEnd.name" value="Entity2"/>
-        <__properties name="zEnd.stereotypes" value="[]"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="zEnd.package" value="com.mycompany"/>
-        <__properties name="zEnd.isReadonly" value="false"/>
-        <__properties name="zEnd.isAbstract" value="false"/>
-        <__properties name="zEndMultiplicity" value="1"/>
-        <__properties name="zEndIsNavigable" value="false"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.76">
-      <elements id="DiagramFigure371" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart" itemAddress="[0, 0]" x="430" y="95" width="56" height="50" childrenCount="3">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="1003"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
-        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
-        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
-        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
-        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
-        <__properties name="name" value="Entity2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <backgroundColor red="250" green="245" blue="210"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.77">
-      <elements id="DiagramFigure372" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramConnection" text="Dependency2" className="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart" itemAddress="[-2, 0, 0, 1]" x="164" y="94" width="280" height="70" childrenCount="2">
-        <__properties name="view.visible" value="true"/>
-        <__properties name="view.type" value="3008"/>
-        <__properties name="view.mutable" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
-        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
-        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
-        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
-        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
-        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
-        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
-        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
-        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
-        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
-        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
-        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
-        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
-        <__properties name="name" value="Dependency2"/>
-        <__properties name="stereotypes" value="[]"/>
-        <__properties name="package" value="com.mycompany"/>
-        <__properties name="isReadonly" value="false"/>
-        <__properties name="isAbstract" value="false"/>
-        <__properties name="aEnd.name" value="Entity1"/>
-        <__properties name="aEnd.stereotypes" value="[]"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="aEnd.package" value="com.mycompany"/>
-        <__properties name="aEnd.isReadonly" value="false"/>
-        <__properties name="aEnd.isAbstract" value="false"/>
-        <__properties name="aEndMultiplicity" value="1"/>
-        <__properties name="aEndIsNavigable" value="false"/>
-        <__properties name="zEnd.name" value="Entity2"/>
-        <__properties name="zEnd.stereotypes" value="[]"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
-        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
-        <__properties name="zEnd.package" value="com.mycompany"/>
-        <__properties name="zEnd.isReadonly" value="false"/>
-        <__properties name="zEnd.isAbstract" value="false"/>
-        <__properties name="zEndMultiplicity" value="1"/>
-        <__properties name="zEndIsNavigable" value="false"/>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor red="176" green="176" blue="176"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.85">
-      <elements id="Menu41" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Remove from Model" enablement="true" index="20" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.86">
-      <elements id="State62" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.89">
-      <elements id="Window12" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Delete from Model" hasBorder="true" hasCloseButton="true" isApplicationModal="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="976" y="366" width="522" height="142"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.90">
-      <elements id="Button39" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds width="92" height="25"/>
-        <caption>OK</caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.91">
-      <elements id="State63" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.94">
-      <elements id="EclipseWindow102" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="725" y="76" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.95">
-      <elements id="View66" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="572"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.96">
-      <elements id="Tree61" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="572"/>
-        <selection>
-          <path>Project</path>
-          <path>src</path>
-          <path>com.mycompany</path>
-          <path>Entity1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.97">
-      <elements id="Item94" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany" childCount="3">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="79" y="36" width="98" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.99">
-      <elements id="EclipseWindow104" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="725" y="76" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.100">
-      <elements id="Button40" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:ToolItem" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool" index="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <caption></caption>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.101">
-      <elements id="State64" kind="State"/>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+get-button "Save \(.*\)" | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV1PwjAUhu9N/A9L71mRDyELgws+
+jFOiMFC8WuZ2GNW1HW33xa+3I7AEI9615336nvecDkYFjY0MhCSc2ejObCIDWMBDwiIbpWrb6KPR8PZm
+EHBqFlxAaO57pgyA+YJwyz0djIISq3ZpVS7al0lL1220UyqxMM7z3OQ0MrmI8Gb+eEb+dK4faRUfVbzv
+4bNqQqBLyGA+BRtNIAEW6tTlM2Hfc2DpEijPtF4naleJSGgjb9JlYu105BTGzdmcuu/ZodPLkaH8SNpo
+5Xqvgn9BoPAbkakfT0OiuMBjzhQUqvLWaJnorhDEelWFAsH8eAlbEDoB1LlDHsjTWNUIIZFJ7Jd45eKr
+cfWaDUMv+thKDr3Zw9ZdP6ndNGxkfSfffLLUU4sBrolffPulFzed1uxytOv8/aHb/nDKlebzBZ9EO5ou
+6aV/dfnv3zXyA1BLBwgX/eu0TAEAAEICAABQSwECFAAUAAgACAAAACEAF/3rtEwBAABCAgAACAAAAAAA
+AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAggEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtHWtv2zjy+wH3Hwzflztca1vyO2h6
+1ybZ22I3bdFkr3soigUjMbY2smRIcl6L/e83pN62XpYo2Y4HWHQjWRySM0POgzPDN/96XOite2rZmmmc
+tqVOr92ihmKqmjE7ba+c29eT9r/e/vUvbxRz0Xk0Lap2HGrrpKPA352lZTqmYuodizycXLP3Vwo1iKWZ
+rceFdhKAlRlY6MiwT+D9aXvuOMuTbvfh4aFjLmYd05p1f738EHxixz956PMv5F5Pgs9+vlLmdEFea4bt
+EEOhfqvMAQbwuvBZl3/W5Z912WfdYB6UPRaC2FE1MrPIIgey99U2gAGXBYfbhU8LQF5pOfBWWhwKf4iR
+gCq6trQppwNd3DJayN0L3gaYo9Vi7LEghmq3gHgnztMSmmfO8uSK6lRxztxmLhAAoxKHtO40Qz1tX7hd
+foUH86HdWqx0R1vqmqI5T8Cn7a7bb9fvuLZhqJpjWu3WkjgOtYCXz3Ri2+ceWR/u1c2heVAAzpJY1HBa
+2vp0pqN28ixVaiuWtnT4qrnWZrCAHHimrdetz5b5Owy1a1sKp+LiCf5dEuOpuz4i+NgD2/qsE+fWtBYe
+uhjC2Nwawp03pv9q9IFaRfHE8T2W2nH873L8P2izFVscAQtckiUb1mdiOdmzcuZvKXwI03PedPlj/EeF
+Uc4gC7r5a4CQGBJHw3YibvcKPReGA7iQq6GmGFbcvvvDQTtxTPuAloJI6DjEmlEHOjMMgA8bQCJaiKpa
+1LbXf4OO6SO13/bedP0/C2Bt3BzW3tk2ZasFeMTSblYONHDoI7y4J/oKHs7pksLADQX4xu8eEL1IGfkk
+Z+Qc6jWMKzJALtVOLs5hTuyXdmtu0duCUu5v3e7FFYzcmDUneF6y/Jug/MuWfzLKv0T5NzoY+Sc1Kf+m
+hy//bHNlKbRJ+Tfq7S/WdqlMvQBmal6ZGsmNYc13PZy4XVyaK5v6KGw9nraHMBTAzgDUO9C0HO7X8Qd3
+ad4DGm/MFfT3VVOd+Wl7JPX9Nz9SbTZ3Ttv9Mby65dC9j+Sp5L/xPxpJBTS1UT8LLbvBxHHP3h3PL8uC
+eLAd4tBLYt8xeAN5MnlpqHEH8SOsC+uoWaN/7LMvvzDk3nQsMaAHgJt8kXtJjVWupP1CF7BiWreWuWh5
+w9xHHf4/1LlidPKRtzWAM8DAXSLRGJoGgQbJkSaIQl+J5vxgWu7A/a45u/GO+ftQSYvNr3bmeM/XS0Q/
+vSLABn8/cyz9n1f/OF5fQI2M5qK8H4gqjwQNMltoKDXLbHviAmP7U4Tjo6x48bjUAVhh506M8acvgfFz
+sXdt0RzDLUAPQ3Qo/TjadzLkDw5d5EpAjxSJhiWQJ9nfBeMKSJb4RcQPniFPGU5DHzjHcENOe4Vwvizs
+t2eonASHVhyx6KQ/DCe91JOOYoOq4KXvo5c+UcNfP1hELz037Pb4lDrCNQaZUdXFzjvL0W6J4rzzBcAZ
+W8yWw7b3xnnLx+J6CMTuHK3ylPsRJEmgo3U4WncaSEVOxDeM6kYdKsmIOOrJC3az7iVmTlwVjY/9tA1G
+omKqlI0M9n9lTizYOajlPS+oQ9g3GWMuIjzqJuagN3KpOe1Vdg0PpxtE6wMdC1AtU1AcrMF7LArlthbv
+sAGL13FHzUy3JP5jQw69PHGDMtXaTbZ18yxd93dP+4r88qLN+s3prnNCFgUEcsK5RWbR/U6a8O1uxHbx
+Jx2aq7BPa/pJ75Ury+CPBUgl+J+5pBZhDGSfJO/i3NQfJ5j6R0DZPGdN05T1dlnDYTs1I7PsibV1OstZ
+dB6n03lSB50TpvDp/tBn8DMl91TU8mpq0B7ncLV2IgDjjeo32WwkudOSN6YlHd60RPHWrufxTlHo0jl0
+AtUspvZAoIAeyTzznFCvBxtbcdldbdrQrnZumctDZ7LEzVpNo0jmbJqmCHqyX4wnu8HModJo+UJt7Zn+
+CK10eM0jeU/bw1wszXmDdPYpjqS8JKXmHNUDN96tskdrvO7PKrQhZsaT1z11iWW5weTlcE/bgUMvc700
+igJxBxUvCxlHjwDRBxb7iZ1dRDi+EL93/SGOgcDcQYhjQCKRIY55a7Evu2tRCvM9X5pwekn5gs0pdIeU
+L7jPxsD+5guGFU52bh2M3QCGQXUFWZ70NiyEIh7HcWbyZIPzF5cv+YIwcdyzF50veeiowS2iSr7kC5q9
+8HzJvcRNDfmSl6ZK9X30QNedLRlK1YazJcPiDM0msPl2fqCdn0MLJ8oGR+xP2N4T8+mngujy8BRQPRE/
+m7Q4sDXleU2mO/Sa9HezrvYk7aq2OFn5KNb3tnGyQSz78WWGxmM/gu2/0czPuaarZ6DXhUUb+6kBBNPg
+rLH+lM8PMKIj23jqOKMYvIQ9p3ZpG1b82IG0HRSRtt6YL8lyqRmzlvfjabvb/bf/YWfDrLKL16gOyKaY
+hmOZeu4cV9qJz0vUIDduh6dtx1pxz5qlUuurxgxA2NYczWHRSyLZrMWiQFi3fpdzYl9qhraA1+89azb8
+gTwm/3Cmm3b8bbimbohyN7OYxXtmgtBvwfzBmmWcMoP92fD+vuFbJvuzGzaFEdJI08gvrgXNrW95yM3v
+MRDkwTWVQUMAXpj7VvJoEllMPlk85oizQ3EW2ahUZBcqz70FU/hJ65tM4XHBRhJ7YyjvuyfkIcLHzHad
+R9wZwvG9kc1nl6j+jdgvif0NTcZOcDTlVhnfAv0eBFefZJWwT9vtFo8v+0gW0A5UnUDtccLdsPNgWnc3
+1FDmAKRzr9krolNOSd+H12GPHXaoZXdicZMadPXOPcA6bX/rfQ+wyw+O55Ej4xZX9UBP4NoeUCJC+t9+
+A5G1BN1Qo3bL4EO9ByZkQ9FuWJydpxpyVurmt3O4xuc1imz7RdouVg6J9nlLdLtQQx4ja3/7TGb0iv15
+0vsOGJvRXwNQvSpg/icGDHeLBqCkXiVgrke1JLTzUAV0gcrfOxG1MIBaBCT7M2iwsccUoTolNqw6tkh/
+MbRwSp+1x4gLJwMAVWcwpwv4lyGnLOPGocTYuN/rTbYHUZqb42D8tfvto6kKnOAG2NiMB72+JABmLSiQ
+6kGBtImCEkTfgCkIBd7C/WKuHJB5wU7ABS9V31NDXZoaSLkvRNVW9nb7VdGe2HMA+ZIYIKqEgbcXpunM
+DZBlQQ8fTUMcosi9qamfbkAWrXg4iF0TQRRmVtjOuebfZVVLL7+vFsufNeOOmY2rmjDm93EdXRRXdKEp
+mqXo4vuxv1B2vZgolP0AqpvbByzCW3jg6qmAhbEB+GNUAF7RmUlbv3wQB35N0E/FQL4xdbUOTGsO0TWl
+Dshso7N0zaiFQZiOekev57DLzeaCOgCmpoF2xQYe50BJGo6nw1EJGZMGP65fvs4T4MSrBWV/u0wqEcV6
+iul2fiBiZai2Qy1qMmEbbl3fvleHG7b55qmgn903Txtz8aF15ppKO2CtgQC16x4B73sr5irSJZju8EsA
+NnbuUB28BtsyUU1DfxI9cM1+x8QxPAmFLCVybdW1INXEtdLOuTZ3BOK5VqqXa6XauFYqzbWqX1WVIzko
+sbpB4Wj11dIQS3FqBrwqxMoAW5JImRBFE4dcGOpl5OwtlN7VYH6wP5J7bba1ZZgB9rmGoT5XGOoNsenn
+opyT7IAeDkMHNPvbc0DDn/kOaGGe5EEhT3JeykQ1T3KQAyLeoZywz6W6mF+1mJeZpR/3e9ylPx2GTueI
+z3nY23A595tyOUu9Xr9Io6q+5tB86JW2L9NAlbYo0wCWsSGTYJWzGpMglbUTk2BVsAyTwFW0BdNc7FJ5
+F7s/Sk3XA4PvFh7WDMr+BLbG/lacF4UIgtOweTiJEgqPXCsyCi60SPtVLd40iFvauCUM2FLaU81KvGgN
+vYpGV1JtK6KbpWgB0WPoUAuQso6h3aYSi7DwmvK/3absT+FqwrCQmpCXcLq9mnAWZDj6ykLUhhCuMITA
+07SE1zKoCfw/6btXn8A9/58MAmWB36Tlawss+nFXB9RFT/aqagu1nNsIP6kRfzZT32lMXecv9Zy41HfG
+UtupisBzFOEnJyLPSsSdjog8DxF8AlLDmYf4Uw5B5xolHWrl9L79VKSSfJsXhlrKM87alfN9s5Z1e7fz
++yjhv+ZAq3ioGYCyPmi3bWkal3IBVnFJPqcwVt56ey7NWM8NMFaBPrZnrOeqjPVcgbGeKzBWad9yYQey
+OAdw86bfRs3EpOSLlEtRy1h+mHxxcMkXk8zkCxmTLwTje1ok+SLv2mrEftlUo5R0tDVnWGYZ2cpnZph9
+gdkXmH2RT3XMvsDsiy3gYvYFZl9g9gVmX2D2BWZfYPYFZl9g9gVmX2D2RW0jEM+1mH2B2ReYfYHZF7Uc
+vol3JaeUrVq7saLXQPqFtPv0Cz+iUnLTL5jbEfMvMP+iBCTMv9jCyY75FwLzL/KaYP7FzsIGDzn/Qsqu
+t+grCnmXNGECBiZgbKs/YAIGJmBgAgYmYGwLDhMwBCh++6lJYQJGJRc2JmBsG9hf4qwQEzC2ZyxMwMj3
+Ae/A9itU7X2Uea2gICcx1uhBH3E5gOgjRh8x+oixRs+eWzYH7SMuVMsvvAMTfcToI0YfMfqI0UeMPmL0
+EaOPGH3E6CNGHzH6iNFHfHg+YjklkPiSGqvwDmj2VMrQYw1db7BCvKu1v9CFeU9bt5a5aHmcmVQgBPql
+zACbsqa2QtS4mVRhxikRUfyu6bD4Rvzq6dKdpdS/dYv89MeJl2xvh+Jr09RdFCdUWYHfgPE37k13O2Ut
+Q0TXXXrFY4C3wLreX6JZeZRB2DAUXhBhU0rpxKtbTbG61RFXt+qn1PthBZVCbxp7KsURvGF6aaUoA1w8
+LgE11Gq6vNIwTMSQBxF0D8dyDehOEWXXMJ+wwjh7KrfPsoYJ6GYgiGYwSee/WjB14woGobgiz5NosEl7
+PsL8zbZKllFIiOZwnyJUmWCaBLe5czFVFvdrakTUOA7nzc3wL8SYUfst8+JKr1q3vt/g1IC9jOjsjY+2
+Uxflf7g+396fb7pRAI2QCNYKK4LIFkvoYx5HTqSlOnamFI9/TExJPQnF1zGLrxTd1avO2MfqjKIRnqLA
+xsszrl+pheUZRaE/pWDt2jHoAMsz1nqsieUZo2CwPGMy1SuUZ8QSQ1hiCEsMFYaKJYYEkujYSgy9lHor
+/ZRK9Wu64RDrrWAsPcbSYyw9xtLveyw91lvZ2wiwQ46l72dfseIrCut3rOy/EylBQ3jnAKSblQPre8E+
+Y7PN0hpeteQ1xUGWEhUHqTFn07AhNeHcIg/UCiO9TV0nQJDyUvTKtMKYaWaluc9lg7tTwP1En8Ld748/
+txMpsIEGIF1J5b4pO8YMkLFx5u7SKA1QGjQjDQYpR2g8AmSIESCi0Z1ygMbCB8IAMIwAGcec2bY/zOAV
+vFwSZ/7WO3Z/0+VP67/alpLyS2znSPnG23fXfn3TXR+NOOZIceHwEJVxHSEqgb8mCLFsubNj9F2LIFgL
+XBkfUNwKu6fRYzO2YdQZtzJMiajjNJzUR0M5oGFGsNEh0Wzaa45mWetuWgfNvG3Lcz4mnF/XjONBaNVE
+gxbqQO6oWHnP9ZiR/Tc3MWYBYxYwZiEOAK+UFAEWr5TEKyWze8IrJfP7wSsly/aDV0qKq3+BV0puCRyv
+lMR4T4z3xHhPjPfEeE+8UhKvlMQrJfFKSd+VXKxa+OS4QpxZhBKPVJpgiDOGOJeBhCHOGOJcBiKGOGNQ
+214GtY2KlQufZikK5Xsfp4SAeBXVJlhRTRylxykVldyKapLYimrjlFjJOFuNxV9pfgBV6FnRCRa1E6lC
+P4mE7Yw3tVCsQl8NNlahxyr0WIUeq9BngsMq9ALsif1U0JO85liFfitUYRX6gp1iFfrtUIVV6LdwKRxE
+FfpxduVD3/aT8KZSPHrAowc8esCjhz0/esCbSvfWsjnko4dxoRK9Y/E3mqOPGH3E6CNGHzH6iNFHjD5i
+9BGnNUMfMfqIMxuijxh9xFlt0UecZvtNUuKD+E2lUt03lV6aKtUz7imVe6LvKZ1kXmcpiw2+mqSULfVu
+Agt6a/AGsHMYiBPH/pzY7/m3mddytWD5LdkSIoyM0JToTV/YNWVrAYxxXujV993LcqQW0KCG8nfT7NDI
+qYDQSK/pJhGbQa2HymkEk3Jsl/IDIT/9VFtQ5DQzKLIvdl1Oi13UJ+NFfUd8Ud80q8roCKuMikZ3VpVR
+CauMHnWV0WnKCQVTLaeDOqodxi2bWM3DfnM1D8dTT+EJFiKrNFln6cNpkRvYpd4AReMRi0ZWLjBDJx70
+MF1IJLIzVeNBQdWYjScB00vLdEzF1DsWeTi5Zu+vFEC4pZnQ5v9QSwcI5xWNaoQSAADfWwEAUEsBAhQA
+FAAIAAgAAAAhAOcVjWqEEgAA31sBAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
+NgAAALoSAAAAAA==
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

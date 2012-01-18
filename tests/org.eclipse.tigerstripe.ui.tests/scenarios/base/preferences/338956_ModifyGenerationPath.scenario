@@ -6,7 +6,7 @@ Tags: I32, TS_Project/Preferences
 External-Reference: http://docs.xored.com/display/TS/338956_ModifyGenerationPath
 Element-Version: 3.0
 Contexts: _5OPsMK6FEd-uWaeTFaimww
-Save-Time: 12/23/11 5:00 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _lOLIsWP2EeC2TMO2606CMQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -65,7 +65,7 @@ with [get-editor "P1/tigerstripe.xml"] {
     get-tab-folder | get-tab-item "Generator Settings" | click
     get-section "New Generator Project(3.0) (disabled) [Generic]" | get-button "Enable Generator" | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "P1/tigerstripe.xml" | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-group Generation | get-editbox -after [get-label "Output Directory:"] | get-property value | equals "targettest/tigerstripe.gen" | verify-true
 with [get-window "Generate Tigerstripe Project"] {
@@ -96,7 +96,7 @@ with [get-editor "P2/tigerstripe.xml"] {
         get-button "Enable Generator" | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "P2/tigerstripe.xml" | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-group Generation | get-editbox -after [get-label "Output Directory:"] | get-property value | equals "target/tigerstripe.gen" | verify-true
 with [get-window "Generate Tigerstripe Project"] {

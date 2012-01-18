@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Methods/Argument
 External-Reference: http://docs.xored.com/display/TS/UpdateArgumentTypeDefaultValue, http://build.xored.com/browse/TS-CVSDEPLOY-77, http://bugs.xored.com/browse/XMP-512
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 12/23/11 3:55 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _O3bxQKxlEeCV6eq_iSql8g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -72,7 +72,7 @@ with [get-window "Argument Details"] {
     }
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 
 get-editor Entity0 | get-section Methods | get-section | get-table | select "entity0_testMethod0\\(AssocClass0\\):void"
 get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
@@ -105,7 +105,7 @@ with [get-window "Argument Details"] {
     }
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 
 get-editor Entity0 | get-section Methods | get-section | get-table | select "entity0_testMethod0\\(Entity1\\):void"
 get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
@@ -198,7 +198,7 @@ with [get-window "Argument Details"] {
     get-combo -after [get-label "Default Value:"] | set-text true
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity0 | close
 get-editor "Project2/tigerstripe.xml" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree 

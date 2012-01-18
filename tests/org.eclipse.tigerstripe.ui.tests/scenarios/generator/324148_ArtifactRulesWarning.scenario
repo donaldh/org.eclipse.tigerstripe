@@ -6,7 +6,7 @@ Tags: TS_Generator/Deploy, I27
 External-Reference: http://docs.xored.com/display/TS/324148_ArtifactRulesWarning
 Element-Version: 3.0
 Contexts: _sCPIYAwQEeCqQ4ETbKfwUw,_TLUSEd7KEeC1arm-KQmhig
-Save-Time: 12/9/11 10:46 AM
+Save-Time: 1/18/12 1:28 PM
 Id: _1KfGUAwQEeCqQ4ETbKfwUw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -45,7 +45,7 @@ with [get-editor "Project1/tigerstripe.xml"] {
         get-button "Enable Generator" | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-button Finish | click
 get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-label "Warnings during generation." 
@@ -82,7 +82,7 @@ with [get-editor "GeneratorProject/ts-plugin.xml" | get-section "Artifact Rules"
     get-combo -after [get-label "Artifact Type:"] | set-text Datatype
 }
 get-editor "GeneratorProject/ts-plugin.xml" | get-tab-folder | get-tab-item Overview | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "GeneratorProject/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" | click
 get-window "Deploy new generator" | get-button OK | click
 get-window "GeneratorProject Generator" | get-button OK | click

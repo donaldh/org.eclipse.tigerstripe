@@ -1,5 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="NewEnumeration" id="_O1m3wf0KEd-lsuiu6qRsWA" description="Create new Enumeration artifact and add constant" type="ecl">
-  <contexts>_IhHLkKwQEd-DHcdNat_asw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    click&#xD;&#xA;    get-tree | select &quot;New Project/src&quot; | get-menu &quot;New/Enumeration&quot; | click&#xD;&#xA;}&#xD;&#xA;with [get-window &quot;Create a new Enumeration&quot;] {&#xD;&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Enumeration0&#xD;&#xA;    get-editbox -after [get-label &quot;Artifact Package:&quot;] | get-property value | is-equal &quot;org.eclipse&quot; | verify&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;with [get-editor Enumeration0] {&#xD;&#xA;    click&#xD;&#xA;    get-canvas | mouse-move 249 33&#xD;&#xA;    with [get-section &quot;General Information&quot;] {&#xD;&#xA;        get-editbox -after [get-label &quot;Project:&quot;] | get-property value | is-equal &quot;New Project&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | is-equal &quot;org.eclipse.Enumeration0&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] -index 1 | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;}&#xD;&#xA;with [get-section Details] {&#xD;&#xA;        get-canvas -after [get-label Details] -index 1 | mouse-move 229 1&#xD;&#xA;        get-canvas | mouse-move 237 5&#xD;&#xA;    }&#xD;&#xA;    with [get-section Constants] {&#xD;&#xA;        get-button Add | click&#xD;&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;            key-type &quot;Ctrl+a&quot;&#xD;&#xA;            set-text &quot;enumeration0_testLiteral0&quot;&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xD;&#xA;&#xD;&#xA;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;New Project/src/org.eclipse/Enumeration0/enumeration0_testLiteral0=0&quot; | get-property caption | is-equal &quot;enumeration0_testLiteral0=0&quot; | verify"/>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: NewEnumeration
+External-Reference: 
+Element-Version: 2.0
+Contexts: _IhHLkKwQEd-DHcdNat_asw
+Save-Time: 1/18/12 1:28 PM
+Id: _O1m3wf0KEd-lsuiu6qRsWA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Create new Enumeration artifact and add constant
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "New Project/src" | get-menu "New/Enumeration" | click
+}
+with [get-window "Create a new Enumeration"] {
+    get-editbox -after [get-label "Name:"] | set-text Enumeration0
+    get-editbox -after [get-label "Artifact Package:"] | get-property value | is-equal "org.eclipse" | verify
+    get-button Finish | click
+}
+with [get-editor Enumeration0] {
+    click
+    get-canvas | mouse-move 249 33
+    with [get-section "General Information"] {
+        get-editbox -after [get-label "Project:"] | get-property value | is-equal "New Project" | verify
+        get-editbox -after [get-label "Qualified Name:"] | get-property value | is-equal "org.eclipse.Enumeration0" | verify
+        get-editbox -after [get-label "Description:"] | get-property value | is-equal "" | verify
+        get-editbox -after [get-label "Description:"] -index 1 | get-property value | is-equal "" | verify
+}
+with [get-section Details] {
+        get-canvas -after [get-label Details] -index 1 | mouse-move 229 1
+        get-canvas | mouse-move 237 5
+    }
+    with [get-section Constants] {
+        get-button Add | click
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "Ctrl+a"
+            set-text "enumeration0_testLiteral0"
+        }
+    }
+}
+get-button "Save \(.*\)" | click
+
+
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Enumeration0/enumeration0_testLiteral0=0" | get-property caption | is-equal "enumeration0_testLiteral0=0" | verify
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UE1LAzEQvQv+hzD3Jq2ClWXTIlho
+qVa0B70tIZlug5uku8ma9d87it2TeBve1/BeuRxcwz6wizZ4CTM+BYZeB2N9LaFPh8ktLBeXF6UOjg+h
+Q8PbOY8avepsKPa/BxucLcaUq+8UyvWxIFzCMaVTIUTOmQdX89DV4u1xc5b8mTyaiBU/rGjn4sxy1AQB
+88qhhB3mle8ddirRe2DWSKieZu46H6bblZk0sbf9TfsSX++Apc8TWVA3QK0Yo14+4ZDiotoc1w/v2/xM
+jvu1NjuVKhVzKUYFrSD+n4EkX1BLBwg9jR3q3QAAAFEBAABQSwECFAAUAAgACAAAACEAPY0d6t0AAABR
+AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAEwEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

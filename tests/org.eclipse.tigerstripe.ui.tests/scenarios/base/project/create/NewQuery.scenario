@@ -1,5 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="NewQuery" id="_kAiLIP0PEd-lsuiu6qRsWA" description="Create new Query artifact and add constant and attribute" type="ecl">
-  <contexts>_IhHLkKwQEd-DHcdNat_asw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Project/src&quot; | get-menu &quot;New/Query&quot; | click&#xD;&#xA;with [get-window &quot;Create a new Query&quot;] {&#xD;&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Query0&#xD;&#xA;    get-editbox -after [get-label &quot;Artifact Package:&quot;] | get-property value | is-equal &quot;org.eclipse&quot; | verify&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;with [get-editor Query0] {&#xD;&#xA;    click&#xD;&#xA;    with [get-section &quot;General Information&quot;] {&#xD;&#xA;        get-editbox -after [get-label &quot;Project:&quot;] | get-property value | is-equal &quot;New Project&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | is-equal &quot;org.eclipse.Query0&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] -index 1 | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;    }&#xD;&#xA;    get-canvas -index 1 | mouse-move 119 3&#xD;&#xA;    get-canvas | mouse-move 318 33&#xD;&#xA;    get-section Details | get-canvas | mouse-move 61 62&#xD;&#xA;    get-canvas | mouse-move 723 25&#xD;&#xA;    with [get-section Attributes] {&#xD;&#xA;        get-button Add | click&#xD;&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;            key-type &quot;Ctrl+a&quot;&#xD;&#xA;            set-text &quot;query0_testField0&quot;&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xD;&#xA;with [get-editor Query0] {&#xD;&#xA;    with [get-section Attributes] {&#xD;&#xA;        get-table -after [get-label Attributes] | get-item &quot;query0_testField0&quot; | get-property columns -index 0 | is-equal &quot;query0_testField0&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Type:&quot;] | get-property value | is-equal String | verify&#xD;&#xA;        get-button Public | get-property selected | is-equal true | verify&#xD;&#xA;        get-button Readonly | get-property selected | is-equal false | verify&#xD;&#xA;    }&#xD;&#xA;    with [get-section Constants] {&#xD;&#xA;        click&#xD;&#xA;        get-button Add | click&#xD;&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;            key-type &quot;Ctrl+a&quot;&#xD;&#xA;            set-text &quot;query0_testLiteral0&quot;&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xD;&#xA;get-editor Query0 | get-section Constants | get-table -after [get-label Constants] | get-item &quot;query0_testLiteral0=\&quot;0\&quot;&quot; | get-property columns -index 0 | is-equal &quot;query0_testLiteral0=\&quot;0\&quot;&quot; | verify&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    click&#xD;&#xA;    with [get-tree] {&#xD;&#xA;        select &quot;New Project/src/org.eclipse&quot; | get-item &quot;New Project/src/org.eclipse/Query0&quot; | get-property caption | is-equal Query0 | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/Query0/query0_testField0:String&quot; | get-property caption | is-equal &quot;query0_testField0:String&quot; | verify&#xD;&#xA;        get-item &quot;New Project/src/org.eclipse/Query0/query0_testLiteral0=\&quot;0\&quot;&quot; | get-property caption | is-equal &quot;query0_testLiteral0=\&quot;0\&quot;&quot; | verify&#xD;&#xA;    }&#xD;&#xA;}"/>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: NewQuery
+External-Reference: 
+Element-Version: 2.0
+Contexts: _IhHLkKwQEd-DHcdNat_asw
+Save-Time: 1/18/12 1:28 PM
+Id: _kAiLIP0PEd-lsuiu6qRsWA
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Create new Query artifact and add constant and attribute
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src" | get-menu "New/Query" | click
+with [get-window "Create a new Query"] {
+    get-editbox -after [get-label "Name:"] | set-text Query0
+    get-editbox -after [get-label "Artifact Package:"] | get-property value | is-equal "org.eclipse" | verify
+    get-button Finish | click
+}
+with [get-editor Query0] {
+    click
+    with [get-section "General Information"] {
+        get-editbox -after [get-label "Project:"] | get-property value | is-equal "New Project" | verify
+        get-editbox -after [get-label "Qualified Name:"] | get-property value | is-equal "org.eclipse.Query0" | verify
+        get-editbox -after [get-label "Description:"] | get-property value | is-equal "" | verify
+        get-editbox -after [get-label "Description:"] -index 1 | get-property value | is-equal "" | verify
+    }
+    get-canvas -index 1 | mouse-move 119 3
+    get-canvas | mouse-move 318 33
+    get-section Details | get-canvas | mouse-move 61 62
+    get-canvas | mouse-move 723 25
+    with [get-section Attributes] {
+        get-button Add | click
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "Ctrl+a"
+            set-text "query0_testField0"
+        }
+    }
+}
+get-button "Save \(.*\)" | click
+with [get-editor Query0] {
+    with [get-section Attributes] {
+        get-table -after [get-label Attributes] | get-item "query0_testField0" | get-property columns -index 0 | is-equal "query0_testField0" | verify
+        get-editbox -after [get-label "Type:"] | get-property value | is-equal String | verify
+        get-button Public | get-property selected | is-equal true | verify
+        get-button Readonly | get-property selected | is-equal false | verify
+    }
+    with [get-section Constants] {
+        click
+        get-button Add | click
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "Ctrl+a"
+            set-text "query0_testLiteral0"
+        }
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor Query0 | get-section Constants | get-table -after [get-label Constants] | get-item "query0_testLiteral0=\"0\"" | get-property columns -index 0 | is-equal "query0_testLiteral0=\"0\"" | verify
+with [get-view "Tigerstripe Explorer"] {
+    click
+    with [get-tree] {
+        select "New Project/src/org.eclipse" | get-item "New Project/src/org.eclipse/Query0" | get-property caption | is-equal Query0 | verify
+        get-item "New Project/src/org.eclipse/Query0/query0_testField0:String" | get-property caption | is-equal "query0_testField0:String" | verify
+        get-item "New Project/src/org.eclipse/Query0/query0_testLiteral0=\"0\"" | get-property caption | is-equal "query0_testLiteral0=\"0\"" | verify
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kMFOwzAQRO9I/IO199otB4qiuFWl
+IjWiVC0c4BZF9pJaTezGdnD69yyI5oS4rWbejDSbL4e2YZ/og3FWwoxPgaFVThtbS+jjx+QBlovbm1y5
+lg/Oo+bdnAeFtvLGZa+/Bxtak40td98t1GtDRrqEY4znTIiUEndtzZ2vxftzcUX+bB5D5IofV3RzcXU5
+KpKA2apFCTtMhx79BZjREsrTymyL/XT/qCdN6E1/372EtxWweDkTjKoB2sMYLbIRhxgWZXHcbE9P6UCJ
+9UbpXRXLKqRcjATtF/8/gJAvUEsHCMpDQvjcAAAASwEAAFBLAQIUABQACAAIAAAAIQDKQ0L43AAAAEsB
+AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAASAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

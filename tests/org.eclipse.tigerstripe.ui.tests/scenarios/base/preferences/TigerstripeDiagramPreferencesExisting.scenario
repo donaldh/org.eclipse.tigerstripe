@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences
 External-Reference: http://docs.xored.com/display/TS/Tigerstripe+Test+Plan#TigerstripeTestPlan-Tigerstripesettingsandpreferences
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_f2ESsIT_EeCmi8Lmf0Z3Ew,_EN-N8IUCEeCmi8Lmf0Z3Ew
-Save-Time: 12/22/11 1:32 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _Xr1cMYT_EeCmi8Lmf0Z3Ew
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -109,7 +109,7 @@ with [get-window Preferences] {
     get-button Apply | click
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 | get-target-connection 0] {
     mouse-move 18 33 button1 -height 177 -width 114
     mouse-press 18 33 button1 -height 177 -width 114
@@ -150,7 +150,7 @@ with [get-window Preferences] {
     get-button Apply | click
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 | get-target-connection 0] {
     mouse-move 61 25 button1 -height 101 -width 102
     mouse-press 61 25 button1 -height 101 -width 102

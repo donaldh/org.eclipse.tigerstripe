@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagram http://jira4.xored.com/browse/QS-947
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/26/11 4:28 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _TefWEKFbEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -55,7 +55,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className Map
     mouse-press 129 52 button1 -height 356 -width 596
     mouse-release 129 52 button1 524288 -height 356 -width 596
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text Entity2] {
         mouse-hover 98 12 -height 16 -width 122

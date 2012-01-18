@@ -6,7 +6,7 @@ Tags: Facet/Generate, Annotations
 External-Reference: 
 Element-Version: 3.0
 Contexts: _-4wv8DtwEeGvPsO-LSiu4Q,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 1/11/12 12:59 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _F53WwDwXEeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -46,7 +46,7 @@ with [get-editor "New Project/tigerstripe.xml"] {
         get-button "Enable Generator" | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "New Project \\{default\\}" | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click

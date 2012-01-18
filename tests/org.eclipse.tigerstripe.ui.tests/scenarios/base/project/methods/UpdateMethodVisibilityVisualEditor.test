@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor, TS_Project/Edit/Artifacts/Method
 External-Reference: http://docs.xored.com/display/TS/UpdateMethodVisibilityVisualEditor
 Element-Version: 3.0
 Contexts: _wrsM4KFXEeCjS6NbCUXM_w
-Save-Time: 12/22/11 5:42 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _45JlQKYzEeC0VacjaNx2WQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -37,7 +37,7 @@ with [get-editor Entity | get-section Methods] {
 }
 get-editor Entity | get-section Methods | get-section -index 1 | get-button Public | get-property selected 
     | equals true | verify-true
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click -nowait
 
@@ -53,7 +53,7 @@ with [get-editor Entity] {
     click
     get-section Methods | get-section -index 1 | get-button Protected | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd"] {
     click
     with [get-diagram | get-edit-part -className MapEditPart] {
@@ -62,7 +62,7 @@ with [get-editor "ClassDiagram.wvd"] {
         mouse-release 40 37 button1 524288 -height 356 -width 596
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity 
     | get-edit-part -text "#method0():void" | get-edit-part -name method0 | get-property text 
     | equals "#method0():void" | verify-true
@@ -70,9 +70,9 @@ with [get-editor Entity] {
     click
     get-section Methods | get-section -index 1 | get-button Private | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "ClassDiagram.wvd" | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity 
     | get-edit-part -text "-method0():void" | get-edit-part -name method0 | get-property text 
     | equals "-method0():void" | verify-true
@@ -80,7 +80,7 @@ with [get-editor Entity] {
     click
     get-section Methods | get-section -index 1 | get-button Package | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd"] {
     click
     with [get-diagram | get-edit-part -className MapEditPart] {
@@ -89,7 +89,7 @@ with [get-editor "ClassDiagram.wvd"] {
         mouse-release 153 273 button1 524288 -height 356 -width 596
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity 
     | get-edit-part -text "~method0():void" | get-edit-part -name method0 | get-property text 
     | equals "~method0():void" | verify-true

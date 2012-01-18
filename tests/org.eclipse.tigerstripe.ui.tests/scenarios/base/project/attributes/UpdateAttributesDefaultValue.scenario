@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Attribute, TS_Project/VisualEditor
 External-Reference: http://docs.xored.com/display/TS/UpdateAttributesDefaultValue
 Element-Version: 3.0
 Contexts: _eq7awK8jEd-YepE1dWFlXA
-Save-Time: 12/23/11 5:34 PM
+Save-Time: 1/18/12 1:27 PM
 Id: _nHmAkInWEeCErZSBFQ0SKQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -28,6 +28,27 @@ Steps:
 7. Check attribute default value on the diagram
 8. Check attribute default value in Tigerstripe explorer
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/Entity2" | double-click -nowait
+get-editor Entity2 | get-section Attributes | get-section | get-button Add | click
+get-editor Entity2 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Default Value:"] 
+    | get-property selection | equals "" | verify-true
+get-button "Save \(.*\)" | click
+get-editor Entity2 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Default Value:"] 
+    | type-text test
+get-button "Save \(.*\)" | click
+get-editor Entity2 | close
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "New Project/src/org.eclipse.diagram/Entity2" | double-click -nowait
+}
+get-editor Entity2 | get-section Attributes | get-section | get-table | select attribute0
+get-editor Entity2 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Default Value:"] 
+    | get-property selection | equals test | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

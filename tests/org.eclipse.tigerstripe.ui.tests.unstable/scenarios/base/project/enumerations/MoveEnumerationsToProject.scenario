@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Enumeration
 External-Reference: http://docs.xored.com/display/TS/MoveEnumerationsToProject  http://jira4.xored.com/browse/QS-1674
 Element-Version: 3.0
 Contexts: _3uHT4H-DEeCcSOu_oe8o1g
-Save-Time: 12/26/11 11:12 AM
+Save-Time: 1/18/12 1:28 PM
 Id: _3RgzMIK_EeCrs9yxFtn9Ig
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -82,7 +82,7 @@ with [get-window "Super Enumeration"] {
     get-table | select "<clear extension>"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true

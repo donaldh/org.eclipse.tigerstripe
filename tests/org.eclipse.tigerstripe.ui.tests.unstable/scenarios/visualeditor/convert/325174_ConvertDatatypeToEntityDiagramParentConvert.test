@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityDiagramParentConvert http://jira4.xored.com/browse/QS-947
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_llELsKLhEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/22/11 1:58 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _c1D7YKLxEeCnVOKduz-xbg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -44,7 +44,7 @@ with [get-window "Super Datatype"] {
     get-table | select "com.mycompany.Datatype2"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click -nowait
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
     get-property childrenCount | equals 2 | verify-true
@@ -130,7 +130,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className Map
     mouse-press 196 51 button1 -height 356 -width 596
     mouse-release 196 51 button1 524288 -height 356 -width 596
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
     get-edit-part -name Datatype | get-edit-part -text Datatype 
     get-edit-part -name Datatype2 | get-edit-part -text Datatype2 

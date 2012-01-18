@@ -6,7 +6,7 @@ Tags: TS_Project/Profile
 External-Reference: http://docs.xored.com/display/TS/CheckPrimitives
 Element-Version: 3.0
 Contexts: _Jp774BGJEeC46s5Prxi4vQ
-Save-Time: 12/23/11 6:14 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _f3dhgA5pEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -38,13 +38,13 @@ with [get-editor "Project2/ProfileProject2.wbp"] {
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "Project2/ProfileProject2.wbp" | get-section | get-section "Primitive Type Definitions"] {
     get-table -after [get-label "Primitive Type Definitions"] | select string
     get-button "Set Default" | click
 }
 get-window "Primitive Type" | get-button OK | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "Project2/ProfileProject2.wbp"] {
     get-tab-folder | get-tab-item Overview | click
     get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
@@ -58,7 +58,7 @@ with [get-window "Create a new Datatype"] {
 }
 get-editor Datatype | get-section Attributes | get-section | get-button Add | click
 get-editor Datatype | get-section Attributes | get-section -after [get-label Attributes] -index 1 | get-editbox -after [get-label "Type:"] | get-property value | is-equal "primitive.string" | verify
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click

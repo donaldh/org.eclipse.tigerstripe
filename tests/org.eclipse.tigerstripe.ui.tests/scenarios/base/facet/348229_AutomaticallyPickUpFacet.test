@@ -6,7 +6,7 @@ Tags: TS_Project/Facet, I37
 External-Reference: http://docs.xored.com/display/TS/348229_AutomaticallyPickUpFacet
 Element-Version: 3.0
 Contexts: _5OPsMK6FEd-uWaeTFaimww
-Save-Time: 12/8/11 2:15 PM
+Save-Time: 1/18/12 1:27 PM
 Id: _rkyHkKklEeCQuoNCiruvtQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -45,7 +45,7 @@ with [get-editor "model-refactoring/tigerstripe.xml"] {
         get-button "Enable Generator" | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "New/Other..." | click
 with [get-window New] {
     get-tree | select "Tigerstripe/Facet"
@@ -62,7 +62,7 @@ with [get-editor "model-refactoring/default.wfc"] {
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "model-refactoring/default.wfc" | get-section "Scope Details" | get-table 
     -after [get-label "Excluded patterns:"] | get-item -index 0 | apply-cell-edit
 with [get-editor "model-refactoring/tigerstripe.xml"] {
@@ -95,7 +95,7 @@ with [get-editor "model-refactoring/default.wfc"] {
     }
 }
 get-window "Remove Scope Pattern" | get-button OK | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click

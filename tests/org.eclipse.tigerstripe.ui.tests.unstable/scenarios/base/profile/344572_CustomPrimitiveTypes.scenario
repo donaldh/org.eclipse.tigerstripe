@@ -6,7 +6,7 @@ Tags: TS_Project/Profile, TS_Project/Edit/Artifacts
 External-Reference: http://docs.xored.com/display/TS/344572_CustomPrimitiveTypes, http://bugs.xored.com/browse/XMP-872
 Element-Version: 3.0
 Contexts: _CqRlYHZCEeCl96NjdO1nlQ
-Save-Time: 12/23/11 6:26 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _xQJbYHZCEeCl96NjdO1nlQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -52,7 +52,7 @@ get-window "Artifact Type Selection" | get-table | get-property itemCount | equa
 get-window "Artifact Type Selection" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/default.wbp" | double-click -nowait
 get-editor Entity1 | click -nowait
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "Project1/default.wbp"] {
     click -nowait
     get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
@@ -71,7 +71,7 @@ with [get-window "Artifact Type Selection"] {
     get-table | select " datetime"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-editbox -after [get-label "Type:"] 
     | get-property rawValue | equals "datetime" | verify-true
 get-menu "Tigerstripe/Active Profile Details..." | click

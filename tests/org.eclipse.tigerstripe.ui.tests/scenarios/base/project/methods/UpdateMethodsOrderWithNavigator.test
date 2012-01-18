@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Methods
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 12/27/11 1:01 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _fFSI0DBPEeGcHog4af2eaw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,6 +25,37 @@ Save changes
 Check methods order in the navigator
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity" | double-click -nowait
+get-editor Entity | get-section Methods | click
+with [get-editor Entity | get-section Methods | get-section] {
+    get-table | select "method0\\(\\):void"
+    get-button Down | click
+}
+get-button "Save \(.*\)" | click
+with [get-editor Entity | get-section Methods | get-section | get-table] {
+    get-item "method1\\(\\):void" | get-property caption | equals "method1():void" | verify-true
+    get-item "method1\\(\\):void" | get-property index | equals 0 | verify-true
+    get-item "method0\\(\\):void" | get-property caption | equals "method0():void" | verify-true
+    get-item "method0\\(\\):void" | get-property index | equals 1 | verify-true
+    get-item "method2\\(\\):void" | get-property caption | equals "method2():void" | verify-true
+    get-item "method2\\(\\):void" | get-property index | equals 2 | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project/src/com.mycompany/Entity/method1\\(\\):void" | get-property caption | equals "method1():void" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method1\\(\\):void" | get-property index | equals 10 | verify-true
+    get-item "Project/src/com.mycompany/Entity/method0\\(\\):void" | get-property caption | equals "method0():void" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method0\\(\\):void" | get-property index | equals 11 | verify-true
+    get-item "Project/src/com.mycompany/Entity/method2\\(\\):void" | get-property caption | equals "method2():void" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method2\\(\\):void" | get-property index | equals 12 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

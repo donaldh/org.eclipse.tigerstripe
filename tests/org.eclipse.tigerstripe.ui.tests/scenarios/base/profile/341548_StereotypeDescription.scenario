@@ -6,7 +6,7 @@ Tags: TS_Project/Profile, I33
 External-Reference: http://docs.xored.com/display/TS/341548_StereotypeDescription
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/23/11 6:21 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _dfDoMGcoEeCtOtMnB4cfpA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -29,6 +29,48 @@ Steps:
  6. Select stereotype in the editor. Check displayed stereotype description.
  7. Reset profile
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wbp" | double-click -nowait
+with [get-editor "Project1/default.wbp"] {
+    get-tab-folder | get-tab-item Stereotypes | click
+    with [get-section] {
+        get-section "Stereotype Definitions" | get-table | select "attribute_stereo"
+        get-section "Stereotype Details" | get-editbox -after [get-label "Description:"] 
+            | set-text "Description for the stereotype"
+    }
+}
+get-button "Save \(.*\)" | click
+with [get-editor "Project1/default.wbp"] {
+    get-tab-folder | get-tab-item Overview | click
+    get-section "General Information" | get-link "Save as active profile and reload" | click
+}
+get-window "Save as Active Profile" | get-button OK | click
+wait-until-eclipse-is-ready
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Datatype" | double-click -nowait
+get-editor Datatype | get-section Stereotypes | get-section | get-button Add | click
+get-window "Stereotype Selection" | get-table | select "attribute_stereo"
+get-window "Stereotype Selection" | get-editbox -after [get-label "Description:"] | get-property value 
+    | equals "Description for the stereotype Click on Help button for more details." | verify-true
+get-window "Stereotype Selection" | get-button Help | click
+get-window "Stereotype Selection" | get-section "attribute_stereo description" 
+    | get-label "attribute_stereo description" | get-property caption | equals "attribute_stereo description" 
+    | verify-true
+get-window "Stereotype Selection" | get-button OK | click
+get-window "Stereotype Details" | get-button OK | click
+get-editor Datatype | get-section Stereotypes | get-section | get-table | select "attribute_stereo"
+get-editor Datatype | get-section Stereotypes | get-section -index 1 | get-editbox -after [get-label "Description:"] 
+    | get-property value | equals "Description for the stereotype" | verify-true
+get-button "Save \(.*\)" | click
+get-menu "Tigerstripe/Active Profile Details..." | click
+with [get-window "Active Profile Details"] {
+    get-button "Reset Profile" | click
+    get-window "Reset Active profile to Factory Defaults?" | get-button OK | click
+}
+wait-until-eclipse-is-ready
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

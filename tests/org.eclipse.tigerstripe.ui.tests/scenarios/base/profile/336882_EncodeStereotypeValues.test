@@ -6,7 +6,7 @@ Tags: TS_Project/Profile, I33
 External-Reference: http://docs.xored.com/display/TS/336882_EncodeStereotypeValues
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/23/11 6:24 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _w1yC4JGGEeCHIbo4rEr7oQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -54,7 +54,7 @@ with [get-window "Stereotype Details"] {
     }
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor Datatype | get-section Stereotypes | get-section] {
     get-table | select "attribute_stereo"
     get-button Edit | click
@@ -62,7 +62,7 @@ with [get-editor Datatype | get-section Stereotypes | get-section] {
 get-window "Stereotype Details" | get-editbox -after [get-label "string_attr"] | get-property rawValue 
     | equals "a1 +a2&><\"\'testing..." | verify-true
 get-window "Stereotype Details" | get-button OK | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary

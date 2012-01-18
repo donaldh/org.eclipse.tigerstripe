@@ -6,7 +6,7 @@ Tags: TS_Project/Preferences
 External-Reference: http://docs.xored.com/display/TS/TigerstripeDiagramPreferences
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_f2ESsIT_EeCmi8Lmf0Z3Ew,_EN-N8IUCEeCmi8Lmf0Z3Ew
-Save-Time: 12/23/11 5:03 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _0Q4a8IUIEeCmi8Lmf0Z3Ew
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -207,7 +207,7 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     mouse-release 344 261 button1 524288 -height 358 -width 731
     mouse-hover 351 261 -height 358 -width 731
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "default.wvd" | close
 get-view Properties | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/default" | double-click -nowait
@@ -281,9 +281,9 @@ with [get-window "Super Entity"] {
     get-table | select "com.mycompany.Entity6"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "default.wvd" | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | mouse-hover 430 69 -height 361 
     -width 731
 with [get-view Properties | get-canvas -index 3] {
@@ -325,9 +325,9 @@ with [get-view Properties | get-tree] {
 }
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity6" | double-click -nowait
 get-editor Entity6 | get-section Attributes | get-section | get-button Add | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "default.wvd" | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany" | get-menu "New/Dependency" | click
 with [get-window "Create a new Dependency"] {
@@ -371,7 +371,7 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     mouse-press 109 150 button1 -height 358 -width 731
     mouse-release 109 150 button1 524288 -height 358 -width 731
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity6 
     | get-target-connection 0] {
     mouse-move 78 45 button1 -height 63 -width 176

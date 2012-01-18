@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Constant
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 12/27/11 12:55 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _NATn0DBMEeGcHog4af2eaw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,6 +25,39 @@ Open Entity and move down literal0
 Open Entity2
 Verify literals order
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity2" | double-click -nowait
+get-editor Entity2 | get-section Constants | click
+with [get-editor Entity2 | get-section Constants | get-section | get-table] {
+    get-item "literal0=\"0\"\\(Entity\\)" | get-property caption | equals "literal0=\"0\"(Entity)" | verify-true
+    get-item "literal0=\"0\"\\(Entity\\)" | get-property index | equals 0 | verify-true
+    get-item "literal1=\"1\"\\(Entity\\)" | get-property caption | equals "literal1=\"1\"(Entity)" | verify-true
+    get-item "literal1=\"1\"\\(Entity\\)" | get-property index | equals 1 | verify-true
+    get-item "literal2=\"2\"\\(Entity\\)" | get-property caption | equals "literal2=\"2\"(Entity)" | verify-true
+    get-item "literal2=\"2\"\\(Entity\\)" | get-property index | equals 2 | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity" | double-click -nowait
+with [get-editor Entity | get-section Constants] {
+    click
+    with [get-section] {
+        get-table | select "literal0=\"0\""
+        get-button Down | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor Entity2 | click
+with [get-editor Entity2 | get-section Constants | get-section | get-table] {
+    get-item "literal1=\"1\"\\(Entity\\)" | get-property caption | equals "literal1=\"1\"(Entity)" | verify-true
+    get-item "literal1=\"1\"\\(Entity\\)" | get-property index | equals 0 | verify-true
+    get-item "literal0=\"0\"\\(Entity\\)" | get-property caption | equals "literal0=\"0\"(Entity)" | verify-true
+    get-item "literal0=\"0\"\\(Entity\\)" | get-property index | equals 1 | verify-true
+    get-item "literal2=\"2\"\\(Entity\\)" | get-property caption | equals "literal2=\"2\"(Entity)" | verify-true
+    get-item "literal2=\"2\"\\(Entity\\)" | get-property index | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

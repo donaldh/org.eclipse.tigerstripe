@@ -6,7 +6,7 @@ Tags: Generator/EnableDependencyOnRuntime, I44
 External-Reference: 
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_HNJU4CVgEeGRa87APBuv3g
-Save-Time: 12/19/11 7:29 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _bNqWgCVYEeGRa87APBuv3g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -49,7 +49,7 @@ with [get-editor "Project/tigerstripe.xml"] {
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "Project/tigerstripe.xml" | get-tab-folder | get-tab-item "Generator Settings" | click
 get-view "Tigerstripe Explorer" | get-tree | select Project | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {

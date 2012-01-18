@@ -6,7 +6,7 @@ Tags: Annotation/generator, TS_Generator
 External-Reference: http://docs.xored.com/display/TS/357164_GeneratorsAbleToSeeAnnotations http://jira4.xored.com/browse/QS-1590
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_duue0dqKEeC6qsfYFclGSA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/22/11 2:10 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _KmwdgNqMEeC6qsfYFclGSA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -50,7 +50,7 @@ with [get-editor "Project/tigerstripe.xml"] {
     }
     get-section "SimpleGenerator29(0.0.0) (disabled) [Generic]" | get-button "Enable Generator" | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select Project | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click

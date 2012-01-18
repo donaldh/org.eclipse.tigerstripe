@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Descriptor/Diagram, I27
 External-Reference: http://docs.xored.com/display/TS/4TsDependencyDiagramLayout_Colors
 Element-Version: 3.0
 Contexts: _E-NZMfhGEd-iKuOiJgVXVQ
-Save-Time: 12/15/11 2:57 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _SUe4EWS1EeCS8L33xQZvBg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -49,7 +49,7 @@ with [get-window "Select Tigerstripe Project"] {
     get-table | select "com.cisco.testModule \\(2.0.0\\)"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "Project1/tigerstripe.xml" | get-tab-folder | get-tab-item "Dependency Diagram" | click
 get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-property childrenCount | equals 3 | verify-true
 with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -className DiagramEditPart | get-edit-part -text Project2] {
@@ -139,7 +139,7 @@ with [get-editor "Project1/tigerstripe.xml" | get-diagram] {
     mouse-press 245 316 button1 -height 375 -width 741
     mouse-release 245 316 button1 524288 -height 375 -width 741
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "Project1/tigerstripe.xml" | close
 with [get-view "Tigerstripe Explorer"] {
     click -nowait
@@ -172,7 +172,7 @@ with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part -class
     get-property backgroundColor | equals "#FFF3F3" | verify-true
     get-property foregroundColor | equals "#E1D5D5" | verify-true
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary

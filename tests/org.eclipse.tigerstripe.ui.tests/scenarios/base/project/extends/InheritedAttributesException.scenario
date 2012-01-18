@@ -1,849 +1,134 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="InheritedAttributesException" version="3.0" id="_UEiHQHucEeCihOLHf7Mnlg" description="Add/remove extend and check inherited constants for the Exception&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;ArtifactsContext&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create a new Exception&#xD;&#xA;2. Check that there are no constants for this Exception&#xD;&#xA;3. Add extends to another Exception with constant and save changes&#xD;&#xA;4. Select 'extends' link to open extended Exception and check constant name&#xD;&#xA;5. Check that constant is added for the new Exception&#xD;&#xA;6. Check inherited constants names&#xD;&#xA;7. Remove extends link and save changes&#xD;&#xA;8. Check that there are no constants for the new Exception" tags="TS_Project/Edit/Artifacts/Extends" type="ecl" externalReference="http://docs.xored.com/display/TS/InheritedAttributesException">
-  <contexts>_aOd6IKw8Ed-cSZ2bfD-mDg</contexts>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow243" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View173" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree172" kind="Tree"/>
-      <path>New Project</path>
-      <path>src</path>
-      <path>org.eclipse.Package0</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>New</path>
-        <path>Exception</path>
-        <parent id="Tree172" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu18" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State134" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Create a new Exception" multiplicity="1">
-        <parent id="EclipseWindow243" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Name:" multiplicity="1">
-        <parent id="Window41" kind="Window" description="Create a new Exception"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Text" multiplicity="1">
-        <after id="Label71" kind="Label"/>
-        <parent id="Window41" kind="Window" description="Create a new Exception"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="Exception2">
-      <element id="Text47" kind="Text"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Finish" multiplicity="1">
-        <parent id="Window41" kind="Window" description="Create a new Exception"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button154" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State135" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception2" multiplicity="1">
-        <parent id="EclipseWindow244" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Attributes" multiplicity="1">
-        <parent id="Editor227" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable400" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable401" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="0">
-      <element id="Table140" kind="Table"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception2" multiplicity="1">
-        <parent id="EclipseWindow246" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="General Information" multiplicity="1">
-        <parent id="Editor228" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Select" multiplicity="1">
-        <parent id="Expandable402" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button155" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State136" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Super Exception" multiplicity="1">
-        <parent id="EclipseWindow246" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Window42" kind="Window" description="Super Exception"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table141" kind="Table"/>
-      <path>org.eclipse.Exception0</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window42" kind="Window" description="Super Exception"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button156" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State137" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow246" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button157" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State138" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Link" pattern="Extends:" multiplicity="1">
-        <parent id="Expandable402" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Link24" kind="Link"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State139" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabFolder" index="1" multiplicity="1">
-        <parent id="EclipseWindow247" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Exception0.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="activePage" value="Exception0">
-      <element id="TabFolder146" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception0" multiplicity="1">
-        <parent id="EclipseWindow249" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Exception0.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Attributes" multiplicity="1">
-        <parent id="Editor230" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable405" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable406" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="1">
-      <element id="Table143" kind="Table"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception2" multiplicity="1">
-        <parent id="EclipseWindow251" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
-      <element id="Editor232" kind="Editor"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception2" multiplicity="1">
-        <parent id="EclipseWindow252" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Attributes" multiplicity="1">
-        <parent id="Editor233" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable410" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable411" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="1">
-      <element id="Table145" kind="Table"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception2" multiplicity="1">
-        <parent id="EclipseWindow253" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Attributes" multiplicity="1">
-        <parent id="Editor234" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable412" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable413" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>exception0_testField0\(Exception0\)</path>
-        <parent id="Table146" kind="Table"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="exception0_testField0(Exception0)">
-      <element id="Item277" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception2" multiplicity="1">
-        <parent id="EclipseWindow255" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="General Information" multiplicity="1">
-        <parent id="Editor235" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Select" multiplicity="1">
-        <parent id="Expandable414" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button161" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State140" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Super Exception" multiplicity="1">
-        <parent id="EclipseWindow255" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Window43" kind="Window" description="Super Exception"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Table147" kind="Table"/>
-      <path>&lt;clear extension></path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window43" kind="Window" description="Super Exception"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button162" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State141" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
-        <parent id="EclipseWindow255" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button163" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State142" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="Exception2" multiplicity="1">
-        <parent id="EclipseWindow256" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Attributes" multiplicity="1">
-        <parent id="Editor236" kind="Editor"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" multiplicity="1">
-        <parent id="Expandable417" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Table" multiplicity="1">
-        <parent id="Expandable418" kind="Expandable"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="0">
-      <element id="Table148" kind="Table"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow243" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View173" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="327" height="618"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree172" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="327" height="618"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse.Package0</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.4">
-      <elements id="Menu18" kind="Menu"/>
-      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Exception" enablement="true" index="16" cascade="true"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="State134" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="Window41" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Create a new Exception">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="875" y="208" width="529" height="508"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
-      <elements id="Label71" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Name:">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="5" y="68" width="89" height="15"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.10">
-      <elements id="Text47" kind="Text"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="99" y="65" width="302" height="21"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="Button154" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="13" width="92" height="25"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="State135" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.16">
-      <elements id="EclipseWindow244" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.17">
-      <elements id="Editor227" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception2">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.18">
-      <elements id="Expandable400" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.19">
-      <elements id="Expandable401" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.20">
-      <elements id="Table140" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="115"/>
-        <columns caption="Name" resizable="true" width="245"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.22">
-      <elements id="EclipseWindow246" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.23">
-      <elements id="Editor228" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception2">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.24">
-      <elements id="Expandable402" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="591" height="237"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.25">
-      <elements id="Button155" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="432" width="43" height="25"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.26">
-      <elements id="State136" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.29">
-      <elements id="Window42" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Super Exception">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="700" y="255" width="878" height="437"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.30">
-      <elements id="Table141" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="840" height="270"/>
-        <selection>
-          <path>&lt;clear extension></path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.32">
-      <elements id="Button156" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="13" width="92" height="25"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.33">
-      <elements id="State137" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.36">
-      <elements id="Button157" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.37">
-      <elements id="State138" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.40">
-      <elements id="Link24" kind="Link"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Link" enablement="true" caption="Extends:">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor blue="255"/>
-        <bounds x="5" y="162" width="45" height="17"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.41">
-      <elements id="State139" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.44">
-      <elements id="EclipseWindow247" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Exception0.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.45">
-      <elements id="TabFolder146" kind="TabFolder"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Exception0" tabCount="2">
-        <pages>Exception2</pages>
-        <pages>Exception0</pages>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.47">
-      <elements id="EclipseWindow249" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Exception0.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.48">
-      <elements id="Editor230" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception0">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.49">
-      <elements id="Expandable405" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.50">
-      <elements id="Expandable406" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.51">
-      <elements id="Table143" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="115"/>
-        <columns caption="Name" resizable="true" width="245"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.53">
-      <elements id="EclipseWindow251" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.54">
-      <elements id="Editor232" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception2">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.56">
-      <elements id="EclipseWindow252" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.57">
-      <elements id="Editor233" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception2">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.58">
-      <elements id="Expandable410" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.59">
-      <elements id="Expandable411" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.60">
-      <elements id="Table145" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="115"/>
-        <columns caption="Name" resizable="true" width="245"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.62">
-      <elements id="EclipseWindow253" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.63">
-      <elements id="Editor234" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception2">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.64">
-      <elements id="Expandable412" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.65">
-      <elements id="Expandable413" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.66">
-      <elements id="Table146" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="115"/>
-        <columns caption="Name" resizable="true" width="245"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.67">
-      <elements id="Item277" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="exception0_testField0(Exception0)">
-        <columns>exception0_testField0(Exception0)</columns>
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="4" y="24" width="185" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.69">
-      <elements id="EclipseWindow255" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.70">
-      <elements id="Editor235" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception2">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.71">
-      <elements id="Expandable414" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="591" height="237"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.72">
-      <elements id="Button161" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="432" width="43" height="25"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.73">
-      <elements id="State140" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.76">
-      <elements id="Window43" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Super Exception">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="700" y="255" width="878" height="437"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.77">
-      <elements id="Table147" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="840" height="270"/>
-        <selection>
-          <path>&lt;clear extension></path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.79">
-      <elements id="Button162" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="11" y="13" width="92" height="25"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.80">
-      <elements id="State141" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.83">
-      <elements id="Button163" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.84">
-      <elements id="State142" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.87">
-      <elements id="EclipseWindow256" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - New Project/src/org/eclipse/Package0/Exception2.java - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="461" y="162" width="1357" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.88">
-      <elements id="Editor236" kind="Editor"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Exception2">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="26" width="991" height="395"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.89">
-      <elements id="Expandable417" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="6" y="6" width="974" height="152"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.90">
-      <elements id="Expandable418" kind="Expandable"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="319" height="128"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.91">
-      <elements id="Table148" kind="Table"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" linesVisible="true" headerVisible="true">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="249" height="115"/>
-        <columns caption="Name" resizable="true" width="245"/>
-      </controls>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: InheritedAttributesException
+Tags: TS_Project/Edit/Artifacts/Extends
+External-Reference: http://docs.xored.com/display/TS/InheritedAttributesException
+Element-Version: 3.0
+Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
+Save-Time: 1/18/12 1:28 PM
+Id: _UEiHQHucEeCihOLHf7Mnlg
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Add/remove extend and check inherited constants for the Exception
+
+Precondition:
+ArtifactsContext
+
+Steps:
+1. Create a new Exception
+2. Check that there are no constants for this Exception
+3. Add extends to another Exception with constant and save changes
+4. Select 'extends' link to open extended Exception and check constant name
+5. Check that constant is added for the new Exception
+6. Check inherited constants names
+7. Remove extends link and save changes
+8. Check that there are no constants for the new Exception
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.Package0" | get-menu "New/Exception" 
+    | click
+with [get-window "Create a new Exception"] {
+    get-editbox -after [get-label "Name:"] | set-text Exception2
+    get-button Finish | click
+}
+get-editor Exception2 | get-section Attributes | get-section | get-table | get-property itemCount | equals 0 
+    | verify-true
+get-editor Exception2 | get-section "General Information" | get-button Select | click
+with [get-window "Super Exception"] {
+    get-table | select "org.eclipse.Exception0"
+    get-button OK | click
+}
+get-button "Save \(.*\)" | click
+get-editor Exception2 | get-section "General Information" | get-link "Extends:" | click
+get-tab-folder -index 1 | get-property activePage | equals Exception0 | verify-true
+get-editor Exception0 | get-section Attributes | get-section | get-table | get-property itemCount | equals 1 
+    | verify-true
+get-editor Exception2 | click
+get-editor Exception2 | get-section Attributes | get-section | get-table | get-property itemCount | equals 1 
+    | verify-true
+get-editor Exception2 | get-section Attributes | get-section | get-table 
+    | get-item "exception0_testField0\\(Exception0\\)" | get-property caption 
+    | equals "exception0_testField0(Exception0)" | verify-true
+get-editor Exception2 | get-section "General Information" | get-button Select | click
+with [get-window "Super Exception"] {
+    get-table | select "<clear extension>"
+    get-button OK | click
+}
+get-button "Save \(.*\)" | click
+get-editor Exception2 | get-section Attributes | get-section | get-table | get-property itemCount | equals 0 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5q+syomQhYGIbIE
+ogR1mBhfSGnvRs3Wjvbixt97MThfDG/NPeeennPuaNJWJfsCH4yzCb+NbjgDq5w2tkj4AfPekE/G11cj
+5aqodR50tB9EQYGV3rg4Oz9YW5m4U+mfVEjXhpjmCd8h1rEQTdNErioi5wvxvlz8Uv5V7pYIFT+o2A/E
+LxqBohFnVlaQ8IXdgTcIeorozfaAENJWQY1khv9luzu5Mjrhm7fUzF/mB5XCg9mtnub5YGnLgjOURUj4
+Ots8e/cJCkWqDYqpR5NLhUGkLYLVgYjHmv4FVVJZNPNWlq+Qg6fmoHOunQrnYKcQ2oS6lEexzsRFw1Q2
+Y1S3RZIO441c6fvFYzNMdU9lH/1tPutVs2IkOgYdR1y+DlG+AVBLBwiDgQxlKwEAAOgBAABQSwECFAAU
+AAgACAAAACEAg4EMZSsBAADoAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2
+AAAAYQEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

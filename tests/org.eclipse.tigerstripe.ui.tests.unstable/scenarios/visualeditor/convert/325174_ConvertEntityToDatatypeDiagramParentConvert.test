@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagramParentConvert http://bugs.xored.com/browse/XMP-874 http://jira4.xored.com/browse/QS-947
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/28/11 1:11 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _qjoMAKFjEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -40,7 +40,7 @@ with [get-window "Super Entity"] {
     get-table | select "com.mycompany.Entity2"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity | close
 get-view "Tigerstripe Explorer" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 3 
@@ -84,7 +84,7 @@ get-window "Convert com.mycompany.Entity" | get-group "Artifact parents" | get-b
 get-window "Convert com.mycompany.Entity" | get-button OK | click
 get-view Properties | get-tree | select EMF
 get-tab-folder | get-property activePage | equals "*ClassDiagram.wvd" | verify-true
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity 
     | get-edit-part -className DatatypeArtifactAttributeCompartmentEditPart] {
     mouse-move 28 10 button1 -height 12 -width 49

@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts, I37, Stereotyp
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertAssociationClassToAssociationExtendsRemove
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_uJEskaehEeCpNIqZ17RFzw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/21/11 5:34 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _oqnnMKeeEeCodoOuG34GLw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -61,7 +61,7 @@ with [get-window "Stereotype Selection"] {
     get-table | select aStereotype1
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/AC2" | double-click -nowait
 get-editor AC2 | get-section Stereotypes | get-section | get-button Add | click
 with [get-window "Stereotype Selection"] {
@@ -73,7 +73,7 @@ with [get-window "Stereotype Selection"] {
     get-table | select aStereotype1
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 9 
     | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click -nowait
@@ -113,7 +113,7 @@ with [get-window "Convert com.mycompany.AC1"] {
     get-group "Artifact children" | get-button Remove | click
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/AC2" 
     | get-menu "Refactor Model/Convert to Association..." | click
 get-window "Progress Information" | get-window Warning | get-button Yes | click

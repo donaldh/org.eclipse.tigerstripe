@@ -6,7 +6,7 @@ Tags: TS_Project/Profile, I33
 External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescription http://jira4.xored.com/browse/QS-1677
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 12/26/11 11:58 AM
+Save-Time: 1/18/12 1:28 PM
 Id: _RMXh0WcYEeCtOtMnB4cfpA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -55,7 +55,7 @@ with [get-window "Stereotype Attribute Edit"] {
     get-editbox -after [get-label "Description:"] | set-text test
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "Project1/default.wbp"] {
     get-tab-folder | get-tab-item Overview | click
     get-section "General Information" | get-link "Save as active profile and reload" | click -nowait

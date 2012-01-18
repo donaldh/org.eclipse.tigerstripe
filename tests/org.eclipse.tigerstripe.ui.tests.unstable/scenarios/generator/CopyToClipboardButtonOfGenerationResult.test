@@ -6,7 +6,7 @@ Tags: TS_Generator/Generate, I45
 External-Reference: http://jira4.xored.com/browse/QS-1590
 Element-Version: 3.0
 Contexts: _AFuq4K9WEd-zMOysButwpg
-Save-Time: 12/28/11 10:57 AM
+Save-Time: 1/18/12 1:28 PM
 Id: _oZBYQDEDEeGcHog4af2eaw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -46,7 +46,7 @@ with [get-editor "model-refactoring/tigerstripe.xml"] {
         get-button "Enable Generator" | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-button Finish | click
 with [get-window "Generate Tigerstripe Project" | get-window "Generation Result"] {

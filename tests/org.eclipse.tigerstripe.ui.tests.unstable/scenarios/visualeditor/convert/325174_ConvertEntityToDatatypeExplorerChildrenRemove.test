@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeExplorerChildrenRemove
 Element-Version: 3.0
 Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 8:49 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _BRDjAKFgEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -40,7 +40,7 @@ with [get-window "Super Entity"] {
     get-table | select "com.mycompany.Entity2"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity | close
 with [get-view "Tigerstripe Explorer"] {
     click -nowait

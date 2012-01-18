@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Refactor
 External-Reference: http://docs.xored.com/display/TS/DiagramRenameTest
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_fWx6AC1FEeGLGPctzMXQtA
-Save-Time: 12/23/11 4:28 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _TTOAkC6kEeC10pY5Az195Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -183,7 +183,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button Finish | click
 }
 get-editor "default.wvd" | click -nowait
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataTop | get-target-connection 0 | get-edit-part -text Dependency00 | get-property name | equals Dependency00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Dependency00" | get-property caption | equals Dependency00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Exception0" | get-menu "Refactor Model/Rename..." | click
@@ -248,7 +248,7 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     mouse-press 5 132 button1 -height 407 -width 825
     mouse-release 5 132 button1 524288 -height 407 -width 825
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SessionFacade00 | get-edit-part -text SessionFacade00 | get-property name | equals SessionFacade00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/SessionFacade00" | get-property caption | equals SessionFacade00 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeAssociationsDiagram
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_qEobgKFmEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 8:30 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _4l0XkKFnEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -78,7 +78,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className Map
     get-edit-part -name Entity4 | verify-error {get-target-connection 0 | get-property text | equals D1 }
     get-edit-part -name Entity3 | verify-error { get-target-connection 0 | get-property text | equals "11+entity+entity3" }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity 
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity" 
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity" | double-click -nowait

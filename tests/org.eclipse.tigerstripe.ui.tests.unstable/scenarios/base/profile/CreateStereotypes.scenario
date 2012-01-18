@@ -6,7 +6,7 @@ Tags: TS_Project/Profile
 External-Reference: http://jira4.xored.com/browse/QS-1670
 Element-Version: 3.0
 Contexts: _7M3rEA53EeCNwqgXAnPIdw
-Save-Time: 12/23/11 6:18 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _NsXNkA5qEeCNwqgXAnPIdw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -46,6 +46,307 @@ Add attribute with name string_attr, default value "Start"
 
 Save changes.
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/testProject.wbp" | double-click -nowait
+with [get-editor "Project1/testProject.wbp"] {
+    get-tab-folder | get-tab-item Stereotypes | click
+    with [get-section] {
+        get-section "Stereotype Definitions" | get-button Add | click
+        with [get-section "Stereotype Details"] {
+            with [get-editbox -after [get-label "Name:"]] {
+                key-type "CTRL+a"
+                set-text "method_stereo"
+            }
+            get-button Method | click
+        }
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "method_stereo" | get-property caption 
+    | equals "method_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "attribute_stereo"
+        }
+        get-button Attribute | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "attribute_stereo" | get-property caption 
+    | equals "attribute_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "literal_stereo"
+        }
+        get-button Literal | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "literal_stereo" | get-property caption 
+    | equals "literal_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "ф"
+            key-type "CTRL+SHIFT"
+            set-text "argument_stereo"
+        }
+        get-button Argument | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "argument_stereo" | get-property caption 
+    | equals "argument_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "association_end_stereo"
+        }
+        get-button "Association End" | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "association_end_stereo" | get-property caption 
+    | equals "association_end_stereo" | verify-true
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Details" | get-table 
+    -after [get-label "Scope:"] | select ""
+unsupported "CellClick -id {0} -element Table5 -column {0}"
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Details" | get-table 
+    -after [get-label "Scope:"] | select ""
+unsupported "CellClick -id {0} -element Table5 -column {0}"
+get-button "Save \(.*\)" | click
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "association_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select ""
+    }
+}
+unsupported "CellClick -id {0} -element Table6_114 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "association_stereo" | get-property caption 
+    | equals "association_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "association_class_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 1]
+    }
+}
+unsupported "CellClick -id {0} -element Table8_116 -column {0}"
+get-button "Save \(.*\)" | click
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "datatype_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 2]
+    }
+}
+unsupported "CellClick -id {0} -element Table9_147 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "datatype_stereo" | get-property caption 
+    | equals "datatype_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "dependency_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 3]
+    }
+}
+unsupported "CellClick -id {0} -element Table11_149 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "dependency_stereo" | get-property caption 
+    | equals "dependency_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "enumeration_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 4]
+    }
+}
+unsupported "CellClick -id {0} -element Table13_151 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "enumeration_stereo" | get-property caption 
+    | equals "enumeration_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "event_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 5]
+    }
+}
+unsupported "CellClick -id {0} -element Table15_153 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "event_stereo" | get-property caption 
+    | equals "event_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "exception_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 6]
+    }
+}
+unsupported "CellClick -id {0} -element Table17_155 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "exception_stereo" | get-property caption 
+    | equals "exception_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "entity_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 7]
+    }
+}
+unsupported "CellClick -id {0} -element Table19_157 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "entity_stereo" | get-property caption 
+    | equals "entity_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "package_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 8]
+    }
+}
+unsupported "CellClick -id {0} -element Table21_159 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "package_stereo" | get-property caption 
+    | equals "package_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "primitive_type_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 9]
+    }
+}
+unsupported "CellClick -id {0} -element Table23_161 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "primitive_type_stereo" | get-property caption 
+    | equals "primitive_type_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "query_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 10]
+    }
+}
+unsupported "CellClick -id {0} -element Table25_163 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "query_stereo" | get-property caption 
+    | equals "query_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "session_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 11]
+    }
+}
+unsupported "CellClick -id {0} -element Table27_165 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "session_stereo" | get-property caption 
+    | equals "session_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "update_procedure_stereo"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 12]
+    }
+}
+unsupported "CellClick -id {0} -element Table29_167 -column {0}"
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "update_procedure_stereo" | get-property caption 
+    | equals "update_procedure_stereo" | verify-true
+with [get-editor "Project1/testProject.wbp" | get-section] {
+    get-section "Stereotype Definitions" | get-button Add | click
+    with [get-section "Stereotype Details"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text "entity_stereo_with_attribute"
+        }
+        get-table -after [get-label "Scope:"] | select [get-item "" -index 7]
+    }
+}
+unsupported "CellClick -id {0} -element Table31_169 -column {0}"
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Details" | get-button Add | click
+with [get-window "Stereotype Attribute Edit"] {
+    get-editbox -after [get-label "Name:"] | set-text "string_attr"
+    get-group "Attribute type" | get-editbox -after [get-label "Default value:"] | set-text start
+    get-button OK | click
+}
+get-button "Save \(.*\)" | click
+get-editor "Project1/testProject.wbp" | get-section | get-section "Stereotype Definitions" | get-table 
+    -after [get-label "Stereotype Definitions"] | get-item "entity_stereo_with_attribute" | get-property caption 
+    | equals "entity_stereo_with_attribute" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

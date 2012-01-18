@@ -6,7 +6,7 @@ Tags: Facet/Define, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_tk1N0DFbEeGSksgVyHPBRg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/9/12 4:41 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _xbsqUDFeEeGSksgVyHPBRg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -47,7 +47,7 @@ with [get-editor "New Project/default.wfc" | get-section "Annotation Scope Detai
     verify-error {get-item "Check Annotation" 
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "New Project/default.wfc" | close
 with [get-view "Tigerstripe Explorer"] {
     click

@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityDiagram
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_llELsKLhEeCnVOKduz-xbg,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 12/20/11 7:48 PM
+Save-Time: 1/18/12 1:28 PM
 Id: _u2MOQKLgEeCnVOKduz-xbg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -45,7 +45,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram] {
 }
 get-tab-folder | get-property activePage | equals "*ClassDiagram.wvd" | verify-true
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Datatype 
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Datatype2 | get-edit-part -text Datatype2] {
         mouse-move 66 15 button1 -height 16 -width 122
@@ -58,7 +58,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram] {
     get-menu "Convert to Entity..." | click
     get-edit-part -className MapEditPart | mouse-hover 222 248 -height 356 -width 596
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Datatype2 
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Datatype2" | double-click -nowait
 get-editor Datatype2 | get-label "Entity Artifact" | get-property caption | equals "Entity Artifact" | verify-true

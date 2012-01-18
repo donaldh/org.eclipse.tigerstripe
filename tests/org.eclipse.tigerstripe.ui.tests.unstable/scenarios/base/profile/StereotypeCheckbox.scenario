@@ -5,7 +5,7 @@ Element-Name: StereotypeCheckbox
 External-Reference: http://jira4.xored.com/browse/QS-1670
 Element-Version: 3.0
 Contexts: _7M3rEA53EeCNwqgXAnPIdw
-Save-Time: 12/23/11 1:26 PM
+Save-Time: 1/18/12 1:27 PM
 Id: _eh9msBJlEeCrTY2DkyxR-A
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -26,7 +26,7 @@ with [get-editor "Project1/testProject.wbp"] {
         get-section "Stereotype Details" | get-table -after [get-label "Scope:"] | get-item "" -index 0 | click -nowait
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "Project1/testProject.wbp" | close
 with [get-view "Tigerstripe Explorer"] {
     click -nowait
