@@ -165,40 +165,13 @@ public class ModelChangeDeltaProcessor {
 					manager.fireChanged(oldObj, createLazyObject(newOne),
 							IRefactoringChangesListener.CHANGED);
 
-					String[] newPath = delta.getNewValue().toString()
-							.split("\\.");
-					String[] oldPath = delta.getOldValue().toString()
-							.split("\\.");
+					String[] newPath = delta.getNewValue().toString().split("\\.");
+					String[] oldPath = delta.getOldValue().toString().split("\\.");
 
 					if (!isSubPakage(oldPath, newPath)) {
-						IPackageArtifact orphan = (IPackageArtifact) artifact;
-
-						for (;;) {
-							if (needToCleanUpPackage(project, orphan, toCleanUp)) {
-								IResource r = (IResource) orphan
-										.getAdapter(IResource.class);
-								IContainer rContainer = r.getParent();
-								toCleanUp.add(rContainer);
-
-								IModelComponent parentComponent = orphan
-										.getContainingModelComponent();
-								if (parentComponent instanceof IPackageArtifact) {
-									IPackageArtifact parent = (IPackageArtifact) parentComponent;
-									Collection<IModelComponent> contained = parent
-											.getContainedModelComponents();
-									if (contained.size() == 1) {
-										IModelComponent first = contained
-												.iterator().next();
-										if (orphan.equals(first)) {
-
-											orphan = parent;
-											continue;
-										}
-									}
-								}
-							}
-							break;
-						}
+						IResource resource = (IResource) artifact .getAdapter(IResource.class);
+						toCleanUp.add(resource);
+						toCleanUp.add(resource.getParent());
 					}
 				} else {
 					IAbstractArtifact rcArtifact = getRefactoringComponent(
