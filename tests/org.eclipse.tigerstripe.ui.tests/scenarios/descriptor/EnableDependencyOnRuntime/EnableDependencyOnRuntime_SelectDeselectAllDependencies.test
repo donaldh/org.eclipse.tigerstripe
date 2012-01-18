@@ -6,7 +6,7 @@ Tags: Descriptor/EnableDependencyOnRuntime, I44
 External-Reference: 
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_HNJU4CVgEeGRa87APBuv3g
-Save-Time: 12/13/11 3:44 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _q3-vwCVXEeGRa87APBuv3g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -52,7 +52,7 @@ with [get-editor "Project/tigerstripe.xml" | get-section Dependencies | get-tabl
     get-item "org.eclipse.tigerstripe.test.module.*" | get-property selected | equals false | verify-true
     get-item "org.eclipse.tigerstripe.test.module.*" | get-property checked | equals false | verify-true
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "Project/tigerstripe.xml" | get-section Dependencies | get-button "Select All" | click
 with [get-editor "Project/tigerstripe.xml" | get-section Dependencies | get-table] {
     get-item "Project2.*" | get-property checked | equals true | verify-true

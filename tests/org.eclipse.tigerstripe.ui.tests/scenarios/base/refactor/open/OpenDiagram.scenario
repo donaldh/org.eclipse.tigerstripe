@@ -5,7 +5,7 @@ Element-Name: OpenDiagram
 External-Reference: 
 Element-Version: 2.0
 Contexts: _WBJSgM0UEd-6Q5V9pxn_5A
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _r2Jh0M0SEd-6Q5V9pxn_5A
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -153,7 +153,7 @@ with [get-editor "outside-class-diagram.wvd"] {
     click -nowait
     get-diagram | get-figure "0/1/0/0" | mouse-move 2 64 -height 441 -width 791
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/DataMiddle" 
     | get-menu "Refactor Model/Rename..." | click
 with [get-window "Refactor Model Artifact"] {

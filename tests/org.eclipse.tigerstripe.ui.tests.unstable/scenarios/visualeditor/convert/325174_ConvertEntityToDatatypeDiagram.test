@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeDiagram http://jira4.xored.com/browse/QS-947
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _TefWEKFbEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -91,7 +91,7 @@ get-editor Entity2 | get-section Constants | get-section | get-table | get-item 
 get-editor Entity2 | get-section Methods | click
 get-editor Entity2 | get-section Methods | get-section | get-table | get-item "method0\\(\\):void" 
     | get-property caption | equals "method0():void" | verify-true
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary

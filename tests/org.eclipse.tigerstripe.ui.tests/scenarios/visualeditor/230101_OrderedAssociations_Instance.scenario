@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor, I33
 External-Reference: http://docs.xored.com/display/TS/230101_OrderedAssociations_Instance
 Element-Version: 3.0
 Contexts: _BDX7sGZtEeCrMqyZEEy-ow
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: __shhsGZlEeCrMqyZEEy-ow
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -87,7 +87,7 @@ with [get-window "Instance Edit"] {
     }
     get-button OK | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "InstanceDiagram.wod"] {
     with [get-diagram] {
         with [get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0] {
@@ -125,7 +125,7 @@ with [get-window "Set Order"] {
     }
     get-button OK | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "InstanceDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text "{order=1} a_0" | get-property text | equals "{order=1} a_0" | verify-true
 with [get-editor "InstanceDiagram.wod"] {
     with [get-diagram] {
@@ -160,7 +160,7 @@ with [get-window "Set Order"] {
     }
     get-button OK | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "InstanceDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text "a_0" | get-property text | equals "a_0" | verify-true
 with [get-editor "InstanceDiagram.wod" | get-diagram] {
     with [get-edit-part -className InstanceMapEditPart] {
@@ -206,7 +206,7 @@ with [get-editor AssociationClass3 | get-section -index 5 | get-section "zEnd De
 }
 get-button "Save \(.*\)" | click
 get-editor "InstanceDiagram.wod" | click -nowait
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "InstanceDiagram.wod"] {
     with [get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0] {
         mouse-move 41 53 button3 -height 87 -width 71
@@ -219,7 +219,7 @@ with [get-window "Set Order"] {
     get-editbox | set-text unknown
     get-button OK | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "InstanceDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0 | get-edit-part -text "{order=unknown} b_0" | get-property text | equals "{order=unknown} b_0" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf

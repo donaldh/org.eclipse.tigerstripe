@@ -6,7 +6,7 @@ Tags: Annotation/Diagram, I42
 External-Reference: http://docs.xored.com/display/TS/360215_RemoveArtifactsWithAnnotationsFromClassDiagram; http://bugs.xored.com/browse/XMP-775
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_k1r5oPCzEeCsq4k6WT7AWw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _OtPOwPvKEeCMDZGX7ynCKQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -47,7 +47,7 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-set-data "-41" -button none
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 284 81 none -detail 1 -operation 7
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-end "-41" -button none -detail 1
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "default.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Entity0 | get-edit-part 
         -text "<<CheckAnnotation>> +entity0_testField0:String<<CheckAnnotation>> +attribute1:String" | get-edit-part 

@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts/Attribute, TS_Project/VisualEditor
 External-Reference: http://docs.xored.com/display/TS/UpdateAttributeVisibilityVisualEditor
 Element-Version: 3.0
 Contexts: _eq7awK8jEd-YepE1dWFlXA
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _wu1BkInLEeCErZSBFQ0SKQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -79,7 +79,7 @@ with [get-editor Entity2] {
     close
 }
 get-window "Save Resource" | get-button No | click
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary

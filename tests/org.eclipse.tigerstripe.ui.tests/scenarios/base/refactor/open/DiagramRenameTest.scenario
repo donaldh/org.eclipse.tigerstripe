@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Refactor
 External-Reference: http://docs.xored.com/display/TS/DiagramRenameTest
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_fWx6AC1FEeGLGPctzMXQtA
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _TTOAkC6kEeC10pY5Az195Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -81,7 +81,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button Finish | click
 }
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text Ent10 | get-property name | equals Ent10 | verify-true
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "inside-moved.wvd" | click -nowait
 with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "simple.Ent10"] {
     get-property name | equals Ent10 | verify-true
@@ -108,7 +108,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enumeration00 | get-edit-part -text Enumeration00 | get-property name | equals Enumeration00 | verify-true
 get-editor "inside-moved.wvd" | click -nowait
 get-editor "outside-class-diagram.wvd" | click -nowait
@@ -124,7 +124,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle0 | get-edit-part -text DataMiddle0 | get-property name | equals DataMiddle0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/DataMiddle0" | get-property caption | equals DataMiddle0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Association0" | get-menu "Refactor Model/Rename..." | click
@@ -136,7 +136,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-target-connection 2 | get-edit-part -text Association00 | get-property name | equals Association00 | verify-true
 get-editor "inside-moved.wvd" | click -nowait
 with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-target-connection 3 | get-edit-part -text "simple.Association00"] {
@@ -154,7 +154,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | click -nowait
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text AssociationClass00 | get-property name | equals AssociationClass00 | verify-true
 get-editor "inside-moved.wvd" | click -nowait
@@ -195,7 +195,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exception00 | get-edit-part -text Exception00 | get-property name | equals Exception00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Exception00" | get-property caption | equals Exception00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Update0" | get-menu "Refactor Model/Rename..." | click
@@ -207,7 +207,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Update00 | get-edit-part -text Update00 | get-property name | equals Update00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Update00" | get-property caption | equals Update00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Event0" | get-menu "Refactor Model/Rename..." | click
@@ -219,7 +219,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Event00 | get-edit-part -text Event00 | get-property name | equals Event00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Event00" | get-property caption | equals Event00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Query0" | get-menu "Refactor Model/Rename..." | click
@@ -232,7 +232,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button Finish | click
 }
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Query00 | get-edit-part -text Query00 | get-property name | equals Query00 | verify-true
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Query00" | get-property caption | equals Query00 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/SessionFacade0" | get-menu "Refactor Model/Rename..." | click
 with [get-window "Refactor Model Artifact"] {

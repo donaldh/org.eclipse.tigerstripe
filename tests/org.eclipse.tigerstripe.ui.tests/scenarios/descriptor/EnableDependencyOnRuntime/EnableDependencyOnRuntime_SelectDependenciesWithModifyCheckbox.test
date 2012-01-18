@@ -6,7 +6,7 @@ Tags: Descriptor/EnableDependencyOnRuntime, I44
 External-Reference: 
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_HNJU4CVgEeGRa87APBuv3g
-Save-Time: 12/13/11 3:33 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _A5YKYCVYEeGRa87APBuv3g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -47,7 +47,7 @@ with [get-editor "Project/tigerstripe.xml" | get-section Dependencies | get-tabl
     get-item "com.cisco.testModule.*" | get-property enablement | equals false | verify-true
     get-item "com.cisco.testModule.*" | get-property checked | equals false | verify-true
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "Project/tigerstripe.xml" | get-section Dependencies | get-table] {
     get-item "com.cisco.testModule.*" | get-property selection | equals false | verify-true
     get-item "com.cisco.testModule.*" | get-property enablement | equals false | verify-true

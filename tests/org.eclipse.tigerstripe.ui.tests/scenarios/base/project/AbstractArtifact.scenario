@@ -6,7 +6,7 @@ Tags: TS_Project/Edit/Artifacts
 External-Reference: http://docs.xored.com/display/TS/AbstractArtifact
 Element-Version: 3.0
 Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _CmwA0HrjEeCihOLHf7Mnlg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -63,7 +63,7 @@ get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany/Sess
 get-editor SessionFacade0 | get-section "General Information" | get-button "This artifact is abstract" | click
 get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany/UpdateProcedure0" | double-click -nowait
 get-editor UpdateProcedure0 | get-section "General Information" | get-button "This artifact is abstract" | click
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "default.wvd" | click
 get-button "Save \(.*\)" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 

@@ -6,7 +6,7 @@ Tags: TS_Generator/Edit
 External-Reference: http://docs.xored.com/display/TS/NewArtifactRule
 Element-Version: 2.0
 Contexts: _dodtQOb_Ed-nR6SHVVAXrA,_TLUSEd7KEeC1arm-KQmhig
-Save-Time: 1/18/12 1:27 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _LAGJwKwAEd-cXtRonalb9A
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -69,13 +69,13 @@ with [get-window "Select Velocity Template"] {
     get-tree | select "artifact.vm"
     get-button OK | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact Rules" | get-section -index 1 
     | get-editbox -after [get-label "Output File:"]] {
     key-type "M1+v"
     set-text "ArtifactRule.txt"
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact Rules" | get-section -index 1 | get-combo 
     -after [get-label "Artifact Type:"] | set-text "Any Artifact"
 get-button "Save \(.*\)" | click

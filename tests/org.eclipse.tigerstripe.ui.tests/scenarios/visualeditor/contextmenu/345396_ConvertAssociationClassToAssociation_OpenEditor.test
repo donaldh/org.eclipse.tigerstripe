@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor, I35
 External-Reference: http://docs.xored.com/display/TS/ConvertAssociationClassToAssociation_OpenEditor
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _z7iCQI2pEeCQJ7V2A3r4wA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -134,7 +134,7 @@ get-editor AssocClass0 | get-section Attributes | click -nowait
 get-editor AssocClass0 | get-section Attributes | get-section | get-table | get-property itemCount | equals 0 
     | verify-true
 get-editor "default.wvd" | click -nowait
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor AssocClass0] {
     click -nowait
     get-section Methods | click -nowait

@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37, St
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeStereotypes
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_1HZJ4KFcEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _dhLtkKFcEeCjS6NbCUXM_w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -87,7 +87,7 @@ with [get-tab-folder] {
     get-property activePage | equals "*ClassDiagram.wvd" | verify-true
 }
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity2" | double-click -nowait
 get-editor Entity2 | get-section Stereotypes | get-section | get-table | get-property itemCount | equals 0 | verify-true
 get-menu "Tigerstripe/Active Profile Details..." | click

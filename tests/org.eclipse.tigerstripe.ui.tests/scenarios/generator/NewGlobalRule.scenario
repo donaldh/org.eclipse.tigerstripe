@@ -6,7 +6,7 @@ Tags: TS_Generator/Edit
 External-Reference: http://docs.xored.com/display/TS/NewGlobalRule
 Element-Version: 2.0
 Contexts: _dodtQOb_Ed-nR6SHVVAXrA,_TLUSEd7KEeC1arm-KQmhig
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _j0GUgKt0Ed-v8JwXbnu_tQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -46,13 +46,13 @@ get-button "Save \(.*\)" | click
 
 get-editor "New Generator Project/ts-plugin.xml" | get-section "Global Rules" | get-section -index 1 | get-editbox 
     -after [get-label "Description:"] | set-text "A global rule for testing"
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "New Generator Project/ts-plugin.xml" | get-section "Global Rules" | get-section -index 1 
     | get-editbox -after [get-label "Output File:"]] {
     key-type "M1+v"
     set-text "allArtifacts.txt"
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/templates" | get-menu "New/File" | click
 with [get-window "New File"] {
     with [get-editbox -after [get-label "File name:"]] {

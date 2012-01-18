@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/ContextMenu, I35
 External-Reference: http://docs.xored.com/display/TS/345396_ConvertAssociationClassToAssociation_Extends
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _h3ijQI2nEeCQJ7V2A3r4wA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -65,7 +65,7 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-set-data "-41" -button none
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 163 89 none -detail 1 -operation 7
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-end "-41" -button none -detail 1
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "default.wvd"] {
     with [get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 | get-target-connection 2] {
         mouse-move 66 41 button1 -height 67 -width 139

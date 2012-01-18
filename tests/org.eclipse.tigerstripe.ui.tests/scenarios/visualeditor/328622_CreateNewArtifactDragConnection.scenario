@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor
 External-Reference: http://docs.xored.com/display/TS/328622_CreateNewArtifactDragConnection
 Element-Version: 2.0
 Contexts: _luehIAKVEeCI5eYSA_LRBA
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _E2Y2IfFEEd-3hOAK3iGi8g
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -57,7 +57,7 @@ with [get-editor "default.wvd" | get-diagram] {
     cancel-direct-edit
     get-edit-part -className MapEditPart | mouse-release 754 155 button1 524288 -height 407 -width 825
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "default.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Entity1] {
         with [get-figure 0] {

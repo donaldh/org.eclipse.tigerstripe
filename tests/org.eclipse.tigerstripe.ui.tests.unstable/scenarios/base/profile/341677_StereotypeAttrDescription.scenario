@@ -6,7 +6,7 @@ Tags: TS_Project/Profile, I33
 External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescription http://jira4.xored.com/browse/QS-1677
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _RMXh0WcYEeCtOtMnB4cfpA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -74,7 +74,7 @@ get-window "Stereotype Details" | get-button Help | click
 get-window "Stereotype Details" | get-section "attribute_stereo description" | get-label "attribute_stereo description" 
     | get-property caption | equals "attribute_stereo description" | verify-true
 get-window "Stereotype Details" | get-button OK | click
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click

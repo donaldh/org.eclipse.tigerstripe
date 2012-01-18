@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Entity, I37
 External-Reference: http://docs.xored.com/display/TS/325174_ConvertEntityToDatatypeExtendsRemove
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_U6uhsKeJEeCodoOuG34GLw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _N12mMKeIEeCodoOuG34GLw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -102,7 +102,7 @@ with [get-window "Convert com.mycompany.Entity1"] {
     get-group "Artifact children" | get-button Remove | click
     get-button OK | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part 
     -name Entity2] {
     with [get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0] {

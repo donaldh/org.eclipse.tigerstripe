@@ -6,7 +6,7 @@ Tags: TS_Project/Facet, I37
 External-Reference: http://docs.xored.com/display/TS/348229_AutomaticallyPickUpFacet
 Element-Version: 3.0
 Contexts: _5OPsMK6FEd-uWaeTFaimww
-Save-Time: 1/18/12 1:27 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _rkyHkKklEeCQuoNCiruvtQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -74,7 +74,7 @@ with [get-window "Select Facets"] {
     get-tree | select "default.wfc"
     get-button OK | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click

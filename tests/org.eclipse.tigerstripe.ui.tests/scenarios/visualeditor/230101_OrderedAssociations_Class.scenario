@@ -6,7 +6,7 @@ Tags: TS_Project/VisualEditor, I33
 External-Reference: http://docs.xored.com/display/TS/230101_OrderedAssociations_Class
 Element-Version: 3.0
 Contexts: _rqOeQC-BEeCn6P5HDw8CRw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/18/12 1:38 PM
 Id: _Ia4RES-AEeCn6P5HDw8CRw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -124,7 +124,7 @@ with [get-editor AssociationClass3 | get-section -index 5 | get-section "aEnd De
     get-button isOrdered | click
 }
 get-button "Save \(.*\)" | click
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "ClassDiagram.wvd" | click -nowait
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name B | get-target-connection 0 | get-edit-part -text "{ordered} +a" | get-property text | equals "{ordered} +a" | verify-true
 with [get-editor "ClassDiagram.wvd"] {
@@ -137,7 +137,7 @@ with [get-editor "ClassDiagram.wvd"] {
     }
     get-canvas -index 3 | get-menu "Hide\\/Show Details.../None" | click
 }
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name B | get-target-connection 0 | get-property text | equals "0..*1" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
