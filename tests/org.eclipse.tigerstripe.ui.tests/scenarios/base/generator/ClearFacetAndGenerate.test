@@ -6,7 +6,7 @@ Tags: TS_Project/GeneratorSettings
 External-Reference: 
 Element-Version: 3.0
 Contexts: _mfx9IEG2EeGhZJbTp_-43w
-Save-Time: 1/19/12 1:10 PM
+Save-Time: 1/19/12 1:43 PM
 Id: _354T4EJjEeGhZJbTp_-43w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -20,6 +20,82 @@ TEST STEPS
 3. Save Settings;
 4. Run Generator and make sure that facet rules wasn't used in generation and all artifacts were generated. 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (enabled) [Generic]"] {
+        mouse-release 118 17 button1 524288
+        click
+        with [get-editbox -after [get-label "Use Facet"]] {
+            key-type "M1+a"
+            set-text ""
+            key-type "M1+s"
+        }
+    }
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/target/tigerstripe.gen" | get-property childCount | equals 23 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/allArtifacts.txt" | get-property caption 
+        | equals "allArtifacts.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/AssociatedEnt.txt" | get-property caption 
+        | equals "AssociatedEnt.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Association0.txt" | get-property caption 
+        | equals "Association0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Association1.txt" | get-property caption 
+        | equals "Association1.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Association2.txt" | get-property caption 
+        | equals "Association2.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/AssociationClass0.txt" | get-property caption 
+        | equals "AssociationClass0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/DataBottom.txt" | get-property caption | equals "DataBottom.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/DataMiddle.txt" | get-property caption | equals "DataMiddle.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/DataTop.txt" | get-property caption | equals "DataTop.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Dependency0.txt" | get-property caption 
+        | equals "Dependency0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Ent1.txt" | get-property caption | equals "Ent1.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Ent2.txt" | get-property caption | equals "Ent2.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Enumeration0.txt" | get-property caption 
+        | equals "Enumeration0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Event0.txt" | get-property caption | equals "Event0.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Exception0.txt" | get-property caption | equals "Exception0.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/moved.txt" | get-property caption | equals "moved.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/movedOther.txt" | get-property caption | equals "movedOther.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Query0.txt" | get-property caption | equals "Query0.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/SessionFacade0.txt" | get-property caption 
+        | equals "SessionFacade0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/simple.txt" | get-property caption | equals "simple.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/SuperEnt.txt" | get-property caption | equals "SuperEnt.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Update0.txt" | get-property caption | equals "Update0.txt" 
+        | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

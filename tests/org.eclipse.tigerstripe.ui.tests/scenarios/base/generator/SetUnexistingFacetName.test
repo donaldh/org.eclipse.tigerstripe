@@ -6,7 +6,7 @@ Tags: TS_Project/GeneratorSettings
 External-Reference: 
 Element-Version: 3.0
 Contexts: _mfx9IEG2EeGhZJbTp_-43w
-Save-Time: 1/19/12 1:27 PM
+Save-Time: 1/19/12 1:44 PM
 Id: _a178MEJmEeGhZJbTp_-43w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -20,6 +20,36 @@ TEST STEPS
 3. Save settings;
 4. Make sure that "Facet cannot be found" message has appeared in Problems view.
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (enabled) [Generic]"] {
+        click
+        with [get-editbox -after [get-label "Use Facet"]] {
+            key-type "M1+a"
+            set-text ppppp
+            key-type "M1+s"
+            set-text ppppp
+        }
+    }
+}
+get-view Problems | click
+get-view Problems | get-tree 
+    | get-item "Errors \\(1 item\\)/Facet \'ppppp\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
+    | get-property caption 
+    | equals "Facet \'ppppp\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project(3.0)\' cannot be found." 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

@@ -6,7 +6,7 @@ Tags: TS_Project/GeneratorSettings
 External-Reference: 
 Element-Version: 3.0
 Contexts: _mfx9IEG2EeGhZJbTp_-43w
-Save-Time: 1/18/12 5:08 PM
+Save-Time: 1/19/12 1:43 PM
 Id: _kcIN4EG3EeGhZJbTp_-43w
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -20,6 +20,48 @@ TEST STEPS
 3. Make sure that all controls are disabled;
 4. Check "Enable Generator" - make sure that all controls are enabled.  
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (enabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+    get-button "Enable Generator" | get-property selected | equals false | verify-true
+    get-label "Log Level" | get-property enablement | equals false | verify-true
+    get-combo -after [get-label "Log Level"] | get-property enablement | equals false | verify-true
+    get-label "Use Facet" | get-property enablement | equals false | verify-true
+    get-editbox -after [get-label "Use Facet"] | get-property enablement | equals false | verify-true
+    get-button "Select..." | get-property enablement | equals false | verify-true
+    get-label "Facet Output Dir" | get-property enablement | equals false | verify-true
+    get-editbox -after [get-label "Facet Output Dir"] | get-property enablement | equals false | verify-true
+    get-button "Restore Defaults" | get-property enablement | equals false | verify-true
+}
+get-editor "model-refactoring/tigerstripe.xml" | get-section "New Generator Project(3.0) (disabled) [Generic]" 
+    | get-button "Enable Generator" | click
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section "New Generator Project(3.0) (enabled) [Generic]"] {
+    get-label "Log Level" | get-property enablement | equals true | verify-true
+    get-combo -after [get-label "Log Level"] | get-property enablement | equals true | verify-true
+    get-label "Use Facet" | get-property enablement | equals true | verify-true
+    get-editbox -after [get-label "Use Facet"] | get-property enablement | equals true | verify-true
+    get-button "Select..." | get-property enablement | equals true | verify-true
+    get-label "Facet Output Dir" | get-property enablement | equals true | verify-true
+    get-editbox -after [get-label "Facet Output Dir"] | get-property enablement | equals true | verify-true
+    get-button "Restore Defaults" | get-property enablement | equals true | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content
