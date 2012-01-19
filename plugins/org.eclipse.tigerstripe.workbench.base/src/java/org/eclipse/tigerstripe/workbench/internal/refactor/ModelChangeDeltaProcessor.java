@@ -154,25 +154,22 @@ public class ModelChangeDeltaProcessor {
 					// propagate to annotations framework
 					manager.fireChanged(oldObj, newObj,
 							IRefactoringChangesListener.ABOUT_TO_CHANGE);
-
-					IAbstractArtifact newOne = ((IAbstractArtifactInternal) artifact)
-							.makeWorkingCopy(null);
-					newOne.setFullyQualifiedName((String) delta.getNewValue());
-
-					newOne.doSave(null);
+					
+					IArtifactManagerSession session = artifact.getProject().getArtifactManagerSession();
+					IAbstractArtifact packageArtifact = session.getArtifactByFullyQualifiedName((String) delta.getNewValue());
+					if (packageArtifact ==null) {
+						packageArtifact = session.makeArtifact(IPackageArtifact.class.getName());
+						packageArtifact.setFullyQualifiedName((String) delta.getNewValue());
+						packageArtifact.doSave(null);
+					}
 
 					// propagate to annotations framework
-					manager.fireChanged(oldObj, createLazyObject(newOne),
+					manager.fireChanged(oldObj, createLazyObject(packageArtifact),
 							IRefactoringChangesListener.CHANGED);
 
-					String[] newPath = delta.getNewValue().toString().split("\\.");
-					String[] oldPath = delta.getOldValue().toString().split("\\.");
-
-					if (!isSubPakage(oldPath, newPath)) {
-						IResource resource = (IResource) artifact .getAdapter(IResource.class);
-						toCleanUp.add(resource);
-						toCleanUp.add(resource.getParent());
-					}
+					cleanUpAfterPackageRemaned(session, delta
+							.getNewValue().toString(), delta.getOldValue()
+							.toString(), toCleanUp);
 				} else {
 					IAbstractArtifact rcArtifact = getRefactoringComponent(
 							artifact, toSave, false);
@@ -465,16 +462,43 @@ public class ModelChangeDeltaProcessor {
 		return true;
 	}
 
-	private static boolean isSubPakage(String[] subPkg, String[] path) {
-		if (path.length < subPkg.length) {
-			return false;
+	private static void cleanUpAfterPackageRemaned(
+			IArtifactManagerSession session, String newFqn, String oldFqn,
+			Collection<Object> toCleanUp) throws TigerstripeException {
+		StringBuilder builder = new StringBuilder();
+		String[] oldPath = oldFqn.split("\\.");
+		ArrayList<String> packagesToCleanUp = new ArrayList<String>();
+		for (int i = 0; i < oldPath.length; i++) {
+			if (i > 0)
+				builder.append(".");
+			builder.append(oldPath[i]);
+			packagesToCleanUp.add(builder.toString());
 		}
-		for (int i = 0; i < subPkg.length; ++i) {
-			if (!path[i].equals(subPkg[i])) {
-				return false;
+		String[] newPath = newFqn.split("\\.");
+		builder.setLength(0);
+		for (int i = 0; i < newPath.length; i++) {
+			if (i > 0)
+				builder.append(".");
+			builder.append(newPath[i]);
+			packagesToCleanUp.remove(builder.toString());
+		}
+		Collection<IAbstractArtifact> artifacts = session.getArtifactManager()
+				.getAllArtifacts(false, new NullProgressMonitor());
+		for (IAbstractArtifact a : artifacts){
+			if (!packagesToCleanUp.contains(a)) {
+				String p = a.getPackage();
+				packagesToCleanUp.remove(p);
 			}
 		}
-		return true;
+		for (String packageFqn : packagesToCleanUp) {
+			IAbstractArtifact packageArtifact = session
+					.getArtifactByFullyQualifiedName(packageFqn);
+			session.removeArtifact(packageArtifact);
+			IResource resource = (IResource) packageArtifact
+					.getAdapter(IResource.class);
+			toCleanUp.add(resource);
+			toCleanUp.add(resource.getParent());
+		}
 	}
 
 	private static ITigerstripeLazyObject createLazyObject(
