@@ -6,7 +6,7 @@ Tags: Facet/Define, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _FyZMUDs7EeCt76CYYPZ_qw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/19/12 12:35 PM
 Id: _uuOxIDtnEeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -35,19 +35,19 @@ with [get-editor "model-refactoring/default.wfc"] {
     get-section "Annotation Scope Details" | get-button Add -after [get-label "Annotations excluded patterns:"] | click
 }
 with [get-window "Annotation Type Selection"] {
-    get-table | select "Check Annotation"
+    get-tree | select "Primitive/Check Annotation"
     get-button OK | click
 }
 get-editor "model-refactoring/default.wfc" | get-section "Annotation Scope Details" | get-button Add 
     -after [get-label "Annotations excluded patterns:"] | click
 with [get-window "Annotation Type Selection"] {
-    get-table | select "Integer Annotation"
+    get-tree | select "Primitive/Integer Annotation"
     get-button OK | click
 }
 get-editor "model-refactoring/default.wfc" | get-section "Annotation Scope Details" | get-button Add 
     -after [get-label "Annotations excluded patterns:"] | click
 with [get-window "Annotation Type Selection"] {
-    get-table | select Font
+    get-tree | select "Styles/Font"
     get-button OK | click
 }
 get-tab-folder -index 1 | get-property pages -index 0 | equals "*model-refactoring/default.wfc" | verify-true

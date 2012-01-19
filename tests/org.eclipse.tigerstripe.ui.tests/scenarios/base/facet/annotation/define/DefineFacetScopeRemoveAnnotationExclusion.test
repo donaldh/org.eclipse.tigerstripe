@@ -6,7 +6,7 @@ Tags: Facet/Define, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_tk1N0DFbEeGSksgVyHPBRg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/19/12 12:37 PM
 Id: _-PKyoDtrEeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -36,19 +36,13 @@ with [get-editor "New Project/default.wfc"] {
     get-section "Annotation Scope Details" | get-button Add -after [get-label "Annotations excluded patterns:"] | click
 }
 with [get-window "Annotation Type Selection"] {
-    get-table | select "Check Annotation"
+    get-tree | select "Primitive/Check Annotation"
     get-button OK | click
 }
 get-editor "New Project/default.wfc" | get-section "Annotation Scope Details" | get-button Add 
     -after [get-label "Annotations excluded patterns:"] | click
 with [get-window "Annotation Type Selection"] {
-    get-table | select Color
-    get-button OK | click
-}
-get-editor "New Project/default.wfc" | get-section "Annotation Scope Details" | get-button Add 
-    -after [get-label "Annotations excluded patterns:"] | click
-with [get-window "Annotation Type Selection"] {
-    get-table | select Font
+    get-tree | select "Styles/Font"
     get-button OK | click
 }
 get-button "Save \(.*\)" | click
@@ -59,7 +53,7 @@ with [get-view "Tigerstripe Explorer"] {
 }
 get-editor "New Project/default.wfc" | get-tab-folder | get-tab-item Scope | click
 with [get-editor "New Project/default.wfc" | get-section "Annotation Scope Details"] {
-    get-table -after [get-label "Annotations excluded patterns:"] | get-property itemCount | equals 3 | verify-true
+    get-table -after [get-label "Annotations excluded patterns:"] | get-property itemCount | equals 5 | verify-true
     get-button Add -after [get-label "Annotations excluded patterns:"] | get-property enablement | equals true 
         | verify-true
     get-button Sort -after [get-label "Annotations excluded patterns:"] | get-property enablement | equals true 
@@ -81,7 +75,7 @@ with [get-view "Tigerstripe Explorer"] {
 }
 get-editor "New Project/default.wfc" | get-tab-folder | get-tab-item Scope | click
 get-editor "New Project/default.wfc" | get-section "Annotation Scope Details" | get-table 
-    -after [get-label "Annotations excluded patterns:"] | get-property itemCount | equals 2 | verify-true
+    -after [get-label "Annotations excluded patterns:"] | get-property itemCount | equals 4 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
