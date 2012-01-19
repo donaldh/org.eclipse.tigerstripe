@@ -190,7 +190,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 							artifact = mgr.getArtifactByFullyQualifiedName(fqn,
 									false, (IProgressMonitor) null);
 							if (artifact != null) {
-								return artifact;
+								if (container != null) {
+									return (IAbstractArtifact) ContextProjectAwareProxy
+											.newInstance(artifact, proj);
+								} else {
+									return artifact;
+								}
 							}
 						}
 					}

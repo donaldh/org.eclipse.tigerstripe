@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -62,7 +63,6 @@ import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -73,6 +73,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstract
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory;
 import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 
+@SuppressWarnings("restriction")
 public class NewTigerstripeExplorerContentProvider extends
 		JavaNavigatorContentProvider {
 
@@ -230,8 +231,33 @@ public class NewTigerstripeExplorerContentProvider extends
 		for (Object object : rawChildren) {
 			filter(object, parentElement, filteredChildren);
 		}
+		
 
-		return filteredChildren.toArray(new Object[filteredChildren.size()]);
+		Object[] result = filteredChildren.toArray();
+		
+		// All jars that represent exported modules must be wrapped
+		for (int i = 0; i < result.length; i++) {
+			Object o = result[i];
+			if (o instanceof JarPackageFragmentRoot) {
+				JarPackageFragmentRoot root = (JarPackageFragmentRoot) o;
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) root
+						.getJavaProject().getAdapter(
+								ITigerstripeModelProject.class);
+				IResource resource = root.getResource();
+				if (tsProject != null && resource != null) {
+					IProject project = resource.getProject();
+					if (project != null) {
+						ITigerstripeModelProject context = (ITigerstripeModelProject) project
+								.getAdapter(ITigerstripeModelProject.class);
+						if (context != null) {
+							result[i] = new ElementWrapper(root, context);
+						}
+					}
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 	protected void filter(Object o, Object parent, Collection<Object> filtered) {
@@ -314,7 +340,6 @@ public class NewTigerstripeExplorerContentProvider extends
 	}
 
 	@Override
-	@SuppressWarnings("restriction")
 	public Object getParent(Object element) {
 		if (element instanceof AbstractLogicalExplorerNode) {
 			AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;

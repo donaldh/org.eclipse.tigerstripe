@@ -133,8 +133,8 @@ public class DependenciesContentCache {
 				continue;
 			}
 			Dependency dep = (Dependency) dependency;
-			ArtifactManager artifactManager = dep.getArtifactManager(context
-					.getMonitor());
+			ArtifactManager artifactManager = new ContextualArtifactManager(dep.getArtifactManager(context
+					.getMonitor()), manager.getTSProject().getTSProject());
 			if (dep != null && artifactManager != null)
 				result.addAll(artifactManager.getAllArtifacts(true, context));
 		}

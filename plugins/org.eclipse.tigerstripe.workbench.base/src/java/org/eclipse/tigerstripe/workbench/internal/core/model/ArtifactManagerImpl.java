@@ -60,6 +60,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstrip
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ArtifactRepository;
+import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
@@ -2699,6 +2700,14 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							"TigerstripeException detected", e);
 				}
 			}
+			for (IDependency dep : getTSProject().getEnabledDependencies()) {
+				try {
+					((Dependency)dep).getArtifactManager(null).resetActiveFacet();
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
 
 			// need to take care of modules too
 			depContentCache.resetActiveFacet();
@@ -2712,6 +2721,15 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					project.getArtifactManagerSession().setActiveFacet(
+							newFacet, monitor);
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+			for (IDependency dep : getTSProject().getEnabledDependencies()) {
+				try {
+					((Dependency)dep).getArtifactManager(null).setActiveFacet(
 							newFacet, monitor);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
