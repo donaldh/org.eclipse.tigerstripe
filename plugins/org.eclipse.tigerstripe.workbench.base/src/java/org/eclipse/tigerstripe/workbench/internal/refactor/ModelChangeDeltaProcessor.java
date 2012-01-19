@@ -485,7 +485,7 @@ public class ModelChangeDeltaProcessor {
 		Collection<IAbstractArtifact> artifacts = session.getArtifactManager()
 				.getAllArtifacts(false, new NullProgressMonitor());
 		for (IAbstractArtifact a : artifacts){
-			if (!packagesToCleanUp.contains(a)) {
+			if (!packagesToCleanUp.contains(a.getFullyQualifiedName())) {
 				String p = a.getPackage();
 				packagesToCleanUp.remove(p);
 			}
