@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: SetActiveFacetWithAnnotationTigerstripeModule
 Tags: Facet/Active, Annotation
-External-Reference: http://bugs.xored.com/browse/XMP-915
+External-Reference: 
 Element-Version: 3.0
 Contexts: _o_vfUDHaEeGSksgVyHPBRg,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/13/12 3:08 PM
+Save-Time: 1/20/12 3:11 PM
 Id: _h4koUDHaEeGSksgVyHPBRg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -22,8 +22,8 @@ GeneratorProjectAndTSModuleWithAnnotationFacetContextWorkspace
 Steps
 Set facet as active
 Check Project name and greyed artifacts
-Excluded artifacts are: E1 with Association1, AssociationClass1,  Dependency, 
-Session Facade artifact
+Excluded artifacts are: E1 with Association1, AssociationClass1, Session Facade artifact
+Dependency is not excluded
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
@@ -79,21 +79,21 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/UP1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Dependency" 
-        | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+        | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdtSwjAQfXfGf8jkWRrxBu1QmCoo
-OsMMtoroSye0S4i0CbTpBb/eFKGO17fsnrNnz550emUcoRySlEth46ZxjBGIQIZcMBtnat5o41738KAT
-yNgoZQKhsW4ZaQCCJlxa3u6ByphbtcpJpaJ1RWrpvo0XSq0sQoqiMGTMDJkwMh3d7im/KtdDGiVblKxb
-ZI8aEOgWRoLGYGMPlBMonsM1DUA9cbVwhJCKKm3mgTPtSiV8BSMZZpEeqm2eVjZ5aGN/cbaUj/0hHcCN
-t0zZZDMcX7oMI0VZauOtLPlYcYQ+tTW+Wen9EEQ6tFJBImjkwhwSnSDUF8wylu4OrI6ZJbJIQQcwbpjN
-c6yzRUinK5RWSLu+9PP5TysdUjO+8V3XbLIRXw/gavKcv5mZN34pnL/5Zv/i1aGKDcJG3r4rpjOR+er+
-C78q/vtsTXkHUEsHCF/VANZLAQAANwIAAFBLAQIUABQACAAIAAAAIQBf1QDWSwEAADcCAAAIAAAAAAAA
-AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACBAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVtPAjEQhd9N/A9Nn6UVNQIbFrIK
+iiYkyHpBXzZ1dygVtoXd2Qv+egvKGq9v7Zwz35zMtLtlvCA5JKky2qV1dkgJ6NBESkuXZjitNWm3s7/X
+Dk3MSpNAxFYNloagRaKM4388SBkrp6IcbSiWq1PH1l06Q1w6nBdFwUwsmUkknwyvdpZfyVWTVflW5asG
+36kMQluiRIsYXOoDeiGqHC5ECPigcOZpbVCgDXOrpE2FiVrC0ETZwjZVMY83MVXk0mB2Mjd3vYHow6U/
+T+X9ejA6G0tKUMjUpVssfx9xQD7ZVl8v7XwIF9SuiBC7JI1QYtoJTJBPfxLbvHJ884/HrbocqlUfzu8f
+89dW5o+eCu9vf6t3+uIJlP2oljevi8mzzgK8+eLffP67mbW8AVBLBwjbIhK1KwEAAP4BAABQSwECFAAU
+AAgACAAAACEA2yIStSsBAAD+AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2
+AAAAYQEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: GenerateAnnotatedTigerstripeProjectWithActiveFacet
 Tags: Facet/Generate
-External-Reference: http://bugs.xored.com/browse/XMP-915
+External-Reference: 
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_5j0PQDHSEeGSksgVyHPBRg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/17/12 12:10 PM
+Save-Time: 1/20/12 3:12 PM
 Id: _G3yKQDHUEeGSksgVyHPBRg
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,7 +25,8 @@ Deploy generator
 Enable generator in TS project
 Run generation
 Verify created artifacts in target folder
-Verify that inactive artifacts (Entity0, AssociationClass0, Association0, Dependency0) are not generated
+Verify that inactive artifacts (Entity0, AssociationClass0, Association0) are not generated
+Dependency0 is not excluded
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
@@ -58,7 +59,8 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
     verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/AssocClass0.txt"}   
     verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Association0.txt"}     
     verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Entity0.txt"}  
-    verify-error {get-item "New Project \\{default\\}/target/tigerstripe.gen/Dependency0.txt"}  
+    get-item "New Project \\{default\\}/target/tigerstripe.gen/Dependency0.txt" | get-property caption 
+        | equals "Dependency0.txt" | verify-true
     get-item "New Project \\{default\\}/target/tigerstripe.gen/allArtifacts.txt" | get-property caption 
         | equals "allArtifacts.txt" | verify-true
     get-item "New Project \\{default\\}/target/tigerstripe.gen/Datatype0.txt" | get-property caption 
@@ -89,14 +91,14 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPyx9ZwMJwhYGmYKg
-hmRsfqAvZHSXUmQttN0H/no7AjMY9antveeee85pt18kGyMDISlnLmqYdWQAwzymjLgoVctaB/V7lxdd
-zBOz4AJic9c2JQYWCcqd8HgxioQ6FctVyaJ5mXR03UUrpbaOZeV5bvKEmFwQaza5P0F+Za6GdNc6dK1d
-2zp1TcC6hAwWJeCiETAQkQKPMa70GT9RoqUoQbfgC74GrF6pWnlY0QzuIgwKfTtullpp7KL5qLl/nA7G
-z0MYhR+SvOzH/k1AkKEiIl10mLNOq3R1v9WrAW90XoUCwaJNAEsQOjyoxC9SIo/eSh8LwXMJ2rtfsxst
-pGM1DB0sU5pB9uZBYDfIhO6GcPvyln3aaei/517XqhA/8K113deCw3PBf+PtwfXaixQZxrWs85DPFiyd
-q+kZvnz8988a8gVQSwcIeVX7mU0BAAAyAgAAUEsBAhQAFAAIAAgAAAAhAHlV+5lNAQAAMgIAAAgAAAAA
-AAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIMBAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5q+s4JEgYVBpiAo
+IRlMEX0hs7uWImuhu2zDr7cQwWDUp7bnnHvOvbfNdpEsSQYmlVp5tOKUKQHFdSyV8OgG30p12m6dnzW5
+TpxCG4iddc1JOajISO2GXxdSJNI9ulzsXKyvSl2Le3SOuHIZy/Pc0YlwtBFsOrw7SH51PhZZlu1Ztq6x
+A+sAtxAlKkrAoz1QYCIEXymN9owfpLCtoJErCIxeAMcniXOfo8zgNuKA9Hvi6q5XGXt01qtuB6NO/7EL
+vfA9FZNtP7geC0owEqlH93XsEGXR7cpGA19Sux1C7H4UQoFpazYeNypiKNdduJk8Zx+NTRi85H6THRU/
+9JeLcmBzw9Pcv/WNztXCj1B041JWv8+nr2ozw9GJfvf477us5BNQSwcIdanA5CwBAAD5AQAAUEsBAhQA
+FAAIAAgAAAAhAHWpwOQsAQAA+QEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
+NgAAAGIBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
