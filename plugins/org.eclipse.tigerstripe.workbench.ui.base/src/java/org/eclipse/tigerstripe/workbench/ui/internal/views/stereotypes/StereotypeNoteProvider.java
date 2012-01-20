@@ -28,7 +28,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteListener;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -72,13 +71,9 @@ public class StereotypeNoteProvider implements INoteProvider,
 					.getActiveShell();
 			IAction action = new AddStereotypeAction(component, shell,
 					getImageDescriptor());
-
-			if (component instanceof IAbstractArtifact) {
-				if (((IAbstractArtifact) component).isReadonly()) {
-					action.setEnabled(false);
-				}
+			if (StereotypeNote.isReadOnly(component)) {
+				action.setEnabled(false);
 			}
-
 			ActionContributionItem item = new ActionContributionItem(action);
 			manager.appendToGroup(groupName, item);
 		}
