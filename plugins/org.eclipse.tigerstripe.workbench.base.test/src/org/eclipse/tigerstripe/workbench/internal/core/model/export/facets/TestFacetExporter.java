@@ -186,11 +186,12 @@ public class TestFacetExporter extends AbstractExportTestCase {
 		
 		FacetExporter.export(inputManager, new NullProgressMonitor());
 		
-		verifyProjectArtifact(destination, ModelProjectHelper.M1);
-		verifyProjectArtifact(destination, ModelProjectHelper.M2);
-		verifyProjectArtifact(destination, ModelProjectHelper.M3);
-		verifyProjectArtifact(destination, ModelProjectHelper.AC1);
-		verifyProjectArtifact(destination, ModelProjectHelper.AS1);
+		// If no artifact meet the facet requirements, no artifacts should be exported
+		verifyProjectArtifactNotExported(destination, ModelProjectHelper.M1);
+		verifyProjectArtifactNotExported(destination, ModelProjectHelper.M2);
+		verifyProjectArtifactNotExported(destination, ModelProjectHelper.M3);
+		verifyProjectArtifactNotExported(destination, ModelProjectHelper.AC1);
+		verifyProjectArtifactNotExported(destination, ModelProjectHelper.AS1);
 		
 	}
 	
