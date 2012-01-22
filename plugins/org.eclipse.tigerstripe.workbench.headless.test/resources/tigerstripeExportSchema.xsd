@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Steve Jerman (Cisco Systems) -->
+<xs:schema xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" elementFormDefault="qualified" version="1.1">
+	<xs:element name="tigerstripeProject">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element ref="tns:artifact" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="tns:artifactFile" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="version" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="artifact">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:implements" minOccurs="0"/>
+				<xs:element name="comment" type="xs:string" minOccurs="0"/>
+				<xs:element ref="tns:stereotypes" minOccurs="0"/>
+				<xs:element ref="tns:literals" minOccurs="0"/>
+				<xs:element ref="tns:fields" minOccurs="0"/>
+				<xs:element ref="tns:methods" minOccurs="0"/>
+				<xs:choice>
+					<xs:element ref="tns:enumerationSpecifics" minOccurs="0"/>
+					<xs:element ref="tns:associationSpecifics" minOccurs="0"/>
+					<xs:element ref="tns:associationClassSpecifics" minOccurs="0"/>
+					<xs:element ref="tns:dependencySpecifics" minOccurs="0"/>
+					<xs:element ref="tns:querySpecifics" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="extendedArtifact" type="xs:string" use="optional"/>
+			<xs:attribute name="artifactType" type="xs:string" use="optional"/>
+			<xs:attribute name="isAbstract" type="xs:boolean" use="required"/>
+			<!-- The name and extendedArtifact are the FQNs of the artifacts not the simple name -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="artifactFile">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="artifactType" type="xs:string" use="optional"/>
+			<xs:attribute name="fileName" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="fields">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:field" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="field">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:stereotypes" minOccurs="0"/>
+				<xs:element name="comment" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="visibility" type="xs:string" use="required"/>
+			<xs:attribute name="type" type="xs:string" use="required"/>
+			<xs:attribute name="typeMultiplicity" type="xs:string" use="required"/>
+			<xs:attribute name="readonly" type="xs:boolean" use="required"/>
+			<xs:attribute name="unique" type="xs:boolean" use="required"/>
+			<xs:attribute name="ordered" type="xs:boolean" use="required"/>
+			<xs:attribute name="defaultValue" type="xs:string" use="optional"/>
+			<!-- The value in type is the FQN of the type -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="literals">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:literal" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="literal">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:stereotypes" minOccurs="0"/>
+				<xs:element name="comment" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+			<xs:attribute name="type" type="xs:string" use="required"/>
+			<xs:attribute name="visibility" type="xs:string" use="required"/>
+			<!-- The value in type is the FQN of the type -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="methods">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:method" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="method">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:stereotypes" minOccurs="0"/>
+				<xs:element ref="tns:arguments" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="tns:returnStereotypes" minOccurs="0"/>
+				<xs:element ref="tns:exceptions" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="comment" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="visibility" type="xs:string" use="required"/>
+			<xs:attribute name="returnType" type="xs:string" use="optional"/>
+			<xs:attribute name="returnTypeMultiplicity" type="xs:string" use="optional"/>
+			<xs:attribute name="isVoid" type="xs:boolean" use="required"/>
+			<xs:attribute name="isAbstract" type="xs:boolean" use="required"/>
+			<xs:attribute name="unique" type="xs:boolean" use="required"/>
+			<xs:attribute name="ordered" type="xs:boolean" use="required"/>
+			<xs:attribute name="defaultReturnValue" type="xs:string" use="optional"/>
+			<xs:attribute name="methodReturnName" type="xs:string" use="optional"/>
+			<!-- The value in type is the FQN of the type -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="arguments">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:argument" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="argument">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="comment" type="xs:string" minOccurs="0"/>
+				<xs:element ref="tns:stereotypes" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="typeMultiplicity" type="xs:string" use="required"/>
+			<xs:attribute name="type" type="xs:string" use="optional"/>
+			<xs:attribute name="unique" type="xs:boolean" use="required"/>
+			<xs:attribute name="ordered" type="xs:boolean" use="required"/>
+			<xs:attribute name="defaultValue" type="xs:string" use="optional"/>
+			<!-- The value in type is the FQN of the type -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exceptions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:exception" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exception">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<!-- The value in name is the FQN -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="stereotypes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:stereotype" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="returnStereotypes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:stereotype" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="stereotype">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:stereotypeAttribute" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="stereotypeAttribute">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="array" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="implements">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="implementedInterface" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- Specific content for each Artifact Type -->
+	<xs:element name="enumerationSpecifics">
+		<xs:complexType>
+			<xs:attribute name="baseType" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="associationSpecifics">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:associationEnd" minOccurs="2" maxOccurs="2"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- Note, the two associationEnds are AEnd and ZEnd -->
+	<xs:element name="associationEnd">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:stereotypes" minOccurs="0"/>
+				<xs:element name="comment" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="end" type="xs:string" use="required"/>
+			<xs:attribute name="type" type="xs:string" use="required"/>
+			<xs:attribute name="multiplicity" type="xs:string" use="required"/>
+			<xs:attribute name="aggregation" type="xs:string" use="required"/>
+			<xs:attribute name="changeable" type="xs:string" use="required"/>
+			<xs:attribute name="navigable" type="xs:boolean" use="required"/>
+			<xs:attribute name="ordered" type="xs:boolean" use="required"/>
+			<xs:attribute name="visibility" type="xs:string" use="required"/>
+			<xs:attribute name="unique" type="xs:boolean" use="required"/>
+			<!-- the value for "end" cannot be extracted from the model and so is set in the template -->
+			<!-- The value in type is the FQN of the type -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="associationClassSpecifics">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:associationEnd" minOccurs="2" maxOccurs="2"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dependencySpecifics">
+		<xs:complexType>
+			<xs:attribute name="aEndTypeName" type="xs:string" use="required"/>
+			<xs:attribute name="zEndTypeName" type="xs:string" use="required"/>
+			<!-- The value in EndTypeName is the FQN of the type -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="querySpecifics">
+		<xs:complexType>
+			<xs:attribute name="returnedTypeName" type="xs:string" use="required"/>
+			<xs:attribute name="returnedTypeMultiplicity" type="xs:string" use="required"/>
+			<!-- The value in returnedTypeName is the FQN of the type -->
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

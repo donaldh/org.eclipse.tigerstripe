@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="app"
+         name="Tigerstripe Headless Test"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.eclipse.tigerstripe.workbench.headless.test.TestApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.tigerstripe.workbench.headless.test.app"
+            name="Tigerstripe Headless Test">
+         <property
+               name="appName"
+               value="Tigerstripe Headless Test">
+         </property>
+      </product>
+   </extension>
+</plugin>

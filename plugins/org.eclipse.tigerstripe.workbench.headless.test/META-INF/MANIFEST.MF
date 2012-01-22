@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.headless.test;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.tigerstripe.workbench.headless.test.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.junit,
+ org.eclipse.tigerstripe.workbench.headless,
+ org.eclipse.core.filesystem,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.tigerstripe.workbench.base,
+ org.eclipse.tigerstripe.workbench.ui.base
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

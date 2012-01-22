@@ -51,13 +51,26 @@
 	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor</module>
 	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation</module>
 	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram</module>
-  	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.edit</module>
-  	
-  	<!-- Tests -->
-  	<module>org.eclipse.tigerstripe.annotation.core.test</module>
-  	<module>org.eclipse.tigerstripe.metamodel.test</module>
-  	<module>org.eclipse.tigerstripe.test_common</module>
-  	<module>org.eclipse.tigerstripe.repository.core.test</module> 
-  	<module>org.eclipse.tigerstripe.workbench.base.test</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.edit</module>
   </modules>
+  
+  <profiles>
+    <profile>
+      <id>Plugin Tests</id>
+      <activation>
+        <property>
+          <name>skip.tests</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <modules>
+      	<module>org.eclipse.tigerstripe.annotation.core.test</module>
+		<module>org.eclipse.tigerstripe.metamodel.test</module>
+		<module>org.eclipse.tigerstripe.test_common</module>
+		<module>org.eclipse.tigerstripe.repository.core.test</module> 
+		<module>org.eclipse.tigerstripe.workbench.base.test</module>
+		<module>org.eclipse.tigerstripe.workbench.headless.test</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

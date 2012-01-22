@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	
+  <parent>
+	<groupId>org.eclipse.tigerstripe</groupId>
+	<artifactId>org.eclipse.tigerstripe.plugins.parent</artifactId>
+	<version>0.7.0-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
+  </parent>
+	
+  <artifactId>org.eclipse.tigerstripe.workbench.headless.test</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
+  <name>plugins/o.e.t.workbench.headless.test</name>
+	
+  <build>
+	<plugins>
+	  <plugin>
+		<groupId>org.eclipse.tycho</groupId>
+		<artifactId>tycho-surefire-plugin</artifactId>
+		<version>${tycho-version}</version>
+		<configuration>
+		  <useUIHarness>false</useUIHarness>
+		  <argLine>${junit.args} -Dosgi.os=${osgi.os} -Dosgi.ws=${osgi.ws} -Dosgi.arch=${osgi.arch}</argLine>
+		  <testSuite>org.eclipse.tigerstripe.workbench.headless.test</testSuite>
+		  <testClass>org.eclipse.tigerstripe.workbench.headless.test.HeadlessTests</testClass>
+		</configuration>
+	  </plugin>
+	</plugins>
+  </build>
+  
+</project>
