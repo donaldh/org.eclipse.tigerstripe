@@ -17,11 +17,15 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.ui.core.view.EObjectBasedNote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMember;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
@@ -63,16 +67,31 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 
 	public static boolean isReadOnly(Object capable) {
 		if (capable instanceof IAbstractArtifact) {
-			return ((IAbstractArtifact) capable).isReadonly();
-		} else if (capable instanceof IMember) {
-			IAbstractArtifact containingArtifact = ((IMember) capable).getContainingArtifact();
-			if (containingArtifact != null) {
-				return containingArtifact.isReadonly();
+			return fromReference((IAbstractArtifact) capable);
+		} else if (capable instanceof IModelComponent) {
+			IModelComponent containingArtifact = ((IModelComponent) capable).getContainingModelComponent();
+			if (containingArtifact instanceof IAbstractArtifact) {
+				return fromReference(((IAbstractArtifact) containingArtifact));
 			}
 		}
 		return false;
 	}
 
+	public static boolean fromReference(IAbstractArtifact artifact) {
+		if (artifact instanceof IContextProjectAware) {
+			ITigerstripeModelProject ctxProject = ((IContextProjectAware) artifact)
+					.getContextProject();
+			if (ctxProject != null) {
+				try {
+					return !ctxProject.equals(artifact.getProject());
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void remove() {
 		capable.removeStereotypeInstance(stereotype);
 		try {
