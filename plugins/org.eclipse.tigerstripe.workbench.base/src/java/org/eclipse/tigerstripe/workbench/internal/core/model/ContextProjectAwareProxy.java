@@ -174,10 +174,12 @@ public class ContextProjectAwareProxy implements
 				Collection<ArtifactComponent> members = (Collection<ArtifactComponent>) notFilterMethod
 						.invoke(getObject());
 				members = (Collection<ArtifactComponent>) proxyResult(members);
+				ArtifactManager artifactManager = ((AbstractArtifact) getObject())
+						.getArtifactManager();
 				return Collections
 						.unmodifiableCollection(filterFacetExcludedComponents(
-								((AbstractArtifact) getObject())
-										.getArtifactManager(), members));
+								new ContextualArtifactManager(artifactManager,
+										context), members));
 			}
 
 			if (IContextProjectAware.class.equals(m.getDeclaringClass())) {
@@ -211,10 +213,9 @@ public class ContextProjectAwareProxy implements
 					if (ref.getFacetPredicate() instanceof FacetPredicate) {
 						FacetPredicate predicate = (FacetPredicate) ref
 								.getFacetPredicate();
-						isInActiveFacet = !predicate
-								.isExcludedByStereotype((IStereotypeCapable) component)
-								&& !predicate
-										.isExcludedByAnnotation((IAnnotationCapable) component);
+						isInActiveFacet = 
+								   !predicate.isExcludedByStereotype((IStereotypeCapable) component)
+								&& !predicate.isExcludedByAnnotation((IAnnotationCapable) component);
 					}
 				}
 
