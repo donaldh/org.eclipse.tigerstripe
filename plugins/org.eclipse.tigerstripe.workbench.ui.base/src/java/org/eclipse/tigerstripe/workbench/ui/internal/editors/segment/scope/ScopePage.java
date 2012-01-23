@@ -61,8 +61,8 @@ public class ScopePage extends TigerstripeFormPage {
 		managedForm.addPart(new IncludeExcludeSection(this, body, toolkit));
 		managedForm.addPart(new AnnotationIncludeExcludeSection(this, body,
 				toolkit));
-		managedForm.addPart(new AnnotationContextIncludeExcludeSection(this,
-				body, toolkit));
+		// managedForm.addPart(new AnnotationContextIncludeExcludeSection(this,
+		//		body, toolkit));
 
 	}
 
