@@ -322,7 +322,11 @@ public class FacetReference extends AbstractContainedObject implements
 	}
 
 	private void handleNeedToReevaluate() {
-		// TODO
+		try {
+			facetPredicate.resolve(new NullProgressMonitor());
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
 	}
 
 	// Artifact Mgr listener
