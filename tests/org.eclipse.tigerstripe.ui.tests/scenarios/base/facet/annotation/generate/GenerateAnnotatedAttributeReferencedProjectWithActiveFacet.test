@@ -6,7 +6,7 @@ Tags: Facet/Generate
 External-Reference: 
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_MOqH0EG4EeGsUJ1NDdsGXw
-Save-Time: 1/23/12 4:20 PM
+Save-Time: 1/23/12 7:33 PM
 Id: _amYbUEG4EeGsUJ1NDdsGXw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -75,7 +75,7 @@ get-view "Tigerstripe Explorer" | get-tree
     | select "ProjectWithReference {default2}/target/tigerstripe.gen/Entity0.txt" | double-click -nowait
 get-editor "Entity0.txt" | get-editbox | get-property text | equals "ARTIFACT_TYPE=Entity\n"
     + "ARTIFACT_FQN=org.eclipse.Entity0\n"
-    + "ARTIFACT_NAME=Entity0\n\n"
+    + "ARTIFACT_NAME=Entity0\n\n\n"
     + " entity0_testMethod0\n\n"
     + " entity0_testLiteral0" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
