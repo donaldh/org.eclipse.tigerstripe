@@ -122,6 +122,7 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 		Expander expander = new Expander(pluginConfig);
 		String expandedToDir = expander.expandVar(getToDirectory(),
 				pluginConfig.getProject());
+		expandedToDir = fixSeparators(expandedToDir);
 
 		getReport().setToDirectory(expandedToDir);
 
@@ -163,6 +164,8 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 
 		String expandedFromDir = expander.expandVar(getFilesetMatch(),
 				pluginConfig.getProject());
+
+		expandedFromDir = fixSeparators(expandedFromDir);
 
 		if (expandedFromDir.indexOf("*") != -1) {
 			// there is a wildcard in there...
@@ -219,5 +222,14 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 				}
 			}
 		}
+	}
+
+	private String fixSeparators(String expandedFromDir) {
+		if (File.separatorChar == '/') {
+			expandedFromDir = expandedFromDir.replace("\\", "/");
+		} else {
+			expandedFromDir = expandedFromDir.replace("/", "\\");
+		}
+		return expandedFromDir;
 	}
 }
