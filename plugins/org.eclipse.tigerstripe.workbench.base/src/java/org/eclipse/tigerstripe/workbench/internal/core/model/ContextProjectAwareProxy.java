@@ -19,15 +19,22 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ContextualModelProject;
+import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContextProjectAwareProxy implements
@@ -138,6 +145,7 @@ public class ContextProjectAwareProxy implements
 		this.context = context;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object invoke(Object proxy, java.lang.reflect.Method m, Object[] args)
 			throws Throwable {
 		Object result = null;
@@ -161,6 +169,15 @@ public class ContextProjectAwareProxy implements
 					return new ContextualArtifactManager(artifactManager,
 							context);
 				}
+			} else if (isFilterMethod(m)) {
+				Method notFilterMethod = getNotFilterMethod(m);
+				Collection<ArtifactComponent> members = (Collection<ArtifactComponent>) notFilterMethod
+						.invoke(getObject());
+				members = (Collection<ArtifactComponent>) proxyResult(members);
+				return Collections
+						.unmodifiableCollection(filterFacetExcludedComponents(
+								((AbstractArtifact) getObject())
+										.getArtifactManager(), members));
 			}
 
 			if (IContextProjectAware.class.equals(m.getDeclaringClass())) {
@@ -182,6 +199,38 @@ public class ContextProjectAwareProxy implements
 		return result;
 	}
 
+	private static Collection<? extends Object> filterFacetExcludedComponents(ArtifactManager artifactManager,
+			Collection<? extends Object> components) {
+		ArrayList<Object> result = new ArrayList<Object>();
+		for (Object component : components) {
+			try {
+				boolean isInActiveFacet = true;
+				if (artifactManager != null
+						&& artifactManager.getActiveFacet() != null) {
+					IFacetReference ref = artifactManager.getActiveFacet();
+					if (ref.getFacetPredicate() instanceof FacetPredicate) {
+						FacetPredicate predicate = (FacetPredicate) ref
+								.getFacetPredicate();
+						isInActiveFacet = !predicate
+								.isExcludedByStereotype((IStereotypeCapable) component)
+								&& !predicate
+										.isExcludedByAnnotation((IAnnotationCapable) component);
+					}
+				}
+
+				if (isInActiveFacet)
+					result.add(component);
+			} catch (Exception e) {
+				TigerstripeRuntime.logErrorMessage(
+						"Error while evaluating isInActiveFacet for "
+								+ component + ": "
+								+ e.getMessage(), e);
+			}
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unused")
 	private boolean sameSignature(Method m1, Method m2) {
 		return m1.getName().equals(m2.getName())
 				&& Arrays
@@ -258,6 +307,30 @@ public class ContextProjectAwareProxy implements
 	@Override
 	public String toString() {
 		return "Proxy for '" + obj +"' in context " + context.getName();
+	}
+	
+	private Map<Integer, Method> membersMethods = new HashMap<Integer, Method>();
+
+	private boolean isFilterMethod(java.lang.reflect.Method method) {
+		MemberAccess annotation = method.getAnnotation(MemberAccess.class);
+		return annotation != null && annotation.filter();
+	}
+
+	private Method getNotFilterMethod(java.lang.reflect.Method method) {
+		MemberAccess annotation = method.getAnnotation(MemberAccess.class);
+		int type = annotation.type();
+		Method notFilteredMethod = membersMethods.get(type);
+		if (notFilteredMethod == null) {
+			for (java.lang.reflect.Method m : method.getDeclaringClass()
+					.getMethods()) {
+				MemberAccess a = m.getAnnotation(MemberAccess.class);
+				if (a != null) {
+					if (a.type() == type && !a.filter())
+						notFilteredMethod = m;
+				}
+			}
+		}
+		return notFilteredMethod;
 	}
 
 }

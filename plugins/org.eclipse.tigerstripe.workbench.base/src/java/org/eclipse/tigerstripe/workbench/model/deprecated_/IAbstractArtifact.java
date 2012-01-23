@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
+import static org.eclipse.tigerstripe.workbench.internal.core.model.MemberAccess.*;
+
 import java.io.Writer;
 import java.util.Collection;
 
@@ -17,6 +19,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
+import org.eclipse.tigerstripe.workbench.internal.core.model.MemberAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
@@ -136,6 +139,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IField> - an unmodifiable collection of all the fields
 	 *         for this artifact
 	 */
+	@MemberAccess(type = FIELD_TYPE, filter = false)
 	public Collection<IField> getFields();
 
 	/**
@@ -155,6 +159,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IField> - an unmodifiable collection of all the fields
 	 *         for this artifact
 	 */
+	@MemberAccess(type = FIELD_TYPE, filter = true)
 	public Collection<IField> getFields(boolean filterFacetExcludedFields);
 
 	/**
@@ -170,6 +175,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * return Collection<IField> - an unmodifiable collection of all the
 	 * inherited fields for this artifact
 	 */
+	@MemberAccess(type = INHERETED_FIELD_TYPE, filter = false)
 	public Collection<IField> getInheritedFields();
 
 	/**
@@ -186,6 +192,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 *            are returned. return Collection<IField> - an unmodifiable
 	 *            collection of all the inherited fields for this artifact
 	 */
+	@MemberAccess(type = INHERETED_FIELD_TYPE, filter = true)
 	public Collection<IField> getInheritedFields(
 			boolean filterFacetExcludedFields);
 
@@ -235,6 +242,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<ILiteral> - an unmodifiable collection of all the
 	 *         literals for this artifact
 	 */
+	@MemberAccess(type = LITERAL_TYPE, filter = false)
 	public Collection<ILiteral> getLiterals();
 
 	/**
@@ -254,6 +262,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<ILiteral> - an unmodifiable collection of all the
 	 *         literals for this artifact
 	 */
+	@MemberAccess(type = LITERAL_TYPE, filter = true)
 	public Collection<ILiteral> getLiterals(boolean filterFacetExcludedLiterals);
 
 	/**
@@ -269,6 +278,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<ILiteral> - an unmodifiable collection of all the
 	 *         inherited literals for this artifact
 	 */
+	@MemberAccess(type = INHERETED_LITERAL_TYPE, filter = false)
 	public Collection<ILiteral> getInheritedLiterals();
 
 	/**
@@ -286,6 +296,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<ILiteral> - an unmodifiable collection of all the
 	 *         inherited literals for this artifact
 	 */
+	@MemberAccess(type = INHERETED_LITERAL_TYPE, filter = true)
 	public Collection<ILiteral> getInheritedLiterals(
 			boolean filterFacetExcludedLiterals);
 
@@ -335,6 +346,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IMethod> - an unmodifiable collection of all the
 	 *         methods for this artifact
 	 */
+	@MemberAccess(type = METHOD_TYPE, filter = false)
 	public Collection<IMethod> getMethods();
 
 	/**
@@ -354,6 +366,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IMethod> - an unmodifiable collection of all the
 	 *         methods for this artifact
 	 */
+	@MemberAccess(type = METHOD_TYPE, filter = true)
 	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods);
 
 	/**
@@ -369,6 +382,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IMethod> - an unmodifiable collection of all the
 	 *         inherited methods for this artifact
 	 */
+	@MemberAccess(type = INHERETED_METHOD_TYPE, filter = false)
 	public Collection<IMethod> getInheritedMethods();
 
 	/**
@@ -386,6 +400,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IMethod> - an unmodifiable collection of all the
 	 *         inherited methods for this artifact
 	 */
+	@MemberAccess(type = INHERETED_METHOD_TYPE, filter = true)
 	public Collection<IMethod> getInheritedMethods(
 			boolean filterFacetExcludedMethods);
 
