@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.internal.core.JarEntryFile;
@@ -29,17 +28,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.IElementWrapper;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
-import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ProxyUtils;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
@@ -154,50 +148,6 @@ public class TSOpenAction extends OpenAction {
 		return false;
 	}
 
-	public static IAbstractArtifact reload(IAbstractArtifact artifact) {
-		
-		if (artifact == null) {
-			return null;
-		}
-		
-		try {
-			ITigerstripeModelProject project = artifact.getProject();
-
-			if (project == null) {
-				return artifact;
-			}
-
-			IArtifactManagerSession artifactManagerSession = project
-					.getArtifactManagerSession();
-
-			if (artifactManagerSession == null) {
-				return artifact;
-			}
-
-			ArtifactManager artifactManager = artifactManagerSession
-					.getArtifactManager();
-
-			if (artifactManager == null) {
-				return artifact;
-			}
-
-			IAbstractArtifactInternal actual = artifactManager
-					.getArtifactByFullyQualifiedName(
-							artifact.getFullyQualifiedName(), false,
-							new NullProgressMonitor());
-			
-			if (ContextProjectAwareProxy.isContextualProxy(artifact)) {
-				ContextProjectAwareProxy.changeTraget(artifact, actual);
-				return artifact;
-			} else {
-				return actual;
-			}
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-			return artifact;
-		}
-	}
-	
 	public static IEditorPart openEditor(Object element, IWorkbenchPage page) {
 		try {
 			if (element instanceof IAbstractArtifact) {
@@ -207,7 +157,7 @@ public class TSOpenAction extends OpenAction {
 				if (editorId != null) {
 					IEditorInput input = null;
 					if (isReadOnly(artifact)) {
-						input = new ReadOnlyArtifactEditorInput(null, reload(artifact));
+						input = new ReadOnlyArtifactEditorInput(null, ProxyUtils.reload(artifact));
 					} else {
 						IResource iResource = (IResource) artifact
 								.getAdapter(IResource.class);

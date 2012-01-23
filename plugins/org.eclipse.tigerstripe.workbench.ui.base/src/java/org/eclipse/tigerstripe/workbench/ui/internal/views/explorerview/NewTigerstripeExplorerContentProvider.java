@@ -11,12 +11,15 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import static org.eclipse.jdt.core.IJavaElement.PACKAGE_FRAGMENT;
+import static org.eclipse.tigerstripe.workbench.utils.AdaptHelper.adapt;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -72,6 +75,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory;
 import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
+import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 
 @SuppressWarnings("restriction")
 public class NewTigerstripeExplorerContentProvider extends
@@ -205,10 +209,7 @@ public class NewTigerstripeExplorerContentProvider extends
 						}
 						if (elementToWrap instanceof IModelComponent
 								&& !(child instanceof IContextProjectAware)) {
-							elementToWrap = ContextProjectAwareProxy
-									.newInstance(elementToWrap,
-											wrapper.getContextProject());
-
+							elementToWrap = makeContextProxy(wrapper, elementToWrap);
 						}
 					}
 
@@ -258,6 +259,34 @@ public class NewTigerstripeExplorerContentProvider extends
 		}
 		
 		return result;
+	}
+
+	protected final Map<String, Map<String, IContextProjectAware>> proxiesByFqn = new HashMap<String, Map<String, IContextProjectAware>>();
+	
+	private Object makeContextProxy(IElementWrapper wrapper, Object elementToWrap) {
+		ITigerstripeModelProject contextProject = wrapper.getContextProject();
+		IContextProjectAware proxy = (IContextProjectAware) ContextProjectAwareProxy
+				.newInstance(elementToWrap, contextProject);
+		if (elementToWrap instanceof IAbstractArtifact) {
+			String fqn = ((IAbstractArtifact) elementToWrap).getFullyQualifiedName();
+			Map<String, IContextProjectAware> projectMap = proxiesByFqn.get(fqn);
+			if (projectMap == null) {
+				projectMap = new HashMap<String, IContextProjectAware>();
+				proxiesByFqn.put(fqn, projectMap);
+			}
+			IProject project = adapt(contextProject, IProject.class);
+			if (project != null) {
+				projectMap.put(project.getName(), proxy);
+			} else {
+				projectMap.put("", proxy);
+			}
+		}
+		return proxy;
+	}
+	
+	@Override
+	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
+		super.init(commonContentExtensionSite);
 	}
 	
 	protected void filter(Object o, Object parent, Collection<Object> filtered) {

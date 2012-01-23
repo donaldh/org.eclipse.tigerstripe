@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -38,9 +39,14 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ProxyUtils;
+import org.eclipse.tigerstripe.workbench.model.FqnUtils;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.ui.IMemento;
@@ -134,13 +140,37 @@ public class TigerstripeContentProvider extends
 				asyncExec(new Runnable() {
 					public void run() {
 						viewer.refresh(resource, true);
+						String fqn = FqnUtils.getFqnForResource(resource);
+						Map<String, IContextProjectAware> pmap = proxiesByFqn.get(fqn);
+						if (pmap != null) {
+							for (IContextProjectAware proxy : pmap.values()) {
+								if (proxy instanceof IAbstractArtifact) {
+									ProxyUtils.reload((IAbstractArtifact) proxy);
+									viewer.refresh(new ElementWrapper(proxy));
+								}
+							}
+						}
 					}
 				});
 			}
+
+			@Override
+			public void artifactResourceRemoved(IResource resource) {
+				String fqn = FqnUtils.getFqnForResource(resource);
+				proxiesByFqn.remove(fqn);
+			}
+
+			public void projectDeleted(String projectName) {
+				for (Map<String, IContextProjectAware> pmap : proxiesByFqn
+						.values()) {
+					pmap.remove(projectName);
+				}
+			};
 		};
 
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				tigerstripeChangeListener, ARTIFACT_RESOURCES);
+				tigerstripeChangeListener, ARTIFACT_RESOURCES
+						| ITigerstripeChangeListener.PROJECT);
 	}
 
 	@Override
