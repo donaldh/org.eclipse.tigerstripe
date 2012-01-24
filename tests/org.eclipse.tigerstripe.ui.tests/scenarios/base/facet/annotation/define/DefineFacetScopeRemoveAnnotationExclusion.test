@@ -6,7 +6,7 @@ Tags: Facet/Define, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_tk1N0DFbEeGSksgVyHPBRg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/19/12 12:37 PM
+Save-Time: 1/23/12 10:41 AM
 Id: _-PKyoDtrEeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -20,11 +20,11 @@ SeveralAnnotationScopeFacetWorkspaceContext
 
 Steps
 Open facet
-Select annotation based inclusion
+Select annotation based exclusion
 Click Remove button
 Save changes
 Reopen facet
-Verify inclusion
+Verify exclusion
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
