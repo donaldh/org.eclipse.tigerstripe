@@ -6,7 +6,7 @@ Tags: TS_Project/Facet/Scope
 External-Reference: http://docs.xored.com/display/TS/DefineFacetScope
 Element-Version: 3.0
 Contexts: _5OPsMK6FEd-uWaeTFaimww
-Save-Time: 1/20/12 4:35 PM
+Save-Time: 1/24/12 12:20 PM
 Id: _BvnK0DskEeCt76CYYPZ_qw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -87,41 +87,6 @@ with [get-editor "model-refactoring/default.wfc" | get-section "Scope Details" |
 }
 with [get-editor "model-refactoring/default.wfc" | get-section "Scope Details" | get-button Remove 
     -after [get-label "Stereotype-based Exclusions:"]] {
-    get-property enablement | equals false | verify-true
-    get-property caption | equals Remove | verify-true
-}
-get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-label "Include in context:" 
-    | get-property caption | equals "Include in context:" | verify-true
-get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-table 
-    -after [get-label "Include in context:"] | get-property itemCount | equals 0 | verify-true
-with [get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-button Add] {
-    get-property enablement | equals true | verify-true
-    get-property caption | equals Add | verify-true
-}
-with [get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-button Sort] {
-    get-property enablement | equals false | verify-true
-    get-property caption | equals Sort | verify-true
-}
-with [get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-button Remove] {
-    get-property enablement | equals false | verify-true
-    get-property caption | equals Remove | verify-true
-}
-get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-label "Exclude from context:" 
-    | get-property caption | equals "Exclude from context:" | verify-true
-get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-table 
-    -after [get-label "Exclude from context:"] | get-property itemCount | equals 0 | verify-true
-with [get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-button Add 
-    -after [get-label "Exclude from context:"]] {
-    get-property enablement | equals true | verify-true
-    get-property caption | equals Add | verify-true
-}
-with [get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-button Sort 
-    -after [get-label "Exclude from context:"]] {
-    get-property enablement | equals false | verify-true
-    get-property caption | equals Sort | verify-true
-}
-with [get-editor "model-refactoring/default.wfc" | get-section "Annotation Context" | get-button Remove 
-    -after [get-label "Exclude from context:"]] {
     get-property enablement | equals false | verify-true
     get-property caption | equals Remove | verify-true
 }
