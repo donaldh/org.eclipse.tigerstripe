@@ -546,14 +546,14 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 									new NullProgressMonitor());
 					if (isExcludedByStereotype(excArti)
 							|| primaryPredicate.isExcluded(excArti)) {
+						String returnTypeName = arti == null? "void" : arti.getFullyQualifiedName();
 						IStatus error = new Status(IStatus.ERROR, BasePlugin
 								.getPluginId(), "Inconsistent facet: the "
 								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IExceptionArtifactImpl.class.getName())
 										.getLabel(excArti) + " of method "
 								+ artifact.getFullyQualifiedName() + ":"
-								+ method.getName() + "(...)" + " ("
-								+ arti.getFullyQualifiedName()
+								+ method.getName() + "(...)" + " (" + returnTypeName
 								+ ") is explicitly excluded from facet.");
 						errors.add(error);
 					}
