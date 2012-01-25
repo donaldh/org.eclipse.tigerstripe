@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: GenerateAnnotatedLiteralArtifactInstalledModuleWithActiveFacet
 Tags: Facet/Generate
-External-Reference: 
+External-Reference: http://bugs.xored.com/browse/XMP-947
 Element-Version: 3.0
 Contexts: _HPQn8EDvEeGsUJ1NDdsGXw,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/24/12 4:03 PM
+Save-Time: 1/25/12 12:52 PM
 Id: _owwIAED3EeGsUJ1NDdsGXw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -81,14 +81,14 @@ get-editor "E3.txt" | get-editbox | get-property text | equals "ARTIFACT_TYPE=En
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9PwjAUxd9N/A5L31lFEoGFQRY3
-ESKGP1HRF1Lby6jZWlgv6/TTW4hgMOpT23N+9/T2ttOr8swroTBSq5DU/QvigeJaSJWGZIvLWov0uudn
-Ha5zv9IFCH/T9A0HxQqpg9nXxqtyGRxTLncpLleZwOkhWSGuA0qttb7OU18XKZ2PBgfk1+RjkXPp3qWb
-Jj24PnAnEU+xHELSBwUFQ4iU0uhWcSfRCVlUoFwyjgNlkGUZiJEW2wyeJK4ijrKEG8YByffrG7u+pQjJ
-Qls7iJK4kUDfPAzr97Ew/bklHrLUhGRfRw/XOvV97doAnhE3Kc9zs1IIFZru4nY8Ua0kLk9zOvRI/OCn
-03Y9HclNAtePz+VHezsbv9job74dX71FDNNE1MrW0M5f1XaBkxN+d/jv6xzyCVBLBwhkTg3FNAEAAAUC
-AABQSwECFAAUAAgACAAAACEAZE4NxTQBAAAFAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUG
-AAAAAAEAAQA2AAAAagEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPyx9ZxUxwgiDLG4i
+RgwfUdEXUtbLqNlaaLt1+uvtCMxg1Ke255577j2nvUGZpU4BUjHBfdR0L5ADPBaU8cRHuV43OmjQPz/r
+xSJzSyGBuru2q2LgRDLRnR8uTpmxbq1yWalYXa66FvfRRuttF2NjjCuyxBUywYvx6Ej5VbluslW8r+Jd
+Gx+rLsQWQg4nGfhoCBwk0RBwLrQ96QPTFkgDqdmaxHrElSZpCnQsaJ7CC9ObINasgFsSg0bf7lvV3oz6
+aCmMGQVR2IpgqJ7um48hVcOFQY4mifLRvg8fx1r0Y2vXgDi12ZV2NCfpDNYgbZBQG1nliTr4rDytpDAK
+bA6ThnfVRjZix7Ehc20VVH95N5nyThQWpwv0cM34wZ/NvGYyZrsIbp5fi08vn0/eTPA33wuv3wOik4g2
+is69Wax4vtTTE371+O/PLeULUEsHCGDRwn9UAQAAPgIAAFBLAQIUABQACAAIAAAAIQBg0cJ/VAEAAD4C
+AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACKAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

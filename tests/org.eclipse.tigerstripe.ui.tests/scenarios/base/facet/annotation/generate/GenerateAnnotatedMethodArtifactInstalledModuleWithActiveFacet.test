@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: GenerateAnnotatedMethodArtifactInstalledModuleWithActiveFacet
 Tags: Facet/Generate
-External-Reference: 
+External-Reference: http://bugs.xored.com/browse/XMP-947
 Element-Version: 3.0
 Contexts: _HPQn8EDvEeGsUJ1NDdsGXw,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 1/24/12 4:05 PM
+Save-Time: 1/25/12 1:05 PM
 Id: _Ne-noEDxEeGsUJ1NDdsGXw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -77,22 +77,21 @@ get-view "Tigerstripe Explorer" | get-tree | select "Project1 \\{default\\}/targ
 get-editor "E1.txt" | get-editbox | get-property text | equals "ARTIFACT_TYPE=Entity\n"
     + "ARTIFACT_FQN=org.eclipse.tigerstripe.test.E1\n"
     + "ARTIFACT_NAME=E1\n\n"
-    + " attribute0\n\n"
-    + " method0\n\n"
+    + " attribute0\n\n\n"
     + " literal0" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV1PwjAUhu9N/A9L72lFE4GFQRY3
-ERIMH1HRG1Lbw6jZWljPPvTXW4hgMOpV2/d9ztvT026/zlKvhNwqowPSpBfEAy2MVDoJSIGrRpv0e+dn
-XWEyWpscJN22qBWgea6MP//aeHWm/GPK5S7F5WrrOz0ga8SNz1hVVdRkCTV5whbj4QH5NflY5Fy2d9m2
-xQ4uBeEk4mmeQUAGoCHnCKHWBt0qx4BrI8Mc1YoLHGqLPE2dbGSRwpPCdShQlXDLBSD5fvzVrm0lA7K8
-h4Y2cVTHMLAPo+Z9JO1gUREPeWIDsq9jh1ud+r5xXYBIiRuU57lRaYQabW95N5nqdhyVpzlddiR+8J3o
-+i3kmMSyUbZH1eJVF0uc/s3PZp1mMlbbGG4en8uPTjGfvFThCb87/PdzDvkEUEsHCORDnMEzAQAABAIA
-AFBLAQIUABQACAAIAAAAIQDkQ5zBMwEAAAQCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYA
-AAAAAQABADYAAABpAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPyx93yZqhC0MsriJ
+kED4iIq+kLJdRs3WQnv3ob/ejsAMRn1qe+65595z2u1XWWoUIBUT3CMt64oYwCMRM554JMeN2SH93uVF
+NxKZVQkJsbVvWyoCTiUT7uJ4MaqMuY3Kda2idblyNe6RLeLOte2yLC2RJZaQib0cD0+UX5WbJl21D1V7
+37ZPVQsiDRGD0ww8MgAOkiL4nAvUZzwG3IrYl8g2NMIhV0jTVMMizlN4Ybj1I2QFPNAIkHybv6nXZrFH
+VhMwuQiDKoSBehq1JkGsBsuSGEgT5ZFDn32aqtGPnd4ColRHVyFITtM5bEDqHKHxsc4TdbRZW1pLUSrQ
+MUxN57ZNdMKGoTPmqBVUb/U4nfFOGBTnC3TthvGD7wR37z7FJIzNojMql2uer3D2N38+d1rJmO1DuH9+
+LT6dfDF9K/0zfv3478s15QtQSwcIHGIJzlMBAAA9AgAAUEsBAhQAFAAIAAgAAAAhABxiCc5TAQAAPQIA
+AAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIkBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
