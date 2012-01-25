@@ -1,38 +1,440 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AllArtifactsDiagramContextWorkspace" id="_O01yEOGHEd-OnL-uzP0BCw">
-  <content>
-    <projects name="test">
-      <files name=".classpath" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.classpath"/>
-      <files name=".project" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.project"/>
-      <files name="tigerstripe.xml" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.xml"/>
-      <folders name="bin"/>
-      <folders name="src">
-        <folders name="com">
-          <files name=".package" contentURI=".AllArtifactsDiagramContextWorkspacectx/content4.package"/>
-          <folders name="mycompany">
-            <files name=".package" contentURI=".AllArtifactsDiagramContextWorkspacectx/content3.package"/>
-            <files name="Association0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.java"/>
-            <files name="AssociationClass1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.java"/>
-            <files name="Datatype1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content3.java"/>
-            <files name="Dependency0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content4.java"/>
-            <files name="Dependency1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content5.java"/>
-            <files name="Dependency2.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content6.java"/>
-            <files name="Dependency3.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content7.java"/>
-            <files name="Entity1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content8.java"/>
-            <files name="Entity2.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content9.java"/>
-            <files name="Entity3.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content10.java"/>
-            <files name="Event0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content11.java"/>
-            <files name="Exception0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content12.java"/>
-            <files name="Query0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content13.java"/>
-            <files name="SessionFacade0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content14.java"/>
-            <files name="UpdateProcedure0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content15.java"/>
-            <files name="default.owm" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.owm"/>
-            <files name="default.vwm" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.vwm"/>
-            <files name="default.wod" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.wod"/>
-            <files name="default.wvd" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.wvd"/>
-          </folders>
-        </folders>
-      </folders>
-    </projects>
-  </content>
-</com.xored.q7.workspace:WorkspaceContext>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: AllArtifactsDiagramContextWorkspace
+Element-Version: 2.0
+Save-Time: 1/25/12 1:54 PM
+Id: _O01yEOGHEd-OnL-uzP0BCw
+
+------=_contents/test/src/com/mycompany/default.wod-ba1b79c8-b617-32bd-bb3b-74685aeea0ff
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/default.wod
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdld1y2jAQhe8703fQqNexMISWMrhp
+S0KG/DBJKdOmNx3VWowaWWIkuYa3r2xqcIzNUO5safc767MreXCxigX6A9pwJQPsey2MQIaKcRkFePZ1
+dNbDFx9evxpIZal1Mf1LTiNNY7SKeX+b187yHEmavlsP8MLaZZ+QNE09FUee0hH5fj8uQrg0lsoQ2AYV
+YLfvQSj40oBneeSoVvMleKnSz79cOQsv4V4lq4AVhb0QLWCZcBTPiU6k5TEQ931emxQpOP8IzgL8c3T3
+7fqJtZ+v2Jm4fXszvY3OP/1+xMiulxDg8T9pjCSN3TuDOU2EdfUxjGKgJtEQg7QzyW2AH/gKBHamITQI
+F1wwDTJX2sC2Tk4Ug1IJPvPbj5OmEvxWy98w/5fauXpqpJ5nVHIaVoeN2G6pWMc1di3A1FEvNU1BT7P9
+Kny/GeQY4lRp62a3FmlPQ464sKCboO8boQNSGFosHNBQ0u7j3UDUzOTcxU7yOZxCpADNxjvJA1aDCd2h
+yp5rhZrNOWyNqKXtu4LmLnaohNJumDu9drfbaR0jcccl1El82Z++LQ1EfhxLuMrl0R8KaszuWC80zHfH
+WqXxG0I+huUY45WqFXStEjtUbk9T/kJoW/dnlUhmqkXXtHPlrs+ej9Ha+fKuEKnMzgF/Hmi0509+mzU1
+9ADrOuGsHtY05acNXIb80dS/I7pXNOWeLmt7l5MGpPrPcot/AVBLBwjQBxVfGwIAAPAGAABQSwECFAAU
+AAgACAAAACEA0AcVXxsCAADwBgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2
+AAAAUQIAAAAA
+------=_contents/test/src/com/mycompany/default.wod-ba1b79c8-b617-32bd-bb3b-74685aeea0ff--
+------=_contents/test/src/com/mycompany/AssociationClass1.java-79ad9d45-6ea7-33bf-90e2-2fe28b0bdc04
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/AssociationClass1.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTVUt9r2zAQfnYg/8ORp7Y0tpMSChuD
+hTRjgdIMmrFnRb7aR2XZk2SHdOx/70lxfqzbWB/6MgnbSN93d9995+TibVe/BxcwMygcZrAhV8CKcjTW
+GarxzJXn8K0yj2vUsoA2TuMJP+N0xHt8nV5NJrv4qt4aygsHZ/Icxml6DTOysoL7rXVY2ktYaBkH6lQp
+CFQLBi2aFrMYVgVZqE2VG1GC0Bm4AkFIWZW10FvSOZSsz5BQNiQRBvkmY04rSIm1Qmh0hibEMbG0UD2E
+w1wqqi3Cl2atSMItSdR8bEdxGjJtCuLG9qUILUexloy8AevGUaUvgyK+PBYTLgQXztXvkmSz2cS4qxNX
+Jk8U5kIlWKthO0rjwpXKs0PEzRLuliuY3yxWsPq8uIdPi9s5DF85gH2at11Jv1cL+ShyBHYhLred7e/7
+Pb+T7h859PDRHfXFwtpKkvA+zRQfPCOKyE7XTBDSwQcYPPDYcNAhZa2wRM3jZ2RwSLrL76XsBiX28dJn
+hemLMiNm//DqoqO8iPP/TdtQzHUWKMBL5LnhGXnAq9CV9vI6UBZC5xjG/BtWNspRzfrIbT06OkJkl4b/
+QJ7hSccH7Kum7w3+EboTLeX7cifojhLeScSfzphfRhTPtWMpI/DtcbxulOrGFr3em6f/wxtnmoM1cNLY
+v9y5gqcX7kTd6+czUEsHCOGVRcECAgAATQUAAFBLAQIUABQACAAIAAAAIQDhlUXBAgIAAE0FAAAIAAAA
+AAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAA4AgAAAAA=
+------=_contents/test/src/com/mycompany/AssociationClass1.java-79ad9d45-6ea7-33bf-90e2-2fe28b0bdc04--
+------=_contents/test/src/com/mycompany/.package-631ecaff-140d-313c-a69c-20b76bb7485f
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/.package
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStU8GK2zAQPSeQfxjMHpJlYye9FFoK
+XTYpNYTuQtL2LMtje1hZNtLEJi39945lp1vopYeVfdHovZk3mqfk9nXXYg638OBQMebQE1dwohKdZ0ct
+LrlewffGPWdodQVdfOPOlqnGuER+ck2Lji/LiF8YcSGZzg7jTiLU2Gg1Fmjai6OyYljqFbzZbN7CA3nd
+wPHiGWt/B6nVcYDeGwMB6sGhR9dhHsOpIg+ta0qnalA2B64QlNZN3Sp7IVtCLQ04UsaHJMqhRHLBdIqM
+ygzC2eboAk+AtYemCJu9NtR6hKdzZkjDgTRa2XbbeBMy9RVJ59dShF5YoiWnod/szNLjXVAkwZdiigO5
+Ym7fJUnf9zGOdeLGlYnBUpkEW7Putpu44toM6MDYPcKXxxPsd+kJTp/TI3xKD3tY/+eErmledyWLeav0
+syoR5BbeL+bDl0zW+aP8498umPDDwWxG/j6TuNIMHyAqZEYYTSd1a7BGK7OWk+jfPGRlWIXSCFcFgrtR
+jkmCHKdHlqtXLj+2qKkg7eP0ypjsKRMbzLqMpgTRaiwTVokWndzrkJXdeZQ1NTV0PXpCXdVro7yH+jLZ
+TlA/F/OZ/EkCtmGQdhonihg8WdEcnDKSehJbW5RXARmCD1alH2JtYbeOukGEZ8VSriCrDJhGTD3ivo1P
+6Wu6E53r7SFM4NdvUEsHCAlRwc0CAgAACQQAAFBLAQIUABQACAAIAAAAIQAJUcHNAgIAAAkEAAAIAAAA
+AAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAA4AgAAAAA=
+------=_contents/test/src/com/mycompany/.package-631ecaff-140d-313c-a69c-20b76bb7485f--
+------=_contents/test/src/com/mycompany/Datatype1.java-4f97e2f3-ab96-38f2-8af5-a8b83865c949
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Datatype1.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStU8Fq20AQPcfgfxhEDnZIVnYuhZZA
+Q+xQQdoELOh5vRpLQ1arZXcsV5T+e0ey3BjaQw9ZnXb2vTczb0bp1fue6QSu4CGgZizgQFxBTiWGyIE8
+zriew/cmvG7RmQpadRn2jqlGVSK/hMZj4G6W8BtD7URpH1C1EqHGJfNjgsZ3gcqKYWbmcLtYfIAHiqaB
+TRcZ63gNmTNqgN5bCwM0QsCIocVCQV5RBB+aMugatCuAKwRtTFN77TpyJdTSQCBt4yCiA0qkEEyryeqt
+Rdi7AsPAE2AdodkNl7Wx5CPCy35rycATGXRybZdqMSgdKpLOT6kIo7CkloL6frd7lh6vh4ok+JZM80Cu
+mP3HND0cDgqPeVQTytRiqW2K3t60y4WquLY9emCsnuHbcw7rVZZD/iXbwGP2tIab/5zQSeZ9TzqdeG1e
+dYkgLqi6G23/NJ30Xzou0Z8ePp/vQ6FZc+exf7m4oHi/lQdtGO4g2cm4MBk4w6G4kVFaXP9gGYI4mwvx
+7l8wjP3zo+g0ofuKXDVFPAdKptpbrNHJGkmm5O/CyMke7LRBODUnuEsdmCTIKtuwTFWHYuPR0I5MVNmJ
+MW6+LEP/H8ySUSCZnxVZosMgI+tVOezH+o8u9YYe102f3DBWxwir0ayloH4e3Z1Ofv0GUEsHCJuhy+3t
+AQAA8wMAAFBLAQIUABQACAAIAAAAIQCbocvt7QEAAPMDAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVu
+dFBLBQYAAAAAAQABADYAAAAjAgAAAAA=
+------=_contents/test/src/com/mycompany/Datatype1.java-4f97e2f3-ab96-38f2-8af5-a8b83865c949--
+------=_contents/test/src/com/mycompany/Exception0.java-2658c716-ab94-367c-a80f-29759ef50dfb
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Exception0.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStU01v2zAMPSdA/gNh9JAUjZzsMmDD
+gBVNhhkI1gLJtrMiMzZXWRYkxmk27L+P/shaYJcdKvsiinzkIx/T69c9kzFcw11AzZjDibiEHRUYIgfy
+OOVqBt/r8LhHZ0po1FU4OqYKVYH8EGqPgc/ThJ8j1EGQjgFVIxaqXTLrE9T+HKgoGaZmBm8Wi7dwR9HU
+sD1HxireQOaM6lxvrYXONULAiKHBXMGupAg+1EXQFWiXA5cI2pi68tqdyRVQCYFA2sYORAcUSy4+jSar
+9xbh6HIMXZw4VhHqQ3dZG0s+Ijwc95YMbMigk2uzVIsO6VSSML+kIowSJbXk1PLdH1k43nQVifE5meYu
+uGT279L0dDop7POoOhSpxULbFL2dN8uFKrmyrXcXsbqHL/c7WK+yHew+Z1v4lG3WMP/PCV1gXvekk7HX
+5lEXCNIFVZ2Htr+fjNsvHUT0l8PHl3rAJ4O+7VL7NBpRvN3LizYMHyA5yLwwGV4qb7FCJ3OXl+RfJHIy
+uIM2CJdqxO9KByYxssq2LGPQId96NHQgE1V2iRikKtNrhTtNBoBk1qfpToEOg/S4ReVw7MsaaLUd6PWh
+L9Ubq2OE9YVdKxbAJ0aXR/ghQlBWu0KtX7D/NRmP5E9TcDWD0K2DVMwQyQmnTlU96IlkBRzKBsEeIXay
+pp+yBhLtAzVtkZE1SzkHctqCrWUBer9v/dp9zVbCY77cDDOajH//AVBLBwh1uUnmHgIAADkEAABQSwEC
+FAAUAAgACAAAACEAdblJ5h4CAAA5BAAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEA
+AQA2AAAAVAIAAAAA
+------=_contents/test/src/com/mycompany/Exception0.java-2658c716-ab94-367c-a80f-29759ef50dfb--
+------=_contents/test/src/com/mycompany/Entity3.java-3af2a163-e281-3e18-9043-998d05a097a4
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Entity3.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS9Ve9P2zAQ/QwS/8Mp2gdA1AkghLSp
+0goUrRoDpFbaZ9e5Jl7tOLKddhHa/76LQ1sQhZUfmq18SO7d83t3lyTe/9i1sw37cG6Re0xhLn0OI5mh
+dd7KEne93oOfxk7HWIgcZixhJ3QdJYe0j06T45OTNt+UtZVZ7mFX7MFRkpzCuXTCwLB2HrU7gEEhWID2
+lIIAdWDRoZ1hymCUSwelNZnlGniRgs8RuBBGl7yoZZGBJn1WcuUCCbdIT1LCzLhUfKwQqiJFG/IIqB2Y
+SbjpCyVLh3BbjZUUcCUFFnQ7O2RJYJrnkowtjpLoKIu0pLIpwLjy0hQHQRE9XB3GfUjOvS8/x/F8PmfY
+nsOMzWKFGVcxlqozO0xY7rVq0CHj4gaub0bQvxiMYPRtMITLwVUfOhs2YEHzsSve2S65mPIMgarAdH1f
+9i87282O72dk6eGrX+ljmheUmPYLL31NLZSa27ozxbobfeLWywkXng2GnkrIbTosUciJFI7dtsjvWEeB
+NCz87ak7ciwVkY3qEruRrpSXDyDSDdE56solERtb/0Cfm9R1ownNBgbg1pZ0vTHpIwR04XFElwo1FjR9
+FIme+iHlHVnQCJFwhEVdCPuim8Ei49aaEgmIjmXod6N7gmjvgYUMC7TU7YbV2wrXqJhxVf3P058qKFuq
+GrxjMu1GxrlfDEOXmQjDuuAc173Km2uum9f0UbmbYKWmZ+h8fzIx1q8N97zR9GY+HzprpsT9g/oZkAsN
+f4dXquPK6AiJjayvEbOMvd5IqzEE3yHUrYSuMb2xfPdSt14wuQy9vdsbZb55GF5XTYvazN5cno+dj1cM
++tMh2qg3y+978ytof5R88QEVijsH7ff9mDB37V+h2X/+AlBLBwjfJGa4kAIAAIwIAABQSwECFAAUAAgA
+CAAAACEA3yRmuJACAACMCAAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA
+xgIAAAAA
+------=_contents/test/src/com/mycompany/Entity3.java-3af2a163-e281-3e18-9043-998d05a097a4--
+------=_contents/test/src/com/mycompany/Dependency3.java-eb983e5b-e2a4-35a6-a35f-3304a86e7bee
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Dependency3.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUltr2zAUfnYg/+GQpzY0spMSChuD
+lcZjgbIW4rHHIcuntqgsC0mOccf+e4/lJGWDQh4qYRlJ3+VcFM8/dkwnMIc7i9xjAZ30FWSyROu8lQYv
+fH0Jvxr7nKMWFexZwtb0rZIlzdVNcr1ej/zG9FaWlYcLcQmrJLmBO+lEA7veeazdFWy1YAF6qxQEqAOL
+Du0eCwZZJR0Y25SW18B1Ab5C4EI0teG6l7qEmuKzkisXRLhFOikIs+dS8VwhtLpAG3gErB00T2GTCiWN
+Q3hscyUF3EuBmrb7JUuCUldJSuxoJdERi2Ip5FCAvPWy0VchIjp8M+M+kCvvzac47rqO4ejDGlvGCkuu
+YjRqsV8mrPK1GtCBsXmAHw8ZpJttBtn37Q6+be9TWJzZgKPMx454OjFcPPMSgarA6v5Q9s/TyTDjwxs5
+5fDVv8XHCjRIldeiH+6iSLrbnK648PAFZk/UMJydmKPI4Dd2gx+hQnHnYHPSuibcn9E+Cv4Rab/ju+Cp
+Lgg/jPmw+N7gYP5PMizVXvp+OQtacUS/QxA7EqQH9nuQIZpulaLMo3OcX85y/mkK6u2jbQQWrcXk/RBe
+/g/h7ytQSwcIX7dUIL8BAADuAwAAUEsBAhQAFAAIAAgAAAAhAF+3VCC/AQAA7gMAAAgAAAAAAAAAAAAA
+AAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAPUBAAAAAA==
+------=_contents/test/src/com/mycompany/Dependency3.java-eb983e5b-e2a4-35a6-a35f-3304a86e7bee--
+------=_contents/test/src/com/mycompany/Dependency1.java-5eb7ce42-b0f9-31fe-ad5b-8852f669d1ca
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Dependency1.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStU11r2zAUfXYg/+Fi9pCERnb2MtgY
+rDQeC5S1EMMehyzf2KKyLCTZwR3777uWk3QbFPJQGWx0dT7ukeRk9bZjPoMV3FnkHks4Sl9DLiu0zltp
+cOGbJfxo7VOBWtTQs3e20142yCr0j7Y1aP2wiP0Lgx1IqbPIeqrIVsfLyaA1g5VV7WEhlvA+TT/AnXSi
+hf3gPDbuBnZasAC9VQoC1IFFh7bHkkFeSwfGtpXlDXBdgq8RuBBtY7gepK6goQBWcuWCCLdIlZIwPZeK
+Fwqh0yXawCNg46A9hEkmlDQO4bErlBRwLwVqmvYblgalYy0p+dlKoiMW9VLKMW/Recp4Ezqi4osZ94Fc
+e28+JsnxeGQ4+bDWVonCiqsEjVr3m5TVvlEjOjC2D/D9IYdsu8sh/7bbw9fdfQbrK0/oLPO2I5nPDBdP
+vEKgXWDNcNr2T/PZ+CSnS3TJ8OXv+1CiQdp5LYZxLYqkuy1oiQsPnyE+0IFhfGFOIqPfdBr8DBWKOwfb
+i9aGcL8m+yj4R6T9iu+aZ7ok/DhW48sPBkfzf8KwrEft0zhIJRF9Tj3sSY/u189RhVi6U4qCR9cYP19n
+TH+UHzavOz//7/z7D1BLBwh681J8xwEAAAUEAABQSwECFAAUAAgACAAAACEAevNSfMcBAAAFBAAACAAA
+AAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA/QEAAAAA
+------=_contents/test/src/com/mycompany/Dependency1.java-5eb7ce42-b0f9-31fe-ad5b-8852f669d1ca--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1l9Fu0zAUhu+ReIfI97WbdrBRtUyl
+KzBpqAM0wR0ytpt5S+zMcZOUp+ekJKVrqeTK5i7xsf/v93FycjK+rLM0KoUppFYTFOM+ioRimkuVTNDK
+LnsX6PLtyxdjpjNcayM4fjrHlTaPRU6ZGH3rrmZaWVHbqM7kaCs3aOQAoIoRjE/QvbX5iJCqqrDOEqxN
+Qr5/uu6m/BuxXUUgTjZx8nROtnEsGIyhSNEM5k7TdGqsXFJmiytJE0Oz1tnWKYokn6Afi368ni8+fJzz
+3kLd9Fa/bvvvZhWCvUYR7BbWKLu5gdvc6AcBii3EisKiNgbRpUxFF8IspQVg7D2KWpG7L9cw7mCM2Zq0
+a+IdHXKE1Jry5HQqRyhWJnCY1shcYDglT1ijsAvSKQf1FvVTquPBwrC/GT+IwpOxGz3IFGWPNBFe5s+2
+KmSP9MxJtgYvOVXr537+h6PhEUd7rGlRaCaphReyjx9oST3PcCPhSpw1T3Hsjx04YK+opXadiwC4oQtO
+5EJxqJXrAGk9OwkYYIevTgIO/IGvTwIO/YHnDsC5stKGSOeFMyxAKt84wwKkMe670EqYGaK6uJSXec1E
+HqqcuRSWzythQrzksUtZ+SqKpnd6TxnlIgTUpbTc5ZxacWs0E3xlgmBdCgwXS7pKLdZV5vl1aBScUKU3
+qnRFVZp7ohoFN1TpjSr3UWPSdja7bdfB2P7ImHS98p9GuiM0vxDE8R8C5v4GUEsHCIdvWbsjAgAAlwwA
+AFBLAQIUABQACAAIAAAAIQCHb1m7IwIAAJcMAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYA
+AAAAAQABADYAAABZAgAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/test/src/com/mycompany/SessionFacade0.java-6176336d-e8c6-3155-9246-04a39b7d99bd
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/SessionFacade0.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUk1r20AQPcfg/zCIHOyQrJxeAi2F
+hsShgtAEbOh5vRpLQ3ZXy+5IxpT+944+3IT2kkNG6LDz8WbezMsvPtbmM7iAu4iasYQDcQ1bqjAmjhRw
+wW4JP5v4skNvaujUeWw9k0NVIT/HJmDk4yLj1wq1F6Q2ourEQ43PlmODJhwjVTXDwizh02p1A3eUTAOb
+Y2J06RIKb9SQemstDKkJIiaMHZYKtjUlCLGponagfQlcI2hjGhe0P5KvwAmBSNqmAURHFE8pOZ0mq3cW
+ofUlxqFOEl2CZj881sZSSAjP7c6SgUcy6OXZXavVgHSoSZifWhEmqZJZSur57loWjpfDROJ8baZ5KK6Z
+w+c8PxwOCsc+qolVbrHSNsdgr7rrlarZ2T57qLh/gh9PW1jfF1vYfi828FA8ruHqnRc6wXys5fNZ0OZF
+VwiyBeWO09q/zGf9l08i+svh21s9JEy9Dh60kXP04bMzSrc7iWrD8BWyvdwMsynigkWHXm4vkex/NPJy
+vL02CKeJJO9cRyZxsio2LKfQsdwENLQnk1RxqpjkKhfsxbvIJoBsObYZrEKPUfbco3Jsx7H+/Seq/VZG
+zegTG2N1SrB5y7gX0a9xT/PZ7/nsD1BLBwiyMguj0AEAAL8DAABQSwECFAAUAAgACAAAACEAsjILo9AB
+AAC/AwAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAABgIAAAAA
+------=_contents/test/src/com/mycompany/SessionFacade0.java-6176336d-e8c6-3155-9246-04a39b7d99bd--
+------=_contents/test/src/com/mycompany/Query0.java-205f133f-2f11-341c-b007-8525ddd56811
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Query0.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUsFq20AQPdvgfxhMD05IVrKLCbQE
+GhKHCtImxYKe16uxNGS12u6O7YrSf+9ItpuYXnrICh129r2ZN28mOX/bMxrCOdwG1IwF7IgryKnEEDmQ
+xwnXZ/C9Cc8rdKaCrUrVXP5ZOpVvdpW+n8/3/Ma3gcqKYWLOYJamV3BL0TSwbCNjHS8gc0b10BtroYdG
+CBgxbLFQkFcUwYemDLoG7QrgCkEb09Reu5ZcCbXoC6Rt7JPogBIpBLPVZPXKImxcgaHnCbCO0Kz7y8JY
+8hHhabOyZOCBDDq5bqcq7TPtKpLGjqUIo7BES0GdAasNU+MuekUSfCmmuSdXzP5Dkux2O4X7OqoJZWKx
+1DZBby+301RVXNsO3TPuHuHrYw6LuyyH/HO2hPvsYQGX/zmAY5q3Pclo6LV51iWCuKDq9mD7x9Gw+5LD
+jvzt4RO/6FM/NhjaLjwYBORNcHAN45M0auGYuJ2Oe3J/KC5lphYXP1mmIRbnrcfr8VrGi6cwjN3zvTbc
+hPYLctUU8TVwMKB4sxItgugqn7zU3mKNTjZNXsb/aicnq7LWBuHYv+De6cAkQVbZkmXwOhRLj4bWZKLK
+joyn0HgUIEZVIk9eiS7RYZBZdrk4bA797O3rnN7vobE6RvjWmdft4a+91aPh7z9QSwcIbIMoD+kBAADf
+AwAAUEsBAhQAFAAIAAgAAAAhAGyDKA/pAQAA3wMAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsF
+BgAAAAABAAEANgAAAB8CAAAAAA==
+------=_contents/test/src/com/mycompany/Query0.java-205f133f-2f11-341c-b007-8525ddd56811--
+------=_contents/test/src/com/.package-3826a380-1826-3e5c-a7b1-9c48b2816d5e
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/.package
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStU02L2zAQPSeQ/zCYPSTLxk56KbQU
+umxSagjdhaTtWZbH9rCyLKSJTVr63zv+SLfQSw8r+6LRmzdvNE/J7euuxRxu4cGjYsyhI67gRCX6wJ4c
+LrlewffGP2dodQVtfOPPlqnGuER+8o1Dz5dlxC8ZcSFMZ49xKxFqbLQaCzTu4qmsGJZ6BW82m7fwQEE3
+cLwExjrcQWp1PEDvjYEBGsBjQN9iHsOpogDON6VXNSibA1cISuumdspeyJZQSwOelAkDifIokVwwrSKj
+MoNwtjn6IU+AdYCmGDZ7bcgFhKdzZkjDgTRa2bbbeDMwdRVJ59dShEGyREtOfb/ZmaXHu0GRBF+KKR6S
+K2b3Lkm6rotxrBM3vkwMlsok6My63W7iimvTo4eM3SN8eTzBfpee4PQ5PcKn9LCH9X9O6ErzuitZzPsv
+mczyR+vHv+fulH5WJfYHsxmF+0ziSjN8gKiQqWA0ndTOYI1Wpisn0b88ZGU8hdIIE2OPu1GeSYIcp0eW
+y1Y+PzrUVJAOcXrNmAwpM+rtuYwmgmg1lhlWiRa93GTPyv48ypqakj7d6AJ1Va+NCgFk9nL+czGfyZ8k
+YBsGaaTxooUhkBW1gytGeEdiYYvyAiBDCIMt6YfYWLKdp7YvH1ixFCrIKgOmEQOPuG/js/ma7kThent4
+39/8r99QSwcIxmckovsBAAD1AwAAUEsBAhQAFAAIAAgAAAAhAMZnJKL7AQAA9QMAAAgAAAAAAAAAAAAA
+AAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAADECAAAAAA==
+------=_contents/test/src/com/.package-3826a380-1826-3e5c-a7b1-9c48b2816d5e--
+------=_contents/test/src/com/mycompany/Entity1.java-06fdb1ce-cd6b-3d80-8785-df0c4f63bec9
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Entity1.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1Vttu2zgQfXaA/ANh9MEpatrZlwIt
+DGzauqjRpg5qL/aZlkYyG160JCVXWOy/75CybLmSL72EAWKbZy6cMzMcjp7/3nV9RZ6TtwaYg5hsuFuT
+JU/BWGd4BgMnb8jf2jyuQEVrUtBnJleOS6ApuAejMzCuHPTdXoMmaCk3QAvc4Vr1byoHOisNT9eODKIb
+8sd4/JK85TbSZFFaB9K+IDMV0SB6JwQJopYYsGAKiClZrrklmdGpYZIwFRO3BsKiSMuMqZKrlEgMwHAm
+bDDCDOBOjDIF44KtBJBcxWCCHgpKS3QSfkwjwTML5CFfCR6RTzwChT+LWzoOljZrjpHXrjhY1MKzxNzH
+u8odxvginAg3986YC8pr57JXo9Fms6FQ+aHapCMBKRMjyMSwuB3TtZPCSweNd3Pyeb4k03ezJVl+mC3I
++9mnKRlemKHazO9do+urjEWPLAWCLFBZbml/fX3l/0bbItrF8GezHiRTqBhPsWxciSnkkply+AjlpP+M
+GccTFjk6WzikkJl4kUHEEx5Z+lBJfoSyH4yGBd8cZoevuEBjyzKDSV/mwvGGCLcLsL7y3qNhbcp7cGsd
+20k/wdqAINjrcXu3wvOhBJmQQ0RmAiQorD5EDsKle8NYWeN+O1aMasgVlhcGBaTmDO2cjHRWa2wbCmvM
+t9egEVQKCgzm39tyJocO3wUT+dP7bPvNtrcAcZbyeNLX1n6lELJNo1C0tc1VeZc7/ZlJ364HtHswF49v
+wLppkmjjWnAw7ndPmEcLd05LbOIu4xX0xheUPeP9iJANtfELdCDBey6WgNbw+G0/nbF26v54oFUMAfyF
+QOz+MJ2HbeAdpJ0J/1R4e7UTtbKXOiV0ulou0vzpYvoxtg1IXfw0BxfW1zEnT9pL7Tq8KH27aeMHUzW2
+WX2dR4JZS6ppc4sy/1YzCr/hqiaVX0G/+nKQh4SDiPcYTpN55kc8EwdH2KFfgMVzJcpudG7wyQFxN/iX
+4v/k0IU5HGz3fqxlGJqfmihz28DxXZQMV2E73Po76PvPXSBIVG/L1Fd8pFDBVEoXGDLexMxVDxkYv665
+upQtGWZrky7nR4Y2XwDfgOoIKR2E9iqocyg/NZsmnBXHUtBuAAWvXxoeqOhrUX2EmcN+3jVbRVgzlefw
+9v1ZI8davI2fgY/dI23JM4LfNXXbUPed24TPeODK4lMmgupR18nKqeup29MxwY7m2V0zhcasVdkaDxDv
+9W78f+yg//4HUEsHCNLnHv6jAwAAoQ0AAFBLAQIUABQACAAIAAAAIQDS5x7+owMAAKENAAAIAAAAAAAA
+AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAADZAwAAAAA=
+------=_contents/test/src/com/mycompany/Entity1.java-06fdb1ce-cd6b-3d80-8785-df0c4f63bec9--
+------=_contents/test/.classpath-b5b9e553-a624-38ca-b4fd-57ba9214ed85
+Content-Type: q7/binary
+Entry-Name: contents/test/.classpath
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkM0OgjAQhM+a+A6kd6vePIAGDSQY
+o6bimZSyQrW2pC3+vL1VQ/SiB287s5NvN+NPryfhnUEbrmSARniIPJBMFVyWAdqlcX+MppNe12eCGlNT
+WznReSuQVt+8I5dFgIxmyHuYr3HwPcmUbJNKlxiY4LUBfCgsFrSRrHLX8YJE2Xy9SsNkFZFftDPVLW1D
+1nGyjLKQpEkcztNttkxmf3xieekqsZrXgC9KH3PXSYVz6lYnVYAgsAftPDC/4KqxdWNbfs7lM+wPPru8
+A1BLBwhZpFk0ywAAAIEBAABQSwECFAAUAAgACAAAACEAWaRZNMsAAACBAQAACAAAAAAAAAAAAAAAAAAA
+AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAAQEAAAAA
+------=_contents/test/.classpath-b5b9e553-a624-38ca-b4fd-57ba9214ed85--
+------=_contents/test/src/com/mycompany/default.wvd-f0a84a76-077b-3c76-a6c3-1c52c72eee01
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/default.wvd
+
+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
+SwUGAAAAAAEAAQA2AAAACQsAAAAA
+------=_contents/test/src/com/mycompany/default.wvd-f0a84a76-077b-3c76-a6c3-1c52c72eee01--
+------=_contents/test/src/com/mycompany/Entity2.java-87a8e34d-1223-39f1-a5c2-d946983575e1
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Entity2.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1VV1v2jAUfV6l/oerqA+0Kob2ZdIm
+pNGWamhdWwmkPRvnknjYcWQ7YdG0/74bBwoVlNKv5Cm+5577dZzbOXnf5/AATuDSIvcYw1z6FMYyQeu8
+lTm2vD6GX8bOJpiJFEp2ZIvMS40sQX9vTY7WV63IrzzYlJgKi6ykE2my6LgJYPLKyiT10BLHcN7tfoZL
+6YSBUeU8ancKw0ywAO0rBQHqwKJDW2LMYJxKB7k1ieUaeBaDTxG4EEbnPKtkloCmAqzkygUSbpFOYsKU
+XCo+UQhFFqMNfgTUDsw0fAyEkrlDuC8mSgq4kQIz+izPWDcwzVNJlS9DSXTkRbnEsq53Uniq8TRkRIer
+YNwH59T7/EunM5/PGTZxmLFJR2HCVQdz1S7Puiz1WtXo4HF1B7d3YxhcDccw/j4cwfXwZgDtPSe0pHnf
+p3N4kHMx4wkCdYHpatH2r4cH9dtZiOihhm/retA8I8d4QLLxFY1Qam6r9gyrXnTErZdTLjwbjjy1kNt4
+lKOQUykcu2+QP7CKAml48I+n6ciJVEQ2rnLsRbpQXq5BpBuhq5V3TcTGVj/RpyZ2vWhK2sAA/PRJuv6E
+8iME9OCxRecKNWakPrJEm/VQ5m2ZkYQocYRlXwi7s5rh0mNxaUhH9RVqrSWeYIaWZlxzeVvgltglV8XH
+x9yMmy9uOnjHZNyLjHO/GYaJMhGEueScVP3Cm1uu6yv5qLW1sVCzC3R+MJ0a6zfMgbw+3UFPDH1vNF3U
+beSN6aIWjXsm+hMgF+b/hnZQg1e9GCOxUfqbcbbWutX35YU2NQTjGwpxq2S2Jrtm39K0Z8rfVd7KbYdW
+VqhdoN1q2cvz1WJ6WbctalO+ugd76uupIB96lzZ1uNf4HjZKvXya1cyXv2yhuHPQbJRzwjRrIXaPtxNr
+AGcE+Nssqvr99x9QSwcIFtRgwLUCAABACQAAUEsBAhQAFAAIAAgAAAAhABbUYMC1AgAAQAkAAAgAAAAA
+AAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAOsCAAAAAA==
+------=_contents/test/src/com/mycompany/Entity2.java-87a8e34d-1223-39f1-a5c2-d946983575e1--
+------=_contents/test/.project-692291b7-4dfa-3e9e-9272-95fc5cc5f39a
+Content-Type: q7/binary
+Entry-Name: contents/test/.project
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSlUsFOxCAQPWviP2x6F9abB7Ybo9mz
+ifoBFCaVtYVmmK5+vgOlKjEmRm/z3jDzHg/U/m0cNifA6ILfNVdi22zAm2Cd73fN0+Ph8rrZtxfnasJw
+BEN3EA26ifg0s2fK6xFagkhK5jJxJowjeGqVXKvElgUxA1mhbnaDfZjAJFTgLY9qbzNTZAL2Aszgpgji
+aEmYgFzok84DgJ8WeEJjPyftWLCsCSW/qfxKl1zPWRFHAOI14EvHYT2LTtet++V2N7N1FP7pqzBrPGyJ
+ZoRyegF/d5is5Q0/batyXvpfZ9Y62fl41PqPvANQSwcIHvbWiucAAABiAgAAUEsBAhQAFAAIAAgAAAAh
+AB721ornAAAAYgIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAB0BAAAA
+AA==
+------=_contents/test/.project-692291b7-4dfa-3e9e-9272-95fc5cc5f39a--
+------=_contents/test/src/com/mycompany/default.owm-650b328b-7e3a-31cd-94c1-f40ac164a26e
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/default.owm
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kE9LAzEQxe+C32GYe5PWU1k29tRC
+DxUPCl6naUyHbv6QRLf77Z2CFSziZWDmvffjMf3qHAb4dKVyigYXao7gok0Hjt7g68tmtsTV4/1dz7E2
+itYdmHyh0G2/9x1lOAfufhAPF4RAY+3kbvDYWu60HsdRpeBVKl6/7bZXyw3WoOjK2YFzdaqxF2ornJ0a
+UzntpdlRfbC6SSHsqbpnsifyzqBNQYVJZqY4oZQH6O1AtV47V4gUxLiOjdu0QMh/R4FK43ey7emXXV/+
+of95iOhfUEsHCIlzeIHQAAAAWAEAAFBLAQIUABQACAAIAAAAIQCJc3iB0AAAAFgBAAAIAAAAAAAAAAAA
+AAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAAGAQAAAAA=
+------=_contents/test/src/com/mycompany/default.owm-650b328b-7e3a-31cd-94c1-f40ac164a26e--
+------=_contents/test/src/com/mycompany/Dependency0.java-4b0c9faf-b743-31e7-82ad-393e30c9a936
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Dependency0.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUltr2zAUfnYg/+EQ9pCERnb2MtgY
+rDQZC5S1JYY9FkU+sUVlWUiyjTv233ekXLoVCnmoDBaSvos+nZPO33eMRzCHG4vcYwG99BXkskTrvJUG
+p76ewa/GPu1Qiwo69sG22ssaWYn+3jYGrR+mE//CYHtSai2yjnZkoyezg0FjBivLysNUzOBjln2CG+lE
+A9vBeazdFWy0YBF6rRREqAOLDm2HBYO8kg6MbUrLa+C6AF8hcCGa2nA9SF1CTQGs5MpFEW6RdgrCdFwq
+vlMIrS7QRh4BawfNPi7WQknjEO7bnZICbqVATctuybKo1FeSkp+sJDpi0V0KGfLuWk8Zr+KNaPPFjPtI
+rrw3n9O073uGBx/W2DJVWHKVolGLbpmxytcqoCNjdQc/73JYrzY55D82W/i+uV3D4sIKnWTed6TjkeHi
+iZcI9AqsHo7P/mU8Cl96bKJzhm//9kOBBunltRjCWZJId72jIy48fIXJngqGkzPzIBL8DtXgJ6hQ3DlY
+nbVCbX4f7JPon5D2G74LvtYF4cOYh58fDAbz/8KwNTW2H5aTqJUmNB0vsSVBarDHIEM03SpFyZNLnJ8v
+cn5o0Q7Z28bPr43//AVQSwcIqcFq38gBAAAFBAAAUEsBAhQAFAAIAAgAAAAhAKnBat/IAQAABQQAAAgA
+AAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAP4BAAAAAA==
+------=_contents/test/src/com/mycompany/Dependency0.java-4b0c9faf-b743-31e7-82ad-393e30c9a936--
+------=_contents/test/src/com/mycompany/default.vwm-e4bc54db-d257-3252-b205-9835d37e5b15
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/default.vwm
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS9Vslu2zAQvRfoPxC8R5LtLqlhNQ0a
+BwjQGCncAL2OxYlMVKIEkfLSr+9ooYxYUqy4RS8E+ObNvOETF82udnHENphpmSifjxyPM1RBIqQKff74
+4/bikl99fvtmpvIomt5DynaxnDb8ccGnCkpPCff52ph06rrb7dZJ4tBJstD9eX/XUPRzynZSMsaeNyLa
+t2WwxhgupNIGVIA2q1D2eTFytgKNDxD8ghB9HiSxE+9pTEHtOTXJ2AwyI58gMJqR2NTsU6xSqXVFSWKu
+jDT765rFmYKYGBU64iztrs1knEYYozLa5677pVFxPlS6pJxmSYqEo66LWpKzlgId3BlUQnO2gSin6BNE
+Grlrs8GYTK5yc8i2ABlcLWNJgAoPKTGadSIsv5o15E0iRU2duU27Jzy6AQPF9Ngei/cb5P69++N+92vv
+jqz3/oX1w81ZUGXxPces1X8Jemd785gKMPiQJQGKPGuZfxQ+X2eRUEAGYOjktj7Bhvb2+aWXqIv74BYC
+EK0FPAuerzHfBZh29m4D59cesD0nvcX/6y681joJZPkNv0agdTnYTo+Dp8/rIeGk0utFGMyVaB1a9ruN
+XlbonV7ARoawiqiWyXJ6AmyHKEqxo7xPnQtp9dm/MXpaLNBFWQXty9DRdY1WRHG4I7uXUncqMKVtQE/s
+YZ/cWOiFS2S4l5NBSq/7au87lbxBSi/c64PX9HGQUv8RHa70rlSaufZ3hyZ/AFBLBwjrbOgCJAIAACMJ
+AABQSwECFAAUAAgACAAAACEA62zoAiQCAAAjCQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUG
+AAAAAAEAAQA2AAAAWgIAAAAA
+------=_contents/test/src/com/mycompany/default.vwm-e4bc54db-d257-3252-b205-9835d37e5b15--
+------=_contents/test/src/com/mycompany/Event0.java-be09039e-c128-352c-880d-0f8513a194dd
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Event0.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUsFq3DAQPWdh/2EwOeyGRN70UmgJ
+NCRbaghNwIaetfKsPUSWhTT21pT+e8f2breFHnqIdNLovTfzZia9etuzXMAVPATUjCUciGsoqMIQOZDH
+FTdr+NaG1x06U0OvLkPnmBpUFfJLaD0GHlYJnxlqL0pdQNVLhFqXrOcErR8CVTXDyqzh3WbzHh4omhby
+ITI28RoyZ9QEvbcWJmiEgBFDj6WCoqYIPrRV0A1oVwLXCNqYtvHaDeQqaMRAIG3jJKIDSqQUTK/J6p1F
+6FyJYeIJsInQ7qfH1ljyEeGl21ky8EQGnTz7W7WZlA41ifNTKsIoLKmlpNHvrmPxeD1VJMFzMs0TuWb2
+H9L0cDgonPOoNlSpxUrbFL296W83qubGjuiJ8fgMX58L2D5mBRRfshw+Z09buPnPCZ1k3vaky4XX5lVX
+CNIF1QzHtn9cLsabHpfot4dPf+4D9ujmZkyHYi7Tsrj9ztJnaV4xeLxL9jI4TEbYxQXF+52QtWG4g79/
+Gm+xEb04/iT/TkhO5rvXBuFUtGAvdWCSIKssZ5mWDmXu0dCeTFTZiXHcaBnyuN+r5CiQrJOzgQodBhnF
+qMqhm0s7uh8bNa+RsTpG2I7exzX6MXdqufj5C1BLBwjUW8rT1gEAAL8DAABQSwECFAAUAAgACAAAACEA
+1FvK09YBAAC/AwAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAADAIAAAAA
+
+------=_contents/test/src/com/mycompany/Event0.java-be09039e-c128-352c-880d-0f8513a194dd--
+------=_contents/test/src/com/mycompany/Dependency2.java-a10706e1-bd08-3188-832a-3deb2de03786
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Dependency2.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStUl9r2zAQf3Yg3+HIUxsa2ckIhY3B
+SuOxQFkHMeyxyPLVFpVlISn23LHv3rOcpKxQyEMlLCPp9+fudPH8Y8d0AnO4tcg9FtBJX0EmS7TOW2nw
+wteX8LuxTzlqUUHLEramb5Usaa6uk0/r9chvTG9lWXm4EJewSpJruJVONLDrncfaXcFWCxagN0pBgDqw
+6NC2WDDIKunA2Ka0vAauC/AVAheiqQ3XvdQl1BSflVy5IMIt0klBmJZLxXOFsNcF2sAjYO2geQybVChp
+HMKvfa6kgDspUNO2XbIkKHWVpMSOVhIdsSiWQg4FyPdeNvoqRESHr2bcB3Llvfkcx13XMRx9WGPLWGHJ
+VYxGLdplwipfqwEdGJt7+HmfQbrZZpD92O7g+/YuhcWZD3CU+dgRTyeGiydeIlAVWN0fyv5lOhlmfOiR
+Uw7f/Gt8rECDVHkt+uEuiqS7yemKCw9fYfZID4azE3MUGfzG1+BHqFDcOdictFaE+zvaR8E/Iu13fBc8
+1QXhhzEfFt8bHMz/S4al2kvfL2dBK47odwhiR4LUYA+DDNH0XinKPDrH+fk85z8CzdBIyfvmz2/N/70A
+UEsHCO4/qBW6AQAA6AMAAFBLAQIUABQACAAIAAAAIQDuP6gVugEAAOgDAAAIAAAAAAAAAAAAAAAAAAAA
+AAAuY29udGVudFBLBQYAAAAAAQABADYAAADwAQAAAAA=
+------=_contents/test/src/com/mycompany/Dependency2.java-a10706e1-bd08-3188-832a-3deb2de03786--
+------=_contents/test/src/com/mycompany/Association0.java-6a38f6ee-6e94-319e-a43d-223c28227a43
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/Association0.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTVUm1r2zAQ/pxA/sPRT21p/NIRCiuF
+hSZjgdIMmrHPF/lqH5VlT5IdsrH/vpPjJC3b2Ab9shNGlp57ee45xeeva6MhnMOtJfSUwYZ9ASvOyTpv
+uaZTX57B58o+rcmoAtooiSbyXSaprMur5M1ksouv6q3lvPBwqs7gMkmu4JadquBh6zyV7gIWRkWd61Rr
+6FwdWHJkW8oiWBXsoLZVbrEENBn4ggCVqsoazZZNDqXws4zadUnQktxk4tMia1xrgsZkZLs4cSwdVI/d
+Ya40147gY7PWrOCOFRk5tmmUdJk2BUtj+1JMTqKES8ZBgHXjuTIXHSO5PBZD3wUX3tdv43iz2US0qxNV
+No815ahjqvW4TZOo8KUO3l3EbAn3yxXMZ4sVrD4sHuD94m4O478cwD7N61o8GtaonjAnEBWictvLfj0a
+hhX3b+TQwzt/5Behc5ViDDoFcDBgN10LhsrDDZw8ysTo5BC6yxIK7saBe1elJRFMj8nCdL7tCAyODAZS
+4Xflxzg3WecCYpjnVsYQgMDDVCbQ6EFVoMmpm+RPWNloz7WQY78NaHqE2C2tPDIZ07PODtgnw18a+iV0
+jy3n+3LP0F6XYH138UC2XpwXw4jmxgujFKjfb8A0Wl//i0Bf/w+BvG1e6vNHbWbo0W9rSiE7/B30kajv
+PwBQSwcIUzdS2fgBAAA1BQAAUEsBAhQAFAAIAAgAAAAhAFM3Utn4AQAANQUAAAgAAAAAAAAAAAAAAAAA
+AAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAC4CAAAAAA==
+------=_contents/test/src/com/mycompany/Association0.java-6a38f6ee-6e94-319e-a43d-223c28227a43--
+------=_contents/test/tigerstripe.xml-d62e1875-cb1c-3af8-959c-db156dbd3b65
+Content-Type: q7/binary
+Entry-Name: contents/test/tigerstripe.xml
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRdkcFqhDAQhu+FvoPkKDTZvfWgLoVS
+6K2U9gGmyaxkV5OQjFLfvqMbWy1C8MvM/+efpDp9910xYkzWu1oc5UEU6LQ31rW1+Px4eXgURSJwBjrv
+sBbOi1Nzf1eRbVlE0Qbcyo9iLoboL6ip6L3B7tXUgjCRKBz07LB0+IHCQM82cpuPU0MQWyS1cZUtukr9
+72NpPq05SP4qtSJXDCbNUmJUOcZoDcYVAkaacgqDZxg6eopkz6DpDfQVWhSN9r3sJ14DuKlSq2p2UHms
++T9i8MlyJItpx1PxBQk5cC3kMql1uhs4WZOiVmWpSnmBESr1uz87/8n3mN1DN7TWJXUbMqAz/EZcU7ej
+zxiZM/I0SO/7PTAjMJgFtpfM/ANQSwcI7LeFthoBAAACAgAAUEsBAhQAFAAIAAgAAAAhAOy3hbYaAQAA
+AgIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFABAAAAAA==
+------=_contents/test/tigerstripe.xml-d62e1875-cb1c-3af8-959c-db156dbd3b65--
+------=_contents/test/src/com/mycompany/UpdateProcedure0.java-f3b8102d-ec2a-3489-8d6c-2f3d77b3386a
+Content-Type: q7/binary
+Entry-Name: contents/test/src/com/mycompany/UpdateProcedure0.java
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnStU01r20AQPcfg/zCIHOyQrJxcCi2B
+hsShgrQJWKXn9WosDVmtlt2RXFH63zuS7camlx6yOmn2zcd78za9eN8zncAF3AfUjAVsiSvIqcQQOZDH
+Gddz+NGE1zU6U0GnzkPrmGpUJfJLaDwG7mcJv2WojVRqA6pOItS4ZL5r0Pg+UFkxzMwcbhaLD3BP0TSw
+6iNjHS8hc0aN0DtrYYRGCBgxdFgoyCuK4ENTBl2DdgVwhaCNaWqvXU+uhFoIBNI2jkV0QIkUguk0Wb22
+CK0rMIx5AqwjNJvxZ2ks+Yjw0q4tGXgig05+u2u1GCttKxLmh1aEUbJkloIGvuuWhePlOJEE35ppHpMr
+Zv8xTbfbrcJdH9WEMrVYapuit1fd9UJVXNsBPWY8PMO35xyWD1kO+ZdsBY/Z0xKu/nNDhzLve9LpxGvz
+qksEUUHV/V72T9PJ8KV7E/3l8PnYD60vZHDxisFCfDECxkNxJXuzuPzJorjImPceb5ONrBCTExjG4fpR
+G25C/xW5aop4DDw7o3i3ln6CgFs4vam9xRqduElukn/nIyd22GiDcOAouHMdmCTIKluxLFeHYuXR0IZM
+VNkhY/8AxBPDc5gl+wLJ/Gj8Eh0GEWCoyqHdM9uJNei6c52xOkb4firV4L9fO4mnk99/AFBLBwgOw0r4
+7gEAAPgDAABQSwECFAAUAAgACAAAACEADsNK+O4BAAD4AwAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRl
+bnRQSwUGAAAAAAEAAQA2AAAAJAIAAAAA
+------=_contents/test/src/com/mycompany/UpdateProcedure0.java-f3b8102d-ec2a-3489-8d6c-2f3d77b3386a--
