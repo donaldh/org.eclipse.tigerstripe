@@ -357,6 +357,7 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 	}
 
 	// By default we only look for Exclusion by annotation.
+	@Contextual
 	public boolean isInActiveFacet() throws TigerstripeException {
 		if (getArtifactManager() != null
 				&& getArtifactManager().getActiveFacet() != null) {

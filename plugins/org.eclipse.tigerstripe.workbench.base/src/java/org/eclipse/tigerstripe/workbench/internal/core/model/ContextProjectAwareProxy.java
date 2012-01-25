@@ -42,6 +42,9 @@ public class ContextProjectAwareProxy implements
 
 	private static final Signature IMC_GET_PROJECT_SIG = findSignatureByMarker(
 			AbstractArtifact.class, Contextual.class);
+	
+	private static final Signature IMC_IS_IN_ACTIVE_FACET_SIG = findSignatureByMarker(
+			ArtifactComponent.class, Contextual.class);
 
 	private static final Signature ITYPE_GET_ARTIFACT_MANAGER_SIG = findSignatureByMarker(
 			Type.class, Contextual.class);
@@ -159,6 +162,29 @@ public class ContextProjectAwareProxy implements
 				} else {
 					return new ContextualModelProject(proj, context);
 				}
+			} else if (IMC_IS_IN_ACTIVE_FACET_SIG.same(m)
+					&& (proxy instanceof IModelComponent)) {
+				if (getObject() instanceof AbstractArtifact) {
+					AbstractArtifact artifact = (AbstractArtifact) getObject();
+					ArtifactManager manager = new ContextualArtifactManager(
+							artifact.getArtifactManager(), context);
+					return manager.isInActiveFacet(artifact);
+				} else if (getObject() instanceof Field
+						|| getObject() instanceof Literal
+						|| getObject() instanceof Method) {
+					ArtifactComponent component = (ArtifactComponent) getObject();
+					ArtifactManager manager = new ContextualArtifactManager(
+							component.getArtifactManager(), context);
+					IFacetReference ref = manager.getActiveFacet();
+					if (ref.getFacetPredicate() instanceof FacetPredicate) {
+						FacetPredicate predicate = (FacetPredicate) ref
+								.getFacetPredicate();
+						return !predicate.isExcludedByStereotype(component)
+								&& !predicate.isExcludedByAnnotation(component);
+					}
+					return true;
+				}
+				return m.invoke(getObject(), args);
 			} else if (ITYPE_GET_ARTIFACT_MANAGER_SIG.same(m)
 					&& (proxy instanceof IType)) {
 				ArtifactManager artifactManager = (ArtifactManager) m.invoke(

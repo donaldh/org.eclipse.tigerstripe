@@ -17,6 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -378,21 +379,23 @@ public class ContextualArtifactManager implements ArtifactManager {
 	}
 
 	public IFacetReference getActiveFacet() throws TigerstripeException {
-		return mgr.getActiveFacet();
+		return context.getActiveFacet();
 	}
 
 	public void resetActiveFacet() throws TigerstripeException {
-		mgr.resetActiveFacet();
+		// Do nothing
 	}
 
 	public void setActiveFacet(IFacetReference facetRef,
 			IProgressMonitor monitor) throws TigerstripeException {
-		mgr.setActiveFacet(facetRef, monitor);
+		// Do nothing
 	}
 
 	public boolean isInActiveFacet(IAbstractArtifact artifact)
 			throws TigerstripeException {
-		return mgr.isInActiveFacet(artifact);
+		IArtifactManagerSession session = context.getArtifactManagerSession();
+		ArtifactManager manager = session.getArtifactManager();
+		return manager.isInActiveFacet(artifact);
 	}
 
 	public void resetBroadcastMask() {

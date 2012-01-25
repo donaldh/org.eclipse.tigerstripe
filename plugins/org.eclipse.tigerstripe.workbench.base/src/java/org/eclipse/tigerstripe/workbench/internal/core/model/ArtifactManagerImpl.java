@@ -2062,8 +2062,18 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							.makeQuery(IQueryAllArtifacts.class.getName());
 					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies 			
 					query.setExecutionContext(context);
-					list.addAll(project.getArtifactManagerSession()
-							.queryArtifact(query));
+					Collection<IAbstractArtifact> artifacts = project
+							.getArtifactManagerSession().queryArtifact(query);
+
+					if (getActiveFacet() != null) {
+						// Filter artifacts with active facet
+						for (IAbstractArtifact a : artifacts) {
+							if (isInActiveFacet(a))
+								list.add(a);
+						}
+					} else {
+						list.addAll(artifacts);
+					}
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2099,8 +2109,18 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							.makeQuery(IQueryAllArtifacts.class.getName());
 					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies	
 					query.setExecutionContext(context);
-					list.addAll(project.getArtifactManagerSession()
-							.queryArtifact(query));
+					Collection<IAbstractArtifact> artifacts = project
+							.getArtifactManagerSession().queryArtifact(query);
+
+					if (getActiveFacet() != null) {
+						// Filter artifacts with active facet
+						for (IAbstractArtifact a : artifacts) {
+							if (isInActiveFacet(a))
+								list.add(a);
+						}
+					} else {
+						list.addAll(artifacts);
+					}
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2691,24 +2711,6 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			IFacetReference newFacet, IProgressMonitor monitor)
 			throws TigerstripeException {
 		if (newFacet == null) {
-			// reseting all referenced projects
-			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
-				try {
-					project.getArtifactManagerSession().resetActiveFacet();
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			}
-			for (IDependency dep : getTSProject().getEnabledDependencies()) {
-				try {
-					((Dependency)dep).getArtifactManager(null).resetActiveFacet();
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			}
-
 			// need to take care of modules too
 			depContentCache.resetActiveFacet();
 			relationshipCache.resetActiveFacet();
@@ -2717,25 +2719,6 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 				phantomArtifactMgrSession.resetActiveFacet();
 
 		} else {
-			// this is a new facet being set
-			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
-				try {
-					project.getArtifactManagerSession().setActiveFacet(
-							newFacet, monitor);
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			}
-			for (IDependency dep : getTSProject().getEnabledDependencies()) {
-				try {
-					((Dependency)dep).getArtifactManager(null).setActiveFacet(
-							newFacet, monitor);
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			}
 			depContentCache.setActiveFacet(newFacet);
 			relationshipCache.setActiveFacet(newFacet);
 
