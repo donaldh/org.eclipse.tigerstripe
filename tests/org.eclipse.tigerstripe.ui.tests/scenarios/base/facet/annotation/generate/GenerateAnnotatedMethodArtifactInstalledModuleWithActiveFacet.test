@@ -6,7 +6,7 @@ Tags: Facet/Generate
 External-Reference: 
 Element-Version: 3.0
 Contexts: _HPQn8EDvEeGsUJ1NDdsGXw,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 1/17/12 5:11 PM
+Save-Time: 1/24/12 4:05 PM
 Id: _Ne-noEDxEeGsUJ1NDdsGXw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -30,6 +30,57 @@ Mark facet as active
 Run generation
 Open created E1 artifact and check method0 is not in list
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project.*"] {
+        mouse-release 20 12 button1 524288
+        click
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/target/tigerstripe.gen/E1.txt" 
+    | get-menu "Open With/Text Editor" | click
+get-editor "E1.txt" | get-editbox | get-property text | equals "ARTIFACT_TYPE=Entity\n"
+    + "ARTIFACT_FQN=org.eclipse.tigerstripe.test.E1\n"
+    + "ARTIFACT_NAME=E1\n\n"
+    + " attribute0\n\n"
+    + " method0\n\n"
+    + " literal0" | verify-true
+get-editor "E1.txt" | close
+get-editor "Project1/tigerstripe.xml" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/default.wfc" | get-menu "Facets/Mark as Active" | click
+    select "Project1 \\{default\\}" | get-menu "Generate..." | click
+}
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1 \\{default\\}/target/tigerstripe.gen/E1.txt" 
+    | get-menu "Open With/Text Editor" | click
+get-editor "E1.txt" | get-editbox | get-property text | equals "ARTIFACT_TYPE=Entity\n"
+    + "ARTIFACT_FQN=org.eclipse.tigerstripe.test.E1\n"
+    + "ARTIFACT_NAME=E1\n\n"
+    + " attribute0\n\n"
+    + " method0\n\n"
+    + " literal0" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content
