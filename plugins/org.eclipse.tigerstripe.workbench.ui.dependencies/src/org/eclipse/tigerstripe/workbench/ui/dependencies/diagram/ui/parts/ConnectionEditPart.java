@@ -15,6 +15,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Utils;
@@ -35,7 +36,8 @@ public class ConnectionEditPart extends AbstractConnectionEditPart {
 		Connection model = getConnection();
 		if (model.getSource() instanceof Subject
 				&& model.getTarget() instanceof Subject) {
-			PolygonDecoration decoration = new PolygonDecoration();
+			PolylineDecoration decoration = new PolylineDecoration();
+			decoration.setTemplate(PolylineDecoration.TRIANGLE_TIP);
 			decoration.setForegroundColor(ColorConstants.black);
 			decoration.setBackgroundColor(ColorConstants.white);
 			Subject source = ((Subject) model.getSource());
