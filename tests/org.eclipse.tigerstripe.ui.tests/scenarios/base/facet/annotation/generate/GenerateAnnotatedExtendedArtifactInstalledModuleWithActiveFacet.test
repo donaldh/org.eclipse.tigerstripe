@@ -5,9 +5,27 @@ Element-Name: GenerateAnnotatedExtendedArtifactInstalledModuleWithActiveFacet
 Tags: Facet/Generate
 External-Reference: 
 Element-Version: 3.0
-Save-Time: 1/18/12 5:30 PM
+Save-Time: 1/26/12 12:35 PM
 Id: _tziFYED3EeGsUJ1NDdsGXw
 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Project Generation with Active Facets with annotation in Tigerstripe project 
+
+Expected result:
+only extended entity2 is in generated files
+
+Precondition
+GeneratorAndProjectWithExtendsAnnotationScopeFacetWorkspaceContext
+EnableGeneratorAndApplyFacet
+
+Steps
+Generate project
+Check generatied files
+entity1 is not in list
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content

@@ -6,7 +6,7 @@ Tags: Facet/Active, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _Mrg78DqyEeGvPsO-LSiu4Q,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 1/26/12 5:45 PM
 Id: _-q0B4EACEeG1Htud4Cd1VA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -42,13 +42,13 @@ with [get-editor "ProjectWithReference/default2.wfc"] {
 get-window "Remove Scope Pattern" | get-button OK | click
 get-button "Save \(.*\)" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Datatype0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/<<ReferencesExample>>Datatype0" 
         | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {100, 100, 200}" 
         | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Datatype0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/<<ReferencesExample>>Datatype0" 
         | get-property styleRanges -index 1 | equals "21, 9, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 }
-get-view "Tigerstripe Explorer" | get-tree | get-item "New Project \\{default2\\}/src/org.eclipse/Datatype0" 
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Datatype0" 
     | get-property styleRanges -index 0 | equals "0, 9, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
