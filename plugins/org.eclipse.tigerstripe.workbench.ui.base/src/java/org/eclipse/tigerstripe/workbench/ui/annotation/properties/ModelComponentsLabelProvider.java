@@ -28,11 +28,11 @@ public class ModelComponentsLabelProvider extends LabelProvider {
 		} else if (element instanceof IAbstractArtifact)
 			return artifactLabelProvider.getImage(element, true, true);
 		else if (element instanceof IField)
-			return Images.get(Images.FIELD_ICON);
+			return artifactLabelProvider.getImage(element, true, true);
 		else if (element instanceof IMethod)
-			return Images.get(Images.METHOD_ICON);
+			return artifactLabelProvider.getImage(element, true, true);
 		else if (element instanceof ILiteral)
-			return Images.get(Images.LITERAL_ICON);
+			return artifactLabelProvider.getImage(element, true, true);
 		else if (element instanceof IAssociationEnd)
 			return Images.get(Images.ASSOCIATION_ICON);
 		else if (element instanceof IRelationshipEnd)

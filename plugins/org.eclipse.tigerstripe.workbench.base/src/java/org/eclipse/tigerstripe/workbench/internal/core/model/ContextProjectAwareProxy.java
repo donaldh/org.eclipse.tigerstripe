@@ -32,6 +32,10 @@ import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredic
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
@@ -164,23 +168,20 @@ public class ContextProjectAwareProxy implements
 				}
 			} else if (IMC_IS_IN_ACTIVE_FACET_SIG.same(m)
 					&& (proxy instanceof IModelComponent)) {
-				if (getObject() instanceof AbstractArtifact) {
-					AbstractArtifact artifact = (AbstractArtifact) getObject();
-					ArtifactManager manager = new ContextualArtifactManager(
-							artifact.getArtifactManager(), context);
-					return manager.isInActiveFacet(artifact);
-				} else if (getObject() instanceof Field
-						|| getObject() instanceof Literal
-						|| getObject() instanceof Method) {
-					ArtifactComponent component = (ArtifactComponent) getObject();
-					ArtifactManager manager = new ContextualArtifactManager(
-							component.getArtifactManager(), context);
+				if (getObject() instanceof IAbstractArtifact) {
+					IAbstractArtifact artifact = (IAbstractArtifact) getObject();
+					return context.getArtifactManagerSession().getArtifactManager().isInActiveFacet(artifact);
+				} else if (getObject() instanceof IField
+						|| getObject() instanceof ILiteral
+						|| getObject() instanceof IMethod) {
+					IModelComponent component = (IModelComponent) getObject();
+					ArtifactManager manager = context.getArtifactManagerSession().getArtifactManager();
 					IFacetReference ref = manager.getActiveFacet();
-					if (ref.getFacetPredicate() instanceof FacetPredicate) {
-						FacetPredicate predicate = (FacetPredicate) ref
-								.getFacetPredicate();
-						return !predicate.isExcludedByStereotype(component)
-								&& !predicate.isExcludedByAnnotation(component);
+					if (ref != null && ref.getFacetPredicate() instanceof FacetPredicate) {
+						FacetPredicate predicate = (FacetPredicate) ref.getFacetPredicate();
+						IModelComponent componentProxy = ContextProjectAwareProxy.newInstance(component, context);
+						return !predicate.isExcludedByStereotype(componentProxy)
+								&& !predicate.isExcludedByAnnotation(componentProxy);
 					}
 					return true;
 				}

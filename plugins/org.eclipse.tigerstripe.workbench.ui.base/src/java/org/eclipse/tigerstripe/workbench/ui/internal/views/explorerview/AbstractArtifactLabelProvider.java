@@ -24,6 +24,9 @@ import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
@@ -56,8 +59,11 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 
 		boolean isInActiveFacet = true;
 		if (!ignoreFacets) {
-			if (element instanceof IAbstractArtifact) {
-				IAbstractArtifact artifact = (IAbstractArtifact) element;
+			if (element instanceof IAbstractArtifact 
+					|| element instanceof IField
+					|| element instanceof ILiteral
+					|| element instanceof IMethod) {
+				IModelComponent artifact = (IModelComponent) element;
 				try {
 					isInActiveFacet = artifact.isInActiveFacet();
 				} catch (TigerstripeException e) {
@@ -89,8 +95,12 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 	}
 
 	public String getText(Object element) {
-		IAbstractArtifact artifact = (IAbstractArtifact) element;
-		return artifact.getFullyQualifiedName();
+		if (element instanceof IAbstractArtifact) {
+			return ((IAbstractArtifact) element).getFullyQualifiedName();
+		} else if (element instanceof IModelComponent) {
+			return ((IModelComponent) element).getName();
+		}
+		return "<unknown>";
 	}
 
 	public void addListener(ILabelProviderListener listener) {

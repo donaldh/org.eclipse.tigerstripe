@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
-import java.lang.reflect.Field;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -23,7 +21,6 @@ import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
@@ -43,7 +40,6 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.TigerstripeUILabels;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
-import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 
 @SuppressWarnings("restriction")
 public class TigerstripeExplorerLabelProvider extends
@@ -176,11 +172,11 @@ public class TigerstripeExplorerLabelProvider extends
 				EclipsePlugin.log(e);
 			}
 		} else if (element instanceof IField)
-			return decorateImage(Images.get(Images.FIELD_ICON), element);
+			return decorateImage(artifactLabelProvider.getImage(element), element);
 		else if (element instanceof IMethod)
-			return decorateImage(Images.get(Images.METHOD_ICON), element);
+			return decorateImage(artifactLabelProvider.getImage(element), element);
 		else if (element instanceof ILiteral)
-			return decorateImage(Images.get(Images.LITERAL_ICON), element);
+			return decorateImage(artifactLabelProvider.getImage(element), element);
 		else if (element instanceof IAssociationEnd)
 			return decorateImage(Images.get(Images.ASSOCIATION_ICON), element);
 		else if (element instanceof IRelationshipEnd)

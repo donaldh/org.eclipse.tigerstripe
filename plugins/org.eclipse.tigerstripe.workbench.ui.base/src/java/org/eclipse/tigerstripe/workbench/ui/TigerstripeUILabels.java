@@ -140,7 +140,6 @@ public class TigerstripeUILabels {
 					if (artifact.isAbstract()) {
 						range.fontStyle = SWT.ITALIC;
 					}
-
 					try {
 						if (artifact.isInActiveFacet()) {
 							range.foreground = ColorUtils.BLACK;
@@ -148,7 +147,20 @@ public class TigerstripeUILabels {
 							range.foreground = ColorUtils.LIGHT_GREY;
 						}
 					} catch (TigerstripeException e) {
-						// ignore
+						EclipsePlugin.log(e);
+					}
+				} else if (component instanceof IField
+						|| component instanceof ILiteral
+						|| component instanceof IMethod) {
+					IModelComponent mc = (IModelComponent) component;
+					try {
+						if (mc.isInActiveFacet()) {
+							range.foreground = ColorUtils.BLACK;
+						} else {
+							range.foreground = ColorUtils.LIGHT_GREY;
+						}
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
 					}
 				} else if (component instanceof ITigerstripeModelProject) {
 					try {
