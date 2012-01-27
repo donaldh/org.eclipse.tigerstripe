@@ -1,0 +1,94 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: DeleteTigerstripeProjectPerformanceTest
+Tags: performance, skipExecution
+External-Reference: 
+Element-Version: 3.0
+Contexts: _P443IEi5EeG6xYWzBUR3Fg,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_UGCFoEi8EeG6xYWzBUR3Fg
+Save-Time: 1/27/12 5:33 PM
+Id: _pds4sEi6EeG6xYWzBUR3Fg
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+1. Import xoredScaleTestModel project
+2. Select "Delete" in dropdown menu in Tigerstripe Explorer 
+3. Check checkbox "Delete project context on disk"
+1. Click "OK" in "Delete resources" window
+2. Wait until empty Tigerstripe Explorer becomes available
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-window "Delete Resources"] {
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-property itemCount | equals 0 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkU1PAjEQQO8m/oemZ2lVEHDDQlQW
+gsYEBSKeyNodSpFtl3ZgV3+9xQhEo8RbO/P65qONVpEuyBqsU0aH9IydUgJamERpGdIVTkt12moeHzWE
+SVlhLCRsWWNOgI6tMsHg60CKVAU7y/nG4r3aBT4e0hliFnCe5zkzqWTGSj6+722RX827Rz7LP7N8WePb
+LAPhQ5ToOIWQtmEBCEMlfX20KoO+NXMQ2Ac7NTaNtYAhOKT7McubBlUS0kmWuIqLVDWCbrV4fnq/Hj2W
+O5ISjKULabY3nBD3qrKoALFC7/DEW+Zrg1hQvx5C/II0QoGuOelXKuVepC6+Oxt8R/zgL9vV+VWMMkpK
+6/ptPn7Rqwk+/M13utPB6A5n/+VH3ZuOiVT9QD+by6H/9cgHUEsHCCYZDjsqAQAAKgIAAFBLAQIUABQA
+CAAIAAAAIQAmGQ47KgEAACoCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
+AABgAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

@@ -1,0 +1,100 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetWithMethodAnnotationExcludedTSModule
+Tags: Facet/Active, Annotation
+External-Reference: 
+Element-Version: 3.0
+Contexts: _RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ,_HPQn8EDvEeGsUJ1NDdsGXw
+Save-Time: 1/27/12 6:04 PM
+Id: _atJkwEjWEeG6xYWzBUR3Fg
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with annotatated method in Tigerstripe installed module
+Method should be greyed 
+
+Preconditon:
+GeneratorAndProjectChildAnnotationScopeFacetWorkspaceContext
+
+Steps:
+Set Facet as active
+Check that E1 with annotated method marks as included 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | get-menu "Facets/Mark as Active" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<ReferencesExample>>method0\\(\\):void" 
+        | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<ReferencesExample>>method0\\(\\):void" 
+        | get-property styleRanges -index 1 | equals "21, 14, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9PwjAUxd9N/A5Nn2UVSYAtDDJl
+oCQzwETAFzLbOopbC9vdH/n0FpQZjfp27z3n/npy2+mVcYRynqRCSRvXjUuMuKSKCRnaOIOXWhv3uudn
+Hapio1QJZ8auZaSUyyARyvI/C1TGwqooVweK5srU0nMbrwG2FiFFURgqDg2VhGTh3Z0sv5KrJa2So0p2
+LXJSDU71CCMZxNzGPgeHgsj5IKAc5gLWHoe1Yo6UCgLQkdySRhnj7MH3FMsivVllbRyyCmbjVQCj18Ld
+zF0+bJbL+f56Nm0MQowgCFMbH9nk450L9IXW+ttWh+A0wvpOCOlLSeAlpN3VdGrWQ0/sXH7zuMz3ZuaP
+nwqnQyrHD7/Zb26cAEKX1fL2qFg8y2wFk7/9t+OJbLv9XCdOZ6P6fZ+lw0XxzX9o/vs4bXkHUEsHCGLj
+IcA8AQAAAwIAAFBLAQIUABQACAAIAAAAIQBi4yHAPAEAAAMCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29u
+dGVudFBLBQYAAAAAAQABADYAAAByAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+CQAAAAA=
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
