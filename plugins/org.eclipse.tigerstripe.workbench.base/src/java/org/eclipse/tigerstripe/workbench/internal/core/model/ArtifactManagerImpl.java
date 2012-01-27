@@ -708,7 +708,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			else
 				result.addAll(this.namedArtifactsMap.values());
 			if (includeDependencies) {
-				Collection<IAbstractArtifact> allChained = getAllChainedArtifacts(context);
+				Collection<IAbstractArtifact> allChained = getAllChainedArtifacts(context, isOverridePredicate);
 				// Bug 752 making sure the artifacts from Phantom are not added
 				// from dependencies. They will be added locally right after
 				// that.
@@ -1960,13 +1960,13 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	}
 
 	protected Collection<IAbstractArtifact> getAllChainedArtifacts(
-			ExecutionContext context) {
+			ExecutionContext context, boolean isOverridePredicate) {
 		try {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 			result.addAll(depContentCache.getAllChainedArtifacts(context));
-			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromReferences(context)));
-			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromInstalledModules(context)));
+			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromReferences(context, isOverridePredicate)));
+			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromInstalledModules(context, isOverridePredicate)));
 			return result;
 		} finally {
 			readLock.unlock();
@@ -2045,7 +2045,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 	// Access to artifacts living in the Referenced projects
 	protected Collection<IAbstractArtifact> getAllArtifactsFromReferences(
-			ExecutionContext context) {
+			ExecutionContext context, boolean isOverridePredicate) {
 		try {
 			readLock.lock();
 			addSelfToCycle(context, Cycles.REFERENCES_ALL);
@@ -2065,7 +2065,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					Collection<IAbstractArtifact> artifacts = project
 							.getArtifactManagerSession().queryArtifact(query);
 
-					if (getActiveFacet() != null) {
+					if (!isOverridePredicate && getActiveFacet() != null) {
 						// Filter artifacts with active facet
 						for (IAbstractArtifact a : artifacts) {
 							if (isInActiveFacet(a))
@@ -2086,7 +2086,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	}
 
 	protected Collection<IAbstractArtifact> getAllArtifactsFromInstalledModules(
-			ExecutionContext context) {
+			ExecutionContext context, boolean isOverridePredicate) {
 
 		try {
 			readLock.lock();
@@ -2112,7 +2112,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					Collection<IAbstractArtifact> artifacts = project
 							.getArtifactManagerSession().queryArtifact(query);
 
-					if (getActiveFacet() != null) {
+					if (!isOverridePredicate && getActiveFacet() != null) {
 						// Filter artifacts with active facet
 						for (IAbstractArtifact a : artifacts) {
 							if (isInActiveFacet(a))
