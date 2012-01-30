@@ -21,8 +21,14 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
@@ -40,6 +46,50 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
  * 
  */
 public class BrowseForAnnotationsDialog {
+
+	private static final class AnnotationTreeSelectionDialog extends
+			ElementTreeSelectionDialog {
+		
+		private Text descriptionText;
+
+		private AnnotationTreeSelectionDialog(Shell parent,
+				ILabelProvider labelProvider,
+				ITreeContentProvider contentProvider) {
+			super(parent, labelProvider, contentProvider);
+		}
+
+		@Override
+		protected Control createDialogArea(Composite parent) {
+			Composite composite = (Composite) super
+					.createDialogArea(parent);
+			Label l = new Label(composite, SWT.NONE);
+			l.setText("Annotation Description:");
+			descriptionText = new Text(composite, SWT.WRAP | SWT.MULTI
+					| SWT.V_SCROLL | SWT.READ_ONLY);
+			descriptionText.setFont(composite.getFont());
+			descriptionText.setBackground(composite.getBackground());
+			GridData data = new GridData(GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL);
+			data.horizontalSpan = 2;
+			data.widthHint = convertWidthInCharsToPixels(50);
+			data.heightHint = convertHeightInCharsToPixels(4);
+			descriptionText.setLayoutData(data);
+			return composite;
+		}
+
+		@Override
+		protected void updateButtonsEnableState(IStatus status) {
+			Object firstResult = getFirstResult();
+			if (firstResult instanceof TargetAnnotationType) {
+				String description = ((TargetAnnotationType) firstResult)
+						.getType().getDescription();
+				descriptionText.setText(description);
+			} else {
+				descriptionText.setText("");
+			}
+			super.updateButtonsEnableState(status);
+		}
+	}
 
 	private final class AnnotationTypeContentProvider implements
 			ITreeContentProvider {
@@ -159,17 +209,18 @@ public class BrowseForAnnotationsDialog {
 	public AnnotationType[] browseAvailableAnnotationTypes(Shell parentShell)
 			throws TigerstripeException {
 
-		ElementTreeSelectionDialog elsd = new ElementTreeSelectionDialog(
-				parentShell, new AnnotationTypeLabelProvider(), new AnnotationTypeContentProvider());
+		ElementTreeSelectionDialog dialog = new AnnotationTreeSelectionDialog(
+				parentShell, new AnnotationTypeLabelProvider(),
+				new AnnotationTypeContentProvider());
 
-		elsd.setTitle(getTitle());
-		elsd.setMessage(getMessage());
-		elsd.setValidator(new AnnotationTypeSelectionValidator());
-		elsd.setInput(getContent());
+		dialog.setTitle(getTitle());
+		dialog.setMessage(getMessage());
+		dialog.setValidator(new AnnotationTypeSelectionValidator());
+		dialog.setInput(getContent());
 
-		if (elsd.open() == Window.OK) {
+		if (dialog.open() == Window.OK) {
 
-			Object[] objects = elsd.getResult();
+			Object[] objects = dialog.getResult();
 			if (objects != null && objects.length != 0) {
 				AnnotationType[] result = new AnnotationType[objects.length];
 				for (int i = 0; i < result.length; i++) {
