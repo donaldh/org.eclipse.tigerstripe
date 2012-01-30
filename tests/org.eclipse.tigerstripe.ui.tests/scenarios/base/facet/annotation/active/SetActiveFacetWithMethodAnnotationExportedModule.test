@@ -1,0 +1,122 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetWithMethodAnnotationExportedModule
+Tags: Facet/Active, Annotation
+External-Reference: 
+Element-Version: 3.0
+Contexts: _GsBlIEsNEeG6xYWzBUR3Fg,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 1/30/12 4:42 PM
+Id: _C8xi0EsmEeG6xYWzBUR3Fg
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with annotatated method in Tigerstripe Exported Module
+Method should be greyed 
+
+Preconditon:
+GeneratorAndExportedProjectsWithChildAnnotationScopeFacetWorkspaceContext
+
+Steps:
+Set Facet as active
+Check that annotated method of Datatype0 is greyed 
+Reset Facet 
+Check that annotated method of Datatype0 is normal
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "ProjectWithReference/default2.wfc" 
+    | get-menu "Facets/Mark as Active" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Datatype0/<<ReferencesExample>>datatype0_testMethod\\(\\):void" 
+        | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Datatype0/<<ReferencesExample>>datatype0_testMethod\\(\\):void" 
+        | get-property styleRanges -index 1 | equals "21, 27, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "ProjectWithReference \\{default2\\}/default2.wfc" 
+    | get-menu "Facets/Reset Active Facet" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference/New Project_1.0.jar/org.eclipse/Datatype0/<<ReferencesExample>>datatype0_testMethod\\(\\):void" 
+        | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {100, 100, 200}" 
+        | verify-true
+    get-item "ProjectWithReference/New Project_1.0.jar/org.eclipse/Datatype0/<<ReferencesExample>>datatype0_testMethod\\(\\):void" 
+        | get-property styleRanges -index 1 | equals "21, 27, fontStyle=normal, foreground=Color {0, 0, 0}" 
+        | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVtPwkAQhd9N/A+bfZZdkIRLQyEF
+C8GkRiEK+EJqO5Y17S50pxf59S4oNRj1bWbOmW9PZnuDMolJDqkWStq0weqUgAxUKGRk0wxfax066F9e
+9AKVsFKlELJdm+kApJ8KZc2/ClImwqoo1weK4UptmblNN4hbi/OiKJhKIqbSiC+96cnyK7laMio/qnzX
+5ieVQWBGlEg/AZvOAZ0ARQ5jPwBcCNx4gBsVOlIq9NFEcsutShFCT4VZbPaqpM1DUhHadD3qlKLu6sSF
+SatcLfbDx1lzHFGCfqRteiTzz1euyDfY6O9bEwGCmJorEWLuJBFK1P31RA/jqavvzok9Xjl++GezbiPy
+xM6F0dMq33ez+f1z4fzt79603hwfIzes5Z3bYvkiszU+nPkPzX/fZiwfUEsHCFZoZrwwAQAAAQIAAFBL
+AQIUABQACAAIAAAAIQBWaGa8MAEAAAECAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAA
+AQABADYAAABmAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

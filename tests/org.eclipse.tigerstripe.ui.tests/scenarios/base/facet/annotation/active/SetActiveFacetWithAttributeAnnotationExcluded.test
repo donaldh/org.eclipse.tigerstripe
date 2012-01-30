@@ -6,7 +6,7 @@ Tags: Facet/Active, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_k8pBMEDLEeGsUJ1NDdsGXw,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 1/27/12 5:59 PM
+Save-Time: 1/30/12 12:17 PM
 Id: _tcE5wDw4EeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -20,9 +20,8 @@ Preconditon:
 GeneratorAndProjectChildAnnotationScopeFacetWorkspaceContext
 
 Steps:
-Add annotation of Reference Example type to attribute of Entity0
 Set Facet as active
-Check that Entity0 with annotated attribute marks as included 
+Check that annotated attribute of Entity0 marks as greyed 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content

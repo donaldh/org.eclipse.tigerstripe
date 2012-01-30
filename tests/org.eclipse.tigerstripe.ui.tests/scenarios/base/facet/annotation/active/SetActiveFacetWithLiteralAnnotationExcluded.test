@@ -6,7 +6,7 @@ Tags: Facet/Active, Annotation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ,_k8pBMEDLEeGsUJ1NDdsGXw
-Save-Time: 1/27/12 6:01 PM
+Save-Time: 1/30/12 11:48 AM
 Id: _yr1GsDw5EeGvPsO-LSiu4Q
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -21,7 +21,7 @@ GeneratorAndProjectChildAnnotationScopeFacetWorkspaceContext
 
 Steps:
 Set Facet as active
-Check that Enumeration with annotated literal marks as included 
+Check that annotated literal in Enumeration is greyed 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
