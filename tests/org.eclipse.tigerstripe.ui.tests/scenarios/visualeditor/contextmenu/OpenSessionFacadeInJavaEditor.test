@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Session Facade in Java Editor
+Element-Name: OpenSessionFacadeInJavaEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 1:05 PM
+Save-Time: 1/31/12 4:24 PM
 Id: _a_FsYC-HEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -81,13 +81,13 @@ get-editor "SessionFacade6.java" | get-editbox | get-property text
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF1rwyAYhe8H+w/ifbQfg5YQW7aR
-rO0opeSmuwpObSpLNFXzsX8/U9aMjrE7fc/znqMnWnZlARphrNSKwDEaQSAU01yqnMDaHYM5XC7u7yKm
-S9RpIzg6z5BlQlEjdZh+H0BXynBwmfQu3lfZ0M8JPDlXhRi3bYt0mSNtcnzYrq/In87DklfxRcXnGb6q
-SDA/gkDRUhC4q4QCqbB9OEgoo1wAqcCGNhTEXDpt4M8Pp/3bJCcwo1li356DVSxedk8P2/E6qyfFIwSO
-5pbAuKsKn+FX3WflQwQroO8BAN+EcqJzdpGZ1fFj/+pOMQ+a+aY9vKs6c/sID8Qvfqq7ZJ6OstvEG76/
-/Fe0R74AUEsHCDvA3h4MAQAAswEAAFBLAQIUABQACAAIAAAAIQA7wN4eDAEAALMBAAAIAAAAAAAAAAAA
-AAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABCAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF9rgzAUxd8H+w4h7yb9M6iItmxD
+VztKKb50TyEzqZVpYpOo2bdfLKujY+zt3nvO/d3khCtbV6DjSpdSRHCKJhBwkUtWiiKCrTl6Plwt7+/C
+XNbISsUZOi+QzrmgqpRB9l0AW5fBSJkNFMcVOnDzCJ6MaQKM+75Hsi6QVAU+bNOr5U/yuORUfFHxeYGv
+KuK5G0EgaM0juGu4yLgebic0p4ynYkM7GrPSSAV/PjcfnlWyCBJKEv327K1j/rJ7ethOU9LOqkcIDC10
+BGPbVA7vVs1n4/g8r6CLAAAXgjDcGr0kan382L+aU8y8zt/0h3fRErMP8ej45Z9Lm/jZhNxevPEPzX8Z
+O8sXUEsHCE+MJPkJAQAArgEAAFBLAQIUABQACAAIAAAAIQBPjCT5CQEAAK4BAAAIAAAAAAAAAAAAAAAA
+AAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAA/AQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

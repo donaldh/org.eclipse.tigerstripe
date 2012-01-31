@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Update Procedure in Tigerstripe Editor
+Element-Name: OpenUpdateProcedureInTigerstripeEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 1:36 PM
+Save-Time: 1/31/12 4:24 PM
 Id: __93k8C-KEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -22,13 +22,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UGFPwjAQ/W7if2j6fS0wE+ayQdRM
-RUKQoAnfltkeo2FrS9ex+e/pjMxgjN/u7r177+5F07Ys0BFMJZSM8ZAMMALJFBcyj3Ftt16Ap5Prq4ip
-krTKACeHMakYyMwIFa6/C9SWIuxVRp2K05VV6OYx3lmrQ0qbpiGqzIkyOd0sZmfKn8r9kkPpF0oPY3pG
-CTA3wkhmJcR4qUGid80zC+jVKAa8NoCERG8idydZIzSghAurDP551e+OFDzGaXrr74MHb57A0/L+ZjGc
-pfWouMPIZnkV46TVhTNzq/ZTOzdgBXaBIOQikRZaW01S87zdr+Z2l3DvGLw0mw9Zp3YV0Z7xi++r9jFY
-D9JLxwt+1/yXuKOcAFBLBwjyyI6sEwEAALwBAABQSwECFAAUAAgACAAAACEA8siOrBMBAAC8AQAACAAA
-AAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAASQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UGFPwjAQ/W7if2j6fS0wE+ayQtRM
+RUKQoAnfmrkeo2FrR9ex+e/pjMxgjN/u7r177+5F07bI0RFMJbVieEgGGIFKtZAqY7i2Wy/A08n1VZTq
+grTagCCHMalSUImROlx/F6gtZNirjDoVp6uq0M0Z3llbhpQ2TUN0kRFtMrpZzM6UP5X7JYfSL5QexvSM
+EkjdCCOVFMDwsgT1XorEwqvRKYjawEy9ycydY40sIRbSaoN/vvS7+6RgmPNbfx88ePMYnpb3N4vhjNej
+/A4jm2QVw3Fb5s7HrdrP0hlBmmOXBUIuDWWhtdWEm+ftfjW3u1h4x+Cl2XyomttVRHvGL76v28dgPeCX
+jhf8rvkvbEc5AVBLBwgQ5IBmEAEAALcBAABQSwECFAAUAAgACAAAACEAEOSAZhABAAC3AQAACAAAAAAA
+AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAARgEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

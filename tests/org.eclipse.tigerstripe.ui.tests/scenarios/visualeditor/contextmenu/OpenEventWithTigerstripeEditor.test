@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Event with Tigerstripe Editor
+Element-Name: OpenEventWithTigerstripeEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 1:15 PM
+Save-Time: 1/31/12 4:21 PM
 Id: _6bcwIC-IEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -22,13 +22,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UMtOwzAQvCPxD5bvsftANIqSVoAC
-BFRVVTn0FqWOm1gkdupsYvP3OIgGFSFuuzuzM7sTrmxdoZ7rVigZ4SmZYMQlU7mQRYQ7OHo+Xi2vr0Km
-amKV5jk5LUjLuMy0UMHuu0C2FsGoMhtUnK5sAzePcAnQBJQaY4iqC6J0Qffr5Ez5U3lccij9QulpQc8o
-4cyNMJJZzSO8abhEcc8lICOgRG+icJeAFg1HcS5Aafzz4Xy4TeQRTm8PzCQPXhLzp839zXqapN2susMI
-sqKNcGybynm4VfhonAlnFXY5IOSSkMAttMtUPx/ft69QxrnX+y9mf5BdCtuQjoxf/Lmyj/5ukl46XvCH
-5r+gHeUTUEsHCHRgbEMMAQAAswEAAFBLAQIUABQACAAIAAAAIQB0YGxDDAEAALMBAAAIAAAAAAAAAAAA
-AAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABCAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF9LwzAUxd8Fv0PIe5P9ETdKs6FS
+tcoYY4J7K12atcE26dLbNn570+EqE/Etuefc3733BEtbFqgVppZaMTwmI4yE4jqVKmO4gYM3x8vF9VXA
+dUmsNiIlxxmpuVCJkdrffj+QLaU/UCY9xXFV7bs6wzlA5VPadR3RZUa0yehuFZ0tf5KHJqfSk0qPM3pW
+ieCuhJFKSsHwuhIqbIWCdwn5m8zcGmBkJcJUgjb457ppv5dMGY5v97yLHrwoFE/r+5vVOIqbSXGHESRZ
+zXBoq8LxXSt8Vm6A4AV2GSDkUlAgLNSL2DwfPjavkIep185fut1eNTFsAjo4fvmn2j7Ot6P4cuKFv//8
+F7KzfAFQSwcIMhBEmAsBAACvAQAAUEsBAhQAFAAIAAgAAAAhADIQRJgLAQAArwEAAAgAAAAAAAAAAAAA
+AAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEEBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

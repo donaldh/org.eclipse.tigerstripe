@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Enumeration in Java Editor
+Element-Name: OpenEnumerationInJavaEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 12:58 PM
+Save-Time: 1/31/12 4:20 PM
 Id: _jOd-EC-GEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -58,13 +58,13 @@ get-editor "Enumeration2.java" | get-editbox | get-property text
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UMtOwzAQvCPxD5bvsftAahTFrQCZ
-0qKqqnrpLTKxmxpiO3WcxPw9DqJBRYjb7s7szO6kC69K0ApbS6MJHKMRBELnhktdENi4YxTDxfz2Js2N
-Qt5YwdF5hupcaGalSfbfBfBKJoPKpFcJurpOwpzAk3NVgnHXdcioAhlb4MNmdaH8qTwsBRR/ofg8wxcU
-iTyMINBMCQK3ldCA6kYJy1w4AEgN1qxlgHLpjIU/7037wyQnMHvb8og+RksqltuHu814lTWT8h4Cx4qa
-QOqrMhiEVfdRBQeRlzCEAECIQTvhXT3P7PPxfffiTpRHbbzuDq+6ydwuxQPjF39q/FO8H2XXjlf8vvkv
-5UD5BFBLBwhQ6OTjCgEAALABAABQSwECFAAUAAgACAAAACEAUOjk4woBAACwAQAACAAAAAAAAAAAAAAA
-AAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAQAEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF9LwzAUxd8Fv0PIe5P9EVZKs6ES
+ZyejjL3srcQm66Jt0qVpG7+9qbjKRHy7955zfzc58cpVJeiEaaRWBE7RBAKhcs2lKghs7TEI4Wp5exPn
+ukJOG8HReYGaXChmpI723wVwlYxGymygeK5qIj8n8GRtHWHc9z3SVYG0KfBhm1wsf5LHJa/iLxWfF/ii
+IpH7EQSKVYLAtBaKqrYShll/P1Eb1jHKpdUG/nxtPjxKcgKzt5QH9DFYU7FOH+620yRrZ+U9BJYVDYHU
+1aWH+1X7UXu6yEvoAwDAR6CscLZZZub5+L57sSfKgy7c9IdX1WZ2F+PR8cs/1+4p3E+y64tX/qH5L2Fv
++QRQSwcIVLZ8bAgBAACsAQAAUEsBAhQAFAAIAAgAAAAhAFS2fGwIAQAArAEAAAgAAAAAAAAAAAAAAAAA
+AAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAD4BAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

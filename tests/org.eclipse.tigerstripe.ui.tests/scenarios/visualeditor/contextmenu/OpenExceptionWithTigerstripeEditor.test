@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Exception with Tigerstripe Editor
+Element-Name: OpenExceptionWithTigerstripeEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 1:17 PM
+Save-Time: 1/31/12 4:23 PM
 Id: _Lh56wC-JEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -23,12 +23,12 @@ Content-Type: q7/binary
 Entry-Name: .q7.content
 
 UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UMtOwzAQvCPxD5bvsfsAGkVxK0AB
-Wqiqqhx6i0LiJhaJ7Trb2vw9DqJBRYjb7s7szO7EM9fU6MhNK5RkeEgGGHGZq0LIkuED7IIQz6aXF3Gu
-GuKU4QXZT0ibc5kZoaLNd4FcI6JeZdSpeF3ZRn7OcAWgI0qttUQ1JVGmpNvl/ET5U7lf8ij9Qul+Qk8o
-4bkfYSSzhjO80lyixOVcg7dHVkCFXkXprwEjNEdJIUAZ/PPluLtPFAynL9X1jb0PFgl/XN1dLYfz9DCq
-bzGCrGwZTpyuvY9fhQ/tjXheY58FQj4NCdxBO03N0+59/QxVUgTHcGG3b/KQwjqmPeMXf6zcQ7gZpOeO
-Z/yu+S9sT/kEUEsHCIqneOsPAQAAtwEAAFBLAQIUABQACAAIAAAAIQCKp3jrDwEAALcBAAAIAAAAAAAA
-AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABFAQAAAAA=
+Wqiqqkj0FgXHTSwSO3U2jfv3OIgGFSFuuzuzM7sTzmxZoIMwtdSK4SEZYCQU16lUGcMN7Dwfz6aXFyHX
+JbHaiJTsJ6TmQiVG6mDzXSBbyqBXGXUqTlfVgZsznANUAaVt2xJdZkSbjG6X8xPlT+V+yaH0C6X7CT2h
+RHA3wkglpWB4VQkVWS4qcO5vEvJXmblTwMhKRKkEbfDPh+PuNpkyHL/k1zftvbeIxOPq7mo5nMfNqLjF
+CJKsZjiyVeE83CocK2cieIFdDgi5JBQIC/U0Nk+7j/Uz5FHqHfxFu31XTQzrkPaMX/yxtg/+ZhCfO57x
+u+a/oB3lE1BLBwiFfcHODQEAALMBAABQSwECFAAUAAgACAAAACEAhX3Bzg0BAACzAQAACAAAAAAAAAAA
+AAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAQwEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

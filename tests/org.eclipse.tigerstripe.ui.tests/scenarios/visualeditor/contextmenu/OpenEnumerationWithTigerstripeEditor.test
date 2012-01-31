@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Enumeration with Tigerstripe Editor
+Element-Name: OpenEnumerationWithTigerstripeEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 1:14 PM
+Save-Time: 1/31/12 4:21 PM
 Id: _vUQZQC-IEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -22,13 +22,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1LwzAUfRf8DyHvTfYhbJRmQ6Vq
-lTHKFIYvpbZZG2ySLr1t4783FVeZiG/JPeeec+4J1lZWqOOmEVoxPCUTjLjKdC5UwXALB2+J16vLiyDT
-klhteE6OC9JkXKVGaH/3/UBWCn9UmQ0qTlc1vpszXALUPqV93xMtC6JNQfeb6ET5U3lccij9QulxQU8o
-4ZkbYaRSyRne1lyhULWSmxRcANQLKNGzKFweMKLmKMwFaIN/7pwPCUXOcNK9xK/xrReF/H57c7WZRkk7
-q64xgrRoGA5tXTkntwoftbPiWYVdGwi5PhRwC80qMQ+H9/gJyjD3uuVjv39TbQJxQEfGL/5c27vlbpKc
-O57xh89/dTvKJ1BLBwj91094EAEAALkBAABQSwECFAAUAAgACAAAACEA/ddPeBABAAC5AQAACAAAAAAA
-AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAARgEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1Pg0AQfDfxP1zunbt+mJQQro0a
+VDRNQ6qx8YUgXOEi3NFjgfPf9zAWU2N8292Zndkdf2WqEnVcN0JJhqdkghGXqcqEzBluYe+4eLW8vPBT
+VRGjNM/IYUGalMtEC+VtvwtkKuGNKrNBxerKxrNzhguA2qO073uiqpwondPdOjxR/lQelyxKv1B6WNAT
+SnhqRxjJpOIMb2ouA9lWXCdg/V8FFM8it8eAFjUPMgFK458f58N1ImM47l6it+jWCQN+v7m5Wk/DuJ2V
+1xhBkjcMB6YurYtdhc/a2vC0xDYJhGwWEriBZhnrh/1H9ARFkDmd+9jv3mUbQ+TTkfGLP1fmzt1O4nPH
+M/7Q/Be1pRwBUEsHCKnTPiAPAQAAtQEAAFBLAQIUABQACAAIAAAAIQCp0z4gDwEAALUBAAAIAAAAAAAA
+AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABFAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

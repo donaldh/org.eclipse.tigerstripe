@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Session Facade in Tigerstripe Editor
+Element-Name: OpenSessionFacadeInTigerstripeEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 1:29 PM
+Save-Time: 1/31/12 4:24 PM
 Id: _tVhJwC-KEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -22,13 +22,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1LwzAUfRf8DyHvTfYhrJR2Q6XT
-bYwxKrK3UpO7NtgmXZKu9d+biqtMxLd77zn3nHtPuOiqEp1BG6FkhMdkhBFIpriQeYQbe/R8vJjf3oRM
-VaRTGjg5zYhhIDMtVJB8F6irRDCoTHoVpytN4OYRLqytA0rbtiWqyonSOT1sVxfKn8rDkkPpF0pPM3pB
-CTA3wkhmFUR4V4NECZjeHC0zlnFAQqIXkbuDrBY1oJgLqzT+eXTanyh4hFP7WqzbR28Tw9Pu4W47XqXN
-pLzHyGa5iXDc1aWzcqv2o3ZewErs4kDIBSItdNbMU/18fN9vbBFz7+yv28ObbFK7D+nA+MWfqm7pJ6P0
-2vGK3zf/5e0on1BLBwg3avZ0EAEAALoBAABQSwECFAAUAAgACAAAACEAN2r2dBABAAC6AQAACAAAAAAA
-AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAARgEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1LwzAUfRf8DyHvTfYhbJR2Q6XT
+bowxKrK3UpO7NtgmXZKu9d+biqtMxLd77zn3nHtPsOyqEp1BG6FkiMdkhBFIpriQeYgbe/TmeLm4vQmY
+qkinNHBymhHDQGZaKD/5LlBXCX9QmfQqTlca381DXFhb+5S2bUtUlROlc3rYxhfKn8rDkkPpF0pPM3pB
+CTA3wkhmFYR4V4NMwPTeq4xlHGL5InJ3jNWihogLqzT++XHaXyd4iFP7WqzbR28TwdPu4W47jtNmUt5j
+ZLPchDjq6tK5uFX7UTsbYCV2SSDkspAWOmsWqX4+vu83toi4d56v28ObbFK7D+jA+MWfqm41T0bpteMV
+v2/+i9pRPgFQSwcI6zl9Yw4BAAC1AQAAUEsBAhQAFAAIAAgAAAAhAOs5fWMOAQAAtQEAAAgAAAAAAAAA
+AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEQBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

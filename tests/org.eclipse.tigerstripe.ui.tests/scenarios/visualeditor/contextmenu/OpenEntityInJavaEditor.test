@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: Open Entity in Java Editor
+Element-Name: OpenEntityInJavaEditor
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 12:57 PM
+Save-Time: 1/31/12 4:20 PM
 Id: _Xe2VQC-GEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -22,13 +22,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kNFqgzAUhu8He4dw7k1aO6iIadmG
-69pRihSGd+I0tWGa2Bg1ffvFsjo6xu6S83/nS84JlqYqUcdUw6WgMMUTQExkMueioNDqg+PBcnF/F2Sy
-wkYqluPTHDcZE6ni0t9/H5CpuD9a3MFivaLxbZ3CUevaJ6TveyyrAktVkHi7viJ/mscmm5JLSk5zck0x
-y2wJkEgrRmFXM4FCobk+Iy7QJu1SFOZcSwU/k82GP/GcQhIz9z16dlYhW+2eHrbTddK65SMgnRYNhdDU
-pXXbVn2urZxlJdj5EbIbEJoZ3SwS9Xr4jN70Mcydztv08YdoEx0FZCR+8TNpXrz9JLl98YYfLv8t2CJf
-UEsHCDSLNawGAQAAqwEAAFBLAQIUABQACAAIAAAAIQA0izWsBgEAAKsBAAAIAAAAAAAAAAAAAAAAAAAA
-AAAuY29udGVudFBLBQYAAAAAAQABADYAAAA8AQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kFFrgzAUhd8H+w8h7yatHVTEtGzD
+dXaUIoXhmzhNbZgmNl41/fdLy+roGHu7955zv5uTYGnqCvVct0JJhqdkghGXuSqELBnuYO94eLm4vwty
+VROjNC/IcU7anMtMC+XvvgtkauGPFPdMsVzZ+nbO8AGg8SkdhoGouiRKlzTZRFfLn+Rxyar0otLjnF5V
+wnM7wkhmNWd423AZShBwiuQ667OwEKA0/kk1O79HFAynCXff42dnFfLV9ulhM43Szq0eMYKsbBkOTVNZ
+rl2FU2PBPK+wzY6QTS+BG2gXqX7df8ZvcAgLp/fWQ/IhuxTigI6OX/6ZMi/ebpLeXrzxn5v/PtdavgBQ
+SwcIh6r2AwUBAACnAQAAUEsBAhQAFAAIAAgAAAAhAIeq9gMFAQAApwEAAAgAAAAAAAAAAAAAAAAAAAAA
+AC5jb250ZW50UEsFBgAAAAABAAEANgAAADsBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
