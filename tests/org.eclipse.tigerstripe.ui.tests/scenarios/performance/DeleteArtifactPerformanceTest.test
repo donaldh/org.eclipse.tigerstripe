@@ -1,0 +1,97 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: DeleteArtifactPerformanceTest
+Tags: performance, skipExecution
+External-Reference: 
+Element-Version: 3.0
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_P443IEi5EeG6xYWzBUR3Fg,_2j1gEEv9EeGPbuHuoZRGlQ
+Save-Time: 1/31/12 6:25 PM
+Id: _4h2hYEv8EeGPbuHuoZRGlQ
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+1. Import xoredScaleTestModel project
+2. Open package org.tmforum.tip.cbe.bi 
+3. Select BusinessInteractionItem Entity
+4. Select "Delete" in dropdown menu in Tigerstripe Explorer 
+
+Steps
+1. Click "OK" in "Confirm Delete" window
+2. Wait until empty Tigerstripe Explorer becomes available
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-window "Confirm Delete" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.bi" | get-property childCount 
+    | equals 23 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkVtPwjAUgN9N/A9Nn2WVi1wWBsEw
+EI3JAIngCxnd2Vbc2rF2F/31FiMQjBrf2nO+fufSbr+MI5RDKpngFq4a1xgBp8JjPLBwpvxKG/d7lxdd
+KmKjFCl4xq5lSArcTZkw518HVMbMPFpqe4v2cmnquIVDpRKTkKIoDBEHhkgDsnycHJAfzcdHOks+s2TX
+IoesAVSHMOJuDBYeQgQKBqlivkuVA6kv0tjlFJ5AKnwarr5vi3kWXjfCWriy87YNY2eT3WXiZTaOphgp
+N5AWTk6GKyRfWWKXQDOlHZp4S3RFoBHWS0FIr4UrKJXsrUdjf754UKHtVfL2fbHc8Gytpl1yJL7xnWFz
+O3BV8F/eaTTqE5vd6J6b5er5/XYxq4+C3/nathrYdt45n/GM31/++lWNfABQSwcIhMUmxTIBAAAgAgAA
+UEsBAhQAFAAIAAgAAAAhAITFJsUyAQAAIAIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAA
+AAABAAEANgAAAGgBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
+Content-Type: q7/binary
+Entry-Name: .content.raw
+
+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
+AAABAAEANgAAAIwKAAAAAA==
+------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

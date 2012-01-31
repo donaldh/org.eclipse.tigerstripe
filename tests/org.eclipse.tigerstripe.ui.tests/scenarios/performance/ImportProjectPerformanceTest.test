@@ -5,8 +5,8 @@ Element-Name: ImportProjectPerformanceTest
 Tags: performance, skipExecution
 External-Reference: 
 Element-Version: 3.0
-Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_tziu8EvYEeGFhL1hdPKWGQ
-Save-Time: 1/31/12 2:53 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_tziu8EvYEeGFhL1hdPKWGQ,_rhcP0UvgEeGqoaM0P8fvYg
+Save-Time: 1/31/12 4:02 PM
 Id: _G40cMUvXEeGFhL1hdPKWGQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,17 +25,27 @@ Steps
 2. Wait until all dialogs are closed
 and project is displayed in Tigerstripe Explorer
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-window Import] {
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item SID95 | get-property caption | equals SID95 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kE1PAjEQhu8m/oemZ2lBTSAbFk4r
-IpJA1IgnsnZndyu0XdrZD/n1FiNLMMZbO+/TZ6YzHDdqSyqwThod0h7rUgJamETqLKQlpp0BHY8uL4bC
-KNYYCwnb9ZkToGMrTfD0cyCNkkFruT5YvFe7wNdDmiMWAed1XTOjMmZsxlfz6RH509w+8in/Tvmuz48p
-A+FLlOhYQUinqjAWF9Z8gMAF2NRYFWsBz+CQnv52c5hKJiFdT267Yv5SrSKY3OWPvTxZzF4nS0owzlxI
-i5PhiriNLKIGRIne4YnPwjcEsaV+J4T4rWiEBt1obe/TzXKGeZR0qsFDvXrX5RqXQ94Sv3jcy3IQVW/n
-M5zxh8t/S/fIF1BLBwh8IgjIEAEAAL8BAABQSwECFAAUAAgACAAAACEAfCIIyBABAAC/AQAACAAAAAAA
-AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAARgEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV1PwjAUhu9N/A9Nr6UdasKyMLia
+iEgyokS4IrM72yq0HW33ob/ezggEo96153369PR0OG7FDtWgDVcyxH3iYQSSqZTLPMSVzXo+Ho8uL4ZM
+CdIqDSnZD4hhIBPNVfD0vUCt4MHRct1ZnFeawNVDXFhbBpQ2TUOUyInSOV3NpwfkV/PxkEvpV0r3A3pI
+CTBXwkgmAkI8FaXSNtbqDZiNQWdKi0QyeAZj8eltN11XPA3xZnLrsfmyXkUwuSse+0Uaz14mC4xskpsQ
+lyfDFTJbXkYtsMo6hyPeS3chsB12M0HITUVaaK0ZbfR9tl3MbBGlvdp/aFavstrYxZAeiR+8/eCVH9Xr
+8x7+5nXBYm9Z547fq2TuxX5Wr/Mzvtv890kO+QRQSwcICKLTgyMBAADvAQAAUEsBAhQAFAAIAAgAAAAh
+AAii04MjAQAA7wEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFkBAAAA
+AA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
