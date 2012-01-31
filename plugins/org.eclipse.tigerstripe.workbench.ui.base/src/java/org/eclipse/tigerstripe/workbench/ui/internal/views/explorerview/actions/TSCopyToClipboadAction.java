@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import static java.util.Collections.emptyList;
+import static org.eclipse.tigerstripe.workbench.utils.AdaptHelper.adapt;
+
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
@@ -30,6 +35,19 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
+import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMember;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchSite;
@@ -57,8 +75,8 @@ public class TSCopyToClipboadAction extends CopyToClipboardAction {
 				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 		update(getSelection());
 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this,
-				IJavaHelpContextIds.COPY_ACTION);
+		PlatformUI.getWorkbench().getHelpSystem()
+				.setHelp(this, IJavaHelpContextIds.COPY_ACTION);
 		fPasteAction = pasteAction;
 	}
 
@@ -77,32 +95,131 @@ public class TSCopyToClipboadAction extends CopyToClipboardAction {
 	public void selectionChanged(IStructuredSelection selection) {
 		super.selectionChanged(selection);
 
+		Object[] objects = selection.toArray();
+		if (allMemebers(objects)) {
+			setEnabled(true);
+			return;
+		}
+
 		int numberOfAbstractLogicalExplorerNodes = 0;
-		for (Object obj : selection.toArray()) {
+		for (Object obj : objects) {
 			if (obj instanceof AbstractLogicalExplorerNode) {
 				numberOfAbstractLogicalExplorerNodes++;
 			}
 		}
 		if (numberOfAbstractLogicalExplorerNodes == 0)
 			; // no Abstract logical node, delegate
-		else if (numberOfAbstractLogicalExplorerNodes == selection.toArray().length) {
+		else if (numberOfAbstractLogicalExplorerNodes == objects.length) {
 			setEnabled(true); // only abstractlogical nodes selected
 		} else
 			setEnabled(false); // mixture of abstractlogical nodes and other
 		// stuff.
 	}
 
+	private boolean allMemebers(Object[] objects) {
+		for (Object object : objects) {
+			if (object instanceof IAdaptable) {
+				IModelComponent modelComponent = adapt(((IAdaptable) object),
+						IModelComponent.class);
+				if (!(modelComponent instanceof IMember)) {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private List<IMember> collectMemebers(Object[] objects) {
+		List<IMember> result = new ArrayList<IMember>(objects.length);
+		for (Object object : objects) {
+			if (object instanceof IAdaptable) {
+				IModelComponent modelComponent = adapt(((IAdaptable) object),
+						IModelComponent.class);
+				if ((modelComponent instanceof IMember)) {
+					result.add((IMember) modelComponent);
+				} else {
+					return emptyList();
+				}
+			} else {
+				return emptyList();
+			}
+		}
+		return result;
+	}
+
+	public boolean handleMemebers(Object[] selected) {
+		List<IMember> members = collectMemebers(selected);
+
+		try {
+
+			if (!members.isEmpty()) {
+				IAbstractArtifact artifact = members.get(0)
+						.getContainingArtifact();
+				if (artifact != null) {
+					ITigerstripeModelProject project = artifact.getProject();
+					if (project != null) {
+						IArtifactManagerSession session = project
+								.getArtifactManagerSession();
+						if (session != null) {
+							IAbstractArtifactInternal transportArtifact = (IAbstractArtifactInternal) session
+									.makeArtifact(IManagedEntityArtifact.class
+											.getName());
+							transportArtifact.setName("MembersContainer");
+
+							for (IMember member : members) {
+								if (member instanceof IField) {
+									transportArtifact.addField((IField) member);
+								} else if (member instanceof ILiteral) {
+									transportArtifact
+											.addLiteral((ILiteral) member);
+								} else if (member instanceof IMethod) {
+									transportArtifact
+											.addMethod((IMethod) member);
+								}
+							}
+
+							StringWriter writer = new StringWriter();
+							AbstractArtifactPersister persister = transportArtifact
+									.getArtifactPersister(writer);
+							try {
+								persister.applyTemplate();
+								Object[] data = { writer.toString() };
+								Transfer[] transfers = { TextTransfer
+										.getInstance() };
+								theClipboard.setContents(data, transfers);
+							} catch (TigerstripeException e) {
+								EclipsePlugin.log(e);
+							}
+							return true;
+						}
+					}
+				}
+			}
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		return false;
+	}
+
 	@Override
 	public void run(IStructuredSelection selection) {
+		Object[] objects = selection.toArray();
+
+		if (handleMemebers(objects)) {
+			return;
+		}
+
 		int numberOfAbstractLogicalExplorerNodes = 0;
-		for (Object obj : selection.toArray()) {
+		for (Object obj : objects) {
 			if (obj instanceof AbstractLogicalExplorerNode) {
 				numberOfAbstractLogicalExplorerNodes++;
 			}
 		}
 		if (numberOfAbstractLogicalExplorerNodes == 0)
 			super.run(selection); // no Abstract logical node, delegate
-		else if (numberOfAbstractLogicalExplorerNodes != selection.toArray().length) {
+		else if (numberOfAbstractLogicalExplorerNodes != objects.length) {
 			// mixture of abstractlogical nodes and other stuff. Do not run.
 		} else {
 			// do it
@@ -146,8 +263,8 @@ public class TSCopyToClipboadAction extends CopyToClipboardAction {
 					.toArray(new IResource[resources.size()]);
 			String[] fileNameArray = fileNames.toArray(new String[fileNames
 					.size()]);
-			copyToClipboard(resourcesForClipboard, fileNameArray, namesBuf
-					.toString(), 0);
+			copyToClipboard(resourcesForClipboard, fileNameArray,
+					namesBuf.toString(), 0);
 		}
 
 		private void processNodes(Set<String> fileNames,
@@ -180,8 +297,9 @@ public class TSCopyToClipboadAction extends CopyToClipboardAction {
 				String names, int repeat) {
 			final int repeat_max_count = 10;
 			try {
-				theClipboard.setContents(createDataArray(resources, fileNames,
-						names), createDataTypeArray(resources, fileNames));
+				theClipboard.setContents(
+						createDataArray(resources, fileNames, names),
+						createDataTypeArray(resources, fileNames));
 			} catch (SWTError e) {
 				if (e.code != DND.ERROR_CANNOT_SET_CLIPBOARD
 						|| repeat >= repeat_max_count)

@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
 import org.eclipse.jdt.internal.ui.refactoring.reorg.CutAction;
-import org.eclipse.jdt.internal.ui.refactoring.reorg.PasteAction;
 import org.eclipse.jdt.ui.IContextMenuConstants;
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 import org.eclipse.jface.action.IAction;
@@ -49,7 +48,7 @@ public class TSCCPActionGroup extends BaseActionProvider {
 	protected void doInit(IWorkbenchPartSite site) {
 		fClipboard = new Clipboard(site.getShell().getDisplay());
 
-		fPasteAction = new PasteAction(site, fClipboard);
+		fPasteAction = new TSPasteAction(site, fClipboard);
 		fPasteAction.setActionDefinitionId(IWorkbenchActionDefinitionIds.PASTE);
 
 		fCopyAction = new TSCopyToClipboadAction(site, fClipboard, fPasteAction);

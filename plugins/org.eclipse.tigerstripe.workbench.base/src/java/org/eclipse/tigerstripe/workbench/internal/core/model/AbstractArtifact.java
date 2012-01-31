@@ -1110,6 +1110,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	protected abstract AbstractArtifactPersister getPersister(Writer writer);
 
+	public AbstractArtifactPersister getArtifactPersister(Writer writer) {
+		return getPersister(writer);
+	}
+
 	// =================================================================
 	// Methods to satisfy the IAbstractArtifact interface
 

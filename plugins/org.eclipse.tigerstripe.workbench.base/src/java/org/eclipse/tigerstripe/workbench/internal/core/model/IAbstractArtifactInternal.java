@@ -1,9 +1,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.io.Writer;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -130,5 +132,7 @@ public interface IAbstractArtifactInternal extends IAbstractArtifact,
 
 	public abstract void setContainingModelComponent(
 			IModelComponent containingComponent);
+
+	public abstract AbstractArtifactPersister getArtifactPersister(Writer writer);
 
 }

@@ -17,7 +17,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.osgi.util;bundle-version="3.2.0",
  org.eclipse.gmf.runtime.emf.core
 Bundle-ActivationPolicy: lazy
-Export-Package: org.apache.log4j,
+Export-Package: com.thoughtworks.qdox,
+ com.thoughtworks.qdox.model,
+ org.apache.log4j,
  org.apache.log4j.chainsaw,
  org.apache.log4j.config,
  org.apache.log4j.helpers,
@@ -239,6 +241,7 @@ Export-Package: org.apache.log4j,
    org.eclipse.tigerstripe.core.model,
    org.eclipse.tigerstripe.api.artifacts.model,
    org.eclipse.tigerstripe.api.artifacts.model.ossj",
+ org.eclipse.tigerstripe.workbench.internal.core.model.persist,
  org.eclipse.tigerstripe.workbench.internal.core.module;
   uses:="org.eclipse.tigerstripe.api.profile,
    org.eclipse.tigerstripe.core.project,
