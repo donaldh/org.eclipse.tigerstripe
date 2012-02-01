@@ -14,12 +14,18 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
@@ -29,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
@@ -39,8 +46,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
+import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +58,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class FacetReference extends AbstractContainedObject implements
-		IFacetReference, IArtifactChangeListener, IContainedObject {
+		IFacetReference, IArtifactChangeListener, IContainedObject,
+		IProjectDependencyChangeListener, IAnnotationListener {
 
 	private URI facetURI;
 
@@ -111,14 +122,22 @@ public class FacetReference extends AbstractContainedObject implements
 	}
 
 	public void startListeningToManager(ArtifactManager mgr) {
-		this.activeMgr = mgr;
-		mgr.addArtifactManagerListener(this);
+		activeMgr = mgr;
+		activeMgr.addArtifactManagerListener(this);
+		// start listen project dependency changes
+		activeMgr.getTSProject().getTSProject().addProjectDependencyChangeListener(this);
+		// start listen annotation events
+		AnnotationPlugin.getManager().addAnnotationListener(this);
 	}
 
 	public void stopListeningToManager() {
 		if (activeMgr != null) {
 			activeMgr.removeArtifactManagerListener(this);
-			this.activeMgr = null;
+			// stop listen project dependency changes
+			activeMgr.getTSProject().getTSProject().removeProjectDependencyChangeListener(this);
+			// stop listen annotation events
+			AnnotationPlugin.getManager().removeAnnotationListener(this);
+			activeMgr = null;
 		}
 	}
 
@@ -297,35 +316,71 @@ public class FacetReference extends AbstractContainedObject implements
 		}
 		return super.hashCode();
 	}
+	
+	// IArtifactChangeListener implementation
 
 	public void artifactAdded(IAbstractArtifact artifact) {
-		handleNeedToReevaluate();
+		scheduleRecomputeFacetPredicate();
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
-		handleNeedToReevaluate();
+		scheduleRecomputeFacetPredicate();
 	}
 
 	public void artifactRemoved(IAbstractArtifact artifact) {
-		handleNeedToReevaluate();
 		if (artifact instanceof IRelationship) {
 			handleRelationshipRemoved(artifact);
 		}
+		scheduleRecomputeFacetPredicate();
 	}
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
-		handleNeedToReevaluate();
+		scheduleRecomputeFacetPredicate();
 	}
 
 	public void managerReloaded() {
-		handleNeedToReevaluate();
+		// Do nothing
+	}
+	
+	// IProjectDependencyChangeListener implementation
+
+	public void projectDependenciesChanged(IProjectDependencyDelta delta) {
+		scheduleRecomputeFacetPredicate();
+	}
+	
+	// IAnnotationListener implementation
+
+	public void annotationAdded(Annotation annotation) {
+		handleAnnotationEvent(annotation);
 	}
 
-	private void handleNeedToReevaluate() {
-		try {
-			facetPredicate.resolve(new NullProgressMonitor());
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
+	public void annotationRemoved(Annotation annotation) {
+		handleAnnotationEvent(annotation);
+	}
+
+	public void annotationChanged(Annotation annotation) {
+		handleAnnotationEvent(annotation);
+	}
+
+	private void handleAnnotationEvent(Annotation annotation) {
+		// Checking if annotation event happened with an artifact related to current project
+		ITigerstripeModelProject tsProject = getTSProject();
+		if (tsProject == null) {
+			return;
+		}
+		Object object = AnnotationPlugin.getManager().getAnnotatedObject(annotation.getUri());
+		if (object instanceof IModelComponent) {
+			try {
+				ITigerstripeModelProject project = ((IModelComponent)object).getProject();
+				if (project instanceof ContextualModelProject) {
+					project = ((ContextualModelProject)project).getContextProject();
+				}
+				if (project != null && project.getModelId().equals(tsProject.getModelId())) {
+					scheduleRecomputeFacetPredicate();
+				}
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
 		}
 	}
 
@@ -372,7 +427,37 @@ public class FacetReference extends AbstractContainedObject implements
 						"TigerstripeException detected", e);
 			}
 		}
+	
+	}
 
+	private void scheduleRecomputeFacetPredicate() {
+		final ITigerstripeModelProject tsProject = getTSProject();
+		if (tsProject == null) {
+			return;
+		}
+		IProject project = (IProject) tsProject.getAdapter(IProject.class);
+		if (project == null) {
+			return;
+		}
+		Job job = new Job("Updating facet predicate...") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				computeFacetPredicate(monitor);
+				notifyFacetChanged(tsProject);
+				return facetPredicate.getInconsistencies();
+			}
+		};
+		job.setRule(project);
+		job.schedule();
+	}
+
+	private void notifyFacetChanged(final ITigerstripeModelProject tsProject) {
+		try {
+			tsProject.setActiveFacet(FacetReference.this, new NullProgressMonitor());
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
 	}
 
 	/**
