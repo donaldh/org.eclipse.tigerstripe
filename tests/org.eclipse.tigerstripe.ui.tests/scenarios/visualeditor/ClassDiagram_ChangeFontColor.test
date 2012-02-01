@@ -1,0 +1,41 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: ClassDiagram_ChangeFontColor
+Tags: Class Diagram/Properties
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 2/1/12 2:48 PM
+Id: _BZ_wEEyoEeGqpqal-Tsjiw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open Class Diagram properties view;
+2. Switch to appearance tab;
+3. Change font color;
+4. Make sure the font color has been changed. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view Properties] {
+    with [get-canvas -index 2] {
+        mouse-press 43 7 button1
+        mouse-release 43 7 button1 524288
+        mouse-move 89 13
+    }
+    get-group "Fonts and Colors:" | get-button -index 2 | click
+}
+get-window -from "ColorPalettePopup.<init>()" | get-button -index 3 | click
+get-view Properties | get-canvas -index 2 | mouse-move 51 9
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exception0 
+    | get-edit-part -text Exception0 | get-property foregroundColor | equals "#A6C198" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
