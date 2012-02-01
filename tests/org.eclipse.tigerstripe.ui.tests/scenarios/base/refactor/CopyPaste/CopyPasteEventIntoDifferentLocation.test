@@ -1,11 +1,11 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: CopyPaste an Event into different location
+Element-Name: CopyPasteEventIntoDifferentLocation
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 11:20 AM
+Save-Time: 2/1/12 1:26 PM
 Id: _y2N3YC94EeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -24,13 +24,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kE1Pg0AQhu8m/ofN3rvbQpMigTba
-oFZTtemlngguA90IuxSGj/77LsZiaoy3mXnfeebDW3R5RhooK6mVTydsTAkooWOpUp/WmIwcuphfX3lC
-56zTJcTsMGOVABWVUrvb74B0uXQHitVTDFdVrqn7dI9YuJy3bct0njJdpny3Xp0tf5KHJqPyL5UfZvys
-MhCmRImKcvDpUhfHt6hCIJEiQQMKiVSoSSyTBMo+zbSI0KxGfy61+x1l7NPwaL3Y78ubaQAPr3fT9WQV
-1lZ2SwkeCwMHkVFzPyHmAwqhw2oelo/J5+YZ90E8apyndveh6hA3Hh8cv/y27u6d7Ti8nHDh75P/Hmws
-J1BLBwjOfwvDBwEAAKsBAABQSwECFAAUAAgACAAAACEAzn8LwwcBAACrAQAACAAAAAAAAAAAAAAAAAAA
-AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAPQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF9PgzAUxd9N/A5N39dusGSTwBad
+qOimLnuZTwRLYY3QsnL59+0txmFmjG/33nPur/fUXbZ5hmquS6GkhydkjBGXTMVCph6uIBnN8XJxeeEy
+lZNWaR6T44yUjMtIC+XsvgvU5sIZKFZPMVxZOmbu4QNA4VDaNA1ReUqUTul+E5wsf5KHJaPSL5UeZ/Sk
+Es7MCCMZ5dzDK1V0r1EJ3K+5hECCuhVJwrVp1opFYG7CPxHt/jgRezjsrGf7bXU19fn9y810MwnCysqu
+MYKuMFTOMmyCI2SiS+AtlItQPyQf2yc4+PGonj82+3dZhbB16eD45bdVezffjcPzF878ffPfzxrLJ1BL
+BwiPsNZCBAEAAKQBAABQSwECFAAUAAgACAAAACEAj7DWQgQBAACkAQAACAAAAAAAAAAAAAAAAAAAAAAA
+LmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAOgEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: CopyPaste an Exception into different location
+Element-Name: CopyPasteExceptionIntoDifferentLocation
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 11:24 AM
+Save-Time: 2/1/12 1:27 PM
 Id: _XMlMcC95EeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -25,13 +25,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1PgzAUfTfxPzR9X7sPzZDAFl1Q
-pyFz2QtvBMuFNULL2jK6f28xDjNjfOs95/Sce0+wtHWFjqA0lyLEEzLGCASTORdliFtTjDy8XFxfBUzW
-xEoFOTnMiWYgMsWlv/t+IFtzf3CZ9i7OV2jf4SHeG9P4lHZdR2RdEqlKmsTrs+RP5+GTY+kXSw9zemYJ
-MAdhJLIaQrySzekt0wZQJlBkGTTGrYG4MBLlvChAgTCokizrcfxz7azfk+chTpO4itnq7jaCp83DTTxZ
-p+20usfIZKUOcWSbyuUpN58aFwiswq4ThFwrwoA1epGq5+Jj+2r2UT46ei9d8i7a1GwDOih+6WfSPnq7
-cXqZeKHvh/9Kd5JPUEsHCMPvWcgSAQAAvwEAAFBLAQIUABQACAAIAAAAIQDD71nIEgEAAL8BAAAIAAAA
-AAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABIAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1PgzAUfTfxPzR9X7sPzZDAFp2o
+qESXvfBGsFwYEVrWltH9+xXjMDPGt95zTs+593hLU1doD1KVgvt4QsYYAWciK3nh41bnIwcvF5cXHhM1
+MUJCRnZzohjwVJbC3Xw/kKlLd3CZ9i7WlyvX4j7eat24lHZdR0RdECELGkfhSfKn8/DJsvSLpbs5PbEE
+mIUw4mkNPl6J5vCeKg2BYdBou0LItbgv8xwkcP0qWNqD+OfMWb9gmfk4iaMqYqub6wAe3+6uokmYtNPq
+FiOdFsrHgWkqGyTtfGhsErAK2zIQsnVwDUarRSKf8s/1i94G2WjvPHfxB28TvfbooPilnwnz4GzGyXni
+mb4f/mvbSo5QSwcI54YBjg4BAAC4AQAAUEsBAhQAFAAIAAgAAAAhAOeGAY4OAQAAuAEAAAgAAAAAAAAA
+AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEQBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

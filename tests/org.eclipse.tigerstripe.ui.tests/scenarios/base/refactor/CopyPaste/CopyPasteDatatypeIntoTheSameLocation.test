@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: CopyPaste Datatype into the same location
+Element-Name: CopyPasteDatatypeIntoTheSameLocation
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/23/11 3:41 PM
+Save-Time: 2/1/12 1:28 PM
 Id: _1NI7kC1AEeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -48,13 +48,13 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kNFPwjAQxt9N/B+ae6dlYDKyrBDE
-qdOAEl54W+pWtoatHevBxn9vMYLBGN969/363d0XTrqqJAfZWGU0B4/2gUidmkzpnMMeN70RTMa3N2Fq
-KtqZRmZ051ObSi0aZYLV94N0lQouLoOTi/PVNnB9DgViHTDWti01VU5Nk7P1PD4jfzpfPjmVfals57Oz
-SmXqWkC0qCSHmamP78KiJA8CBR5rSZRGQ7CQxDqClCYV6DaDn0OHpxVVxiHxFrG/nXnTSD693d/NvTjZ
-D8opEBS55RB1delGNa52vhxkWoKLgxAXiEbZoR0nzfNmu3zFIsp6h9FLu/7Q+wSXIbsQv/ih6R5Hq35y
-PfGKPxX/5e2QT1BLBwhxJCGdEAEAALoBAABQSwECFAAUAAgACAAAACEAcSQhnRABAAC6AQAACAAAAAAA
-AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAARgEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFPg0AQhe8m/ofN3LtbWhMIYdvU
+WhW1aoOH3sgKWyCFXQpDof++W2MxNcbbzry338w8b9oVOdnLqs604mDRIRCpIh1nKuHQ4GbgwHRyfeVF
+uqCdrmRMdzatI6lElWk3+H6QrsjcnjI6UQxX1a7pc0gRS5extm2pLhKqq4Stl/7Z8ie5/2RU9qWync3O
+KpWRaQFRopAc5ro8vIsa5Z1AgYdS+gr1RyoDo77oSKBZCn5uHJ+2y2IOofXq29u5NVvIh7fbm6Xlh80o
+nwFBkdQcFl2ZmymVqQ2Tg4xyMEkQYrJQKDusJ2H1uNmunjFdxIO989SuP1UT4spjveOXf6y7eycYhpcT
+L/yn4r+ojeUIUEsHCG/rBbUPAQAAtQEAAFBLAQIUABQACAAIAAAAIQBv6wW1DwEAALUBAAAIAAAAAAAA
+AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABFAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

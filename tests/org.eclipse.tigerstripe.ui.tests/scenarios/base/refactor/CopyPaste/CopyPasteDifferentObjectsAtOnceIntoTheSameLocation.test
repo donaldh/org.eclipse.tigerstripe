@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: CopyPaste different objects at once into the same location
+Element-Name: CopyPasteDifferentObjectsAtOnceIntoTheSameLocation
 Tags: Explorer
 External-Reference: 
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 12/26/11 12:17 PM
+Save-Time: 2/1/12 1:29 PM
 Id: _LYSQQC9_EeGOB4M1I_u2lA
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -24,13 +24,13 @@ TEST STEPS
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UU1PwkAQvZv4HyZ7Z5cPE7ChECWo
-qEQbLnhqynZaVtvdsjvQ8u9djGAkxtvMvDfvzcdw3JQF7NA6ZXTIOrzNALU0qdJ5yLaUtQZsPLq8GEpT
-8sZYTPmmz51EnVhlgsV3AE2pgpNK96DidbULfD1ka6IqEKKua27KnBubi+V8dqT8qXxq8qj4QsWmL44o
-R+lLDHRSYsgmptq/Jo4QUpVlaFETmNU7SnKQ+FBLBKXJAK0RnG+BwsiE/KjsZ/PeYWaVhix+fltE0eQ6
-nuL9y+3VvDOLt93ihgEluQvZtKkK7219vq+8OcqC+fsA+AtpwobcKLYP2Uf0ROtp2toNHuvlSm9jiobi
-xDjj90xzN1i0zxx/8Q/Jfw/wlE9QSwcIqktvgxoBAADLAQAAUEsBAhQAFAAIAAgAAAAhAKpLb4MaAQAA
-ywEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFABAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kFtPwkAQhd9N/A+bfWeXiwnYUAgi
+KgrBpj7gU1O204u2u2V3oOXfsxipkRjfduZ8e87MDMd1kZM9aJMp6dIOa1MCUqgok4lLdxi3BnQ8ur4a
+ClWwWmmI2LbPjAAZ6kw5/veD1EXmNC7dk4v1lcaxfZemiKXDeVVVTBUJUzrh6+X8jPzp3HyyKv9S+bbP
+zyoDYVuUyLAAl05VeXgNDcJ9FsegQeJq8wECzQRXUsBconpLwbfsQokQ7Yj0Z+PeadYscmmwePc9b3ob
+zOBxdXez7MyDXTefUIJhYlw6q8vcZmpbH0obCiKn9i6E2MtIhBrNKNBP8af3guksau0Hz9V6I3cBekPe
+EBd8T9UPA799kfiLPxX/Hd4iR1BLBwj1B0BJGQEAAMMBAABQSwECFAAUAAgACAAAACEA9QdASRkBAADD
+AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAATwEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
