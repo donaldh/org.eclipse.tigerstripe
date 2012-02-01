@@ -6,7 +6,7 @@ Tags: Class Diagram
 External-Reference: 
 Element-Version: 3.0
 Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 1/31/12 4:48 PM
+Save-Time: 2/1/12 1:33 PM
 Id: _X-6jAEvuEeG5RMpJ7XJCMw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -17,7 +17,7 @@ TEST STEPS
 
 1. Right-click Tigerstripe project in Project explorer and select New - Class Diagram;
 2. Set file name and click "Finish" button;
-3. Make sure that the diagram has appered in Tigerstripe Explorer and its editor has been opened. 
+3. Make sure that the diagram has appeared in Tigerstripe Explorer and its editor has been opened. 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
 Content-Type: q7/binary

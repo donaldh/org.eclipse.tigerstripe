@@ -1,0 +1,41 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: InstanceDiagram_CreateNewDiagramFromToolbarMenu
+Tags: Instance Diagram
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 2/1/12 2:21 PM
+Id: _K1XlsEylEeGqpqal-Tsjiw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Select File - New - Other - Tigerstripe - Instance Diagram;
+2. Set file name and click "Finish" button;
+3. Make sure that the diagram has appeared in Tigerstripe Explorer and its editor has been opened. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany"
+get-menu "File/New/Other..." | click
+with [get-window New] {
+    get-tree | select "Tigerstripe/Instance Diagram"
+    get-button "Next >" | click
+}
+with [get-window "New Instance Diagram"] {
+    get-editbox -after [get-label "File name:"] | set-text id
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany/id" | get-property caption | equals id 
+    | verify-true
+get-tab-folder | get-property activePage | equals "id.wod" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

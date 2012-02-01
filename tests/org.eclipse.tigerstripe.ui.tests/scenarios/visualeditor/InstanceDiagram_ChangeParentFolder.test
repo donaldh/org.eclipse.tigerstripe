@@ -1,0 +1,35 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: InstanceDiagram_ChangeParentFolder
+Tags: Instance Diagram
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 2/1/12 2:19 PM
+Id: _6aGtIUykEeGqpqal-Tsjiw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Right-click Tigerstripe project in Project explorer and select New - Instance Diagram;
+2. Change parent folder and set file name;
+3. Make sure that the diagram has been created in selected parent folder - not the initial one. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany" | get-menu "New/Instance Diagram" | click
+with [get-window "New Instance Diagram"] {
+    get-tree | select "test/src/com"
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com/default2" | get-property caption | equals default2 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
