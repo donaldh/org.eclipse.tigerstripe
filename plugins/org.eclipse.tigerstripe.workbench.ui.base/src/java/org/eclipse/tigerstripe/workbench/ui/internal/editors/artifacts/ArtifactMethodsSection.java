@@ -302,6 +302,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 		tableComposite.setLayout(tcLayout);
 
 		table = toolkit.createTable(tableComposite, SWT.NULL);
+		makeMenu(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
@@ -483,11 +484,6 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 	@Override
 	public TableViewer getViewer() {
 		return this.viewer;
-	}
-
-	protected void markPageModified() {
-		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
-		editor.pageModified();
 	}
 
 	private boolean onlyNative(TableItem[] selectedItems) {

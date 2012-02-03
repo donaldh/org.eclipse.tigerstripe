@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
 import static java.util.Collections.emptyList;
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.MEMBER_CONTAINER_NAME;
 import static org.eclipse.tigerstripe.workbench.utils.AdaptHelper.adapt;
 
 import java.io.StringWriter;
@@ -166,7 +167,7 @@ public class TSCopyToClipboadAction extends CopyToClipboardAction {
 							IAbstractArtifactInternal transportArtifact = (IAbstractArtifactInternal) session
 									.makeArtifact(IManagedEntityArtifact.class
 											.getName());
-							transportArtifact.setName("MembersContainer");
+							transportArtifact.setName(MEMBER_CONTAINER_NAME);
 
 							for (IMember member : members) {
 								if (member instanceof IField) {

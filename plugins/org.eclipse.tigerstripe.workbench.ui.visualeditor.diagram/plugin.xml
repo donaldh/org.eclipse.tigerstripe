@@ -97,6 +97,16 @@
       </objectContribution>
       <objectContribution
             adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ui.contrib.PasteMembers"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ClassDiagramShapeNodeEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.PasteMembersAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.PasteMembers"
+               label="Paste Members"
+               />
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
             id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ui.objectContribution5"
             objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart">
          <action

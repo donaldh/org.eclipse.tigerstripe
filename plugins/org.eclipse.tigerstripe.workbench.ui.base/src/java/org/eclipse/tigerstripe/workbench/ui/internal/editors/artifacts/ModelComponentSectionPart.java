@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
+import static org.eclipse.tigerstripe.workbench.ui.EclipsePlugin.getClipboard;
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.containsMembers;
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.doPaste;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,8 +24,16 @@ import java.util.Set;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MenuAdapter;
+import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.model.HierarchyWalker;
@@ -235,4 +247,34 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 		});
 		detailsPart.registerPage(clazz, detailsPage);
 	}
+
+	protected void makeMenu(Table table) {
+		Menu menu = new Menu(table);
+		final MenuItem pasteItem = new MenuItem(menu, SWT.PUSH);
+
+		menu.addMenuListener(new MenuAdapter() {
+
+			public void menuShown(MenuEvent e) {
+				pasteItem.setEnabled(containsMembers(getClipboard()));
+			}
+		});
+
+		pasteItem.addSelectionListener(new SelectionAdapter() {
+
+			public void widgetSelected(SelectionEvent e) {
+				doPaste(getIArtifact(), getClipboard(), false);
+				refresh();
+				markPageModified();
+			}
+		});
+		pasteItem.setEnabled(false);
+		pasteItem.setText("Paste");
+		table.setMenu(menu);
+	}
+
+	protected void markPageModified() {
+		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
+		editor.pageModified();
+	}
+
 }

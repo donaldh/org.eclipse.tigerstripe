@@ -34,6 +34,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
@@ -140,6 +141,8 @@ public class EclipsePlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		stopDiagramSynchronizerManager();
+		clipboard.dispose();
+		clipboard = null;
 	}
 
 	/**
@@ -633,5 +636,14 @@ public class EclipsePlugin extends AbstractUIPlugin {
 			BasePlugin.log(e);
 
 		}
+	}
+	
+	private static Clipboard clipboard;
+	
+	public static Clipboard getClipboard() {
+		if (clipboard == null) {
+			clipboard = new Clipboard(null);
+		}
+		return clipboard;
 	}
 }
