@@ -1,0 +1,43 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: AuditDiagrams_InvalidAttribute
+Tags: Audit Diagrams
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
+Save-Time: 2/3/12 5:23 PM
+Id: _5Bg_EE5QEeGqpqal-Tsjiw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Right-click Tigerstripe project and select "Audit all diagrams" command;
+2. Make sure that InvalidAttribute error has appeared in 'Diagram audit result' as well as in the error view. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "test/src"
+get-view "Error Log" | get-button "Delete Log" | click
+get-window "Confirm Delete" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
+exec-with-options -allowStatusDialog -command {
+    get-window "Diagram audit result \(test: .*/.* diagrams have errors\)" | get-button OK | click
+    get-window "Problem Occurred" | get-button OK | click
+}
+get-view "Error Log" | get-tree 
+    | select "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\InvalidAttribute.wvd"
+with [get-view "Error Log" | get-tree] {
+    get-item "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" 
+        | get-property caption | equals "Attributes are missing in the diagram: attribute0" | verify-true
+    get-item "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name" 
+        | get-property caption | equals "Invalid attribute: no name" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
