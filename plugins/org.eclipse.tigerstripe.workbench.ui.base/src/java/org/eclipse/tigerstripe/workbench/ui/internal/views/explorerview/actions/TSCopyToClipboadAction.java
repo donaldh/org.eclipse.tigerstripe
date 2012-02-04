@@ -11,11 +11,15 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.MEMBER_CONTAINER_NAME;
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.allMemebers;
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.copyMemebers;
 import static org.eclipse.tigerstripe.workbench.utils.AdaptHelper.adapt;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,10 +62,10 @@ import org.eclipse.ui.part.ResourceTransfer;
 public class TSCopyToClipboadAction extends CopyToClipboardAction {
 
 	private final Clipboard theClipboard;
-	private SelectionDispatchAction fPasteAction;// may be null
+	private TSPasteAction fPasteAction;// may be null
 
 	public TSCopyToClipboadAction(IWorkbenchSite site, Clipboard clipboard,
-			SelectionDispatchAction pasteAction) {
+			TSPasteAction pasteAction) {
 		super(site, clipboard);
 		setText(ReorgMessages.CopyToClipboardAction_text);
 		setDescription(ReorgMessages.CopyToClipboardAction_description);
@@ -117,98 +121,14 @@ public class TSCopyToClipboadAction extends CopyToClipboardAction {
 		// stuff.
 	}
 
-	private boolean allMemebers(Object[] objects) {
-		for (Object object : objects) {
-			if (object instanceof IAdaptable) {
-				IModelComponent modelComponent = adapt(((IAdaptable) object),
-						IModelComponent.class);
-				if (!(modelComponent instanceof IMember)) {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private List<IMember> collectMemebers(Object[] objects) {
-		List<IMember> result = new ArrayList<IMember>(objects.length);
-		for (Object object : objects) {
-			if (object instanceof IAdaptable) {
-				IModelComponent modelComponent = adapt(((IAdaptable) object),
-						IModelComponent.class);
-				if ((modelComponent instanceof IMember)) {
-					result.add((IMember) modelComponent);
-				} else {
-					return emptyList();
-				}
-			} else {
-				return emptyList();
-			}
-		}
-		return result;
-	}
-
-	public boolean handleMemebers(Object[] selected) {
-		List<IMember> members = collectMemebers(selected);
-
-		try {
-
-			if (!members.isEmpty()) {
-				IAbstractArtifact artifact = members.get(0)
-						.getContainingArtifact();
-				if (artifact != null) {
-					ITigerstripeModelProject project = artifact.getProject();
-					if (project != null) {
-						IArtifactManagerSession session = project
-								.getArtifactManagerSession();
-						if (session != null) {
-							IAbstractArtifactInternal transportArtifact = (IAbstractArtifactInternal) session
-									.makeArtifact(IManagedEntityArtifact.class
-											.getName());
-							transportArtifact.setName(MEMBER_CONTAINER_NAME);
-
-							for (IMember member : members) {
-								if (member instanceof IField) {
-									transportArtifact.addField((IField) member);
-								} else if (member instanceof ILiteral) {
-									transportArtifact
-											.addLiteral((ILiteral) member);
-								} else if (member instanceof IMethod) {
-									transportArtifact
-											.addMethod((IMethod) member);
-								}
-							}
-
-							StringWriter writer = new StringWriter();
-							AbstractArtifactPersister persister = transportArtifact
-									.getArtifactPersister(writer);
-							try {
-								persister.applyTemplate();
-								Object[] data = { writer.toString() };
-								Transfer[] transfers = { TextTransfer
-										.getInstance() };
-								theClipboard.setContents(data, transfers);
-							} catch (TigerstripeException e) {
-								EclipsePlugin.log(e);
-							}
-							return true;
-						}
-					}
-				}
-			}
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-		return false;
-	}
-
 	@Override
 	public void run(IStructuredSelection selection) {
 		Object[] objects = selection.toArray();
 
-		if (handleMemebers(objects)) {
+		if (copyMemebers(objects, theClipboard)) {
+			if (fPasteAction != null) {
+				fPasteAction.setMembersToCut(null);
+			}
 			return;
 		}
 

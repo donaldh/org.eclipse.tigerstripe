@@ -14,4 +14,6 @@ public interface IMember {
 	
 	IType getType();
 	
+	IMember clone();
+	
 }

@@ -41,7 +41,7 @@ public class TSCCPActionGroup extends BaseActionProvider {
 
 	private SelectionDispatchAction fDeleteAction;
 	private SelectionDispatchAction fCopyAction;
-	private SelectionDispatchAction fPasteAction;
+	private TSPasteAction fPasteAction;
 	private SelectionDispatchAction fCutAction;
 
 	@Override
@@ -54,7 +54,7 @@ public class TSCCPActionGroup extends BaseActionProvider {
 		fCopyAction = new TSCopyToClipboadAction(site, fClipboard, fPasteAction);
 		fCopyAction.setActionDefinitionId(IWorkbenchActionDefinitionIds.COPY);
 
-		fCutAction = getCutActionInstance();
+		fCutAction = new TSCutAction(getSite(), fPasteAction);
 		fCutAction.setActionDefinitionId(IWorkbenchActionDefinitionIds.CUT);
 
 		fDeleteAction = new TSDeleteAction(site);
@@ -64,11 +64,6 @@ public class TSCCPActionGroup extends BaseActionProvider {
 		fActions = new SelectionDispatchAction[] { fCutAction, fCopyAction,
 				fPasteAction, fDeleteAction };
 		registerActionsAsSelectionChangeListeners();
-	}
-
-	private SelectionDispatchAction getCutActionInstance() {
-		CutAction action = new CutAction(getSite());
-		return action;
 	}
 
 	private void registerActionsAsSelectionChangeListeners() {
@@ -122,8 +117,8 @@ public class TSCCPActionGroup extends BaseActionProvider {
 		super.fillContextMenu(menu);
 		for (int i = 0; i < fActions.length; i++) {
 			SelectionDispatchAction action = fActions[i];
-			if (action == fCutAction && !fCutAction.isEnabled())
-				continue;
+//			if (action == fCutAction && !fCutAction.isEnabled())
+//				continue;
 			menu.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, action);
 		}
 	}
