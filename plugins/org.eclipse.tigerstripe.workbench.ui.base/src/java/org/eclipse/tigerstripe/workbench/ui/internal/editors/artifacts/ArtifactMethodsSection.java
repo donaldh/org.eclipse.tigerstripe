@@ -56,6 +56,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMult
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.Ask;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo.ModelUndoableEdit;
@@ -537,11 +538,8 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 			message = message + "this method?";
 		}
 
-		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove method", null, message, MessageDialog.QUESTION,
-				new String[] { "Yes", "No" }, 1);
-
-		if (msgDialog.open() == 0) {
+		if (Ask.aboutMemebersRemoving(getBody().getShell(), "Remove method",
+				message)) {
 
 			URI[] methodURIs = new URI[selectedMethods.length];
 			String[] methodTypes = new String[selectedMethods.length];

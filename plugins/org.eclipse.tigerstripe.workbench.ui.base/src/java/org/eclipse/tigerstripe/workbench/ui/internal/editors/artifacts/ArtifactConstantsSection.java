@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -59,6 +58,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.Ask;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo.ModelUndoableEdit;
@@ -630,11 +630,8 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 			message = message + "this constant?";
 		}
 
-		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove Constant", null, message, MessageDialog.QUESTION,
-				new String[] { "Yes", "No" }, 1);
-
-		if (msgDialog.open() == 0) {
+		if (Ask.aboutMemebersRemoving(getBody().getShell(), "Remove Constant",
+				message)) {
 
 			URI[] literalURIs = new URI[selectedLabels.length];
 			String[] literalTypes = new String[selectedLabels.length];

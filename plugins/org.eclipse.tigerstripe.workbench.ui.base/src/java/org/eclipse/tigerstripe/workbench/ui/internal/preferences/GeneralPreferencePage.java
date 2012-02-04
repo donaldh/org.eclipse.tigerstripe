@@ -45,6 +45,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 	public static final String P_DEFAULTPACKAGE = "p.general.default.artifact.package";
 
 	public static final String P_LOGGINGLEVEL = "p.general.logging.level";
+	public static final String P_DONT_REMIND_MEMBERS_REMOVING = "p.general.ask.removing";
 
 	
 	// See bug 298971
@@ -65,6 +66,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 				.getPreferenceStore();
 		store.setDefault(P_DEFAULTPACKAGE, "com.mycompany");
 		store.setDefault(P_LOGGINGLEVEL, PluginLog.LogLevel.ERROR.toString());
+		store.setDefault(P_DONT_REMIND_MEMBERS_REMOVING, false);
 		// See bug 298971
 //		store.setDefault(P_CASCADEDELETE_RELATIONSHIPS, "true");
 	}
@@ -137,6 +139,15 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 				org.eclipse.swt.program.Program.launch(logPath);
 			}
 		});
+
+		Group reminderGroup = new Group(getFieldEditorParent(), SWT.TITLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		reminderGroup.setLayoutData(gd);
+		reminderGroup.setText("Asking Preferences");
+		addField(new BooleanFieldEditor(P_DONT_REMIND_MEMBERS_REMOVING,
+				"&Don't Remind About Removing fields/methods/constants",
+				reminderGroup));
 	}
 
 	@Override
