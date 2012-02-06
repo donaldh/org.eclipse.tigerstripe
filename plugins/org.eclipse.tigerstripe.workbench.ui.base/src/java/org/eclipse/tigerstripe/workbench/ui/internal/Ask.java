@@ -22,7 +22,7 @@ public class Ask {
 			return true;
 		} else {
 			MessageDialogWithToggle msgDialog = new MessageDialogWithToggle(
-					shell, "Remove attribute", null, message,
+					shell, title, null, message,
 					MessageDialog.QUESTION,
 					new String[] { YES_LABEL, NO_LABEL }, 1,
 					"Don't remind me again", false);
