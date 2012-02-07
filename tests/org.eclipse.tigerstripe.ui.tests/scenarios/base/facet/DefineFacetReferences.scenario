@@ -1,19 +1,19 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: DefineFacetReferences
+Element-Name: AddFacetReference
 Tags: TS_Project/Facet/References
-External-Reference: http://docs.xored.com/display/TS/DefineFacetReferences
+External-Reference: http://docs.xored.com/display/TS/AddFacetReference
 Element-Version: 3.0
 Contexts: _FyZMUDs7EeCt76CYYPZ_qw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 2/6/12 12:33 PM
 Id: _6pcXYDs5EeCt76CYYPZ_qw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
 Content-Type: text/plain
 
-Define a facet to use with Tigerstripe project
+Add a facet on Facet tab to use with Tigerstripe project
 
 Precondition:
 Tigerstripe project with defined facet
@@ -85,13 +85,13 @@ with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | ge
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kc1qwzAQhO+FvoPQvdr+0LgYKznE
-DfQQCE0KcS7GyGtXxZZsSa3tt68cEreF0JvYmf00uxst+roiX2is1IrTO3ZLCSqhc6lKTj9dcfNEF/Pr
-q0jomvXaYM7agFmBKjNSh9vTg/S1DCfK/UjxXGVDX+f03bkmBOi6jum6ZNqUsF+/nC0XyVOTV+GoQhvA
-WWUofIkSldXIaYyFVLjKBLpXLND4/Gjpz1APYxyZc5rOGrFPYvv4jEsXzJZJsjmkbUeJy0rL6W6bboz+
-QOHgCIPfNDc0/isUld9P79CorJrkKWyuhT3NMubOpW2qbIDdFi5n9IslxK9WOc+083Q1HNZvsQ3+5otg
-cvhDwP+X8JZvUEsHCI1gwWIPAQAA1AEAAFBLAQIUABQACAAIAAAAIQCNYMFiDwEAANQBAAAIAAAAAAAA
-AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABFAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9LwzAUxd8Fv0PIu4l/cJXSbMjm
+wIfBsBtseykluauVNmmTaNtv7+3YAqL4Fu45Ofnl3GTW1xX5AutKowW9Y7eUgJZGlboQ9NMfb57obHp9
+lUhTs95YUKyNmJOgc1uaOD0fSF+XcUi5H1MwV7sY54K+e9/EnHddx0xdMGMLvlu9Xix/JodLqPKTytuI
+X1QGEkeU6LwGQZ+VWuYS/BscwSI8CgHlYUQplaDZpJG7/cI9vsDcR5P5fr8+ZG1Hic8LJ+gmzdbWfID0
+/JTFQ5hDy9DgMyAr7Kb3YHVeBTmAKiPd+R8jsypdU+UD36T8Nx8WSghWqj3muWm2HA6r7cJFP9kSHhy4
+AP7/BtDyDVBLBwhlCJ71DQEAAMwBAABQSwECFAAUAAgACAAAACEAZQie9Q0BAADMAQAACAAAAAAAAAAA
+AAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAQwEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

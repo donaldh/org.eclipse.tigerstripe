@@ -1,19 +1,19 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: DefineFacetReferencesInsideFacet
+Element-Name: AddFacetReferencesInsideFacet
 Tags: TS_Project/Facet/References
-External-Reference: http://docs.xored.com/display/TS/DefineFacetReferencesInsideFacet
+External-Reference: http://docs.xored.com/display/TS/AddFacetReferencesInsideFacet
 Element-Version: 3.0
 Contexts: _FyZMUDs7EeCt76CYYPZ_qw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 2/6/12 12:43 PM
 Id: _k-5SUDtAEeCt76CYYPZ_qw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
 Content-Type: text/plain
 
-Add reference to another facet in Service Contract Facet
+Add reference to another facet in Service Contract Facet on Facet tab
 
 Precondition
 Tigerstripe project with defined facet
@@ -97,13 +97,13 @@ with [get-editor "model-refactoring/default.wfc" | get-section -after [get-label
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFkV9LwzAUxd8Fv0PI+xL/oJXSbsjq
-YA+DYTdweyklva3RNmmTaNtv7+3cOgTRt3DPub+ce28w66qSfIKxUquQXrMrSkAJnUlVhPTD5ZMHOpte
-XgRCV6zTBjLWeMwKUKmR2o+PD9JV0h8pNwMFucr6WA/pq3O1z3nbtkxXBdOm4C+r5cnyK3lsQpUfVN54
-/KQyEFiiRKUVhDSCXCpYpALcM+RgMD/YpbIy+y7S83y3QzKZhTR5n9zF28g9PsHceffz3W69T5qWEpcW
-NqSbOFkb/QbC8QOCn8Fo6Wv8FUSJq+ocGJWWozzmzrSwx7GGETJp6zLt+Sbm/8bFdROCC1cO8XaaLPr9
-ahtZ72fUgI8OPA//+z5o+QJQSwcIjeHc/BcBAADqAQAAUEsBAhQAFAAIAAgAAAAhAI3h3PwXAQAA6gEA
-AAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAE0BAAAAAA==
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9rwjAUxd8H+w4h7yb7w9ZRWkV0
+gg+CrArTl1KSa5etTdokW9tvv2vRymD4Fu4595dz740mbVmQH7BOGR3Te3ZHCWhhpNJ5TL/9YfRCJ+Pb
+m0iYkrXGgmR1wJwAnVllwuT0IG2pwoHycKQgV7sQ6zH98L4KOW+ahpkyZ8bm/H21PFv+JQ9NqPJe5XXA
+zyoDgSVKdFZCTKdSLjIB/g0OYDE8uKV2SkJfpJfhHo+xlIxp+jV6SrZzP32FmQ+eZ7vdep/WDSU+y11M
+N0m6tuYThOc9gl/AaOkq/BJEgXtqPVidFYM8hJZGuNNMx/xSuarIOr5J+PWsuGhCcNXaI9uN00W3X23n
+LvibM+KDAw/Dr18GLb9QSwcIIhiZJBQBAADkAQAAUEsBAhQAFAAIAAgAAAAhACIYmSQUAQAA5AEAAAgA
+AAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEoBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

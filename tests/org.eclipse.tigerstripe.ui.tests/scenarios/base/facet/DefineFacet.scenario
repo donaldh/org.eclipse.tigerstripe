@@ -1,19 +1,19 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: DefineFacet
+Element-Name: CreateFacetAndUpdateGeneralInformation
 Tags: TS_Project/Facet/Define
 External-Reference: http://docs.xored.com/display/TS/DefineFacet
 Element-Version: 3.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 1/18/12 1:27 PM
+Save-Time: 2/6/12 10:35 AM
 Id: _mstUQDsaEeCt76CYYPZ_qw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
 Content-Type: text/plain
 
-Define a Service Contract Facet
+Create Service Contract Facet and update General Information
 
 Precondition:
 Create Tigerstripe model project called New Project
@@ -67,13 +67,14 @@ get-button "Save \(.*\)" | click
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF1PwjAUhu9N/A9N72n9SJxZNrgA
-DMSPgMNEvFma9jCqWzva6sa/54AwvTDeNec9ffKeJxm0VUm+wHltTUov2QUlYKRV2hQp/Qyr3i0d9M/P
-Emkr1loHim0i5iUY4bSNs+ODtJWOO8rVnoJc42Ocp3QdQh1z3jQNs1XBrCv46+P0tPInufuEKT+kfBPx
-U8pA4ogSIypI6QhW2sCdkBDozynX+xJapTSvfHiZj7wYwzBEN8PlcvaWbxpKgih8ShdZPnP2HWTgBwT/
-xmG8rREOskQjbQBnRPkMK3CoB7p6ykp/bL9vqrSvS7Hli4z/boUCCUGFJiDJ9/PpevLwcd/Mx6o3mkj1
-JEIufJPwbgOF8/+N48oOUEsHCKH8wh0VAQAAvAEAAFBLAQIUABQACAAIAAAAIQCh/MIdFQEAALwBAAAI
-AAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABLAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kU1PAjEQhu8m/oemd1o/EjEbFmIA
+hfgREEjEy6ZpZ5fqtl3a6i7/3oHAejHeOvNOn5l5pzdoTEm+wQftbEov2QUlYKVT2hYp/Yp555YO+udn
+PekMa5wHxbZdFiRY4bVLFscHaYxOWsrVnoJcGxLMp3QTY5VwXtc1c6Zgzhf87Xl6KvmT3H5ClR9Uvu3y
+k8pAYooSKwykdOhBRLgXEuKdVatKYfQAFrwopzZ33oiIY9HfLa/382mV0syEuJqPghjDMHZvhuv17D3b
+1pREUYSULhfZzLsPkJEf6HwEubbYN+4q7AuyRLOaCN6K8hVy8OgctJMrJ8Nxsf0SSoeqFDu+XBwxByRF
+bwlBd21EUuhn083k6fOxno9VZzSR6kXETIS6x9sKvAX//xhY8gNQSwcI27ojgSwBAADXAQAAUEsBAhQA
+FAAIAAgAAAAhANu6I4EsAQAA1wEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
+NgAAAGIBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary

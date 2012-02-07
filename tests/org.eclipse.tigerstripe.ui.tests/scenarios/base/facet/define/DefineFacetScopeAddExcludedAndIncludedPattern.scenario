@@ -3,10 +3,10 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: DefineFacetScopeAddExcludedAndIncludedPattern
 Tags: TS_Project/Facet/Scope
-External-Reference: http://docs.xored.com/display/TS/DefineFacetScope
+External-Reference: http://docs.xored.com/display/TS/DefineFacetScopeAddExcludedAndIncludedPattern
 Element-Version: 3.0
 Contexts: _5OPsMK6FEd-uWaeTFaimww
-Save-Time: 1/24/12 12:20 PM
+Save-Time: 2/6/12 1:00 PM
 Id: _BvnK0DskEeCt76CYYPZ_qw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -148,13 +148,13 @@ get-editor "model-refactoring/default.wfc" | get-section "Scope Details" | get-t
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1LwzAUfRf8DyHvS6biJqXdmPuA
-MYbFDnS+lJDc1mibdEm2dv/edG4VRHy73HPvueecG46bskAHMFZqFeEb0scIFNdCqjzCe5f1HvB4dH0V
-cl2SRhsQZDckloNiRuogOReoKWXQsdy2LJ5X2cD3I/zuXBVQWtc10WVOtMnp63p5GfmTuVvyKD2hdDek
-F5QA9y2MFCshwjPIpIIF4+ASriuYCDFveLEXICZKLNV3GTPnwCj8Y/aulSlFhNPHg1r1Z/ZzDlM3HEy3
-2/gt3dUYOZbbCG+SNDb6A7ijpyP0dMWjx8pfB174yJqWmxXPkIHx+UGnX2huz/ZaK0LaqmBHuknob9nY
-x4yQD1o5T2dH6f1TbNerwWIuevsXBpsFk2Vdh7Sb8G+h///Fj3wBUEsHCEmWRsYtAQAA4gEAAFBLAQIU
-ABQACAAIAAAAIQBJlkbGLQEAAOIBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQAB
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVUV1LwzAUfRf8DyHvS6biJqXdmPuA
+MYbFDnS+lJDc1mibdEm2dv/edG71RQTfLvfce86594TjpizQAYyVWkX4hvQxAsW1kCqP8N5lvQc8Hl1f
+hVyXpNEGBNkNieWgmJE6SM4FakoZdCy3LYvnVTbw/Qi/O1cFlNZ1TXSZE21y+rpeXkZ+Ze6WPEpPKN0N
+6QUlwH0LI8VKiPAMMqlgwTi4hOsKJkLMG17sBYiJEkv1XcbMOTAK/xx719qUIsLp40Gt+jP7OYepGw6m
+2238lu5qjBzLbYQ3SRob/QHc0ZMIPal49Fh5deCFf1nTcrPiGTIw/n/Q+Rea2/N57SlC2qpgR7pJ6P9s
++wwQ8iko57XsKL1/iu16NVjMRW//wmCzYLKs65B2Ez4z+ndofuQLUEsHCMIUWTwtAQAA/wEAAFBLAQIU
+ABQACAAIAAAAIQDCFFk8LQEAAP8BAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQAB
 ADYAAABjAQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9

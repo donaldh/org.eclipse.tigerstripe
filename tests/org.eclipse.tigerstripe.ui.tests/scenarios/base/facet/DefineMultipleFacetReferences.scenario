@@ -1,12 +1,12 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: DefineMultipleFacetReferences
+Element-Name: AddMultipleFacetReferences
 Tags: TS_Project/Facet/References
-External-Reference: http://docs.xored.com/display/TS/DefineMultipleFacetReferences
+External-Reference: http://docs.xored.com/display/TS/AddMultipleFacetReferences
 Element-Version: 3.0
 Contexts: _FyZMUDs7EeCt76CYYPZ_qw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 2/6/12 12:49 PM
 Id: _aQRB4Ds_EeCt76CYYPZ_qw
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -92,13 +92,13 @@ get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-sect
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9LwzAUxd8Fv0PIu4n/sFKaDVwd
-+FCY6wS3lxLS2xppkzbJbPvtTcdWFWRv4Z5zfzn33mje1xX6AmOlVgzfkGuMQAmdS1UyvHfF1SOezy4v
-IqFr0msDOWkDYgUobqQO0+MD9bUMJ8rtSPFcZUNfZ/jDuSaktOs6ouuSaFPS9+TlZPmXPDV5lR5U2gb0
-pBIQvoSR4jUwHEMhFST7ysmmgiUX4NZQgPFzgMU/w92NsWTOcMZf10/3sc2eYeGCh8V2u9plbYeR46Vl
-eJNmK6M/QTh6gNHfNDc0/ksQld9T78AoXk3yFDrXwh5nGvPn0jYVH+gmpeez+kUj5FetnGfbWbYcdslb
-bIO/OSM6Ofxh6PnLeMs3UEsHCB2jN10VAQAA5AEAAFBLAQIUABQACAAIAAAAIQAdozddFQEAAOQBAAAI
-AAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABLAQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9LwzAUxd8Fv0PIu4n/sFLaDd0c
++FCY6wZuLyUkdzWSJm2S2e7bm46tKsjewj3n/nLuvcm4qxT6Auuk0Sm+IdcYgeZGSF2meOe3V494PLq8
+SLipSGcsCNJExHHQzEoT58cH6ioZD5TbnhK42sWhnuIP7+uY0rZtialKYmxJ37PXk+Vf8tAUVHpQaRPR
+k0qAhxJGmlWQ4ichsp3yslYwYxz8ArZgwxDg8M9kd30mKVJcsLfF8/3UFS8w8dHDZL2eb4qmxciz0qV4
+mRdzaz6Be3qA0d80v6/Df8BVWFLnwWqmBnlILAx3x4H68EK6WrE9Xeb0TNCwYoTCkrUPYDcqZvtNtpq6
+6G/IhA6OcBJ6/ibB8g1QSwcIY6qEnhQBAADeAQAAUEsBAhQAFAAIAAgAAAAhAGOqhJ4UAQAA3gEAAAgA
+AAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEoBAAAAAA==
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
 Content-Type: q7/binary
