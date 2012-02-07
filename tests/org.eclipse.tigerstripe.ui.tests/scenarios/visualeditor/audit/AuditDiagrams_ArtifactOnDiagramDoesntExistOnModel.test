@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 2/7/12 2:20 PM
+Save-Time: 2/7/12 4:01 PM
 Id: _IHVN0E40EeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -31,8 +31,12 @@ exec-with-options -allowStatusDialog -command {
     get-window "Diagram audit result (test: 18/22 diagrams have errors)" | get-button OK | click
     get-window "Problem Occurred" | get-button OK | click
 }
-get-view "Error Log" | get-tree 
-    | get-item "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)/\\test\\src\\ArtifactOnDiagramDoesntExistOnModel.wvd/Artifacts/Artifact \'com.mycompany.Entity5\' in diagram doesn\'t exist in model." 
+with [get-view "Error Log" | get-tree] {
+
+get-item [get-by-os
+-win "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)/\\test\\src\\ArtifactOnDiagramDoesntExistOnModel.wvd/Artifacts/Artifact \'com.mycompany.Entity5\' in diagram doesn\'t exist in model."
+-default   "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)/\\/test\\/src\\/ArtifactOnDiagramDoesntExistOnModel.wvd/Artifacts/Artifact \'com.mycompany.Entity5\' in diagram doesn\'t exist in model."]
     | get-property caption | equals "Artifact \'com.mycompany.Entity5\' in diagram doesn\'t exist in model." 
     | verify-true
+    }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
