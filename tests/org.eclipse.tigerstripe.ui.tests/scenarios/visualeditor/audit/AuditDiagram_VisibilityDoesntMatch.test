@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 2/7/12 2:18 PM
+Save-Time: 2/7/12 2:59 PM
 Id: _TG63IE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -32,10 +32,17 @@ exec-with-options -allowStatusDialog -command {
     get-window "Problem Occurred" | get-button OK | click
 }
 get-view "Error Log" | get-tree | select "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)"
+
+get-by-os -win 
+
 with [get-view "Error Log" | get-tree] {
     get-item "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)/\\test\\src\\VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/ZEnd \\(entity2\\) visibility doesn\'t match" 
         | get-property caption | equals "ZEnd (entity2) visibility doesn\'t match" | verify-true
     get-item "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)/\\test\\src\\VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) visibility doesn\'t match" 
         | get-property caption | equals "AEnd (entity1) visibility doesn\'t match" | verify-true
 }
+
+
+
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
