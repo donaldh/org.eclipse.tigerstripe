@@ -145,9 +145,8 @@ public class CopyPasteUtils {
 						IArtifactManagerSession session = project
 								.getArtifactManagerSession();
 						if (session != null) {
-							IAbstractArtifactInternal transportArtifact = (IAbstractArtifactInternal) session
-									.makeArtifact(IManagedEntityArtifact.class
-											.getName());
+							IAbstractArtifactInternal transportArtifact = new ManagedEntityArtifact(
+									null);
 							transportArtifact.setName(MEMBER_CONTAINER_NAME);
 
 							for (IMember member : members) {

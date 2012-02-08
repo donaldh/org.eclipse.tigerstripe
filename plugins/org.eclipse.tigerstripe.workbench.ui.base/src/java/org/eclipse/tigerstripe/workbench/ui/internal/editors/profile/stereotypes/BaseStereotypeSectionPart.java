@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.stereotype
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -37,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.Ask;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
@@ -234,11 +234,8 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 			message = message + "this stereotype?";
 		}
 
-		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove Stereotype", null, message, MessageDialog.QUESTION,
-				new String[] { "Yes", "No" }, 1);
-
-		if (msgDialog.open() == 0) {
+		if (Ask.aboutMemebersRemoving(getBody().getShell(),
+				"Remove Stereotype", message)) {
 			try {
 				((ProfileEditor) getPage().getEditor()).getProfile()
 						.removeStereotypes(selectedFields);

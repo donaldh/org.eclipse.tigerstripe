@@ -219,7 +219,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public TigerstripeProject getTSProject() {
-		return getArtifactManager().getTSProject();
+		ArtifactManager artifactManager = getArtifactManager();
+		if (artifactManager == null) {
+			return null;
+		}
+		return artifactManager.getTSProject();
 	}
 
 	public boolean isReadonly() {

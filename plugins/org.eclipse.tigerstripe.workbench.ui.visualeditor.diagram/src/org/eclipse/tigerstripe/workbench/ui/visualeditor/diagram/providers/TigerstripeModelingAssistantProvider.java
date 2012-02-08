@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 
+import static java.util.Arrays.asList;
+import static org.eclipse.tigerstripe.workbench.model.ArtifactUtils.getManager;
+import static org.eclipse.tigerstripe.workbench.model.ArtifactUtils.getProject;
+import static org.eclipse.tigerstripe.workbench.utils.AdaptHelper.adapt;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,11 +22,30 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.operations.OperationHistoryFactory;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gmf.runtime.common.core.command.ICommand;
+import org.eclipse.gmf.runtime.diagram.ui.commands.CommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
+import org.eclipse.gmf.runtime.diagram.ui.requests.DropObjectsRequest;
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
@@ -29,8 +53,7 @@ import org.eclipse.gmf.runtime.emf.ui.services.modelingassistant.ModelingAssista
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.window.Window;
+import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -39,8 +62,11 @@ import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
+import org.eclipse.tigerstripe.workbench.model.ArtifactUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -58,10 +84,13 @@ import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedQueryArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd.ClassDiagramDragDropEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart;
@@ -72,9 +101,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Name
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NotificationArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.UpdateProcedureArtifactEditPart;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 
 /**
  * @generated
@@ -576,12 +604,16 @@ public class TigerstripeModelingAssistantProvider extends
 		// first check to see if it's an editPart that has an associated
 		// read-only "QualifiedNamedElement" object in it's model, if so then
 		// we don't want to allow for any changes so return an empty list
+		
+		
 		if (isReadOnlyEditPart(targetEditPart))
 			return Collections.EMPTY_LIST;
 		if (targetEditPart instanceof ManagedEntityArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
+			if (ArtifactUtils.isEnabled(NamedQueryArtifact.class)) {
+				types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
+			}
 			if (shouldDisplayManages())
 				types.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
 			for (IHintedType type : getCustomRelationTypes()) {
@@ -594,7 +626,9 @@ public class TigerstripeModelingAssistantProvider extends
 		if (targetEditPart instanceof DatatypeArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
+			if (ArtifactUtils.isEnabled(NamedQueryArtifact.class)) {
+				types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
+			}
 			for (IHintedType type : getCustomRelationTypes()) {
 				addSuitableType(targetEditPart, types, type);
 			}
@@ -1554,40 +1588,15 @@ public class TigerstripeModelingAssistantProvider extends
 		if (types.isEmpty())
 			return null;
 
-		Collection nonCustomTypes = new ArrayList();
-		for (Object object : types) {
-			IElementType type = (IElementType) object;
-			if (type instanceof CustomElementType) {
-				type = ((CustomElementType) type).getBaseType();
-			}
-			nonCustomTypes.add(type);
-		}
-
-		Collection ignoreObjects = new ArrayList();
+		Collection<QualifiedNamedElement> ignoreObjects = new ArrayList<QualifiedNamedElement>();
 		if (relationshipType == TigerstripeElementTypes.AbstractArtifactExtends_3007) {
 			Object object = (EObject) host.getAdapter(EObject.class);
-			if (object != null) {
-				ignoreObjects.add(object);
+			if (object instanceof QualifiedNamedElement) {
+				ignoreObjects.add((QualifiedNamedElement) object);
 			}
 		}
 
-		IGraphicalEditPart editPart = (IGraphicalEditPart) host
-				.getAdapter(IGraphicalEditPart.class);
-		if (editPart == null)
-			return null;
-		Diagram diagram = (Diagram) editPart.getRoot().getContents().getModel();
-		Collection elements = new HashSet();
-		for (Iterator it = diagram.getElement().eAllContents(); it.hasNext();) {
-			EObject element = (EObject) it.next();
-
-			if (isApplicableElement(element, nonCustomTypes, ignoreObjects)) {
-				elements.add(element);
-			}
-		}
-		if (elements.isEmpty())
-			return null;
-		return selectElement((EObject[]) elements.toArray(new EObject[elements
-				.size()]));
+		return selectElement(host, types, ignoreObjects);
 	}
 
 	/**
@@ -1604,24 +1613,181 @@ public class TigerstripeModelingAssistantProvider extends
 	}
 
 	/**
+	 * @param host
 	 * @generated NOT
 	 */
-	protected EObject selectElement(EObject[] elements) {
+	protected EObject selectElement(IAdaptable host,
+			Collection<IElementType> types,
+			Collection<QualifiedNamedElement> ignored) {
 		Shell shell = Display.getCurrent().getActiveShell();
-		ILabelProvider labelProvider = new AdapterFactoryLabelProvider(
-				TigerstripeDiagramEditorPlugin.getInstance()
-						.getItemProvidersAdapterFactory());
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(
-				shell, labelProvider);
+
+		QualifiedNamedElement element = adapt(host, QualifiedNamedElement.class);
+		if (element == null) {
+			return null;
+		}
+		IAbstractArtifact artifact;
+		try {
+			artifact = element.getCorrespondingIArtifact();
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+			return null;
+		}
+
+		ITigerstripeModelProject project = null;
+		Resource eResource = element.eResource();
+		if (eResource != null) {
+			IFile file = WorkspaceSynchronizer.getFile(eResource);
+			if (file != null) {
+				IProject eproject = file.getProject();
+				if (eproject != null) {
+					project = AdaptHelper.adapt(eproject,
+							ITigerstripeModelProject.class);
+				}
+			}
+		}
+		if (project == null) {
+			project = getProject(artifact);
+		}
+
+		ArtifactManager manager = getManager(artifact);
+
+		if (project == null || manager == null) {
+			return null;
+		}
+
+		List<IAbstractArtifact> models = new ArrayList<IAbstractArtifact>(
+				types.size());
+		for (IElementType etype : types) {
+			if (etype instanceof CustomElementType) {
+				IArtifactPattern pattern = ((CustomElementType) etype)
+						.getPattern();
+				if (pattern != null) {
+					Class<?> clazz;
+					try {
+						clazz = Class.forName(pattern.getTargetArtifactType());
+					} catch (ClassNotFoundException e) {
+						continue;
+					}
+					for (IAbstractArtifact model : manager
+							.getRegisteredArtifacts()) {
+						if (clazz.isInstance(model)) {
+							models.add(model);
+						}
+					}
+				}
+			}
+		}
+
+		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(project,
+				models.toArray(new IAbstractArtifact[0]));
 		dialog.setMessage("Available model elements:");
 		dialog.setTitle("Select model element");
-		dialog.setMultipleSelection(false);
-		dialog.setElements(elements);
-		EObject selected = null;
-		if (dialog.open() == Window.OK) {
-			selected = (EObject) dialog.getFirstResult();
+
+		List<IAbstractArtifact> ignoredIArtifact = new ArrayList<IAbstractArtifact>(
+				ignored.size());
+		for (QualifiedNamedElement qe : ignored) {
+			IAbstractArtifactInternal iArt = manager
+					.getArtifactByFullyQualifiedName(
+							qe.getFullyQualifiedName(), true,
+							new NullProgressMonitor());
+			if (iArt != null) {
+				ignoredIArtifact.add(iArt);
+			}
 		}
-		return selected;
+
+		IAbstractArtifact[] selected;
+		try {
+			selected = dialog.browseAvailableArtifacts(shell, ignoredIArtifact);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+			return null;
+		}
+
+		if (selected.length == 0) {
+			return null;
+		}
+
+		IGraphicalEditPart editPart = adapt(host, IGraphicalEditPart.class);
+		if (editPart == null) {
+			return null;
+		}
+		addUnexistedArtifact(editPart, selected);
+
+		MapEditPart mapEditPart = (MapEditPart) editPart.getParent();
+		Map map = (Map) ((Diagram) mapEditPart.getModel()).getElement();
+
+		for (Object obj : map.getArtifacts()) {
+			if (obj instanceof QualifiedNamedElement) {
+				QualifiedNamedElement fqnElement = (QualifiedNamedElement) obj;
+				if (selected[0].getFullyQualifiedName().equals(
+						fqnElement.getFullyQualifiedName())) {
+					return fqnElement;
+				}
+			}
+		}
+		return null;
+	}
+
+	private void addUnexistedArtifact(IGraphicalEditPart selectedEditPart,
+			IAbstractArtifact[] toAddArr) {
+		List<IAbstractArtifact> toAdd = new ArrayList<IAbstractArtifact>(
+				asList(toAddArr));
+		TransactionalEditingDomain editingDomain = ((IGraphicalEditPart) selectedEditPart)
+				.getEditingDomain();
+		MapEditPart mapEditPart = (MapEditPart) selectedEditPart.getParent();
+		final IDiagramEditDomain diagramEditDomain = mapEditPart
+				.getDiagramEditDomain();
+		Map map = (Map) ((Diagram) mapEditPart.getModel()).getElement();
+
+		IFigure layer = mapEditPart.getLayer(LayerConstants.FEEDBACK_LAYER);
+		Point location = null;
+		if (layer != null) {
+			for (Object child : layer.getChildren()) {
+				if (child instanceof Connection) {
+					location = ((Connection) child).getPoints().getLastPoint();
+					break;
+				}
+			}
+		}
+
+		EList artifacts = map.getArtifacts();
+		Set<String> existed = new HashSet<String>(artifacts.size());
+		for (Object obj : artifacts) {
+			if (obj instanceof QualifiedNamedElement) {
+				String fqn = ((QualifiedNamedElement) obj)
+						.getFullyQualifiedName();
+				if (fqn != null) {
+					existed.add(fqn);
+				}
+			}
+		}
+
+		Iterator<IAbstractArtifact> it = toAdd.iterator();
+		while (it.hasNext()) {
+			if (existed.contains(it.next().getFullyQualifiedName())) {
+				it.remove();
+			}
+		}
+
+		ClassDiagramDragDropEditPolicy dndEditPolicy = (ClassDiagramDragDropEditPolicy) mapEditPart
+				.getEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE);
+		DropObjectsRequest request = new DropObjectsRequest();
+		request.setObjects(toAdd);
+		request.setAllowedDetail(DND.DROP_COPY);
+		if (location != null) {
+			request.setLocation(location);
+		}
+		final Command cmd = dndEditPolicy.getDropObjectsCommand(request);
+		if (cmd.canExecute()) {
+			cmd.setLabel("Add Artifacts");
+			ICommand iCommand = new CommandProxy(cmd);
+			try {
+				OperationHistoryFactory.getOperationHistory().execute(iCommand,
+						new NullProgressMonitor(), null);
+			} catch (ExecutionException e) {
+				EclipsePlugin.log(e);
+			}
+		}
 	}
 
 	/*
