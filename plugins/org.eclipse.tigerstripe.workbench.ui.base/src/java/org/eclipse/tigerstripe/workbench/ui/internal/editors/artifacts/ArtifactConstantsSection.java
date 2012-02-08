@@ -630,7 +630,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 			message = message + "this constant?";
 		}
 
-		if (Ask.aboutMemebersRemoving(getBody().getShell(), "Remove Constant",
+		if (Ask.aboutMemebersRemovingLiterals(getBody().getShell(), "Remove Constant",
 				message)) {
 
 			URI[] literalURIs = new URI[selectedLabels.length];

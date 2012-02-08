@@ -538,7 +538,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 			message = message + "this method?";
 		}
 
-		if (Ask.aboutMemebersRemoving(getBody().getShell(), "Remove method",
+		if (Ask.aboutMemebersRemovingMethods(getBody().getShell(), "Remove method",
 				message)) {
 
 			URI[] methodURIs = new URI[selectedMethods.length];

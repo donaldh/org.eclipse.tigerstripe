@@ -559,7 +559,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 			message = message + "this attribute?";
 		}
 
-		if (Ask.aboutMemebersRemoving(getBody().getShell(), "Remove attribute",
+		if (Ask.aboutMemebersRemovingFields(getBody().getShell(), "Remove attribute",
 				message)) {
 
 			URI[] fieldURIs = new URI[selectedFields.length];

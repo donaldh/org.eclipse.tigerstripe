@@ -234,7 +234,7 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 			message = message + "this stereotype?";
 		}
 
-		if (Ask.aboutMemebersRemoving(getBody().getShell(),
+		if (Ask.aboutMemebersRemovingStereotypes(getBody().getShell(),
 				"Remove Stereotype", message)) {
 			try {
 				((ProfileEditor) getPage().getEditor()).getProfile()

@@ -45,7 +45,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 	public static final String P_DEFAULTPACKAGE = "p.general.default.artifact.package";
 
 	public static final String P_LOGGINGLEVEL = "p.general.logging.level";
-	public static final String P_DONT_REMIND_MEMBERS_REMOVING = "p.general.ask.removing";
+	public static final String P_DONT_REMIND_FILEDS_REMOVING = "p.general.ask.removing.fields";
+	public static final String P_DONT_REMIND_METHODS_REMOVING = "p.general.ask.removing.methods";
+	public static final String P_DONT_REMIND_LITERAL_REMOVING = "p.general.ask.removing.literals";
+	public static final String P_DONT_REMIND_STEREOTYPES_REMOVING = "p.general.ask.removing.stereotypes";
 
 	
 	// See bug 298971
@@ -66,7 +69,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 				.getPreferenceStore();
 		store.setDefault(P_DEFAULTPACKAGE, "com.mycompany");
 		store.setDefault(P_LOGGINGLEVEL, PluginLog.LogLevel.ERROR.toString());
-		store.setDefault(P_DONT_REMIND_MEMBERS_REMOVING, false);
+		store.setDefault(P_DONT_REMIND_FILEDS_REMOVING, false);
+		store.setDefault(P_DONT_REMIND_METHODS_REMOVING, false);
+		store.setDefault(P_DONT_REMIND_LITERAL_REMOVING, false);
+		store.setDefault(P_DONT_REMIND_STEREOTYPES_REMOVING, false);
 		// See bug 298971
 //		store.setDefault(P_CASCADEDELETE_RELATIONSHIPS, "true");
 	}
@@ -144,10 +150,19 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		reminderGroup.setLayoutData(gd);
-		reminderGroup.setText("Asking Preferences");
-		addField(new BooleanFieldEditor(P_DONT_REMIND_MEMBERS_REMOVING,
-				"&Don't Remind About Removing fields/methods/constants",
-				reminderGroup));
+		reminderGroup.setText("Don't Remind About Removing");
+		
+		addField(new BooleanFieldEditor(P_DONT_REMIND_FILEDS_REMOVING,
+				"&Fields", reminderGroup));
+
+		addField(new BooleanFieldEditor(P_DONT_REMIND_METHODS_REMOVING,
+				"&Methods", reminderGroup));
+
+		addField(new BooleanFieldEditor(P_DONT_REMIND_LITERAL_REMOVING,
+				"&Constants", reminderGroup));
+
+		addField(new BooleanFieldEditor(P_DONT_REMIND_STEREOTYPES_REMOVING,
+				"&Stereotypes", reminderGroup));
 	}
 
 	@Override
