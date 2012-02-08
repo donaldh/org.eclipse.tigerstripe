@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 2/7/12 4:17 PM
+Save-Time: 2/8/12 2:35 PM
 Id: _f88S4E5GEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -28,15 +28,15 @@ get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
 exec-with-options -allowStatusDialog -command {
-    get-window "Diagram audit result (test: 18/22 diagrams have errors)" | get-button OK | click
+    get-window "Diagram audit result \(test: .*/.* diagrams have errors\)" | get-button OK | click
     get-window "Problem Occurred" | get-button OK | click
 }
 
 with [get-view "Error Log" | get-tree]{ 
     get-item [get-by-os
     
-    -win "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)/\\test\\src\\IsUniqueDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isUnique\' doesn\'t match on AEnd \\(entity1\\)."
-    -default "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)/\\/test\\/src\\/IsUniqueDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isUnique\' doesn\'t match on AEnd \\(entity1\\)." ] 
+    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\IsUniqueDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isUnique\' doesn\'t match on AEnd \\(entity1\\)."
+    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/IsUniqueDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isUnique\' doesn\'t match on AEnd \\(entity1\\)." ] 
     | get-property caption | equals "\'isUnique\' doesn\'t match on AEnd (entity1)." | verify-true
     }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
