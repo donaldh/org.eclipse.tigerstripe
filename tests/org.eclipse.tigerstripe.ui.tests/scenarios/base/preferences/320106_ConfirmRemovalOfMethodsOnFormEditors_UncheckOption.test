@@ -1,0 +1,29 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 320106_ConfirmRemovalOfMethodsOnFormEditors_UncheckOption
+Tags: TS_Project/Preferences, TS_Project/Edit/Artifacts, I47
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _KAOvQFFMEeGNzMSvh8EWmQ,_8I2UAC-yEeGcHog4af2eaw,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 2/9/12 5:34 PM
+Id: _7xrekFL7EeG1ps2f3Ic7Yg
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Uncheck preference options, which added "Don't remind me again" option on the confirmation dialog that pops up on removal items on form editors.
+Items are removed with warning message
+
+Precondition
+TigerstripeRemoveReminderPreference
+EntityWithExtendsAndAttributesLiteralsMethodsContextWorkspace
+
+
+1. Go to Tigerstripe/General Preferences;
+2. Uncheck "Don't remind about removing" preference and apply it;
+3. Remove attribute, method and constant with warning
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--

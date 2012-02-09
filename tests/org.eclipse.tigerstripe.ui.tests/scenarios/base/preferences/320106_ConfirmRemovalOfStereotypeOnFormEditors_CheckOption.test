@@ -1,0 +1,31 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 320106_ConfirmRemovalOfStereotypeOnFormEditors_CheckOption
+Tags: TS_Project/Preferences, TS_Project/Edit/Artifacts, I47, Stereotypes
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _pGxrsGdIEeCWiLpyewgyVA
+Save-Time: 2/9/12 11:35 AM
+Id: _J7T9cFLVEeG1ps2f3Ic7Yg
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Check preference options, which added "Don't remind me again" option on the confirmation dialog that pops up on stereotype removal on form editors
+Stereotypes are removed with warning message
+
+Precondition
+ProjectWithStereotypesContextGroup
+
+Steps
+1. Apply profile
+2. Go to Tigerstripe/General Preferences;
+3. Check "Don't remind about removing" preference and apply it;
+4. Open Entity in editor
+5. Remove stereotype without warning
+6. Reset profile
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--

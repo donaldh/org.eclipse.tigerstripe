@@ -1,20 +1,50 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: SetActiveFacetIncludedExtendedArtifactTigerstripeModule
+Element-Name: SetActiveFacetExcludedExtendedArtifactTigerstripeProject
+Tags: Facet/Active, Extend, Exception
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Save-Time: 2/6/12 2:22 PM
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_n_wmwVJMEeG1ps2f3Ic7Yg
+Save-Time: 2/8/12 7:15 PM
 Id: _SAVYcFCTEeGrX_dWnrkcag
+Testcase-Type: ecl
 
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkE9PwzAMxe9IfIfIdxL+HIaqdVOF
-NrTDTp1gnKbI8UJEk3Spu5ZvT4ZYT5xs+fn9/OT5cvSNOFPqXAwlPMh7EBQwGhdsCT0f755hubi9mWP0
-coyJjDzNZIcUdHKxqP8aMXpXTJTHCyVzQ1fkeQmfzG2h1DAMMnorY7Jqv91cV/4lT6asql9VnWbqqkrC
-PAIRtKcSauIK2Z1prZF4E7DpDZnVyBRyrRK7o0beOZvzcXItbaPpm2yfAj9dAjtTwqGu3j5w/bJb0Wva
-H8x7SF+oLQj+bvMlwgZU/sYPUEsHCG7Ok5bcAAAANgEAAFBLAQIUABQACAAIAAAAIQBuzpOW3AAAADYB
-AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAASAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+Set Active Facets with Excluded pattern with extended artifact in Tigerstripe project.
+
+Expected result:
+Facet is applied, entity1 is greyed, warning message displayed
+
+Precondition
+GeneratorAndProjectWithExtendsExcludedArifactFacetContextWorkspace
+
+Steps
+Apply facet
+Check "Problems occured" window
+Check greyed entity1 artifact
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/default.wfc"
+exec-with-options -allowStatusDialog -command {
+    get-view "Tigerstripe Explorer" | get-tree | get-menu "Facets/Mark as Active" | click
+    get-window "Problem Occurred" | get-label "\'Activating facet: default\' has encountered a problem." 
+        | get-property caption | equals "\'Activating facet: default\' has encountered a problem." | verify-true
+    get-window "Problem Occurred" 
+        | get-label "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
+        | get-property caption 
+        | equals "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
+        | verify-true
+    get-window "Problem Occurred" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project {default}/src/org.eclipse/Entity1" 
+    | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

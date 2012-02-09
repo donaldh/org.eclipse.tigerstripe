@@ -2,8 +2,10 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: GeneratorProjectAndTSModuleWithAnnotationFacetContextWorkspace
+Context-Type: com.xored.q7.workspace.context
+Element-Type: context
 Element-Version: 2.0
-Save-Time: 1/13/12 12:02 PM
+Save-Time: 2/8/12 11:06 AM
 Id: _o_vfUDHaEeGSksgVyHPBRg
 
 ------=_contents/Project1/tigerstripe.xml-1170153e-60f1-35a9-b041-358f43728798

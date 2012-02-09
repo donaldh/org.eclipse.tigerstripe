@@ -4,19 +4,63 @@ Format-Version: 1.0
 Element-Name: 364523_CopyFilesWithDirectoryCopyRuleFromGenerator
 Tags: TS_Generator, I44
 External-Reference: http://bugs.xored.com/browse/XMP-829
+Element-Type: testcase
 Element-Version: 3.0
-Save-Time: 12/26/11 11:06 AM
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_Y_h7AR_GEeGdteZxNfNT7A,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 2/8/12 5:43 PM
 Id: __Ck04CxqEeGA_eix0GUw3A
+Testcase-Type: ecl
 
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtUEFugzAQvOcVyOfGpkCbFIVEEW1Q
-DpWqpFV7Q8RsiFVsg22K8/uaKKGX3lYzO7Mzu1hZXns/oDSTIkH32EceCCpLJqoEdeY4naPVcrKgkmMr
-FZS4nWFNQRSKyXh/HTzLWTyaBIOJsxU6dniCTsY0MSF932PJKyxVRb5et7eVf51HkWPJhSXtjNxYDNRB
-yBMFhwSFj9FDEOapbM4bVoP+ZOb0zBRQI9V5QHddDRsleQYCVOFQ9Fc4HLKyMkF5nn77UWrbF8jWOTDr
-Zx99uEaeKSqdoPd9PsrvvG0UOeLcuOtAa/cxa0CJot7BEZR7H4z5D12lr/WGKgclew2u/tt0Hjwhspz8
-AlBLBwg/mb/RBwEAAIEBAABQSwECFAAUAAgACAAAACEAP5m/0QcBAACBAQAACAAAAAAAAAAAAAAAAAAA
-AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAPQEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+After generation files from source directory are copied to target directory
+
+Precondition
+GeneratorWithDirectoryRuleContextWorkspace
+
+Steps
+    Enable DirectoryRule2 global rule and disable DirectoryRule1
+    Package and deploy generator
+    Run generation for the Model project
+    Check copied items from source directory in target directory
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click
+with [get-editor "New Generator Project/ts-plugin.xml"] {
+    get-tab-folder | get-tab-item Rules | click
+    with [get-section "Global Rules"] {
+        get-section | get-table | select DirectoryRule2
+        with [get-section -index 1] {
+            get-button Enabled | click
+            get-editbox -after [get-label Source] | set-text templates
+        }
+        get-section | get-table | select DirectoryRule1
+        get-section -index 1 | get-button Enabled | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "New Generator Project/ts-plugin.xml"] {
+    get-tab-folder | get-tab-item Overview | click
+    get-section Testing | get-link "Package and deploy this generator" | click
+}
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/target/tigerstripe.gen/MyTarget" | get-property childCount | equals 2 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/MyTarget/allArtifacts.vm" | get-property caption 
+        | equals "allArtifacts.vm" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/MyTarget/artifact.vm" | get-property caption 
+        | equals "artifact.vm" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
