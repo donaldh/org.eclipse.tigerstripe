@@ -74,6 +74,16 @@
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3"
                label="Open in Editor"
                />
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.PasteMembersAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.PasteMembers"
+               label="Paste Members"
+               />
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.CopyAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.Copy"
+               label="Copy"
+               />
       </objectContribution>
       <objectContribution
             adaptable="false"
@@ -93,16 +103,6 @@
                class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.AddRelatedArtifactsAction"
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action4a"
                label="Add Related Artifacts..."
-               />
-      </objectContribution>
-      <objectContribution
-            adaptable="false"
-            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ui.contrib.PasteMembers"
-            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ClassDiagramShapeNodeEditPart">
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.PasteMembersAction"
-               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.PasteMembers"
-               label="Paste Members"
                />
       </objectContribution>
       <objectContribution

@@ -21,16 +21,15 @@ public class PasteMembersAction extends BaseDiagramPartAction implements
 		IObjectActionDelegate {
 
 	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		super.selectionChanged(action, selection);
+	protected boolean isEnabled() {
 		try {
-			action.setEnabled(containsMembers(getClipboard())
-					&& selectionIsAllArtifacts());
+			return containsMembers(getClipboard()) && selectionIsAllArtifacts();
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
+			return false;
 		}
 	}
-
+	
 	public void run(IAction action) {
 		TigerstripeDiagramEditor tsd = (TigerstripeDiagramEditor) myTargetWorkbenchPart;
 		IDiagramEditDomain diagramEditDomain = tsd.getDiagramEditDomain();

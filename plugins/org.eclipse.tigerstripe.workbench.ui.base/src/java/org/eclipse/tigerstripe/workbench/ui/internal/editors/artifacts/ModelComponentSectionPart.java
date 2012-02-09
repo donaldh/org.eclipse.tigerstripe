@@ -13,12 +13,15 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import static org.eclipse.tigerstripe.workbench.ui.EclipsePlugin.getClipboard;
 import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.containsMembers;
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.copyMemebers;
 import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils.doPaste;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,6 +37,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.model.HierarchyWalker;
@@ -44,6 +48,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CopyPasteUtils;
 import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -248,17 +253,25 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 		detailsPart.registerPage(clazz, detailsPage);
 	}
 
-	protected void makeMenu(Table table) {
+	protected void makeMenu(final Table table) {
 		Menu menu = new Menu(table);
-		final MenuItem pasteItem = new MenuItem(menu, SWT.PUSH);
 
-		menu.addMenuListener(new MenuAdapter() {
+		final MenuItem copyItem = new MenuItem(menu, SWT.PUSH);
+		copyItem.addSelectionListener(new SelectionAdapter() {
 
-			public void menuShown(MenuEvent e) {
-				pasteItem.setEnabled(containsMembers(getClipboard()));
+			public void widgetSelected(SelectionEvent e) {
+				TableItem[] selection = table.getSelection();
+				List<Object> members = new ArrayList<Object>();
+				for (TableItem item : selection) {
+					members.add(item.getData());
+				}
+				copyMemebers(members.toArray(), getClipboard());
 			}
 		});
-
+		
+		copyItem.setText("Copy");
+		
+		final MenuItem pasteItem = new MenuItem(menu, SWT.PUSH);
 		pasteItem.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -267,8 +280,14 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 				markPageModified();
 			}
 		});
-		pasteItem.setEnabled(false);
 		pasteItem.setText("Paste");
+		
+		menu.addMenuListener(new MenuAdapter() {
+
+			public void menuShown(MenuEvent e) {
+				pasteItem.setEnabled(containsMembers(getClipboard()));
+			}
+		});
 		table.setMenu(menu);
 	}
 
