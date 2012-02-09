@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 2/7/12 12:06 PM
+Save-Time: 2/9/12 3:02 PM
 Id: _zOthQFE1EeGNzMSvh8EWmQ
 Testcase-Type: ecl
 
@@ -57,7 +57,7 @@ with [get-editor Entity] {
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
     | equals 12 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
