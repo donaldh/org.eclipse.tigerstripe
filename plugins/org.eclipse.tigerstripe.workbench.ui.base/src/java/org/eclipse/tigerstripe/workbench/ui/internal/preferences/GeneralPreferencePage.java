@@ -153,7 +153,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 		reminderGroup.setText("Don't Remind About Removing");
 		
 		addField(new BooleanFieldEditor(P_DONT_REMIND_FILEDS_REMOVING,
-				"&Fields", reminderGroup));
+				"&Attributes?", reminderGroup));
 
 		addField(new BooleanFieldEditor(P_DONT_REMIND_METHODS_REMOVING,
 				"&Methods", reminderGroup));
