@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.ui.internal.Ask;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForStereotypeDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.StereotypeInstanceEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
@@ -314,11 +315,8 @@ public class StereotypeSectionManager {
 			message = message + "this stereotype?";
 		}
 
-		MessageDialog msgDialog = new MessageDialog(this.shell,
-				"Remove Stereotype", null, message, MessageDialog.QUESTION,
-				new String[] { "Yes", "No" }, 1);
-
-		if (msgDialog.open() == 0) {
+		if (Ask.aboutMemebersRemovingStereotypes(shell, "Remove Stereotype",
+				message)) {
 			viewer.remove(selectedLabels);
 			(this.component).removeStereotypeInstances(selectedLabels);
 			viewer.refresh(true);
