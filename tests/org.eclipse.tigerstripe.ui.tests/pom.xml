@@ -1,138 +1,131 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.eclipse.tigerstripe</groupId>
-    <artifactId>org.eclipse.tigerstripe.tests.parent</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
+	<parent>
+		<groupId>org.eclipse.tigerstripe</groupId>
+		<artifactId>org.eclipse.tigerstripe.tests.parent</artifactId>
+		<version>0.7.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
-  </parent>
+	<artifactId>org.eclipse.tigerstripe.ui.tests</artifactId>
+	<packaging>q7test</packaging>
+	<name>o.e.t.q7.tests</name>
+	<version>0.7.0-SNAPSHOT</version>
 
-  <artifactId>org.eclipse.tigerstripe.ui.tests</artifactId>
-  <packaging>q7test</packaging>
-  <name>o.e.t.q7.tests</name>
-  <version>0.7.0-SNAPSHOT</version>
+	<profiles>
+		<profile>
+			<id>q7-env-cisco</id>
 
-  <build>
+			<activation>
+				<property>
+					<name>build.env</name>
+					<value>!xored</value>
+				</property>
+			</activation>
 
-    <plugins>
-      <plugin>
-        <groupId>com.xored.q7</groupId>
-        <artifactId>q7-server-maven-plugin</artifactId>
-        <version>${q7-maven-version}</version>
-        <extensions>true</extensions>
-        <configuration>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.xored.q7</groupId>
+						<artifactId>q7-maven-plugin</artifactId>
+						<version>${q7-maven-version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<aut>
+								<explicit>../../releng/org.eclipse.tigerstripe.rcp/target/products/org.eclipse.tigerstripe.rcp-${osgi.os}.${osgi.ws}.${osgi.arch}.zip</explicit>
+								<vmArgs>
+                                  <vmArg>-Xms128m</vmArg>
+                                  <vmArg>-Xmx512m</vmArg>
+                                  <vmArg>-XX:MaxPermSize=128M</vmArg>
+                                </vmArgs>
+                                <!--injections>
+									<injection>
+										<site>${tigerstripe.ecl.update.site}</site>
+									</injection>
+								</injections -->
+							</aut>
+							<q7>
+								<version>${q7-runner-version}</version>
+                                <licenseFile>${project.basedir}/../q7runner.l9</licenseFile>
+							</q7>
+							<testOptions>
+								<execTimeout>10800</execTimeout>
+							</testOptions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
-          <classifiers>
-            <classifier>win32.win32.x86</classifier>
-          </classifiers>
-          <aut>
-            <uri>http://maven.xored.com/nexus/content/repositories/thirdparty/eclipse/sdk/3.6.2/sdk-3.6.2.zip</uri>
-            <injections>
-              <injection>
-                <site>http://download.xored.com/q7/${q7-runtime-version}/runtime/</site>
+		<profile>
+			<id>q7-env-xored</id>
 
-              </injection>
-              <injection>
-                <site>http://build.xored.com/browse/TS-CVSDEPLOY/latest/artifact/JOB1/repository/</site>
-                <features>
-                  <feature>com.cisco.tigerstripe.test.modules.feature.group</feature>
-                  <feature>org.eclipse.buckminster.core.feature.feature.group</feature>
-                  <feature>org.eclipse.draw2d.feature.group</feature>
+			<activation>
+				<property>
+					<name>build.env</name>
+					<value>xored</value>
+				</property>
+			</activation>
 
-                  <feature>org.eclipse.emf.codegen.ecore.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.codegen.ecore.feature.group</feature>
-                  <feature>org.eclipse.emf.codegen.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.codegen.feature.group</feature>
-                  <feature>org.eclipse.emf.common.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.common.feature.group</feature>
+			<properties>
+	        	<q7-maven-version>1.1.2</q7-maven-version>
+			</properties>
 
-                  <feature>org.eclipse.emf.converter.feature.group</feature>
-                  <feature>org.eclipse.emf.databinding.edit.feature.group</feature>
-                  <feature>org.eclipse.emf.databinding.feature.group</feature>
-                  <feature>org.eclipse.emf.ecore.edit.feature.group</feature>
-                  <feature>org.eclipse.emf.ecore.editor.feature.group</feature>
-                  <feature>org.eclipse.emf.ecore.feature.group</feature>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.xored.q7</groupId>
+						<artifactId>q7-server-maven-plugin</artifactId>
+						<version>${q7-maven-version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<aut>
+								<uri>http://maven.xored.com/nexus/content/repositories/snapshots/org/eclipse/tigerstripe/org.eclipse.tigerstripe.rcp/0.7.0-SNAPSHOT/org.eclipse.tigerstripe.rcp-0.7.0-SNAPSHOT.zip</uri>
+								<injections>
+									<injection>
+										<site>http://download.xored.com/q7/${q7-maven-version}/runtime/</site>
+									</injection>
+								</injections>
+							</aut>	
+							<q7server>
+								<host>192.168.2.226</host>
+								<port>7504</port>
+							</q7server>
+							<q7client>
+								<version>${q7-client-version}</version>
+							</q7client>
+							<testOptions>
+								<execTimeout>18000</execTimeout>
+								<q7Profiling>false</q7Profiling>
+							</testOptions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 
-                  <feature>org.eclipse.emf.edit.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.edit.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.ecore.editor.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.ecore.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.feature.group</feature>
+			<pluginRepositories>
+				<!-- pluginRepository> <id>atlassian-public</id> <name>Atlassian Public 
+					Maven Repo</name> <url>https://maven.atlassian.com/content/groups/public/</url> 
+					</pluginRepository -->
+				<pluginRepository>
+					<id>q7rel</id>
+					<name>Q7 releases</name>
+					<url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
+				</pluginRepository>
+				<pluginRepository>
+					<id>q7snap</id>
+					<name>Q7 snapshots</name>
+					<url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
 
-                  <feature>org.eclipse.emf.query.ocl.feature.group</feature>
-                  <feature>org.eclipse.emf.query.feature.group</feature>
-                  <feature>org.eclipse.emf.transaction.feature.group</feature>
-                  <feature>org.eclipse.emf.validation.feature.group</feature>
-                  <feature>org.eclipse.emf.workspace.feature.group</feature>
-                  <feature>org.eclipse.emf.feature.group</feature>
-
-                  <feature>org.eclipse.equinox.p2.user.ui.feature.group</feature>
-                  <feature>org.eclipse.gef.feature.group</feature>
-                  <feature>org.eclipse.gmf.runtime.notation.feature.group</feature>
-                  <feature>org.eclipse.gmf.runtime.thirdparty.feature.group</feature>
-                  <feature>org.eclipse.gmf.feature.group</feature>
-                  <feature>org.eclipse.help.feature.group</feature>
-
-                  <feature>org.eclipse.ocl.all.feature.group</feature>
-                  <feature>org.eclipse.ocl.uml.feature.group</feature>
-                  <feature>org.eclipse.ocl.feature.group</feature>
-                  <feature>org.eclipse.team.svn.feature.group</feature>
-                  <feature>org.eclipse.tigerstripe.annotation.example.feature.feature.group</feature>
-                  <feature>org.eclipse.tigerstripe.annotation.feature.feature.group</feature>
-
-                  <feature>org.eclipse.tigerstripe.base.feature.group</feature>
-                  <feature>org.eclipse.tigerstripe.workbench.feature.group</feature>
-                  <feature>org.eclipse.uml2.feature.group</feature>
-                  <feature>org.eclipse.zest.feature.group</feature>
-                </features>
-
-              </injection>
-
-            </injections>
-            <ignoreOtherInjections>true</ignoreOtherInjections>
-          </aut>	
-          <q7server>
-            <host>192.168.2.64</host>
-            <port>7504</port>
-          </q7server>
-          <q7client>
-
-            <version>${q7-client-version}</version>
-          </q7client>
-          <testOptions>
-            <execTimeout>18000</execTimeout>
-            <q7Profiling>false</q7Profiling>
-          </testOptions>
-        </configuration>
-
-      </plugin>
-    </plugins>
-  </build>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>q7rel</id>
-      <name>Q7 releases</name>
-
-      <url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>q7snap</id>
-      <name>Q7 snapshots</name>
-      <url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
-    </pluginRepository>
-
-  </pluginRepositories>
-
-  <properties>													
-    <q7-runtime-version>1.2.0-M2</q7-runtime-version>
-    <q7-client-version>1.2.0-SNAPSHOT</q7-client-version>
-    <q7-runner-version>1.1.5</q7-runner-version>
-    <q7-maven-version>1.1.5</q7-maven-version>
-  </properties>																																		
-
+	<properties>																																																		
+		<q7-maven-version>1.1.4</q7-maven-version>
+		<q7-client-version>1.1.1-SNAPSHOT</q7-client-version>																																																																																																																																																																																																																							
+		<q7-runner-version>1.1.6</q7-runner-version>																									
+	</properties>																																		
 </project>

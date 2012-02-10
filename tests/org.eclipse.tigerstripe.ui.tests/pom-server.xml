@@ -29,7 +29,7 @@
             <uri>http://maven.xored.com/nexus/content/repositories/thirdparty/eclipse/sdk/3.6.2/sdk-3.6.2.zip</uri>
             <injections>
               <injection>
-                <site>http://download.xored.com/q7/${q7-maven-version}/runtime/</site>
+                <site>http://download.xored.com/q7/${q7-runtime-version}/runtime/</site>
               </injection>
               <injection>
                 <site>http://build.xored.com/browse/TS-CVSDEPLOY/latest/artifact/JOB1/repository/</site>
@@ -82,7 +82,7 @@
               </injection>
             </injections>
             <ignoreOtherInjections>true</ignoreOtherInjections>
-          </aut>	
+          </aut> 
           <q7server>
             <host>192.168.2.64</host>
             <port>7504</port>
@@ -112,9 +112,10 @@
     </pluginRepository>
   </pluginRepositories>
 
-  <properties>													
-    <q7-client-version>1.1.1-SNAPSHOT</q7-client-version>
+  <properties>             
+    <q7-runtime-version>1.2.0-M2</q7-runtime-version>
+    <q7-client-version>1.2.0-SNAPSHOT</q7-client-version>
     <q7-runner-version>1.1.5</q7-runner-version>
     <q7-maven-version>1.1.5</q7-maven-version>
-  </properties>																																		
+  </properties>                                  
 </project>
