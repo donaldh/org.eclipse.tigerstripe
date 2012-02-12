@@ -15,7 +15,6 @@ import static org.eclipse.tigerstripe.workbench.convert.ConvertUtils.getPointAnd
 import static org.eclipse.tigerstripe.workbench.convert.ConvertUtils.makeDeleteFromClassDiagramCommand;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -81,42 +80,31 @@ import org.eclipse.ui.PlatformUI;
 
 public class ConvertArtifactOperation extends AbstractOperation {
 
-	private static final String EXTENDED_ARTIFACT_ATTR = "extendedArtifact";
-	private static final String IMPLEMENTED_ARTIFACTS_ATTR = "implementedArtifacts";
-	private final IArtifactManagerSession session;
-	private IAbstractArtifact from;
-	private final String toType;
-	private boolean association;
+	protected static final String EXTENDED_ARTIFACT_ATTR = "extendedArtifact";
+	protected static final String IMPLEMENTED_ARTIFACTS_ATTR = "implementedArtifacts";
+	protected final IArtifactManagerSession session;
+	protected IAbstractArtifact from;
+	protected final String toType;
+	protected boolean association;
 
-	private String mainFqn;
-	private Collection<String> toConvert;
+	protected String mainFqn;
+	protected Collection<String> toConvert;
 
-	private Set<String> parents;
-	private Set<String> children;
+	protected Set<String> parents;
+	protected Set<String> children;
 
-	private boolean convertParents;
-	private boolean convertChildren;
+	protected boolean convertParents;
+	protected boolean convertChildren;
 
-	private IUndoableOperation deleteOperation;
-	private IUndoableOperation createOperation;
+	protected IUndoableOperation deleteOperation;
+	protected IUndoableOperation createOperation;
 
-	private CompositeOperation deleteRelationsOperation;
-	private List<OpDesciptor> operations;
+	protected CompositeOperation deleteRelationsOperation;
+	protected List<OpDesciptor> operations;
 
-	private Set<IRelationship> relationships;
-	private final Set<IEditorPart> contextParts;
-	private final Map<String, Provider<IAbstractArtifact>> providers = new HashMap<String, Provider<IAbstractArtifact>>();
-
-	public static ConvertArtifactOperation make(
-			IArtifactManagerSession session, IAbstractArtifact from,
-			String toType, IEditorPart... contextParts) {
-
-		Set<IEditorPart> contextPartsSet = new HashSet<IEditorPart>(
-				Arrays.asList(CheckUtils.notNull(contextParts, "contextParts")));
-
-		return new ConvertArtifactOperation(session, from, toType,
-				contextPartsSet);
-	}
+	protected Set<IRelationship> relationships;
+	protected final Set<IEditorPart> contextParts;
+	protected final Map<String, Provider<IAbstractArtifact>> providers = new HashMap<String, Provider<IAbstractArtifact>>();
 
 	public ConvertArtifactOperation(IArtifactManagerSession session,
 			IAbstractArtifact from, String toType, Set<IEditorPart> contextParts) {
@@ -173,9 +161,6 @@ public class ConvertArtifactOperation extends AbstractOperation {
 			toConvertAsModels.addAll(parentsAsModels);
 			toConvertAsModels.addAll(childrenAsModels);
 
-			Set<IEditorPart> openedParts = findOpened();
-			openedParts.addAll(contextParts);
-
 			relationships = getRelations();
 
 			if (from instanceof IAssociationClassArtifact && toType.equals(IAssociationArtifact.class.getName())) {
@@ -212,9 +197,12 @@ public class ConvertArtifactOperation extends AbstractOperation {
 
 			/*
 			 * We must save all diagrams only for updating synchronization
-			 * info(cahe by fqn)
+			 * info(cached by fqn)
 			 */
 			savePartsGlobal(monitor, contextParts);
+
+			Set<IEditorPart> openedParts = findOpened();
+			openedParts.addAll(contextParts);
 
 			List<IUndoableOperation> relationsOperations = new ArrayList<IUndoableOperation>();
 			for (IRelationship r : relationships) {
@@ -387,9 +375,15 @@ public class ConvertArtifactOperation extends AbstractOperation {
 					(InstanceDiagramEditor) diagramEditor, toRepaint));
 		}
 
+		pipelinePartOperations(partOperations, diagramEditor);
+		
 		od.operation = new CompositeOperation("Convert Part Operation",
 				partOperations);
 		return od;
+	}
+
+	protected void pipelinePartOperations(
+			List<IUndoableOperation> partOperations, DiagramEditor diagramEditor) {
 	}
 
 	private boolean needConvert(String fqn) {
@@ -503,13 +497,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 				.run(new RunnableWithResult<IStatus, ExecutionException>() {
 
 					public IStatus run() throws ExecutionException {
-						deleteRelationsOperation.execute(monitor, info);
-						deleteOperation.execute(monitor, info);
-						createOperation.execute(monitor, info);
-						for (OpDesciptor o : operations) {
-							o.operation.execute(monitor, info);
-						}
-						resolveHierarchyProxies();
+						doExecute(monitor, info);
 						return Status.OK_STATUS;
 					}
 				});
@@ -517,7 +505,18 @@ public class ConvertArtifactOperation extends AbstractOperation {
 		bindUndoContext();
 		return status;
 	}
-   
+
+	protected void doExecute(final IProgressMonitor monitor,
+			final IAdaptable info) throws ExecutionException {
+		deleteRelationsOperation.execute(monitor, info);
+		deleteOperation.execute(monitor, info);
+		createOperation.execute(monitor, info);
+		for (OpDesciptor o : operations) {
+			o.operation.execute(monitor, info);
+		}
+		resolveHierarchyProxies();
+	}
+	
 	@Override
 	public IStatus redo(final IProgressMonitor monitor, final IAdaptable info)
 			throws ExecutionException {
@@ -526,25 +525,29 @@ public class ConvertArtifactOperation extends AbstractOperation {
 				.run(new RunnableWithResult<IStatus, ExecutionException>() {
 
 					public IStatus run() throws ExecutionException {
-						removeClosed();
-						deleteRelationsOperation.redo(monitor, info);
-						deleteOperation.redo(monitor, info);
-						createOperation.redo(monitor, info);
-						for (OpDesciptor o : operations) {
-							o.operation.redo(monitor, info);
-						}
-						Collection<OpDesciptor> newOpened = addOpened();
-						for (OpDesciptor o : newOpened) {
-							o.operation.execute(monitor, info);
-						}
+						doRedo(monitor, info);
 						return Status.OK_STATUS;
 					}
-
 				});
 		savePartsAsync(monitor);
 		return status;
 	}
 
+	protected void doRedo(final IProgressMonitor monitor,
+			final IAdaptable info) throws ExecutionException {
+		removeClosed();
+		deleteRelationsOperation.redo(monitor, info);
+		deleteOperation.redo(monitor, info);
+		createOperation.redo(monitor, info);
+		for (OpDesciptor o : operations) {
+			o.operation.redo(monitor, info);
+		}
+		Collection<OpDesciptor> newOpened = addOpened();
+		for (OpDesciptor o : newOpened) {
+			o.operation.execute(monitor, info);
+		}
+	}
+	
 	@Override
 	public IStatus undo(final IProgressMonitor monitor, final IAdaptable info)
 			throws ExecutionException {
@@ -554,19 +557,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 				.run(new RunnableWithResult<IStatus, ExecutionException>() {
 
 					public IStatus run() throws ExecutionException {
-						removeClosed();
-						createOperation.undo(monitor, info);
-						deleteOperation.undo(monitor, info);
-						deleteRelationsOperation.undo(monitor, info);
-
-						int size = operations.size();
-						for (int i = size - 1; i > -1; --i) {
-							operations.get(i).operation.undo(monitor, info);
-						}
-						Collection<DiagramEditor> newOpened = findNewOpened();
-						for (DiagramEditor de : newOpened) {
-							validateAndCorrect(de, monitor);
-						}
+						doUndo(monitor, info);
 						return Status.OK_STATUS;
 					}
 				});
@@ -574,6 +565,23 @@ public class ConvertArtifactOperation extends AbstractOperation {
 		return status;
 	}
 
+	protected void doUndo(final IProgressMonitor monitor,
+			final IAdaptable info) throws ExecutionException {
+		removeClosed();
+		createOperation.undo(monitor, info);
+		deleteOperation.undo(monitor, info);
+		deleteRelationsOperation.undo(monitor, info);
+
+		int size = operations.size();
+		for (int i = size - 1; i > -1; --i) {
+			operations.get(i).operation.undo(monitor, info);
+		}
+		Collection<DiagramEditor> newOpened = findNewOpened();
+		for (DiagramEditor de : newOpened) {
+			validateAndCorrect(de, monitor);
+		}
+	}
+	
 	private void savePartsAsync(final IProgressMonitor monitor) {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 

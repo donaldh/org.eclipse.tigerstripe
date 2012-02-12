@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.ui.ModelElementAnnotationsHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -804,7 +805,11 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	 */
 	public void populateEndStereotypeNames() {
 		try {
-			IAssociationArtifact assoc = (IAssociationArtifact) getCorrespondingIArtifact();
+			IAbstractArtifact corresponding = getCorrespondingIArtifact();
+			if (!(corresponding instanceof IAssociationArtifact)) {
+				return;
+			}
+			IAssociationArtifact assoc = (IAssociationArtifact) corresponding;
 			if (assoc != null) {
 				setAEndStereotypeNames(ModelElementAnnotationsHelper
 						.getAnnotationsAsString(assoc.getAEnd()));

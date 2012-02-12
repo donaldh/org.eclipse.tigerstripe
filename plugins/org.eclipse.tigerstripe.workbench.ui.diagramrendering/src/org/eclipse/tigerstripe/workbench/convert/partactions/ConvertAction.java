@@ -18,8 +18,9 @@ public abstract class ConvertAction extends BaseDiagramPartAction implements
 		if (abstractArtifacts.length == 0) {
 			return;
 		}
-		Converter.convert(getShell(), abstractArtifacts[0], toClass(),
-				(IEditorPart) getMyTargetWorkbenchPart());
+		new Converter(getShell(), abstractArtifacts[0], toClass())
+				.withContextPart((IEditorPart) getMyTargetWorkbenchPart())
+				.convert();
 	}
 
 	@Override

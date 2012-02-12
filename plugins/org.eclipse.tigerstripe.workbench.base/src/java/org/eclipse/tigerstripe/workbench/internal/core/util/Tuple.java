@@ -16,6 +16,10 @@ public class Tuple<T1, T2> {
 	private final T1 first;
 	private final T2 second;
 
+	public static <X1, X2> Tuple<X1, X2> empty() {
+		return new Tuple<X1, X2>(null, null);
+	}
+	
 	public Tuple(T1 first, T2 second) {
 		this.first = first;
 		this.second = second;

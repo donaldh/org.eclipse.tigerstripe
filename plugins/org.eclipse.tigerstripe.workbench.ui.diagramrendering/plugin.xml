@@ -52,12 +52,18 @@
            description="Convert artifact to data type"
            id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.DataType"
            name="ConvertToDataType" />
-	     <command
+         <command
            categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
            defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToEntity"
            description="Convert artifact to entity"
            id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.Entity"
            name="ConvertToEntity" />
+	     <command
+           categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
+           defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToEntity"
+           description="Convert artifact to entity and association"
+           id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.EntityAndAssociation"
+           name="ConvertToEntityAndAssociation" />
 	     <command
            categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
            defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToAssociation"
@@ -123,6 +129,30 @@
 		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
 		                             <instanceof
                                      	value="org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact" />
+		                       </adapt>
+		                    </and>
+		                 </iterate>
+		              </with>							                        
+	                 </visibleWhen>
+	           </command>
+	           <command
+	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.EntityAndAssociation"
+	                 label="Convert to Entity and Association..."
+	                 style="push">
+	                 <visibleWhen
+                        checkEnabled="false">
+		              <with
+		                    variable="selection">
+		                 <iterate
+		                       ifEmpty="false">
+		                    <and>
+		                       <instanceof
+		                             value="org.eclipse.jdt.core.IJavaElement">
+		                       </instanceof>
+		                       <adapt
+		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+		                             <instanceof
+                                     	value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact" />
 		                       </adapt>
 		                    </and>
 		                 </iterate>

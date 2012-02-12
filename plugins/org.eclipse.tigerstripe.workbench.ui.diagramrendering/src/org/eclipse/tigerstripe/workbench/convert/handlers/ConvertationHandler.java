@@ -34,7 +34,7 @@ public abstract class ConvertationHandler extends AbstractHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		final Shell shell = window.getShell();
 		
-		Converter.convert(shell, entity, toClass());
+		new Converter(shell, entity, toClass()).convert();
 		return null;
 	}
 }
