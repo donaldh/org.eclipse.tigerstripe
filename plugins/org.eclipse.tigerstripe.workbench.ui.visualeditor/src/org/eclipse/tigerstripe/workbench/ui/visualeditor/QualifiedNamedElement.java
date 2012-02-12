@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Qualified Named Element</b></em>'.
@@ -121,5 +122,7 @@ public interface QualifiedNamedElement extends NamedElement {
 	// Custom method ( not generated )
 	public IAbstractArtifact getCorrespondingIArtifact()
 			throws TigerstripeException;
+
+	public void setCorrespondingProject(ITigerstripeModelProject project);
 
 } // QualifiedNamedElement

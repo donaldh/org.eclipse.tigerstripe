@@ -40,6 +40,9 @@ public class WrapHelper {
 
 	public static <T extends IModelComponent> T wrap(
 			ITigerstripeModelProject context, T art) {
+		if (art == null) {
+			return null;
+		}
 		return ContextProjectAwareProxy
 				.newInstanceOrChangeContext(art, context);
 	}

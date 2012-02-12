@@ -13,6 +13,9 @@ public class ToAssociationClass extends ConvertAction {
 
 	@Override
 	protected boolean isEnabled() {
+		if (!super.isEnabled()) {
+			return false;
+		}
 		IAbstractArtifact[] artifacts = getCorrespondingArtifacts();
 		switch (artifacts.length) {
 		case 1:

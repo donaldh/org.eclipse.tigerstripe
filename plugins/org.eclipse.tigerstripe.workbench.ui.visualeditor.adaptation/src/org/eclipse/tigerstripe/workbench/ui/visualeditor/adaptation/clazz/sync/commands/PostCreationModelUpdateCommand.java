@@ -151,6 +151,12 @@ public class PostCreationModelUpdateCommand extends
 
 					QualifiedNamedElement eArtifact = (QualifiedNamedElement) obj;
 					IAbstractArtifact iArtifact = artifacts.get(index);
+					try {
+						eArtifact.setCorrespondingProject(iArtifact
+								.getProject());
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
+					}
 					eArtifact.setName(iArtifact.getName());
 					eArtifact.setPackage(iArtifact.getPackage());
 				} finally {

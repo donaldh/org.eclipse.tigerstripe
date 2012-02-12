@@ -321,20 +321,37 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 	// Custom method (not generated)
 	public IAbstractArtifact getCorrespondingIArtifact()
 			throws TigerstripeException {
-		if (eContainer() instanceof Map) {
-			Map map = (Map) eContainer();
-			ITigerstripeModelProject tsProject = map
-					.getCorrespondingITigerstripeProject();
-			
-			if (tsProject!=null) {
-				IArtifactManagerSession session = tsProject
-						.getArtifactManagerSession();
-				IAbstractArtifact artifact = session
-						.getArtifactByFullyQualifiedName(getFullyQualifiedName());
-				return artifact;
+
+		ITigerstripeModelProject tsProject = getProject();
+
+		if (tsProject != null) {
+			IArtifactManagerSession session = tsProject
+					.getArtifactManagerSession();
+			if (session == null) {
+				return null;
 			}
+			IAbstractArtifact artifact = session
+					.getArtifactByFullyQualifiedName(getFullyQualifiedName());
+			return artifact;
 		}
 		return null;
+	}
+	
+	private ITigerstripeModelProject project;
+
+	protected ITigerstripeModelProject getProject() {
+		if (project != null) {
+			return project;
+		}
+		if (eContainer() instanceof Map) {
+			Map map = (Map) eContainer();
+			return map.getCorrespondingITigerstripeProject();
+		}
+		return null;
+	}
+	
+	public void setCorrespondingProject(ITigerstripeModelProject project) {
+		this.project = project;
 	}
 
 } // QualifiedNamedElementImpl
