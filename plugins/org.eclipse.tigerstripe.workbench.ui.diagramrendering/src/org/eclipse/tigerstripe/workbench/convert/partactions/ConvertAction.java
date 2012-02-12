@@ -1,5 +1,7 @@
 package org.eclipse.tigerstripe.workbench.convert.partactions;
 
+import static java.util.Arrays.asList;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.tigerstripe.workbench.convert.Converter;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
@@ -15,14 +17,15 @@ public abstract class ConvertAction extends BaseDiagramPartAction implements
 
 	public void run(IAction action) {
 		IAbstractArtifact[] abstractArtifacts = getCorrespondingArtifacts();
+		
 		if (abstractArtifacts.length == 0) {
 			return;
 		}
-		new Converter(getShell(), abstractArtifacts[0], toClass())
+		new Converter(getShell(), toClass(), asList(abstractArtifacts))
 				.withContextPart((IEditorPart) getMyTargetWorkbenchPart())
 				.convert();
 	}
-
+	
 	@Override
 	protected boolean isEnabled() {
 		for (IAbstractArtifact art : getCorrespondingArtifacts()) {

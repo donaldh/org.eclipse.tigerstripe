@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.convert;
 
 import static org.eclipse.tigerstripe.workbench.convert.ConvertUtils.getPointAndSize;
 import static org.eclipse.tigerstripe.workbench.convert.ConvertUtils.makeDeleteFromClassDiagramCommand;
+import static org.eclipse.tigerstripe.workbench.model.ModelUtils.mapWritablePropertiesExclude;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -228,10 +229,9 @@ public class ConvertArtifactOperation extends AbstractOperation {
 					Class<?> mapClass = art instanceof IAssociationArtifact ? IAssociationArtifact.class
 							: IAbstractArtifact.class;
 
-					Map<String, Object> savedProperties = ModelUtils
-							.mapWritablePropertiesExclude(mapClass, art,
-									IMPLEMENTED_ARTIFACTS_ATTR,
-									EXTENDED_ARTIFACT_ATTR);
+					Map<String, Object> savedProperties = mapWritablePropertiesExclude(
+							mapClass, art, IMPLEMENTED_ARTIFACTS_ATTR,
+							EXTENDED_ARTIFACT_ATTR);
 
 					if (convertParents || (children.contains(fqn) && convertChildren)) {
 						IAbstractArtifact extended = hierarchyHelper
@@ -260,12 +260,17 @@ public class ConvertArtifactOperation extends AbstractOperation {
 						}
 					}
 
+					pipelineProperties(art, savedProperties);
+
 					CreateArtifactOperation createOperation = new CreateArtifactOperation(
 							session, toType, savedProperties);
 					createOprations.add(createOperation);
 					providers.put(fqn, createOperation);
 				}
 			}
+			pipelineCreateOperations(createOprations);
+			pipelineDeleteOperations(deleteOprations);
+			
 			deleteOperation = new CompositeOperation("Delete Artifact",
 					deleteOprations);
 			createOperation = new CompositeOperation("Create Artifact",
@@ -286,6 +291,18 @@ public class ConvertArtifactOperation extends AbstractOperation {
 			return false;
 		}
 		return true;
+	}
+
+	protected void pipelineDeleteOperations(
+			List<IUndoableOperation> oprations) {
+	}
+
+	protected void pipelineCreateOperations(
+			List<IUndoableOperation> oprations) {
+	}
+
+	protected void pipelineProperties(IAbstractArtifact art,
+			Map<String, Object> props) {
 	}
 
 	private boolean eligableInheratance(IAbstractArtifact art,
@@ -426,9 +443,13 @@ public class ConvertArtifactOperation extends AbstractOperation {
 		return openedParts;
 	}
 
-	private IUndoableOperation makeDeleteRelationFromDiagram(
+	protected IUndoableOperation makeDeleteRelationFromDiagram(
 			DiagramEditor editor, IRelationship r) {
-		String fqn = r.getFullyQualifiedName();
+		return makeDeleteFromDiagram(editor, r.getFullyQualifiedName());
+	}
+
+	protected IUndoableOperation makeDeleteFromDiagram(DiagramEditor editor,
+			String fqn) {
 
 		if (editor instanceof TigerstripeDiagramEditor) {
 			return ConvertUtils.makeDeleteFromClassDiagramCommand(

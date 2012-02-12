@@ -611,65 +611,69 @@ public class AssociationSpecificsSection extends EndSection {
 
 		// Update aEnd
 		IAssociationEnd aEnd = artifact.getAEnd();
-		aEndNameText.setText(aEnd.getName());
-		aEndCommentText.setText(aEnd.getComment());
-		aEndTypeText.setText(aEnd.getType().getFullyQualifiedName());
-		aEndAggregationCombo.select(indexIn(aggrStrs, aEnd.getAggregation()
-				.getLabel()));
-		aEndChangeableCombo.select(indexIn(chanStrs, aEnd.getChangeable()
-				.getLabel()));
-		aEndMultiplicityCombo.select(indexIn(mulStrs, aEnd.getMultiplicity()
-				.getLabel()));
-		aEndIsNavigableButton.setSelection(aEnd.isNavigable());
-
-		if (aEnd.getMultiplicity().isArray()) {
-			aEndIsOrderedButton.setEnabled(true);
-			aEndIsOrderedButton.setSelection(aEnd.isOrdered());
-			aEndIsUniqueButton.setEnabled(true);
-			aEndIsUniqueButton.setSelection(aEnd.isUnique());
-		} else {
-			aEndIsOrderedButton.setEnabled(false);
-			aEndIsOrderedButton.setSelection(false);
-			aEnd.setOrdered(false);
-			aEndIsUniqueButton.setEnabled(false);
-			aEndIsUniqueButton.setSelection(true);
-			aEnd.setUnique(true);
+		if (aEnd != null) {
+			aEndNameText.setText(aEnd.getName());
+			aEndCommentText.setText(aEnd.getComment());
+			aEndTypeText.setText(aEnd.getType().getFullyQualifiedName());
+			aEndAggregationCombo.select(indexIn(aggrStrs, aEnd.getAggregation()
+					.getLabel()));
+			aEndChangeableCombo.select(indexIn(chanStrs, aEnd.getChangeable()
+					.getLabel()));
+			aEndMultiplicityCombo.select(indexIn(mulStrs, aEnd.getMultiplicity()
+					.getLabel()));
+			aEndIsNavigableButton.setSelection(aEnd.isNavigable());
+			
+			if (aEnd.getMultiplicity().isArray()) {
+				aEndIsOrderedButton.setEnabled(true);
+				aEndIsOrderedButton.setSelection(aEnd.isOrdered());
+				aEndIsUniqueButton.setEnabled(true);
+				aEndIsUniqueButton.setSelection(aEnd.isUnique());
+			} else {
+				aEndIsOrderedButton.setEnabled(false);
+				aEndIsOrderedButton.setSelection(false);
+				aEnd.setOrdered(false);
+				aEndIsUniqueButton.setEnabled(false);
+				aEndIsUniqueButton.setSelection(true);
+				aEnd.setUnique(true);
+			}
+			aStereotypeManager.setArtifactComponent(aEnd);
+			aStereotypeManager.refresh();
+			
+			setAEndVisibility(aEnd.getVisibility());
 		}
-		aStereotypeManager.setArtifactComponent(aEnd);
-		aStereotypeManager.refresh();
-
-		setAEndVisibility(aEnd.getVisibility());
 
 		// Update zEnd
 		IAssociationEnd zEnd = artifact.getZEnd();
-		zEndNameText.setText(zEnd.getName());
-		zEndCommentText.setText(zEnd.getComment());
-		zEndTypeText.setText(zEnd.getType().getFullyQualifiedName());
-		zEndAggregationCombo.select(indexIn(aggrStrs, zEnd.getAggregation()
-				.getLabel()));
-		zEndChangeableCombo.select(indexIn(chanStrs, zEnd.getChangeable()
-				.getLabel()));
-		zEndMultiplicityCombo.select(indexIn(mulStrs, zEnd.getMultiplicity()
-				.getLabel()));
-		zEndIsNavigableButton.setSelection(zEnd.isNavigable());
-
-		if (zEnd.getMultiplicity().isArray()) {
-			zEndIsOrderedButton.setEnabled(true);
-			zEndIsOrderedButton.setSelection(zEnd.isOrdered());
-			zEndIsUniqueButton.setEnabled(true);
-			zEndIsUniqueButton.setSelection(zEnd.isUnique());
-		} else {
-			zEndIsOrderedButton.setEnabled(false);
-			zEndIsOrderedButton.setSelection(false);
-			zEnd.setOrdered(false);
-			zEndIsUniqueButton.setEnabled(false);
-			zEndIsUniqueButton.setSelection(true);
-			zEnd.setUnique(true);
+		if (zEnd != null) {
+			zEndNameText.setText(zEnd.getName());
+			zEndCommentText.setText(zEnd.getComment());
+			zEndTypeText.setText(zEnd.getType().getFullyQualifiedName());
+			zEndAggregationCombo.select(indexIn(aggrStrs, zEnd.getAggregation()
+					.getLabel()));
+			zEndChangeableCombo.select(indexIn(chanStrs, zEnd.getChangeable()
+					.getLabel()));
+			zEndMultiplicityCombo.select(indexIn(mulStrs, zEnd.getMultiplicity()
+					.getLabel()));
+			zEndIsNavigableButton.setSelection(zEnd.isNavigable());
+			
+			if (zEnd.getMultiplicity().isArray()) {
+				zEndIsOrderedButton.setEnabled(true);
+				zEndIsOrderedButton.setSelection(zEnd.isOrdered());
+				zEndIsUniqueButton.setEnabled(true);
+				zEndIsUniqueButton.setSelection(zEnd.isUnique());
+			} else {
+				zEndIsOrderedButton.setEnabled(false);
+				zEndIsOrderedButton.setSelection(false);
+				zEnd.setOrdered(false);
+				zEndIsUniqueButton.setEnabled(false);
+				zEndIsUniqueButton.setSelection(true);
+				zEnd.setUnique(true);
+			}
+			zStereotypeManager.setArtifactComponent(zEnd);
+			zStereotypeManager.refresh();
+			
+			setZEndVisibility(zEnd.getVisibility());
 		}
-		zStereotypeManager.setArtifactComponent(zEnd);
-		zStereotypeManager.refresh();
-
-		setZEndVisibility(zEnd.getVisibility());
 		setSilentUpdate(false);
 	}
 

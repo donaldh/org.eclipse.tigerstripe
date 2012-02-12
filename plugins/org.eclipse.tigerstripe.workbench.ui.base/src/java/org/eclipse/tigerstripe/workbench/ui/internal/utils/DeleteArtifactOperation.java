@@ -106,11 +106,16 @@ public class DeleteArtifactOperation extends AbstractOperation {
 							IAbstractArtifact artifact = AdaptHelper.adapt(
 									((IFileEditorInput) editorInput).getFile(),
 									IAbstractArtifact.class);
-							if (artifact != null) {
+							if (artifact != null && isDeletingArtifact(artifact)) {
 								page.closeEditor(ref.getEditor(false), false);
 							}
 						} else if (editorInput instanceof ReadOnlyArtifactEditorInput) {
-							page.closeEditor(ref.getEditor(false), false);
+							IAbstractArtifact artifact = ((ReadOnlyArtifactEditorInput) editorInput)
+									.getArtifact();
+							if (artifact != null
+									&& isDeletingArtifact(artifact)) {
+								page.closeEditor(ref.getEditor(false), false);
+							}
 						}
 					} catch (PartInitException e) {
 						BasePlugin.log(e);
@@ -118,6 +123,11 @@ public class DeleteArtifactOperation extends AbstractOperation {
 				}
 			}
 		}
+	}
+
+	private boolean isDeletingArtifact(IAbstractArtifact artifact) {
+		return this.artifact.getFullyQualifiedName().equals(
+				artifact.getFullyQualifiedName());
 	}
 
 	@Override

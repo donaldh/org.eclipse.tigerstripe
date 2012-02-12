@@ -73,7 +73,7 @@
 	     <command
            categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
            defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToAssociationClass"
-           description="Convert artifact to assciation class"
+           description="Convert artifact/artifacts to assciation class"
            id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.AssociationClass"
            name="ConvertToAssociation" />
 	</extension>
@@ -163,22 +163,10 @@
 	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.Association"
 	                 label="Convert to Association..."
 	                 style="push">
-	                 <visibleWhen
-                        checkEnabled="false">
-		              <with
-		                    variable="selection">
-		                 <iterate
-		                       ifEmpty="false">
-		                    <and>
-		                       <instanceof
-		                             value="org.eclipse.jdt.core.IJavaElement">
-		                       </instanceof>
-		                       <adapt
-		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
-		                             <instanceof
-                                     	value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact" />
-		                       </adapt>
-		                    </and>
+	                 <visibleWhen checkEnabled="false">
+		              <with variable="selection">
+		                 <iterate ifEmpty="false">
+		                    <reference definitionId="org.eclipse.tigerstripe.workbench.convert.association" />
 		                 </iterate>
 		              </with>							                        
 	                 </visibleWhen>	                 
@@ -191,25 +179,21 @@
                         checkEnabled="false">
 		              <with
 		                    variable="selection">
-		                 <iterate
-		                       ifEmpty="false">
-		                    <and>
-		                       <instanceof
-		                             value="org.eclipse.jdt.core.IJavaElement">
-		                       </instanceof>
-		                       <adapt
-		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
-		                             <and>
-		                             	<instanceof
-                                      		value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact" />
-		                             	<not>
-		                             		<instanceof
-                                       			value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact" />
-		                             	</not>
-		                             </and>
-		                       </adapt>
-		                    </and>
-		                 </iterate>
+		                 <or>
+			                 <iterate
+			                       ifEmpty="false">
+			                       <reference definitionId="org.eclipse.tigerstripe.workbench.convert.association" />
+			                 </iterate>
+			                 <and>
+			                	<count value="2" />
+			                	<iterate operator="or">
+				                    <reference definitionId="org.eclipse.tigerstripe.workbench.convert.association" />
+			                	</iterate>
+			                	<iterate operator="or">
+				                    <reference definitionId="org.eclipse.tigerstripe.workbench.convert.notassociation" />
+			                	</iterate>
+			                 </and>
+		                 </or>
 		              </with>							                        
 	                 </visibleWhen>	                 
 	           </command>	   
@@ -247,7 +231,6 @@
 	               id="org.eclipse.tigerstripe.workbench.convert.part.Association"
 	               label="Convert to Association..."/>
 	    </objectContribution>
-
 		<objectContribution
 	      		adaptable="false"
 	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.Association2"
@@ -259,13 +242,33 @@
 	    </objectContribution>
 		<objectContribution
 	      		adaptable="false"
-	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.AssociationClass"
-	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart">
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.Association"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart">
+	      	<action
+	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToEntity"
+	               id="org.eclipse.tigerstripe.workbench.convert.part.EntityAndAssociation"
+	               label="Convert to Entity and Association..."/>
+	    </objectContribution>
+		<objectContribution
+	      		adaptable="false"
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.Association2"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassEditPart">
+	      	<action
+	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToEntity"
+	               id="org.eclipse.tigerstripe.workbench.convert.part.EntityAndAssociation2"
+	               label="Convert to Entity and Association..."/>
+	    </objectContribution>
+		<objectContribution
+	      		adaptable="false"
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.AssociationClass2"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableEntityEditPart">
 	      	<action
 	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToAssociationClass"
 	               id="org.eclipse.tigerstripe.workbench.convert.part.AssociationClass"
 	               label="Convert to Association Class..."/>
 	    </objectContribution>
+	    
+	    
 	</extension>
 	
 	<extension
@@ -315,4 +318,31 @@
          </partContribution> 
       </contributionItemProvider>
    </extension>
+   
+	<extension point="org.eclipse.core.expressions.definitions">
+		<definition id="org.eclipse.tigerstripe.workbench.convert.association">
+			<and>
+				<instanceof value="org.eclipse.jdt.core.IJavaElement" />
+				<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+					<and>
+						<instanceof value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact" />
+						<not>
+							<instanceof value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact" />
+						</not>
+					</and>
+				</adapt>
+			</and>
+		</definition>
+		<definition id="org.eclipse.tigerstripe.workbench.convert.notassociation">
+			<and>
+				<instanceof value="org.eclipse.jdt.core.IJavaElement" />
+				<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+					<not>
+						<instanceof value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact" />
+					</not>
+				</adapt>
+			</and>
+		</definition>
+	</extension>
+
 </plugin>

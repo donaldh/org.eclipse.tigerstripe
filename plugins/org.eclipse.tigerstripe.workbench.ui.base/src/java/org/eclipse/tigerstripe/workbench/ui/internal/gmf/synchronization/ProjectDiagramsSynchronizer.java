@@ -242,7 +242,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		}
 	}
 
-	public IStatus flushRequestQueue(boolean applyRequests,
+	public synchronized IStatus flushRequestQueue(boolean applyRequests,
 			IProgressMonitor monitor) {
 
 		Set<DiagramHandle> affectedDiagrams = new HashSet<DiagramHandle>();
