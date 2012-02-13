@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
@@ -40,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -236,6 +238,21 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 								} else {
 									return artifact;
 								}
+							}
+						}
+					}
+
+					IPhantomTigerstripeProject phantomProject = TigerstripeProjectFactory.INSTANCE
+							.getPhantomProject();
+					if (project.equals(phantomProject.getModelId())) {
+						artifact = phantomProject.getArtifactManagerSession()
+								.getArtifactByFullyQualifiedName(fqn, false);
+						if (artifact != null) {
+							if (container != null) {
+								return (IAbstractArtifact) ContextProjectAwareProxy
+										.newInstance(artifact, proj);
+							} else {
+								return artifact;
 							}
 						}
 					}
@@ -623,7 +640,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath resPath = path;
 
 		if (context != null) {
-			String container = context.getModelId();
+			String container = null;
+			try {
+				container = context.getModelId();
+			} catch (TigerstripeException e) {
+				container = null;
+			}
 			if (container != null) {
 				StringBuilder res = new StringBuilder();
 				res.append(container);
