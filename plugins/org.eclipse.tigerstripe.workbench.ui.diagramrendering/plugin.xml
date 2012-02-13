@@ -163,10 +163,22 @@
 	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.Association"
 	                 label="Convert to Association..."
 	                 style="push">
-	                 <visibleWhen checkEnabled="false">
-		              <with variable="selection">
-		                 <iterate ifEmpty="false">
-		                    <reference definitionId="org.eclipse.tigerstripe.workbench.convert.association" />
+	                 <visibleWhen
+                        checkEnabled="false">
+		              <with
+		                    variable="selection">
+		                 <iterate
+		                       ifEmpty="false">
+		                    <and>
+		                       <instanceof
+		                             value="org.eclipse.jdt.core.IJavaElement">
+		                       </instanceof>
+		                       <adapt
+		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+		                             <instanceof
+                                     	value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact" />
+		                       </adapt>
+		                    </and>
 		                 </iterate>
 		              </with>							                        
 	                 </visibleWhen>	                 
