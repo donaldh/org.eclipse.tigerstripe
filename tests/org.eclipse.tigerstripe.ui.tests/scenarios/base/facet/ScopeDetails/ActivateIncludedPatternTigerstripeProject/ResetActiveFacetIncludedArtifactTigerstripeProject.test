@@ -6,8 +6,8 @@ Tags: Facet/Active
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
-Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_m2oXQFCmEeGrX_dWnrkcag,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/13/12 11:01 AM
+Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_K096UFXrEeGF04Fr4bPA4w
+Save-Time: 2/13/12 1:58 PM
 Id: _-EeDUFXqEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -18,7 +18,7 @@ Content-Type: text/plain
 Reset active facet with included artifact for Tigerstripe project 
 
 Precondition
-GeneratorAndTSModuleWithIncludedArifactFacetContextWorkspace
+GeneratorAndTSProjectsIncludedArtifactFacetWorkspaceContext
 
 Steps
 Set facet as active

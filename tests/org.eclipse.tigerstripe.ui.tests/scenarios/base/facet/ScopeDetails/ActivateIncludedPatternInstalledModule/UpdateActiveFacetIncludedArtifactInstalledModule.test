@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_m2oXQFCmEeGrX_dWnrkcag
-Save-Time: 2/13/12 9:32 AM
+Save-Time: 2/13/12 1:10 PM
 Id: _-D1xMFXqEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -22,9 +22,35 @@ GeneratorAndTSModuleWithIncludedArifactFacetContextWorkspace
 
 Steps
 Set facet as active
-Check greyed Datatype artifact
+Check greyed E2 artifact
 Open facet
-Add org.eclipse.tigerstripe.test.Ex1 to Included Exception pattern of facet
+Add org.eclipse.tigerstripe.test.E2 to Included Exception pattern of facet
 Save and Apply facet
-Check that Exception artifact is not greyed 
+Check that E2 artifact is not greyed 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | get-menu "Facets/Mark as Active" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E2" 
+    | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {128, 128, 128}" 
+    | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1 \\{default\\}/default.wfc" | double-click
+with [get-editor "Project1/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    with [get-section "Scope Details"] {
+        get-button Add | click
+        with [get-table] {
+            select "com.mycompany.\\*" | activate-cell-edit
+            get-editbox | set-text "org.eclipse.tigerstripe.test.E2"
+            apply-cell-edit
+        }
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E2" 
+    | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

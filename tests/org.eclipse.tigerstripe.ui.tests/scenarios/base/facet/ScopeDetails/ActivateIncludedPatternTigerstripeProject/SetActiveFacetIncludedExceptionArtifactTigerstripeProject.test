@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _K096UFXrEeGF04Fr4bPA4w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/13/12 11:02 AM
+Save-Time: 2/13/12 1:36 PM
 Id: _-D6psFXqEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -29,41 +29,44 @@ Check all artifacts are greyed except Exception artifact
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | double-click
-with [get-editor "Project1/default.wfc"] {
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/default.wfc" | double-click
+with [get-editor "New Project/default.wfc"] {
     get-tab-folder | get-tab-item Scope | click
     with [get-section "Scope Details" | get-table] {
         select "org.eclipse.Entity0" | activate-cell-edit
-        get-editbox | set-text "org.eclipse.Exception0"
+        with [get-editbox] {
+            set-text "org.eclipse.Exception0"
+            key-type CR
+        }
         apply-cell-edit
     }
 }
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/default.wfc" | get-menu "Facets/Mark as Active" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "New Project {default}/src/org.eclipse/AssocClass0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/AssocClass0" | get-property styleRanges -index 0 
         | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Association0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Association0" | get-property styleRanges -index 0 
         | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Datatype0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Datatype0" | get-property styleRanges -index 0 
         | equals "0, 9, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Dependency0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Dependency0" | get-property styleRanges -index 0 
         | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Entity0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Entity0" | get-property styleRanges -index 0 
         | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Entity1" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Entity1" | get-property styleRanges -index 0 
         | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Enumeration0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Enumeration0" | get-property styleRanges -index 0 
         | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Event0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Event0" | get-property styleRanges -index 0 
         | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Exception0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Exception0" | get-property styleRanges -index 0 
         | equals "0, 10, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Query0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Query0" | get-property styleRanges -index 0 
         | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Session0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Session0" | get-property styleRanges -index 0 
         | equals "0, 8, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse/Update0" | get-property styleRanges -index 0 
-        | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
-    get-item "New Project {default}/src/org.eclipse.Package0/Entity2" | get-property styleRanges -index 0 
+    get-item "New Project \\{default\\}/src/org.eclipse/Update0" | get-property styleRanges -index 0 
         | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
