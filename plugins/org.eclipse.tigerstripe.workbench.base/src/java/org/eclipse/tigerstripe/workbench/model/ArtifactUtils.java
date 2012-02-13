@@ -6,6 +6,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.ArtifactSettingDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
@@ -55,4 +56,13 @@ public class ArtifactUtils {
 		}
 		return details.isEnabled();
 	}
+	
+	public static ITigerstripeModelProject getModelProject(ArtifactManager activeMgr) {
+		TigerstripeProject tsProject = activeMgr.getTSProject();
+		if (tsProject == null) {
+			return null;
+		}
+		return tsProject.getTSProject();
+	}
+	
 }

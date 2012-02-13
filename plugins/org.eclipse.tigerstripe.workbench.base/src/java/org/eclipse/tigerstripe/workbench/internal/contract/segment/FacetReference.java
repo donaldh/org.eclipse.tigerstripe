@@ -44,6 +44,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.ArtifactUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -125,7 +126,10 @@ public class FacetReference extends AbstractContainedObject implements
 		activeMgr = mgr;
 		activeMgr.addArtifactManagerListener(this);
 		// start listen project dependency changes
-		activeMgr.getTSProject().getTSProject().addProjectDependencyChangeListener(this);
+		ITigerstripeModelProject modelProject = ArtifactUtils.getModelProject(activeMgr);
+		if (modelProject != null) {
+			modelProject.addProjectDependencyChangeListener(this);
+		}
 		// start listen annotation events
 		AnnotationPlugin.getManager().addAnnotationListener(this);
 	}
@@ -134,7 +138,10 @@ public class FacetReference extends AbstractContainedObject implements
 		if (activeMgr != null) {
 			activeMgr.removeArtifactManagerListener(this);
 			// stop listen project dependency changes
-			activeMgr.getTSProject().getTSProject().removeProjectDependencyChangeListener(this);
+			ITigerstripeModelProject modelProject = ArtifactUtils.getModelProject(activeMgr);
+			if (modelProject != null) {
+				modelProject.removeProjectDependencyChangeListener(this);
+			}
 			// stop listen annotation events
 			AnnotationPlugin.getManager().removeAnnotationListener(this);
 			activeMgr = null;
