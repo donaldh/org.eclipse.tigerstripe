@@ -12,7 +12,9 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import static org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener.ARTIFACT_RESOURCES;
+import static org.eclipse.tigerstripe.workbench.internal.core.classpath.IReferencesConstants.REFERENCES_CONTAINER_PATH;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,6 +27,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJarEntryResource;
@@ -32,6 +35,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
+import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -41,14 +45,18 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ProxyUtils;
 import org.eclipse.tigerstripe.workbench.model.FqnUtils;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
+import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.internal.navigator.extensions.CommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
@@ -131,8 +139,9 @@ public class TigerstripeContentProvider extends
 		tigerstripeChangeListener = new TigerstripeChangeAdapter() {
 
 			@Override
-			public void artifactResourceAdded(IResource addedArtifactResource) {
-				artifactResourceChanged(addedArtifactResource);
+			public void artifactResourceAdded(IResource resource) {
+				artifactResourceChanged(resource);
+				refreshReferences();
 			}
 
 			@Override
@@ -158,6 +167,7 @@ public class TigerstripeContentProvider extends
 			public void artifactResourceRemoved(IResource resource) {
 				String fqn = FqnUtils.getFqnForResource(resource);
 				proxiesByFqn.remove(fqn);
+				refreshReferences();
 			}
 
 			public void projectDeleted(String projectName) {
@@ -173,6 +183,44 @@ public class TigerstripeContentProvider extends
 						| ITigerstripeChangeListener.PROJECT);
 	}
 
+	protected void refreshReferences() {
+		List<Object> toRefresh = new ArrayList<Object>();
+		try {
+			for (ITigerstripeModelProject modelProject : TigerstripeCore.allModelProjects()) {
+				IProject project = AdaptHelper.adapt(modelProject, IProject.class);
+				if (project == null) {
+					continue;
+				}
+				Object[] children = getChildren(project);
+				for (Object child : children) {
+					if (child instanceof ClassPathContainer) {
+						IPath path = ((ClassPathContainer) child)
+								.getClasspathEntry()
+								.getPath();
+						if (REFERENCES_CONTAINER_PATH
+								.equals(path)) {
+							toRefresh.add(child);
+						}
+					}
+				}
+			}
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		refreshElements(toRefresh);
+	}
+	
+	private void refreshElements(final List<Object> elements) {
+		asyncExec(new Runnable() {
+			
+			public void run() {
+				for (Object element : elements) {
+					viewer.refresh(element, true);
+				}
+			}
+		});
+	}
+	
 	@Override
 	public void dispose() {
 		try {
