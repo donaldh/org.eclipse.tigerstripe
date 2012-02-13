@@ -3,6 +3,7 @@
 	<name>org.eclipse.tigerstripe.ui.tests</name>
 	<comment></comment>
 	<projects>
+		<project>org.eclipse.tigerstripe.ui.tests.unstable</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

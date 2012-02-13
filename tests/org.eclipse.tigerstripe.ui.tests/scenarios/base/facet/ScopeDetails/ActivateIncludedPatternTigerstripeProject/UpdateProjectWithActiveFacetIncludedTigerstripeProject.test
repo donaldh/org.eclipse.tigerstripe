@@ -1,0 +1,44 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: UpdateProjectWithActiveFacetIncludedTigerstripeProject
+Tags: Facet/Active
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_K096UFXrEeGF04Fr4bPA4w,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/13/12 11:03 AM
+Id: _-ELIYFXqEeGF04Fr4bPA4w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Update artifact in project and see that facet is applied automatically to new artifact
+
+Precondition
+GeneratorAndTSModuleWithIncludedArifactFacetContextWorkspace
+
+Steps
+Set facet as active
+Add Entity artifact to project
+Apply facet
+Check that Entity artifact is greyed 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "New Project/default.wfc" | get-menu "Facets/Mark as Active" | click
+    select "New Project \\{default\\}/src/org.eclipse" | get-menu "New/Entity" | click
+}
+with [get-window "Create a new Entity"] {
+    get-editbox -after [get-label "Name:"] | set-text Entity4
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project \\{default\\}/src/org.eclipse/Entity4" 
+    | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

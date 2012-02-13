@@ -1,0 +1,44 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetIncludedExceptionArtifactInstalledModule
+Tags: Facet/Active, Extend, Exception
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _m2oXQFCmEeGrX_dWnrkcag,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/13/12 9:32 AM
+Id: _-DnuwFXqEeGF04Fr4bPA4w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with Included Exception pattern Facet for Installed Module
+Exception is added to method of entity E4
+
+Precondition
+GeneratorAndTSModuleWithIncludedArifactFacetContextWorkspace
+
+Steps
+Add org.eclipse.tigerstripe.test.Ex1 to Included pattern of facet
+Save and Apply facet
+Check all artifacts are greyed except Exception artifact
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | double-click
+with [get-editor "Project1/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    with [get-section "Scope Details" | get-table] {
+        select "org.eclipse.tigerstripe.test.E1" | activate-cell-edit
+        get-editbox | set-text "org.eclipse.tigerstripe.test.Ex1"
+        apply-cell-edit
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | get-menu "Facets/Mark as Active" | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

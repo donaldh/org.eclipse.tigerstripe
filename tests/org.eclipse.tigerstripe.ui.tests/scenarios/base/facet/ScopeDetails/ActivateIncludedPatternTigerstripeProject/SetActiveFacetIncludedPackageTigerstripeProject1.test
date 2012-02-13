@@ -1,0 +1,66 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetIncludedPackageTigerstripeProject
+Tags: Facet/Active
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_K1s6IFXrEeGF04Fr4bPA4w
+Save-Time: 2/13/12 10:00 AM
+Id: _-EDMkFXqEeGF04Fr4bPA4w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with Included package pattern in Tigerstripe project
+
+Precondition
+GeneratorAndTSProjectsIncludedPackageFacetWorkspaceContext
+
+Steps
+Set facet as active
+Check enabled artifacts of package org.eclipse.Package0
+Check greyed artifacts of package org.eclipse.Package2
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/default.wfc" | get-menu "Facets/Mark as Active" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/AssocClass0" | get-property styleRanges -index 0 
+        | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Association0" | get-property styleRanges -index 0 
+        | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Datatype0" | get-property styleRanges -index 0 
+        | equals "0, 9, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Dependency0" | get-property styleRanges -index 0 
+        | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Entity0" | get-property styleRanges -index 0 
+        | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Entity1" | get-property styleRanges -index 0 
+        | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Enumeration0" | get-property styleRanges -index 0 
+        | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Event0" | get-property styleRanges -index 0 
+        | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Exception0" | get-property styleRanges -index 0 
+        | equals "0, 10, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Query0" | get-property styleRanges -index 0 
+        | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Session0" | get-property styleRanges -index 0 
+        | equals "0, 8, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package2/Update0" | get-property styleRanges -index 0 
+        | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.Package0"
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "New Project \\{default\\}/src/org.eclipse.Package0/Datatype2" | get-property styleRanges -index 0 
+        | equals "0, 9, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
+    get-item "New Project \\{default\\}/src/org.eclipse.Package0/Entity2" | get-property styleRanges -index 0 
+        | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

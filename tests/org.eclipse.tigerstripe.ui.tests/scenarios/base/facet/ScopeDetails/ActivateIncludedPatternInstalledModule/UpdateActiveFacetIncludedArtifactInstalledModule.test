@@ -1,0 +1,30 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: UpdateActiveFacetIncludedArtifactInstalledModule
+Tags: Facet/Active
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_m2oXQFCmEeGrX_dWnrkcag
+Save-Time: 2/13/12 9:32 AM
+Id: _-D1xMFXqEeGF04Fr4bPA4w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Update Facet and see that changes are applied to Installed Module automatically 
+
+Precondition
+GeneratorAndTSModuleWithIncludedArifactFacetContextWorkspace
+
+Steps
+Set facet as active
+Check greyed Datatype artifact
+Open facet
+Add org.eclipse.tigerstripe.test.Ex1 to Included Exception pattern of facet
+Save and Apply facet
+Check that Exception artifact is not greyed 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
