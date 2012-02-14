@@ -1,0 +1,76 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 327248_CopyPasteLiteralsInDifferentEditors
+Tags: TS_Project/Edit/Artifacts/Enumeration/constant
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_izWI8MinEeCVYvz9uSPZwA
+Save-Time: 2/14/12 3:26 PM
+Id: _K8wHAFbgEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Copy Literal Using Copy and Paste in Editor
+
+Precondition
+EnumerationOnDiagramContextWorkspace
+
+Steps
+Open enumeration in editor
+Create another enumeration2
+Copy literal of enumeration in editor
+Paste literal on enumeration2 in editor
+Check literals in Tigerstripe Explorer
+Check literals in Diagram
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src" | get-menu "New/Enumeration" | click
+with [get-window "Create a new Enumeration"] {
+    get-editbox -after [get-label "Name:"] | set-text Enumeration2
+    get-button Finish | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/ClassDiagram" | double-click
+    select "Project1/src/com.mycompany/Enumeration2"
+    get-item "Project1/src/com.mycompany/Enumeration2" | drag-start 45 12
+}
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 131 118 -detail 2 -operation 7
+    drag-over 210 118 -detail 1 -operation 7
+    drag-exit
+    drag-accept 210 118 -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-set-data
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 210 118 -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-end -detail 1
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "ClassDiagram.wvd" | close
+get-view "Tigerstripe Explorer" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration" | double-click
+get-editor Enumeration | get-section Constants | get-section | get-table | select "literal0=0" | get-menu Copy | click
+with [get-editor Enumeration2] {
+    click
+    get-section Constants | get-section | get-table | get-menu Paste | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor Enumeration2 | get-section Constants | get-section | get-table | get-item "literal0=0" 
+    | get-property caption | equals "literal0=0" | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/Enumeration/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+    get-item "Project1/src/com.mycompany/Enumeration2/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enumeration2 
+    | get-edit-part -text "+literal0=0" | get-edit-part -name literal0 | get-property text | equals "+literal0=0" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

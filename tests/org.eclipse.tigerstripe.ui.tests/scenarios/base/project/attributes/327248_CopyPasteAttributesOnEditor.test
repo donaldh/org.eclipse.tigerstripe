@@ -1,0 +1,67 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 327248_CopyPasteAttributesInDifferentEditors
+Tags: TS_Project/Edit/Artifacts/Entity/Attribute 
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 2:50 PM
+Id: _zp82QFbcEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Copy Attribute Using Copy and Paste in Editor
+
+Precondition
+EntityOnDiagramContextWorkspace
+
+Steps
+Open enitites in editors
+Copy attribute of Entity2 in editor
+Paste attribute on Entity in editor
+Check attributes of Entity in Tigerstripe Explorer
+Check attributes of Entity in Diagram
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Entity" | double-click
+    select "Project1/src/com.mycompany/Entity2" | double-click
+}
+get-editor Entity2 | get-section Attributes | get-section | get-table | select attribute0 | get-menu Copy | click
+with [get-editor Entity] {
+    click
+    get-section Attributes | get-section | get-table | get-menu Paste | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor Entity | get-section Attributes | get-section | get-table | get-item attribute0 | get-property caption 
+    | equals attribute0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity"
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity/attribute0:String" 
+    | get-property caption | equals "attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity2/attribute0:String" 
+    | get-property caption | equals "attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 | get-property text 
+    | equals "+attribute0:String" | verify-true
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity] {
+    mouse-move 96 43 button1 -height 57 -width 122
+    mouse-press 96 43 button1 -height 57 -width 122
+    with [get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0] {
+        mouse-move 66 6 button1 -height 16 -width 112
+        mouse-press 66 6 button1 -height 16 -width 112
+        mouse-release 66 6 button1 524288 -height 16 -width 112
+    }
+}
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity 
+    | get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 | get-property text 
+    | equals "+attribute0:String" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

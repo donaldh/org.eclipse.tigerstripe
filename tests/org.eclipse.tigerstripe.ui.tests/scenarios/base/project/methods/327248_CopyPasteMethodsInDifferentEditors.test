@@ -1,0 +1,66 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 327248_CopyPasteMethodsInDifferentEditors
+Tags: TS_Project/Edit/Artifacts/Entity/Methods
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 3:28 PM
+Id: _JVAtIFbgEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Copy Method On Diagram Using Copy and Paste in Editor
+
+Precondition
+EntityOnDiagramContextWorkspace
+
+Steps
+Open enitites in editors
+Copy method of Entity2 in editor
+Paste method on Entity in editor
+Check method of Entity in Tigerstripe Explorer
+Check method of Entity in Diagram
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Entity" | double-click
+    select "Project1/src/com.mycompany/Entity2" | double-click
+}
+with [get-editor Entity2 | get-section Methods] {
+    click
+    get-section | get-table | select "method0\\(\\):void" | get-menu Copy | click
+}
+with [get-editor Entity] {
+    click
+    with [get-section Methods] {
+        click
+        get-section | get-table | get-menu Paste | click
+    }
+}
+get-editor Entity | get-section Methods | get-section | get-table | get-item "method0\\(\\):void" 
+    | get-property caption | equals "method0():void" | verify-true
+get-button "Save (Ctrl+S)" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/Entity" | get-property childCount | equals 1 | verify-true
+    get-item "Project1/src/com.mycompany/Entity/method0\\(\\):void" | get-property caption | equals "method0():void" 
+        | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/Entity2" | get-property childCount | equals 3 | verify-true
+    get-item "Project1/src/com.mycompany/Entity2/method0\\(\\):void" | get-property caption | equals "method0():void" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity 
+    | get-edit-part -text "+method0():void" | get-edit-part -name method0 | get-property text 
+    | equals "+method0():void" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

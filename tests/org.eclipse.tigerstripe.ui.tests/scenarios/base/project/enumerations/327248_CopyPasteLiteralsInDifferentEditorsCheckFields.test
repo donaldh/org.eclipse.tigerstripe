@@ -1,0 +1,69 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 327248_CopyPasteLiteralsInDifferentEditorsCheckFields
+Tags: TS_Project/Edit/Artifacts/Enumeration/constant
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_izWI8MinEeCVYvz9uSPZwA
+Save-Time: 2/14/12 3:34 PM
+Id: _o9SwMFblEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Copy Literal Using Copy and Paste in Editor
+Check that all fileds are copied correctly
+
+Precondition
+EnumerationOnDiagramContextWorkspace
+
+Steps
+Open enumeration in editor
+Update editor fields
+Create another enumeration2
+Copy literal of enumeration in editor
+Paste literal on enumeration2 in editor
+Check fields of literal 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration" | double-click
+with [get-editor Enumeration | get-section Constants] {
+    get-section | get-table | select "literal0=0"
+    with [get-section -index 1] {
+        get-editbox -after [get-label "Description:"] | set-text test
+        get-button Protected | click
+        get-editbox -after [get-label "Value:"] | set-text 2
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany" | get-menu "New/Enumeration" | click
+with [get-window "Create a new Enumeration"] {
+    get-editbox -after [get-label "Name:"] | set-text Enumeration2
+    get-button Finish | click
+}
+with [get-editor Enumeration] {
+    click
+    get-section Constants | get-section | get-table | select "literal0=2" | get-menu Copy | click
+}
+with [get-editor Enumeration2] {
+    click
+    get-section Constants | get-section | get-table | get-menu Paste | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor Enumeration2 | get-section Constants | get-section | get-table | select "literal0=2"
+with [get-editor Enumeration2 | get-section Constants | get-section -index 1] {
+    get-editbox -after [get-label "Description:"] | get-property text | equals test | verify-true
+    get-button Protected | get-property selected | equals true | verify-true
+}
+with [get-editor Enumeration2 | get-section Constants | get-section -index 1] {
+    get-editbox -after [get-label "Value:"] | get-property text | equals 2 | verify-true
+    get-combo -after [get-label "Type:"] | get-property selection | equals int | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

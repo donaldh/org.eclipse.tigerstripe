@@ -1,0 +1,75 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 327248_CopyPasteMethodsInDifferentEditorsCheckFields
+Tags: TS_Project/Edit/Artifacts/Entity/Methods
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 3:28 PM
+Id: _iBcqUFbjEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Copy Method On Diagram Using Copy and Paste in Editor
+Check that all fields are copied correctly
+
+Precondition
+EntityOnDiagramContextWorkspace
+
+Steps
+Open enitites in editors
+Update editor fields
+Copy method of Entity2 in editor
+Paste method on Entity in editor
+Check fields of method 
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Entity" | double-click
+    select "Project1/src/com.mycompany/Entity2" | double-click
+}
+with [get-editor Entity2 | get-section Attributes] {
+    get-section | get-table | select attribute0
+    with [get-section -index 1] {
+        get-editbox -after [get-label "Description:"] | set-text test
+        get-button Browse | click
+    }
+}
+with [get-window "Artifact Type Selection"] {
+    get-table | select " int"
+    get-button OK | click
+}
+with [get-editor Entity2 | get-section Attributes | get-section -index 1] {
+    get-combo -after [get-label "Multiplicity:"] | set-text "0..*"
+    get-button Protected | click
+    get-button Ordered | click
+    with [get-combo -after [get-label "Default Value:"]] {
+        key-type "NUMPAD_1" 1
+        key-type "NUMPAD_1" 1
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-editor Entity2 | get-section Attributes | get-section | get-table | select attribute0 | get-menu Copy | click
+with [get-editor Entity] {
+    click
+    get-section Attributes | get-section | get-table | get-menu Paste | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor Entity | get-section Attributes | get-section | get-table | select attribute0
+with [get-editor Entity | get-section Attributes | get-section -index 1] {
+    get-editbox -after [get-label "Description:"] | get-property text | equals test | verify-true
+    get-editbox -after [get-label "Type:"] | get-property text | equals int | verify-true
+    get-combo -after [get-label "Multiplicity:"] | get-property selection | equals "0..*" | verify-true
+    get-button Protected | get-property selected | equals true | verify-true
+    get-combo -after [get-label "Default Value:"] | get-property selection | equals 1 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
