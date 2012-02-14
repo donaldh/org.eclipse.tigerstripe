@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/325174_ConvertAssociationCl
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,__WPzQKO8EeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/13/12 4:51 PM
+Save-Time: 2/14/12 4:47 PM
 Id: _1l7cbYKOREeCnVOKduz-xbg
 Testcase-Type: ecl
 
@@ -52,10 +52,21 @@ get-editor AC | get-section Methods | get-section | get-table | get-item "method
     | equals "method0():void" | verify-true
 get-editor AC | get-section Constants | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Class Diagram" | double-click
+
 with [get-editor "Class Diagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
-    mouse-move 362 238 button1 -height 356 -width 596
-    mouse-press 362 238 button1 -height 356 -width 596
-    mouse-release 362 238 button1 524288 -height 356 -width 596
-    mouse-hover 362 238 -height 356 -width 596
+    get-edit-part -name Entity1 | get-figure 0 | get-property text | equals Entity1 | verify-true
+    get-edit-part -name Entity2 | get-edit-part -text Entity2 | get-property text | equals Entity2 | verify-true
+    with [get-edit-part -name AC | get-edit-part -text AC] {
+        get-property text | equals AC | verify-true
+        get-property className 
+            | equals "org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactNamePackageEditPart" 
+            | verify-true
+    }
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/AC" | get-property caption | equals AC | verify-true
+    get-item "Project1/src/com.mycompany/ACAssociation" | get-property caption | equals ACAssociation | verify-true
+    get-item "Project1/src/com.mycompany/Entity1" | get-property caption | equals Entity1 | verify-true
+    get-item "Project1/src/com.mycompany/Entity2" | get-property caption | equals Entity2 | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
