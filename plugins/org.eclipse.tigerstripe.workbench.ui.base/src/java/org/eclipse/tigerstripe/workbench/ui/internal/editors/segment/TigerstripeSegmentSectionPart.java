@@ -52,5 +52,4 @@ public abstract class TigerstripeSegmentSectionPart extends
 		}
 		throw new TigerstripeException("No containing project");
 	}
-
 }

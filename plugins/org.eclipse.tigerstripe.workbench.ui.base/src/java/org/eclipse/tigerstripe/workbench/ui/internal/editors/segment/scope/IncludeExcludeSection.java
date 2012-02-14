@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.scope;
 
+import static org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.EXCLUDES;
+import static org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.INCLUDES;
+import static org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.Kind.PATTERN;
+import static org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.Kind.STEREOTYPE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,11 +24,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -45,15 +48,13 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForStereotypeDialog;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.TigerstripeSegmentSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
+public class IncludeExcludeSection extends ScopeSection {
 
 	private Button addIncludesButton;
 
@@ -84,20 +85,6 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 	private Button sortStereotypeExcludesButton;
 
 	private Button removeStereotypeExcludesButton;
-
-	private class PatternLabelProvider extends LabelProvider {
-		@Override
-		public String getText(Object element) {
-			if (element instanceof ISegmentScope.ScopePattern) {
-				ISegmentScope.ScopePattern pattern = (ISegmentScope.ScopePattern) element;
-				return pattern.pattern;
-			} else if (element instanceof ISegmentScope.ScopeStereotypePattern) {
-				ISegmentScope.ScopeStereotypePattern pattern = (ISegmentScope.ScopeStereotypePattern) element;
-				return pattern.stereotypeName;
-			}
-			return "<unknown>";
-		}
-	}
 
 	private class StereotypePatternContentProvider implements
 			IStructuredContentProvider {
@@ -167,34 +154,6 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		}
 	}
 
-	private class PatternViewSorter extends ViewerSorter {
-
-		private boolean sort = false;
-
-		private boolean sorted = false;
-
-		public void setSort(boolean sort) {
-			this.sort = sort;
-		}
-
-		public boolean isSorted() {
-			return sorted;
-		}
-
-		public void setSorted(boolean sorted) {
-			this.sorted = sorted;
-		}
-
-		@Override
-		public void sort(Viewer viewer, Object[] elements) {
-			if (sort /* && !sorted */) {
-				super.sort(viewer, elements);
-				sort = false;
-			}
-		}
-
-	}
-
 	private class PatternCellModifier implements ICellModifier {
 
 		private final TableViewer viewer;
@@ -239,10 +198,6 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
 		setTitle("Scope Details");
 		createContent();
-	}
-
-	private ISegmentScope getScope() throws TigerstripeException {
-		return ((ScopePage) getPage()).getScope();
 	}
 
 	/**
@@ -301,7 +256,6 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			includesViewer.setLabelProvider(labelProvider);
 			includesViewer.setContentProvider(new PatternContentProvider(
 					ISegmentScope.INCLUDES));
-			includesViewer.setSorter(new PatternViewSorter());
 
 			includesViewer.setInput(getScope());
 			includesViewer.setColumnProperties(new String[] { "PATTERN" });
@@ -342,7 +296,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				sortButtonSelected(includesViewer);
+				sortButtonSelected(INCLUDES, PATTERN, includesViewer);
 			}
 
 		});
@@ -395,7 +349,6 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			excludesViewer.setLabelProvider(labelProvider);
 			excludesViewer.setContentProvider(new PatternContentProvider(
 					ISegmentScope.EXCLUDES));
-			excludesViewer.setSorter(new PatternViewSorter());
 			excludesViewer.setInput(getScope());
 			excludesViewer.setColumnProperties(new String[] { "PATTERN" });
 			final TextCellEditor entryListCellEditor = new TextCellEditor(
@@ -435,7 +388,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				sortButtonSelected(excludesViewer);
+				sortButtonSelected(EXCLUDES, PATTERN, excludesViewer);
 			}
 		});
 
@@ -491,7 +444,6 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			stereotypeExcludesViewer
 					.setContentProvider(new StereotypePatternContentProvider(
 							ISegmentScope.EXCLUDES));
-			stereotypeExcludesViewer.setSorter(new PatternViewSorter());
 			stereotypeExcludesViewer.setInput(getScope());
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -529,7 +481,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 					}
 
 					public void widgetSelected(SelectionEvent e) {
-						sortButtonSelected(stereotypeExcludesViewer);
+						sortButtonSelected(EXCLUDES, STEREOTYPE, stereotypeExcludesViewer);
 					}
 
 				});
@@ -653,27 +605,8 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	private void refreshViewerAfterAdd(TableViewer viewer)
 			throws TigerstripeException {
-
 		viewer.setInput(getScope());
-		((PatternViewSorter) viewer.getSorter()).setSorted(false);
 		viewer.refresh(true);
-	}
-
-	protected void sortButtonSelected(TableViewer viewer) {
-		PatternViewSorter viewSorter = (PatternViewSorter) viewer.getSorter();
-		if (!viewSorter.isSorted()) {
-			viewSorter.setSort(true);
-			viewer.refresh(true);
-			viewSorter.setSorted(true);
-		} else {
-			viewSorter.setSorted(false);
-			viewer.refresh(true);
-		}
-	}
-
-	protected void markPageModified() {
-		SegmentEditor editor = (SegmentEditor) getPage().getEditor();
-		editor.pageModified();
 	}
 
 	private void removePatternSelected(int type) {
@@ -771,14 +704,8 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	private void refreshViewerAfterRemove(TableViewer viewer)
 			throws TigerstripeException {
-
-		PatternViewSorter viewSorter = (PatternViewSorter) viewer.getSorter();
 		viewer.setInput(getScope());
-		if (viewSorter.isSorted()) {
-			viewSorter.setSort(true);
-		}
 		viewer.refresh(true);
-
 	}
 
 	private void updateRemoveButtonsState() {

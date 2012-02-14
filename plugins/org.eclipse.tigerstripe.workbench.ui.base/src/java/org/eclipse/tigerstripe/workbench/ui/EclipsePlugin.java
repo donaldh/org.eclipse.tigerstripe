@@ -141,8 +141,10 @@ public class EclipsePlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		stopDiagramSynchronizerManager();
-		clipboard.dispose();
-		clipboard = null;
+		if (clipboard != null) {
+			clipboard.dispose();
+			clipboard = null;
+		}
 	}
 
 	/**

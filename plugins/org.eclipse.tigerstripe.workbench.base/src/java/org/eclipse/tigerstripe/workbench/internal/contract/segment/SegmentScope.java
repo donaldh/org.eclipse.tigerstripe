@@ -11,6 +11,9 @@
 package org.eclipse.tigerstripe.workbench.internal.contract.segment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
@@ -43,6 +46,41 @@ public class SegmentScope implements ISegmentScope {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void sort(int type, Comparator<Object> comparator, ISegmentScope.Kind kind) {
+		
+		List patterns; 
+		
+		switch (kind) {
+		case ANNOTATION:
+			patterns = annotationPatterns;
+			break;
+		case STEREOTYPE:
+			patterns = stereotypePatterns;
+			break;
+		case PATTERN:
+			patterns = this.patterns;
+			break;
+		case ANNOTATION_CONTEXT:
+			patterns = annotationContext;
+			break;
+		default:
+			return;
+		}
+		
+		List toSort = new ArrayList(); 
+		Iterator it = patterns.iterator();
+		while (it.hasNext()) {
+			BaseScopePattern p = (BaseScopePattern) it.next();
+			if (p.type == type) {
+				toSort.add(p);
+				it.remove();
+			}
+		}
+		Collections.sort(toSort, comparator);
+		patterns.addAll(toSort);
+	}
+	
 	public void addPattern(ScopePattern pattern) {
 		if (!patterns.contains(pattern)) {
 			patterns.add(pattern);

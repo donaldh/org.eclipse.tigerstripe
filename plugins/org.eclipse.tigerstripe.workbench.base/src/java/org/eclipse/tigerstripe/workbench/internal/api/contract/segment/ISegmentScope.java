@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.contract.segment;
 
+import java.util.Comparator;
+
 /**
  * A Segment Scope defines a scope within a ITigerstripeProject that will be
  * used in a Segment as part of a Contract.
@@ -27,6 +29,14 @@ public interface ISegmentScope {
 		UNKNOWN, INFORMATIONAL, OPTIONAL, MANDATORY
 	}
 
+	public enum Kind {
+		PATTERN, STEREOTYPE, ANNOTATION, ANNOTATION_CONTEXT;
+	}
+	
+	public class BaseScopePattern {
+		public int type = INCLUDES;
+	}
+	
 	/**
 	 * A scope pattern is defined as a string (pattern itself) and a flag
 	 * whether this is an include or exclude pattern
@@ -34,8 +44,7 @@ public interface ISegmentScope {
 	 * The requirementLevel is only relevant if the pattern doesn't contain
 	 * wildcards or regexp
 	 */
-	public class ScopePattern {
-		public int type = INCLUDES;
+	public class ScopePattern extends BaseScopePattern {
 
 		public String pattern;
 
@@ -68,8 +77,7 @@ public interface ISegmentScope {
 		}
 	}
 
-	public class ScopeAnnotationPattern {
-		public int type;
+	public class ScopeAnnotationPattern extends BaseScopePattern {
 
 		public String annotationID;
 
@@ -91,9 +99,7 @@ public interface ISegmentScope {
 
 	}
 
-	public class ScopeStereotypePattern {
-
-		public int type = INCLUDES;
+	public class ScopeStereotypePattern extends BaseScopePattern {
 
 		public String stereotypeName;
 
@@ -163,7 +169,9 @@ public interface ISegmentScope {
 	public void addAnnotationContextPattern(ScopeAnnotationPattern pattern);
 
 	public void removeAnnotationContextPattern(ScopeAnnotationPattern pattern);
-	
+
 	public boolean containsPattern(ScopePattern pattern);
 
+	public void sort(int type, Comparator<Object> comparator,
+			ISegmentScope.Kind kind);
 }

@@ -10,16 +10,18 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.scope;
 
+import static org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.EXCLUDES;
+import static org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.INCLUDES;
+import static org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.Kind.ANNOTATION;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -37,15 +39,12 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentS
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForAnnotationsDialog;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.TigerstripeSegmentSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class AnnotationIncludeExcludeSection extends
-		TigerstripeSegmentSectionPart {
+public class AnnotationIncludeExcludeSection extends ScopeSection {
 
 	private Button addIncludesButton;
 
@@ -66,21 +65,6 @@ public class AnnotationIncludeExcludeSection extends
 	private Table excludesTable;
 
 	private TableViewer excludesViewer;
-
-	private class PatternLabelProvider extends LabelProvider {
-		@Override
-		public String getText(Object element) {
-			if (element instanceof ISegmentScope.ScopeAnnotationPattern) {
-				ISegmentScope.ScopeAnnotationPattern pattern = (ISegmentScope.ScopeAnnotationPattern) element;
-
-				AnnotationType type = AnnotationPlugin.getManager().getType(
-						Util.packageOf(pattern.annotationID),
-						Util.nameOf(pattern.annotationID));
-				return type.getName();
-			}
-			return "<unknown>";
-		}
-	}
 
 	private class PatternContentProvider implements IStructuredContentProvider {
 
@@ -114,34 +98,6 @@ public class AnnotationIncludeExcludeSection extends
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
-	}
-
-	private class PatternViewSorter extends ViewerSorter {
-
-		private boolean sort = false;
-
-		private boolean sorted = false;
-
-		public void setSort(boolean sort) {
-			this.sort = sort;
-		}
-
-		public boolean isSorted() {
-			return sorted;
-		}
-
-		public void setSorted(boolean sorted) {
-			this.sorted = sorted;
-		}
-
-		@Override
-		public void sort(Viewer viewer, Object[] elements) {
-			if (sort /* && !sorted */) {
-				super.sort(viewer, elements);
-				sort = false;
-			}
-		}
-
 	}
 
 	private class PatternCellModifier implements ICellModifier {
@@ -190,10 +146,6 @@ public class AnnotationIncludeExcludeSection extends
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
 		setTitle("Annotation Scope Details");
 		createContent();
-	}
-
-	private ISegmentScope getScope() throws TigerstripeException {
-		return ((ScopePage) getPage()).getScope();
 	}
 
 	/**
@@ -251,7 +203,6 @@ public class AnnotationIncludeExcludeSection extends
 			includesViewer.setLabelProvider(labelProvider);
 			includesViewer.setContentProvider(new PatternContentProvider(
 					ISegmentScope.INCLUDES));
-			includesViewer.setSorter(new PatternViewSorter());
 
 			includesViewer.setInput(getScope());
 			// includesViewer.setColumnProperties(new String[] { "PATTERN" });
@@ -292,7 +243,7 @@ public class AnnotationIncludeExcludeSection extends
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				sortButtonSelected(includesViewer);
+				sortButtonSelected(INCLUDES, ANNOTATION, includesViewer);
 			}
 
 		});
@@ -345,7 +296,6 @@ public class AnnotationIncludeExcludeSection extends
 			excludesViewer.setLabelProvider(labelProvider);
 			excludesViewer.setContentProvider(new PatternContentProvider(
 					ISegmentScope.EXCLUDES));
-			excludesViewer.setSorter(new PatternViewSorter());
 			excludesViewer.setInput(getScope());
 			// excludesViewer.setColumnProperties(new String[] { "PATTERN" });
 			// final TextCellEditor entryListCellEditor = new TextCellEditor(
@@ -385,7 +335,7 @@ public class AnnotationIncludeExcludeSection extends
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				sortButtonSelected(excludesViewer);
+				sortButtonSelected(EXCLUDES, ANNOTATION, excludesViewer);
 			}
 		});
 
@@ -467,27 +417,8 @@ public class AnnotationIncludeExcludeSection extends
 
 	private void refreshViewerAfterAdd(TableViewer viewer)
 			throws TigerstripeException {
-
 		viewer.setInput(getScope());
-		((PatternViewSorter) viewer.getSorter()).setSorted(false);
 		viewer.refresh(true);
-	}
-
-	protected void sortButtonSelected(TableViewer viewer) {
-		PatternViewSorter viewSorter = (PatternViewSorter) viewer.getSorter();
-		if (!viewSorter.isSorted()) {
-			viewSorter.setSort(true);
-			viewer.refresh(true);
-			viewSorter.setSorted(true);
-		} else {
-			viewSorter.setSorted(false);
-			viewer.refresh(true);
-		}
-	}
-
-	protected void markPageModified() {
-		SegmentEditor editor = (SegmentEditor) getPage().getEditor();
-		editor.pageModified();
 	}
 
 	private void removePatternSelected(int type) {
@@ -538,14 +469,8 @@ public class AnnotationIncludeExcludeSection extends
 
 	private void refreshViewerAfterRemove(TableViewer viewer)
 			throws TigerstripeException {
-
-		PatternViewSorter viewSorter = (PatternViewSorter) viewer.getSorter();
 		viewer.setInput(getScope());
-		if (viewSorter.isSorted()) {
-			viewSorter.setSort(true);
-		}
 		viewer.refresh(true);
-
 	}
 
 	private void updateRemoveButtonsState() {
