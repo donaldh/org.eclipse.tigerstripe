@@ -8,6 +8,7 @@ import java.util.Scanner;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.tigerstripe.workbench.headless.test.internal.Activator;
 
 public class HeadlessGenerationTest extends TestCase  {
 
@@ -15,9 +16,11 @@ public class HeadlessGenerationTest extends TestCase  {
 		IFile schema = TestApplication.model
 				.getFile("target/tigerstripe.gen/xml/tigerstripeExportSchema.xsd");
 		assertTrue(schema.exists());
+
+		Resources resources = new Resources(Activator.getDefault());
 		
 		String actual = toString(schema.getContents());
-		String expected = toString(new FileInputStream(Resources.get("tigerstripeExportSchema.xsd")));
+		String expected = toString(new FileInputStream(resources.get("tigerstripeExportSchema.xsd")));
 		
 		assertEquals(expected, actual);
 	}

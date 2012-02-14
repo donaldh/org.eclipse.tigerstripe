@@ -4,13 +4,20 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Plugin;
 
 public class Resources {
 
-	public static File get(String path) throws IOException {
+	private final Plugin context;
+
+	public Resources(Plugin context) {
+		this.context = context;
+	}
+	
+	public File get(String path) throws IOException {
 
 		File bundleRoot = new File(FileLocator.getBundleFile(
-				Activator.getDefault().getBundle()).getAbsolutePath());
+				context.getBundle()).getAbsolutePath());
 
 		return new File(bundleRoot, "resources/" + path);
 	}

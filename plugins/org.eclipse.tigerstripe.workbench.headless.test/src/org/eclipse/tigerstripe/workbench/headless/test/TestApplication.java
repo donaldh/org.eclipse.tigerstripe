@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.headless.Tigerstripe;
+import org.eclipse.tigerstripe.workbench.headless.test.internal.Activator;
 import org.eclipse.tigerstripe.workbench.project.GeneratorDeploymentHelper;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 
@@ -40,8 +41,10 @@ public class TestApplication extends Tigerstripe {
 			}
 		}
 		
-		IProject generator = ProjectImport.doImport(new ZipFile(Resources.get("generator.zip")));
-		model = ProjectImport.doImport(new ZipFile(Resources.get("model.zip")));
+		Resources resources = new Resources(Activator.getDefault());
+
+		IProject generator = ProjectImport.doImport(new ZipFile(resources.get("generator.zip")));
+		model = ProjectImport.doImport(new ZipFile(resources.get("model.zip")));
 		
 		workspace.checkpoint(true);
 		
