@@ -1,0 +1,29 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: RemoveReferencedProjectWithActiveFacetIncludedReferencedModule
+Tags: Facet/Active
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 11:19 AM
+Id: _GdRxMFbDEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Remove and add referenced project. Check that facet is automatically applied to referenced artifacts
+
+Precondition
+GeneratorAndReferencedProjectsIncludedArtifactFacetWorkspaceContext
+
+Steps
+Set ProjectWithReference/default2.wfc facet as active
+Remove reference to New Project in ProjectWithReference
+Check that Entity3 is still excluded
+Add eference to New Project in ProjectWithReference
+See that artifacts in referenced project are excluded except Datatype0 and facet is applied automatically
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--

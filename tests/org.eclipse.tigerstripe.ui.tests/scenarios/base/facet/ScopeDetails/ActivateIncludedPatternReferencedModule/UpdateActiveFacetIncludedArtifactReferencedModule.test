@@ -1,0 +1,48 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: UpdateActiveFacetIncludedArtifactReferencedModule
+Tags: Facet/Active
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 11:19 AM
+Id: _GfzgwFbDEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Update Facet and see that changes are applied to Referenced Module automatically
+
+Precondition
+GeneratorAndReferencedProjectsIncludedArtifactFacetWorkspaceContext
+
+Steps
+Set ProjectWithReference/default2.wfc facet as active
+Update facet - add included Entity0 as included artifact
+Included artifacts are: Datatype0, Entity0 with references (Entity1, Association and Association Class) in ProjectWithReference project
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "ProjectWithReference/default2.wfc" | get-menu "Facets/Mark as Active" | click
+    select "ProjectWithReference {default2}/default2.wfc" | double-click
+}
+with [get-editor "ProjectWithReference/default2.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    with [get-section "Scope Details"] {
+        get-button Add | click
+        with [get-table] {
+            select "com.mycompany.\\*" | activate-cell-edit
+            get-editbox | set-text "org.eclipse.Entity0"
+            apply-cell-edit
+        }
+    }
+}
+get-button "Save (Ctrl+S)" | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

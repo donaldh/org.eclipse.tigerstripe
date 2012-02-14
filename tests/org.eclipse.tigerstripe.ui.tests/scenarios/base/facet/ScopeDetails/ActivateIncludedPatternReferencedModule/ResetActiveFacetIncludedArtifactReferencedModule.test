@@ -6,7 +6,39 @@ Tags: Facet/Active
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
-Save-Time: 2/13/12 4:34 PM
-Id: _I7aSsFYiEeG3C4FnvvBmwQ
+Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 11:19 AM
+Id: _Ge46wFbDEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+ResetActiveFacetIncludedArtifactReferencedModule
+
+Precondition
+GeneratorAndReferencedProjectsIncludedArtifactFacetWorkspaceContext
+
+Steps
+Set ProjectWithReference/default2.wfc facet as active
+Reset facet
+Check project ProjectWithReference is not marked with applied facet
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "ProjectWithReference/default2.wfc" 
+    | get-menu "Facets/Mark as Active" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference \\{default2\\}" | get-property caption | equals "ProjectWithReference {default2}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}" | get-property styleRanges -index 0 
+        | equals "0, 31, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "ProjectWithReference \\{default2\\}/default2.wfc" 
+    | get-menu "Facets/Reset Active Facet" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item ProjectWithReference | get-property caption 
+    | equals ProjectWithReference | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

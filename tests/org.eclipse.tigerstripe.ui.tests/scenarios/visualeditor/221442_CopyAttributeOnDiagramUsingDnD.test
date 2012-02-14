@@ -1,0 +1,74 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 221442_CopyAttributeOnDiagramUsingDnD
+Tags: TS_Project/VisualEditor, I48
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 1:19 PM
+Id: _t41qsFbFEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Copy Attribute On Diagram Using Drag and Drop
+
+Precondition
+EntityOnDiagramContextWorkspace
+
+Steps
+Move attribute from Entity2 to Entity on diagram
+Check attributes of Entity in Tigerstripe Explorer
+Check attributes of Entity in Editor
+Check that attribute on Entity2 is removed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click
+with [get-editor "ClassDiagram.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text "+attribute0:String" 
+        | get-edit-part -name attribute0] {
+        mouse-move 44 7 button1 -height 16 -width 112
+        mouse-press 44 7 button1 -height 16 -width 112
+        mouse-release 44 7 button1 524288 -height 16 -width 112
+        mouse-hover 65 8 -height 16 -width 112
+        mouse-move 65 8 button1 -height 16 -width 112
+        mouse-press 65 8 button1 -height 16 -width 112
+        mouse-release 65 8 button1 524288 -height 16 -width 112
+        mouse-move 62 9 button1 -height 16 -width 112
+        mouse-press 62 9 button1 -height 16 -width 112
+        mouse-drag 63 9 -mask 524288 -height 16 -width 112
+    }
+    mouse-drag 163 142 -mask 524288 -height 356 -width 596
+    with [get-edit-part -className MapEditPart | get-edit-part -name Entity | get-edit-part 
+        -className ManagedEntityArtifactAttributeCompartmentEditPart] {
+        mouse-drag 30 7 button1 524288 -height 12 -width 49
+        mouse-release 30 7 button1 524288 -height 12 -width 49
+    }
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    get-edit-part -name Entity | get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 
+        | get-property text | equals "+attribute0:String" | verify-true
+    get-edit-part -name Entity2 | get-edit-part -className ManagedEntityArtifactAttributeCompartmentEditPart 
+        | get-figure "1/0/0" | get-property text | equals "" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity/attribute0:String" 
+    | get-property caption | equals "attribute0:String" | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/Entity2" | get-property childCount | equals 2 | verify-true
+    get-item "Project1/src/com.mycompany/Entity2/literal0=\"0\"" | get-property caption | equals "literal0=\"0\"" 
+        | verify-true
+    get-item "Project1/src/com.mycompany/Entity2/method0\\(\\):void" | get-property caption | equals "method0():void" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity" | double-click
+get-editor Entity | get-section Attributes | get-section | get-table | get-item attribute0 | get-property caption 
+    | equals attribute0 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

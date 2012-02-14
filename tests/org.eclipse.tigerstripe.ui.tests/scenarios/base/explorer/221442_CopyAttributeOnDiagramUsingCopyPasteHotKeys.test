@@ -1,0 +1,58 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 221442_CopyAttributeInExplorerUsingCopyPasteHotKeys
+Tags: Explorer, I48
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/14/12 2:04 PM
+Id: _AfZQ8FbYEeG3C4FnvvBmwQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Copy Attribute On Diagram Using Copy Paste hot keys
+
+Precondition
+EntityOnDiagramContextWorkspace
+
+Steps
+Copy attribute on Entity2 in Tigerstripe explorer with ctrl-c
+Paste attribute on Entity in Tigerstripe explorer with ctrl-v
+Check attributes of Entity in Editor
+Check that attribute on Entity2 is not removed
+
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/Entity2" | get-property childCount | equals 3 | verify-true
+    get-item "Project1/src/com.mycompany/Entity2/attribute0:String" | get-property caption | equals "attribute0:String" 
+        | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Entity2/attribute0:String" | key-type "M1+c"
+    select "Project1/src/com.mycompany/Entity"
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity" | get-property childCount 
+    | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity" | key-type "M1+v"
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/Entity" | get-property childCount | equals 1 | verify-true
+    get-item "Project1/src/com.mycompany/Entity/attribute0:String" | get-property caption | equals "attribute0:String" 
+        | verify-true
+    get-item "Project1/src/com.mycompany/Entity2" | get-property childCount | equals 3 | verify-true
+    get-item "Project1/src/com.mycompany/Entity2/attribute0:String" | get-property caption | equals "attribute0:String" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity" | double-click
+get-editor Entity | get-section Attributes | get-section | get-table | get-item attribute0 | get-property caption 
+    | equals attribute0 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
