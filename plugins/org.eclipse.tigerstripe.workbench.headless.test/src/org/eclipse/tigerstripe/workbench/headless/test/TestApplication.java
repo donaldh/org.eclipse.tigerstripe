@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.headless.Tigerstripe;
-import org.eclipse.tigerstripe.workbench.headless.test.internal.Activator;
 import org.eclipse.tigerstripe.workbench.project.GeneratorDeploymentHelper;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 

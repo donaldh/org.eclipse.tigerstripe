@@ -8,7 +8,6 @@ import java.util.Scanner;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.tigerstripe.workbench.headless.test.internal.Activator;
 
 public class HeadlessGenerationTest extends TestCase  {
 

@@ -1,4 +1,4 @@
-package org.eclipse.tigerstripe.workbench.headless.test.internal;
+package org.eclipse.tigerstripe.workbench.headless.test;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

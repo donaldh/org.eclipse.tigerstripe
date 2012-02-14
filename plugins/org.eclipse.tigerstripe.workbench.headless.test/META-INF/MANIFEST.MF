@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.headless.test;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.tigerstripe.workbench.headless.test.internal.Activator
+Bundle-Activator: org.eclipse.tigerstripe.workbench.headless.test.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.junit;bundle-version="4.0.0",
+ org.junit,
  org.eclipse.tigerstripe.workbench.headless,
  org.eclipse.core.filesystem,
  org.eclipse.core.resources,
@@ -14,13 +14,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.workbench.base,
  org.eclipse.tigerstripe.workbench.ui.base
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.tigerstripe.workbench.headless.test;
-  uses:="org.eclipse.ui.wizards.datatransfer,
-   org.eclipse.core.runtime,
-   junit.framework,
-   org.eclipse.core.resources,
-   org.eclipse.equinox.app,
-   org.osgi.framework,
-   org.eclipse.tigerstripe.workbench.headless"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Eclipse-BundleShape: jar
