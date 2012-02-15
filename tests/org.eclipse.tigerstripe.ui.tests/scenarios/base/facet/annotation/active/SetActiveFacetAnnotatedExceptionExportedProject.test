@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: SetActiveFacetAnnotatedExceptionExportedProject
 Tags: Facet/Active, Annotation, Extend, Exception
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _VxOmcDq2EeGvPsO-LSiu4Q,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/30/12 5:21 PM
+Save-Time: 2/15/12 6:55 PM
 Id: _tdwqQEsqEeG6xYWzBUR3Fg
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -29,7 +31,6 @@ Check empty error log
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-view "Error Log" | get-button "Clear Log Viewer" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "ProjectWithReference/New Project_1.0.jar/org.eclipse/Exception0" 
         | get-menu "Annotations/Create/Primitive/References Example" | click
@@ -43,72 +44,4 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | get-property styleRanges -index 1 | equals "21, 10, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
 }
-get-view "Error Log" | click
-get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPzR9hlXAICwMgjKM
-RsLHIoIvZHZ1lrCWbXdb5dd7h4DRqE+9Pffcc05vOz0TbUguklRq5dCadUGJUFwHUoUOzeC12qK97vlZ
-h+vIMjoRgRVfWSkXyk+ktr1DQUwk7ZNKvVRBXZXaiDv0DWBrM1YUhaWj0NJJyBajuyPlV+XTEHbZvsvi
-K3bsWoIjRInyI+FQT0Cfg8zF0OdYKqXBBxG4hostYCDXbHWCwCTRa8GBfj23UQaVgUNXEBTx1E1jV9w2
-zfJpd/04awxDSsAPU4fuhdmnSYUcHFChQlwDQgXleTDDkfcthhJ8Q3FvhODmFAgDaXc1N+OID+I6muST
-dFx98GR2Oe2wE+MHfzZr18KRxFA382W+a2fe5Lno/81vD5rrvg+hG1Tz1n2xeFHZCr7rl5f/PhIpH1BL
-Bwj1nGuvQAEAABMCAABQSwECFAAUAAgACAAAACEA9Zxrr0ABAAATAgAACAAAAAAAAAAAAAAAAAAAAAAA
-LmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAdgEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-vgoAAAAA
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

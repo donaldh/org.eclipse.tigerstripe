@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_izWI8MinEeCVYvz9uSPZwA
-Save-Time: 2/14/12 3:34 PM
+Save-Time: 2/15/12 5:26 PM
 Id: _o9SwMFblEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -42,7 +42,7 @@ with [get-editor Enumeration | get-section Constants] {
         get-editbox -after [get-label "Value:"] | set-text 2
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany" | get-menu "New/Enumeration" | click
 with [get-window "Create a new Enumeration"] {
     get-editbox -after [get-label "Name:"] | set-text Enumeration2
@@ -56,7 +56,7 @@ with [get-editor Enumeration2] {
     click
     get-section Constants | get-section | get-table | get-menu Paste | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Enumeration2 | get-section Constants | get-section | get-table | select "literal0=2"
 with [get-editor Enumeration2 | get-section Constants | get-section -index 1] {
     get-editbox -after [get-label "Description:"] | get-property text | equals test | verify-true

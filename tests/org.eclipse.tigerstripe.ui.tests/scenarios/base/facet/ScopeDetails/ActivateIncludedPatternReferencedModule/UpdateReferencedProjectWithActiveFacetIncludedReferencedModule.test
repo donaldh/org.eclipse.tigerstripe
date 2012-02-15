@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: UpdateReferencedProjectWithActiveFacetIncludedReferencedModule
-Tags: Facet/Active, skipExecution
-External-Reference: http://bugs.xored.com/browse/XMP-887
+Tags: Facet/Active
+External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/14/12 11:19 AM
+Save-Time: 2/15/12 2:14 PM
 Id: _GgNJYFbDEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -25,3 +25,25 @@ Set ProjectWithReference/default2.wfc facet as active
 Add any new artifact in project New Project
 See that artifacts in referenced project are updated and facet is applied automatically
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "ProjectWithReference/default2.wfc" | get-menu "Facets/Mark as Active" | click
+    select "New Project/src/org.eclipse" | get-menu "New/Entity" | click
+}
+with [get-window "Create a new Entity"] {
+    get-editbox -after [get-label "Name:"] | set-text Entity3
+    get-button Finish | click
+}
+get-editor Entity3 | close
+get-view "Tigerstripe Explorer" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity3" 
+        | get-property caption | equals Entity3 | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity3" 
+        | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
+        | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

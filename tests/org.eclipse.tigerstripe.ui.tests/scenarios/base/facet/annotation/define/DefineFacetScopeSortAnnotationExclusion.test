@@ -2,12 +2,14 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: DefineFacetScopeSortAnnotationExclusion
-Tags: Facet/Define, Annotation, skipExecution
-External-Reference: http://bugs.xored.com/browse/XMP-890
+Tags: Facet/Define, Annotation
+External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_tk1N0DFbEeGSksgVyHPBRg
-Save-Time: 1/12/12 4:56 PM
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_tk1N0DFbEeGSksgVyHPBRg
+Save-Time: 2/15/12 1:11 PM
 Id: _Kes_sDtuEeGvPsO-LSiu4Q
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -26,16 +28,32 @@ Save changes
 Reopen facet
 Verify exclusion 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9vgjAUxd+X7Ds0fRaq2xIdEc0W
-cW7uj0qy+EagXLABWm2L4LdfcYrZsuytvff0l3NOh+O6yNEepGKCu7hndzECTkXMeOriUifWAI9H11dD
-Kgq7FhJie9e3FQUeSiYc/3RAdcGclnLTUAyXK8fMXbzReusQUlWVLYrUFjIl67fns+RPcvvIbMlxS3Z9
-ct7aQM0IIx4W4OIJJIzDNKSgfSq24AupHzgXOtTGjlfTvGx84UvM28Ygi10czEEFaqJLD572C/Vhvfqs
-vFtipMNUufjIJN/8DrowO0hlbOvVQEt9JOvD1hgBmpv2ag2Sh/kKEpCmSmijRGWqTkmbVJEUlQLTxMIa
-3HexKRkhUzPXhqBGgZwl2XKuN15s7Qcv1TriZaCXQ9Iqful11nvvTqaRSeJnKv08zBaPq/SHvrn894tG
-8gVQSwcIHeyj50QBAAAQAgAAUEsBAhQAFAAIAAgAAAAhAB3so+dEAQAAEAIAAAgAAAAAAAAAAAAAAAAA
-AAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAHoBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/default.wfc" | double-click
+with [get-editor "New Project/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    get-section "Annotation Scope Details" | get-button Sort -after [get-label "Annotations excluded patterns:"] | click
+}
+with [get-editor "New Project/default.wfc" | get-section "Annotation Scope Details" | get-table 
+    -after [get-label "Annotations excluded patterns:"]] {
+    get-item Color | get-property index | equals 0 | verify-true
+    get-item "References Example" | get-property index | equals 1 | verify-true
+    get-item "Text Annotation" | get-property index | equals 2 | verify-true
+}
+get-button "Save (Ctrl+S)" | click
+get-editor "New Project/default.wfc" | close
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "New Project/default.wfc" | double-click
+}
+get-editor "New Project/default.wfc" | get-tab-folder | get-tab-item Scope | click
+with [get-editor "New Project/default.wfc" | get-section "Annotation Scope Details" | get-table 
+    -after [get-label "Annotations excluded patterns:"]] {
+    get-item Color | get-property index | equals 0 | verify-true
+    get-item "References Example" | get-property index | equals 1 | verify-true
+    get-item "Text Annotation" | get-property index | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

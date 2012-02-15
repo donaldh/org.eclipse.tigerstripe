@@ -3,11 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 325174_ConvertAssociationToAssociationClassExplorer
 Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts, I37
-External-Reference: http://docs.xored.com/display/TS/325174_ConvertAssociationToAssociationClassExplorer
+External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_fPm4sKOVEeCnVOKduz-xbg
-Save-Time: 2/13/12 5:06 PM
+Save-Time: 2/15/12 5:53 PM
 Id: _2l7cbYKOREeCnVOKduz-xbg
 Testcase-Type: ecl
 
@@ -122,27 +122,27 @@ with [get-editor "Class Diagram.wvd"] {
 }
 with [get-view "Tigerstripe Explorer"] {
     click
-    get-tree | select "Project1/src/com.mycompany/A2" | get-menu "Refactor Model/Convert to Entity and Association..." | click
+    get-tree | select "Project1/src/com.mycompany/A2" | get-menu "Refactor Model/Convert to Association..." | click
 }
 get-window "Convert com.mycompany.A2" | get-button OK | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "Project1/src/com.mycompany/Class Diagram" | double-click -nowait
-    select "Project1/src/com.mycompany/A2Association" | get-menu "Refactor Model/Convert to AssociationClass..." | click
+    select "Project1/src/com.mycompany/A2" | get-menu "Refactor Model/Convert to AssociationClass..." | click
 }
-with [get-window "Convert com.mycompany.A2Association"] {
+with [get-window "Convert com.mycompany.A2"] {
     get-group "Artifact parents" | get-button Remove | click
     get-button OK | click
 }
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/A2Association" 
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 9 
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/A2" 
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 7 
     | verify-true
-with [get-editor "Class Diagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name A2Association 
-    | get-edit-part -text A2Association] {
-    get-property text | equals A2Association | verify-true
+with [get-editor "Class Diagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name A2 
+    | get-edit-part -text A2] {
+    get-property text | equals A2 | verify-true
     get-property className 
         | equals "org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassNamePackageEditPart" 
         | verify-true
 }
 get-editor "Class Diagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-property childrenCount 
-    | equals 8 | verify-true
+    | equals 6 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

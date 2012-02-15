@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: DefineFacetScopeSortDetailsInclusion
-Tags: Facet/Define, skipExecution
+Tags: Facet/Define
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _BwQRgDwhEeGvPsO-LSiu4Q,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/9/12 3:02 PM
+Save-Time: 2/15/12 1:22 PM
 Id: _6RWVwEV9EeG6xYWzBUR3Fg
 Testcase-Type: ecl
 

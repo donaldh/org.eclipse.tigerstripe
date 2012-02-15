@@ -1,28 +1,28 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: 221442_CopyAttributeOnDiagramUsingCutPaste
-Tags: TS_Project/VisualEditor, I48
-External-Reference: http://bugs.xored.com/browse/XMP-1014
+Element-Name: 221442_CopyAttributeInExplorerUsingCutPasteHotkeys
+Tags: Explorer, I48
+External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/14/12 2:08 PM
-Id: _GmRFYFbUEeG3C4FnvvBmwQ
+Save-Time: 2/15/12 5:39 PM
+Id: _Af3yEFbYEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
 Content-Type: text/plain
 
-Copy Attribute On Diagram Using Cut and Paste
+Copy Attribute On Diagram Using Cut and Paste Hot keys
 
 Precondition
 EntityOnDiagramContextWorkspace
 
 Steps
-Cut attribute on Entity2 in Tigerstripe explorer
-Paste attribute on Entity in Tigerstripe explorer
+Cut attribute on Entity2 in Tigerstripe explorer with ctrl-x
+Paste attribute on Entity in Tigerstripe explorer with ctrl-v
 Check attributes of Entity in Editor
 Check that attribute on Entity2 is removed
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
@@ -30,9 +30,11 @@ Check that attribute on Entity2 is removed
 Entry-Name: .content
 Content-Type: text/ecl
 
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity2" | get-property childCount 
+    | equals 3 | verify-true
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    select "Project1/src/com.mycompany/Entity2/attribute0:String" | get-menu Cut | click
-    select "Project1/src/com.mycompany/Entity" | get-menu Paste | click
+    select "Project1/src/com.mycompany/Entity2/attribute0:String" | key-type "M1+x"
+    select "Project1/src/com.mycompany/Entity" | key-type "M1+v"
 }
 with [get-view "Tigerstripe Explorer" | get-tree] {
     get-item "Project1/src/com.mycompany/Entity2" | get-property childCount | equals 2 | verify-true
@@ -40,9 +42,6 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | verify-true
     get-item "Project1/src/com.mycompany/Entity2/method0\\(\\):void" | get-property caption | equals "method0():void" 
         | verify-true
-}
-with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "Project1/src/com.mycompany/Entity" | get-property childCount | equals 1 | verify-true
     get-item "Project1/src/com.mycompany/Entity/attribute0:String" | get-property caption | equals "attribute0:String" 
         | verify-true
 }

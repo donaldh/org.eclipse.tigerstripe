@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_m2oXQFCmEeGrX_dWnrkcag
-Save-Time: 2/13/12 1:10 PM
+Save-Time: 2/15/12 6:01 PM
 Id: _-D1xMFXqEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -49,7 +49,7 @@ with [get-editor "Project1/default.wfc"] {
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E2" 
     | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true

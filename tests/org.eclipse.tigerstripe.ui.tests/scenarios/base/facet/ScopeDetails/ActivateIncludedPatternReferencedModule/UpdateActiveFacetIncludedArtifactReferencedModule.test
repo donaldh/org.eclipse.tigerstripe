@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/14/12 11:19 AM
+Save-Time: 2/15/12 6:01 PM
 Id: _GfzgwFbDEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -44,5 +44,5 @@ with [get-editor "ProjectWithReference/default2.wfc"] {
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

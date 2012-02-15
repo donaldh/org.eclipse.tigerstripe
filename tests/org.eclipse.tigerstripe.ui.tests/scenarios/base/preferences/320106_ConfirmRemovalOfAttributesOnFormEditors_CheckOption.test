@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 2/10/12 10:02 AM
+Save-Time: 2/15/12 6:29 PM
 Id: _32UVoFOSEeG1ps2f3Ic7Yg
 Testcase-Type: ecl
 
@@ -33,7 +33,7 @@ Content-Type: text/ecl
 get-preferences-menu | click
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/General"
-    get-group "Don\'t Remind About Removing" | get-button Fields | click
+    get-group "Don\'t Remind About Removing" | get-button Attributes | click
     get-button Apply | click
     get-button OK | click
 }
@@ -60,7 +60,7 @@ with [get-editor Entity | get-section Methods | get-section] {
 }
 get-window "Remove method" | get-button "Don\'t remind me again" | get-property selected | equals false | verify-true
 get-window "Remove method" | get-button Yes | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
     | equals 12 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

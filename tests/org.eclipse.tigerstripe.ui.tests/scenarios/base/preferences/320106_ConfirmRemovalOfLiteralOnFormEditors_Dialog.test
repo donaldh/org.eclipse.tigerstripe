@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 2/10/12 6:14 PM
+Save-Time: 2/15/12 6:04 PM
 Id: _GQiyoFPXEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -63,7 +63,7 @@ with [get-editor Entity | get-section Attributes] {
 }
 get-window "Remove attribute" | get-button "Don\'t remind me again" | get-property selected | equals false | verify-true
 get-window "Remove attribute" | get-button Yes | click
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
     | equals 11 | verify-true
 get-preferences-menu | click    

@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _KAOvQFFMEeGNzMSvh8EWmQ,_8I2UAC-yEeGcHog4af2eaw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/9/12 5:34 PM
+Save-Time: 2/15/12 6:45 PM
 Id: _7xrekFL7EeG1ps2f3Ic7Yg
 Testcase-Type: ecl
 
@@ -15,8 +15,8 @@ Testcase-Type: ecl
 Entry-Name: .description
 Content-Type: text/plain
 
-Uncheck preference options, which added "Don't remind me again" option on the confirmation dialog that pops up on removal items on form editors.
-Items are removed with warning message
+Uncheck preference options, which added "Don't remind me again" option on the confirmation dialog that pops up on removal method on form editors.
+methods are removed with warning message
 
 Precondition
 TigerstripeRemoveReminderPreference
@@ -24,6 +24,47 @@ EntityWithExtendsAndAttributesLiteralsMethodsContextWorkspace
 
 
 1. Go to Tigerstripe/General Preferences;
-2. Uncheck "Don't remind about removing" preference and apply it;
-3. Remove attribute, method and constant with warning
+2. Uncheck "Don't remind about removing" preference for method and apply it;
+3. Remove method  with warning
+4. Remove attribute and constant without warning
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-preferences-menu | click
+with [get-window Preferences] {
+    get-group "Don\'t Remind About Removing" | get-button Methods | click
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity" | double-click
+with [get-editor Entity | get-section Methods] {
+    click
+    with [get-section] {
+        get-table | select "method0\\(\\):void"
+        get-button Remove | click
+    }
+}
+with [get-window "Remove method" | get-button "Don\'t remind me again"] {
+    get-property caption | equals "Don\'t remind me again" | verify-true
+    get-property selected | equals false | verify-true
+}
+get-window "Remove method" | get-button Yes | click
+with [get-editor Entity] {
+    with [get-section Constants] {
+        click
+        with [get-section] {
+            get-table | select "literal0=\"0\""
+            get-button Remove | click
+        }
+    }
+    with [get-section Attributes | get-section] {
+        get-table | select attribute0
+        get-button Remove | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
+    | equals 12 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

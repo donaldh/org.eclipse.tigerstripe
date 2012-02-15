@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _KAOvQFFMEeGNzMSvh8EWmQ,_8I2UAC-yEeGcHog4af2eaw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/10/12 6:14 PM
+Save-Time: 2/15/12 6:20 PM
 Id: _9VIowFPUEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -15,8 +15,8 @@ Testcase-Type: ecl
 Entry-Name: .description
 Content-Type: text/plain
 
-Uncheck "Don't remind about removing" preference options for attributes
-Attibutes are removed with warning message
+Uncheck "Don't remind about removing" preference options for literals
+literals are removed with warning message
 
 Precondition
 TigerstripeRemoveReminderPreference
@@ -24,9 +24,9 @@ EntityWithExtendsAndAttributesLiteralsMethodsContextWorkspace
 
 Steps
 1. Go to Tigerstripe/General Preferences;
-2. Uncheck "Don't remind about removing" preference for attribute and apply it;
-3. Remove attribute in editor without warning
-4. Remove method and constant  in editor with warning
+2. Uncheck "Don't remind about removing" preference for literal and apply it;
+3. Remove literal in editor with warning
+4. Remove method and attribute in editor without warning
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
@@ -40,30 +40,32 @@ with [get-window Preferences] {
     get-button OK | click
 }
 get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity" | double-click
-with [get-editor Entity | get-section Attributes] {
+with [get-editor Entity | get-section Constants] {
+    click
     with [get-section] {
-        get-table | select attribute0
+        get-table | select "literal0=\"0\""
         get-button Remove | click
     }
 }
-get-window "Remove method" | get-button "Don\'t remind me again" | get-property caption 
-    | equals "Don\'t remind me again" | verify-true
-get-window "Remove method" | get-button Yes | click
+with [get-window "Remove Constant" | get-button "Don\'t remind me again"] {
+    get-property caption | equals "Don\'t remind me again" | verify-true
+    get-property selected | equals false | verify-true
+}
+get-window "Remove Constant" | get-button Yes | click
 with [get-editor Entity] {
-    with [get-section  | get-section Methods] {
-        click
-        get-table | select "method0\\(\\):void"
+    with [get-section Attributes | get-section] {
+        get-table | select attribute0
         get-button Remove | click
     }
-    with [get-section Constants] {
+    with [get-section Methods] {
         click
         with [get-section] {
-            get-table | select "literal0=\"0\""
+            get-table | select "method0\\(\\):void"
             get-button Remove | click
         }
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
     | equals 12 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

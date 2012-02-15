@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/14/12 3:28 PM
+Save-Time: 2/15/12 6:07 PM
 Id: _iBcqUFbjEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -57,13 +57,13 @@ with [get-editor Entity2 | get-section Attributes | get-section -index 1] {
         key-type "NUMPAD_1" 1
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity2 | get-section Attributes | get-section | get-table | select attribute0 | get-menu Copy | click
 with [get-editor Entity] {
     click
     get-section Attributes | get-section | get-table | get-menu Paste | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Entity | get-section Attributes | get-section | get-table | select attribute0
 with [get-editor Entity | get-section Attributes | get-section -index 1] {
     get-editbox -after [get-label "Description:"] | get-property text | equals test | verify-true

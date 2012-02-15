@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _KAOvQFFMEeGNzMSvh8EWmQ,_8I2UAC-yEeGcHog4af2eaw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/10/12 3:59 PM
+Save-Time: 2/15/12 6:27 PM
 Id: _jNBkUVO8EeGRULCdDs2iDA
 Testcase-Type: ecl
 
@@ -46,15 +46,10 @@ with [get-editor Entity | get-section Attributes] {
         get-button Remove | click
     }
 }
-get-window "Remove method" | get-button "Don\'t remind me again" | get-property caption 
+get-window "Remove attribute" | get-button "Don\'t remind me again" | get-property caption 
     | equals "Don\'t remind me again" | verify-true
-get-window "Remove method" | get-button Yes | click
+get-window "Remove attribute" | get-button Yes | click
 with [get-editor Entity] {
-    with [get-section  | get-section Methods] {
-        click
-        get-table | select "method0\\(\\):void"
-        get-button Remove | click
-    }
     with [get-section Constants] {
         click
         with [get-section] {
@@ -62,8 +57,15 @@ with [get-editor Entity] {
             get-button Remove | click
         }
     }
+    with [get-section Methods] {
+        click
+        with [get-section] {
+            get-table | select "method0\\(\\):void"
+            get-button Remove | click
+        }
+    }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
     | equals 12 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

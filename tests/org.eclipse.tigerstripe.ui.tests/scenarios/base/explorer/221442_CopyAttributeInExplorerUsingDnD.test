@@ -1,28 +1,27 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: 221442_CopyAttributeOnDiagramUsingCutPasteHotkeys
-Tags: Explorer, I48
+Element-Name: 221442_CopyAttributeInExplorerUsingDnD
+Tags: TS_Project/VisualEditor, I48
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/14/12 2:10 PM
-Id: _Af3yEFbYEeG3C4FnvvBmwQ
+Save-Time: 2/15/12 5:39 PM
+Id: _GmZBMFbUEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
 Content-Type: text/plain
 
-Copy Attribute On Diagram Using Cut and Paste Hot keys
+Copy Attribute On Diagram Using Drag and Drop
 
 Precondition
 EntityOnDiagramContextWorkspace
 
 Steps
-Cut attribute on Entity2 in Tigerstripe explorer with ctrl-x
-Paste attribute on Entity in Tigerstripe explorer with ctrl-v
+Move attribute from Entity2 to Entity in Tigerstripe explorer
 Check attributes of Entity in Editor
 Check that attribute on Entity2 is removed
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
@@ -30,11 +29,21 @@ Check that attribute on Entity2 is removed
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity2" | get-property childCount 
-    | equals 3 | verify-true
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    select "Project1/src/com.mycompany/Entity2/attribute0:String" | key-type "M1+x"
-    select "Project1/src/com.mycompany/Entity" | key-type "M1+v"
+    get-item "Project1/src/com.mycompany/Entity2" | get-property childCount | equals 3 | verify-true
+    get-item "Project1/src/com.mycompany/Entity" | get-property childCount | equals 0 | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Entity2/attribute0:String"
+    get-item "Project1/src/com.mycompany/Entity2/attribute0:String" | drag-start 44 10
+    get-item "Project1/src/com.mycompany/Entity2" | drag-enter 36 14 -detail 2 -operation 7
+    get-item "Project1/src/com.mycompany/Entity2" | drag-over 26 -detail 2 -operation 7
+    get-item "Project1/src/com.mycompany/Entity" | drag-over 23 10 -detail 2 -operation 7
+    get-item "Project1/src/com.mycompany/Entity2" | drag-exit
+    get-item "Project1/src/com.mycompany/Entity" | drag-accept 23 10 -detail 2 -operation 7
+    get-item Project1 | drag-set-data
+    get-item "Project1/src/com.mycompany/Entity" | drop 23 10 -detail 2 -operation 7
+    get-item Project1 | drag-end
 }
 with [get-view "Tigerstripe Explorer" | get-tree] {
     get-item "Project1/src/com.mycompany/Entity2" | get-property childCount | equals 2 | verify-true
@@ -42,6 +51,7 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | verify-true
     get-item "Project1/src/com.mycompany/Entity2/method0\\(\\):void" | get-property caption | equals "method0():void" 
         | verify-true
+    get-item "Project1/src/com.mycompany/Entity" | get-property childCount | equals 1 | verify-true
     get-item "Project1/src/com.mycompany/Entity/attribute0:String" | get-property caption | equals "attribute0:String" 
         | verify-true
 }

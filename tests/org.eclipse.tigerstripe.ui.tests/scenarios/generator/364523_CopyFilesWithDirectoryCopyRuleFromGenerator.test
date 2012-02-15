@@ -7,7 +7,7 @@ External-Reference: http://bugs.xored.com/browse/XMP-829
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_Y_h7AR_GEeGdteZxNfNT7A,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/8/12 5:43 PM
+Save-Time: 2/15/12 5:25 PM
 Id: __Ck04CxqEeGA_eix0GUw3A
 Testcase-Type: ecl
 
@@ -44,7 +44,7 @@ with [get-editor "New Generator Project/ts-plugin.xml"] {
         get-section -index 1 | get-button Enabled | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "New Generator Project/ts-plugin.xml"] {
     get-tab-folder | get-tab-item Overview | click
     get-section Testing | get-link "Package and deploy this generator" | click

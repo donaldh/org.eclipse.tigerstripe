@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_izWI8MinEeCVYvz9uSPZwA
-Save-Time: 2/14/12 3:26 PM
+Save-Time: 2/15/12 5:58 PM
 Id: _K8wHAFbgEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -60,7 +60,7 @@ with [get-editor Enumeration2] {
     click
     get-section Constants | get-section | get-table | get-menu Paste | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor Enumeration2 | get-section Constants | get-section | get-table | get-item "literal0=0" 
     | get-property caption | equals "literal0=0" | verify-true
 with [get-view "Tigerstripe Explorer" | get-tree] {
