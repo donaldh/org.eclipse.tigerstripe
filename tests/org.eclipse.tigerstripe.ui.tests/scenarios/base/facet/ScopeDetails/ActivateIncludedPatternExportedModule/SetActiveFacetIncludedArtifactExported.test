@@ -3,10 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: SetActiveFacetIncludedArtifactExported
 Tags: Facet/Active
-External-Reference: 
+External-Reference: http://bugs.xored.com/browse/XMP-1009
 Element-Type: testcase
 Element-Version: 3.0
-Save-Time: 2/14/12 11:18 AM
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_LNV5IVfPEeGNjdIXYj2jnA,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 2/15/12 7:26 PM
 Id: _APEigFbDEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -14,5 +15,50 @@ Testcase-Type: ecl
 Entry-Name: .description
 Content-Type: text/plain
 
-Set Active Facets with Included Entity (with association) pattern in Exported module
+Set Active Facets with Included Datatype pattern in Exported module
+
+Precondition
+GeneratorAndExportedProjectsIncludedArtifactFacetWorkspaceContext
+
+Steps
+Set ProjectWithReference/default2.wfc facet as active
+Check ProjectWithReference project name
+Check that all artifacts are greyed except  Datatype 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "ProjectWithReference/default2.wfc" 
+    | get-menu "Facets/Mark as Active" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference \\{default2\\}" | get-property caption | equals "ProjectWithReference \\{default2\\}" 
+        | verify-true
+    get-item "ProjectWithReference \\{default2\\}" | get-property styleRanges -index 0 
+        | equals "0, 31, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/AssocClass0" | get-property styleRanges 
+        -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Association0" | get-property styleRanges 
+        -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Datatype0" | get-property styleRanges 
+        -index 0 | equals "0, 9, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Dependency0" | get-property styleRanges 
+        -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Entity0" | get-property styleRanges 
+        -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Entity1" | get-property styleRanges 
+        -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Enumeration0" | get-property styleRanges 
+        -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Event0" | get-property styleRanges 
+        -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Exception0" | get-property styleRanges 
+        -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Query0" | get-property styleRanges 
+        -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Session0" | get-property styleRanges 
+        -index 0 | equals "0, 8, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/New Project_1.0.jar/org.eclipse/Update0" | get-property styleRanges 
+        -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
