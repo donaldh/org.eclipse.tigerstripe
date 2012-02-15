@@ -69,9 +69,9 @@ public class Converter {
 										&& !IAssociationArtifact.class
 												.isAssignableFrom(toClass)) {
 
-									operation = new ConvertArtifactRetainAssociationOperation(
+									operation = new ConvertAssociationClassOperation(
 											session,
-											(IAssociationArtifact) artifact,
+											(IAssociationClassArtifact) artifact,
 											toClass.getName(), contextParts);
 								} else {
 									operation = new ConvertArtifactOperation(session,

@@ -298,7 +298,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 	}
 
 	protected void pipelineCreateOperations(
-			List<IUndoableOperation> oprations) {
+			List<IUndoableOperation> operations) {
 	}
 
 	protected void pipelineProperties(IAbstractArtifact art,
@@ -684,7 +684,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 	}
 
 	private void removeClosed() {
-		Set<IEditorPart> opened = findOpened();
+		Set<IEditorPart> opened = new HashSet<IEditorPart>(getAllParts());
 		Iterator<OpDesciptor> it = operations.iterator();
 		while (it.hasNext()) {
 			OpDesciptor od = it.next();

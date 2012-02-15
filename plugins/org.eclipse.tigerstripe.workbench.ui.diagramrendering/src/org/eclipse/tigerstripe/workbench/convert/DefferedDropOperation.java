@@ -30,7 +30,7 @@ public class DefferedDropOperation extends AbstractOperation {
 	public DefferedDropOperation(EditPart editPart,
 			List<Provider<IAbstractArtifact>> providers,
 			List<Tuple<Point, Dimension>> sizes) {
-		super(String.format("Drop artifacts"));
+		super("Drop artifacts");
 		this.editPart = editPart;
 		this.providers = providers;
 		this.sizes = sizes;
