@@ -492,7 +492,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 		}
 	}
 
-	private Set<IRelationship> getRelations() throws TigerstripeException {
+	protected Set<IRelationship> getRelations() throws TigerstripeException {
 
 		Set<IRelationship> relationships = new HashSet<IRelationship>();
 

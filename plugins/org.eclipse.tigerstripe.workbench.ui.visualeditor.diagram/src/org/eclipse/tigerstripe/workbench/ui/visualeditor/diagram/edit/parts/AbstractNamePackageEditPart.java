@@ -83,8 +83,9 @@ public abstract class AbstractNamePackageEditPart extends
 		} else {
 			QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
 					.getModel()).getElement();
-			Map map = (Map) qualNamedElem.eContainer();
-			if (map != null) {
+			EObject eContainer = qualNamedElem.eContainer();
+			if (eContainer instanceof Map) {
+				Map map = (Map) eContainer;
 				String packageName = qualNamedElem.getPackage();
 				String elemPackageName = null;
 				if (packageName == null) {

@@ -137,7 +137,7 @@
 	           </command>
 	           <command
 	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.EntityAndAssociation"
-	                 label="Convert to Entity and Association..."
+	                 label="Convert to Entity and Associations..."
 	                 style="push">
 	                 <visibleWhen
                         checkEnabled="false">
@@ -192,19 +192,10 @@
 		              <with
 		                    variable="selection">
 		                 <or>
-			                 <iterate
-			                       ifEmpty="false">
+			                 <iterate ifEmpty="false">
 			                       <reference definitionId="org.eclipse.tigerstripe.workbench.convert.association" />
 			                 </iterate>
-			                 <and>
-			                	<count value="2" />
-			                	<iterate operator="or">
-				                    <reference definitionId="org.eclipse.tigerstripe.workbench.convert.association" />
-			                	</iterate>
-			                	<iterate operator="or">
-				                    <reference definitionId="org.eclipse.tigerstripe.workbench.convert.notassociation" />
-			                	</iterate>
-			                 </and>
+			                <test property="org.eclipse.tigerstripe.workbench.convert.canTwoAssocAndArtifact" /> 
 		                 </or>
 		              </with>							                        
 	                 </visibleWhen>	                 
@@ -259,7 +250,7 @@
 	      	<action
 	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToEntity"
 	               id="org.eclipse.tigerstripe.workbench.convert.part.EntityAndAssociation"
-	               label="Convert to Entity and Association..."/>
+	               label="Convert to Entity and Associations..."/>
 	    </objectContribution>
 		<objectContribution
 	      		adaptable="false"
@@ -357,4 +348,12 @@
 		</definition>
 	</extension>
 
+	<extension point="org.eclipse.core.expressions.propertyTesters">
+		<propertyTester 
+			class="org.eclipse.tigerstripe.workbench.convert.SelectionTester" 
+			id="org.eclipse.tigerstripe.workbench.convert.SelectionTester" 
+			namespace="org.eclipse.tigerstripe.workbench.convert" 
+			properties="canTwoAssocAndArtifact" 
+			type="java.lang.Object" />
+	</extension>
 </plugin>

@@ -1,5 +1,11 @@
 package org.eclipse.tigerstripe.workbench.convert.partactions;
 
+import static java.util.Arrays.asList;
+import static org.eclipse.tigerstripe.workbench.convert.ConvertArtifactAndTwoAssociationsOperation.extract;
+import static org.eclipse.tigerstripe.workbench.convert.ConvertArtifactAndTwoAssociationsOperation.prepare;
+
+import org.eclipse.tigerstripe.workbench.convert.ConvertArtifactAndTwoAssociationsOperation.ArtifactAndTwoAssociations;
+import org.eclipse.tigerstripe.workbench.convert.ConvertArtifactAndTwoAssociationsOperation.Decomposition;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
@@ -20,25 +26,18 @@ public class ToAssociationClass extends ConvertAction {
 		switch (artifacts.length) {
 		case 1:
 			return exactlyAssociation(artifacts[0]);
-		case 2:
-			byte flags = 0;
-			for (IAbstractArtifact artifact : artifacts) {
-				if (notAssociation(artifact)) {
-					flags |= 1;	
-				} else if (exactlyAssociation(artifact)) {
-					flags |= 2;
-				}
+		case 3:
+			ArtifactAndTwoAssociations extracted = extract(asList(artifacts));
+			if (!extracted.isValid()) {
+				return false;
 			}
-			return flags == 3;
+			Decomposition decomposition = prepare(extracted.artifact, extracted.one, extracted.two);
+			return decomposition.isValid();
 		default:
 			return false;
 		}
 	}
 
-	private boolean notAssociation(IAbstractArtifact artifact) {
-		return !(artifact instanceof IAssociationArtifact);
-	}
-	
 	private boolean exactlyAssociation(IAbstractArtifact artifact) {
 		return (artifact instanceof IAssociationArtifact)
 				&& !(artifact instanceof IAssociationClassArtifact);

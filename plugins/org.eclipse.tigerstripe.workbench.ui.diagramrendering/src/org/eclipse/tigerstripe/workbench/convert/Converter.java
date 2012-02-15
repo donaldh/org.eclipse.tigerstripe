@@ -1,12 +1,14 @@
 package org.eclipse.tigerstripe.workbench.convert;
 
 import static org.eclipse.core.runtime.Status.CANCEL_STATUS;
+import static org.eclipse.tigerstripe.workbench.convert.ConvertArtifactAndTwoAssociationsOperation.extract;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -15,6 +17,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.convert.ConvertArtifactAndTwoAssociationsOperation.ArtifactAndTwoAssociations;
 import org.eclipse.tigerstripe.workbench.model.ArtifactUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -55,76 +58,7 @@ public class Converter {
 					SafeRunner.run(new SafeRunnable() {
 
 						public void run() throws Exception {
-
-							ConvertArtifactOperation operation;
-							
-							switch (artifacts.size()) {
-							case 1: {
-								IAbstractArtifact artifact = artifacts.get(0);
-								IArtifactManagerSession session = ArtifactUtils.getSession(artifact);
-								if (session == null) {
-									return;
-								}
-								if (artifact instanceof IAssociationClassArtifact
-										&& !IAssociationArtifact.class
-												.isAssignableFrom(toClass)) {
-
-									operation = new ConvertAssociationClassOperation(
-											session,
-											(IAssociationClassArtifact) artifact,
-											toClass.getName(), contextParts);
-								} else {
-									operation = new ConvertArtifactOperation(session,
-											artifact, toClass.getName(),
-											contextParts);
-								}
-								break;
-							} 
-							case 2: {
-								if (!IAssociationClassArtifact.class
-										.isAssignableFrom(toClass)) {
-									return;
-								}
-								IAbstractArtifact one = artifacts.get(0);
-								IAbstractArtifact two = artifacts.get(1);
-								IAbstractArtifact artifact;
-								IAssociationArtifact association;
-								if (one instanceof IAssociationArtifact) {
-									artifact = two;
-									association = (IAssociationArtifact) one;
-								} else if (two instanceof IAssociationArtifact) {
-									artifact = one;
-									association = (IAssociationArtifact) two;
-								} else {
-									return;
-								}
-								IArtifactManagerSession session = ArtifactUtils.getSession(artifact);
-								if (session == null) {
-									return;
-								}
-								operation = new ConvertArtifactAndAssociationOperation(
-										session, artifact, association,
-										contextParts);
-								break;
-							}
-							default:
-								return;
-							}
-
-							if (!operation.init(monitor)) {
-								return;
-							}
-							
-							/*
-							 * Context for diagram will be added after operation execution.
-							 */
-							operation.addContext(WorkspaceUndoUtil
-									.getWorkspaceUndoContext());
-							operation.addContext(ConvertUtils.getConvertContext());
-							
-							result = OperationHistoryFactory
-									.getOperationHistory().execute(operation,
-											monitor, null);
+							doRun(monitor);
 						}
 					});
 				}
@@ -134,6 +68,68 @@ public class Converter {
 		}
 	}
 
+	private void doRun(final IProgressMonitor monitor)
+			throws ExecutionException {
+		ConvertArtifactOperation operation;
+
+		switch (artifacts.size()) {
+		case 1: {
+			IAbstractArtifact artifact = artifacts.get(0);
+			IArtifactManagerSession session = ArtifactUtils
+					.getSession(artifact);
+			if (session == null) {
+				return;
+			}
+			if (artifact instanceof IAssociationClassArtifact
+					&& !IAssociationArtifact.class.isAssignableFrom(toClass)) {
+
+				operation = new ConvertAssociationClassOperation(session,
+						(IAssociationClassArtifact) artifact,
+						toClass.getName(), contextParts);
+			} else {
+				operation = new ConvertArtifactOperation(session, artifact,
+						toClass.getName(), contextParts);
+			}
+			break;
+		}
+		case 3: {
+			if (!IAssociationClassArtifact.class.isAssignableFrom(toClass)) {
+				return;
+			}
+			
+			ArtifactAndTwoAssociations extracted = extract(artifacts);
+			if (!extracted.isValid()) {
+				return;
+			}
+
+			IArtifactManagerSession session = ArtifactUtils
+					.getSession(extracted.artifact);
+			if (session == null) {
+				return;
+			}
+			operation = new ConvertArtifactAndTwoAssociationsOperation(session,
+					extracted.artifact, extracted.one, extracted.two,
+					contextParts);
+			break;
+		}
+		default:
+			return;
+		}
+
+		if (!operation.init(monitor)) {
+			return;
+		}
+
+		/*
+		 * Context for diagram will be added after operation execution.
+		 */
+		operation.addContext(WorkspaceUndoUtil.getWorkspaceUndoContext());
+		operation.addContext(ConvertUtils.getConvertContext());
+
+		result = OperationHistoryFactory.getOperationHistory().execute(
+				operation, monitor, null);
+	}
+	
 	public IStatus getResult() {
 		return result;
 	}
