@@ -7,7 +7,7 @@ External-Reference: http://bugs.xored.com/browse/XMP-1019
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/15/12 4:35 PM
+Save-Time: 2/16/12 12:40 PM
 Id: _GdRxMFbDEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -24,7 +24,7 @@ Steps
 Set ProjectWithReference/default2.wfc facet as active
 Remove reference to New Project in ProjectWithReference
 Check that Entity3 is still excluded
-Add eference to New Project in ProjectWithReference
+Add reference to New Project in ProjectWithReference
 See that artifacts in referenced project are excluded except Datatype0 and facet is applied automatically
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -33,7 +33,7 @@ Content-Type: text/ecl
 
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "ProjectWithReference/default2.wfc" | get-menu "Facets/Mark as Active" | click
-    select "ProjectWithReference {default2}/tigerstripe.xml" | double-click
+    select "ProjectWithReference \\{default2\\}/tigerstripe.xml" | double-click
 }
 with [get-editor "ProjectWithReference/tigerstripe.xml"] {
     get-tab-folder | get-tab-item Dependencies | click
@@ -48,8 +48,8 @@ with [get-editor "ProjectWithReference/tigerstripe.xml" | get-section Dependenci
     get-button Remove | click
 }
 get-window "Remove Reference/Dependency" | get-button Yes | click
-get-button "Save (Ctrl+S)" | click
-get-view "Tigerstripe Explorer" | get-tree | get-item "ProjectWithReference {default2}/src/com.mycompany/Entity3" 
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "ProjectWithReference \\{default2\\}/src/com.mycompany/Entity3" 
     | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
     | verify-true
 get-editor "ProjectWithReference/tigerstripe.xml" | get-section Dependencies | get-button Add | click
@@ -57,41 +57,41 @@ with [get-window "Select Tigerstripe Project"] {
     get-table | select "New Project"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/AssocClass0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/AssocClass0" 
         | get-property styleRanges -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Association0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Association0" 
         | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Datatype0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Datatype0" 
         | get-property styleRanges -index 0 | equals "0, 9, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Dependency0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Dependency0" 
         | get-property styleRanges -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Entity0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity0" 
         | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Entity1" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity1" 
         | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Enumeration0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Enumeration0" 
         | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Event0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Event0" 
         | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Exception0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Exception0" 
         | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Query0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Query0" 
         | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Session0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Session0" 
         | get-property styleRanges -index 0 | equals "0, 8, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference {default2}/Model References/New Project/src/org.eclipse/Update0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Update0" 
         | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
 }

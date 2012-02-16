@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_m2oXQFCmEeGrX_dWnrkcag
-Save-Time: 2/15/12 6:01 PM
+Save-Time: 2/16/12 11:56 AM
 Id: _-D1xMFXqEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -24,7 +24,7 @@ Steps
 Set facet as active
 Check greyed E2 artifact
 Open facet
-Add org.eclipse.tigerstripe.test.E2 to Included Exception pattern of facet
+Add org.eclipse.tigerstripe.test.E2 to Included pattern of facet
 Save and Apply facet
 Check that E2 artifact is not greyed 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--

@@ -6,8 +6,8 @@ Tags: TS_Project/Preferences, TS_Project/Edit/Artifacts, I47, Stereotypes
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
-Contexts: _pGxrsGdIEeCWiLpyewgyVA,_KAOvQFFMEeGNzMSvh8EWmQ
-Save-Time: 2/9/12 12:39 PM
+Contexts: _KAOvQFFMEeGNzMSvh8EWmQ,_F9d_sEupEeCaoMSzIEHw9Q,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 2/16/12 1:09 PM
 Id: _ucY-oFLeEeG1ps2f3Ic7Yg
 Testcase-Type: ecl
 
@@ -27,5 +27,37 @@ Steps
 2. Go to Tigerstripe/General Preferences;
 3. Uncheck "Don't remind about removing" preference and apply it;
 4. Remove stereotype with warning
-5. 
+5. Reset profile
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Test_project/default.wbp" | double-click
+get-editor "Test_project/default.wbp" | get-section "General Information" 
+    | get-link "Save as active profile and reload" | click
+get-window "Save as Active Profile" | get-button OK | click
+wait-until-eclipse-is-ready
+get-preferences-menu | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/General"
+    get-group "Don\'t Remind About Removing" | get-button Stereotypes | click
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Test_project/src/test_new/Entity" | double-click
+with [get-editor Entity | get-section Stereotypes | get-section] {
+    get-table | select "ST_for_Artifacts"
+    get-button Remove | click
+}
+get-window "Remove Stereotype" | get-button "Don\'t remind me again" | get-property selected | equals false 
+    | verify-true
+get-window "Remove Stereotype" | get-button Yes | click
+get-button "Save \(.*\)" | click
+get-menu "Tigerstripe/Active Profile Details..." | click
+with [get-window "Active Profile Details"] {
+    get-button "Reset Profile" | click
+    get-window "Reset Active profile to Factory Defaults?" | get-button OK | click
+}
+wait-until-eclipse-is-ready
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
