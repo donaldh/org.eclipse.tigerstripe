@@ -5,7 +5,7 @@ Element-Name: GeneratorAndTSProjectsIncludedPackageFacetWorkspaceContext
 Context-Type: com.xored.q7.workspace.context
 Element-Type: context
 Element-Version: 2.0
-Save-Time: 2/13/12 9:33 AM
+Save-Time: 2/16/12 1:37 PM
 Id: _K1s6IFXrEeGF04Fr4bPA4w
 
 ------=_contents/New Generator Project/templates/artifact.vm-b237b2d0-6e58-392f-9b9b-43429599c1eb
@@ -21,13 +21,13 @@ BQYAAAAAAQABADYAAAB8AAAAAAA=
 Content-Type: q7/binary
 Entry-Name: contents/New Project/default.wfc
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS9kjFPwzAQhff8isg7drsxOKlQaaUs
-bZQWVmS5r8FqYkf2pbT/HgdKSxEDA7Cd792973Q+OTm0TbqHD8bZjI35iKWw2m2MrTP2sJ7f3LJJniRS
-O0teaVqhbmEptapFxjbYqr4hdnFYLJ8eZ9WqWC5YnqSp3CBobzqKYh61+9lqWhXlOupSfNaG2qBdhyGK
-caeI4G1Kxy5yRix3vubQjekCeKn0TtUYSXEqOzVRuLPWkRocyyuD8bUBmToOTBEOrs4tHAfVdg14hS18
-XAPC7D0jxTfWvwTtzZmr+0Cu3Ru88EDHBoHP49r/Ev5Bnj5D7y5W/4EsLCEW/AAqxfky5FZpUPyfIN6e
-fcBUBZwSUnw50zx5BVBLBwjHl9XoEwEAAOECAABQSwECFAAUAAgACAAAACEAx5fV6BMBAADhAgAACAAA
-AAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAASQEAAAAA
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS9kjFvwjAQhff8CstjpTph62CCKhqk
+LBAB7VpZ5pFaJHZkXyj8+5qWQqk6MLTdzvfu3nc6nxzt2oZt4YNxdsgHIuMMVruVsfWQPy4nt3d8lCeJ
+1M6SV5oWqFtYYla1GPIV1qpviJ8dprPnp2K+KGdTnieMyRWC9qajKOZReygW43lZLaMu06/aoTZo1+EQ
+xbhTRPCW0b6LnIznztcCujFdgKiU3qgambiR6bHw2Ebh3lpH6uBZXVgMLi3I1HFkingIdWoR2Km2ayDm
+WMPHRSAUHxmZ/mD9S9DenLi6D+TarcGrCLRvEMQkLv4v4Z/k8Qv05mz1H8jSEmLBFVCZnm5DrpUGxf8J
+6fuzDxirgGNCpt8ONU/eAFBLBwjp+HZRFgEAAOMCAABQSwECFAAUAAgACAAAACEA6fh2URYBAADjAgAA
+CAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAATAEAAAAA
 ------=_contents/New Project/default.wfc-ddeefcc5-68c1-3a6f-b3de-ac0981dbf830--
 ------=_contents/New Project/src/org/eclipse/Package2/Dependency0.java-9b801b45-9a37-340e-a667-5d0c2a72ca12
 Content-Type: q7/binary
@@ -265,6 +265,18 @@ PxfzmfxJArZhkGYaJ3oYPFlRHHwyUnoSU1uUNwEZgg9GpR9ibGG3jrpBgmfFUqwgqwyYRiw94r6ND+lr
 uhOV6+0h3P+v31BLBwi6yklYAAIAAAcEAABQSwECFAAUAAgACAAAACEAuspJWAACAAAHBAAACAAAAAAA
 AAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAANgIAAAAA
 ------=_contents/New Project/src/org/eclipse/.package-1dc7c35b-43b4-34dc-8863-bdd7742c3953--
+------=_contents/New Project/.project-427c865f-737f-3612-bd98-e03bd6e81890
+Content-Type: q7/binary
+Entry-Name: contents/New Project/.project
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSlUstOwzAQPIPEP0S5Y5dbD24qBOoR
+IVE+wLFXwSWxo7XT9vO7dhzAQkgIbjuzjxmNLbbnoa+OgN44u6nv2KquwCqnje029et+d7uut83NtRjR
+HUCFR/AKzRhomtgrYeUAzROcque5L3hiYku5YQAbGsGXKrL5jk+AF6idTK9fRlARZfhAq9LqxGQ1hx0D
+1ZvRAzvowJRDKuRRpgXATwu0IbGborbPmJeE4N9UfqUbTEeRBUoC2Mnhe0uZvbFWlq2cyf2kTXD/9JWZ
+JR6yFCaEPD2DvzuM1tKFn64VOc/9rztLHe18PGr5VS5QSwcIBmEVFOoAAABpAgAAUEsBAhQAFAAIAAgA
+AAAhAAZhFRTqAAAAaQIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAACAB
+AAAAAA==
+------=_contents/New Project/.project-427c865f-737f-3612-bd98-e03bd6e81890--
 ------=_contents/New Project/src/org/eclipse/Package0/.package-1a8dd4b8-cbb0-3c3c-9060-8d6244822866
 Content-Type: q7/binary
 Entry-Name: contents/New Project/src/org/eclipse/Package0/.package
@@ -281,18 +293,6 @@ oj4mP2fTifyyDKxjEDfOiyCGQFYkx8AMmI4k3Rbl44AjQoiJpR+ScEE3ntpeQ2DFMu1EVhkwTrI99H0b
 vqiv+VpkLu+3cQG/fgNQSwcIEHcJ7QQCAAAQBAAAUEsBAhQAFAAIAAgAAAAhABB3Ce0EAgAAEAQAAAgA
 AAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAADoCAAAAAA==
 ------=_contents/New Project/src/org/eclipse/Package0/.package-1a8dd4b8-cbb0-3c3c-9060-8d6244822866--
-------=_contents/New Project/.project-427c865f-737f-3612-bd98-e03bd6e81890
-Content-Type: q7/binary
-Entry-Name: contents/New Project/.project
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSlUstOwzAQPIPEP0S5Y5dbD24qBOoR
-IVE+wLFXwSWxo7XT9vO7dhzAQkgIbjuzjxmNLbbnoa+OgN44u6nv2KquwCqnje029et+d7uut83NtRjR
-HUCFR/AKzRhomtgrYeUAzROcque5L3hiYku5YQAbGsGXKrL5jk+AF6idTK9fRlARZfhAq9LqxGQ1hx0D
-1ZvRAzvowJRDKuRRpgXATwu0IbGborbPmJeE4N9UfqUbTEeRBUoC2Mnhe0uZvbFWlq2cyf2kTXD/9JWZ
-JR6yFCaEPD2DvzuM1tKFn64VOc/9rztLHe18PGr5VS5QSwcIBmEVFOoAAABpAgAAUEsBAhQAFAAIAAgA
-AAAhAAZhFRTqAAAAaQIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAACAB
-AAAAAA==
-------=_contents/New Project/.project-427c865f-737f-3612-bd98-e03bd6e81890--
 ------=_contents/New Project/src/org/eclipse/Package0/Datatype2.java-85d55bac-3163-3a99-8c5e-a21b6f259978
 Content-Type: q7/binary
 Entry-Name: contents/New Project/src/org/eclipse/Package0/Datatype2.java

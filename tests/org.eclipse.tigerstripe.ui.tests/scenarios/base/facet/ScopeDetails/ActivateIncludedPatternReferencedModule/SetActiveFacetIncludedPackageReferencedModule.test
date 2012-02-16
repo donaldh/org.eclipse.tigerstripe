@@ -3,11 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: SetActiveFacetIncludedPackageReferencedModule
 Tags: Facet/Active
-External-Reference: http://bugs.xored.com/browse/XMP-1009
+External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _uAKgIFYUEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/14/12 11:19 AM
+Save-Time: 2/16/12 1:46 PM
 Id: _Gfn6kFbDEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 

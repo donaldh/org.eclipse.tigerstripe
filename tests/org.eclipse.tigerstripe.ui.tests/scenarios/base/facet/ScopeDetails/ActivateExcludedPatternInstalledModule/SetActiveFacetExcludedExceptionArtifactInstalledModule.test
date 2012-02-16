@@ -1,0 +1,59 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SetActiveFacetExcludedExceptionArtifactInstalledModule
+Tags: Facet/Active 
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _YZkcIFLoEeG1ps2f3Ic7Yg,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/16/12 3:42 PM
+Id: _AiyasFhuEeGNjdIXYj2jnA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Set Active Facets with Included Exception pattern in installed module
+
+Precondition
+GeneratorAndTSModuleWithExcludedPackageFacetContextWorkspace
+
+Steps
+Update facet to exlude Exception artifact
+Apply facet
+Check warning message
+Check greyed Exception artifact
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | double-click
+with [get-editor "Project1/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    with [get-section "Scope Details" | get-table -after [get-label "Excluded patterns:"]] {
+        select "org.eclipse.tigerstripe.test.E1" | activate-cell-edit
+        get-editbox | set-text "org.eclipse.tigerstripe.test.Ex1"
+        apply-cell-edit
+    }
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc"
+exec-with-options -allowStatusDialog -command {
+    get-view "Tigerstripe Explorer" | get-tree | get-menu "Facets/Mark as Active" | click
+    get-window "Problem Occurred" | get-label "\'Activating facet: default\' has encountered a problem." 
+        | get-property caption | equals "\'Activating facet: default\' has encountered a problem." | verify-true
+    get-window "Problem Occurred" 
+        | get-label "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
+        | get-property caption 
+        | equals "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
+        | verify-true
+    get-window "Problem Occurred" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Ex1" 
+    | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

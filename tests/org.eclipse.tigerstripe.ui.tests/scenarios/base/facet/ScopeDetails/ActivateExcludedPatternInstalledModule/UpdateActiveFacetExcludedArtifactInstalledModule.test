@@ -1,44 +1,58 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: SetActiveFacetExcludedPackageInstalledModule
+Element-Name: UpdateActiveFacetExcludedArtifactInstalledModule
 Tags: Facet/Active
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
-Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_Xxl5EFhtEeGNjdIXYj2jnA
-Save-Time: 2/16/12 2:12 PM
-Id: _-C7yQFXqEeGF04Fr4bPA4w
+Contexts: _YZkcIFLoEeG1ps2f3Ic7Yg,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/16/12 5:15 PM
+Id: _8gu8sFh8EeGNjdIXYj2jnA
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
 Content-Type: text/plain
 
-Set Active Facets with excluded pattern with package in installed module
-Check that defined package with artifacts is excluded
+Update Facet and see that changes are applied to Installed Module automatically
 
 Precondition
-GeneratorAndTSModuleWithExcludedPackageFacetContextWorkspace
+GeneratorAndTSModuleWithExcludedArifactFacetContextWorkspace
 
 Steps
 Set facet as active
-Check Project name 
-Check that all artifacts in org.eclipse.tigerstripe.test package are greyed
-
+Check included Datatype artifact
+Open facet
+Add org.eclipse.Datatype to Excluded pattern of facet
+Save facet
+Check that Datatype artifact is greyed 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
 Content-Type: text/ecl
 
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | get-menu "Facets/Mark as Active" | click
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1 \\{default\\}" | get-property styleRanges -index 0 
-    | equals "0, 18, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project1 {default}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/DT1" 
+    | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1 \\{default\\}/default.wfc" | double-click
+with [get-editor "Project1/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    with [get-section "Scope Details"] {
+        get-button Add -after [get-label "Excluded patterns:"] | click
+        with [get-table -after [get-label "Excluded patterns:"]] {
+            select "com.mycompany.\\*" | activate-cell-edit
+            with [get-editbox] {
+                set-text "org.eclipse.tigerstripe.test.DT1"
+                key-type CR
+            }
+            apply-cell-edit
+        }
+    }
+}
+get-button "Save \(.*\)" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test" 
-        | get-property caption | equals "org.eclipse.tigerstripe.test" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test" 
-        | get-property childCount | equals 14 | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
         | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
@@ -46,8 +60,7 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | get-property styleRanges -index 0 | equals "0, 17, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Dependency" 
-        | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/DT1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
@@ -55,31 +68,22 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E2" 
-        | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E3" 
-        | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E4" 
-        | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/En1" 
-        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Event1" 
-        | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Ex1" 
-        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Query1" 
-        | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/SF1" 
-        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
     get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/UP1" 
-        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
-        | verify-true
+        | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
