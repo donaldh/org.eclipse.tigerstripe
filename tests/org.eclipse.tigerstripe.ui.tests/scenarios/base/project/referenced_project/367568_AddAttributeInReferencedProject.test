@@ -1,0 +1,43 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 367568_AddAttributeInReferencedProject
+Tags: TS_Project/References
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/17/12 1:25 PM
+Id: _wrHpQFkvEeG9GuaxBvvg2A
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Entity in referenced project should be changed when I change entity in main project (add attribute)
+
+Precondition
+GeneratorAndReferencedProjectsIncludedArtifactFacetWorkspaceContext
+Precondition steps
+Create 2 Tigerstripe projects
+Add entity to project 1 and save changes
+Add project1 as dependency to project 2 and save changes
+
+Steps
+Add attribute to entity in project 1 and save changes
+Open referenced entity in project 2 and see that entity name is updated in Tigerstripe Explorer 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity0" | get-menu "New/Attribute" 
+    | click
+get-window "New Attribute Wizard" | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity0/attribute1:String" 
+    | get-property caption | equals "attribute1:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "ProjectWithReference/Model References/New Project/src/org.eclipse/Entity0/attribute1:String" 
+    | get-property caption | equals "attribute1:String" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

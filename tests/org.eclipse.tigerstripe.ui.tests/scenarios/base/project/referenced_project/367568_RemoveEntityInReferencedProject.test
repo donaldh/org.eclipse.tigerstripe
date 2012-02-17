@@ -1,0 +1,42 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 367568_RemoveEntityInReferencedProject
+Tags: TS_Project/References
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
+Save-Time: 2/17/12 1:30 PM
+Id: _nLOK4FkwEeG9GuaxBvvg2A
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Entity in referenced project should be changed when I change entity in main project (remove entity)
+
+Precondition
+GeneratorAndReferencedProjectsIncludedArtifactFacetWorkspaceContext
+Precondition steps
+Create 2 Tigerstripe projects
+Add entity to project 1 and save changes
+Add project1 as dependency to project 2 and save changes
+
+Steps
+Remove entity in project 1 and save changes
+Open referenced project in project 2 and see that removed entity is not displayed in Tigerstripe Explorer 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity0" | get-menu Delete | click
+get-window "Confirm Delete" | get-button OK | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "ProjectWithReference/Model References/New Project/src/org.eclipse" | get-property childCount | equals 8 
+        | verify-true
+    verify-error {get-item "ProjectWithReference/Model References/New Project/src/org.eclipse/Entity0"}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
