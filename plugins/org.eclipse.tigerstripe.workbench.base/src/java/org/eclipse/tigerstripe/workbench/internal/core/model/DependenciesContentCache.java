@@ -192,10 +192,17 @@ public class DependenciesContentCache {
 
 	public synchronized Collection<IAbstractArtifact> getAllChainedArtifacts(
 			ExecutionContext context) {
+		return getAllChainedArtifacts(context, false);
+	}
+
+	public synchronized Collection<IAbstractArtifact> getAllChainedArtifacts(
+			ExecutionContext context, boolean isOverridePredicate) {
 		if (!isInitialized)
 			updateCache(context);
-
-		return ArtifactFilter.filter(allArtifacts, artifactFilter);
+		if (isOverridePredicate)
+			return allArtifacts;
+		else
+			return ArtifactFilter.filter(allArtifacts, artifactFilter);
 	}
 
 	public synchronized IAbstractArtifactInternal getArtifactByFullyQualifiedNameInChained(

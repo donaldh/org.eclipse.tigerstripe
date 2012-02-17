@@ -1964,7 +1964,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		try {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-			result.addAll(depContentCache.getAllChainedArtifacts(context));
+			result.addAll(depContentCache.getAllChainedArtifacts(context, isOverridePredicate));
 			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromReferences(context, isOverridePredicate)));
 			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromInstalledModules(context, isOverridePredicate)));
 			return result;
