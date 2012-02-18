@@ -38,14 +38,15 @@ public class MultiFacetReference extends FacetReference {
 
 	@Override
 	public IFacetPredicate computeFacetPredicate(IProgressMonitor monitor) {
-
-		facetPredicate = new LogicalFacetPredicate(LogicalPredicate.OR);
-		for (IFacetReference facet : facets) {
-			((LogicalFacetPredicate) facetPredicate).add(facet
-					.computeFacetPredicate(monitor));
+		synchronized (this) {
+			facetPredicate = new LogicalFacetPredicate(LogicalPredicate.OR);
+			for (IFacetReference facet : facets) {
+				((LogicalFacetPredicate) facetPredicate).add(facet
+						.computeFacetPredicate(monitor));
+			}
+	
+			return facetPredicate;
 		}
-
-		return facetPredicate;
 	}
 
 	@Override
@@ -68,7 +69,9 @@ public class MultiFacetReference extends FacetReference {
 	protected void internalResolve() {
 		// combine all facets into a single one
 		combinedFacet = new LogicalContractSegment();
-		facetPredicate = null;
+		synchronized (this) {
+			facetPredicate = null;
+		}
 
 		String name = "<Merged Facets: ";
 		String sep = "";

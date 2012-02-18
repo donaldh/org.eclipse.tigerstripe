@@ -17,11 +17,11 @@ import java.net.URISyntaxException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
@@ -89,6 +89,8 @@ public class FacetReference extends AbstractContainedObject implements
 
 	// The active mgr when this ref is active or null otherwise
 	private ArtifactManager activeMgr;
+
+	protected IFacetPredicate facetPredicate;
 
 	public FacetReference(FacetReference ref) {
 		projectLabel = ref.projectLabel;
@@ -181,14 +183,17 @@ public class FacetReference extends AbstractContainedObject implements
 		if (getURI() != null) {
 			File target = new File(getURI());
 			if (target.exists() && target.canRead()) {
-				if (target.lastModified() > resolvedTStamp) {
-					resolvedSegment = InternalTigerstripeCore
-							.getIContractSession().makeIContractSegment(
-									getURI());
-					resolvedTStamp = target.lastModified();
-					facetPredicate = null;
+				synchronized (this) {
+					if (target.lastModified() > resolvedTStamp) {
+						resolvedSegment = InternalTigerstripeCore
+								.getIContractSession().makeIContractSegment(
+										getURI());
+						resolvedTStamp = target.lastModified();
+						facetPredicate = null;
+						System.out.println("Facet is null");
+					}
+					return resolvedSegment;
 				}
-				return resolvedSegment;
 			} else
 				return null;
 		}
@@ -245,7 +250,6 @@ public class FacetReference extends AbstractContainedObject implements
 				IResource res = workspace.getRoot().findMember(projectLabel);
 				aProject = TigerstripeCore.findProjectOrCreate(res.getLocation());
 			} else {
-				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				File file = project.getBaseDir();
 //				IPath path = new Path(file.getAbsolutePath());
 //				IContainer container = root.getContainerForLocation(path);
@@ -260,36 +264,40 @@ public class FacetReference extends AbstractContainedObject implements
 		return null;
 	}
 
-	protected IFacetPredicate facetPredicate;
-
 	public IFacetPredicate computeFacetPredicate(IProgressMonitor monitor) {
-		facetPredicate = new FacetPredicate(this, getTSProject());
-
-		// Bug 921: this is a bit of a hack for now to keep track of the state
-		// of the underlying contract segment. This is used later to determine
-		// whether we need to re-compute the facet predicate or not
-		try {
-			facetPredicate.resolve(monitor);
-			computedTStamp = System.currentTimeMillis();
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-			TigerstripeRuntime.logErrorMessage(
-					"Couldn't determine computedTStamp for FacetPredicate: "
-							+ e.getMessage(), e);
+		synchronized (this) {
+			facetPredicate = new FacetPredicate(this, getTSProject());
+	
+			// Bug 921: this is a bit of a hack for now to keep track of the state
+			// of the underlying contract segment. This is used later to determine
+			// whether we need to re-compute the facet predicate or not
+			try {
+				facetPredicate.resolve(monitor);
+				computedTStamp = System.currentTimeMillis();
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+				TigerstripeRuntime.logErrorMessage(
+						"Couldn't determine computedTStamp for FacetPredicate: "
+								+ e.getMessage(), e);
+			}
+			return facetPredicate;
 		}
-		return facetPredicate;
 	}
 
 	public IFacetPredicate getFacetPredicate() {
-		if (needsToBeEvaluated()) {
-			return computeFacetPredicate(new NullProgressMonitor());
+		synchronized (this) {
+			if (needsToBeEvaluated()) {
+				return computeFacetPredicate(new NullProgressMonitor());
+			}
+	
+			return facetPredicate;
 		}
-
-		return facetPredicate;
 	}
 
 	public boolean needsToBeEvaluated() {
-		return facetPredicate == null || modelHasChanged();
+		synchronized (this) {
+			return facetPredicate == null || modelHasChanged();
+		}
 	}
 
 	@Override
@@ -452,7 +460,7 @@ public class FacetReference extends AbstractContainedObject implements
 			protected IStatus run(IProgressMonitor monitor) {
 				computeFacetPredicate(monitor);
 				notifyFacetChanged(tsProject);
-				return facetPredicate.getInconsistencies();
+				return getInconsistencies();
 			}
 		};
 		job.setRule(project);
@@ -473,10 +481,12 @@ public class FacetReference extends AbstractContainedObject implements
 	 * @return
 	 */
 	private FacetPredicate getPrimaryPredicate() {
-		if (primaryPredicate == null) {
-			primaryPredicate = new FacetPredicate(this, getContainingProject());
+		synchronized (this) {
+			if (primaryPredicate == null) {
+				primaryPredicate = new FacetPredicate(this, getContainingProject());
+			}
+			return primaryPredicate;
 		}
-		return primaryPredicate;
 	}
 
 	public static FacetReference decode(Node facetElement,
@@ -586,5 +596,13 @@ public class FacetReference extends AbstractContainedObject implements
 		// it did
 		// so the facet will be reevaluated.
 		return true;
+	}
+
+	private IStatus getInconsistencies() {
+		IFacetPredicate predicate = getFacetPredicate();
+		if (predicate != null){
+			return predicate.getInconsistencies();
+		}
+		return Status.OK_STATUS;
 	}
 }
