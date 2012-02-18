@@ -4,12 +4,10 @@ Format-Version: 1.0
 Element-Name: UpdateAnnotationInstalledModuleReapplyFacetAnnotation
 Tags: Facet/Active, Annotation
 External-Reference: http://bugs.xored.com/browse/XMP-1001
-Element-Type: testcase
 Element-Version: 3.0
 Contexts: _o_vfUDHaEeGSksgVyHPBRg,_RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/8/12 11:59 AM
-Id: _qhSkUEABEeG1Htud4Cd1VA
-Testcase-Type: ecl
+Save-Time: 2/18/12 6:32 PM
+Id: _sR-FoVlZEeGiddhM0JVGhQ
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -33,30 +31,43 @@ Content-Type: text/ecl
 
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "Project1/default.wfc" | get-menu "Facets/Mark as Active" | click
-    select "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<ReferencesExample>>E1"
+    select "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/<<ReferencesExample>>E1"
 }
 set-dialog-result MessageBox 64
 with [get-view "Tigerstripe Explorer" | get-tree] {
     get-menu "Annotations/Remove" | click
-    select "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/DT1" 
+    select "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/DT1" 
         | get-menu "Annotations/Create/Primitive/References Example" | click
     select "Project1 \\{default\\}/default.wfc" | get-menu "Facets/Mark as Active" | click
 }
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/E1" 
         | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/Association1" 
         | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/AssociationClass1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/AssociationClass1" 
         | get-property styleRanges -index 0 | equals "0, 17, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Dependency" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/Dependency" 
         | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<ReferencesExample>>DT1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/<<ReferencesExample>>DT1" 
         | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<ReferencesExample>>DT1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/<<ReferencesExample>>DT1" 
         | get-property styleRanges -index 1 | equals "21, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kUtvwjAQhO/8CsvnkpBWKg8REC1v
+CQmCQJRLZOLFpHXsEDsP+utrEA1Uantb7Y4/zYzb3SLiKINEhVK42LFqGIEIJA0Fc3Gq99UG7nYq7UBG
+ViEToNaxbqkABElC2VpeB1REYauEPJ4hBitUy+xdfNA6btl2nueWjJglE2ZvZpNvya/k8pG52perfazb
+31cLArPCSJAIXLyKKdHQE0Jqoo2BiVCacA50JmnKwQMSx/w0JAHomwjfMj+d7YbUxb7yqkO55tsBjEJK
+D7PadD06LDDShCkXXwh2L9BhBg/oHqVPsfEBATfdFRoSQbgHe0hMkVAm2aVMXYOeQ+0SmSswRcyrTq3m
+4E4FIdOy0IagOr70s/2qPybGyvJDsfVpPH/xWNsuFT/lntd02Cw8DuB1/ZZ9NtPlfJv3/pQ3+8/vPaLZ
+gFazxjTf7ETq68W9/Dz/9+OdyhdQSwcIyV0nelYBAAA6AgAAUEsBAhQAFAAIAAgAAAAhAMldJ3pWAQAA
+OgIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIwBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
