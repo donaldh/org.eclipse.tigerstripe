@@ -194,8 +194,7 @@ public class FacetReference extends AbstractContainedObject implements
 					}
 					return resolvedSegment;
 				}
-			} else
-				return null;
+			}
 		}
 		throw new TigerstripeException("Invalid Facet: " + facetURI);
 	}
@@ -380,7 +379,7 @@ public class FacetReference extends AbstractContainedObject implements
 	private void handleAnnotationEvent(Annotation annotation) {
 		// Checking if annotation event happened with an artifact related to current project
 		ITigerstripeModelProject tsProject = getTSProject();
-		if (tsProject == null) {
+		if (tsProject == null || tsProject.wasDisposed()) {
 			return;
 		}
 		Object object = AnnotationPlugin.getManager().getAnnotatedObject(annotation.getUri());
@@ -447,7 +446,7 @@ public class FacetReference extends AbstractContainedObject implements
 
 	private void scheduleRecomputeFacetPredicate() {
 		final ITigerstripeModelProject tsProject = getTSProject();
-		if (tsProject == null) {
+		if (tsProject == null || tsProject.wasDisposed()) {
 			return;
 		}
 		IProject project = (IProject) tsProject.getAdapter(IProject.class);
