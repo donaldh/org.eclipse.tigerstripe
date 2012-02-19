@@ -119,7 +119,10 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	public boolean wasDisposed() {
-		return super.wasDisposed() && wasDisposed;
+		if (isWorkingCopy()) {
+			return super.wasDisposed() && wasDisposed;
+		}
+		return wasDisposed;
 	}
 
 	protected void setArtifactManagerSession(ArtifactManagerSessionImpl session) {
