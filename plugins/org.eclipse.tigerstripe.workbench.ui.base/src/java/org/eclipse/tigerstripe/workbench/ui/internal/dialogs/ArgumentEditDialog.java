@@ -541,8 +541,9 @@ public class ArgumentEditDialog extends TSMessageDialog {
 	protected void attributeChangeControlPressed(DialogField field) {
 		if (field == attributeClassDialogField) {
 			// attributeClass = chooseAttributeType().getFullyQualifiedName();
-			attributeClass = chooseAttributeType();
-			if (attributeClass != null) {
+			String type = chooseAttributeType();
+			if (type != null) {
+				attributeClass = type;
 				attributeClassDialogField.setText(attributeClass);
 			}
 		}
