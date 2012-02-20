@@ -326,13 +326,15 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 					}
 					IPluginConfig config = getPluginConfig();
 					IFacetReference ref = config.getFacetReference();
-					ref.setGenerationDir(dir);
-					config.setFacetReference(ref);
-					try {
-						getTSProject().addPluginConfig(config);
-						markPageModified();
-					} catch (TigerstripeException ee) {
-						EclipsePlugin.log(ee);
+					if (ref != null) {
+						ref.setGenerationDir(dir);
+						config.setFacetReference(ref);
+						try {
+							getTSProject().addPluginConfig(config);
+							markPageModified();
+						} catch (TigerstripeException ee) {
+							EclipsePlugin.log(ee);
+						}
 					}
 				}
 			}
