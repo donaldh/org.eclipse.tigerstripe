@@ -50,7 +50,7 @@ public abstract class BaseElement implements IBaseElement {
 
 	public void parse(URI uri) throws TigerstripeException {
 		if (uri == null)
-			throw new TigerstripeException("Invalid URI:" + uri.toASCIIString());
+			throw new TigerstripeException("Invalid URI: null");
 
 		// try and load the content if the URI is a valid baseElement
 		File targetFile = new File(uri);
@@ -63,11 +63,13 @@ public abstract class BaseElement implements IBaseElement {
 				throw new TigerstripeException("Couldn't parse "
 						+ e.getMessage(), e);
 			} finally {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					// ignore here
-				}
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						// ignore here
+					}
+				}	
 			}
 		}
 	}
