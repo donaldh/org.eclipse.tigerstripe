@@ -141,10 +141,15 @@ public class EclipsePlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		stopDiagramSynchronizerManager();
-		if (clipboard != null) {
-			clipboard.dispose();
-			clipboard = null;
-		}
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			
+			public void run() {
+				if (clipboard != null && !clipboard.isDisposed()) {
+					clipboard.dispose();
+					clipboard = null;
+				}
+			}
+		});
 	}
 
 	/**
