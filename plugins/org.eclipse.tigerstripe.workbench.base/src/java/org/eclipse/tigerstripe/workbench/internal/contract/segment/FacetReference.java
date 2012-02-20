@@ -190,7 +190,6 @@ public class FacetReference extends AbstractContainedObject implements
 										getURI());
 						resolvedTStamp = target.lastModified();
 						facetPredicate = null;
-						System.out.println("Facet is null");
 					}
 					return resolvedSegment;
 				}
