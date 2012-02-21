@@ -1217,7 +1217,7 @@
 
 	<!-- Navigator Content -->
 
-	<!-- <extension
+	<extension
 	      point="org.eclipse.ui.navigator.linkHelper">
 	    <linkHelper
 	          class="org.eclipse.tigerstripe.workbench.ui.explorer.TigerstripeLinkHelper"
@@ -1231,7 +1231,7 @@
 	       <editorInputEnablement>
 	       </editorInputEnablement>
 	    </linkHelper>
-	</extension> -->
+	</extension>
 
 	<extension point="org.eclipse.ui.navigator.navigatorContent">
 	
