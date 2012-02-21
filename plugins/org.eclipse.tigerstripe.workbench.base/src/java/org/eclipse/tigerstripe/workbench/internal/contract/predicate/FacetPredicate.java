@@ -380,7 +380,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			IAbstractArtifact parent = artifact.getExtendedArtifact();
 			if (primaryPredicate.isExcluded(parent)
 					|| isExcludedByStereotype(parent)) {
-				IStatus error = new Status(IStatus.ERROR, BasePlugin
+				IStatus error = new Status(IStatus.WARNING, BasePlugin
 						.getPluginId(),
 						"Inconsistent type hierarchy: Parent of "
 								+ artifact.getFullyQualifiedName() + " ("
@@ -401,7 +401,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			} else {
 				if (primaryPredicate.isExcluded(arti)
 						|| isExcludedByStereotype(arti)) {
-					IStatus error = new Status(IStatus.ERROR, BasePlugin
+					IStatus error = new Status(IStatus.WARNING, BasePlugin
 							.getPluginId(),
 							"Inconsistent artifact: referenced artifact in "
 									+ artifact.getFullyQualifiedName() + " ("
@@ -483,7 +483,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 					if ((isExcludedByStereotype(arti) || primaryPredicate
 							.isExcluded(arti))
 							&& !isExcludedByStereotype(method)) {
-						IStatus error = new Status(IStatus.ERROR, BasePlugin
+						IStatus error = new Status(IStatus.WARNING, BasePlugin
 								.getPluginId(),
 								"Inconsistent facet: the return type ("
 										+ arti.getFullyQualifiedName()
@@ -514,7 +514,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 								.isExcluded(argArti))
 								&& !isExcludedByStereotype(arg)) {
 							IStatus error = new Status(
-									IStatus.ERROR,
+									IStatus.WARNING,
 									BasePlugin.getPluginId(),
 									"Inconsistent facet: the type ("
 											+ argArti.getFullyQualifiedName()
@@ -547,7 +547,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 					if (isExcludedByStereotype(excArti)
 							|| primaryPredicate.isExcluded(excArti)) {
 						String returnTypeName = arti == null? "void" : arti.getFullyQualifiedName();
-						IStatus error = new Status(IStatus.ERROR, BasePlugin
+						IStatus error = new Status(IStatus.WARNING, BasePlugin
 								.getPluginId(), "Inconsistent facet: the "
 								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IExceptionArtifactImpl.class.getName())

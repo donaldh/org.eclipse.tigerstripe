@@ -244,16 +244,7 @@ public class M1Generator {
 					project.setActiveFacet(facetRef, preWork);
 				}
 
-				if (facetRef.getFacetPredicate() != null && !facetRef.getFacetPredicate().isConsistent()) {
-					IStatus facetInconsistencies = facetRef.getFacetPredicate().getInconsistencies();
-					FacetActivationResult res = new FacetActivationResult(project, config, facetRef);
-					if (facetInconsistencies.isMultiStatus()) {
-						for (IStatus error : facetInconsistencies.getChildren()) {
-							res.add(error);
-						}
-					}
-					overallResult.add(res);
-				}
+				reportFacetInconsistencies(facetRef, overallResult);
 				preWork.done();
 
 				PluginRunStatus[] subResult = internalRun(monitor, config);
@@ -304,17 +295,8 @@ public class M1Generator {
 								fProgress.beginTask("Setting active facet to: " + facetRef.resolve().getName(),
 										IProgressMonitor.UNKNOWN);
 								project.setActiveFacet(facetRef, fProgress);
-								if (facetRef.getFacetPredicate() != null
-										&& !facetRef.getFacetPredicate().isConsistent()) {
-									IStatus facetInconsistencies = facetRef.getFacetPredicate().getInconsistencies();
-									FacetActivationResult res = new FacetActivationResult(project, config, facetRef);
-									if (facetInconsistencies.isMultiStatus()) {
-										for (IStatus error : facetInconsistencies.getChildren()) {
-											res.add(error);
-										}
-									}
-									overallResult.add(res);
-								}
+								reportFacetInconsistencies(facetRef,
+										overallResult);
 								fProgress.done();
 							}
 
@@ -419,6 +401,23 @@ public class M1Generator {
 			}
 		}
         return overallResult.toArray(new PluginRunStatus[overallResult.size()]);
+	}
+
+	private void reportFacetInconsistencies(IFacetReference facetRef,
+			List<PluginRunStatus> result) {
+		if (facetRef.getFacetPredicate() != null
+				&& !facetRef.getFacetPredicate().isConsistent()) {
+			IStatus facetInconsistencies = facetRef.getFacetPredicate()
+					.getInconsistencies();
+			FacetActivationResult res = new FacetActivationResult(project,
+					config, facetRef);
+			if (facetInconsistencies.isMultiStatus()) {
+				for (IStatus error : facetInconsistencies.getChildren()) {
+					res.add(error);
+				}
+			}
+			result.add(res);
+		}
 	}
 
 	/**
@@ -579,6 +578,7 @@ public class M1Generator {
 							if (facetRef.canResolve()) {
 								facetToRestore = project.getActiveFacet();
 								project.setActiveFacet(facetRef, irProgress);
+								reportFacetInconsistencies(facetRef, result);
 								shouldRestoreFacet = true;
 							} else {
 								PluginRunStatus res = new PluginRunStatus(ref, project, config, project

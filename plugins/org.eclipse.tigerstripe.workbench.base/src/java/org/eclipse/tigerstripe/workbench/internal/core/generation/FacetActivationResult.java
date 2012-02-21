@@ -21,7 +21,7 @@ public class FacetActivationResult extends PluginRunStatus {
 
 	public FacetActivationResult(ITigerstripeModelProject project, M1RunConfig config,
 			IFacetReference facetRef) {
-		super(null, project, config, facetRef);
+		super(null, project, config, facetRef, "Facet contains inconsistencies");
 	}
 
 	@Override
