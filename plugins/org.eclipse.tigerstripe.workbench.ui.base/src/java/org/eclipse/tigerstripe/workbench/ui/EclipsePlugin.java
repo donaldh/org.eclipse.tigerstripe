@@ -35,6 +35,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
@@ -66,6 +67,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -141,15 +143,24 @@ public class EclipsePlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
 		stopDiagramSynchronizerManager();
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			
-			public void run() {
-				if (clipboard != null && !clipboard.isDisposed()) {
-					clipboard.dispose();
-					clipboard = null;
+		
+		if (PlatformUI.isWorkbenchRunning()) {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			if (workbench != null) {
+				Display display = workbench.getDisplay();
+				if (display != null && !display.isDisposed()) {
+					display.asyncExec(new Runnable() {
+						
+						public void run() {
+							if (clipboard != null && !clipboard.isDisposed()) {
+								clipboard.dispose();
+								clipboard = null;
+							}
+						}
+					});
 				}
 			}
-		});
+		}
 	}
 
 	/**
