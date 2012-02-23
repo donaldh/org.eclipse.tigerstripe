@@ -16,7 +16,9 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
@@ -461,9 +463,15 @@ public class M1Generator {
 			IPluginConfig[] plugins = config.getPluginConfigs();
 			boolean isFirstRef = true;
 			boolean validationFailed = false;
+			Set<IFacetReference> validatedFacets = new HashSet<IFacetReference>();
 
 			// First run all validation plugins if any
 			for (IPluginConfig iRef : plugins) {
+				
+				if (!iRef.isEnabled()) {
+					continue;
+				}
+				
 				SubProgressMonitor pProgress = new SubProgressMonitor(monitor, WORK_UNIT);
 				pProgress.beginTask("Generating " + iRef.getPluginId(), IProgressMonitor.UNKNOWN);
 
@@ -508,6 +516,10 @@ public class M1Generator {
 						if (facetRef.canResolve()) {
 							facetToRestore = project.getActiveFacet();
 							project.setActiveFacet(facetRef, pProgress);
+							if (!validatedFacets.contains(facetRef)) {
+								reportFacetInconsistencies(facetRef, result);
+								validatedFacets.add(facetRef);
+							}
 							shouldRestoreFacet = true;
 						} else {
 							PluginRunStatus res = new PluginRunStatus(ref, project, config, project.getActiveFacet());
@@ -541,6 +553,10 @@ public class M1Generator {
 
 			if (!validationFailed) {
 				for (IPluginConfig iRef : plugins) {
+					
+					if (!iRef.isEnabled()) {
+						continue;
+					}
 
 					PluginConfig ref = (PluginConfig) iRef;
 					try {
@@ -578,7 +594,10 @@ public class M1Generator {
 							if (facetRef.canResolve()) {
 								facetToRestore = project.getActiveFacet();
 								project.setActiveFacet(facetRef, irProgress);
-								reportFacetInconsistencies(facetRef, result);
+								if (!validatedFacets.contains(facetRef)) {
+									reportFacetInconsistencies(facetRef, result);
+									validatedFacets.add(facetRef);
+								}
 								shouldRestoreFacet = true;
 							} else {
 								PluginRunStatus res = new PluginRunStatus(ref, project, config, project
