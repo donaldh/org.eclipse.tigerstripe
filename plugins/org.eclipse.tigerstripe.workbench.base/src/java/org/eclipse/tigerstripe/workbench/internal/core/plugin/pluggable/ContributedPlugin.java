@@ -56,6 +56,12 @@ public class ContributedPlugin extends PluggablePlugin {
 				if (binUrl != null){
 					urls.add(binUrl);
 				}
+
+				// This is really only required during debug session!
+				URL targetUrl = bundle.getEntry("target/classes"); //$NON_NLS-1$
+				if (targetUrl != null){
+					urls.add(targetUrl);
+				}
 				
 				// with all packaged up entries
 				for (IPluginClasspathEntry entry : getPProject()
