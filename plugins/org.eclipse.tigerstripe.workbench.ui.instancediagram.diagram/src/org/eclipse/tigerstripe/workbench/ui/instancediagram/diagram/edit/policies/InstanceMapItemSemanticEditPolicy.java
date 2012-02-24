@@ -143,42 +143,10 @@ public class InstanceMapItemSemanticEditPolicy extends
 			} catch (TigerstripeException e) {
 				throw new RuntimeException("IArtifactManagerSession not found");
 			}
-			// Bug 288318: now allowing abstract classes to be displayed on
+			
+			// Bug 288318, 239100: now allowing abstract classes to be displayed on
 			// instance diagrams.
-			// if (artifact.isAbstract()) {
-			// String warningStr = "Cannot instantiate an abstract class; "
-			// + "drag-and-drop operation cancelled";
-			// String[] buttonLabels = new String[] { "OK" };
-			// int defButtonIdx = 0;
-			// MessageDialog warningDialog = new MessageDialog(shell,
-			// "Abstract class detected", (Image) null, warningStr,
-			// MessageDialog.WARNING, buttonLabels, defButtonIdx);
-			// int retIdx = warningDialog.open();
-			// throw new OperationCanceledException(
-			// "Cannot Instantiate Abstract Class");
-			// } else
-			if (!sessionFacadeInstancesEnabled()
-					&& artifact instanceof ISessionArtifact) {
-				String warningStr = "Your profile does not allow for instantiation "
-						+ "of "
-						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName()).getLabel(
-								artifact)
-						+ " objects; drag-and-drop operation cancelled";
-				String[] buttonLabels = new String[] { "OK" };
-				int defButtonIdx = 0;
-				MessageDialog warningDialog = new MessageDialog(shell,
-						ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName()).getLabel(
-								artifact)
-								+ " detected", (Image) null, warningStr,
-						MessageDialog.WARNING, buttonLabels, defButtonIdx);
-				int retIdx = warningDialog.open();
-				throw new OperationCanceledException("Cannot Instantiate "
-						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName()).getLabel(
-								artifact));
-			}
+
 			ClassInstanceEditDialog ied = new ClassInstanceEditDialog(shell,
 					artifact, mapEditPart);
 			int retVal = ied.open();
@@ -257,14 +225,6 @@ public class InstanceMapItemSemanticEditPolicy extends
 		TransactionalEditingDomain editingDomain = ((IGraphicalEditPart) getHost())
 				.getEditingDomain();
 		return getMSLWrapper(new DuplicateAnythingCommand(editingDomain, req));
-	}
-
-	private static boolean sessionFacadeInstancesEnabled() {
-		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile()
-				.getProperty(IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
-		return prop
-				.getPropertyValue(IGlobalSettingsProperty.ENABLE_SESSIONFACADE_ONINSTDIAG);
 	}
 
 	/**

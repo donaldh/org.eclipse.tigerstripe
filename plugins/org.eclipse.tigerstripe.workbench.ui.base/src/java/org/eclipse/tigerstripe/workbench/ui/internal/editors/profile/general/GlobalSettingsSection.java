@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.general;
 
+import static org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty.ENABLE_SESSIONFACADE_ONINSTDIAG;
+
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
@@ -69,6 +71,10 @@ public class GlobalSettingsSection extends TigerstripeSectionPart {
 			String[][] propertyDefs = property.getProperties();
 			for (String[] oneProp : propertyDefs) {
 				final String propKey = oneProp[0];
+				if (ENABLE_SESSIONFACADE_ONINSTDIAG.equals(propKey)) {
+					//Skip due to Bug 239100
+					continue;
+				}
 				final String propLabel = oneProp[1];
 				// final String propDefault = oneProp[2];// not used here
 				final String sectionTitle = oneProp[3];
@@ -127,7 +133,9 @@ public class GlobalSettingsSection extends TigerstripeSectionPart {
 			for (String[] oneProp : propertyDefs) {
 				final String propKey = oneProp[0];
 				Button button = buttonMap.get(propKey);
-				button.setSelection(property.getPropertyValue(propKey));
+				if (button != null) {
+					button.setSelection(property.getPropertyValue(propKey));
+				}
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
