@@ -214,7 +214,7 @@ public class ModelUtils {
 			return;
 		}
 		featchHierarhyUp(artifact.getExtendedArtifact(), set);
-		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+		for (IAbstractArtifact impl : artifact.getImplementedArtifacts()) {
 			featchHierarhyUp(impl, set);
 		}
 	}
@@ -228,7 +228,7 @@ public class ModelUtils {
 			return;
 		}
 		featchHierarhyUpAsModels(artifact.getExtendedArtifact(), set);
-		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+		for (IAbstractArtifact impl : artifact.getImplementedArtifacts()) {
 			featchHierarhyUpAsModels(impl, set);
 		}
 	}

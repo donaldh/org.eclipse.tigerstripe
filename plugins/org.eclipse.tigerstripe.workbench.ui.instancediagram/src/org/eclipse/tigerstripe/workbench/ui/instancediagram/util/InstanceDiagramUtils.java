@@ -19,17 +19,18 @@ import java.util.Stack;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.ModelUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ChangeableEnum;
@@ -146,48 +147,57 @@ public class InstanceDiagramUtils {
 	public static Set<IRelationship> getRelationshipSet(
 			IArtifactManagerSession artifactMgrSession,
 			IAbstractArtifact sourceArtifact, IAbstractArtifact targetArtifact) {
+		
+		
+		Set<IRelationship> relationshipSet = new HashSet<IRelationship>();
+		
 		// put together a list of all of the relationships that can be built
 		// with the source's
 		// FQN (or the FQN of any of the source's parents) as the source of the
 		// relationship
-		IAbstractArtifact artifact = sourceArtifact;
-		Set<IRelationship> relationshipSet = new HashSet<IRelationship>();
-		do {
-			String fqn = artifact.getFullyQualifiedName();
-			try {
-				List<IRelationship> relList = artifactMgrSession
-						.getOriginatingRelationshipForFQN(fqn, true);
-				if (relList != null && relList.size() > 0)
-					relationshipSet.addAll(relList);
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logInfoMessage(
-						"TigerstripeException detected", e);
+		{
+			Set<IAbstractArtifact> heirarhy = new HashSet<IAbstractArtifact>();
+			ModelUtils.featchHierarhyUpAsModels(sourceArtifact, heirarhy);
+			for (IAbstractArtifact artifact : heirarhy) {
+				String fqn = artifact.getFullyQualifiedName();
+				try {
+					List<IRelationship> relList = artifactMgrSession
+							.getOriginatingRelationshipForFQN(fqn, true);
+					if (relList != null && relList.size() > 0)
+						relationshipSet.addAll(relList);
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logInfoMessage(
+							"TigerstripeException detected", e);
+				}
 			}
-		} while ((artifact = artifact.getExtendedArtifact()) != null);
-
+		}
+			
 		// put together a list of all of the relationships that can be built
 		// with the target's
 		// FQN (or the FQN of any of the target's parents) as the target of the
 		// relationship
-		artifact = targetArtifact;
 		Set<IRelationship> targetRelationshipSet = new HashSet<IRelationship>();
-		do {
-			String fqn = artifact.getFullyQualifiedName();
-			try {
-				List<IRelationship> relList = artifactMgrSession
-						.getTerminatingRelationshipForFQN(fqn, true);
-				if (relList != null && relList.size() > 0)
-					targetRelationshipSet.addAll(relList);
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logInfoMessage(
-						"TigerstripeException detected", e);
-			}
-		} while ((artifact = artifact.getExtendedArtifact()) != null);
+		{
+			Set<IAbstractArtifact> heirarhy = new HashSet<IAbstractArtifact>();
+			ModelUtils.featchHierarhyUpAsModels(targetArtifact, heirarhy);
 
+			for (IAbstractArtifact artifact : heirarhy) {
+				String fqn = artifact.getFullyQualifiedName();
+				try {
+					List<IRelationship> relList = artifactMgrSession
+							.getTerminatingRelationshipForFQN(fqn, true);
+					if (relList != null && relList.size() > 0)
+						targetRelationshipSet.addAll(relList);
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logInfoMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+		}
 		// the intersection of these two sets is the set of relationships that
 		// can be built between
 		// the source and target for this association instance
-		boolean isChanged = relationshipSet.retainAll(targetRelationshipSet);
+		relationshipSet.retainAll(targetRelationshipSet);
 		return relationshipSet;
 	}
 
