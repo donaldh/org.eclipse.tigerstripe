@@ -271,6 +271,32 @@
 	               label="Convert to Association Class..."/>
 	    </objectContribution>
 	    
+        <objectContribution
+           adaptable="false"
+           id="org.eclipse.tigerstripe.workbench.ui.base.diagramPopup"
+           objectClass="java.lang.Object">
+        <menu
+              id="org.eclipse.tigerstripe.workbench.ui.base.diagramMenu"
+              label="Diagrams"
+              path="group.build">
+           <groupMarker name="content"/>
+           <separator name="group.build"/>
+        </menu>
+        <action
+              class="org.eclipse.tigerstripe.workbench.ui.internal.actions.AuditDiagramsActionDelegate"
+              id="org.eclipse.tigerstripe.workbench.ui.base.diagrams.audit"
+              label="Audit Diagrams"
+              menubarPath="org.eclipse.tigerstripe.workbench.ui.base.diagramMenu/content"
+              tooltip="Create an audit report on diagrams">
+        </action>
+        <visibility>
+           <or>
+              <objectClass name="org.eclipse.core.resources.IResource"/>
+              <objectClass name="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart"/>
+              <objectClass name="org.eclipse.jdt.core.IJavaElement"/>
+           </or>
+        </visibility>
+     </objectContribution>
 	    
 	</extension>
 	

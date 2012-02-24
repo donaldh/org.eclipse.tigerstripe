@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.builder.IDiagramAuditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramHandle;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 
@@ -76,7 +77,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		Job auditJob = new Job(jobName) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				IStatus status = Status.CANCEL_STATUS;
+				final IStatus status;
 				switch (auditType) {
 				case ALL_DIAGRAMS:
 					status = auditDiagrams(monitor);
@@ -85,27 +86,37 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					if (targetPart instanceof DiagramEditor) {
 						status = auditDiagram((DiagramEditor) targetPart,
 								monitor);
+					} else {
+						status = Status.CANCEL_STATUS;
 					}
 					break;
+				default:
+					status = Status.CANCEL_STATUS;
 				}
 
-				final IStatus fStatus = status;
 				if (status.isOK()) {
 					Display.getDefault().syncExec(new Runnable() {
 						public void run() {
 							MessageDialog.openInformation(targetPart.getSite()
-									.getShell(), fStatus.getMessage(),
+									.getShell(), status.getMessage(),
 									"No discrepancy was found.");
 						}
 					});
 					return Status.OK_STATUS;
 				} else if (status.getSeverity() != IStatus.CANCEL) {
-					Display.getDefault().syncExec(new Runnable() {
+					final Display display = PlatformUI.getWorkbench()
+							.getDisplay();
+					final IStatus[] children;
+					if (status instanceof MultiStatus) {
+						children = status.getChildren();
+					} else {
+						children = new IStatus[] { status };
+					}
+					display.syncExec(new Runnable() {
+
 						public void run() {
-							MessageDialog
-									.openError(targetPart.getSite().getShell(),
-											fStatus.getMessage(),
-											"Some discrepancies were found. (See Error Log for details)");
+							new AuditResultDialog(display.getActiveShell(),
+									children).open();
 						}
 					});
 				}
@@ -166,6 +177,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		monitor.beginTask("Auditing", allDiagrams.size());
 		for (IResource diagramFile : allDiagrams) {
 			try {
+				new DiagramResourceValidator(diagramFile, statuses).fix();
 				DiagramHandle handle = new DiagramHandle(diagramFile);
 				IDiagramAuditor auditor = DiagramAuditorFactory.make(handle);
 				IStatus subStatus = auditor.auditDiagram(handle, monitor);
@@ -173,8 +185,8 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					statuses.add(subStatus);
 					inError++;
 				}
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
+			} catch (Exception e) {
+				statuses.add(EclipsePlugin.getStatus(e));
 			}
 			if (monitor.isCanceled())
 				return Status.CANCEL_STATUS;
@@ -186,9 +198,8 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 			return Status.OK_STATUS;
 
 		MultiStatus status = new MultiStatus(EclipsePlugin.getPluginId(), 222,
-				"Diagram audit result (" + targetProject.getName() + ": "
-						+ inError + "/" + allDiagrams.size()
-						+ " diagrams have errors)", null);
+				"Diagram audit result for project " + targetProject.getName(),
+				null);
 		for (IStatus st : statuses) {
 			status.add(st);
 		}
