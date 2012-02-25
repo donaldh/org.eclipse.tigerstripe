@@ -262,40 +262,34 @@ public class FacetReference extends AbstractContainedObject implements
 		return null;
 	}
 
-	public IFacetPredicate computeFacetPredicate(IProgressMonitor monitor) {
-		synchronized (this) {
-			facetPredicate = new FacetPredicate(this, getTSProject());
-	
-			// Bug 921: this is a bit of a hack for now to keep track of the state
-			// of the underlying contract segment. This is used later to determine
-			// whether we need to re-compute the facet predicate or not
-			try {
-				facetPredicate.resolve(monitor);
-				computedTStamp = System.currentTimeMillis();
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-				TigerstripeRuntime.logErrorMessage(
-						"Couldn't determine computedTStamp for FacetPredicate: "
-								+ e.getMessage(), e);
-			}
-			return facetPredicate;
+	public synchronized IFacetPredicate computeFacetPredicate(IProgressMonitor monitor) {
+		facetPredicate = new FacetPredicate(this, getTSProject());
+
+		// Bug 921: this is a bit of a hack for now to keep track of the state
+		// of the underlying contract segment. This is used later to determine
+		// whether we need to re-compute the facet predicate or not
+		try {
+			facetPredicate.resolve(monitor);
+			computedTStamp = System.currentTimeMillis();
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			TigerstripeRuntime.logErrorMessage(
+					"Couldn't determine computedTStamp for FacetPredicate: "
+							+ e.getMessage(), e);
 		}
+		return facetPredicate;
 	}
 
-	public IFacetPredicate getFacetPredicate() {
-		synchronized (this) {
-			if (needsToBeEvaluated()) {
-				return computeFacetPredicate(new NullProgressMonitor());
-			}
-	
-			return facetPredicate;
+	public synchronized IFacetPredicate getFacetPredicate() {
+		if (needsToBeEvaluated()) {
+			return computeFacetPredicate(new NullProgressMonitor());
 		}
+
+		return facetPredicate;
 	}
 
-	public boolean needsToBeEvaluated() {
-		synchronized (this) {
-			return facetPredicate == null || modelHasChanged();
-		}
+	public synchronized boolean needsToBeEvaluated() {
+		return facetPredicate == null || modelHasChanged();
 	}
 
 	@Override
@@ -478,13 +472,11 @@ public class FacetReference extends AbstractContainedObject implements
 	 * 
 	 * @return
 	 */
-	private FacetPredicate getPrimaryPredicate() {
-		synchronized (this) {
-			if (primaryPredicate == null) {
-				primaryPredicate = new FacetPredicate(this, getContainingProject());
-			}
-			return primaryPredicate;
+	private synchronized FacetPredicate getPrimaryPredicate() {
+		if (primaryPredicate == null) {
+			primaryPredicate = new FacetPredicate(this, getContainingProject());
 		}
+		return primaryPredicate;
 	}
 
 	public static FacetReference decode(Node facetElement,
