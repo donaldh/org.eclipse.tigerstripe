@@ -28,12 +28,22 @@ public class QueryAllArtifacts extends ArtifactQueryBase implements
 
 		ExecutionContext context = getExecutionContext();
 
+		Boolean overridePredicate = overridePredicate();
 		if (context == null) {
-			return mgr.getAllArtifacts(includeDependencies(),
-					getProgressMonitor());
+			if (overridePredicate == null) {
+				return mgr.getAllArtifacts(includeDependencies(),
+						getProgressMonitor());
+			} else {
+				return mgr.getAllArtifacts(includeDependencies(),
+						overridePredicate, getProgressMonitor());
+			}
 		} else {
-			return mgr.getAllArtifacts(includeDependencies(), context);
+			if (overridePredicate == null) {
+				return mgr.getAllArtifacts(includeDependencies(), context);
+			} else {
+				return mgr.getAllArtifacts(includeDependencies(),
+						overridePredicate, context);
+			}
 		}
 	}
-
 }

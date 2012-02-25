@@ -38,8 +38,32 @@ public interface IArtifactQuery {
 	 */
 	public void setIncludeDependencies(boolean includeDependencies);
 
+	/**
+	 * Sets the execution context to propagate context further. It is not necessary usually.   
+	 * 
+	 * @param executionContext
+	 */
 	public void setExecutionContext(ExecutionContext executionContext);
 
+	/**
+	 * @return the {@link ExecutionContext} instance for the query or 
+	 * <code>null</code> if there is no context for the query  
+	 */
 	public ExecutionContext getExecutionContext();
+	
+	/**
+	 * Determines whether override predicate for facet logic.
+	 * Can be <code>null</code> for default behavior.
+	 * 
+	 * @param 
+	 */
+	public void setOverridePredicate(Boolean value);
 
+	/**
+	 * Check the state of the overridePredicate attribute.
+	 * 
+	 * @return the value of the overridePredicate attribute or <code>null</code>
+	 * for default behavior.
+	 */
+	public Boolean overridePredicate();
 }

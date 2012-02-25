@@ -2062,18 +2062,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							.makeQuery(IQueryAllArtifacts.class.getName());
 					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies 			
 					query.setExecutionContext(context);
-					Collection<IAbstractArtifact> artifacts = project
-							.getArtifactManagerSession().queryArtifact(query);
-
-					if (!isOverridePredicate && getActiveFacet() != null) {
-						// Filter artifacts with active facet
-						for (IAbstractArtifact a : artifacts) {
-							if (isInActiveFacet(a))
-								list.add(a);
-						}
-					} else {
-						list.addAll(artifacts);
-					}
+					query.setOverridePredicate(isOverridePredicate);
+					list.addAll(project.getArtifactManagerSession()
+							.queryArtifact(query));
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2109,18 +2100,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							.makeQuery(IQueryAllArtifacts.class.getName());
 					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies	
 					query.setExecutionContext(context);
-					Collection<IAbstractArtifact> artifacts = project
-							.getArtifactManagerSession().queryArtifact(query);
-
-					if (!isOverridePredicate && getActiveFacet() != null) {
-						// Filter artifacts with active facet
-						for (IAbstractArtifact a : artifacts) {
-							if (isInActiveFacet(a))
-								list.add(a);
-						}
-					} else {
-						list.addAll(artifacts);
-					}
+					query.setOverridePredicate(isOverridePredicate);
+					list.addAll(project.getArtifactManagerSession()
+							.queryArtifact(query));
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2196,6 +2178,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					query.setArtifactType(model.getClass().getName());
 					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies
 					query.setExecutionContext(context);
+					
 					// referenced project
 					// shall not be included
 
@@ -2720,6 +2703,15 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							"TigerstripeException detected", e);
 				}
 			}
+			for (IDependency dep : getTSProject().getEnabledDependencies()) {
+				try {
+					((Dependency)dep).getArtifactManager(null).resetActiveFacet();
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+
 			// need to take care of modules too
 			depContentCache.resetActiveFacet();
 			relationshipCache.resetActiveFacet();
@@ -2732,6 +2724,15 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					project.getArtifactManagerSession().setActiveFacet(
+							newFacet, monitor);
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+			for (IDependency dep : getTSProject().getEnabledDependencies()) {
+				try {
+					((Dependency)dep).getArtifactManager(null).setActiveFacet(
 							newFacet, monitor);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(

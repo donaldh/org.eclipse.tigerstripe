@@ -27,6 +27,9 @@ public abstract class ArtifactQueryBase implements IArtifactQuery {
 
 	private boolean includeDependencies = true;
 
+	private Boolean overridePredicate;
+
+	
 	public boolean includeDependencies() {
 		return includeDependencies;
 	}
@@ -54,4 +57,11 @@ public abstract class ArtifactQueryBase implements IArtifactQuery {
 		return executionContext;
 	}
 
+	public void setOverridePredicate(Boolean value) {
+		overridePredicate = value;
+	}
+
+	public Boolean overridePredicate() {
+		return overridePredicate;
+	}	
 }
