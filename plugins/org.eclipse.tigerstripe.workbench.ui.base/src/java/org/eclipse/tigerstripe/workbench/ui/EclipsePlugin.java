@@ -144,23 +144,23 @@ public class EclipsePlugin extends AbstractUIPlugin {
 		super.stop(context);
 		stopDiagramSynchronizerManager();
 		
-		if (PlatformUI.isWorkbenchRunning()) {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			if (workbench != null) {
-				Display display = workbench.getDisplay();
-				if (display != null && !display.isDisposed()) {
-					display.asyncExec(new Runnable() {
-						
-						public void run() {
-							if (clipboard != null && !clipboard.isDisposed()) {
-								clipboard.dispose();
-								clipboard = null;
-							}
-						}
-					});
-				}
-			}
-		}
+//		if (PlatformUI.isWorkbenchRunning()) {
+//			IWorkbench workbench = PlatformUI.getWorkbench();
+//			if (workbench != null) {
+//				Display display = workbench.getDisplay();
+//				if (display != null && !display.isDisposed()) {
+//					display.asyncExec(new Runnable() {
+//						
+//						public void run() {
+//							if (clipboard != null && !clipboard.isDisposed()) {
+//								clipboard.dispose();
+//								clipboard = null;
+//							}
+//						}
+//					});
+//				}
+//			}
+//		}
 	}
 
 	/**

@@ -86,16 +86,16 @@ public class ArtifactOverviewPage extends TigerstripeFormPage implements IResour
 			body.setLayout(new GridLayout());			
 			FormText rtext = toolkit.createFormText(body, false);
 			rtext.setText("<p>There seems to be an error with this file.  Please try opening it with Java editor:</p>", true, false);
-			IEditorInput editorInput = getEditor().getEditorInput();			
-			try {
-				if (editorInput != null) 
-					IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), editorInput, "org.eclipse.jdt.ui.CompilationUnitEditor");
-				
-				getEditor().close(false);
-				 
-			} catch (PartInitException exception) {
-				// Ignore
-			}			
+//			IEditorInput editorInput = getEditor().getEditorInput();			
+//			try {
+//				if (editorInput != null) 
+//					IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), editorInput, "org.eclipse.jdt.ui.CompilationUnitEditor");
+//				
+//				getEditor().close(false);
+//				 
+//			} catch (PartInitException exception) {
+//				// Ignore
+//			}			
 			
 		} else {
 			form.setText(contentProvider.getText(IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE));
