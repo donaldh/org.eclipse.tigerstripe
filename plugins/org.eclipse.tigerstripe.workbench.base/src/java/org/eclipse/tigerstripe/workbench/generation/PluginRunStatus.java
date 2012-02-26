@@ -186,21 +186,19 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 							+ status.getMessage());
 					res.append(newline);
 
-					if (status.getException() instanceof TigerstripeException) {
-						TigerstripeException tsExc = (TigerstripeException) status
-								.getException();
-						if (tsExc.getException() != null) {
-							StringWriter writer = new StringWriter();
-							tsExc.getException().printStackTrace(
-									new PrintWriter(writer));
-							res.append(writer.toString());
+					Throwable t = status.getException();
+					if (t != null) {
+						StringWriter writer = new StringWriter();
+						t.printStackTrace(new PrintWriter(writer));
+						if (t instanceof TigerstripeException) {
+							TigerstripeException tsExc = (TigerstripeException) t;
+							if (tsExc.getException() != null) {
+								tsExc.getException().printStackTrace(
+										new PrintWriter(writer));
+								res.append(writer.toString());
+							}
 						}
-					} else if (status.getException() != null)
-						if (status.getException().getLocalizedMessage() != null) {
-							res.append(status.getException()
-									.getLocalizedMessage());
-						}
-
+					}
 					res.append(newline);
 
 					if (includeHTML)

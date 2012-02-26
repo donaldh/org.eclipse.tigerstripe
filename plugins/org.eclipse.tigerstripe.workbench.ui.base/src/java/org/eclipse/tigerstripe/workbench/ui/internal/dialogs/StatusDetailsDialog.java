@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 
 public class StatusDetailsDialog extends TrayDialog {
@@ -139,6 +140,13 @@ public class StatusDetailsDialog extends TrayDialog {
 			StringWriter swriter = new StringWriter();
 			PrintWriter pwriter = new PrintWriter(swriter);
 			throwable.printStackTrace(pwriter);
+			if (throwable instanceof TigerstripeException) {
+				TigerstripeException te = (TigerstripeException) throwable;
+				Exception e = te.getException();
+				if (e != null) {
+					e.printStackTrace(pwriter);
+				}
+			}
 			pwriter.flush();
 			pwriter.close();
 			return swriter.toString();
