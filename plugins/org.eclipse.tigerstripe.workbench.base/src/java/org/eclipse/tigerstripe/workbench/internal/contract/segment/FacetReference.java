@@ -32,6 +32,9 @@ import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager.CommitEvent;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager.CommitListener;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -44,14 +47,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.model.ArtifactUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
-import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,7 +60,7 @@ import org.w3c.dom.Node;
 
 public class FacetReference extends AbstractContainedObject implements
 		IFacetReference, IArtifactChangeListener, IContainedObject,
-		IProjectDependencyChangeListener, IAnnotationListener {
+		IAnnotationListener, CommitListener {
 
 	private URI facetURI;
 
@@ -127,11 +127,8 @@ public class FacetReference extends AbstractContainedObject implements
 	public void startListeningToManager(ArtifactManager mgr) {
 		activeMgr = mgr;
 		activeMgr.addArtifactManagerListener(this);
-		// start listen project dependency changes
-		ITigerstripeModelProject modelProject = ArtifactUtils.getModelProject(activeMgr);
-		if (modelProject != null) {
-			modelProject.addProjectDependencyChangeListener(this);
-		}
+		// start listen project changes
+		WorkingCopyManager.addCommitListener(this);
 		// start listen annotation events
 		AnnotationPlugin.getManager().addAnnotationListener(this);
 	}
@@ -139,11 +136,8 @@ public class FacetReference extends AbstractContainedObject implements
 	public void stopListeningToManager() {
 		if (activeMgr != null) {
 			activeMgr.removeArtifactManagerListener(this);
-			// stop listen project dependency changes
-			ITigerstripeModelProject modelProject = ArtifactUtils.getModelProject(activeMgr);
-			if (modelProject != null) {
-				modelProject.removeProjectDependencyChangeListener(this);
-			}
+			// stop listen project changes
+			WorkingCopyManager.removeCommitListener(this);
 			// stop listen annotation events
 			AnnotationPlugin.getManager().removeAnnotationListener(this);
 			activeMgr = null;
@@ -349,9 +343,10 @@ public class FacetReference extends AbstractContainedObject implements
 		// Do nothing
 	}
 	
-	// IProjectDependencyChangeListener implementation
-
-	public void projectDependenciesChanged(IProjectDependencyDelta delta) {
+	// CommitListener implementation
+	
+	public void onCommit(CommitEvent event) {
+		event.getOriginal();
 		scheduleRecomputeFacetPredicate();
 	}
 	
