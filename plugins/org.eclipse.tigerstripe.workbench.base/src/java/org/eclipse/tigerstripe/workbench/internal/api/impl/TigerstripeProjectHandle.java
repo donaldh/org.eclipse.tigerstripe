@@ -583,7 +583,17 @@ public abstract class TigerstripeProjectHandle extends
 	 * ()
 	 */
 	public String getModelId() throws TigerstripeException {
-		return getProjectDetails().getModelId();
+		String modelId = getProjectDetails().getModelId();
+		if (modelId == null || modelId.isEmpty()) {
+			String name = super.getName();
+			if (name == null) {
+				return "";
+			} else {
+				return name;
+			}
+		} else {
+			return modelId;
+		}
 	}
 
 	/*
@@ -626,7 +636,7 @@ public abstract class TigerstripeProjectHandle extends
 		String name = super.getName();
 		if (name == null || name.isEmpty()) {
 			try {
-				return getModelId();
+				return getProjectDetails().getModelId();
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
