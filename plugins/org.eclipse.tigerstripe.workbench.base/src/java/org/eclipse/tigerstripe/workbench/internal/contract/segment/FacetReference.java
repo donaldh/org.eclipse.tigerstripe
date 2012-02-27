@@ -346,8 +346,22 @@ public class FacetReference extends AbstractContainedObject implements
 	// CommitListener implementation
 	
 	public void onCommit(CommitEvent event) {
-		event.getOriginal();
-		scheduleRecomputeFacetPredicate();
+		Object original = event.getOriginal();
+		if (original != null && original instanceof ITigerstripeModelProject) {
+			ITigerstripeModelProject tsProject = getTSProject();
+			if (tsProject != null) {
+				try {
+					String originalModelId = ((ITigerstripeModelProject) original)
+							.getModelId();
+					String modelId = tsProject.getModelId();
+					if (modelId != null && modelId.equals(originalModelId)) {
+						scheduleRecomputeFacetPredicate();
+					}
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
+			}
+		}
 	}
 	
 	// IAnnotationListener implementation
