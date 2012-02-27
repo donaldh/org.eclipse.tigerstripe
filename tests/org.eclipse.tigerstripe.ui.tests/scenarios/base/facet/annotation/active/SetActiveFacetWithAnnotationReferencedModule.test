@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _Mrg78DqyEeGvPsO-LSiu4Q,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 2/13/12 3:57 PM
+Save-Time: 2/27/12 5:56 PM
 Id: _N32BoDqxEeGvPsO-LSiu4Q
 Testcase-Type: ecl
 
@@ -36,66 +36,66 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | verify-true
     get-item "ProjectWithReference \\{default2\\}" | get-property styleRanges -index 0 
         | equals "0, 31, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
-    get-item "New Project" | get-property caption | equals "New Project" | verify-true
+    get-item "New Project \\{default2\\}" | get-property caption | equals "New Project \\{default2\\}" | verify-true
 }
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project" | get-property caption 
-        | equals "New Project" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/<<ReferencesExample>>Datatype0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}" | get-property caption 
+        | equals "New Project \\{default2\\}" | verify-true
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Datatype0" 
         | get-property caption | equals "<<ReferencesExample>>Datatype0" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/<<ReferencesExample>>Datatype0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Datatype0" 
         | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/<<ReferencesExample>>Datatype0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/<<ReferencesExample>>Datatype0" 
         | get-property styleRanges -index 1 | equals "21, 9, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/AssocClass0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/AssocClass0" 
         | get-property styleRanges -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Association0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Association0" 
         | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Dependency0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Dependency0" 
         | get-property styleRanges -index 0 | equals "0, 11, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Entity0" 
         | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity1" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Entity1" 
         | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Enumeration0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Enumeration0" 
         | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Event0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Event0" 
         | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Exception0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Exception0" 
         | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Query0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Query0" 
         | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Session0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Session0" 
         | get-property styleRanges -index 0 | equals "0, 8, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Update0" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Update0" 
         | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 }
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "New Project/src/org.eclipse/AssocClass0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/AssocClass0" | get-property styleRanges -index 0 
         | equals "0, 11, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Association0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Association0" | get-property styleRanges -index 0 
         | equals "0, 12, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Datatype0" | get-property styleRanges -index 0 
-        | equals "0, 9, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Dependency0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Datatype0" | get-property styleRanges -index 0 
+        | equals "0, 9, fontStyle=normal, foreground=Color {128, 128, 128}" | verify-true
+    get-item "New Project \\{default2\\}/src/org.eclipse/Dependency0" | get-property styleRanges -index 0 
         | equals "0, 11, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Entity0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Entity0" | get-property styleRanges -index 0 
         | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Entity1" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Entity1" | get-property styleRanges -index 0 
         | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Enumeration0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Enumeration0" | get-property styleRanges -index 0 
         | equals "0, 12, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Event0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Event0" | get-property styleRanges -index 0 
         | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Exception0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Exception0" | get-property styleRanges -index 0 
         | equals "0, 10, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Query0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Query0" | get-property styleRanges -index 0 
         | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Session0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Session0" | get-property styleRanges -index 0 
         | equals "0, 8, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "New Project/src/org.eclipse/Update0" | get-property styleRanges -index 0 
+    get-item "New Project \\{default2\\}/src/org.eclipse/Update0" | get-property styleRanges -index 0 
         | equals "0, 7, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

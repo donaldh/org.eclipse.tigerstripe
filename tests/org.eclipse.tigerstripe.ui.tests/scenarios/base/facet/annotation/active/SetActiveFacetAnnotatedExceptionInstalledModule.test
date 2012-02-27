@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: SetActiveFacetAnnotatedExceptionInstalledModule
 Tags: Facet/Active, Annotation, Extend, Exception
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _RR91gMiqEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ,_o_vfUDHaEeGSksgVyHPBRg
-Save-Time: 1/26/12 5:18 PM
+Save-Time: 2/27/12 6:54 PM
 Id: _G9-UMEgBEeG6xYWzBUR3Fg
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -31,121 +33,29 @@ Entry-Name: .content
 Content-Type: text/ecl
 
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Ex1" 
+    select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/Ex1" 
         | get-menu "Annotations/Create/Primitive/References Example" | click
     select "Project1/default.wfc"
 }
-exec-with-options -allowStatusDialog -command {
-    get-view "Tigerstripe Explorer" | get-tree | get-menu "Facets/Mark as Active" | click
-    get-window "Problem Occurred" 
-        | get-label "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
+get-view "Tigerstripe Explorer" | get-tree | get-menu "Facets/Mark as Active" | click
+with [get-view "Error Log" | get-tree] {
+    get-item "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
         | get-property caption 
         | equals "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
         | verify-true
-    get-window "Problem Occurred" | get-label "\'Activating facet: default\' has encountered a problem." 
-        | get-property caption | equals "\'Activating facet: default\' has encountered a problem." | verify-true
-    get-window "Problem Occurred" | get-button OK | click
+    get-item "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model./Inconsistent facet: the Exception of method org.eclipse.tigerstripe.test.E4:method0\\(...\\) \\(void\\) is explicitly excluded from facet." 
+        | get-property caption 
+        | equals "Inconsistent facet: the Exception of method org.eclipse.tigerstripe.test.E4:method0(...) (void) is explicitly excluded from facet." 
+        | verify-true
 }
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<ReferencesExample>>Ex1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/<<ReferencesExample>>Ex1" 
         | get-property styleRanges -index 0 | equals "0, 21, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<ReferencesExample>>Ex1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/<<ReferencesExample>>Ex1" 
         | get-property styleRanges -index 1 | equals "21, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E4" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/E4" 
         | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPzR9hlUkAbYwCMj4
-MFmCW0DwZaltqdOtha37gF9vh7BEoz719p5zzzm97Q/LOAI5S9JQChu2jDsImCCShoLbMFO7Zg8OB7c3
-fSJjo5QJo8aha6SECZyE0vIvBSjj0KpV7isVrStSS/dt+KbU3kKoKApDxtyQCUcbd3Gl/KpcD2kUnVF0
-6KIrajCiWxAIHDMb+kyNiApzNsVEl0JIhRWjTknYXulAC5EqHEWMupJmkR6rg7aroCG1YTAzmyvX4WOH
-zTrl9vk0XnntKYdAYZ7a8CyMvkwa4OKgFRrAKRUTtDovZnrkuNehGImg3hsAenNCsVKlg8DzzBZ3w4PD
-Htbb/GRm/vKlGPVRzfjBNyed9xFW3KHNvPdYbF5FFqinv/kyyHeryRzrR/gfKV8f58uxx7/xq8t/H6kp
-n1BLBwgYqAjLQwEAABMCAABQSwECFAAUAAgACAAAACEAGKgIy0MBAAATAgAACAAAAAAAAAAAAAAAAAAA
-AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAeQEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtXW1z2kgS/n5V9x+0bNXlrooAwsZ2
-fHbubMCxa3HsApzdumzKNRYDzFovlDQEZ1P7369HQgJsSQhJg4F0djcL0mheenq6e56eR5z858nQla/U
-dphlnhbUUqWgUFOzeswcnBbGvP/2qPCf93//24lmGaUny6a9EqeOTkoafC6NbItbmqWXbDI57orrHY2a
-xGaW8mSw46DaqqgWGjKdY7h+WhhyPjoulyeTSckyBiXLHpR/u74KijiLRSZ7bolqpaJCsVZHG1KDvGWm
-w4mpUf+p2A4G9ZWhWNktVnaLlUWxcjAOKr4mqlEMOWGtZSiaoOYxW1LfmC3W4n5ZkBTVdDZyqCsuavSF
-yKrlpvsMzKGiiFk0iNlzFJDxMf82gsdjR3ncoTrVeN17zKsEqukRTpRHZvZOC02vyV/hizUpKMZY52yk
-M43xb6BOhbLXbtlvWFY3PjEKrY8I59QGheuyAeget9mIKs2nkQ6V2S87N60HahoRm5pcYc8HBGobOswe
-dTSonLvaPd/YW2VaUrnVCe9btjEVgRCC6O+a5NG1KU04YCG6YJyuHOX0mHudBpEFHYYLht8N0eOgG273
-g27AtA7f39rWH/C4elJ2v87furZ6VFfatE9hUBp1QorAighWB5/Nl+gqLxlWb6zTezB+8M8fxIZZrB//
-Dl0f2MRwfufOW7V2+PtIHw/A6KxYeUjx5tP8IOTrwjU1x/G6AF05M02LEzE7iyP079dtSjgNvXVrM4Nx
-9jX87mxaYCUSY6SHFLMTKEGOulgHKTyGKqEQVdC+K7fcDJg89e/RPoHJLU362ubp1QXRKA9XqWtiPyrE
-Uc60cOVZs1aIKYIVMHYajOjWQBgVEQuRB51Cs9we+83mrXCqHIXbDsfttx+4blB0kLih3Gja2IZq07ht
-dVvddos8UH1OGFcQipsOc7gYpruUjpXJkOlUsalj6V8hSlf4kCp9cUtxNGtEi8rcQxoDszsB+wtD59A0
-7SnMdJ+A54VY4XlDeM9SQjE/C4tCBftiBmWI8sxxqM0LCkjKZg9jLh4gbgcKyleij+lahRe2tN25DDTR
-m9lAEm4XuzDOuQG78fxxswEyEncKytCm/YTx/c/lcrMDkjAHaEDQgMyE8cZ1rsTV1b63BKbhwhtlCL5X
-7PXHJpQF5SbKyBPdLhqDlIKIXNgVXNjbuLCr27qwz8ecC3UOpHHzy0qrVH39VRodBXuDC7o4HWuOW6/n
-cX3aQH5b1o4kOGxvW1fPinBYdQ1w2JIeX3FqLN1c+6CA8n3qy/4K32jH4WOSEbKVMTL/gZOfPtcbZ92z
-zycns55PEaT3AkP78uX9EsygKh0zCAk8HP5Np21iDqgTBB+VolJVi0rfMsEUwe1TE1YC0cUVmw5sCDx6
-p3ULlqXyXa0eFRX/r78KsOPo0SeoIdRuCiUJAhFXY7YoDkkoOyG4vUyyU3dPduiH0A+hH1qLH2rub5OX
-SWYooaT4N4l7UTfERE77dU1GI7GFn948LZTL//ULll6Mwkmc0Q0GpoH4bEtfOjljduxbHU0njvORGFB0
-XrucCS9NWG9AuVPqDKmu+9kE0bNpQkF5sOwetX9lfCiWlcIZh4lbZroUh/1JRU1+LUPiXDOTGXDZ2zvN
-3yBP4TfquuUsXp1Tcdsagcp9+wgr1lFMd2wwkLo/0n/+a1bY14b3sYM/KXuFgibKC20sbbplaW52ElpW
-vGkJ7EgwedFPd0AAKZ5kTtPL/4SOV8gs67DAJLI+i2igT3QnWwvM+cQcBiOQNgB3ctNNSpsOvAl92TNz
-nF1jzoXFc1LqixhVymdlq8yZPhqS0NqrtVrWyi9A8B0NHFn4vGTXSGjjyqBX5mgsdD9cLyuZV9XU5sla
-VqIJYW/HRkrD4kqBDMKHn4fy13UGXubMpiRd70Qq+pzY6R7u0iceOrJ4v5bR0rWpF5iRKHOXy7w3vADX
-85vSps9VjpT2x48EJCp/HQQdPsO5DP66KW9dDJnes2nKMKJFvlljnu7Zc6I9elG4PLvn9a8hemXLnP8u
-eWgxJ40gmLOuPl5aNvsTgnmie3ZMjj59gmtMk9vGrWvWpFV/psFW3A8SMyl2aBd/vqiIfzJHc0Erch3n
-+XRD1uPD0DbUzBZobDuWPGVp2GTQcI+rSAtALywzpQ28CJCIcFWpuH9ysoKEh0fJeUhZhEfSKu9alt5l
-o8goKrPNkrklZM6FpY2dugejSIzDvOlNs7cT4Fhoxz63m52r/zWLSveq24L/1Vs3Hfjf9dVH+Ovst6LS
-al5077s39+2rD5fdL4mH8BDYLg9/s8WB0up+paAMxE5r+vnBS3fAx7kxzLA799G5Ow/u9lZ5Oi3U9vcK
-ioBlK2pBmQjLJT5X9wvKkLLBkJ8WDg+O5oBJH+Ka4myLyFpytO1FWsVZRidYAVvzEgcJkLW6ZYwsh3Ea
-hq6FwGlB2iFHsGvMSkwcHTKJXhIdD7QxcyQcbiejMOyJZT8+QLvD0lfohVMiEJv0icb9MYu+faSTjOu7
-weCSxL0FKAlMYWOWytk+IyiMuFC9pZtgf2ZyaW3qN9bbqB+NpTDEENfyyPUlo8O3xEyHAt8y05S6nwok
-6au9tQx6kexTPI9SqwQOpbo/509q7/bz9yfVcH8SQ/5YwZ94idcE/sQr+NKViLYIM0Xg519yk6IBq8e/
-Cq7IqIujpCAzWRkV0cnMwL3f8ZTwJQwzJUB15UsoHMTOZ7ssGpEWoQeyix5G9n2ipY+NmAYyb5M+2KzX
-YiaVuNe9pAQ205eu1ZAzCDHNMfWrR/lMw40ABdJpu1dB2jyUZXOIt4KFKkGC3hzFhUO5uDihabHJyFxa
-EfLyBC5xdz6a2pY0ypAP/CwJ+kKEeq0IddYc3XOEO0UVi/B1GpXMdCwjQLZ35kgHHrhI1zXpSQj3z64k
-ITKb4e1PQsg+ZYNJDj/JkeYAyI5nMHJoY+lplTyUWEqS5Pqu1b0qKpf3nXr7ptUqKp+CTwv5kaLSuLk7
-bzXvz+8uLprtZiNrwqRWm4Fb4vMU3IKPq4Bby/AsKOn42/v50Ue/hWV2e8kBd7+YtCPuSRqIeGTxpUTe
-7DyXQ25Q33441Bf19h1lJahPPOixFqYc8DnND95BFAbxTc/CS0Pt/I7ldh5kw2LfZ6CipF2T9BPZMlP7
-IszVqU14RPCVHQ+TGpdGOvSwl3xtoOu6vetcJvRCudm6w2hbF/bip8y2bvGtWjF2TkU7h3YO7dxKdu75
-K+vQxnlHgZIw7yLeqYTMO2TevYYJR+bdRgLByLxD5t2SJpB5t3rggsy7VQJLZN5JWBfIvPtBzjUg826F
-XTIy75ImvZF5h0lpZN5F14/Mu6SJ5K1n3kVQ78Lfx71ZANvti5c4h0BqnitAjA0xNsTYEGNDjA0xNlkY
-m6Q4MiqAfO79thJ4S6sOiKpJWAmIqiGqtq2o2ibyRBAyQ8gMITOEzLYfMju/aTea7U2Fzo4ODlzobO9w
-L4DO9g6PZsiZevBOAnIW8ZKR2N9qXAE3m/78XgLYbFoy5EUj/kHe9f98Zd7QmDvGLT3puT7pZ0dM2MA0
-ovKU6sHe0f7rwpPI8l5d4rsJPGL0vkr0jixvZHnP7w5SAp0Y+r9a6L9emrecWY7ZgfzaPrstKh9v7i9u
-6nedF/TvVvMsM+c7n/2GeJXhbJdRqcx2GXsVCZuMCHozsmEwU7+R4Sxm6jc1YMZMPWbqlzTxo2TqkQ2z
-GPMhGwbz9pi3x7z9K+Tt5VSP4CCm9ncXvJMjZcT3ourf6dT+Zqb0X4sNU0M2DGJsiLEhxoYYG2JsMgbx
-w2BskuJIZMMgqoaoGqJqiKrFoWp4ng4hM4TMEDKLqx8hM2TD5IicHcSwYSqbxYZ5475ym7i8ib5Hx+h5
-kfgbAXDBo5r4qVRQpZ5ClJG3s0BmS0jl6SSJLJU4u7SRkCMCghhVI0sFWSrIUsGQPL4RZKlsyD6gduhl
-0CPYKmpNwibgKAFbpYpsFcykb0hYi5n0TQ2cMZOOmfQlTfwomXRkqyzGfshWwbw65tUxr/4KeXU51SNI
-iKn33QXx5EgZcb6o+nc69b6ZKffXYqu8i2OrqMhWQYwNMTbE2BBjQ4wNMbZ4jE1SHIlsFUTVEFVDVA1R
-tThUDc/VIWSGkBlCZnH1I2SGbJX8kLNqJRw582LbADnzvqZCzqaPJkHO/KIvoDNJSJXX3mYzTjowLRqP
-Ak7yCfaiTNXNL7IJKoeHh1X1IGsrH2zyTWakiRwYhBnzgBkxVl8lVkcODHJgkAPzeoF+Dm2skwKT717i
-9q5z+YLVUm9+7DbbG7NjUGtVL9k+2zC8q872C9XafIVTzrcb0/mf895L7CUgvewh6QUT8hsSx2JCflMj
-ZUzIY0J+SRM/SkIeSS+L0R6SXjA9j+l5TM+/QnpeTvWICmIGf3dROzlSRmAvqv6dzuBvZub+lUgv1Yhf
-RP7E6OzVMuJLKnDNfTAJtFa3jJHlME7D4LUQPK35NAJBUjtPtGvMSky8XNEkekl0PFDHzKFwuKGcb5vP
-xlaaWPbjA7Q7LH2FXjglAsFJn2jcH7Po20c6ybjAGwwuSdxcgJLAFDaoo8GgIo8ebLQVFFZcqN7SXbA/
-M7m0NnUc623UD8fSnUzgketLRodviZkOBr5lpil1QxVI0ld7axn2ItmpeC6lVgk8SnV/zqHU3u1LcCgR
-v/nVhfEEDkV8SeVQ3AeTOBSvYMhbi8Vmkpki9PMvGWOds+CElH8VfJFRF2/bBaHJyqmITuZ5tCsNgAnD
-TAlRXfkSCoex89kwi0bkH4uLHkb2naKlj42YBjJvlD7YrNdiJpW4272kBLbTl67ZkDMIMc0x9atH+UzD
-jYAF0mm7V0HaTJRlcwi4Ys5gZpagN0dx8VA+pxhB02LTkbm0IuTlCVzi/nw0tS1plCEfAFoS+IUY9Vox
-6qxZuucYd4oqFgHsNCqJh5OfVY9HLjbycLL7Z1fSEHg4GQ8nry3NkeYICOYwdvh08vVdq3tVVC7vO/X2
-TatVVD4Fn54dWW7c3J23mvfndxcXzXYz8zv5a7UZvCU+T+GtWm0leGsZogUlHX9/Pz/6EeFD8caQP+CW
-qnyf/sDSXzAGceN5went0qSvPStxUn5efX4YWsSvf4kNS/DjX+JLagzNfXj2E17/0Pm/xX+BZjnNJ2KM
-dPr+ffNJLSjQIBVnxVWZSJjo02u+BCEDBp4lZFpPyLPpfjADDhntnn76XG+cdc8+n5yEK/aXL5ldWDwI
-mhl5WwBBU8hGNqm1+TQCiyV1dz2k2qPMBqT41uQu0hGVtIk5gIuVolJVi0of1qpb96lp2QbRxRV/DZ56
-jvS7Wj0qKv5f4LzmqwmtW1S8l2PdMl2762oOpy8yOJodh6jNuXpVxmGIiDeAIvcIuUcbCVMh92hTgTDk
-HiH3aEkTyD1aPaRH7lHiJYLcIznrArlHP0heF7lHSeMJ5B6tkPRD7tHGg5HIPYqvf/vzdsg92gDu0V7E
-a0ORe4Tco0wOErlHKVtD7tHSBpF7lNCpvAL3aE8NdyjIPULuUfq0u5wYHblHCVEY5B4h94gi9yhvAFoS
-+IUY9VoxauQeIfcohYnbySMXyD1aJQ2B3CPkHiH3aJtzGMg9ih0Oco/SYWgB4vSSe6TK4B419wN+0RHS
-i3KPipBeJIte1NxH8lC2+AvJQzmTh5Lxe6Ck+Pe1mT3ifIF/2OAgJbFHlAjxNCAubmmWXrLJ5Lgrrnc0
-ahKbWfDM/wFQSwcILCxDl8IQAABZWQEAUEsBAhQAFAAIAAgAAAAhACwsQ5fCEAAAWVkBAAgAAAAAAAAA
-AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAPgQAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

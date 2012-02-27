@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _YZkcIFLoEeG1ps2f3Ic7Yg,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/16/12 3:42 PM
+Save-Time: 2/27/12 7:49 PM
 Id: _AiyasFhuEeGNjdIXYj2jnA
 Testcase-Type: ecl
 
@@ -41,19 +41,19 @@ with [get-editor "Project1/default.wfc"] {
 }
 get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc"
-exec-with-options -allowStatusDialog -command {
-    get-view "Tigerstripe Explorer" | get-tree | get-menu "Facets/Mark as Active" | click
-    get-window "Problem Occurred" | get-label "\'Activating facet: default\' has encountered a problem." 
-        | get-property caption | equals "\'Activating facet: default\' has encountered a problem." | verify-true
-    get-window "Problem Occurred" 
-        | get-label "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
+get-view "Tigerstripe Explorer" | get-tree | get-menu "Facets/Mark as Active" | click
+with [get-view "Error Log" | get-tree] {
+    get-item "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
         | get-property caption 
         | equals "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model." 
         | verify-true
-    get-window "Problem Occurred" | get-button OK | click
+    get-item "Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model./Inconsistent facet: the Exception of method org.eclipse.tigerstripe.test.E4:method0(...) (void) is explicitly excluded from facet." 
+        | get-property caption 
+        | equals "Inconsistent facet: the Exception of method org.eclipse.tigerstripe.test.E4:method0(...) (void) is explicitly excluded from facet." 
+        | verify-true
 }
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Ex1" 
+    | get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*/org.eclipse.tigerstripe.test/Ex1" 
     | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {128, 128, 128}" 
     | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

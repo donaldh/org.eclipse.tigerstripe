@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_iU0zwEWUEeG6xYWzBUR3Fg
-Save-Time: 2/16/12 1:50 PM
+Save-Time: 2/27/12 6:44 PM
 Id: _-Dfy8FXqEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -38,35 +38,35 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | equals "0, 18, fontStyle=normal, foreground=Color {232, 123, 20}" | verify-true
 }
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/Association1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/Association1" 
         | get-property styleRanges -index 0 | equals "0, 12, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/AssociationClass1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/AssociationClass1" 
         | get-property styleRanges -index 0 | equals "0, 17, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/Dependency" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/Dependency" 
         | get-property styleRanges -index 0 | equals "0, 10, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/DT1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/DT1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/E1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/E1" 
         | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/E2" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/E2" 
         | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/E3" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/E3" 
         | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/E4" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/E4" 
         | get-property styleRanges -index 0 | equals "0, 2, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/En1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/En1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/Event1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/Event1" 
         | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/En1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/En1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/Ex1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/Ex1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/Query1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/Query1" 
         | get-property styleRanges -index 0 | equals "0, 6, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/SF1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/SF1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
-    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\ts-216\\plugins/org.eclipse.tigerstripe.test/UP1" 
+    get-item "Project1 \\{default\\}/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar.*/org.eclipse.tigerstripe.test/UP1" 
         | get-property styleRanges -index 0 | equals "0, 3, fontStyle=normal, foreground=Color {0, 0, 0}" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
