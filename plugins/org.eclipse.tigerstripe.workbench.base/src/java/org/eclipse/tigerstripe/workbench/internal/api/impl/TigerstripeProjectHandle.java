@@ -621,4 +621,16 @@ public abstract class TigerstripeProjectHandle extends
 		dependenciesCacheNeedsRefresh = true;
 	}
 
+	@Override
+	public String getName() {
+		String name = super.getName();
+		if (name == null || name.isEmpty()) {
+			try {
+				return getModelId();
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
+		return name;
+	}
 }
