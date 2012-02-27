@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -263,6 +264,8 @@ public class IncludeExcludeSection extends ScopeSection {
 					includesViewer.getTable());
 			includesViewer
 					.setCellEditors(new CellEditor[] { entryListCellEditor });
+			entryListCellEditor.setValidator(EmptyValidator.INSTANCE);
+			
 			includesViewer.setCellModifier(new PatternCellModifier(
 					includesViewer));
 		} catch (TigerstripeException e) {
@@ -353,6 +356,7 @@ public class IncludeExcludeSection extends ScopeSection {
 			excludesViewer.setColumnProperties(new String[] { "PATTERN" });
 			final TextCellEditor entryListCellEditor = new TextCellEditor(
 					excludesViewer.getTable());
+			entryListCellEditor.setValidator(EmptyValidator.INSTANCE);
 			excludesViewer
 					.setCellEditors(new CellEditor[] { entryListCellEditor });
 			excludesViewer.setCellModifier(new PatternCellModifier(
