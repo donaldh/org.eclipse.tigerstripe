@@ -501,8 +501,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 			result.add(s);
 		}
 
-		if (!ClassDiagramUtils.changeableEquals(iAEndChange, eAEndChange)) {
-			IStatus s = getErrorStatus("AEnd (" + eAssociation.getAEndName()
+		if (!ClassDiagramUtils.changeableEquals(iZEndChange, eZEndChange)) {
+			IStatus s = getErrorStatus("ZEnd (" + eAssociation.getAEndName()
 					+ ") changeable doesn't match");
 			result.add(s);
 		}
