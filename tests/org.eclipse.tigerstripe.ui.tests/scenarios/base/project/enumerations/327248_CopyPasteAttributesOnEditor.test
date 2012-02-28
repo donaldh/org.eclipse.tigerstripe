@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_izWI8MinEeCVYvz9uSPZwA
-Save-Time: 2/15/12 5:58 PM
+Save-Time: 2/26/12 4:47 PM
 Id: _K8wHAFbgEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -51,7 +51,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className Map
 get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-set-data
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 210 118 -detail 1 -operation 7
 get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-end -detail 1
-get-button "Save All (Ctrl+Shift+S)" | click
+get-button "Save All \(.*\)" | click
 get-editor "ClassDiagram.wvd" | close
 get-view "Tigerstripe Explorer" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration" | double-click

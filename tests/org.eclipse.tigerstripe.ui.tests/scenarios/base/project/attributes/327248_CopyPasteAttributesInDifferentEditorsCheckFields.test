@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/15/12 6:00 PM
+Save-Time: 2/28/12 7:10 PM
 Id: _7WFMwFbiEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -53,12 +53,7 @@ with [get-editor Entity2 | get-section Attributes | get-section -index 1] {
     get-combo -after [get-label "Multiplicity:"] | set-text "0..*"
     get-button Protected | click
     get-button Readonly | click
-    with [get-combo -after [get-label "Default Value:"]] {
-        key-type "NUMPAD_1" 1
-        key-type "NUMPAD_1" 1
-        key-type "NUMPAD_5" 5
-        key-type "NUMPAD_5" 5
-    }
+    get-combo -after [get-label "Default Value:"] | type-text 15
 }
 get-button "Save \(.*\)" | click
 get-editor Entity2 | get-section Attributes | get-section | get-table | select attribute0 | get-menu Copy | click
