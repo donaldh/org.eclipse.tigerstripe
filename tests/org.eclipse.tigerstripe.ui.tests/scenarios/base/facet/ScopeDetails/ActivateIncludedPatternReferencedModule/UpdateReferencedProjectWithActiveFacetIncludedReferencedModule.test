@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _2_IRIFYSEeG3C4FnvvBmwQ,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/15/12 2:14 PM
+Save-Time: 2/28/12 4:26 PM
 Id: _GgNJYFbDEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -31,7 +31,7 @@ Content-Type: text/ecl
 
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "ProjectWithReference/default2.wfc" | get-menu "Facets/Mark as Active" | click
-    select "New Project/src/org.eclipse" | get-menu "New/Entity" | click
+    select "New Project \\{default2\\}/src/org.eclipse" | get-menu "New/Entity" | click
 }
 with [get-window "Create a new Entity"] {
     get-editbox -after [get-label "Name:"] | set-text Entity3
@@ -40,9 +40,9 @@ with [get-window "Create a new Entity"] {
 get-editor Entity3 | close
 get-view "Tigerstripe Explorer" | click
 with [get-view "Tigerstripe Explorer" | get-tree] {
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity3" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Entity3" 
         | get-property caption | equals Entity3 | verify-true
-    get-item "ProjectWithReference \\{default2\\}/Model References/New Project/src/org.eclipse/Entity3" 
+    get-item "ProjectWithReference \\{default2\\}/Model References/New Project \\{default2\\}/src/org.eclipse/Entity3" 
         | get-property styleRanges -index 0 | equals "0, 7, fontStyle=normal, foreground=Color {128, 128, 128}" 
         | verify-true
 }
