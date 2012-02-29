@@ -1,0 +1,24 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CopyPasteMethodInDiagram
+Tags: I48, base/refactor/method, skipExecution
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_QppuIGLCEeGptfzUqVrV0w,_NmmqwMz2Ed-ncakhinV22g
+Save-Time: 2/29/12 5:49 PM
+Id: _N_-YIGKsEeGptfzUqVrV0w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. Open diagram with several objects
+2. Select method in Object and choose "Copy" from context menu
+3. Select another Object and choose "Paste Members" from context menu
+4. Make sure that method is pasted to another Object
+5. Make sure that method is displayed in Explorer
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--

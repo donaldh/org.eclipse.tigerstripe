@@ -1,0 +1,61 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CopyPasteConstantInExplorerByShortKey
+Tags: Explorer, I48, base/refactor/constant
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_QppuIGLCEeGptfzUqVrV0w,_NmmqwMz2Ed-ncakhinV22g
+Save-Time: 2/29/12 5:59 PM
+Id: _n3ujoGKIEeGptfzUqVrV0w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. Select Constant in Object and press "Ctrl+C" 
+2. Select another Object and press "Ctrl+V"
+3. Make sure that Constant is pasted in Object and is not removed from first Object
+4. Open Constant in editor and make sure that Constant is copied correctly
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/Enumeration0/literal0=0" | key-type "M1+c"
+    select "model-refactoring/src/simple/Enumerution1" | key-type "M1+v"
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/Enumeration0" | get-property caption | equals Enumeration0 | verify-true
+    get-item "model-refactoring/src/simple/Enumeration0" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/Enumeration0/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+    get-item "model-refactoring/src/simple/Enumerution1" | get-property caption | equals Enumerution1 | verify-true
+    get-item "model-refactoring/src/simple/Enumerution1" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/Enumerution1/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring-reference/src/simple/Ent3" | key-type "M1+v"
+    select "model-refactoring-reference/src/simple/Query1" | key-type "M1+v"
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring-reference/src/simple/Ent3" | get-property caption | equals Ent3 | verify-true
+    get-item "model-refactoring-reference/src/simple/Ent3" | get-property childCount | equals 3 | verify-true
+    get-item "model-refactoring-reference/src/simple/Ent3/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+    get-item "model-refactoring-reference/src/simple/Query1" | get-property caption | equals Query1 | verify-true
+    get-item "model-refactoring-reference/src/simple/Query1" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring-reference/src/simple/Query1/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring-reference/src/simple/Query1/literal0=0" | double-click
+with [get-editor Query1 | get-section Constants | get-section | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "literal0=0" | get-property caption | equals "literal0=0" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,61 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: SaveTigerstripeProjectDetailsWithIlligalFacetName
+Tags: bug/Descriptor/Facets, I48, modified_Q7_1.2, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-938
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _FyZMUDs7EeCt76CYYPZ_qw
+Save-Time: 2/29/12 7:18 PM
+Id: _uppn8GLLEeGptfzUqVrV0w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. Open Generator Settings tab in Tigerstripe Project details
+2. Type "/" into Facet field
+3. Press Ctrl+S
+4. Make sure that correct message is displayed in Problems View
+
+On 1.2 version of Q7
+4. Verify that Error Log is empty
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+//clear-log-view
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+    with [get-section "New Generator Project(3.0) (enabled) [Generic]" | get-editbox -after [get-label "Use Facet"]] {
+        set-text "/"
+        key-type "M1+s"
+    }
+}
+get-view Problems | click
+with [get-view Problems | get-tree] {
+    get-item "Errors.*" | get-property columns -index 0 | equals "Errors (1 item)" | verify-true
+    get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
+        | get-property columns -index 0 
+        | equals "Facet \'/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project(3.0)\' cannot be found." 
+        | verify-true
+    get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
+        | get-property columns -index 1 | equals "tigerstripe.xml" | verify-true
+    get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
+        | get-property columns -index 2 | equals "/model-refactoring" | verify-true
+    get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
+        | get-property columns -index 3 | equals Unknown | verify-true
+    get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
+        | get-property columns -index 4 | equals "Tigerstripe Audit Marker" | verify-true
+}
+//get-log -levels Error | length | eq 0 | assert-true -message "There are errors in log" 
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

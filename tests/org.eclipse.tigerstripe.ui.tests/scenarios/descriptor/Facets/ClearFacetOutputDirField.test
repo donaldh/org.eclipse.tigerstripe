@@ -1,0 +1,63 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: ClearFacetOutputDirField
+Tags: bug/Descriptor/Facets, I48, modified_Q7_1.2, skipExecution
+External-Reference: http://bugs.xored.com/browse/XMP-936
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_FyZMUDs7EeCt76CYYPZ_qw
+Save-Time: 2/29/12 7:17 PM
+Id: _xgeWAGLJEeGptfzUqVrV0w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps
+1. Open Generator Settings Tab in Tigerstripe Project details
+2. Select Facet and type any text in Facet Output Dir, save settings
+3. Clear "Use Facet" field, then "Facet Output Dir" field
+
+On 1.2 version of Q7
+4. Verify that Error Log is empty
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+//clear-log-view
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+    get-section "New Generator Project(3.0) (enabled) [Generic]" | get-button "Select..." | click
+}
+with [get-window "Select Facet"] {
+    get-tree | select "default.wfc"
+    get-button OK | click
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section "New Generator Project(3.0) (enabled) [Generic]"] {
+    get-editbox -after [get-label "Facet Output Dir"] | set-text test
+    get-editbox -after [get-label "Use Facet"] | set-text ""
+    with [get-editbox -after [get-label "Facet Output Dir"]] {
+        set-text testtest
+        key-type "M1+s"
+    }
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section "New Generator Project(3.0) (enabled) [Generic]"] {
+    with [get-editbox -after [get-label "Facet Output Dir"]] {
+        get-property enablement | equals false | verify-true
+        get-property text | equals testtest | verify-true
+    }
+    with [get-editbox -after [get-label "Use Facet"]] {
+        get-property enablement | equals true | verify-true
+        get-property text | equals "" | verify-true
+    }
+}
+//get-log -levels Error | length | eq 0 | assert-true -message "There are errors in log" 
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

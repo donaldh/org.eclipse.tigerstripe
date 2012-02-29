@@ -2,12 +2,14 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: OpenDatatypeInJavaEditor
-Tags: explorer
+Tags: Explorer
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3oxF8S0_EeGOB4M1I_u2lA
-Save-Time: 1/31/12 4:20 PM
+Save-Time: 2/29/12 11:20 AM
 Id: _8S1P4C-FEeGOB4M1I_u2lA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -18,95 +20,72 @@ TEST STEPS
 1. Right-click Datatype and select Open with - Java editor;
 2. Make sure that the datatype has been opened in Java editor.
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kM1ugzAQhO+V+g7W3rFDEikI4UT9
-IS2pojTikhtywSFWwSZgwH37mqqhSlX1trsz+9mzwcqUBep43QglKbh4AojLVGVC5hRafXQ8WC1vb4JU
-ldiommf4vMBNyiWrhfLj7wKZUvgjZTpQLFc2vp1TOGld+YT0fY9VmWNV5+SwjS6WP8njklXJl0rOC3JR
-MU/tCJBkJaewq7h8ZJrpj4pHcsM6FmZCqxp+cs2GH4mMQuLF7uv8wVmH/Gl3P9+6UdJOiztAmuUNBW6q
-wpLt6gCzfVqATY+QzS81N7pZJvXz8X3/ok9h5nTepj+8yTbR+4CMjl/+mTJrL54k1y9e+Yfmv/NayydQ
-SwcIt9BIYwUBAACpAQAAUEsBAhQAFAAIAAgAAAAhALfQSGMFAQAAqQEAAAgAAAAAAAAAAAAAAAAAAAAA
-AC5jb250ZW50UEsFBgAAAAABAAEANgAAADsBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Datatype1" 
+    | select "MyProject/src/com.mycompany/Datatype1" | get-menu "Open With/Java Editor" | click
+get-editor "Datatype1.java" | get-editbox | get-property text 
+    | equals "* Created with Tigerstripe(tm) Workbench v.0.7.0.201112221341\n"
+    + "package com.mycompany;\n\n\n"
+    + "/**\n"
+    + " * \n"
+    + " *\n"
+    + " * @tigerstripe.datatype\n"
+    + " *\t\tisAbstract = \"false\"\n"
+    + " *      isSingleExtensionType=\"false\"\n"
+    + " *      isSessionFactoryMethods=\"false\"\n"
+    + " *\t\timplements = \"\"\n"
+    + " * @tigerstripe.interface package = \"$artifact.IStandardSpecifics.InterfaceProperties.get(\"\n"
+    + " *      generate = \"true\"\n"
+    + " * * \n"
+    + " */\n"
+    + "public abstract class Datatype1\n"
+    + " {\n\n\n\n"
+    + "    /**\n"
+    + "     * \n"
+    + "     * @tigerstripe.field \n"
+    + "     *  isOptional = \"false\"\n"
+    + "     *  isReadOnly = \"false\"\n"
+    + "     *  isOrdered = \"false\"\n"
+    + "     *  isUnique = \"false\"\n"
+    + "     *  typeMultiplicity = \"1\"\n"
+    + "     *   ref-by = \"value\"\n"
+    + "     *\n"
+    + "     *\n"
+    + "     * \n"
+    + "     */\n"
+    + "\tpublic String attribute0;\n\n\n\n"
+    + "    /**\n"
+    + "     * \n"
+    + "     * @tigerstripe.method \n"
+    + "     *  iteratorReturn = \"false\"\n"
+    + "     *  isOptional = \"false\"\n"
+    + "\t *  isAbstract = \"false\"\n"
+    + "     *  isOrdered = \"false\"\n"
+    + "     *  isUnique = \"false\"\n"
+    + "     *  typeMultiplicity = \"1\"\n"
+    + "     *  returnName = \"\"\n"
+    + "     *  visibility = \"public\"\n"
+    + "     *\n"
+    + "     * \n"
+    + "     * @tigerstripe.property ts.id = \"ossj.method\"\n"
+    + "     *   simple = \"true\"\n"
+    + "     *   byTemplates = \"false\"\n"
+    + "     *   byTemplatesBestEffort = \"false\"\n"
+    + "     *   byTemplate = \"false\"\n"
+    + "     *   byTemplateBestEffort = \"false\"\n"
+    + "     *   simpleByKey = \"false\"\n"
+    + "     *   bulkAtomic = \"false\"\n"
+    + "     *   bulkBestEffort = \"false\"\n"
+    + "     *   instanceMethod = \"false\"\n"
+    + "     *   bulkAtomicByKeys = \"false\"\n"
+    + "     *   bulkBestEffortByKeys = \"false\"\n"
+    + "     *\n"
+    + "     */\n"
+    + "\tpublic abstract void method0(\n"
+    + "\t\t\t)\n"
+    + "\t\t;\n"
+    + "}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,78 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CopyPasteConstantInDiagram
+Tags: I48, base/refactor/constant
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_QppuIGLCEeGptfzUqVrV0w,_NmmqwMz2Ed-ncakhinV22g
+Save-Time: 2/29/12 5:56 PM
+Id: _CI27AGK-EeGptfzUqVrV0w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. Open diagram with several objects
+2. Select Constant in Object and choose "Copy" from context menu
+3. Select another Object and choose "Paste Members" from context menu
+4. Make sure that Constant is pasted to another Object
+5. Make sure that Constant is displayed in Explorer
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/default" | double-click
+with [get-editor "default.wvd"] {
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart | get-edit-part -name Enumeration0 | get-edit-part 
+            -text "+literal0=0" | get-edit-part -name literal0] {
+            mouse-move 42 8 button1 -height 16 -width 87
+            mouse-press 42 8 button1 -height 16 -width 87
+            mouse-release 42 8 button1 524288 -height 16 -width 87
+            mouse-hover 42 8 -height 16 -width 87
+            mouse-press 42 8 button1 -height 16 -width 87
+            mouse-release 42 8 button1 524288 -height 16 -width 87
+            mouse-hover 42 8 -height 16 -width 87
+            mouse-press 42 8 button3 -height 16 -width 87
+            mouse-release 42 8 button3 2097152 -height 16 -width 87
+        }
+        get-menu Copy | click
+        with [get-edit-part -className MapEditPart | get-edit-part -name Enumerution1 | get-edit-part 
+            -className EnumerationLiteralCompartmentEditPart] {
+            mouse-move 60 5 button3 -height 12 -width 95
+            mouse-press 60 5 button3 -height 12 -width 95
+            mouse-release 60 5 button3 2097152 -height 12 -width 95
+        }
+        get-menu "Paste Members" | click
+    }
+    get-diagram | get-edit-part -className MapEditPart | mouse-hover 702 646 -height 673 -width 1040
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    with [get-edit-part -name Enumerution1] {
+        get-figure 0 | get-property childrenCount | equals 4 | verify-true
+        get-edit-part -text "+literal0=0" | get-edit-part -name literal0 | get-property text | equals "+literal0=0" 
+            | verify-true
+    }
+    with [get-edit-part -name Enumeration0 | get-edit-part -text "+literal0=0"] {
+        get-figure "1/0/0" | get-property childrenCount | equals 1 | verify-true
+        get-edit-part -name literal0 | get-property text | equals "+literal0=0" | verify-true
+    }
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/Enumerution1" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/Enumerution1/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+    get-item "model-refactoring/src/simple/Enumeration0" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/Enumeration0/literal0=0" | get-property caption | equals "literal0=0" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Enumerution1/literal0=0" 
+    | double-click
+get-editor Enumerution1 | get-section "General Information" | get-editbox -after [get-label "Qualified Name:"] 
+    | get-property text | equals "simple.Enumerution1" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
