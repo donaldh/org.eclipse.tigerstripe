@@ -10,8 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -176,16 +179,15 @@ public class StereotypeAttributeEditDialog extends StatusDialog {
 	}
 
 	protected boolean validateParam() {
-		boolean okEnabled = true;
 		// Check for duplicates
 		if (!isEdit) {
 			for (IStereotypeAttribute attr : existingStereotypeAttributes) {
 				if (nameText != null) {
 					if (attr.getName().equals(nameText.getText().trim())) {
-						okEnabled = false;
 						updateStatus(new Status(IStatus.ERROR,
 								EclipsePlugin.PLUGIN_ID,
 								"Duplicate attribute name"));
+						return false;
 					}
 				}
 			}
@@ -193,16 +195,48 @@ public class StereotypeAttributeEditDialog extends StatusDialog {
 
 		if (nameText != null) {
 			if (nameText.getText().trim().length() == 0) {
-				okEnabled = false;
 				updateStatus(new Status(IStatus.ERROR, EclipsePlugin.PLUGIN_ID,
 						"Please enter valid attribute name"));
+				return false;
+			}
+		}
+		
+		if (entryListViewer != null
+				&& !entryListViewer.getControl().isDisposed()) {
+			TableItem[] allItems = entryListViewer.getTable().getItems();
+			if (allItems.length != 0) {
+				Set<String> attributes = new HashSet<String>();
+				for (TableItem item : allItems) {
+					if (item == null || !(item.getData() instanceof Entry)) {
+						String message = "List of valid choices contains invalid item";
+						EclipsePlugin.log(new Status(IStatus.ERROR,
+								EclipsePlugin.PLUGIN_ID,
+								message, new TigerstripeException(message)));
+						continue;
+					}
+					Entry entry = (Entry) item.getData();
+					if (entry.label == null || entry.label.trim().length() == 0) {
+						updateStatus(new Status(IStatus.ERROR,
+								EclipsePlugin.PLUGIN_ID,
+								"List of valid choices contains empty value."));
+						return false;
+					}
+					if (attributes.contains(entry.label)) {
+						updateStatus(new Status(
+								IStatus.ERROR,
+								EclipsePlugin.PLUGIN_ID,
+								MessageFormat
+										.format("List of valid choices contains duplicated value: {0}.",
+												entry.label)));
+						return false;
+					}
+					attributes.add(entry.label);
+				}
 			}
 		}
 
-		if (okEnabled) {
-			setDefaultMessage();
-		}
-		return okEnabled;
+		setDefaultMessage();
+		return true;
 	}
 
 	protected void handleWidgetSelected(SelectionEvent e) {
@@ -646,11 +680,14 @@ public class StereotypeAttributeEditDialog extends StatusDialog {
 			if (value == null)
 				return;
 
-			Entry theEntry = (Entry) viewer.getTable().getSelection()[0]
-					.getData();
-			if (theEntry != null) {
-				theEntry.label = (String) value;
+			TableItem tableItem = viewer.getTable().getSelection()[0];
+			Entry entry = (Entry) tableItem.getData();
+			if (entry != null) {
+				entry.label = (String) value;
 				viewer.refresh(true);
+				viewer.reveal(entry);
+				
+				validateParam();
 			}
 		}
 	}
