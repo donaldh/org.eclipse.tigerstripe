@@ -17,6 +17,7 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
@@ -53,6 +54,15 @@ public class CopyPasteUtils {
 
 	public static boolean doPaste(IAbstractArtifact artifact,
 			Clipboard clipboard, boolean saveArtifact) {
+		
+		if (saveArtifact) {
+			try {
+				artifact = artifact.makeWorkingCopy(new NullProgressMonitor());
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			} 
+		}
+		
 		ArtifactManager manager = getManager(artifact);
 		if (manager != null) {
 			TransferData[] availableTypes = clipboard.getAvailableTypes();
