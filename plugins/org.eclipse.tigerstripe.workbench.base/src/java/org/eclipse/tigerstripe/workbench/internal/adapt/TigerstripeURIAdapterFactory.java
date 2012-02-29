@@ -591,9 +591,13 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		TigerstripeProject tsProject = art.getTSProject();
 
 		if (tsProject != null) {
-			ProjectDetails details = tsProject.getProjectDetails();
-			if (details != null) {
-				path = new Path(details.getModelId());
+			TigerstripeProjectHandle handle = tsProject.getProjectHandle();
+			if (handle != null) {
+				try {
+					path = new Path(handle.getModelId());
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
 			}
 		}
 
