@@ -23,12 +23,13 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMember;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
@@ -83,6 +84,17 @@ public class CopyPasteUtils {
 						}
 						for (ILiteral l : literals) {
 							if (!hasSameName(artifact.getLiterals(), l)) {
+								if (artifact instanceof IEnumArtifact) {
+									IEnumArtifact enm = (IEnumArtifact) artifact;
+									IType type = l.getType();
+									IType baseType = enm.getBaseType();
+									if (type == null || baseType == null) {
+										continue;
+									}
+									if (!type.equals(baseType)) {
+										l.setType(baseType);
+									}
+								}
 								artifact.addLiteral(l);
 							}
 						}
