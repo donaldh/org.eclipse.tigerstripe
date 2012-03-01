@@ -172,9 +172,9 @@ public class AssociationInstanceEditPart extends ConnectionNodeEditPart
 		// of an association class; if so then this association edit part's view
 		// is part of an
 		// association class as well, so we need to update both parts
-		boolean isAssocClassAEndAssoc = ((ClassInstance) association.getZEnd())
+		boolean isAssocClassAEndAssoc = ((ClassInstance) association.getAEnd())
 				.isAssociationClassInstance();
-		boolean isAssocClassZEndAssoc = ((ClassInstance) association.getAEnd())
+		boolean isAssocClassZEndAssoc = ((ClassInstance) association.getZEnd())
 				.isAssociationClassInstance();
 		ClassInstance classInstance = null;
 		AssociationInstance aEndInstance = null;
