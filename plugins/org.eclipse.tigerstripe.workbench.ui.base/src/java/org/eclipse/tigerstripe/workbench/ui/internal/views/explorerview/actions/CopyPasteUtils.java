@@ -54,8 +54,13 @@ public class CopyPasteUtils {
 
 	public static boolean doPaste(IAbstractArtifact artifact,
 			Clipboard clipboard, boolean saveArtifact) {
+		return doPaste(artifact, clipboard, saveArtifact, saveArtifact);
+	}
+	
+	public static boolean doPaste(IAbstractArtifact artifact,
+			Clipboard clipboard, boolean saveArtifact, boolean makeWorkingCopy) {
 		
-		if (saveArtifact) {
+		if (makeWorkingCopy) {
 			try {
 				artifact = artifact.makeWorkingCopy(new NullProgressMonitor());
 			} catch (TigerstripeException e) {
