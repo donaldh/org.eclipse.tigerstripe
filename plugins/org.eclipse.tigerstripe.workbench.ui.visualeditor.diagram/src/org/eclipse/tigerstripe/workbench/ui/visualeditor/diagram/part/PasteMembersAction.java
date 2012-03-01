@@ -8,7 +8,6 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -39,7 +38,7 @@ public class PasteMembersAction extends BaseDiagramPartAction implements
 		Map map = (Map) diagram.getElement();
 
 		for (IAbstractArtifact artifact : getCorrespondingArtifacts()) {
-			CopyPasteUtils.doPaste(artifact, getClipboard(), true);
+			CopyPasteUtils.doPaste(artifact, getClipboard(), true, false);
 			try {
 				ClassDiagramSynchronizerUtils
 						.handleQualifiedNamedElementChanged(diagram,
