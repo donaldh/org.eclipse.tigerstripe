@@ -2,11 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: CutPasteMethodInExplorerUsingDnD
-Tags: Explorer, I48, base/refactor/method, skipExecution
+Tags: Explorer, I48, base/refactor/method
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
-Save-Time: 2/29/12 12:02 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_QppuIGLCEeGptfzUqVrV0w,_NmmqwMz2Ed-ncakhinV22g
+Save-Time: 3/1/12 11:08 AM
 Id: _YV0NkGKLEeGptfzUqVrV0w
 Testcase-Type: ecl
 
@@ -19,3 +20,100 @@ Test Steps:
 2. Make sure that Method is pasted in Object and is removed from first Object
 3. Open Method in editor and make sure that Method is copied correctly
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/Ent2/method0\\(Ent1\\):Ent1\\[0..1\\]"
+    get-item "model-refactoring/src/simple/Ent2/method0\\(Ent1\\):Ent1\\[0..1\\]" | drag-start "-2" 10
+    get-item "model-refactoring/src/simple/Query0" | drag-enter 20 3 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Query0" | drag-over 21 17 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-over 25 9 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Query0" | drag-exit
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-accept 25 9 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-set-data
+    get-item "model-refactoring/src/simple/SessionFacade0" | drop 25 9 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-end
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/Ent2" | get-property childCount | equals 0 | verify-true
+    get-item "model-refactoring/src/simple/SessionFacade0" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/SessionFacade0/method0\\(Ent1\\):Ent1\\[0..1\\]" | get-property caption 
+        | equals "method0(Ent1):Ent1[0..1]" | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/SessionFacade0/method0\\(Ent1\\):Ent1\\[0..1\\]"
+    get-item "model-refactoring/src/simple/SessionFacade0/method0\\(Ent1\\):Ent1\\[0..1\\]" | drag-start 62 7
+    get-item "model-refactoring/src/simple/Exception0" | drag-enter 87 17 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Exception0" | drag-over 87 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Event0" | drag-over 84 1 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Enumerution1" | drag-over 76 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Enumeration0" | drag-over 65 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Ent2" | drag-over 52 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Ent1/attribute1:DataMiddle" | drag-over 22 -operation 7
+    get-item "model-refactoring/src/simple/Ent1/enumRef:Enumeration0" | drag-over 5 -operation 7
+    get-item "model-refactoring/src/simple/Ent1" | drag-over 15 7 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Exception0" | drag-exit
+    get-item "model-refactoring/src/simple/Ent1" | drag-accept 15 7 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-set-data
+    get-item "model-refactoring/src/simple/Ent1" | drop 15 7 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-end
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/Ent1" | get-property caption | equals Ent1 | verify-true
+    get-item "model-refactoring/src/simple/Ent1" | get-property childCount | equals 3 | verify-true
+    get-item "model-refactoring/src/simple/Ent1/enumRef:Enumeration0" | get-property caption 
+        | equals "enumRef:Enumeration0" | verify-true
+    get-item "model-refactoring/src/simple/Ent1/attribute1:DataMiddle" | get-property caption 
+        | equals "attribute1:DataMiddle" | verify-true
+    get-item "model-refactoring/src/simple/Ent1/method0\\(Ent1\\):Ent1\\[0..1\\]" | get-property caption 
+        | equals "method0(Ent1):Ent1[0..1]" | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/Ent1/method0\\(Ent1\\):Ent1\\[0..1\\]"
+    get-item "model-refactoring/src/simple/Ent1/method0\\(Ent1\\):Ent1\\[0..1\\]" | drag-start 29 6
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-enter 48 7 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-over 48 7 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/SuperEnt" | drag-over 48 8 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Update0" | drag-over 48 9 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/default" | drag-over 51 11 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple.moved" | drag-over 73 8 -operation 7
+    get-item "model-refactoring/src/simple.movedOther" | drag-over 77 17 -detail 2 -operation 7
+    get-item "model-refactoring/tigerstripe.xml" | drag-over 96 13 -operation 7
+    get-item "model-refactoring/outside-class-diagram" | drag-over 99 12 -operation 7
+    get-item "model-refactoring/outside-instance-diagram" | drag-over 100 15 -operation 7
+    get-item "model-refactoring-reference" | drag-over 117 13 -operation 7
+    get-item "model-refactoring-reference/src" | drag-over 98 13 -operation 7
+    get-item "model-refactoring-reference/src/simple" | drag-over 79 13 -detail 2 -operation 7
+    get-item "model-refactoring-reference/src/simple/Association3" | drag-over 60 17 -detail 2 -operation 7
+    get-item "model-refactoring-reference/src/simple/AssociationClass1" | drag-over 60 9 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-exit
+    get-item "model-refactoring-reference/src/simple/AssociationClass1" | drag-accept 60 9 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-set-data
+    get-item "model-refactoring-reference/src/simple/AssociationClass1" | drop 60 9 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-end
+    select "model-refactoring-reference/src/simple/Ent3/method0\\(Ent1\\):Ent1\\[0..1\\]"
+    get-item "model-refactoring-reference/src/simple/Ent3/method0\\(Ent1\\):Ent1\\[0..1\\]" | drag-start 22 11
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-enter 102 14 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-over 102 14 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Query0" | drag-over 99 12 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Exception0" | drag-over 96 15 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Event0" | drag-over 92 6 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Enumerution1" | drag-over 88 8 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Enumeration0" | drag-over 85 2 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Ent1/method0\\(Ent1\\):Ent1\\[0..1\\]" | drag-over 55 1 -operation 7
+    get-item "model-refactoring/src/simple/Ent1/attribute1:DataMiddle" | drag-over 52 6 -operation 7
+    get-item "model-refactoring/src/simple/Ent1/enumRef:Enumeration0" | drag-over 47 -operation 7
+    get-item "model-refactoring/src/simple/Ent1" | drag-over 63 5 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Dependency0" | drag-over 60 1 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/DataTop" | drag-over 54 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/DataMiddle" | drag-over 47 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/DataBottom" | drag-over 49 11 -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-exit
+    get-item "model-refactoring/src/simple/DataBottom" | drag-accept 49 11 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-set-data
+    get-item "model-refactoring/src/simple/DataBottom" | drop 49 11 -detail 2 -operation 7
+    get-item "model-refactoring" | drag-end
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

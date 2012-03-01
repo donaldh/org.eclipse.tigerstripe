@@ -2,11 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: CutPasteMethodInExplorerViaContextMenu
-Tags: Explorer, I48, base/refactor/method, skipExecution
+Tags: Explorer, I48, base/refactor/method
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
-Save-Time: 2/29/12 12:02 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_QppuIGLCEeGptfzUqVrV0w,_NmmqwMz2Ed-ncakhinV22g
+Save-Time: 3/1/12 11:37 AM
 Id: _R5GJIGKIEeGptfzUqVrV0w
 Testcase-Type: ecl
 
@@ -20,3 +21,52 @@ Test Steps:
 3. Make sure that Method is pasted in Object and is removed from first Object
 4. Open Method in editor and make sure that Method is copied correctly
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/Ent2/method0\\(Ent1\\):Ent1\\[0..1\\]" | get-menu Cut | click
+    select "model-refactoring/src/simple/DataTop" | get-menu Paste | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/Ent2" | get-property childCount | equals 0 | verify-true
+    get-item "model-refactoring/src/simple/DataTop" | get-property caption | equals DataTop | verify-true
+    get-item "model-refactoring/src/simple/DataTop" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/DataTop/method0\\(Ent1\\):Ent1\\[0..1\\]" | get-property caption 
+        | equals "method0(Ent1):Ent1[0..1]" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "model-refactoring/src/simple/DataTop/method0\\(Ent1\\):Ent1\\[0..1\\]"
+get-menu "Edit/Cut" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/DataTop" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/DataTop/method0\\(Ent1\\):Ent1\\[0..1\\]" | get-property childCount 
+        | equals 0 | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/SessionFacade0"
+get-menu "Edit/Paste" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/DataTop" | get-property childCount | equals 0 | verify-true
+    get-item "model-refactoring/src/simple/SessionFacade0" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/SessionFacade0/method0\\(Ent1\\):Ent1\\[0..1\\]" | get-property childCount 
+        | equals 0 | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/SessionFacade0/method0\\(Ent1\\):Ent1\\[0..1\\]" | get-menu Cut | click
+    select "model-refactoring-reference/src/simple/AssociationClass1" | get-menu Paste | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/SessionFacade0" | get-property childCount | equals 0 | verify-true
+    get-item "model-refactoring-reference/src/simple/AssociationClass1" | get-property childCount | equals 3 
+        | verify-true
+    get-item "model-refactoring-reference/src/simple/AssociationClass1/method0\\(Ent1\\):Ent1\\[0..1\\]" 
+        | get-property caption | equals "method0(Ent1):Ent1[0..1]" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "model-refactoring-reference/src/simple/AssociationClass1/method0\\(Ent1\\):Ent1\\[0..1\\]" | double-click
+with [get-editor AssociationClass1 | get-section Methods | get-section | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "method0\\(Ent1\\):Ent1\\[0..1\\]" | get-property caption | equals "method0(Ent1):Ent1[0..1]" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
