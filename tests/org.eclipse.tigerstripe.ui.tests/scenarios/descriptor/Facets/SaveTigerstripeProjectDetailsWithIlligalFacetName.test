@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: SaveTigerstripeProjectDetailsWithIlligalFacetName
-Tags: bug/Descriptor/Facets, I48, modified_Q7_1.2, skipExecution
+Tags: bug/Descriptor/Facets, I48, modified_Q7_1.2
 External-Reference: http://bugs.xored.com/browse/XMP-938
 Element-Type: testcase
 Element-Version: 3.0
-Contexts: _FyZMUDs7EeCt76CYYPZ_qw
-Save-Time: 2/29/12 7:18 PM
+Contexts: _FyZMUDs7EeCt76CYYPZ_qw,_lwLroGN1EeGptfzUqVrV0w
+Save-Time: 3/1/12 3:12 PM
 Id: _uppn8GLLEeGptfzUqVrV0w
 Testcase-Type: ecl
 
