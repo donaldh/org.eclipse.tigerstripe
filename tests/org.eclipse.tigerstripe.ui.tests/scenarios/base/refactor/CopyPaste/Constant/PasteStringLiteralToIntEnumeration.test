@@ -1,0 +1,79 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: PasteStringLiteralToIntEnumeration
+Tags: I48, base/refactor/constant
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_QppuIGLCEeGptfzUqVrV0w
+Save-Time: 3/1/12 12:18 PM
+Id: _m2I7AGNdEeGptfzUqVrV0w
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+
+1. Open project with Enumeration of type String
+2. Add literal to the Enumeration
+3. Create Enumeration2 of type Int
+4. Copy literal and paste it to Enumeration2 
+5. Make sure that error is displayed in "Problems" view
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple" | get-menu "New/Enumeration" | click
+with [get-window "Create a new Enumeration"] {
+    get-combo -after [get-label "Base Type:"] | set-text String
+    get-editbox -after [get-label "Name:"] | set-text EnumerationStr
+    get-button Finish | click
+}
+with [get-editor EnumerationStr] {
+    with [get-section Constants | get-section | get-button Add] {
+        click
+        key-type "M1+s"
+    }
+    close
+}
+with [get-view "Tigerstripe Explorer"] {
+    click
+    with [get-tree] {
+        select "model-refactoring/src/simple/EnumerationStr/literal0=\"0\"" | get-menu Copy | click
+        select "model-refactoring/src/simple/Enumerution1" | get-menu Paste | click
+        select "model-refactoring/src/simple/Enumerution1" | double-click
+    }
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/Enumerution1" | get-property caption | equals Enumerution1 | verify-true
+    get-item "model-refactoring/src/simple/Enumerution1" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/Enumerution1/literal0=\"0\"" | get-property caption 
+        | equals "literal0=\"0\"" | verify-true
+}
+with [get-editor Enumerution1] {
+    get-label "Error Detected: Type mismatch: cannot convert from String to int" | get-property caption 
+        | equals "Error Detected: Type mismatch: cannot convert from String to int" | verify-true
+    with [get-section Constants | get-section | get-table] {
+        get-property itemCount | equals 1 | verify-true
+        get-item "literal0=\"0\"" | get-property columns -index 0 | equals "literal0=\"0\"" | verify-true
+        get-item "literal0=\"0\"" | get-property columns -index 1 | equals "\"0\"" | verify-true
+    }
+}
+get-view Problems | click
+with [get-view Problems | get-tree] {
+    get-item "Errors \\(1 item\\)" | get-property caption | equals "Errors (1 item)" | verify-true
+    get-item "Errors \\(1 item\\)" | get-property childCount | equals 1 | verify-true
+    get-item "Errors \\(1 item\\)/Type mismatch: cannot convert from String to int" | get-property columns -index 0 
+        | equals "Type mismatch: cannot convert from String to int" | verify-true
+    get-item "Errors \\(1 item\\)/Type mismatch: cannot convert from String to int" | get-property columns -index 1 
+        | equals "Enumerution1.java" | verify-true
+    get-item "Errors \\(1 item\\)/Type mismatch: cannot convert from String to int" | get-property columns -index 2 
+        | equals "/model-refactoring/src/simple" | verify-true
+    get-item "Errors \\(1 item\\)/Type mismatch: cannot convert from String to int" | get-property columns -index 4 
+        | equals "Java Problem" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
