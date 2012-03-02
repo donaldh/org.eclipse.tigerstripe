@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: ResetActiveFacetIncludedArtifactExported
-Tags: Facet/Active
+Tags: Facet/Active, skipExecution
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_LNV5IVfPEeGNjdIXYj2jnA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/16/12 10:15 AM
+Save-Time: 3/2/12 10:36 AM
 Id: _iToz8FhLEeGNjdIXYj2jnA
 Testcase-Type: ecl
 

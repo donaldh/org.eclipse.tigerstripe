@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: CopyPasteMethodInDiagram
-Tags: I48, base/refactor/method, skipExecution
+Tags: I48, base/refactor/method
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_QppuIGLCEeGptfzUqVrV0w,_NmmqwMz2Ed-ncakhinV22g
-Save-Time: 2/29/12 5:49 PM
+Save-Time: 3/2/12 10:46 AM
 Id: _N_-YIGKsEeGptfzUqVrV0w
 Testcase-Type: ecl
 
@@ -22,3 +22,121 @@ Test Steps:
 4. Make sure that method is pasted to another Object
 5. Make sure that method is displayed in Explorer
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/default" | double-click
+    select "model-refactoring/src/simple/Ent1" | get-menu "New/Method" | click
+}
+with [get-window "New Method Wizard"] {
+    get-section | get-editbox -after [get-label "Name:"] | set-text method0test
+    get-button Finish | click
+}
+get-editor Ent1 | close
+get-editor "default.wvd" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent1 
+    | get-edit-part -text "+method0test():void" | get-edit-part -name method0test | get-property text 
+    | equals "+method0test():void" | verify-true
+with [get-editor "default.wvd"] {
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart | get-edit-part -name Ent1 | get-edit-part 
+            -text "+method0test():void" | get-edit-part -name method0test] {
+            mouse-move 60 6 button1 -height 16 -width 158
+            mouse-press 60 6 button1 -height 16 -width 158
+            mouse-release 60 6 button1 524288 -height 16 -width 158
+            mouse-hover 60 6 -height 16 -width 158
+            mouse-press 60 6 button1 -height 16 -width 158
+            mouse-release 60 6 button1 524288 -height 16 -width 158
+            mouse-hover 60 6 -height 16 -width 158
+            mouse-press 60 6 button3 -height 16 -width 158
+            mouse-release 60 6 button3 2097152 -height 16 -width 158
+        }
+        get-menu Copy | click
+        with [get-edit-part -className MapEditPart | get-edit-part -name AssociatedEnt] {
+            mouse-move 57 40 button3 -height 57 -width 152
+            mouse-press 57 40 button3 -height 57 -width 152
+        }
+        get-menu "Paste Members" | click
+    }
+    get-diagram | get-edit-part -className MapEditPart | mouse-hover 193 550 -height 673 -width 1040
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociatedEnt 
+    | get-edit-part -text "+method0test():void"] {
+    get-property childrenCount | equals 1 | verify-true
+    get-edit-part -name method0test | get-property text | equals "+method0test():void" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/AssociatedEnt/method0test\\(\\):void"
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/AssociatedEnt" | get-property caption | equals AssociatedEnt | verify-true
+    get-item "model-refactoring/src/simple/AssociatedEnt" | get-property childCount | equals 2 | verify-true
+    get-item "model-refactoring/src/simple/AssociatedEnt/method0test\\(\\):void" | get-property caption 
+        | equals "method0test():void" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart] {
+        with [get-edit-part -name AssociatedEnt | get-edit-part -text "+method0test():void" | get-edit-part 
+            -name method0test] {
+            mouse-move 112 8 button1 -height 16 -width 142
+            mouse-press 112 8 button1 -height 16 -width 142
+            mouse-release 112 8 button1 524288 -height 16 -width 142
+            mouse-hover 112 8 -height 16 -width 142
+        }
+        with [get-edit-part -name SessionFacade0] {
+            mouse-move 40 21 button3 -height 40 -width 113
+            mouse-press 40 21 button3 -height 40 -width 113
+            mouse-release 40 21 button3 2097152 -height 40 -width 113
+        }
+    }
+    get-menu "Paste Members" | click
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part 
+    -name SessionFacade0 | get-edit-part -text "+method0test():void"] {
+    get-property childrenCount | equals 1 | verify-true
+    get-edit-part -name method0test | get-property text | equals "+method0test():void" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/SessionFacade0/method0test\\(\\):void"
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/SessionFacade0" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/src/simple/SessionFacade0/method0test\\(\\):void" | get-property caption 
+        | equals "method0test():void" | verify-true
+}
+with [get-editor "default.wvd"] {
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart | get-edit-part -name SessionFacade0 | get-edit-part 
+            -text "+method0test():void" | get-edit-part -name method0test] {
+            mouse-move 80 9 button1 -height 16 -width 128
+            mouse-press 80 9 button1 -height 16 -width 128
+            mouse-release 80 9 button1 524288 -height 16 -width 128
+            mouse-move 80 7 button1 -height 16 -width 128
+            mouse-press 80 7 button1 -height 16 -width 128
+            mouse-drag 81 7 -mask 524288 -height 16 -width 128
+        }
+        mouse-drag 398 63 -mask 524288 -height 673 -width 1040
+        with [get-edit-part -className MapEditPart | get-edit-part -name DataMiddle | get-edit-part 
+            -className DatatypeArtifactMethodCompartmentEditPart] {
+            mouse-drag 75 6 button1 524288 -height 12 -width 168
+            mouse-release 75 6 button1 524288 -height 12 -width 168
+        }
+    }
+    get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle | get-edit-part 
+        -text "+method0test():void" | mouse-hover 75 6 -height 12 -width 168
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    with [get-edit-part -name DataMiddle | get-edit-part -text "+method0test():void"] {
+        get-property childrenCount | equals 1 | verify-true
+        get-edit-part -name method0test | get-property text | equals "+method0test():void" | verify-true
+    }
+    get-edit-part -name SessionFacade0 | get-edit-part -className SessionFacadeArtifactMethodCompartmentEditPart 
+        | get-figure "1/0/0" | get-property childrenCount | equals 0 | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/SessionFacade0"
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/SessionFacade0" 
+    | get-property childCount | equals 0 | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/simple/DataMiddle" | get-property childCount | equals 2 | verify-true
+    get-item "model-refactoring/src/simple/DataMiddle/method0test\\(\\):void" | get-property caption 
+        | equals "method0test():void" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
