@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
@@ -32,7 +33,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.DiagramPropertiesH
  */
 public abstract class AbstractNamePackageEditPart extends
 		IconCachingCompartmentEditPart implements
-		TigerstripeEditableEntityEditPart {
+		TigerstripeEditableEntityEditPart, NamePackageEditPart {
 
 	public AbstractNamePackageEditPart(EObject arg0) {
 		super(arg0);
@@ -109,6 +110,14 @@ public abstract class AbstractNamePackageEditPart extends
 		return decorateText(text);
 	}
 
+	public void initDirectManager() {
+		getManager();
+	}
+	
+	protected DirectEditManager getManager() {
+		return null;
+	}
+	
 	public abstract IParser getParser();
 
 	protected abstract EObject getParserElement();

@@ -11,11 +11,16 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramDropTargetListener;
+import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -26,6 +31,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.AbstractArtifactAdapter;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ClassDiagramEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamePackageEditPart;
 
 public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 
@@ -44,10 +52,49 @@ public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 	}
 
 	@Override
+	public void drop(DropTargetEvent event) {
+		EditPart targetEditPart = getTargetEditPart();
+		super.drop(event);
+		Set<String> fqns = new HashSet<String>();
+		for (Object obj : internalGetObjectsBeingDropped(event)) {
+			if (obj instanceof IAbstractArtifact) {
+				fqns.add(((IAbstractArtifact) obj).getFullyQualifiedName());
+			}
+		}
+		if (fqns.isEmpty()) {
+			return;
+		}
+		if (targetEditPart != null) {
+			for (Object obj : targetEditPart.getChildren()) {
+
+				if (obj instanceof ClassDiagramEditPart) {
+					EditPart editPart = (EditPart) obj;
+					Object model = editPart.getModel();
+					if (model instanceof View) {
+						EObject element = ((View) model).getElement();
+						if (element instanceof AbstractArtifact) {
+							if (!fqns.contains(((AbstractArtifact) element)
+									.getFullyQualifiedName())) {
+								continue;
+							}
+							for (Object ch : editPart.getChildren()) {
+								if (ch instanceof NamePackageEditPart) {
+									((NamePackageEditPart) ch)
+											.initDirectManager();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	/*
 	 * This method figures out the list of artifacts being dropped and returns
 	 * them
 	 */
+	@Override
 	protected List getObjectsBeingDropped() {
 
 		// This is what we need to populate
@@ -57,14 +104,18 @@ public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 		return result;
 	}
 
+	protected List<IAbstractArtifact> internalGetObjectsBeingDropped() {
+		return internalGetObjectsBeingDropped(getCurrentEvent());
+	}
+	
 	/**
 	 * Based on the selected elements being dragged, we build a corresponding
 	 * list of Abstract artifacts
 	 * 
 	 * @return
 	 */
-	protected List<IAbstractArtifact> internalGetObjectsBeingDropped() {
-		TransferData[] data = getCurrentEvent().dataTypes;
+	protected List<IAbstractArtifact> internalGetObjectsBeingDropped(DropTargetEvent event) {
+		TransferData[] data = event.dataTypes;
 		return internalGetObjectsBeingDropped(data);
 	}
 
