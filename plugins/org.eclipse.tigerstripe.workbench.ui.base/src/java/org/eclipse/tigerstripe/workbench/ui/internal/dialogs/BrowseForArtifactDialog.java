@@ -20,6 +20,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.GlobPatternMatcher;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.NullAbstractArtifact;
@@ -150,11 +151,12 @@ public class BrowseForArtifactDialog {
 			public void create() {
 				super.create();
 				fFilteredList.setFilterMatcher(new FilterMatcher() {
-					private String pattern;
+					
+					private GlobPatternMatcher globMatcher;
 
 					public void setFilter(String pattern, boolean ignoreCase,
 							boolean ignoreWildCards) {
-						this.pattern = pattern;
+						globMatcher = new GlobPatternMatcher(pattern);
 					}
 
 					public boolean match(Object element) {
@@ -164,9 +166,9 @@ public class BrowseForArtifactDialog {
 						}
 
 						if (element instanceof IAbstractArtifact) {
-							IAbstractArtifact art = (IAbstractArtifact) element;
-							return art.getFullyQualifiedName()
-									.contains(pattern);
+							return globMatcher
+									.matches(((IAbstractArtifact) element)
+											.getFullyQualifiedName());
 						}
 						return false;
 					}
