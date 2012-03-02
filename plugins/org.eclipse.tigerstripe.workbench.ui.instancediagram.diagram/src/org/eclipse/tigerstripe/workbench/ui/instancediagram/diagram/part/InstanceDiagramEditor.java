@@ -143,4 +143,10 @@ public class InstanceDiagramEditor extends AbstractDiagramEditor implements
 	protected IPath getModelPath(IPath diagramPath) {
 		return diagramPath.removeFileExtension().addFileExtension(MODEL_EXT);
 	}
+	
+//	@Override
+//	protected void configureDiagramEditDomain() {
+//		super.configureDiagramEditDomain();
+//		GEFCommandStackLogLogger.start();
+//	}
 }

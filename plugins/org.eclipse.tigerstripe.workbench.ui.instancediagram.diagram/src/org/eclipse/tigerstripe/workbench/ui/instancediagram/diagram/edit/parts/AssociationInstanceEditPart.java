@@ -172,9 +172,9 @@ public class AssociationInstanceEditPart extends ConnectionNodeEditPart
 		// of an association class; if so then this association edit part's view
 		// is part of an
 		// association class as well, so we need to update both parts
-		boolean isAssocClassAEndAssoc = ((ClassInstance) association.getAEnd())
+		boolean isAssocClassZEndAssoc = ((ClassInstance) association.getAEnd())
 				.isAssociationClassInstance();
-		boolean isAssocClassZEndAssoc = ((ClassInstance) association.getZEnd())
+		boolean isAssocClassAEndAssoc = ((ClassInstance) association.getZEnd())
 				.isAssociationClassInstance();
 		ClassInstance classInstance = null;
 		AssociationInstance aEndInstance = null;
@@ -190,8 +190,8 @@ public class AssociationInstanceEditPart extends ConnectionNodeEditPart
 			zEndInstance = association;
 			zEndFigure = associationFigure;
 		}
-		if (isAssocClassAEndAssoc || isAssocClassZEndAssoc) {
-			List<AssociationInstance> assocs = classInstance.getAssociations();
+		List<AssociationInstance> assocs = classInstance.getAssociations();
+		if ((isAssocClassAEndAssoc || isAssocClassZEndAssoc) && assocs.contains(association) ) {
 			for (AssociationInstance assoc : assocs) {
 				if (assoc != association) {
 					// get the other figure
