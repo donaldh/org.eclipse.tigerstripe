@@ -101,7 +101,7 @@ public class BrowseForArtifactDialog {
 		final AbstractArtifactLabelProvider labelProvider = new AbstractArtifactLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (element instanceof PrimitiveTypeArtifact) {
+				if (element instanceof IPrimitiveTypeArtifact) {
 					String labelText = super.getText(element);
 					// if starts with "primitive.", remove that prefix
 					if (labelText
