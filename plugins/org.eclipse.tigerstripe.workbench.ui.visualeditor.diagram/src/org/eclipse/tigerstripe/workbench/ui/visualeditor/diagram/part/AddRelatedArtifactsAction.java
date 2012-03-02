@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,26 +33,19 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd.ClassDiagramDragDropEditPolicy;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.dialogs.AddRelatedArtifactsDialog;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.wizards.AddRelatedArtifactsWizard;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.wizards.RelatedCollector;
 import org.eclipse.ui.IObjectActionDelegate;
 
 public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
@@ -78,7 +70,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
 		Map map = getMap();
 		List artifactsInMap = map.getArtifacts();
-		List<String> namesOfArtifactsInMap = new ArrayList<String>();
+		Set<String> namesOfArtifactsInMap = new HashSet<String>();
 		for (Object obj : artifactsInMap) {
 			if (obj instanceof AbstractArtifact) {
 				namesOfArtifactsInMap.add(((AbstractArtifact) obj)
@@ -88,350 +80,19 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 		try {
-			IArtifactManagerSession session = tsProject
-					.getArtifactManagerSession();
-			// a simple boolean flag that is set to true if a matching
-			// relationship of any type is
-			// found (used to differentiate between the case where no
-			// relationships are available to
-			// or from other objects for the selected artifact and the case
-			// where relationships to
-			// or from other objects exist but those objects are already in the
-			// diagram
-			boolean relationshipsExist = false;
-			// assemble some lists. These lists are important for several
-			// reasons. First, these
-			// lists show how many related objects could be added to the
-			// diagram, so they can be
-			// used to set up our progress bar. Second, these lists are used to
-			// construct a BitSet
-			// that is passed into the AddRelatedArtifactsDialog, where it is
-			// used to enable/disable
-			// the appropriate checkboxes if there are no related objects of a
-			// certain "type" that
-			// can be added to the diagram (objects that are related by a
-			// "Depends" relationship,
-			// for example). Third, these lists will actually be used to add
-			// objects to the diagram.
+			RelatedCollector collector = new RelatedCollector(namesOfArtifactsInMap, artifacts, tsProject);
 
-			// Handle extended Artifacts
-			Set<IAbstractArtifact> extendedArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-				IAbstractArtifact extendedArtifact = artifact
-						.getExtendedArtifact();
-				if (extendedArtifact != null
-						&& !namesOfArtifactsInMap.contains(extendedArtifact
-								.getFullyQualifiedName())) {
-					extendedArtifacts.add(extendedArtifact);
-					relationshipsExist = true;
-				}
-			}
-
-			// Handle extending Artifacts
-			Set<IAbstractArtifact> extendingArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-				Collection<IAbstractArtifact> extendingArtArray = artifact
-						.getExtendingArtifacts();
-				for (IAbstractArtifact extendingArt : extendingArtArray) {
-
-					if (!containsInReferences(getMap()
-							.getCorrespondingITigerstripeProject(),
-							extendingArt)) {
-						continue;
-					}
-
-					if (!namesOfArtifactsInMap.contains(extendingArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						extendingArtifacts.add(extendingArt);
-					}
-				}
-			}
-
-			// handle outgoing relationships
-			Set<IAbstractArtifact> associatedArtifacts = new HashSet<IAbstractArtifact>();
-			Set<IAbstractArtifact> dependentArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-				List<IRelationship> origRels = session
-						.getOriginatingRelationshipForFQN(
-								artifact.getFullyQualifiedName(), true);
-				for (IRelationship relationship : origRels) {
-					if (relationship instanceof IAssociationArtifact) {
-						IAssociationEnd zEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
-								.getZEnd();
-						IAbstractArtifact associatedArt = zEnd.getType()
-								.getArtifact();
-						// if an artifact of the same type isn't already in the
-						// diagram, add it to the list
-						// of associated artifacts that could be added
-						if (!namesOfArtifactsInMap.contains(associatedArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							associatedArtifacts
-									.add((IAbstractArtifact) associatedArt);
-						} else if (relationship instanceof IAssociationClassArtifact
-								&& !namesOfArtifactsInMap
-										.contains(((IAssociationClassArtifact) relationship)
-												.getFullyQualifiedName())) {
-							associatedArtifacts
-									.add((IAbstractArtifact) relationship);
-						}
-					} else if (relationship instanceof IDependencyArtifact) {
-						IRelationshipEnd zEnd = ((IDependencyArtifact) relationship)
-								.getRelationshipZEnd();
-						IAbstractArtifact dependentArt = zEnd.getType()
-								.getArtifact();
-						// if an artifact of the same type isn't already in the
-						// diagram, add it to the list
-						// of dependent artifacts that could be added
-						if (!namesOfArtifactsInMap.contains(dependentArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							dependentArtifacts
-									.add((IAbstractArtifact) dependentArt);
-						}
-					}
-				}
-			}
-
-			// Handling incoming relationships
-			Set<IAbstractArtifact> associatingArtifacts = new HashSet<IAbstractArtifact>();
-			Set<IAbstractArtifact> dependingArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-				List<IRelationship> termRels = session
-						.getTerminatingRelationshipForFQN(
-								artifact.getFullyQualifiedName(), true);
-				for (IRelationship relationship : termRels) {
-					if (relationship instanceof IAssociationArtifact) {
-						IAssociationEnd aEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
-								.getAEnd();
-						IAbstractArtifact associatingArt = aEnd.getType()
-								.getArtifact();
-						// if an artifact of the same type isn't already in the
-						// diagram, add it to the list
-						// of associating artifacts that could be added
-						if (!namesOfArtifactsInMap.contains(associatingArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							associatingArtifacts
-									.add((IAbstractArtifact) associatingArt);
-						} else if (relationship instanceof IAssociationClassArtifact
-								&& !namesOfArtifactsInMap
-										.contains(((IAssociationClassArtifact) relationship)
-												.getFullyQualifiedName())) {
-							associatingArtifacts
-									.add((IAbstractArtifact) relationship);
-						}
-					} else if (relationship instanceof IDependencyArtifact) {
-						IRelationshipEnd aEnd = ((IDependencyArtifact) relationship)
-								.getRelationshipAEnd();
-						IAbstractArtifact dependingArt = aEnd.getType()
-								.getArtifact();
-						// if an artifact of the same type isn't already in the
-						// diagram, add it to the list
-						// of depending artifacts that could be added
-						if (!namesOfArtifactsInMap.contains(dependingArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							dependingArtifacts
-									.add((IAbstractArtifact) dependingArt);
-						}
-					}
-				}
-			}
-
-			// Handling implemented Artifacts
-			Set<IAbstractArtifact> implementedArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-				Collection<IAbstractArtifact> implementedArts = artifact
-						.getImplementedArtifacts();
-				for (IAbstractArtifact implementedArt : implementedArts) {
-					// if an artifact of the same type isn't already in the
-					// diagram,
-					// add it to the list
-					// of implemented artifacts that could be added
-					if (!namesOfArtifactsInMap.contains(implementedArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						implementedArtifacts.add(implementedArt);
-					}
-				}
-			}
-
-			// Handling implementing Artifacts
-			Set<IAbstractArtifact> implementingArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-				Collection<IAbstractArtifact> implementingArts = ((IAbstractArtifact) artifact)
-						.getImplementingArtifacts();
-				for (IAbstractArtifact implementingArt : implementingArts) {
-					// if an artifact of the same type isn't already in the
-					// diagram,
-					// add it to the list
-					// of implementing artifacts that could be added
-					if (!namesOfArtifactsInMap.contains(implementingArt
-							.getFullyQualifiedName())) {
-						if (!relationshipsExist)
-							relationshipsExist = true;
-						implementingArtifacts
-								.add((IAbstractArtifact) implementingArt);
-					}
-				}
-			}
-
-			// Handling referenced artifacts
-			Set<IAbstractArtifact> referencedArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-
-				for (IAbstractArtifact referencedArt : artifact
-						.getReferencedArtifacts()) {
-					// if an artifact of the same type isn't already in the
-					// diagram,
-					// add it to the list
-					// of implementing artifacts that could be added
-					if (!namesOfArtifactsInMap.contains(referencedArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						referencedArtifacts
-								.add((IAbstractArtifact) referencedArt);
-					}
-
-				}
-			}
-
-			// Handling referencing artifacts
-			Set<IAbstractArtifact> referencingArtifacts = new HashSet<IAbstractArtifact>();
-			for (IAbstractArtifact artifact : artifacts) {
-				for (IAbstractArtifact referencingArt : artifact
-						.getReferencingArtifacts()) {
-					// if an artifact of the same type isn't already in the
-					// diagram,
-					// add it to the list
-					// of implementing artifacts that could be added
-					if (!namesOfArtifactsInMap.contains(referencingArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						referencingArtifacts
-								.add((IAbstractArtifact) referencingArt);
-					}
-				}
-			}
-
-			// set up a mask to show which of these lists is of non-zero size
-			// and which are not
-			// (is used in the dialog to determine which types can be added to
-			// the diagram and which
-			// types cannot, either because they don't exist for the selected
-			// object or because they
-			// are already in the diagram)
-			BitSet creationMask = new BitSet(10);
-			if (extendedArtifacts.size() > 0)
-				creationMask.set(0);
-			if (extendingArtifacts.size() > 0)
-				creationMask.set(1);
-			if (associatedArtifacts.size() > 0)
-				creationMask.set(2);
-			if (associatingArtifacts.size() > 0)
-				creationMask.set(3);
-			if (dependentArtifacts.size() > 0)
-				creationMask.set(4);
-			if (dependingArtifacts.size() > 0)
-				creationMask.set(5);
-			if (implementedArtifacts.size() > 0)
-				creationMask.set(6);
-			if (implementingArtifacts.size() > 0)
-				creationMask.set(7);
-			if (referencedArtifacts.size() > 0)
-				creationMask.set(8);
-			if (referencingArtifacts.size() > 0)
-				creationMask.set(9);
-			// now use these flags in the constructor to the dialog (will
-			// determine which checkboxes are
-			// enabled and which are disabled in the dialog)
-			Set<IAbstractArtifact> artifactsToAdd = new HashSet<IAbstractArtifact>();
-			HashMap<IAssociationClassArtifact, IAbstractArtifact[]> associationClassEndsMap = new HashMap<IAssociationClassArtifact, IAbstractArtifact[]>();
+			BitSet creationMask = collector.prepare();
+			
 			if (!creationMask.isEmpty()) {
-				AddRelatedArtifactsDialog diag = new AddRelatedArtifactsDialog(
-						shell, map, artifacts, creationMask);
-				int returnStatus = diag.open();
-				// if "OK" button was pressed, then continue with creation of
-				// related artifacts (if any)
-				// else do nothing (user cancelled the action using the "Cancel"
-				// button)
+				
+				AddRelatedArtifactsWizard wizard = new AddRelatedArtifactsWizard(creationMask, artifacts, collector);
+				WizardDialog dialog = new WizardDialog(shell, wizard);
+				dialog.create();
+				
+				int returnStatus = dialog.open();
 				if (returnStatus == Window.OK) {
-					// if here, then the OK button was pressed (so we are adding
-					// related artifacts to
-					// the diagram and creating links between those artifacts
-					// and any other artifacts
-					// that they are related to that already exist in the
-					// diagram)
-					if (diag.isExtendedSelected()) {
-						updateArtifactsToAdd(extendedArtifacts, artifactsToAdd,
-								associationClassEndsMap);
-					}
-					if (diag.isExtendingSelected()) {
-						updateArtifactsToAdd(extendingArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isAssociatedSelected()) {
-						updateArtifactsToAdd(associatedArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isAssociatingSelected()) {
-						updateArtifactsToAdd(associatingArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isDependentSelected()) {
-						updateArtifactsToAdd(dependentArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isDependingSelected()) {
-						updateArtifactsToAdd(dependingArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isImplementedSelected()) {
-						updateArtifactsToAdd(implementedArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isImplementingSelected()) {
-						updateArtifactsToAdd(implementingArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isReferencedSelected()) {
-						updateArtifactsToAdd(referencedArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					if (diag.isReferencingSelected()) {
-						updateArtifactsToAdd(referencingArtifacts,
-								artifactsToAdd, associationClassEndsMap);
-					}
-					// now, check the association class ends to make sure that
-					// if any of them don't exist
-					// they will also be added to the diagram (conversely, if
-					// they both exist for any
-					// of the association classes, add the association class to
-					// the list of artifacts
-					// to create so that it will be added to the diagram)
-					for (IAssociationClassArtifact assocClassArt : associationClassEndsMap
-							.keySet()) {
-						IAbstractArtifact[] endArray = associationClassEndsMap
-								.get(assocClassArt);
-						boolean addingEndpointToDiagram = false;
-						for (IAbstractArtifact endArt : endArray) {
-							if (!namesOfArtifactsInMap.contains(endArt
-									.getFullyQualifiedName())
-									&& !artifactsToAdd.contains(endArt)) {
-								if (!addingEndpointToDiagram)
-									addingEndpointToDiagram = true;
-								artifactsToAdd.add(endArt);
-							}
-						}
-						if (!addingEndpointToDiagram)
-							artifactsToAdd.add(assocClassArt);
-					}
-					// now re-use the drag-and-drop code to add the appropriate
-					// artifacts to the map
-					// (just as if the user had dragged them over from the
-					// Tigerstripe Explorer view)
+					Collection<IAbstractArtifact> artifactsToAdd = wizard.getResult();
 					if (artifactsToAdd.size() > 0) {
 						EditPart selectedEditPart = this.mySelectedElements[0];
 						TransactionalEditingDomain editingDomain = ((IGraphicalEditPart) selectedEditPart)
@@ -500,7 +161,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 				// nothing can be added, so display a warning to the user and
 				// return...
 				String warningMessage = null;
-				if (!relationshipsExist) {
+				if (!collector.isRelationshipsExist()) {
 					// If here, no relationships were found from/to other
 					// objects in the model, so
 					// there are no "related objects" to add.
@@ -548,46 +209,4 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			EclipsePlugin.log(e);
 		}
 	}
-
-	private boolean containsInReferences(ITigerstripeModelProject tsProject,
-			IAbstractArtifact extendingArt) {
-		if (tsProject == null) {
-			return false;
-		}
-
-		try {
-			IArtifactManagerSession session = tsProject
-					.getArtifactManagerSession();
-			return session.getArtifactByFullyQualifiedName(extendingArt
-					.getFullyQualifiedName()) != null;
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-			return false;
-		}
-	}
-
-	// takes a list of artifacts and sorts them into either artifacts that can
-	// be
-	// added directly to the map or association class artifacts (which need to
-	// be
-	// handled separately, in case one or the other of their ends don't exist)
-	public void updateArtifactsToAdd(
-			Set<IAbstractArtifact> artifacts,
-			Set<IAbstractArtifact> artifactsToAdd,
-			HashMap<IAssociationClassArtifact, IAbstractArtifact[]> associationClassEndsMap) {
-		for (IAbstractArtifact artifact : artifacts) {
-			if (artifact instanceof AssociationClassArtifact) {
-				AssociationClassArtifact assocClassArt = (AssociationClassArtifact) artifact;
-				IAbstractArtifact[] endArray = new IAbstractArtifact[] {
-						(IAbstractArtifact) assocClassArt.getAEnd().getType()
-								.getArtifact(),
-						(IAbstractArtifact) assocClassArt.getZEnd().getType()
-								.getArtifact() };
-				associationClassEndsMap.put(assocClassArt, endArray);
-			} else {
-				artifactsToAdd.add(artifact);
-			}
-		}
-	}
-
 }
