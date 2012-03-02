@@ -11,6 +11,9 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -132,6 +135,28 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact,
 			IEditorDescriptor editorDescriptor = IDE.getDefaultEditor(file);
 			if (editorDescriptor==null || (!EDITOR_ID.equals(editorDescriptor))) 
 				IDE.setDefaultEditor((IFile)resource, EDITOR_ID);
+		}
+	}
+
+	@ProvideModelComponents
+	@Override
+	public Collection<IAbstractArtifact> getReferencedArtifacts() {
+		Type type = getReturnedEntityType();
+		if (type != null) {
+			Collection<IAbstractArtifact> result = new HashSet<IAbstractArtifact>(
+					super.getReferencedArtifacts());
+			IAbstractArtifactInternal artifact = type.getArtifact();
+			if (artifact == null) {
+				// Build a temporary dummy artifact, it will be further
+				// resolved
+				artifact = (IAbstractArtifactInternal) makeArtifact();
+				artifact.setFullyQualifiedName(type.getFullyQualifiedName());
+				artifact.setProxy(true);
+			}
+			result.add(artifact);
+			return Collections.unmodifiableCollection(result);
+		} else {
+			return super.getReferencedArtifacts();
 		}
 	}
 }
