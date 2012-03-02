@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -33,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider;
 
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.JavaSource;
@@ -87,30 +89,54 @@ public class CopyPasteUtils {
 						Collection<IMethod> methods = container.getMethods();
 						Collection<ILiteral> literals = container.getLiterals();
 
-						for (IField f : fields) {
-							if (!hasSameName(artifact.getFields(), f)) {
-								artifact.addField(f);
-							}
+						IArtifactFormContentProvider contentProvider = (IArtifactFormContentProvider) Platform
+								.getAdapterManager().getAdapter(artifact,
+										IArtifactFormContentProvider.class);
+						
+						boolean hasFileds;
+						boolean hasMethods;
+						boolean hasLiterals;
+						
+						if (contentProvider == null) {
+							hasFileds = true;
+							hasMethods  = true;
+							hasLiterals  = true;
+						} else {
+							hasFileds = contentProvider.hasAttributes();
+							hasMethods  = contentProvider.hasMethods();
+							hasLiterals  = contentProvider.hasConstants();
 						}
-						for (IMethod m : methods) {
-							if (!hasSameSignature(artifact.getMethods(), m)) {
-								artifact.addMethod(m);
-							}
-						}
-						for (ILiteral l : literals) {
-							if (!hasSameName(artifact.getLiterals(), l)) {
-								if (artifact instanceof IEnumArtifact) {
-									IEnumArtifact enm = (IEnumArtifact) artifact;
-									IType type = l.getType();
-									IType baseType = enm.getBaseType();
-									if (type == null || baseType == null) {
-										continue;
-									}
-									if (!type.equals(baseType)) {
-										l.setType(baseType);
-									}
+						
+						if (hasFileds) {
+							for (IField f : fields) {
+								if (!hasSameName(artifact.getFields(), f)) {
+									artifact.addField(f);
 								}
-								artifact.addLiteral(l);
+							}
+						}
+						if (hasMethods) {
+							for (IMethod m : methods) {
+								if (!hasSameSignature(artifact.getMethods(), m)) {
+									artifact.addMethod(m);
+								}
+							}
+						}
+						if (hasLiterals) {
+							for (ILiteral l : literals) {
+								if (!hasSameName(artifact.getLiterals(), l)) {
+									if (artifact instanceof IEnumArtifact) {
+										IEnumArtifact enm = (IEnumArtifact) artifact;
+										IType type = l.getType();
+										IType baseType = enm.getBaseType();
+										if (type == null || baseType == null) {
+											continue;
+										}
+										if (!type.equals(baseType)) {
+											l.setType(baseType);
+										}
+									}
+									artifact.addLiteral(l);
+								}
 							}
 						}
 						if (saveArtifact) {
