@@ -1,0 +1,51 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: AuditDiagrams_CheckingPropertyChangeableOfZEnd
+Tags: Audit Diagrams, bug/Audit Diagrams, I48
+External-Reference: http://bugs.xored.com/browse/XMP-1031
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_7uuakGZqEeGI29EUjXeMiQ
+Save-Time: 3/5/12 9:38 AM
+Id: _JZmPIGZrEeGI29EUjXeMiQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. Select project and choose "Diagrams > Audit all diagrams"
+2. Diagram ChangeableDoesntMatch.wvd contains association com.mycompany.AssociationClass. 
+Property "changable" of both AEnd and ZEnd doesn't match with model properties. But Audit Result dialog contains two duplicated errors "AEnd (entity1) changeable doesn't match", and doesn't contain error "ZEnd (entity1) changeable doesn't match" 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "test_on_1031issue" | get-menu "Diagrams/Audit all diagrams" | click
+get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
+    | select "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd"
+with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd" | get-property caption 
+        | equals "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd" | verify-true
+    get-item "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd" | get-property childCount | equals 1 | verify-true
+    get-item "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd/Association\\(s\\)" | get-property caption 
+        | equals "Association(s)" | verify-true
+}
+with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
+    get-item "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass" 
+        | get-property caption | equals "com.mycompany.AssociationClass" | verify-true
+    get-item "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass" 
+        | get-property childCount | equals 2 | verify-true
+    get-item "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) changeable doesn\'t match" 
+        | get-property columns -index 0 | equals "AEnd (entity1) changeable doesn\'t match" | verify-true
+    get-item "\\test_on_1031issue\\src\\ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/ZEnd \\(entity1\\) changeable doesn\'t match" 
+        | get-property columns -index 0 | equals "ZEnd (entity1) changeable doesn\'t match" | verify-true
+}
+exec-with-options -allowStatusDialog -command {
+    get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
