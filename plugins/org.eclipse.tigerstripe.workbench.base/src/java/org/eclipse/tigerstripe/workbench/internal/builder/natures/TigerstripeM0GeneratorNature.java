@@ -24,8 +24,9 @@ public class TigerstripeM0GeneratorNature implements IProjectNature {
 	}
 
 	public void configure() throws CoreException {
-		System.out
-				.println("TigerstripeM0GeneratorNature.configure not implemented!");
+		
+		// TODO: A builder is not associated with this nature.
+		
 		// PluggablePluginProjectAuditor.addBuilderToProject(project);
 		// new Job("M0 Generator Project Audit") {
 		// @Override
@@ -43,8 +44,6 @@ public class TigerstripeM0GeneratorNature implements IProjectNature {
 	}
 
 	public void deconfigure() throws CoreException {
-		System.out
-				.println("TigerstripeM0GeneratorNature.deconfigure not implemented!");
 		// PluggablePluginProjectAuditor.removeBuilderFromProject(project);
 	}
 
