@@ -1,0 +1,77 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 327502_ConvertAssociationToAssociationClassInDiagram
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Association, I47
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=327502
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_qEobgKFmEeCjS6NbCUXM_w
+Save-Time: 3/5/12 12:29 PM
+Id: _1T0KoGaAEeGOIsOhlS0FZg
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. Open Diagram 
+2. Select Association in Diagram and choose "Convert to Association Class..."
+3. Make sure that Association was converted to Association Class
+4. Open Association Class in editor and make sure that Association Class Editor is opened
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click
+with [get-editor "ClassDiagram.wvd"] {
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-target-connection 0 
+            | get-edit-part -text A1] {
+            mouse-move 2 4 button1 -height 15 -width 14
+            mouse-press 2 4 button1 -height 15 -width 14
+            mouse-drag 2 5 -mask 524288 -height 15 -width 14
+        }
+        mouse-drag 320 133 -mask 524288 -height 356 -width 596
+        with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-target-connection 0] {
+            with [get-figure 1] {
+                mouse-drag 2 5 button1 524288 -height 15 -width 14
+                mouse-release 2 5 button1 524288 -height 15 -width 14
+            }
+            with [get-edit-part -text A1] {
+                mouse-move 6 4 button3 -height 15 -width 14
+                mouse-press 6 4 button3 -height 15 -width 14
+                mouse-release 6 4 button3 2097152 -height 15 -width 14
+            }
+        }
+        get-menu "Convert to Association Class..." | click
+    }
+    get-diagram | get-edit-part -className MapEditPart | mouse-hover 391 348 -height 356 -width 596
+}
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    get-property childrenCount | equals 6 | verify-true
+    with [get-edit-part -name A1] {
+        with [get-figure 0] {
+            get-property text | equals A1 | verify-true
+            get-property childrenCount | equals 4 | verify-true
+        }
+        get-edit-part -text A1 | get-property text | equals A1 | verify-true
+        get-edit-part -className AssociationClassClassAttributeCompartmentEditPart | get-figure "1/0/0" 
+            | get-property childrenCount | equals 0 | verify-true
+        get-edit-part -className AssociationClassClassMethodCompartmentEditPart | get-property childrenCount | equals 0 
+            | verify-true
+    }
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/A1" | get-property childCount | equals 2 | verify-true
+    get-item "Project1/src/com.mycompany/A1/entity:Entity" | get-property caption | equals "entity:Entity" | verify-true
+    get-item "Project1/src/com.mycompany/A1/entity2:Entity2" | get-property caption | equals "entity2:Entity2" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/A1" | double-click
+get-editor A1 | get-label "Association Class Artifact" | get-property caption | equals "Association Class Artifact" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

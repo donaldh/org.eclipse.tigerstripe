@@ -1,0 +1,65 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 327502_ConvertAssociationToAssociationClassInExplorer
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Association, I47
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=327502
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_qEobgKFmEeCjS6NbCUXM_w
+Save-Time: 3/5/12 1:17 PM
+Id: _CO_SgWZ_EeGOIsOhlS0FZg
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. Select Association in Tigerstripe Explorer
+2. Choose "Refactor->Convert to Association Class" from context menu
+3. Make sure that Association was converted to Association Class
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-property childrenCount 
+    | equals 5 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/A1" 
+    | get-menu "Refactor Model/Convert to AssociationClass..." | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project1/src/com.mycompany/A1" | get-property caption | equals A1 | verify-true
+    get-item "Project1/src/com.mycompany/A1" | get-property childCount | equals 2 | verify-true
+    get-item "Project1/src/com.mycompany/A1/entity:Entity" | get-property caption | equals "entity:Entity" | verify-true
+    get-item "Project1/src/com.mycompany/A1/entity2:Entity2" | get-property caption | equals "entity2:Entity2" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/A1" | double-click
+get-editor A1 | get-label "Association Class Artifact" | get-property caption | equals "Association Class Artifact" 
+    | verify-true
+get-editor A1 | get-section Attributes | click
+with [get-editor A1 | get-section -after [get-label "Association Class Artifact"] -index 5] {
+    get-section "aEnd Details" | get-editbox -after [get-label "Name:"] | get-property text | equals entity 
+        | verify-true
+    get-section "zEnd Details" | get-editbox -after [get-label "Name:"] | get-property text | equals entity2 
+        | verify-true
+    get-section "aEnd Details" | get-editbox -after [get-label "Type:"] | get-property text 
+        | equals "com.mycompany.Entity" | verify-true
+    get-section "zEnd Details" | get-editbox -after [get-label Type] | get-property text 
+        | equals "com.mycompany.Entity2" | verify-true
+}
+get-editor "ClassDiagram.wvd" | click
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    get-property childrenCount | equals 6 | verify-true
+    with [get-edit-part -name A1] {
+        get-property childrenCount | equals 3 | verify-true
+        get-edit-part -text A1 | get-property text | equals A1 | verify-true
+        get-edit-part -className AssociationClassClassAttributeCompartmentEditPart | get-figure "1/0/0" 
+            | get-property childrenCount | equals 0 | verify-true
+        get-edit-part -className AssociationClassClassMethodCompartmentEditPart | get-figure "1/0/0" 
+            | get-property childrenCount | equals 0 | verify-true
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
