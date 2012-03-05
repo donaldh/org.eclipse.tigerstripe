@@ -1,0 +1,103 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 349841_GenerationWithUsingTwoFacets
+Tags: Generator/Create, Facet
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=349841
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _AFuq4K9WEd-zMOysButwpg,_Tz2HMGa9EeGDCa7Vk2pKFQ
+Save-Time: 3/5/12 7:33 PM
+Id: _HZH90Ga7EeGDCa7Vk2pKFQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Preconditions:
+1. Create a Tigerstripe project 
+2. Create two entities under com.mycompany package called Ent0 and Ent1
+3. Create two entities under org.eclipse package called E0 and E1
+4. Create a facet called ExcludeCom and specify com.* under its Excluded Patterns (in Scope tab)
+5. Create a facet called ExcludeOrg and specify org.* under its Excluded Patterns (in Scope tab)
+6. Open tigerstripe.xml file > Switch to Facets tab
+7. Click on Add and select both facets
+8. Select ExcludeCom under Facet references list > Under Output Directory, specify ExcludeCom
+9. Select ExcludeOrg > Under Output Directory, specify ExcludeOrg
+10. Select 'Merge all facets for generation' checkbox
+
+Test Steps:
+Save file.  
+Switch to Generator Settings tab, select a simple generator to print out entity names (generator will be attached) >save file > Run generation 
+Make sure that no error is disaplyed in Errors Log
+Make sure that target folder with templates is created 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-editor "New Generator Project/ts-plugin.xml" | close
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+}
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project" | get-group Facets | get-table] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "ExcludeCom.wfc" | get-property caption | equals "ExcludeCom.wfc" | verify-true
+    get-item "ExcludeOrg.wfc" | get-property caption | equals "ExcludeOrg.wfc" | verify-true
+}
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | get-property childCount | equals 5 
+    | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/target" | get-property caption | equals target | verify-true
+    get-item "model-refactoring/target" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen" | get-property caption | equals "tigerstripe.gen" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen" | get-property childCount | equals 9 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/allArtifacts.txt" | get-property caption 
+        | equals "allArtifacts.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/com.txt" | get-property caption | equals "com.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/E0.txt" | get-property caption | equals "E0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/E1.txt" | get-property caption | equals "E1.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/eclipse.txt" | get-property caption | equals "eclipse.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Ent0.txt" | get-property caption | equals "Ent0.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Ent1.txt" | get-property caption | equals "Ent1.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/mycompany.txt" | get-property caption | equals "mycompany.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/org.txt" | get-property caption | equals "org.txt" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/target/tigerstripe.gen/allArtifacts.txt" 
+    | double-click
+get-editor "allArtifacts.txt" | get-editbox | get-property text | equals "ARTIFACTS=8\n"
+    + "ENTITIES=4\n"
+    + "DATATYPES=0\n\n"
+    + "\tcom\n"
+    + "\tEnt1\n"
+    + "\tmycompany\n"
+    + "\tE1\n"
+    + "\tEnt0\n"
+    + "\tE0\n"
+    + "\torg\n"
+    + "\teclipse" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

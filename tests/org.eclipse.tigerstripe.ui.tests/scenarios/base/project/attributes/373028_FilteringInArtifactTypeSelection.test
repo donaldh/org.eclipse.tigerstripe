@@ -1,0 +1,63 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 373028_FilteringInArtifactTypeSelection
+Tags: TS_Project/Edit/Artifacts/Attribute, bug/TS_Project/Edit/Artifacts/Attribute 
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=373028
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_wrsM4KFXEeCjS6NbCUXM_w
+Save-Time: 3/5/12 8:11 PM
+Id: _HX6t0GbEEeGDCa7Vk2pKFQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+1. In the entity editor > add an attribute > Under attribute type, click on Browse
+2. In filter text box, type in "*boolean" (without the quotes)
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity" | double-click
+with [get-editor Entity | get-section Attributes] {
+    get-section | get-button Add | click
+    get-section -index 1 | get-button Browse | click
+}
+with [get-window "Artifact Type Selection"] {
+    get-table | select " boolean"
+    get-editbox -after [get-label "Enter a filter (* = any number of characters) or an empty string for no filtering:"] 
+        | set-text "*"
+    get-table | select " boolean"
+}
+get-window "Artifact Type Selection" | get-table | get-property itemCount | equals 11 | verify-true
+with [get-window "Artifact Type Selection"] {
+    get-editbox -after [get-label "Enter a filter (* = any number of characters) or an empty string for no filtering:"] 
+        | set-text "*b"
+    get-table | select " boolean"
+}
+get-window "Artifact Type Selection" | get-table | get-property itemCount | equals 3 | verify-true
+with [get-window "Artifact Type Selection"] {
+    get-editbox -after [get-label "Enter a filter (* = any number of characters) or an empty string for no filtering:"] 
+        | set-text "*bo"
+    get-table | select " boolean"
+    get-editbox -after [get-label "Enter a filter (* = any number of characters) or an empty string for no filtering:"] 
+        | set-text "*boo"
+    get-table | select " boolean"
+    get-editbox -after [get-label "Enter a filter (* = any number of characters) or an empty string for no filtering:"] 
+        | set-text "*bool"
+    get-table | select " boolean"
+}
+with [get-window "Artifact Type Selection" | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item " boolean" | get-property caption | equals boolean | verify-true
+}
+get-window "Artifact Type Selection" | get-button OK | click
+get-editor Entity | get-section Attributes | get-section -index 1 | get-editbox -after [get-label "Type:"] 
+    | get-property text | equals boolean | verify-true
+get-editor Entity | get-section Attributes | get-section | get-button Add | key-type "M1+s"
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
