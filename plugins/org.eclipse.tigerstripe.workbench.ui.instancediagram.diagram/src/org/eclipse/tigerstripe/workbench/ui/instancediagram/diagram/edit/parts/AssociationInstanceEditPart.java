@@ -190,129 +190,131 @@ public class AssociationInstanceEditPart extends ConnectionNodeEditPart
 			zEndInstance = association;
 			zEndFigure = associationFigure;
 		}
-		List<AssociationInstance> assocs = classInstance.getAssociations();
-		if ((isAssocClassAEndAssoc || isAssocClassZEndAssoc) && assocs.contains(association) ) {
-			for (AssociationInstance assoc : assocs) {
-				if (assoc != association) {
-					// get the other figure
-					InstanceMapEditPart mapEditPart = (InstanceMapEditPart) this
-							.getSource().getParent();
-					AssociationInstanceEditPart otherEditPart = (AssociationInstanceEditPart) findConnectionEditPart(
-							assoc, mapEditPart);
-					if (otherEditPart != null) {
-						AssociationInstanceFigure otherFigure = (AssociationInstanceFigure) otherEditPart
-								.getFigure();
-						if (isAssocClassAEndAssoc) {
-							zEndInstance = assoc;
-							zEndFigure = otherFigure;
-						} else {
-							aEndInstance = assoc;
-							aEndFigure = otherFigure;
+		if (classInstance != null) {
+			List<AssociationInstance> assocs = classInstance.getAssociations();
+			if ((isAssocClassAEndAssoc || isAssocClassZEndAssoc) && assocs.contains(association) ) {
+				for (AssociationInstance assoc : assocs) {
+					if (assoc != association) {
+						// get the other figure
+						InstanceMapEditPart mapEditPart = (InstanceMapEditPart) this
+								.getSource().getParent();
+						AssociationInstanceEditPart otherEditPart = (AssociationInstanceEditPart) findConnectionEditPart(
+								assoc, mapEditPart);
+						if (otherEditPart != null) {
+							AssociationInstanceFigure otherFigure = (AssociationInstanceFigure) otherEditPart
+									.getFigure();
+							if (isAssocClassAEndAssoc) {
+								zEndInstance = assoc;
+								zEndFigure = otherFigure;
+							} else {
+								aEndInstance = assoc;
+								aEndFigure = otherFigure;
+							}
+							break;
 						}
-						break;
 					}
 				}
-			}
-			if (aEndInstance != null) {
-				// use the values gathered above to update both figures...
-				if (aEndInstance.getAEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
-					// AEnd has a composition relationship with AEnd, set
-					// diamond
-					// for source decoration
-					aEndFigure.setSourceDecoration(aEndFigure
-							.getCompositionDiamond());
-				} else if (aEndInstance.getAEndAggregation() == AggregationEnum.SHARED_LITERAL) {
-					// AEnd has a shared relationship with AEnd, set open
-					// diamond
-					// for source decoration
-					aEndFigure.setSourceDecoration(aEndFigure
-							.getSharedDiamond());
-				} else if (aEndInstance.getAEndAggregation() == AggregationEnum.NONE_LITERAL) {
-					// if not aggregation, check to see if AEnd is navigable; if
-					// so
-					// then set an arrow for the source decoration, else (or if
-					// the
-					// ZEnd is also navigable) set no source decoration
-					if (aEndInstance.isAEndIsNavigable()
-							&& (zEndInstance == null || !zEndInstance
-									.isZEndIsNavigable()))
+				if (aEndInstance != null) {
+					// use the values gathered above to update both figures...
+					if (aEndInstance.getAEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
+						// AEnd has a composition relationship with AEnd, set
+						// diamond
+						// for source decoration
 						aEndFigure.setSourceDecoration(aEndFigure
-								.getNavigableArrow());
-					else
-						aEndFigure.setSourceDecoration(null);
+								.getCompositionDiamond());
+					} else if (aEndInstance.getAEndAggregation() == AggregationEnum.SHARED_LITERAL) {
+						// AEnd has a shared relationship with AEnd, set open
+						// diamond
+						// for source decoration
+						aEndFigure.setSourceDecoration(aEndFigure
+								.getSharedDiamond());
+					} else if (aEndInstance.getAEndAggregation() == AggregationEnum.NONE_LITERAL) {
+						// if not aggregation, check to see if AEnd is navigable; if
+						// so
+						// then set an arrow for the source decoration, else (or if
+						// the
+						// ZEnd is also navigable) set no source decoration
+						if (aEndInstance.isAEndIsNavigable()
+								&& (zEndInstance == null || !zEndInstance
+										.isZEndIsNavigable()))
+							aEndFigure.setSourceDecoration(aEndFigure
+									.getNavigableArrow());
+						else
+							aEndFigure.setSourceDecoration(null);
+					}
 				}
-			}
-			if (zEndInstance != null) {
-				if (zEndInstance.getZEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
-					// ZEnd has a composition relationship with ZEnd, set
-					// diamond
-					// for target decoration
-					zEndFigure.setTargetDecoration(zEndFigure
-							.getCompositionDiamond());
-				} else if (zEndInstance.getZEndAggregation() == AggregationEnum.SHARED_LITERAL) {
-					// ZEnd has a composition relationship with ZEnd, set
-					// diamond
-					// for target decoration
-					zEndFigure.setTargetDecoration(zEndFigure
-							.getSharedDiamond());
-				} else if (zEndInstance.getZEndAggregation() == AggregationEnum.NONE_LITERAL) {
-					// if not aggregation, check to see if ZEnd is navigable; if
-					// so
-					// then set an arrow for the target decoration, else (or if
-					// the
-					// AEnd is also navigable) then set no target decoration
-					if (zEndInstance.isZEndIsNavigable()
-							&& (aEndInstance == null || !aEndInstance
-									.isAEndIsNavigable()))
+				if (zEndInstance != null) {
+					if (zEndInstance.getZEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
+						// ZEnd has a composition relationship with ZEnd, set
+						// diamond
+						// for target decoration
 						zEndFigure.setTargetDecoration(zEndFigure
+								.getCompositionDiamond());
+					} else if (zEndInstance.getZEndAggregation() == AggregationEnum.SHARED_LITERAL) {
+						// ZEnd has a composition relationship with ZEnd, set
+						// diamond
+						// for target decoration
+						zEndFigure.setTargetDecoration(zEndFigure
+								.getSharedDiamond());
+					} else if (zEndInstance.getZEndAggregation() == AggregationEnum.NONE_LITERAL) {
+						// if not aggregation, check to see if ZEnd is navigable; if
+						// so
+						// then set an arrow for the target decoration, else (or if
+						// the
+						// AEnd is also navigable) then set no target decoration
+						if (zEndInstance.isZEndIsNavigable()
+								&& (aEndInstance == null || !aEndInstance
+										.isAEndIsNavigable()))
+							zEndFigure.setTargetDecoration(zEndFigure
+									.getNavigableArrow());
+						else
+							zEndFigure.setTargetDecoration(null);
+					}
+				}
+			} else {
+				// else, is just an association, so proceed accordingly
+				if (association.getAEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
+					// AEnd has a composition relationship with AEnd, set diamond
+					// for source decoration
+					associationFigure.setSourceDecoration(associationFigure
+							.getCompositionDiamond());
+				} else if (association.getAEndAggregation() == AggregationEnum.SHARED_LITERAL) {
+					// AEnd has a shared relationship with AEnd, set open diamond
+					// for source decoration
+					associationFigure.setSourceDecoration(associationFigure
+							.getSharedDiamond());
+				} else if (association.getAEndAggregation() == AggregationEnum.NONE_LITERAL) {
+					// if not aggregation, check to see if AEnd is navigable; if so
+					// then set an arrow for the source decoration, else (or if the
+					// ZEnd is also navigable) set no source decoration
+					if (association.isAEndIsNavigable()
+							&& !association.isZEndIsNavigable())
+						associationFigure.setSourceDecoration(associationFigure
 								.getNavigableArrow());
 					else
-						zEndFigure.setTargetDecoration(null);
+						associationFigure.setSourceDecoration(null);
 				}
-			}
-		} else {
-			// else, is just an association, so proceed accordingly
-			if (association.getAEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
-				// AEnd has a composition relationship with AEnd, set diamond
-				// for source decoration
-				associationFigure.setSourceDecoration(associationFigure
-						.getCompositionDiamond());
-			} else if (association.getAEndAggregation() == AggregationEnum.SHARED_LITERAL) {
-				// AEnd has a shared relationship with AEnd, set open diamond
-				// for source decoration
-				associationFigure.setSourceDecoration(associationFigure
-						.getSharedDiamond());
-			} else if (association.getAEndAggregation() == AggregationEnum.NONE_LITERAL) {
-				// if not aggregation, check to see if AEnd is navigable; if so
-				// then set an arrow for the source decoration, else (or if the
-				// ZEnd is also navigable) set no source decoration
-				if (association.isAEndIsNavigable()
-						&& !association.isZEndIsNavigable())
-					associationFigure.setSourceDecoration(associationFigure
-							.getNavigableArrow());
-				else
-					associationFigure.setSourceDecoration(null);
-			}
-			if (association.getZEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
-				// ZEnd has a composition relationship with ZEnd, set diamond
-				// for target decoration
-				associationFigure.setTargetDecoration(associationFigure
-						.getCompositionDiamond());
-			} else if (association.getZEndAggregation() == AggregationEnum.SHARED_LITERAL) {
-				// ZEnd has a composition relationship with ZEnd, set diamond
-				// for target decoration
-				associationFigure.setTargetDecoration(associationFigure
-						.getSharedDiamond());
-			} else if (association.getZEndAggregation() == AggregationEnum.NONE_LITERAL) {
-				// if not aggregation, check to see if ZEnd is navigable; if so
-				// then set an arrow for the target decoration, else (or if the
-				// AEnd is also navigable) then set no target decoration
-				if (association.isZEndIsNavigable()
-						&& !association.isAEndIsNavigable())
+				if (association.getZEndAggregation() == AggregationEnum.COMPOSITE_LITERAL) {
+					// ZEnd has a composition relationship with ZEnd, set diamond
+					// for target decoration
 					associationFigure.setTargetDecoration(associationFigure
-							.getNavigableArrow());
-				else
-					associationFigure.setTargetDecoration(null);
+							.getCompositionDiamond());
+				} else if (association.getZEndAggregation() == AggregationEnum.SHARED_LITERAL) {
+					// ZEnd has a composition relationship with ZEnd, set diamond
+					// for target decoration
+					associationFigure.setTargetDecoration(associationFigure
+							.getSharedDiamond());
+				} else if (association.getZEndAggregation() == AggregationEnum.NONE_LITERAL) {
+					// if not aggregation, check to see if ZEnd is navigable; if so
+					// then set an arrow for the target decoration, else (or if the
+					// AEnd is also navigable) then set no target decoration
+					if (association.isZEndIsNavigable()
+							&& !association.isAEndIsNavigable())
+						associationFigure.setTargetDecoration(associationFigure
+								.getNavigableArrow());
+					else
+						associationFigure.setTargetDecoration(null);
+				}
 			}
 		}
 		super.refreshVisuals();
