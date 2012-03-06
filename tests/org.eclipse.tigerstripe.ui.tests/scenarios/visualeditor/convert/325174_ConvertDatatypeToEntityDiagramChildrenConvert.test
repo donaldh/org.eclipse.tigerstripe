@@ -1,0 +1,155 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 325174_ConvertDatatypeToEntityDiagramChildrenConvert
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts/Datatype, I37
+External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEntityDiagramChildrenConvert http://jira4.xored.com/browse/QS-947
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_llELsKLhEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 3/6/12 12:04 PM
+Id: _VzUC0KLkEeCnVOKduz-xbg
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Convert Datatype with extends to another Datatype to Entity on Class Diagram 
+
+Precondition:
+DatatypeOnDiagramContextWorkspace
+
+Steps:
+1. Check items count in Tigerstripe Explorer
+2. Extend Datatype to Datatype2. Save changes
+3. Open class diagram and check items count in Class Diagram
+4. Select Datatype and open Properties View to verify extends "Datatype Artifact Datatype2"
+5. Select Datatype 2 and select 'Convert to Entity...' item in dropdown menu
+6. Select 'Cancel' button
+7. Select Datatype 2 and select 'Convert to Entity...' item in dropdown menu
+8. Select 'convert' radiobutton and click 'OK'
+9. Select Datatype and open Properties View to verify extends "Managed Entity Artifact Datatype2"
+10. Check that Datatype 2 and Datatype are converted to Entity 
+11. Check extend Datatype to Datatype 2
+12. Check items count in Tigerstripe Explorer
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 3 
+    | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Datatype" | double-click -nowait
+get-editor Datatype | get-section "General Information" | get-button Select | click
+with [get-window "Super Datatype"] {
+    get-table | select "com.mycompany.Datatype2"
+    get-button OK | click
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click -nowait
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    get-property childrenCount | equals 2 | verify-true
+    get-edit-part -name Datatype2 | get-target-connection 0 | get-property className 
+        | equals "org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactExtendsEditPart" 
+        | verify-true
+}
+with [get-editor "ClassDiagram.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Datatype | get-edit-part 
+        -className DatatypeArtifactMethodCompartmentEditPart] {
+        mouse-move 57 2 button1 -height 12 -width 67
+        mouse-press 57 2 button1 -height 12 -width 67
+        mouse-release 57 2 button1 524288 -height 12 -width 67
+        mouse-hover 57 2 -height 12 -width 67
+        mouse-press 57 2 button3 -height 12 -width 67
+        mouse-release 57 2 button3 2097152 -height 12 -width 67
+    }
+    get-menu "Show Properties View" | click
+}
+with [get-view Properties] {
+    with [get-canvas -index 3] {
+        mouse-press 53 11 button1
+        mouse-release 53 11 button1 524288
+    }
+    get-tree | select EMF
+    get-canvas -index 3 | mouse-move 19 4
+}
+with [get-view Properties | get-tree | get-item "EMF/Extends"] {
+    get-property columns -index 0 | equals Extends | verify-true
+    get-property columns -index 1 | equals "Datatype Artifact Datatype2" | verify-true
+}
+with [get-editor "ClassDiagram.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Datatype2 | get-edit-part 
+        -text "+attribute0:String" | get-edit-part -name attribute0] {
+        mouse-move 64 1 button1 -height 16 -width 112
+        mouse-press 64 1 button1 -height 16 -width 112
+        mouse-release 64 1 button1 524288 -height 16 -width 112
+        mouse-hover 64 1 -height 16 -width 112
+        mouse-press 64 1 button3 -height 16 -width 112
+        mouse-release 64 1 button3 2097152 -height 16 -width 112
+    }
+    get-menu "Convert to Entity..." | click
+}
+get-window "Convert com.mycompany.Datatype2" | get-button Cancel | click
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | mouse-hover 271 276 -height 356 
+    -width 596
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Datatype2 
+with [get-editor "ClassDiagram.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Datatype2 | get-edit-part 
+        -text "+attribute0:String" | get-edit-part -name attribute0] {
+        mouse-move 58 1 button3 -height 16 -width 112
+        mouse-press 58 1 button3 -height 16 -width 112
+        mouse-release 58 1 button3 2097152 -height 16 -width 112
+    }
+    get-menu "Convert to Entity..." | click
+}
+get-window "Convert com.mycompany.Datatype2" | get-group "Artifact children" | get-button Convert 
+    | get-property selected | equals true | verify-true
+get-window "Convert com.mycompany.Datatype2" | get-button OK | click
+with [get-tab-folder] {
+    get-property pages -index 0 | equals "*ClassDiagram.wvd" | verify-true
+    get-property tabCount | equals 1 | verify-true
+}
+get-button "Save \(.*\)" | click
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part 
+    -name Datatype] {
+    mouse-move 48 17 button1 -height 50 -width 67
+    mouse-press 48 17 button1 -height 50 -width 67
+    mouse-release 48 17 button1 524288 -height 50 -width 67
+    mouse-hover 48 17 -height 50 -width 67
+}
+with [get-view Properties | get-canvas -index 3] {
+    mouse-press 49 15 button1
+    mouse-release 49 15 button1 524288
+    mouse-move 14 11
+}
+with [get-view Properties | get-tree | get-item "EMF/Extends"] {
+    get-property columns -index 0 | equals Extends | verify-true
+    get-property columns -index 1 | equals "Managed Entity Artifact Datatype2" | verify-true
+}
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Datatype2 
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part 
+    -name Datatype] {
+    mouse-move 38 17 button1 -height 50 -width 67
+    mouse-press 38 17 button1 -height 50 -width 67
+    mouse-release 38 17 button1 524288 -height 50 -width 67
+    activate-direct-edit
+}
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    mouse-move 241 40 button1 -height 356 -width 596
+    mouse-press 241 40 button1 -height 356 -width 596
+    mouse-release 241 40 button1 524288 -height 356 -width 596
+    mouse-hover 241 40 -height 356 -width 596
+}
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Datatype 
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Datatype" | double-click -nowait
+with [get-editor Datatype] {
+    get-label "Entity Artifact" | get-property caption | equals "Entity Artifact" | verify-true
+    get-section "General Information" | get-editbox -after [get-link "Extends:"] | get-property rawValue 
+        | equals "com.mycompany.Datatype2" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Datatype2" | double-click -nowait
+get-editor Datatype2 | get-label "Entity Artifact" | get-property caption | equals "Entity Artifact" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 3 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
