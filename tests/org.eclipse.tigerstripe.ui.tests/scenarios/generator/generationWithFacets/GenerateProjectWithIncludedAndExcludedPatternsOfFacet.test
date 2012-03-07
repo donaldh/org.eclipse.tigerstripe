@@ -1,0 +1,94 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: GenerateProjectWithIncludedAndExcludedPatternsOfFacet
+Tags: TS_Generator/Deploy, Facet/Generator
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_K1s6IFXrEeGF04Fr4bPA4w
+Save-Time: 3/7/12 3:19 PM
+Id: _hYEf4WgrEeGaX6MT-1Z67g
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Generate documentation with Included and Excluded Artifacts in installed module
+
+Test Steps:
+1. Select Tigerstripe Project and choose "Generate..." from context menu
+2. Press "Finish" button
+3. Make sure that "target" folder is created and generated files correspond to Facet
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/default.wfc" | double-click
+with [get-editor "New Project/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    with [get-section "Scope Details"] {
+        get-button Add -after [get-label "Excluded patterns:"] | click
+        with [get-table -after [get-label "Excluded patterns:"]] {
+            select "org.eclipse.\\*" | activate-cell-edit
+            with [get-editbox] {
+                set-text "org.eclipse.Package0.Entity2"
+                key-type CR
+            }
+            apply-cell-edit
+            key-type "M1+s"
+        }
+    }
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/tigerstripe.xml" | double-click
+with [get-editor "New Project/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+    get-section "New Generator Project(3.0) (enabled) [Generic]" | get-button "Enable Generator" | key-type "M1+s"
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "New Project/default.wfc" | get-menu "Facets/Mark as Active" | click
+    select "New Project {default}" | get-menu "Generate..." | click
+}
+with [get-window "Generate Tigerstripe Project"] {
+    get-group Facets | get-button "Use current facet only(default)" | click
+    get-button Finish | click
+}
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
+    | get-item "New Generator Project\\(3.0\\)" | get-property caption | equals "New Generator Project(3.0)" 
+    | verify-true
+get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-button OK | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "New Project {default}/target" | get-property childCount | equals 1 | verify-true
+    get-item "New Project {default}/target/tigerstripe.gen" | get-property childCount | equals 5 | verify-true
+    get-item "New Project {default}/target/tigerstripe.gen/allArtifacts.txt" | get-property caption 
+        | equals "allArtifacts.txt" | verify-true
+    get-item "New Project {default}/target/tigerstripe.gen/Datatype2.txt" | get-property caption 
+        | equals "Datatype2.txt" | verify-true
+    get-item "New Project {default}/target/tigerstripe.gen/eclipse.txt" | get-property caption | equals "eclipse.txt" 
+        | verify-true
+    get-item "New Project {default}/target/tigerstripe.gen/org.txt" | get-property caption | equals "org.txt" 
+        | verify-true
+    get-item "New Project {default}/target/tigerstripe.gen/Package0.txt" | get-property caption | equals "Package0.txt" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Project {default}/target/tigerstripe.gen/allArtifacts.txt" 
+    | double-click
+get-editor "allArtifacts.txt" | get-editbox | get-property text | equals "ARTIFACTS=4\n"
+    + "ENTITIES=0\n"
+    + "DATATYPES=1\n\n"
+    + "\tDatatype2\n"
+    + "\tPackage0\n"
+    + "\torg\n"
+    + "\teclipse" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
