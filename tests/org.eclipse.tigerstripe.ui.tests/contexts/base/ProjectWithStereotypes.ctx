@@ -2,29 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: ProjectWithStereotypes
+Context-Type: com.xored.q7.workspace.context
+Element-Type: context
 Element-Version: 2.0
-Save-Time: 1/11/12 12:39 PM
+Save-Time: 3/7/12 5:39 PM
 Id: _pu4uwDwWEeGvce_60BRGbQ
 
-------=_contents/MyProject/InstDiagram.wod-ddebbc17-b9de-397e-a29b-655ee26b6469
-Content-Type: q7/binary
-Entry-Name: contents/MyProject/InstDiagram.wod
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTNV11vmzAUfZ+0/4C850KAbm2isCof
-Xdc1yVol1da9VB644M7YyDaF7NfvQkLWJLCoarfl0c6955577j3C6Z7kMTMeiFRUcA/ZZgsZhPsioDz0
-0PXsw8ExOnn/+lWXC401xHSGFIcSx0Ye084qzynyAImrDtx7KNI66VhWlmWmiENTyND6Oj5fhaj1kMwt
-I5xWy4aw0dSPSIwPKFcac59UWdU5WBDwEOSYxGc0UcTUNAQuWtKEmJmQP75DE5GZUnMjqwKr2lnjUYEV
-ZML4zpIp1zQmFqhiOlaVgsrWaeCh2/EZ7Z0OWren5OxqRNr56bePo4sMGXqeEA+drxrgOF6el+oBxwAZ
-McEqlSQmXF9zqj10SXPCEMhtGF0/oiyQhJfVFoCrGUwjnJBHPML+bBzO+mPgwWeH88AfqD7rVTwmQkNw
-QJQP8iyanpFcI+OOMjYQTEgYvOu+a7uHLuRIzFWCobI/9xCMlVFOllHvjtwj+629uPtCAx1B5oLvDsZ9
-rKg/JL6Q5XkignX+0efjYRP/pWYTELGqBdUIK4UzYJk6nDIPaZkSZFVkrIrNC7FrVHf4W9dnsFN6zoiq
-41aMalr8ujnv+y1G1m60EQxuBle1iD+bEXf0w/BcpHogYMMlpkVcjcgi5YHaqBnVTD2HpWrD4sH62c7x
-ssiGZE+zBz6/v2pcL/GA2Z7bA3/Kb/bXHvjixm9m9z/sUcx727DPsUeB+AfD/RV7FDW3LVnYw7Xd0h5O
-6+gF7BH1wjhrHKAkPnzFQrbnn5CiiXxvPRL1oklrrzxSDv1FPVIi/mOPlDXrPXJoOwuPtJ0GjzS3eInD
-rfbKt950661n7cI6S2lQD0afDvZoU2oh502QK/FXmBsP4071Wh3jBBmRJHfrD1aRxW+sEq1rbf4XgMtf
-UEsHCFyQF4aqAgAASAwAAFBLAQIUABQACAAIAAAAIQBckBeGqgIAAEgMAAAIAAAAAAAAAAAAAAAAAAAA
-AAAuY29udGVudFBLBQYAAAAAAQABADYAAADgAgAAAAA=
-------=_contents/MyProject/InstDiagram.wod-ddebbc17-b9de-397e-a29b-655ee26b6469--
 ------=_contents/MyProject/bin/com/mycompany/SessionFacade6.class-69d0eb8f-c3fa-347a-83cb-59972c925bf9
 Content-Type: q7/binary
 Entry-Name: contents/MyProject/bin/com/mycompany/SessionFacade6.class
@@ -250,14 +233,6 @@ gHjdcR7GTWai48Dg9A3pKzc9ZIxxJ+5jmzH7MWAHw2581Ll2vwFQSwcIJg3xpPAAAABXAQAAUEsBAhQA
 FAAIAAgAAAAhACYN8aTwAAAAVwEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
 NgAAACYBAAAAAA==
 ------=_contents/MyProject/bin/com/mycompany/UpdateProcedure4.class-dd6e9f60-4dd7-3433-bbeb-5296309cbe5f--
-------=_contents/MyProject/InstDiagram.owm-375d78ad-a3cb-32bb-9754-8aedf2fa156b
-Content-Type: q7/binary
-Entry-Name: contents/MyProject/InstDiagram.owm
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnQDAFBLBwgAAAAAAgAAAAAAAABQSwEC
-FAAUAAgACAAAACEAAAAAAAIAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEA
-AQA2AAAAOAAAAAAA
-------=_contents/MyProject/InstDiagram.owm-375d78ad-a3cb-32bb-9754-8aedf2fa156b--
 ------=_contents/MyProject/bin/com/mycompany/Association7.class-42a479f9-b6d8-3c0e-aa15-c34df9ee3403
 Content-Type: q7/binary
 Entry-Name: contents/MyProject/bin/com/mycompany/Association7.class
@@ -302,6 +277,22 @@ UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRTdivKVHBJTVYwMlYwNLUyMrIyMFTw
 CAAAACEAA1egUnQAAADBAAAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA
 qgAAAAAA
 ------=_contents/MyProject/.settings/org.eclipse.core.resources.prefs-a4dac2e6-4652-3632-bd23-d8ff0a4e5fd4--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTVlctu2zAQRfcF+g8C9yWdII0Lw27Q
+xmnQRYA2QeHuApoay0wkkiGph/++I1vyU6qJ7roTOWfucDRX4vimytKoAOukVhNyQQckAiV0LFUyIblf
+fPhEbj6/fzcWOqOVthDTtyEttX11hgsYzdqnW608VD6qMjnayl3WclhAuRHuT8jSezNirCxLqrOEapuw
+3w/fW6S7xDaLYZyt4+xtyLZxCgL3SKR4huwPq19A+Jn0yycPFrRfGXAkkvGEPJv8Ki+n5ewO7gsBz9eD
+r4/3858kEilwO9sVXPDUAcGuowj7xr6UXy9waTb6rin3sGoKkgZAZCFTaONUpNyhql8S1kM0in3x21pg
+KnlieUaLMgviyiLu49YnrjdoOTd9kJcJjtBbaYDibA4wncYYa0/vwHu0itv1fySFM8YJpdI4oPWgqAWn
+cyvAYeewcPvarBHvqzaX6rDOQRTtsR89ec9cvPIE9up1aGQrVDFcrQ6VwrSOqC/OaSG5xy9huPHB3/kp
+97x260UIfKe89KtBGJpnYNfnuAziC/T7xyCyEmCC+3sCV/8VvnHBY7gOyfhlYu4B/Sogzi1cdeacuqbT
+See85az4X731wgseaq3zbOusEHLPWAH4xlcB4M5W5+EjV51PODFVR8q/eWrM2tthc3Ww3d1RPwfdn8j+
+AVBLBwgELxIQ9wEAAJMHAABQSwECFAAUAAgACAAAACEABC8SEPcBAACTBwAACAAAAAAAAAAAAAAAAAAA
+AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAALQIAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_contents/MyProject/.project-db7607a0-e356-3aa3-a20e-b3efc9871b2e
 Content-Type: q7/binary
 Entry-Name: contents/MyProject/.project
@@ -314,22 +305,6 @@ A9WYzgPb68CUQwrkQaYCwC8LVCGx7uNsnzGfEoJ/m/KrucHUtLBAewD25vC1oo29sEqSpI6qgQd4BiQO
 /AIAAFBLAQIUABQACAAIAAAAIQDoklhP+gAAAPwCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBL
 BQYAAAAAAQABADYAAAAwAQAAAAA=
 ------=_contents/MyProject/.project-db7607a0-e356-3aa3-a20e-b3efc9871b2e--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTVlUFv2jAUx++T9h0i32fTqisTglVb
-6aoeKm2rJnarjPMIbhPbtZ0Evv1eIIEAybB22y3x+/n/sP0LHt+ssjQqwDqp1YRc0AGJQAkdS5VMSO4X
-Hz6Rm8/v342FzuhKW4jp25CW2r46wwWMZs3TrVYeVj5aZXK0i7us4rCBciMcn5Cl92bEWFmWVGcJ1TZh
-vx8fGqS7xW4Wwzrb1NnbkO3qFASOkUjxDNnvVr+A8DPpl08eLGi/NuBIJOMJeTb5VV5Oy9kd3BcCnq8H
-X3/ez3+QSKTA7WzfcMFTBwRXHUW4blyX8psXfDXbfFe3e1zXDUkNILKQKTR1KlLuMNUvCesh6sS++m0V
-MJU8sTyjRZkFcWUR93EPyvkG0/1xbazUvWmb9VcDtJybPsjLBIXwVhqgeNIHmE5jrDV74cB7FM/td/Mo
-Co3B806lcUCrY6cWnM6tAIf7CAvXzmZ1eF+3uVSHfQ6qKFu7enJqXLzyBFr9OjKyNaYYrtaHSWFZR9QX
-57SQ3ON3Ndxa9Xd+yj2v3L8Ige+Ul349CEPzDOzmd1wG8QV+PR+DyJUAE7y+J3DVf8w3LngM1yEzfpmY
-e0BfBcS5havOOafWdJp0zi1nxf/q1gsveKha59nGrBCyJVYAvvUqANxrdR4+sur8hBOpOqb8m1Nj1tw1
-24uI7W+i6jnoNkb2D1BLBwjndsNwAwIAAOEHAABQSwECFAAUAAgACAAAACEA53bDcAMCAADhBwAACAAA
-AAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAOQIAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_contents/MyProject/src/com/mycompany/Exception7.java-83faab5b-c5ab-3c1d-8f55-ea0065c73782
 Content-Type: q7/binary
 Entry-Name: contents/MyProject/src/com/mycompany/Exception7.java
