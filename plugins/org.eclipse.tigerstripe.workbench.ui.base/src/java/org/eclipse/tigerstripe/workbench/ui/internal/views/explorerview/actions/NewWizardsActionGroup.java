@@ -176,7 +176,6 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 						newMenu.add(new Separator());
 						newMenu.add(new OpenBasicNewFolderWizardAction());
 						newMenu.add(new OpenBasicNewFileWizardAction());
-						addContributedActions(newMenu, window, selObj);
 					}
 					newMenu.add(new Separator());
 					newMenu.add(new NewWizardAction(window));

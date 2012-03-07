@@ -1772,12 +1772,6 @@
 		                property="org.eclipse.core.resources.projectNature"
 		                value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
 		       </adapt>
-		       <adapt type="org.eclipse.jdt.core.IJavaElement">
-			      <test property="tigerstripe.javaElement.onBuildPath" />
-		          <not>
-		          	<test property="tigerstripe.javaElement.inArchive" />
-		          </not>
-		       </adapt>
 		     </enablement>
 		</commonWizard>
 		
