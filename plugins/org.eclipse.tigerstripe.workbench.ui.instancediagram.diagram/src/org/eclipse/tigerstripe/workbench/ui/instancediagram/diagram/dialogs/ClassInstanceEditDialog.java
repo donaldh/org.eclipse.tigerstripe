@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.dialogs;
 
+import static org.eclipse.swt.SWT.BORDER;
+import static org.eclipse.swt.SWT.FULL_SELECTION;
+import static org.eclipse.swt.SWT.H_SCROLL;
+import static org.eclipse.swt.SWT.V_SCROLL;
+import static org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagramUtils.isPrimitive;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,20 +44,23 @@ import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
-import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.DialogCellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
@@ -106,7 +115,6 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 	private ClassInstance instance = null;
 	private String instanceName = "";
 	private Text instanceNameField;
-	private final HashMap<String, List<Object>> selectionMap = new HashMap<String, List<Object>>();
 	private final Set<String> instanceNames = new HashSet<String>();
 	private final Map<String, Instance> instanceMap = new HashMap<String, Instance>();
 	private final List<Entry> entries = new ArrayList<Entry>();
@@ -123,7 +131,6 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			FIELDVALUE_COLUMN };
 	private final String[] columnLabels = new String[] { "SELECTED", "NAME",
 			"SOURCE", "TYPE", "VALUE" };
-	private final List<String> columnNamesAsList = Arrays.asList(columnNames);
 	private final String[] booleanVals = new String[] { "", "true", "false" };
 	// column indexes
 	private final int SET_COLUMN_IDX = 0;
@@ -132,15 +139,12 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 	private final int FIELDTYPE_COLUMN_IDX = 3;
 	private final int FIELDVALUE_COLUMN_IDX = 4;
 	// and the table/table viewer references
-	private TableViewer tableViewer;
+	private CheckboxTableViewer tableViewer;
 	private Table table;
-	private CellEditor[] cellEditors;
-	private CellEditor textCellEditor;
-	private CellEditor checkBoxCellEditor;
-
 	private Composite area;
 
 	private final Map<IType, List<String>> newReferenceInstances = new HashMap<IType, List<String>>();
+	private HashMap<String, List<Object>> selection = new HashMap<String, List<Object>>();
 
 	private ClassInstanceEditDialog(Shell parentShell,
 			IAbstractArtifact anArtifact, ClassInstance anInstance,
@@ -184,12 +188,26 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 		this(parentShell, null, instance, mapEditPart);
 	}
 
+	
+	
 	@Override
 	protected void okPressed() {
+		computeSelection();
 		if (area != null) {
 			area.forceFocus();
 		}
 		super.okPressed();
+	}
+
+	private void computeSelection() {
+		Object[] checked = tableViewer.getCheckedElements();
+		selection  = new HashMap<String, List<Object>>(checked.length);
+		for (Object element : checked) {
+			Entry entry = (Entry) element;
+			selection.put(entry.name,
+					Arrays.asList(new Object[] { entry.type,
+							entry.stringValue() }));
+		}
 	}
 
 	protected void updateOkButton(Object eventSource) {
@@ -355,6 +373,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 		String artifactFQN = artifact.getFullyQualifiedName();
 		EObject eObj = ((Diagram) mapEditPart.getModel()).getElement();
 		String mapBasePackage = ((InstanceMap) eObj).getBasePackage();
+		Set<Entry> selectedEntries = new HashSet<Entry>();
 		for (IField field : fields) {
 			Entry entry = new Entry();
 			entry.name = field.getName();
@@ -383,10 +402,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 					values = Arrays.asList(new String[] { value });
 				}
 				entry.values = values;
-				selectionMap.put(
-						entry.name,
-						Arrays.asList(new Object[] { entry.type,
-								entry.stringValue() }));
+				selectedEntries.add(entry);
 			} else if (associationNames.contains(entry.name)) {
 				// if here, it's a non-primitive type (reference) type, so
 				// the "value" is a list of the names of the instances of that
@@ -396,10 +412,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 				String[] values = new String[stringVals.size()];
 				associationNameValMap.get(entry.name).toArray(values);
 				entry.values = Arrays.asList(values);
-				selectionMap.put(
-						entry.name,
-						Arrays.asList(new Object[] { entry.type,
-								entry.stringValue() }));
+				selectedEntries.add(entry);
 			} else {
 				entry.values = new ArrayList<String>();
 			}
@@ -417,17 +430,8 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 		// create a TableViewer in this box (along with the
 		// associated table)
 		tableViewer = createTableViewer(box);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		for (int i = 0; i < columnNames.length; i++) {
-			String columnName = columnNames[i];
-			TableColumn column = new TableColumn(table, SWT.LEFT);
-			column.setText(columnName);
-			if (i == (columnNames.length - 1)) {
-				column.setWidth(200);
-			}
-		}
 		tableViewer.setInput(entries);
+		tableViewer.setCheckedElements(selectedEntries.toArray());
 		tableViewer.refresh(true);
 		for (int i = 0; i < columnNames.length; i++) {
 			if (i < (columnNames.length - 1))
@@ -504,134 +508,28 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 		}
 	}
 
-	private class EntryValuesCellModifier implements ICellModifier {
-
-		private final TableViewer viewer;
-
-		public EntryValuesCellModifier(TableViewer viewer) {
-			this.viewer = viewer;
+	private String[] getComboBoxVals(IType type) {
+		String fqn = type.getFullyQualifiedName();
+		IAbstractArtifact iArtifact = null;
+		try {
+			iArtifact = artMgrSession.getArtifactByFullyQualifiedName(fqn);
+		} catch (TigerstripeException e) {
+			return new String[0];
 		}
-
-		public boolean canModify(Object element, String property) {
-			if (element instanceof Entry) {
-				Entry entry = (Entry) element;
-				CellEditor resultEditor = null;
-				if (entry.type.getTypeMultiplicity().isArray()) {
-					resultEditor = new ArrayValuesDialogCellEditor(table);
-				} else if (!InstanceDiagramUtils.isPrimitive(artMgrSession,
-						entry.type)) {
-					resultEditor = new SingleValueDialogCellEditor(table);
-				} else if (isEnumeration(entry.type)) {
-					String[] vals = getComboBoxVals(entry.type);
-					resultEditor = new MyEnumerationCellEditor(table, vals,
-							SWT.READ_ONLY);
-				} else if (isBooleanPrimitive(entry.type)) {
-					String[] vals = booleanVals;
-					resultEditor = new MyEnumerationCellEditor(table, vals,
-							SWT.READ_ONLY);
-				} else {
-					resultEditor = textCellEditor;
-				}
-				cellEditors[columnNames.length - 1] = resultEditor;
-			}
-			if ("VALUE".equals(property) || "SELECTED".equals(property))
-				return true;
-			return false;
-		}
-
-		public Object getValue(Object element, String property) {
-			if ("VALUE".equals(property)) {
-				Entry entry = (Entry) element;
-				CellEditor currEditor = cellEditors[columnNames.length - 1];
-				if (currEditor instanceof SingleValueDialogCellEditor
-						|| currEditor instanceof ArrayValuesDialogCellEditor) {
-					return entry;
-				} else {
-					return entry.stringValue();
-				}
-			} else if ("SELECTED".equals(property)) {
-				Entry entry = (Entry) element;
-				return entry.isEnabled();
-			}
-			return null;
-		}
-
-		public void modify(Object item, String property, Object value) {
-			// Find the index of the column
-			int columnIndex = Arrays.asList(columnLabels).indexOf(property);
-
-			IStructuredSelection ssel = (IStructuredSelection) viewer
-					.getSelection();
-			Entry entry = (Entry) ssel.getFirstElement();
-
-			switch (columnIndex) {
-			case SET_COLUMN_IDX: // CHECKED Column
-				boolean includeVal = ((Boolean) value).booleanValue();
-				entry.setEnabled(includeVal);
-				if (includeVal) {
-					selectionMap.put(
-							entry.name,
-							Arrays.asList(new Object[] { entry.type,
-									entry.stringValue() }));
-				} else {
-					if (selectionMap.keySet().contains(entry.name))
-						selectionMap.remove(entry.name);
-				}
-				break;
-			case FIELDVALUE_COLUMN_IDX: // VALUE Column
-				if (entry.type.getTypeMultiplicity().isArray()) {
-					if (value instanceof String[]) {
-						entry.values = Arrays.asList((String[]) value);
-					}
-				} else if (value instanceof String) {
-					String stringValue = (String) value;
-					if (stringValue.length() > 0) {
-						entry.values = Arrays.asList(stringValue);
-					}
-				}
-
-				if (entry.values.size() > 0) {
-					entry.enabled = true;
-				} else {
-					entry.enabled = false;
-				}
-				if (entry.isEnabled()) {
-					// update entry in map if is selected
-					selectionMap.put(
-							entry.name,
-							Arrays.asList(new Object[] { entry.type,
-									entry.stringValue() }));
-				} else {
-					selectionMap.remove(entry.name);
-				}
-			default:
-			}
-			tableViewer.refresh(true);
-		}
-
-		private String[] getComboBoxVals(IType type) {
-			String fqn = type.getFullyQualifiedName();
-			IAbstractArtifact iArtifact = null;
-			try {
-				iArtifact = artMgrSession.getArtifactByFullyQualifiedName(fqn);
-			} catch (TigerstripeException e) {
-				return new String[0];
-			}
-			ArrayList<String> stringVals = new ArrayList<String>();
-			do {
-				List<String> lclStringVals = new ArrayList<String>();
-				for (ILiteral literal : iArtifact.getLiterals())
-					lclStringVals.add(literal.getName());
-				stringVals.addAll(0, lclStringVals);
-			} while ((iArtifact = iArtifact.getExtendedArtifact()) != null);
-			stringVals.add(0, "");
-			String[] items = new String[stringVals.size()];
-			stringVals.toArray(items);
-			return items;
-		}
-
+		ArrayList<String> stringVals = new ArrayList<String>();
+		do {
+			List<String> lclStringVals = new ArrayList<String>();
+			for (ILiteral literal : iArtifact.getLiterals())
+				lclStringVals.add(literal.getName());
+			stringVals.addAll(0, lclStringVals);
+		} while ((iArtifact = iArtifact.getExtendedArtifact()) != null);
+		stringVals.add(0, "");
+		String[] items = new String[stringVals.size()];
+		stringVals.toArray(items);
+		return items;
 	}
 
+	
 	private class ArrayValuesDialogCellEditor extends DialogCellEditor {
 
 		public ArrayValuesDialogCellEditor(Composite composite) {
@@ -909,31 +807,31 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 	/**
 	 * Create the TableViewer
 	 */
-	private TableViewer createTableViewer(Composite box) {
-		table = new Table(box, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER);
-		TableViewer localTableViewer = new TableViewer(table);
-		localTableViewer.setLabelProvider(new MyLabelProvider());
+	private CheckboxTableViewer createTableViewer(Composite box) {
+		final CheckboxTableViewer viewer = CheckboxTableViewer.newCheckList(
+				box, FULL_SELECTION | H_SCROLL | V_SCROLL | BORDER);
+		table = viewer.getTable();
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		ParamLabelProvider labelProvider = new ParamLabelProvider();
+		viewer.setLabelProvider(labelProvider);
 
-		localTableViewer.setContentProvider(new ArrayContentProvider());
-		localTableViewer.setColumnProperties(columnLabels);
-		localTableViewer.setCellModifier(new EntryValuesCellModifier(
-				localTableViewer));
+		viewer.setContentProvider(new ArrayContentProvider());
+		viewer.setColumnProperties(columnLabels);
 
-		// Create the cell editors
-		cellEditors = new CellEditor[columnNames.length];
-		textCellEditor = new TextCellEditor(table);
-		checkBoxCellEditor = new CheckboxCellEditor(table);
-		for (int i = 0; i < columnNames.length; i++) {
-			if (i == 0)
-				cellEditors[i] = checkBoxCellEditor;
-			else
-				cellEditors[i] = textCellEditor;
+		for (int idx = 0; idx < columnNames.length; idx++) {
+			TableViewerColumn vc = new TableViewerColumn(viewer, SWT.LEFT);
+			vc.setLabelProvider(labelProvider);
+			TableColumn column = vc.getColumn();
+			column.setText(columnNames[idx]);
+			switch (idx) {
+			case FIELDVALUE_COLUMN_IDX:
+				column.setWidth(200);
+				vc.setEditingSupport(new ValueEditingSupport(viewer));
+				break;
+			}
 		}
-		// Assign the cell editors to the viewer
-		localTableViewer.setCellEditors(cellEditors);
-		// and return the table viewer we've built
-		return localTableViewer;
+		return viewer;
 	}
 
 	private class MyEnumerationCellEditor extends ComboBoxCellEditor {
@@ -1347,7 +1245,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 		return (type.getFullyQualifiedName().equals("boolean"));
 	}
 
-	private class MyLabelProvider extends LabelProvider implements
+	private class ParamLabelProvider extends CellLabelProvider implements
 			ITableLabelProvider {
 
 		private Image getImage(boolean isSelected) {
@@ -1380,6 +1278,10 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			}
 		}
 
+		@Override
+		public void update(ViewerCell cell) {
+			cell.setText(getColumnText(cell.getElement(), cell.getColumnIndex()));
+		}
 	}
 
 	@Override
@@ -1398,7 +1300,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 	}
 
 	public HashMap<String, List<Object>> getSelection() {
-		return selectionMap;
+		return selection;
 	}
 
 	public String getInstanceName() {
@@ -1408,4 +1310,75 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 	public Map<IType, List<String>> getNewReferenceInstances() {
 		return newReferenceInstances;
 	}
+	
+	class ValueEditingSupport extends EditingSupport {
+		
+		public ValueEditingSupport(ColumnViewer viewer) {
+			super(viewer);
+		}
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			if (element instanceof Entry) {
+				Entry entry = (Entry) element;
+				CellEditor resultEditor = null;
+				if (entry.type.getTypeMultiplicity().isArray()) {
+					resultEditor = new ArrayValuesDialogCellEditor(table);
+				} else if (!InstanceDiagramUtils.isPrimitive(artMgrSession,
+						entry.type)) {
+					resultEditor = new SingleValueDialogCellEditor(table);
+				} else if (isEnumeration(entry.type)) {
+					String[] vals = getComboBoxVals(entry.type);
+					resultEditor = new MyEnumerationCellEditor(table, vals,
+							SWT.READ_ONLY);
+				} else if (isBooleanPrimitive(entry.type)) {
+					String[] vals = booleanVals;
+					resultEditor = new MyEnumerationCellEditor(table, vals,
+							SWT.READ_ONLY);
+				} else {
+					resultEditor = new TextCellEditor(table);
+				}
+				return resultEditor;
+			}	
+			return null;
+		}
+		
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+		
+		public Object getValue(Object element) {
+			Entry entry = (Entry) element;
+			
+			if (entry.type.getTypeMultiplicity().isArray()
+					|| !isPrimitive(artMgrSession, entry.type)) {
+				return entry;
+			} else {
+				return entry.stringValue();
+			}
+		}
+
+		protected void setValue(Object element, Object value) {
+			Entry entry = (Entry) element;
+			if (entry.type.getTypeMultiplicity().isArray()) {
+				if (value instanceof String[]) {
+					entry.values = Arrays.asList((String[]) value);
+				}
+			} else if (value instanceof String) {
+				String stringValue = (String) value;
+				if (stringValue.length() > 0) {
+					entry.values = Arrays.asList(stringValue);
+				}
+			}
+
+			if (entry.values.size() > 0) {
+				entry.enabled = true;
+			} else {
+				entry.enabled = false;
+			}
+			tableViewer.setChecked(element, entry.isEnabled());
+			tableViewer.refresh(true);
+		}
+	};
 }
