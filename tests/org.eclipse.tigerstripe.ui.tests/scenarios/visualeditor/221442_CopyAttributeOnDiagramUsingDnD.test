@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _wrsM4KFXEeCjS6NbCUXM_w,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/14/12 1:19 PM
+Save-Time: 3/11/12 4:20 PM
 Id: _t41qsFbFEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -52,7 +52,7 @@ with [get-editor "ClassDiagram.wvd" | get-diagram] {
         mouse-release 30 7 button1 524288 -height 12 -width 49
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
     get-edit-part -name Entity | get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 
         | get-property text | equals "+attribute0:String" | verify-true

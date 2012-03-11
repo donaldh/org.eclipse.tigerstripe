@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_tk1N0DFbEeGSksgVyHPBRg
-Save-Time: 2/15/12 1:11 PM
+Save-Time: 3/11/12 4:17 PM
 Id: _Kes_sDtuEeGvPsO-LSiu4Q
 Testcase-Type: ecl
 
@@ -43,7 +43,7 @@ with [get-editor "New Project/default.wfc" | get-section "Annotation Scope Detai
     get-item "References Example" | get-property index | equals 1 | verify-true
     get-item "Text Annotation" | get-property index | equals 2 | verify-true
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-editor "New Project/default.wfc" | close
 with [get-view "Tigerstripe Explorer"] {
     click

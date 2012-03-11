@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 2/15/12 6:05 PM
+Save-Time: 3/11/12 4:19 PM
 Id: _uvKHYFOTEeG1ps2f3Ic7Yg
 Testcase-Type: ecl
 
@@ -45,7 +45,7 @@ with [get-editor Entity | get-section Constants] {
         get-button Remove | click
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 with [get-editor Entity | get-section Methods] {
     click
     with [get-section] {

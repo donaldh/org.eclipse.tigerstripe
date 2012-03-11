@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _m2oXQFCmEeGrX_dWnrkcag,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 2/13/12 9:32 AM
+Save-Time: 3/11/12 4:17 PM
 Id: _-DnuwFXqEeGF04Fr4bPA4w
 Testcase-Type: ecl
 
@@ -39,6 +39,6 @@ with [get-editor "Project1/default.wfc"] {
         apply-cell-edit
     }
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/default.wfc" | get-menu "Facets/Mark as Active" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

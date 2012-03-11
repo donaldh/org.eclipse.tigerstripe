@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _KAOvQFFMEeGNzMSvh8EWmQ,_8I2UAC-yEeGcHog4af2eaw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/15/12 6:45 PM
+Save-Time: 3/11/12 3:56 PM
 Id: _7xrekFL7EeG1ps2f3Ic7Yg
 Testcase-Type: ecl
 
@@ -34,6 +34,7 @@ Content-Type: text/ecl
 
 get-preferences-menu | click
 with [get-window Preferences] {
+    get-tree | select "Tigerstripe/General"
     get-group "Don\'t Remind About Removing" | get-button Methods | click
     get-button Apply | click
     get-button OK | click

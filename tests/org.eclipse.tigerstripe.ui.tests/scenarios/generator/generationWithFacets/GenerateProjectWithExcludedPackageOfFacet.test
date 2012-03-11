@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_Xxl5EFhtEeGNjdIXYj2jnA
-Save-Time: 3/7/12 3:01 PM
+Save-Time: 3/11/12 4:19 PM
 Id: _nwB4kGgMEeGNSrjPxekdLA
 Testcase-Type: ecl
 
@@ -44,7 +44,7 @@ with [get-window "Select Facet"] {
     get-tree | select "default.wfc"
     get-button OK | click
 }
-get-button "Save (Ctrl+S)" | click
+get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "Generate..." | click
 get-window "Generate Tigerstripe Project" | get-button Finish | click
 get-window "Generate Tigerstripe Project" | get-window "Generation Result" | get-tree 
