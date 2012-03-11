@@ -43,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.builder.DiagramAuditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.builder.IDiagramAuditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramHandle;
+import org.eclipse.tigerstripe.workbench.ui.rendererplugin.Activator;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -112,6 +113,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					} else {
 						children = new IStatus[] { status };
 					}
+					// Display a dialog with the audit results
 					display.syncExec(new Runnable() {
 
 						public void run() {
@@ -119,6 +121,10 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 									children).open();
 						}
 					});
+					// Log the audit result
+					Activator.log(status);
+					// Return OK to prevent job failure dialog
+					return Status.OK_STATUS;
 				}
 				return status;
 			}
