@@ -102,7 +102,11 @@ public class GenerateResultDialog extends Dialog {
 		applyDialogFont(area);
 
 		Label overallResult = new Label(area, SWT.NONE);
-		if (result.length == 0) {
+		
+		if (result == null) {
+			overallResult.setText("Unexpected error happened during generation.");
+			overallResult.setForeground(ColorUtils.TS_ORANGE);
+		} else if (result.length == 0) {
 			overallResult.setText("No generator enabled.");
 			overallResult.setForeground(ColorUtils.TS_ORANGE);
 		} else if (hasErrors(result)) {

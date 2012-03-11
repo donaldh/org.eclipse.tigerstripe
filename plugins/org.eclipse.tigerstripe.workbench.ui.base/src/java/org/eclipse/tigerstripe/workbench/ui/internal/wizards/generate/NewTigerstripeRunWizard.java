@@ -31,7 +31,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -106,21 +105,13 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 			PluginRunStatus runStatus = new PluginRunStatus("Operation Cancelled");
 			runStatus.add(status);
 			result = new PluginRunStatus[] { runStatus };
-		} catch (GenerationException e) {
+		} catch (Exception e) {
 			Status status = new Status(IStatus.ERROR, EclipsePlugin.getPluginId(), 222,
 					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.", e);
 			EclipsePlugin.logErrorStatus("Tigerstripe Generation Error Detected.", status);
 			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
 			runStatus.add(status);
 			result = new PluginRunStatus[] { runStatus };
-		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR, EclipsePlugin.getPluginId(), 222,
-					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.", e);
-			EclipsePlugin.logErrorStatus("Tigerstripe Generation Error Detected.", status);
-			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
-			runStatus.add(status);
-			result = new PluginRunStatus[] { runStatus };
-
 		}
 
 		// refresh project so Eclipse picks up the generated files
