@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 2/8/12 2:35 PM
+Save-Time: 3/11/12 5:33 PM
 Id: _f88S4E5GEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -27,9 +27,11 @@ Content-Type: text/ecl
 get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
+get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
+    | get-item "\\test\\src\\IsUniqueDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isUnique\' doesn\'t match on AEnd \\(entity1\\)." 
+    | get-property caption | equals "\'isUnique\' doesn\'t match on AEnd (entity1)." | verify-true
 exec-with-options -allowStatusDialog -command {
-    get-window "Diagram audit result \(test: .*/.* diagrams have errors\)" | get-button OK | click
-    get-window "Problem Occurred" | get-button OK | click
+    get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click
 }
 
 with [get-view "Error Log" | get-tree]{ 

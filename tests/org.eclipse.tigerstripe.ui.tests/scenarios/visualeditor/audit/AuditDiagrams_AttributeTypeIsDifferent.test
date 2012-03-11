@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 2/8/12 2:31 PM
+Save-Time: 3/11/12 5:03 PM
 Id: _JyywYFFxEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -27,9 +27,26 @@ Content-Type: text/ecl
 get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
+get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
+    | select "\\test\\src\\InvalidAttribute.wvd/Artifacts"
+with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
+    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
+        | get-property caption | equals Attributes | verify-true
+    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
+        | get-property childCount | equals 3 | verify-true
+    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" 
+        | get-property caption | equals attribute0 | verify-true
+    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" 
+        | get-property childCount | equals 1 | verify-true
+    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0/Attribute type in model \\(String\\) is different on diagram: int" 
+        | get-property caption | equals "Attribute type in model (String) is different on diagram: int" | verify-true
+    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute1" 
+        | get-property caption | equals attribute1 | verify-true
+    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" 
+        | get-property caption | equals attribute2 | verify-true
+}
 exec-with-options -allowStatusDialog -command {
-    get-window "Diagram audit result \(test: .*/.* diagrams have errors\)" | get-button OK | click
-    get-window "Problem Occurred" | get-button OK | click
+    get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click
 }
 
 with [get-view "Error Log" | get-tree]{ 
