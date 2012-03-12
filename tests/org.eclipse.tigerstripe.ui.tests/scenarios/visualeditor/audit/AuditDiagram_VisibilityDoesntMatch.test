@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/11/12 3:39 PM
+Save-Time: 3/12/12 9:29 AM
 Id: _TG63IE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -41,16 +41,16 @@ with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
 exec-with-options -allowStatusDialog -command {
     get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click
 }
-get-view "Error Log" | get-tree | select "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)"
+get-view "Error Log" | get-tree | select "Diagram audit result for project test"
 with [get-view "Error Log" | get-tree] {
     get-item [get-by-os 
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/ZEnd \\(entity2\\) visibility doesn\'t match" 
-    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/ZEnd \\(entity2\\) visibility doesn\'t match"  ] | get-property caption | equals "ZEnd (entity2) visibility doesn\'t match" | verify-true
+    -win "Diagram audit result for project test/\\test\\src\\VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/ZEnd \\(entity2\\) visibility doesn\'t match" 
+    -default "Diagram audit result for project test/\\/test\\/src\\/VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/ZEnd \\(entity2\\) visibility doesn\'t match"  ] | get-property caption | equals "ZEnd (entity2) visibility doesn\'t match" | verify-true
 
  
  get-item [get-by-os 
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) visibility doesn\'t match" 
-    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) visibility doesn\'t match"  ] | get-property caption | equals "AEnd (entity1) visibility doesn\'t match" | verify-true
+    -win "Diagram audit result for project test/\\test\\src\\VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) visibility doesn\'t match" 
+    -default "Diagram audit result for project test/\\/test\\/src\\/VisibilityDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) visibility doesn\'t match"  ] | get-property caption | equals "AEnd (entity1) visibility doesn\'t match" | verify-true
  
 }
 

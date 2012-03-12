@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/11/12 5:31 PM
+Save-Time: 3/12/12 9:35 AM
 Id: _Ao2tQE44EeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -36,8 +36,8 @@ exec-with-options -allowStatusDialog -command {
 
 with [get-view "Error Log" | get-tree]{ 
     get-item [get-by-os
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\IsNavigableDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isNavigable\' doesn\'t match on AEnd \\(entity1\\)."
-    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/IsNavigableDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isNavigable\' doesn\'t match on AEnd \\(entity1\\)." ] 
+    -win "Diagram audit result for project test/\\test\\src\\IsNavigableDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isNavigable\' doesn\'t match on AEnd \\(entity1\\)."
+    -default "Diagram audit result for project test/\\/test\\/src\\/IsNavigableDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isNavigable\' doesn\'t match on AEnd \\(entity1\\)." ] 
     | get-property caption | equals "\'isNavigable\' doesn\'t match on AEnd (entity1)." | verify-true
     }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

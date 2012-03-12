@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/11/12 5:20 PM
+Save-Time: 3/12/12 9:34 AM
 Id: _QF3qUE43EeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -37,8 +37,8 @@ with [get-view "Error Log" | get-tree]{
  
     get-item [get-by-os
     
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\End\\(Z\\)DoesntMatch.wvd/Dependency\\(s\\)/com.mycompany.Dependency0/Dependency ends \\(Z\\) don\'t match"
-    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/End\\(Z\\)DoesntMatch.wvd/Dependency\\(s\\)/com.mycompany.Dependency0/Dependency ends \\(Z\\) don\'t match" ] 
+    -win "Diagram audit result for project test/\\test\\src\\End\\(Z\\)DoesntMatch.wvd/Dependency\\(s\\)/com.mycompany.Dependency0/Dependency ends \\(Z\\) don\'t match"
+    -default "Diagram audit result for project test/\\/test\\/src\\/End\\(Z\\)DoesntMatch.wvd/Dependency\\(s\\)/com.mycompany.Dependency0/Dependency ends \\(Z\\) don\'t match" ] 
     | get-property caption | equals "Dependency ends (Z) don\'t match" | verify-true
     }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

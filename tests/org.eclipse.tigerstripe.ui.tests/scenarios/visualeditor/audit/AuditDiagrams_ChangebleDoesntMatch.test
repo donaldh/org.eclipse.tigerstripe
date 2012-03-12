@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/11/12 5:19 PM
+Save-Time: 3/12/12 9:33 AM
 Id: _sFqpIE5PEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -41,8 +41,8 @@ with [get-view "Error Log" | get-tree] {
     
     get-item [get-by-os
     
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) changeable doesn\'t match"
-    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) changeable doesn\'t match" ] 
+    -win "Diagram audit result for project test/\\test\\src\\ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) changeable doesn\'t match"
+    -default "Diagram audit result for project test/\\/test\\/src\\/ChangeableDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd \\(entity1\\) changeable doesn\'t match" ] 
         | get-property caption | equals "AEnd (entity1) changeable doesn\'t match" | verify-true
     
     

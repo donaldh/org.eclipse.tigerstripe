@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/11/12 5:34 PM
+Save-Time: 3/12/12 9:37 AM
 Id: _YX3jMFO9EeG247vEuTUvqw
 Testcase-Type: ecl
 
@@ -47,8 +47,8 @@ exec-with-options -allowStatusDialog -command {
 
 with [get-view "Error Log" | get-tree]{ 
     get-item [get-by-os
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0/Return type in Diagram \\(int\\) doesn\'t match model: void"
-    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0/Return type in Diagram \\(int\\) doesn\'t match model: void"] 
+    -win "Diagram audit result for project test/\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0/Return type in Diagram \\(int\\) doesn\'t match model: void"
+    -default "Diagram audit result for project test/\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0/Return type in Diagram \\(int\\) doesn\'t match model: void"] 
     | get-property caption | equals "Return type in Diagram (int) doesn\'t match model: void" | verify-true
     }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

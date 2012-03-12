@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/11/12 5:30 PM
+Save-Time: 3/12/12 9:48 AM
 Id: _5Bg_EE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -48,18 +48,12 @@ exec-with-options -allowStatusDialog -command {
 
 with [get-view "Error Log" | get-tree] {
     get-item [get-by-os
-    
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" 
-     -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0"]
+    -win "Diagram audit result for project test/\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" 
+     -default "Diagram audit result for project test/\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0"]
         | get-property caption | equals "Attributes are missing in the diagram: attribute0" | verify-true
-    
-    
-    
-    
     get-item [get-by-os
-    
-    -win "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name"
-    -default "Diagram audit result \\(test: .*\\/.* diagrams have errors\\)/\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name"] 
+    -win "Diagram audit result for project test/\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name"
+    -default "Diagram audit result for project test/\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name"] 
         | get-property caption | equals "Invalid attribute: no name" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
