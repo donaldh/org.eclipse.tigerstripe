@@ -294,6 +294,7 @@
               <objectClass name="org.eclipse.core.resources.IResource"/>
               <objectClass name="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart"/>
               <objectClass name="org.eclipse.jdt.core.IJavaElement"/>
+              <objectClass name="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractGMFDiagramNode" />
            </or>
         </visibility>
      </objectContribution>

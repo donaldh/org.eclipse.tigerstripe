@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceRuleFactory;
@@ -43,6 +44,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.builder.DiagramAuditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.builder.IDiagramAuditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramHandle;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractGMFDiagramNode;
 import org.eclipse.tigerstripe.workbench.ui.rendererplugin.Activator;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -217,16 +219,25 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		auditType = UNKNOWN;
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (ssel.getFirstElement() instanceof IResource) {
-				IResource res = (IResource) ssel.getFirstElement();
+			Object firstElement = ssel.getFirstElement();
+			if (firstElement instanceof IResource) {
+				IResource res = (IResource) firstElement;
 				if ((res.getProject()
 						.getAdapter(ITigerstripeModelProject.class)) instanceof ITigerstripeModelProject) {
 					targetProject = res.getProject();
 					auditType = ALL_DIAGRAMS;
 					action.setText("Audit all diagrams");
 				}
-			} else if (ssel.getFirstElement() instanceof IJavaElement) {
-				IJavaElement jElem = (IJavaElement) ssel.getFirstElement();
+			} else if (firstElement instanceof AbstractGMFDiagramNode) {
+				AbstractGMFDiagramNode gmfNode = (AbstractGMFDiagramNode) firstElement;
+				IFile diagramFile = gmfNode.getDiagramFile();
+				if (diagramFile != null) {
+					targetProject = diagramFile.getProject();
+					auditType = ALL_DIAGRAMS;
+					action.setText("Audit all diagrams");
+				}
+			} else if (firstElement instanceof IJavaElement) {
+				IJavaElement jElem = (IJavaElement) firstElement;
 				try {
 					IResource res = jElem.getCorrespondingResource();
 					if (res != null)
@@ -243,7 +254,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					auditType = ALL_DIAGRAMS;
 					action.setText("Audit all diagrams");
 				}
-			} else if (ssel.getFirstElement() instanceof DiagramEditPart) {
+			} else if (firstElement instanceof DiagramEditPart) {
 				auditType = THIS_DIAGRAM;
 				action.setText("Audit this diagram");
 				// selection will use the targetPart
