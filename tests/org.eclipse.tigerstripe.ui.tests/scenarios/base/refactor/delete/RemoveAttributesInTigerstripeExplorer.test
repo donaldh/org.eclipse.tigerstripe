@@ -1,0 +1,57 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: RemoveAttributesInTigerstripeExplorer
+Tags: Explorer, base/refactor/attribute, bug/refactor/attribute
+External-Reference: http://bugs.xored.com/browse/XMP-1052
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
+Save-Time: 3/13/12 1:22 PM
+Id: _TgzmAGzJEeGJmqgMsBMbTw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Pre-conditions:
+TS Project with Entity, Entity contains several attributes, methods and literals.
+
+Test Steps:
+1. Select attribute and choose "Delete" from context menu
+2. Make sure that confirmation dialog is displayed
+3. Press "Yes" button
+4. Make sure that attribute is removed
+5. Check "Attributes" check-box in "Preferences\Tigerstripe\General" 
+6. Select attribute and press "Del" keyboard button
+7. Make sure that confirmation dialog is displayed
+8. Press "Yes" button
+9. Make sure that attribute is removed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Error Log" | get-button "Clear Log Viewer" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity/attribute0:String" 
+    | get-menu Delete | click
+get-window "Delete..." | get-label "Do you really want to delete this element?" | get-property caption 
+    | equals "Do you really want to delete this element?" | verify-true
+get-window "Delete..." | get-button Yes | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
+    | equals 14 | verify-true
+get-preferences-menu | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/General"
+    get-group "Don\'t Remind About Removing" | get-button Attributes | click
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity/attribute1:String" | key-type DEL
+get-window "Delete..." | get-label "Do you really want to delete this element?" | get-property caption 
+    | equals "Do you really want to delete this element?" | verify-true
+get-window "Delete..." | get-button Yes | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
+    | equals 14 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
