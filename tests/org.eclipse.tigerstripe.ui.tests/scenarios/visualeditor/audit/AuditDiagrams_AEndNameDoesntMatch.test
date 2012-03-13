@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/12/12 9:32 AM
+Save-Time: 3/13/12 6:20 PM
 Id: _yd5kEE4vEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -27,9 +27,10 @@ Content-Type: text/ecl
 get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
-get-window "Audit Result" | get-tree | select "\\test\\src\\IsUniqueDoesntMatchOnZEnd.wvd"
 get-window "Audit Result" | get-tree 
-    | get-item "\\test\\src\\AEndNameDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd name doesn\'t match" 
+    | get-item [get-by-os
+    -win "\\test\\src\\AEndNameDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd name doesn\'t match" 
+    -default "\\/test\\/src\\/AEndNameDoesntMatch.wvd/Association\\(s\\)/com.mycompany.AssociationClass/AEnd name doesn\'t match" ]
     | get-property caption | equals "AEnd name doesn\'t match" | verify-true
 exec-with-options -allowStatusDialog -command {
     get-window "Audit Result" | get-button OK | click

@@ -1,0 +1,55 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: ApplyDefaultPreferencesInAdvancedSettings
+Tags: Descriptor/AdvancedSettings
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _mfx9IEG2EeGhZJbTp_-43w
+Save-Time: 3/13/12 4:35 PM
+Id: _cpBScWzvEeG1LJON5GuzxA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open Tigerstripe Project Advanced Settings Tab;
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Advanced Settings" | click
+    get-section Generation | get-link "Tigerstripe Generation Preferences" | click
+}
+with [get-window Preferences] {
+    get-editbox -after [get-label "Generation Path:"] | set-text "test/tigerstripe.gen"
+    get-button "Generate report" | click
+    get-button Apply | click
+    get-button OK | click
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section Generation] {
+    get-editbox -after [get-label "Target Directory:"] | get-property text | equals "target/tigerstripe.gen" 
+        | verify-true
+    get-button "Clear target directory before  generate" | get-property selected | equals false | verify-true
+    get-button "Generate report" | get-property selected | equals false | verify-true
+    get-button "Run All Rules as Local" | get-property selected | equals false | verify-true
+}
+set-dialog-result MessageBox 64
+get-editor "model-refactoring/tigerstripe.xml" | get-section Generation | get-button "Apply default preferences" | click
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section Generation] {
+    get-editbox -after [get-label "Target Directory:"] | get-property text | equals "test/tigerstripe.gen" | verify-true
+    get-button "Clear target directory before  generate" | get-property selected | equals false | verify-true
+    get-button "Generate report" | get-property selected | equals true | verify-true
+    get-button "Run All Rules as Local" | get-property selected | equals false | verify-true
+}
+get-editor "model-refactoring/tigerstripe.xml" | get-section Generation | get-button "Run All Rules as Local" 
+    | key-type "M1+s"
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

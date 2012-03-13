@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/12/12 9:33 AM
+Save-Time: 3/13/12 6:28 PM
 Id: _JyywYFFxEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -30,19 +30,33 @@ get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Au
 get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
     | select "\\test\\src\\InvalidAttribute.wvd/Artifacts"
 with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
-    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
+    get-item [get-by-os
+    -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
+    -default "\\/test\\/src\\/AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" ]
         | get-property caption | equals Attributes | verify-true
-    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
+    get-item [get-by-os
+    -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
+    -default "\\/test\\/src\\/AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" ]
         | get-property childCount | equals 3 | verify-true
-    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" 
+    get-item [get-by-os
+    -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" 
+    -default "\\/test\\/src\\/AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" ]
         | get-property caption | equals attribute0 | verify-true
-    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" 
+    get-item [get-by-os
+    -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" 
+    -default "\\/test\\/src\\/AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0" ]
         | get-property childCount | equals 1 | verify-true
-    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0/Attribute type in model \\(String\\) is different on diagram: int" 
+    get-item [get-by-os
+    -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0/Attribute type in model \\(String\\) is different on diagram: int" 
+    -default "\\/test\\/src\\/AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute0/Attribute type in model \\(String\\) is different on diagram: int" ]
         | get-property caption | equals "Attribute type in model (String) is different on diagram: int" | verify-true
-    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute1" 
+    get-item [get-by-os
+    -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute1" 
+    -default "\\/test\\/src\\/AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute1" ]
         | get-property caption | equals attribute1 | verify-true
-    get-item "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" 
+    get-item [get-by-os
+    -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" 
+    -default "\\/test\\/src\\/AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" ]
         | get-property caption | equals attribute2 | verify-true
 }
 exec-with-options -allowStatusDialog -command {
