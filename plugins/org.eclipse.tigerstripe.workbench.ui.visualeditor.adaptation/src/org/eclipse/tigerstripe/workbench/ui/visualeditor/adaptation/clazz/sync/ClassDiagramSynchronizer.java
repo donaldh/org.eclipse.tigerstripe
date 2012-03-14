@@ -36,9 +36,13 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramSynchronizationManager;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.ETAdapterFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.MapETAdapter;
@@ -98,9 +102,8 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 
 	public void startSynchronizing() {
 		try {
-			// Since bug 936 this is no needed anymore
-			// doInitialRefresh();
-
+			doInitialRefresh();
+			
 			// Register for changes in the Diagrams
 			registerModelAdapters();
 			startListeningToArtifactMgr();
@@ -331,14 +334,17 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		if (!isEnabled()) {
 			return;
 		}
+		handleArtifactRemoved(artifact.getFullyQualifiedName());
+	}
 
+	private void handleArtifactRemoved(String fqn) {
 		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
 		final Map map = (Map) editor.getDiagram().getElement();
 
 		try {
 			ClassDiagramSynchronizerUtils.handleQualifiedNamedElementRemoved(
-					map, artifact.getFullyQualifiedName(), editingDomain,
+					map, fqn, editingDomain,
 					diagramEditDomain);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -380,84 +386,84 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	 * 
 	 */
 	protected void initialRefresh(IProgressMonitor monitor) {
-		//
-		// Map map = (Map) editor.getDiagram().getElement();
-		//
-		// monitor.beginTask("Refreshing artifacts in Diagram",
-		// map.getArtifacts()
-		// .size());
-		// List<String> forDeletion = new ArrayList<String>();
-		// for (AbstractArtifact eArtifact : (List<AbstractArtifact>) map
-		// .getArtifacts()) {
-		// String fqn = eArtifact.getFullyQualifiedName();
-		// try {
-		// IArtifactManagerSession session = getTSProject()
-		// .getArtifactManagerSession();
-		// IAbstractArtifact iArtifact = session
-		// .getArtifactByFullyQualifiedName(fqn);
-		// if (iArtifact == null) {
-		// forDeletion.add(fqn);
-		// } else {
-		// updateEArtifact(eArtifact, iArtifact);
-		// }
-		// } catch (TigerstripeException e) {
-		// EclipsePlugin.log(e);
-		// }
-		// monitor.worked(1);
-		// }
-		// monitor.done();
-		//
-		// monitor.beginTask("Refreshing Associations in Diagram", map
-		// .getAssociations().size());
-		// for (Association eAssoc : (List<Association>) map.getAssociations())
-		// {
-		// String fqn = eAssoc.getFullyQualifiedName();
-		// try {
-		// IArtifactManagerSession session = getTSProject()
-		// .getArtifactManagerSession();
-		// IAbstractArtifact iArtifact = session
-		// .getArtifactByFullyQualifiedName(fqn);
-		// if (iArtifact == null) {
-		// forDeletion.add(fqn);
-		// } else {
-		// updateEArtifact(eAssoc, iArtifact);
-		// }
-		// } catch (TigerstripeException e) {
-		// EclipsePlugin.log(e);
-		// }
-		// monitor.worked(1);
-		// }
-		// monitor.done();
-		//
-		// monitor.beginTask("Refreshing Associations in Diagram", map
-		// .getDependencies().size());
-		// for (Dependency eDep : (List<Dependency>) map.getDependencies()) {
-		// String fqn = eDep.getFullyQualifiedName();
-		// try {
-		// IArtifactManagerSession session = getTSProject()
-		// .getArtifactManagerSession();
-		// IAbstractArtifact iArtifact = session
-		// .getArtifactByFullyQualifiedName(fqn);
-		// if (iArtifact == null) {
-		// forDeletion.add(fqn);
-		// } else {
-		// updateEArtifact(eDep, iArtifact);
-		// }
-		// } catch (TigerstripeException e) {
-		// EclipsePlugin.log(e);
-		// }
-		// monitor.worked(1);
-		// }
-		// monitor.done();
-		//
-		// // Process the list of FQNs marked for deletion
-		// monitor.beginTask("Removing deleted artifacts from Diagram",
-		// forDeletion.size());
-		// for (String fqn : forDeletion) {
-		// internalHandleArtifactRemoved(fqn);
-		// monitor.worked(1);
-		// }
-		// monitor.done();
+
+		Map map = (Map) editor.getDiagram().getElement();
+
+		monitor.beginTask("Refreshing artifacts in Diagram", map.getArtifacts()
+				.size());
+		List<String> forDeletion = new ArrayList<String>();
+		for (Object obj : map.getArtifacts()) {
+			AbstractArtifact eArtifact = (AbstractArtifact) obj;
+			String fqn = eArtifact.getFullyQualifiedName();
+			try {
+				IArtifactManagerSession session = getTSProject()
+						.getArtifactManagerSession();
+				IAbstractArtifact iArtifact = session
+						.getArtifactByFullyQualifiedName(fqn);
+				if (iArtifact == null) {
+					forDeletion.add(fqn);
+				} else {
+					handleArtifactChanged(iArtifact);
+				}
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
+		monitor.done();
+
+		monitor.beginTask("Refreshing Associations in Diagram", map
+				.getAssociations().size());
+		for (Object obj : map.getAssociations()) {
+			Association eAssoc = (Association) obj;
+			String fqn = eAssoc.getFullyQualifiedName();
+			try {
+				IArtifactManagerSession session = getTSProject()
+						.getArtifactManagerSession();
+				IAbstractArtifact iArtifact = session
+						.getArtifactByFullyQualifiedName(fqn);
+				if (iArtifact == null) {
+					forDeletion.add(fqn);
+				} else {
+					handleArtifactChanged(iArtifact);
+				}
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
+		monitor.done();
+
+		monitor.beginTask("Refreshing Associations in Diagram", map
+				.getDependencies().size());
+		for (Object obj : map.getDependencies()) {
+			Dependency eDep = (Dependency) obj;
+			String fqn = eDep.getFullyQualifiedName();
+			try {
+				IArtifactManagerSession session = getTSProject()
+						.getArtifactManagerSession();
+				IAbstractArtifact iArtifact = session
+						.getArtifactByFullyQualifiedName(fqn);
+				if (iArtifact == null) {
+					forDeletion.add(fqn);
+				} else {
+					handleArtifactChanged(iArtifact);
+				}
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
+		monitor.done();
+
+		// Process the list of FQNs marked for deletion
+		monitor.beginTask("Removing deleted artifacts from Diagram",
+				forDeletion.size());
+		for (String fqn : forDeletion) {
+			handleArtifactRemoved(fqn);
+			monitor.worked(1);
+		}
+		monitor.done();
 	}
 
 	private static Display getDisplay() {
