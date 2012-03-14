@@ -105,7 +105,7 @@ public abstract class TigerstripeProjectHandle extends
 		return manager;
 	}
 
-	public IArtifactManagerSession getArtifactManagerSession()
+	public synchronized IArtifactManagerSession getArtifactManagerSession()
 			throws TigerstripeException {
 		if (artifactMgrSession == null) {
 			if (manager == null) {
