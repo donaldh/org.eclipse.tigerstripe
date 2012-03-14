@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/12/12 9:54 AM
+Save-Time: 3/14/12 10:45 AM
 Id: _ZXraoE48EeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -29,7 +29,9 @@ get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
 get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
-    | get-item "\\test\\src\\IsOrderedDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isOrdered\' doesn\'t match on AEnd \\(entity1\\)." 
+    | get-item [get-by-os
+    -win "\\test\\src\\IsOrderedDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isOrdered\' doesn\'t match on AEnd \\(entity1\\)." 
+    -default "\\/test\\/src\\/IsOrderedDoesntMatchOnAEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isOrdered\' doesn\'t match on AEnd \\(entity1\\)." ]
     | get-property caption | equals "\'isOrdered\' doesn\'t match on AEnd (entity1)." | verify-true
 exec-with-options -allowStatusDialog -command {
     get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click

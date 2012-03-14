@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/12/12 9:37 AM
+Save-Time: 3/14/12 11:10 AM
 Id: _YX3jMFO9EeG247vEuTUvqw
 Testcase-Type: ecl
 
@@ -28,17 +28,29 @@ get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
 with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
-    get-item "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods" 
+    get-item [get-by-os
+    -win "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods" 
+    -default "\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods" ]
         | get-property childCount | equals 3 | verify-true
-    get-item "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0" 
+    get-item [get-by-os
+    -win "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0" 
+    -default "\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0" ]
         | get-property caption | equals method0 | verify-true
-    get-item "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0" 
+    get-item [get-by-os
+    -win "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0" 
+    -default "\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0" ]
         | get-property childCount | equals 1 | verify-true
-    get-item "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0/Return type in Diagram \\(int\\) doesn\'t match model: void" 
+    get-item [get-by-os
+    -win "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0/Return type in Diagram \\(int\\) doesn\'t match model: void" 
+    -default "\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method0/Return type in Diagram \\(int\\) doesn\'t match model: void" ]
         | get-property caption | equals "Return type in Diagram (int) doesn\'t match model: void" | verify-true
-    get-item "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method1" 
+    get-item [get-by-os
+    -win "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method1" 
+    -default "\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method1" ]
         | get-property caption | equals method1 | verify-true
-    get-item "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method2" 
+    get-item [get-by-os
+    -win "\\test\\src\\MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method2" 
+    -default "\\/test\\/src\\/MethodReturnTypeDoesntMattch.wvd/Artifacts/com.mycompany.Entity55/Methods/method2" ]
         | get-property caption | equals method2 | verify-true
 }
 exec-with-options -allowStatusDialog -command {

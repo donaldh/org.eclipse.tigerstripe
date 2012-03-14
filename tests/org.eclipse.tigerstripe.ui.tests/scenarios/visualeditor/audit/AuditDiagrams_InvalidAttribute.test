@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/12/12 9:48 AM
+Save-Time: 3/14/12 10:36 AM
 Id: _5Bg_EE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -29,17 +29,29 @@ get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
 with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
-    get-item "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes" | get-property caption 
-        | equals Attributes | verify-true
-    get-item "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes" | get-property childCount 
-        | equals 4 | verify-true
-    get-item "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name" 
+    get-item [get-by-os
+    -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes"  
+    -default "\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes" ]
+       | get-property caption | equals Attributes | verify-true
+    get-item [get-by-os
+    -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
+    -default "\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes" ]
+       | get-property childCount | equals 4 | verify-true
+    get-item [get-by-os
+    -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name" 
+    -default "\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Invalid attribute: no name" ]
         | get-property caption | equals "Invalid attribute: no name" | verify-true
-    get-item "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute1" 
+    get-item [get-by-os
+    -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute1" 
+    -default "\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute1" ]
         | get-property caption | equals attribute1 | verify-true
-    get-item "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" 
+    get-item [get-by-os
+    -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" 
+    -default "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" ]
         | get-property caption | equals attribute2 | verify-true
-    get-item "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" 
+    get-item [get-by-os
+    -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" 
+    -default "\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" ]
         | get-property caption | equals "Attributes are missing in the diagram: attribute0" | verify-true
 }
 exec-with-options -allowStatusDialog -command {

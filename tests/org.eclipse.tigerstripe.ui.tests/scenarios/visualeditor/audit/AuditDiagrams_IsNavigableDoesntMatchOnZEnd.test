@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/12/12 9:36 AM
+Save-Time: 3/14/12 10:43 AM
 Id: _mRY_YE45EeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -28,7 +28,9 @@ get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
 get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
-    | get-item "\\test\\src\\IsNavigableDoesntMatchOnZEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isNavigable\' doesn\'t match on ZEnd \\(entity2\\)." 
+    | get-item [get-by-os
+    -win "\\test\\src\\IsNavigableDoesntMatchOnZEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isNavigable\' doesn\'t match on ZEnd \\(entity2\\)." 
+    -default "\\/test\\/src\\/IsNavigableDoesntMatchOnZEnd.wvd/Association\\(s\\)/com.mycompany.AssociationClass/\'isNavigable\' doesn\'t match on ZEnd \\(entity2\\)." ]
     | get-property caption | equals "\'isNavigable\' doesn\'t match on ZEnd (entity2)." | verify-true
 exec-with-options -allowStatusDialog -command {
     get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click

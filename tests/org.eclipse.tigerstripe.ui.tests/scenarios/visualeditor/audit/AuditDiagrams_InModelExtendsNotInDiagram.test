@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/12/12 9:34 AM
+Save-Time: 3/14/12 10:24 AM
 Id: _ocUHYE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -28,12 +28,13 @@ get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
 get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
-    | get-item "\\test\\src\\InModelExtendsNotInDiagram.wvd/Artifacts/com.mycompany.Entity4/ In model extends com.mycompany.Entity1 but not in diagram \\(null\\)." 
+    | get-item [get-by-os
+    -win "\\test\\src\\InModelExtendsNotInDiagram.wvd/Artifacts/com.mycompany.Entity4/ In model extends com.mycompany.Entity1 but not in diagram \\(null\\)." 
+    -default "\\/test\\/src\\/InModelExtendsNotInDiagram.wvd/Artifacts/com.mycompany.Entity4/ In model extends com.mycompany.Entity1 but not in diagram \\(null\\)." ]
     | get-property caption | equals "In model extends com.mycompany.Entity1 but not in diagram (null)." | verify-true
 exec-with-options -allowStatusDialog -command {
     get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click
 }
-//get-view "Error Log" | get-tree | select "Diagram audit result \\(test: 18\\/22 diagrams have errors\\)"
 
 with [get-view "Error Log" | get-tree]{ 
     get-item [get-by-os

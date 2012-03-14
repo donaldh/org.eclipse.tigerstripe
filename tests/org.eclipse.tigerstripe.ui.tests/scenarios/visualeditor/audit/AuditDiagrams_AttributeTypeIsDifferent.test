@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/13/12 6:28 PM
+Save-Time: 3/14/12 10:00 AM
 Id: _JyywYFFxEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -27,8 +27,6 @@ Content-Type: text/ecl
 get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
-get-window "Diagrams Audit" | get-window "Audit Result" | get-tree 
-    | select "\\test\\src\\InvalidAttribute.wvd/Artifacts"
 with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
     get-item [get-by-os
     -win "\\test\\src\\AttributeTypeIsDifferent.wvd/Artifacts/com.mycompany.Entity55/Attributes" 
