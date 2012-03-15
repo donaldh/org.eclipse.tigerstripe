@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/325174_ConvertDatatypeToEnt
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_llELsKLhEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 3/11/12 1:47 PM
+Save-Time: 3/15/12 3:57 PM
 Id: _VzUC0KLkEeCnVOKduz-xbg
 Testcase-Type: ecl
 
@@ -47,12 +47,21 @@ with [get-window "Super Datatype"] {
     get-button OK | click
 }
 get-button "Save \(.*\)" | click
+verify-error {
+	get-window "Update conflict" | get-button Yes | click
+	get-window "foo"
+}
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click -nowait
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
     get-property childrenCount | equals 2 | verify-true
     get-edit-part -name Datatype2 | get-figure 0 | get-property className 
         | equals "org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactEditPart$DatatypeArtifactFigure" 
         | verify-true
+}
+get-editor "ClassDiagram.wvd" | get-diagram | key-type "M1+s"
+verify-error {
+	get-window "Update conflict" | get-button Yes | click
+	get-window "foo"
 }
 with [get-editor "ClassDiagram.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Datatype | get-edit-part 
