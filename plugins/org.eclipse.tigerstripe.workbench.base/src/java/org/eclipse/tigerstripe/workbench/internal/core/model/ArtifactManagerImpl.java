@@ -1821,6 +1821,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			// are updated properly
 			if (oldArtifact != null && oldArtifact != iartifact) {
 				oldArtifact.updateExtendingArtifacts(artifact);
+				oldArtifact.updateMembers(artifact);
 				oldArtifact.removePackageContainment();
 				oldArtifact.dispose();
 			}

@@ -22,6 +22,8 @@ public interface IAbstractArtifactInternal extends IAbstractArtifact,
 	public void removeReferences();
 
 	public void updateExtendingArtifacts(IAbstractArtifact newArtifact);
+	
+	public void updateMembers(IAbstractArtifact newArtifact);
 
 	public void addToExtending(IAbstractArtifact artifact);
 

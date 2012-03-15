@@ -1366,6 +1366,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// above will
 		// remove from our list.
 	}
+	
+	public void updateMembers(IAbstractArtifact newArtifact) {
+		for (IModelComponent c : getContainedModelComponents()) {
+			if (c instanceof IMember) {
+				((IMember) c).setContainingArtifact(newArtifact);
+			}
+		}
+	}
 
 	public void setExtendedArtifact(IAbstractArtifact artifact) {
 		// Since 2.2-beta we realized that the extended artifact wasn't
