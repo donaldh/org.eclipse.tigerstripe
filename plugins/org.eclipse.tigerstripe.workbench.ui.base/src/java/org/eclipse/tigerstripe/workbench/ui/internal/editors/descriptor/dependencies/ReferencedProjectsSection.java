@@ -27,10 +27,12 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -483,6 +485,11 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		deselectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		viewer = new CheckboxTableViewer(t);
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				refresh();
+			}
+		});
 		viewer.setContentProvider(new ReferencedProjectsContentProvider());
 		final ITableLabelProvider labelProvider = new ReferencedProjectsLabelProvider();
 		viewer.setLabelProvider(labelProvider);
