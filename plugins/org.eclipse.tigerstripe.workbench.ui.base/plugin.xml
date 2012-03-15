@@ -1905,4 +1905,10 @@
 		  schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
 		  contextId="org.eclipse.ui.contexts.window"/>
   </extension>
+  <extension
+        point="org.eclipse.tigerstripe.workbench.base.runtimeLoggers">
+     <appender
+           class="org.eclipse.tigerstripe.workbench.ui.internal.UILogAppender">
+     </appender>
+  </extension>
 </plugin>

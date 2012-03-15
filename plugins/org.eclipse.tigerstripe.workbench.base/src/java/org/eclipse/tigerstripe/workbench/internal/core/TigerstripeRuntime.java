@@ -24,6 +24,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -281,10 +282,28 @@ public class TigerstripeRuntime {
 		logMessage(Level.WARN, message, t);
 	}
 
-	public static void logMessage(Level level, String message, Throwable t) {
+	static LoggerAppender loggerAppender = new ContributedLogAppender();
+
+	public static void logMessageSilently(Level level, String message, Throwable t) {
 		tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
 	}
+	
+	public static void logMessage(Level level, String message, Throwable t) {
+		tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
+		loggerAppender.log(toEclipseLevel(level), message, t);
+	}
 
+	public static int toEclipseLevel(Level level) {
+		switch (level.toInt()) {
+		case Level.WARN_INT:
+			return Status.WARNING;
+		case Level.ERROR_INT:
+			return Status.ERROR;
+		default:
+			return Status.INFO;
+		}
+	}
+	
 	public static TigerstripeRuntime getInstance() {
 		if (instance == null) {
 			instance = new TigerstripeRuntime();

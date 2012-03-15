@@ -158,7 +158,7 @@ public class BasePlugin extends Plugin implements BundleListener {
 
 	public static void internalLogMessage(Level level, String message,
 			Throwable t) {
-		TigerstripeRuntime.logMessage(level, message, t);
+		TigerstripeRuntime.logMessageSilently(level, message, t);
 	}
 
 	// duplicates of logXXXMessage methods from TigerstripRuntime class
