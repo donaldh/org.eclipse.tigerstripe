@@ -1,0 +1,173 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: IgnoreSelectedFacetsForGenerationSettings
+Tags: Descriptor/AdvancedSettings
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _mfx9IEG2EeGhZJbTp_-43w
+Save-Time: 3/14/12 6:50 PM
+Id: _FKQVUW3IEeGuX5oTYq0R1A
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+
+1. Open tigerstripe.xml
+2. Switch to Advanced Settings tab and make sure that "Ignore selected Facets for generation" check-box is disabled
+3. Switch to Facets tab and add facet
+4. Switch to Advanced Settings tab
+5. Make sure that "Ignore selected Facets for generation" check-box is enabled
+6. Set check-box and save this change
+7. Deploy generator
+8. Select project in Tigerstripe Explorer and press "Generate..." in context menu
+9. Make sure that "Ignore facets" is checked and radiobuttons in this group are disabled
+10. Press "Finish" button
+11. Make sure that "target" folder is created and all artifacts are added in folder
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+get-editor "model-refactoring/tigerstripe.xml" | get-tab-folder | get-tab-item "Advanced Settings" | click
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section Generation 
+    | get-button "Ignore selected Facets for generation"] {
+    get-property enablement | equals false | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Facets | click
+    get-section -after [get-label "Facets References"] -index 1 | get-section "Facet References" | get-button Add 
+        | click
+}
+with [get-window "Select Facets"] {
+    get-tree | select "default.wfc"
+    get-button OK | click
+}
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-section -after [get-label "Facets References"] -index 1 | get-section "Facet References" | get-button Add 
+        | key-type "M1+s"
+    get-tab-folder | get-tab-item "Advanced Settings" | click
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section Generation 
+    | get-button "Ignore selected Facets for generation"] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section Generation 
+    | get-button "Ignore selected Facets for generation"] {
+    click
+    key-type "M1+s"
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project" | get-group Facets] {
+    with [get-button "Ignore facets"] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals "Ignore facets" | verify-true
+        get-property selected | equals true | verify-true
+    }
+    with [get-button "Use \'per plugin\' facets."] {
+        get-property enablement | equals false | verify-true
+        get-property selected | equals false | verify-true
+    }
+    with [get-button "Use project facets."] {
+        get-property enablement | equals false | verify-true
+        get-property selected | equals false | verify-true
+    }
+    with [get-button "Use current facet only"] {
+        get-property enablement | equals false | verify-true
+        get-property selected | equals false | verify-true
+    }
+}
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring" | get-property childCount | equals 6 | verify-true
+    get-item "model-refactoring/target" | get-property childCount | equals 1 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen" | get-property caption | equals "tigerstripe.gen" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen" | get-property childCount | equals 23 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/logs" | get-property caption | equals logs | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/allArtifacts.txt" | get-property caption 
+        | equals "allArtifacts.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/AssociatedEnt.txt" | get-property caption 
+        | equals "AssociatedEnt.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Association0.txt" | get-property caption 
+        | equals "Association0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Association1.txt" | get-property caption 
+        | equals "Association1.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Association2.txt" | get-property caption 
+        | equals "Association2.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/AssociationClass0.txt" | get-property caption 
+        | equals "AssociationClass0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/DataBottom.txt" | get-property caption | equals "DataBottom.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/DataMiddle.txt" | get-property caption | equals "DataMiddle.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/DataTop.txt" | get-property caption | equals "DataTop.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Dependency0.txt" | get-property caption 
+        | equals "Dependency0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Ent1.txt" | get-property caption | equals "Ent1.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Ent2.txt" | get-property caption | equals "Ent2.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Enumeration0.txt" | get-property caption 
+        | equals "Enumeration0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Event0.txt" | get-property caption | equals "Event0.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Exception0.txt" | get-property caption | equals "Exception0.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/moved.txt" | get-property caption | equals "moved.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/movedOther.txt" | get-property caption | equals "movedOther.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Query0.txt" | get-property caption | equals "Query0.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/SessionFacade0.txt" | get-property caption 
+        | equals "SessionFacade0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/simple.txt" | get-property caption | equals "simple.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/SuperEnt.txt" | get-property caption | equals "SuperEnt.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/Update0.txt" | get-property caption | equals "Update0.txt" 
+        | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/target/tigerstripe.gen/allArtifacts.txt" 
+    | double-click
+get-editor "allArtifacts.txt" | get-editbox | get-property text | equals "ARTIFACTS=21\n"
+    + "ENTITIES=4\n"
+    + "DATATYPES=3\n\n"
+    + "\tAssociationClass0\n"
+    + "\tSessionFacade0\n"
+    + "\tEnt1\n"
+    + "\tException0\n"
+    + "\tEnt2\n"
+    + "\tDataBottom\n"
+    + "\tsimple\n"
+    + "\tQuery0\n"
+    + "\tAssociatedEnt\n"
+    + "\tAssociation1\n"
+    + "\tAssociation2\n"
+    + "\tAssociation0\n"
+    + "\tDataTop\n"
+    + "\tEnumeration0\n"
+    + "\tUpdate0\n"
+    + "\tmoved\n"
+    + "\tmovedOther\n"
+    + "\tEvent0\n"
+    + "\tSuperEnt\n"
+    + "\tDataMiddle\n"
+    + "\tDependency0" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
