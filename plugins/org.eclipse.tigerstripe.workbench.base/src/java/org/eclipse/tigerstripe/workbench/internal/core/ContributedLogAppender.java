@@ -13,18 +13,19 @@ public class ContributedLogAppender implements LoggerAppender {
 	private final List<LoggerAppender> delegats;
 
 	private static List<LoggerAppender> fetch() {
-		final IConfigurationElement[] elements = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						"org.eclipse.tigerstripe.workbench.base.runtimeLoggers");
-		final List<LoggerAppender> appenders = new ArrayList<LoggerAppender>();
-		for (final IConfigurationElement e : elements) {
-			SafeRunner.run(new SafeRunnable() {
-				public void run() throws Exception {
-						appenders.add((LoggerAppender) e.createExecutableExtension("class"));
-				}
-			});
-		}
-		return appenders;
+//		final IConfigurationElement[] elements = Platform
+//				.getExtensionRegistry().getConfigurationElementsFor(
+//						"org.eclipse.tigerstripe.workbench.base.runtimeLoggers");
+//		final List<LoggerAppender> appenders = new ArrayList<LoggerAppender>();
+//		for (final IConfigurationElement e : elements) {
+//			SafeRunner.run(new SafeRunnable() {
+//				public void run() throws Exception {
+//						appenders.add((LoggerAppender) e.createExecutableExtension("class"));
+//				}
+//			});
+//		}
+//		return appenders;
+		return null;
 	}
 	
 	public ContributedLogAppender() {
@@ -32,8 +33,8 @@ public class ContributedLogAppender implements LoggerAppender {
 	}
 	
 	public void log(int level, String message, Throwable t) {
-		for (LoggerAppender loggerAppender : delegats) {
-			loggerAppender.log(level, message, t);
-		}
+//		for (LoggerAppender loggerAppender : delegats) {
+//			loggerAppender.log(level, message, t);
+//		}
 	}
 }
