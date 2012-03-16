@@ -282,7 +282,9 @@ public class TigerstripeRuntime {
 		logMessage(Level.WARN, message, t);
 	}
 
-	static LoggerAppender loggerAppender = new ContributedLogAppender();
+	static class AppenderHolder {
+		static LoggerAppender loggerAppender = new ContributedLogAppender();	
+	}
 
 	public static void logMessageSilently(Level level, String message, Throwable t) {
 		tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
@@ -290,7 +292,7 @@ public class TigerstripeRuntime {
 	
 	public static void logMessage(Level level, String message, Throwable t) {
 		tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
-		loggerAppender.log(toEclipseLevel(level), message, t);
+		AppenderHolder.loggerAppender.log(toEclipseLevel(level), message, t);
 	}
 
 	public static int toEclipseLevel(Level level) {
