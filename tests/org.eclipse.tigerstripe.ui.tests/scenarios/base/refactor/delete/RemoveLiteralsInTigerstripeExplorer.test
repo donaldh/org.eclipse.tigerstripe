@@ -7,7 +7,7 @@ External-Reference: http://bugs.xored.com/browse/XMP-1052
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ,_8I2UAC-yEeGcHog4af2eaw
-Save-Time: 3/13/12 1:22 PM
+Save-Time: 3/19/12 10:08 AM
 Id: _Tg4egGzJEeGJmqgMsBMbTw
 Testcase-Type: ecl
 
@@ -52,5 +52,33 @@ get-window "Delete..." | get-label "Do you really want to delete this element?" 
     | equals "Do you really want to delete this element?" | verify-true
 get-window "Delete..." | get-button Yes | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity" | get-property childCount 
-    | equals 14 | verify-true
+    | equals 13 | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project/src/com.mycompany/Entity/attribute0:String" | get-property caption | equals "attribute0:String" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/attribute1:String" | get-property caption | equals "attribute1:String" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/attribute2:String" | get-property caption | equals "attribute2:String" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/attribute3:String" | get-property caption | equals "attribute3:String" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/attribute4:String" | get-property caption | equals "attribute4:String" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/literal2=\"2\"" | get-property caption | equals "literal2=\"2\"" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/literal3=\"3\"" | get-property caption | equals "literal3=\"3\"" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/literal4=\"4\"" | get-property caption | equals "literal4=\"4\"" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method0\\(\\):void" | get-property caption | equals "method0():void" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method1\\(\\):void" | get-property caption | equals "method1():void" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method2\\(\\):void" | get-property caption | equals "method2():void" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method3\\(\\):void" | get-property caption | equals "method3():void" 
+        | verify-true
+    get-item "Project/src/com.mycompany/Entity/method4\\(\\):void" | get-property caption | equals "method4():void" 
+        | verify-true
+}
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
