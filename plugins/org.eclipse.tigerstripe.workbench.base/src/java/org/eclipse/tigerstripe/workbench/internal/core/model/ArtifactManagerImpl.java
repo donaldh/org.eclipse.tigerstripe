@@ -33,6 +33,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFileState;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -1765,15 +1766,10 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		IAbstractArtifactInternal artifact = null;
 		try {
 			writeLock.lock();
-			// Is there already an entry here for this artifact? If so, we
-			// need
-			// to replace all the occurences in the caches.
-			// Bug #690: make sure we look in the back store.
-			oldArtifact = (IAbstractArtifactInternal) namedArtifactsMap
-					.getBackingMap()
-					.get(iartifact.getFullyQualifiedName());
 
 			artifact = (IAbstractArtifactInternal) iartifact;
+			
+			oldArtifact = getOldArtifact(iartifact, monitor);
 
 			if (artifact.getArtifactManager() != this) {
 				artifact.setArtifactManager(this);
@@ -1837,6 +1833,41 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			else {
 				notifyArtifactChanged(artifact, oldArtifact);
 			}
+	}
+
+	private IAbstractArtifactInternal getOldArtifact(
+			IAbstractArtifact artifact, IProgressMonitor monitor) {
+		
+		// Is there already an entry here for this artifact? If so, we
+		// need
+		// to replace all the occurences in the caches.
+		// Bug #690: make sure we look in the back store.
+		IAbstractArtifactInternal oldArtifact = (IAbstractArtifactInternal) namedArtifactsMap
+				.getBackingMap().get(artifact.getFullyQualifiedName());
+
+		if (oldArtifact != null) {
+			// Bug #300041: if such an artifact has already been in manager, we
+			// need to retrieve the previous version from file history
+			IResource resource = (IResource) oldArtifact
+					.getAdapter(IResource.class);
+			if (resource instanceof IFile) {
+				try {
+					IFileState[] history = ((IFile) resource)
+							.getHistory(monitor);
+					if (history.length > 0) {
+						IFileState lastState = history[0];
+						Reader reader = new InputStreamReader(
+								lastState.getContents());
+						oldArtifact = extractArtifact(reader, monitor);
+					}
+				} catch (Exception e) {
+					BasePlugin.logErrorMessage(
+							"Failed to retrieve previous version of artifact "
+									+ artifact.getFullyQualifiedName(), e);
+				}
+			}
+		}
+		return oldArtifact;
 	}
 
 	private void addToFilenameMap(IAbstractArtifact artifact)
