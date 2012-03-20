@@ -381,22 +381,27 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 	private void enableAllDependencies(boolean markAsDirty) {
 		
-		viewer.setAllChecked(true);
+		boolean stateChanged  = false;
 		
 		// Walk through all dependencies and enable them.
 		int numOfDependencies = viewer.getTable().getItemCount();
 		for (int i=0; i < numOfDependencies; i++) { 
-			Object element = viewer.getElementAt(i);
-			if (element instanceof ModelReference) {
-				ModelReference reference = (ModelReference)element;
-				reference.setEnabled(true);							
-			} else if (element instanceof IDependency) {
-				IDependency dependency = (IDependency)element;
-				dependency.setEnabled(true);
+			TableItem item = viewer.getTable().getItem(i);
+			if (!item.getChecked()) {
+				stateChanged = true;
+				item.setChecked(true);
+				Object element = viewer.getElementAt(i);
+				if (element instanceof ModelReference) {
+					ModelReference reference = (ModelReference)element;
+					reference.setEnabled(true);							
+				} else if (element instanceof IDependency) {
+					IDependency dependency = (IDependency)element;
+					dependency.setEnabled(true);
+				}
 			}
 		}
 	
-		if (markAsDirty) {
+		if (stateChanged && markAsDirty) {
 			getActualTSProject().setDirty();
 			markPageModified();
 			Object input = viewer.getInput();
@@ -406,26 +411,34 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	}
 	
 	private void disableAllDependencies() {
-		viewer.setAllChecked(false);
+		
+		boolean stateChanged  = false;
 			
 		// Walk through all dependencies and enable them.
 		int numOfDependencies = viewer.getTable().getItemCount();
 		for (int i=0; i < numOfDependencies; i++) { 
-			Object element = viewer.getElementAt(i);
-			if (element instanceof ModelReference) {
-				ModelReference reference = (ModelReference)element;
-				reference.setEnabled(false);							
-			} else if (element instanceof IDependency) {
-				IDependency dependency = (IDependency)element;
-				dependency.setEnabled(false);
+			TableItem item = viewer.getTable().getItem(i);
+			if (item.getChecked()) {
+				stateChanged = true;
+				item.setChecked(false);
+				Object element = viewer.getElementAt(i);
+				if (element instanceof ModelReference) {
+					ModelReference reference = (ModelReference)element;
+					reference.setEnabled(false);							
+				} else if (element instanceof IDependency) {
+					IDependency dependency = (IDependency)element;
+					dependency.setEnabled(false);
+				}
 			}
 		}
 	
-		getActualTSProject().setDirty();
-		markPageModified();
-		Object input = viewer.getInput();
-		if (input instanceof TigerstripeProjectHandle) 
-			((TigerstripeProjectHandle)input).markCacheAsDirty();
+		if (stateChanged) {
+			getActualTSProject().setDirty();
+			markPageModified();
+			Object input = viewer.getInput();
+			if (input instanceof TigerstripeProjectHandle) 
+				((TigerstripeProjectHandle)input).markCacheAsDirty();
+		}
 	}
 	
 	private void createTable(Composite parent, FormToolkit toolkit) {
@@ -487,6 +500,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		viewer = new CheckboxTableViewer(t);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
+				updateDetails();
 				updateButtonsEnablement();
 			}
 		});
@@ -648,13 +662,17 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	public void refresh() {
 		updateViewerInput();
 		
-		masterDetails.switchTo(((IStructuredSelection) viewer.getSelection())
-				.getFirstElement());
+		updateDetails();
 		
 		if (!modifyRuntimeDependencies.getSelection()) 
 			enableAllDependencies(false);  // Don't mark the page as dirty after a refresh.
 		
 		updateButtonsEnablement();
+	}
+
+	private void updateDetails() {
+		masterDetails.switchTo(((IStructuredSelection) viewer.getSelection())
+				.getFirstElement());
 	}
 	
 	private void updateButtonsEnablement() {
