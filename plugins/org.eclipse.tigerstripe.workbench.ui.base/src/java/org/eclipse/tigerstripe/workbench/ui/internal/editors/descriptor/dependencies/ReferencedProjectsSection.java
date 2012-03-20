@@ -487,7 +487,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		viewer = new CheckboxTableViewer(t);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				refresh();
+				updateButtonsEnablement();
 			}
 		});
 		viewer.setContentProvider(new ReferencedProjectsContentProvider());
@@ -646,29 +646,24 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 	@Override
 	public void refresh() {
-		updateForm();
+		updateViewerInput();
+		
 		masterDetails.switchTo(((IStructuredSelection) viewer.getSelection())
 				.getFirstElement());
 		
 		if (!modifyRuntimeDependencies.getSelection()) 
 			enableAllDependencies(false);  // Don't mark the page as dirty after a refresh.
 		
+		updateButtonsEnablement();
 	}
-
-	protected void updateForm() {
-
-		updateViewerInput(); // Bugzilla 322566: Update the viewer's input when
-								// necessary.
-
+	
+	private void updateButtonsEnablement() {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
 		if (selectedItems != null && selectedItems.length > 0) {
 			removeButton.setEnabled(true);
 		} else {
 			removeButton.setEnabled(false);
 		}
-
-		viewer.refresh(true);
-		
 	}
 
 	// [nmehrega] Bugzilla 322566: Update the viewer's input if our working copy
