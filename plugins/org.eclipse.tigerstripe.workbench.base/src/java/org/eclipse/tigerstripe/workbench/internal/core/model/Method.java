@@ -1359,12 +1359,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		result = prime * result + ((methodId == null) ? 0 : methodId.hashCode());
 		result = prime * result
 				+ ((returnType == null) ? 0 : returnType.hashCode());
-		if (containingModelComponent != null) {
-			String parentName = containingModelComponent instanceof IAbstractArtifact ? ((IAbstractArtifact) containingModelComponent)
-					.getFullyQualifiedName() : containingModelComponent
-					.getName();
-			result = prime * result + parentName.hashCode();
-		}
+		result = prime
+		* result
+		+ ((containingModelComponent == null) ? 0
+				: containingModelComponent.hashCode());
 		return result;
 	}
 
@@ -1372,20 +1370,23 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
 		if (Proxy.isProxyClass(obj.getClass())) {
 			return obj.equals(this);
 		}
 		if (!(obj instanceof Method)) {
 			return false;
 		}
-		
 		Method other = (Method) obj;
 		if (!other.getMethodId().equals(getMethodId())) {
 			return false;
 		}
-		
+		if (containingModelComponent == null) {
+			if (other.containingModelComponent != null) {
+				return false;
+			}
+		} else if (!containingModelComponent
+				.equals(other.containingModelComponent))
+			return false;
 		if (returnType == null) {
 			if (other.returnType != null) {
 				return false;
@@ -1393,26 +1394,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		} else if (!returnType.equals(other.returnType)) {
 			return false;
 		}
-
-		if (containingModelComponent == null) {
-			if (other.containingModelComponent != null)
-				return false;
-		} else if (other.containingModelComponent == null)
-			return false;
-		else {
-			String parentName = containingModelComponent instanceof IAbstractArtifact ? ((IAbstractArtifact) containingModelComponent)
-					.getFullyQualifiedName() : containingModelComponent
-					.getName();
-			String otherParentName = other.containingModelComponent instanceof IAbstractArtifact ? ((IAbstractArtifact) other.containingModelComponent)
-					.getFullyQualifiedName() : other.containingModelComponent
-					.getName();
-			if (parentName == null) {
-				if (otherParentName != null)
-					return false;
-			} else if (!parentName.equals(otherParentName))
-				return false;
-		}
-		
 		return true;
 	}
 
