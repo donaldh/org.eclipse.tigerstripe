@@ -1,0 +1,90 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 373164_UncheckingDependanciesShouldBeEnabledIfModifyDependanciesIsChecked
+Tags: Project/Dependancy
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_fDaLcO5iEeCeLo_urxYMqg
+Save-Time: 3/20/12 4:29 PM
+Id: _uH09UHJuEeGQJIGe0OsrXw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create TS Project and go to Dependancies Tab;
+2. Add few dependancies and make sure that they are checked;
+3. Check "Modify Dependancies at generation time (advanced)" checkbox;
+3. Try to uncheck them and make sure that it is available.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    get-section Dependencies | get-button Add | click
+}
+get-window "Select Tigerstripe Project" | get-table | select Project2 | double-click
+with [get-editor "Project1/tigerstripe.xml" | get-section Dependencies] {
+    get-button Add | key-type "M1+s"
+    get-button "Modify dependencies at generation time (advanced)" | click
+    with [get-table] {
+        get-item "Project2 \\(0.0.0\\)" | uncheck
+        get-item "org.eclipse.tigerstripe.test.module \\(1.0.0\\)" | uncheck
+    }
+}
+with [get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table] {
+    get-item "Project2 \\(0.0.0\\)" | get-property checked | equals false | verify-true
+    get-item "org.eclipse.tigerstripe.test.module \\(1.0.0\\)" | get-property checked | equals false | verify-true
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-section Dependencies | get-table | key-type "M1+s"
+    close
+}
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "Project1/tigerstripe.xml" | double-click
+}
+get-editor "Project1/tigerstripe.xml" | get-tab-folder | get-tab-item Dependencies | click
+with [get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table] {
+    get-item "Project2 \\(0.0.0\\)" | get-property caption | equals "Project2 (0.0.0)" | verify-true
+    get-item "org.eclipse.tigerstripe.test.module \\(1.0.0\\)" | get-property caption 
+        | equals "org.eclipse.tigerstripe.test.module (1.0.0)" | verify-true
+    get-item "Project2 \\(0.0.0\\)" | get-property checked | equals false | verify-true
+}
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table 
+    | select "org.eclipse.tigerstripe.test.module \\(1.0.0\\)"
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table 
+    | get-item "org.eclipse.tigerstripe.test.module \\(1.0.0\\)" | get-property checked | equals false | verify-true
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies 
+    | get-button "Modify dependencies at generation time (advanced)" | get-property selected | equals true | verify-true
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-button Add | click
+with [get-window "Select Tigerstripe Project"] {
+    get-table | select "com.cisco.testModule \\(2.0.0\\)"
+    get-button OK | click
+}
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-button Add | key-type "M1+s"
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table 
+    | get-item "com.cisco.testModule \\(2.0.0\\)" | get-property checked | equals true | verify-true
+with [get-editor "Project1/tigerstripe.xml"] {
+    with [get-section Dependencies | get-table] {
+        get-item "com.cisco.testModule \\(2.0.0\\)" | uncheck
+        key-type "M1+s"
+    }
+    close
+}
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "Project1/tigerstripe.xml" | double-click
+}
+get-editor "Project1/tigerstripe.xml" | get-tab-folder | get-tab-item Dependencies | click
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table 
+    | get-item "com.cisco.testModule \\(2.0.0\\)" | get-property checked | equals false | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
