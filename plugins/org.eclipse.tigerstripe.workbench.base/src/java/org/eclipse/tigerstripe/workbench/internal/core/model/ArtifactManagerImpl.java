@@ -33,6 +33,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFileState;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -1835,8 +1836,35 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			if (oldArtifact == null)
 				notifyArtifactAdded(artifact);
 			else {
-				notifyArtifactChanged(artifact, oldArtifact);
+				// Bug #300041: we need to retrieve the previous version from file history
+				IAbstractArtifactInternal oldArtifactFromFileHistory = getOldArtifactFromFileHistory(iartifact, monitor);
+				if (oldArtifactFromFileHistory != null) {
+					notifyArtifactChanged(artifact, oldArtifactFromFileHistory);
+				} else {
+					notifyArtifactChanged(artifact, oldArtifact);
+				}
 			}
+	}
+
+	private IAbstractArtifactInternal getOldArtifactFromFileHistory(
+			IAbstractArtifact artifact, IProgressMonitor monitor) {
+		IResource resource = (IResource) artifact.getAdapter(IResource.class);
+		if (resource instanceof IFile) {
+			try {
+				IFileState[] history = ((IFile) resource).getHistory(monitor);
+				if (history.length > 0) {
+					IFileState lastState = history[0];
+					Reader reader = new InputStreamReader(
+							lastState.getContents());
+					return extractArtifact(reader, monitor);
+				}
+			} catch (Exception e) {
+				BasePlugin.logErrorMessage(
+						"Failed to retrieve previous version of artifact "
+								+ artifact.getFullyQualifiedName(), e);
+			}
+		}
+		return null;
 	}
 
 	private void addToFilenameMap(IAbstractArtifact artifact)
