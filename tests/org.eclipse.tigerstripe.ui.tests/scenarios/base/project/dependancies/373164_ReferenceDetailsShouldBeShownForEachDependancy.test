@@ -1,0 +1,62 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 373164_ReferenceDetailsShouldBeShownForEachDependancy
+Tags: Project/Dependancy
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_fDaLcO5iEeCeLo_urxYMqg
+Save-Time: 3/21/12 12:54 PM
+Id: _oSBw4HMZEeGQJIGe0OsrXw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create TS Project and go to Dependancies Tab;
+2. Add few dependancies;
+3. Switch between references and make sure that reference details are shown according to selected reference;
+4. Make sure that reference details are shown in dirty editor state.
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    get-section Dependencies | get-table | select "org.eclipse.tigerstripe.test.module \\(1.0.0\\)"
+}
+with [get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-section "Reference Details"] {
+    get-editbox -after [get-label "Module ID:"] | get-property className | equals "org.eclipse.swt.widgets.Text" 
+        | verify-true
+    get-editbox -after [get-label "Project Name:"] | get-property text | equals "org.eclipse.tigerstripe.test.module" 
+        | verify-true
+}
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-button Add | click
+with [get-window "Select Tigerstripe Project"] {
+    get-table | select Project2 "com.cisco.testModule \\(2.0.0\\)"
+    get-button OK | click
+}
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table | select "com.cisco.testModule \\(2.0.0\\)"
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-section "Reference Details" | get-editbox 
+    -after [get-label "Module ID:"] | get-property text | equals "com.cisco.testModule" | verify-true
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table | select "Project2 \\(0.0.0\\)"
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-section "Reference Details" | get-editbox 
+    -after [get-label "Module ID:"] | get-property text | equals Project2 | verify-true
+with [get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table] {
+    key-type "M1+s"
+    select "com.cisco.testModule \\(2.0.0\\)"
+}
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-section "Reference Details" | get-editbox 
+    -after [get-label "Module ID:"] | get-property text | equals "com.cisco.testModule" | verify-true
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-table 
+    | select "org.eclipse.tigerstripe.test.module \\(1.0.0\\)"
+get-editor "Project1/tigerstripe.xml" | get-section Dependencies | get-section "Reference Details" | get-editbox 
+    -after [get-label "Project Name:"] | get-property text | equals "org.eclipse.tigerstripe.test.module" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
