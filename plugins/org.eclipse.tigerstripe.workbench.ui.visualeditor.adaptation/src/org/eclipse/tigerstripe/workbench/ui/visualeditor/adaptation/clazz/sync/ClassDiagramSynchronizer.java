@@ -303,10 +303,7 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		if (!isEnabled()) {
 			return;
 		}
-		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
-		if (diffs.size()>0){
-		    handleArtifactChanged(artifact);
-		}
+		handleArtifactChanged(artifact);
 	}
 	
 	private void handleArtifactChanged(IAbstractArtifact artifact) {
