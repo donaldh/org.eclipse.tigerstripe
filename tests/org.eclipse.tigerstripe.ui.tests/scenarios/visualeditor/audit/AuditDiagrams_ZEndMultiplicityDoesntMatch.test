@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/14/12 11:11 AM
+Save-Time: 3/22/12 12:19 PM
 Id: _UIjWQE4vEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -24,7 +24,7 @@ TEST STEPS
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-view "Tigerstripe Explorer" | get-tree | select "test/src/ZEndMultiplicityDoesntMatch" | double-click
+//get-view "Tigerstripe Explorer" | get-tree | select "test/src/ZEndMultiplicityDoesntMatch" | double-click
 get-view "Error Log" | get-button "Delete Log" | click
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select test | get-menu "Diagrams/Audit all diagrams" | click
