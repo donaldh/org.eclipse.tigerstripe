@@ -1,0 +1,104 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 300041_EnumerationLiteralEditStereotypes
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
+Save-Time: 3/22/12 4:45 PM
+Id: _Odj38HQDEeGzfKsLsjcekw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open class digram;
+2. Double-click Enumeration and edit literal stereotypes in its editor;
+3. Save your changes;
+4. Make sure that stereotype is displayed both in TS Explorer and on a diagram;
+5. Right-click Datatype on a diagram and select "Edit Stereotypes" command;
+6. Edit stereotypes, save editor and make sure that TS Explorer and a diagram were updated. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default.wbp" | double-click
+get-editor "MyProject/default.wbp" | get-section "General Information" | get-link "Save as active profile and reload" 
+    | click
+get-window "Save as Active Profile" | get-button OK | click
+wait-until-eclipse-is-ready
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enum] {
+    mouse-move 78 20 button1 -height 59 -width 87
+    mouse-press 78 20 button1 -height 59 -width 87
+    mouse-release 78 20 button1 524288 -height 59 -width 87
+    mouse-press 78 20 button1 -height 59 -width 87
+    mouse-double-click 78 20 button1 -height 59 -width 87
+    get-edit-part -text "+literal0=0" | get-edit-part -name literal0 | mouse-release 73 0 button1 524288 -height 16 
+        -width 77
+}
+with [get-editor Enum | get-section Constants] {
+    get-section | get-table | select "literal0=0"
+    get-section -index 1 | get-button Add | click
+}
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype0
+    get-button Cancel | click
+}
+with [get-editor Enum | get-section Constants] {
+    get-section | get-table | select "literal0=0"
+    get-section -index 1 | get-button Add | click
+}
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype0
+    get-button OK | click
+}
+get-editor Enum | get-section Constants | get-section -index 1 | get-table | key-type "M1+s"
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Enum/<<aStereotype0>>literal0=0" 
+    | get-property caption | equals "<<aStereotype0>>literal0=0" | verify-true
+get-editor "default.wvd" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enum 
+    | get-edit-part -text "<<aStereotype0>> +literal0=0" | get-edit-part -name literal0 | get-property text 
+    | equals "<<aStereotype0>> +literal0=0" | verify-true
+with [get-editor Enum] {
+    click
+    get-section Constants | get-section -index 1 | get-button Add | click
+}
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype1
+    get-button OK | click
+}
+get-editor Enum | get-section Constants | get-section -index 1 | get-table | key-type "M1+s"
+get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "MyProject/src/com.mycompany/Enum/<<aStereotype0,aStereotype1>>literal0=0" | get-property caption 
+    | equals "<<aStereotype0,aStereotype1>>literal0=0" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enum 
+    | get-edit-part -text "<<aStereotype0, aStereotype1>> +literal0=0" | get-edit-part -name literal0 
+    | get-property text | equals "<<aStereotype0, aStereotype1>> +literal0=0" | verify-true
+with [get-editor Enum] {
+    click
+    with [get-section Constants | get-section -index 1] {
+        get-table | select aStereotype0
+        get-button Remove | click
+    }
+}
+get-window "Remove Stereotype" | get-button Yes | click
+with [get-editor Enum | get-section Constants | get-section -index 1] {
+    get-table | select aStereotype1
+    get-button Remove | click
+}
+get-window "Remove Stereotype" | get-button Yes | click
+get-editor Enum | get-section Constants | get-section -index 1 | get-button Add | key-type "M1+s"
+get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Enum/literal0=0" 
+    | get-property caption | equals "literal0=0" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enum 
+    | get-edit-part -text "+literal0=0" | get-edit-part -name literal0 | get-property text | equals "+literal0=0" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

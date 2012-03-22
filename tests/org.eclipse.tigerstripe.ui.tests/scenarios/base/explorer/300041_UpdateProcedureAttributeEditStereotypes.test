@@ -1,0 +1,117 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 300041_UpdateProcedureAttributeEditStereotypes
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
+Save-Time: 3/22/12 5:21 PM
+Id: _fraRwHQIEeGzfKsLsjcekw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open class digram;
+2. Double-click Update Procedure and edit attribute stereotypes in its editor;
+3. Save your changes;
+4. Make sure that stereotype is displayed both in TS Explorer and on a diagram;
+5. Right-click Datatype on a diagram and select "Edit Stereotypes" command;
+6. Edit stereotypes, save editor and make sure that TS Explorer and a diagram were updated. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default.wbp" | double-click
+get-editor "MyProject/default.wbp" | get-section "General Information" | get-link "Save as active profile and reload" 
+    | click
+get-window "Save as Active Profile" | get-button OK | click
+wait-until-eclipse-is-ready
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd] {
+    with [get-edit-part -text Upd] {
+        mouse-move 90 9 button1 -height 16 -width 122
+        mouse-press 90 9 button1 -height 16 -width 122
+        mouse-release 90 9 button1 524288 -height 16 -width 122
+        mouse-press 90 9 button1 -height 16 -width 122
+        mouse-double-click 90 9 button1 -height 16 -width 122
+    }
+    get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 | mouse-release 85 8 button1 524288 
+        -height 16 -width 112
+}
+with [get-editor Upd | get-section Attributes] {
+    get-section | get-table | select attribute0
+    get-section -index 1 | get-button Add | click
+}
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype0
+    get-button OK | click
+}
+get-editor Upd | get-section Attributes | get-section -index 1 | get-table | key-type "M1+s"
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0>>attribute0:String" | get-property caption 
+    | equals "<<aStereotype0>>attribute0:String" | verify-true
+get-editor "default.wvd" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
+    -text "<<aStereotype0>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
+    | equals "<<aStereotype0>> +attribute0:String" | verify-true
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
+        -text "<<aStereotype0>> +attribute0:String" | get-edit-part -name attribute0] {
+        mouse-move 107 9 button3 -height 16 -width 215
+        mouse-press 107 9 button3 -height 16 -width 215
+        mouse-release 107 9 button3 2097152 -height 16 -width 215
+        mouse-press 68 5 button1 -height 16 -width 215
+        mouse-drag 68 5 -mask 524288 -height 16 -width 215
+    }
+    mouse-drag 224 464 -mask 524288 -height 539 -width 801
+    with [get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
+        -text "<<aStereotype0>> +attribute0:String"] {
+        mouse-drag 73 7 button1 524288 -height 19 -width 225
+        mouse-release 73 7 button1 524288 -height 19 -width 225
+        with [get-edit-part -name attribute0] {
+            mouse-press 68 5 button3 -height 16 -width 215
+            mouse-release 68 5 button3 2097152 -height 16 -width 215
+        }
+    }
+    get-menu "Edit Stereotypes" | click
+}
+get-editor Upd | get-section Attributes | get-section -index 1 | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype1
+    get-button OK | click
+}
+get-editor Upd | get-section Attributes | get-section -index 1 | get-table | key-type "M1+s"
+get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>attribute0:String" | get-property caption 
+    | equals "<<aStereotype0,aStereotype1>>attribute0:String" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
+    -text "<<aStereotype0, aStereotype1>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
+    | equals "<<aStereotype0, aStereotype1>> +attribute0:String" | verify-true
+with [get-editor Upd] {
+    click
+    with [get-section Attributes | get-section -index 1] {
+        get-table | select aStereotype0
+        get-button Remove | click
+    }
+}
+get-window "Remove Stereotype" | get-button Yes | click
+with [get-editor Upd | get-section Attributes | get-section -index 1] {
+    get-table | select aStereotype1
+    get-button Remove | click
+}
+get-window "Remove Stereotype" | get-button Yes | click
+get-editor Upd | get-section Attributes | get-section -index 1 | get-button Add | key-type "M1+s"
+get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Upd/attribute0:String" 
+    | get-property caption | equals "attribute0:String" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
+    -text "+attribute0:String" | get-edit-part -name attribute0 | get-property text | equals "+attribute0:String" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

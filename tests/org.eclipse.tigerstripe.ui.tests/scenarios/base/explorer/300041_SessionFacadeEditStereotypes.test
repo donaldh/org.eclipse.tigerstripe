@@ -1,0 +1,100 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 300041_SessionFacadeEditStereotypes
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
+Save-Time: 3/22/12 5:11 PM
+Id: _IxxdAHQHEeGzfKsLsjcekw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open class digram;
+2. Double-click Session Facade and edit stereotypes in its editor;
+3. Save your changes;
+4. Make sure that stereotype is displayed both in TS Explorer and on a diagram;
+5. Right-click Datatype on a diagram and select "Edit Stereotypes" command;
+6. Edit stereotypes, save editor and make sure that TS Explorer and a diagram were updated. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default.wbp" | double-click
+get-editor "MyProject/default.wbp" | get-section "General Information" | get-link "Save as active profile and reload" 
+    | click
+get-window "Save as Active Profile" | get-button OK | click
+wait-until-eclipse-is-ready
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "MyProject/default.wbp" | double-click
+    select "MyProject/default" | double-click
+    select MyProject
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF] {
+    with [get-edit-part -text SF] {
+        mouse-move 130 3 button1 -height 16 -width 150
+        mouse-press 130 3 button1 -height 16 -width 150
+        mouse-release 130 3 button1 524288 -height 16 -width 150
+        mouse-press 130 3 button1 -height 16 -width 150
+        mouse-double-click 130 3 button1 -height 16 -width 150
+    }
+    get-edit-part -text "+method0(String):void" | get-edit-part -name method0 | mouse-release 125 2 button1 524288 
+        -height 16 -width 140
+}
+get-editor SF | get-section Stereotypes | get-section | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype0
+    get-button OK | click
+}
+get-editor SF | get-section Stereotypes | get-section | get-table | key-type "M1+s"
+get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0>>SF" 
+    | get-property caption | equals "<<aStereotype0>>SF" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
+    -text "<<aStereotype0>>" | get-property text | equals "<<aStereotype0>>" | verify-true
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part -text SF] {
+        mouse-move 110 9 button3 -height 16 -width 150
+        mouse-press 110 9 button3 -height 16 -width 150
+        mouse-release 110 9 button3 2097152 -height 16 -width 150
+    }
+    get-menu "Edit Stereotypes" | click
+}
+get-editor SF | get-section Stereotypes | get-section | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype1
+    get-button OK | click
+}
+get-editor SF | get-section Stereotypes | get-section | get-table | key-type "M1+s"
+get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>SF" 
+    | get-property caption | equals "<<aStereotype0,aStereotype1>>SF" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
+    -text "<<aStereotype0, aStereotype1>>" | get-property text | equals "<<aStereotype0, aStereotype1>>" | verify-true
+with [get-editor SF] {
+    click
+    with [get-section Stereotypes | get-section] {
+        get-table | select aStereotype0
+        get-button Remove | click
+    }
+}
+get-window "Remove Stereotype" | get-button Yes | click
+with [get-editor SF | get-section Stereotypes | get-section] {
+    get-table | select aStereotype1
+    get-button Remove | click
+}
+get-window "Remove Stereotype" | get-button Yes | click
+get-editor SF | get-section Stereotypes | get-section | get-button Add | key-type "M1+s"
+get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/SF" | get-property caption 
+    | equals SF | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
+    -text SF | get-property text | equals SF | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
