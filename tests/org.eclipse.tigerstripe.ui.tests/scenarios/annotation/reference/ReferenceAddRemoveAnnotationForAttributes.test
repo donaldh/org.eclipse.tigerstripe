@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: ReferenceAddRemoveAnnotationForAttributes
 Tags: Annotation/reference
 External-Reference: http://docs.xored.com/display/TS/ReferenceAddRemoveAnnotationForAttributes
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _RR91gMiqEeCVYvz9uSPZwA,_2OSx4fOUEd-s8v7FVtLgHw,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/16/11 2:56 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_2OSx4fOUEd-s8v7FVtLgHw
+Save-Time: 3/23/12 1:34 PM
 Id: _5lEIgNIDEeCX-YsirEVo1w
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -66,61 +68,3 @@ get-view "Tigerstripe Explorer" | get-tree
     | equals "attribute0:String" | verify-true
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkl1PwjAUhu/5FUvvWQU/+AgbWWRE
-jIhuSsAbMtZDrdlaaLsP/PV2BoYmarw7Oe/b9zznpINhmSZWDlIxwR3Uss+QBTwWhHHqoExvml00dBuD
-WKR2KSQQe9exVQw8kkz0w0NhlSnr1yHtKsTEctU3fQe9ar3tY1wUhS1SagtJ8WI6OVp+TK4fGRV/qnjX
-wUfVhti0kMWjFBwUwAakYQaPkABSkYPHudCRNjBjIT2tJVtnGhQ67XleITLioNVl4k/o/WTkw/WiuVRM
-+nPRKpClI6ocdErC8jjGaPutmQtxYm5VapA8SmqImpyIWB0Wq5YgTG2TaI+fQvx/YLdhWeb0XJsxyl0F
-Qa9Fp2xnWOfL/L2XhQ8vhTfAteO7vT0Ly4vN7NknTdXNO+O5vqM3xa/23ujqzYs0Nfa8e1ss1jxb6cev
-9qr+6xu4jQ9QSwcIKA+O/UoBAABPAgAAUEsBAhQAFAAIAAgAAAAhACgPjv1KAQAATwIAAAgAAAAAAAAA
-AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIABAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AADgCAAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
