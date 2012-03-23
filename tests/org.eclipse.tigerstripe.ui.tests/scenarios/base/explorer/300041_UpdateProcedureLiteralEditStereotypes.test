@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/22/12 5:23 PM
+Save-Time: 3/23/12 5:22 PM
 Id: _2-Xa4HQIEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -69,6 +69,12 @@ get-editor Upd | get-section Constants | get-section -index 1 | get-table | key-
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>literal0=\"0\"" | get-property caption 
     | equals "<<aStereotype0,aStereotype1>>literal0=\"0\"" | verify-true
+    
+    
+    get-view "Tigerstripe Explorer" | get-tree 
+    | select "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>literal0=\"0\"" | double-click
+get-editor Upd | get-section Constants | get-section | get-table | select "literal0=\"0\""
+    
 with [get-editor Upd | get-section Constants | get-section -index 1] {
     get-table | select aStereotype0
     get-button Remove | click
@@ -78,8 +84,9 @@ with [get-editor Upd | get-section Constants | get-section -index 1] {
     get-table | select aStereotype1
     get-button Remove | click
 }
+
 get-window "Remove Stereotype" | get-button Yes | click
-get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>literal0=\"0\"" | get-property caption 
-    | equals "<<aStereotype0,aStereotype1>>literal0=\"0\"" | verify-true
+get-editor Upd | get-section Constants | get-section | get-table | key-type "M1+s"
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Upd/literal0=\"0\"" 
+    | get-property caption | equals "literal0=\"0\"" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

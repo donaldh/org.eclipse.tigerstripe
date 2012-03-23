@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/22/12 4:30 PM
+Save-Time: 3/23/12 5:10 PM
 Id: _bvUT0HQBEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -65,6 +65,12 @@ get-editor En | get-section Constants | get-section -index 1 | get-table | key-t
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "MyProject/src/com.mycompany/En/<<aStereotype0,aStereotype1>>literal0=\"0\"" | get-property caption 
     | equals "<<aStereotype0,aStereotype1>>literal0=\"0\"" | verify-true
+
+
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "MyProject/src/com.mycompany/En/<<aStereotype0,aStereotype1>>literal0=\"0\"" | double-click
+get-editor En | get-section Constants | get-section | get-table | select "literal0=\"0\""
+
 with [get-editor En | get-section Constants | get-section -index 1] {
     get-table | select aStereotype0
     get-button Remove | click

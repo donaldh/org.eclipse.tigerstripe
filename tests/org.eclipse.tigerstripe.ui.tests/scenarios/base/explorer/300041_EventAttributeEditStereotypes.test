@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/22/12 4:54 PM
+Save-Time: 3/23/12 5:07 PM
 Id: _nWgSAHQEEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -136,6 +136,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     get-edit-part -text "<<aStereotype0, aStereotype1>> +attribute0:String" | get-edit-part -name attribute0 
         | mouse-release 53 8 button1 524288 -height 16 -width 293
 }
+
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "MyProject/src/com.mycompany/Ev/<<aStereotype0,aStereotype1>>attribute0:String" | double-click
+get-editor Ev | get-section Attributes | get-section | get-table | select attribute0
+
 with [get-editor Ev | get-section Attributes | get-section -index 1] {
     get-table | select aStereotype0
     get-button Remove | click

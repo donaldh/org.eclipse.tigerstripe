@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/22/12 5:21 PM
+Save-Time: 3/23/12 5:10 PM
 Id: _fraRwHQIEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -94,6 +94,11 @@ get-view "Tigerstripe Explorer" | get-tree
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
     -text "<<aStereotype0, aStereotype1>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
     | equals "<<aStereotype0, aStereotype1>> +attribute0:String" | verify-true
+
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>attribute0:String" | double-click
+    
+    
 with [get-editor Upd] {
     click
     with [get-section Attributes | get-section -index 1] {

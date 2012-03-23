@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/22/12 5:09 PM
+Save-Time: 3/23/12 5:23 PM
 Id: _qiI1oHQGEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -95,6 +95,11 @@ get-view "Tigerstripe Explorer" | get-tree
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part 
     -text "<<aStereotype0, aStereotype1>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
     | equals "<<aStereotype0, aStereotype1>> +attribute0:String" | verify-true
+
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "MyProject/src/com.mycompany/Exc/<<aStereotype0,aStereotype1>>attribute0:String" | double-click
+get-editor Exc | get-section Attributes | get-section | get-table | select attribute0
+
 with [get-editor Exc] {
     click
     with [get-section Attributes | get-section -index 1] {
