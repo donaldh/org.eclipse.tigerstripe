@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/23/12 5:27 PM
+Save-Time: 3/23/12 5:49 PM
 Id: _Odj38HQDEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -91,7 +91,7 @@ get-editor Enum | get-section Constants | get-section | get-table | select "lite
 
 
 with [get-editor Enum] {
-    click
+    //click
     with [get-section Constants | get-section -index 1] {
         get-table | select aStereotype0
         get-button Remove | click

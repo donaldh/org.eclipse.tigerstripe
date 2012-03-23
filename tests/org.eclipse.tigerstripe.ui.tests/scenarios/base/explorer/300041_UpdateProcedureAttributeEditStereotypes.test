@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/23/12 5:10 PM
+Save-Time: 3/23/12 5:46 PM
 Id: _fraRwHQIEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -100,7 +100,7 @@ get-view "Tigerstripe Explorer" | get-tree
     
     
 with [get-editor Upd] {
-    click
+    //click
     with [get-section Attributes | get-section -index 1] {
         get-table | select aStereotype0
         get-button Remove | click
