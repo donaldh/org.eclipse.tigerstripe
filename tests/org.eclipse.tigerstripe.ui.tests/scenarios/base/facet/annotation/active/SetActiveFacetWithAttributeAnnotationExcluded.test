@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: SetActiveFacetWithAttributeAnnotationExcluded
 Tags: Facet/Active, Annotation
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _9D6jAatgEd-v8JwXbnu_tQ,_k8pBMEDLEeGsUJ1NDdsGXw,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 1/30/12 12:17 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_k8pBMEDLEeGsUJ1NDdsGXw,_RR91gMiqEeCVYvz9uSPZwA
+Save-Time: 3/23/12 2:01 PM
 Id: _tcE5wDw4EeGvPsO-LSiu4Q
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -37,16 +39,3 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9Nn2UVRYGFQaab
-RAIKLCr6QkZbR5W1sN6t019vQYFo1Lf2ntPvnnvb6pTpAhU800JJD1edY4y4pIoJmXg4h+dKA3fahwct
-qlKnVBlnzqruaMplnAnlRl8HVKbC3VFO1hTLldq1dQ/PAZYuIcYYR6WJo7KETAbXW8uv5N0jq5KNSlZ1
-slUdTm0JIxmn3MMRB5+CKPhVTDk8CJj7AJmY5cB9KRXEYFOFJV3kjDO8H/Z0HVMwD0+BhmcmMLWQd4uh
-vq30I5HXRhhBnGgPb7Dks8UR2iOt/ra0/TldYLsihOySJPASdHvaDM5f/BiSkFWKRs9MZjKfwqhFdo4f
-/tfG8mIQBn2bQN/1qjcB092J+ds/HjeryUCsQn55/1i8N/No+GT8b/715b8/s5YPUEsHCHPrkaM2AQAA
-/gEAAFBLAQIUABQACAAIAAAAIQBz65GjNgEAAP4BAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBL
-BQYAAAAAAQABADYAAABsAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
