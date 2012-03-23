@@ -14,7 +14,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -34,7 +38,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
-import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -299,11 +302,19 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	public void artifactAdded(IAbstractArtifact artifact) {
 	}
 
-	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
+	public void artifactChanged(final IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
 		if (!isEnabled()) {
 			return;
 		}
-		handleArtifactChanged(artifact);
+		Job job = new Job("Updating diagram...") {
+			@Override
+			public IStatus run(IProgressMonitor monitor) {
+				handleArtifactChanged(artifact);
+				return Status.OK_STATUS;
+			}
+		};
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.schedule();
 	}
 	
 	private void handleArtifactChanged(IAbstractArtifact artifact) {
