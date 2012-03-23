@@ -1,0 +1,40 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: RemoveAnnotationsWithArtifact
+Tags: Annotation/functionality
+External-Reference: http://docs.xored.com/display/TS/RemoveAnnotationsWithArtifact, http://bugs.xored.com/browse/XMP-1070
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_k1r5oPCzEeCsq4k6WT7AWw
+Save-Time: 3/23/12 1:22 PM
+Id: _udpG0PC9EeCsq4k6WT7AWw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Remove artifact with annotation (and compartments with annotations) and check that annotation is not dangle 
+
+Precondition
+ArtifactCompartmentAnnotationsContextWorkspace
+AnnotationsContextPreferences
+
+Steps
+    Select Entity0 in Tigerstripe Explorer and select Delete in dropdown menu
+    Check warnings in Problems View
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0" 
+    | get-menu Delete | click
+get-window "Confirm Delete" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse" | get-property childCount 
+    | equals 1 | verify-true
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
