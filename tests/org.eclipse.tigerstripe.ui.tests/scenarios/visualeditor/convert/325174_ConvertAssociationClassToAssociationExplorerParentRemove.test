@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/325174_ConvertAssociationCl
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_fPm4sKOVEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 3/22/12 1:47 PM
+Save-Time: 3/23/12 8:51 AM
 Id: _l7cbYKOREeCnVOKduz-xbg9
 Testcase-Type: ecl
 
@@ -74,7 +74,7 @@ with [get-window "Super Artifact"] {
 get-button "Save \(.*\)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/AC2" 
     | get-menu "Refactor Model/Convert to Association..." | click
-with [get-window "Convert com.mycompany.AC2" | get-group -index 1] {
+with [get-window "Convert com.mycompany.AC2" | get-group] {
     get-label "Following editors related to artifact will be saved" | get-property caption 
         | equals "Following editors related to artifact will be saved" | verify-true
     get-table | get-item "Class Diagram.wvd  \\[Project1\\/src\\/com\\/mycompany\\/Class Diagram.wvd\\]" 
