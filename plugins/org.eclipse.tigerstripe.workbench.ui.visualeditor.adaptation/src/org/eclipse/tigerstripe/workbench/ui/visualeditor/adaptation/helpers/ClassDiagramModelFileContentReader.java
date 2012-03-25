@@ -29,7 +29,6 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
 public class ClassDiagramModelFileContentReader implements
@@ -50,6 +49,9 @@ public class ClassDiagramModelFileContentReader implements
 		try {
 			java.util.Map loadingOptions = new HashMap(GMFResourceFactory
 					.getDefaultLoadOptions());
+			if (!modelFile.exists()) {
+				return new HashSet<String>();
+			}
 			modelResource.load(loadingOptions);
 			Object obj = modelResource.getContents().get(0);
 			if (obj instanceof Map) {
