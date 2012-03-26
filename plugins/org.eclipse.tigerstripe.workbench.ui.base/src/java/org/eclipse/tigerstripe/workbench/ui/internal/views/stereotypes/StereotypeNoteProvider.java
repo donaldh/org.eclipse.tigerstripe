@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -28,41 +28,32 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteListener;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
-public class StereotypeNoteProvider implements INoteProvider,
-		IStereotypeListener {
+public class StereotypeNoteProvider implements INoteProvider, IArtifactChangeListener {
+
+	private IStereotypeCapable component;
+	private IAbstractArtifactInternal artifact;
+	private URI uri;
+	private final ListenerList listeners = new ListenerList();
 
 	public StereotypeNoteProvider() {
 	}
 
 	public void addListener(INoteListener listener) {
 		listeners.add(listener);
-		if (listeners.size() > 0) {
-			addListeners();
-		}
 	}
 
 	public void removeListener(INoteListener listener) {
 		listeners.remove(listener);
-		if (listeners.size() == 0) {
-			removeListeners();
-		}
-	}
-
-	public void stereotypeAdded(IStereotypeInstance instance) {
-		fireUpdate();
-	}
-
-	public void stereotypeRemove(IStereotypeInstance instance) {
-		fireUpdate();
 	}
 
 	public void fillMenu(IMenuManager manager, String groupName, INote note) {
@@ -103,7 +94,7 @@ public class StereotypeNoteProvider implements INoteProvider,
 		if (selection instanceof IStructuredSelection) {
 			Object element = ((IStructuredSelection) selection)
 					.getFirstElement();
-			component = getCapable(element);
+			component = StereotypeCapableModelHelper.getCapable(element);
 		}
 		
 		if (component == null && part instanceof ArtifactEditorBase) {
@@ -112,21 +103,21 @@ public class StereotypeNoteProvider implements INoteProvider,
 		}
 		
 		if (component != null) {
-			if (listeners.size() > 0) {
-				addListeners();
-			}
+			artifact = StereotypeCapableModelHelper.getArtifact(component);
+			uri = StereotypeCapableModelHelper.getUri(component);
+			addListeners();
 		}
 	}
 
 	private void addListeners() {
-		if (component != null) {
-			component.addStereotypeListener(this);
+		if (artifact != null) {
+			artifact.getArtifactManager().addArtifactManagerListener(this);
 		}
 	}
 
 	private void removeListeners() {
-		if (component != null) {
-			component.removeStereotypeListener(this);
+		if (artifact != null) {
+			artifact.getArtifactManager().removeArtifactManagerListener(this);
 		}
 	}
 
@@ -139,35 +130,6 @@ public class StereotypeNoteProvider implements INoteProvider,
 				listener.notesChanged(notes);
 			}
 		}
-	}
-
-	private IStereotypeCapable getCapable(Object element) {
-		if (element == null)
-			return null;
-		if (element instanceof IStereotypeCapable) {
-			return (IStereotypeCapable) element;
-		}
-		IStereotypeCapable capable = getCapable(IStereotypeCapable.class,
-				element);
-		if (capable == null) {
-			capable = getCapable(IModelComponent.class, element);
-		}
-		return capable;
-	}
-
-	private static <T extends IStereotypeCapable> IStereotypeCapable getCapable(
-			Class<T> clazz, Object element) {
-		Object result = null;
-		if (element instanceof IAdaptable) {
-			IAdaptable adaptable = (IAdaptable) element;
-			IStereotypeCapable capable = (IStereotypeCapable) adaptable
-					.getAdapter(clazz);
-			result = capable;
-		}
-		if (result == null) {
-			result = Platform.getAdapterManager().getAdapter(element, clazz);
-		}
-		return result == null ? null : clazz.cast(result);
 	}
 
 	/*
@@ -189,8 +151,31 @@ public class StereotypeNoteProvider implements INoteProvider,
 	public String getLabel() {
 		return "Stereotypes";
 	}
+	
+	public void artifactRemoved(IAbstractArtifact artifact) {
+	}
 
-	private IStereotypeCapable component;
-	private final ListenerList listeners = new ListenerList();
+	public void artifactAdded(IAbstractArtifact artifact) {
+	}
+
+	public void artifactChanged(IAbstractArtifact changedArtifact,
+			IAbstractArtifact oldArtifact) {
+		if (uri != null && artifact != null) {
+			IResource resource = (IResource) artifact
+					.getAdapter(IResource.class);
+			IResource changedResource = (IResource) changedArtifact
+					.getAdapter(IResource.class);
+			if (resource != null && resource.equals(changedResource)) {
+				component = StereotypeCapableModelHelper.getCapable(uri);
+				fireUpdate();
+			}
+		}
+	}
+
+	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
+	}
+
+	public void managerReloaded() {
+	}
 
 }
