@@ -77,6 +77,9 @@ import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.locations.Locatio
 public class DiagramRebuildUtils {
 	
 	public static void collectParts(Map<?, ?> registry, View container, List<EditPart> parts) {
+		if (container == null) {
+			return;
+		}
 		List<?> children = container.getVisibleChildren();
 		List<Edge> edges = new ArrayList<Edge>();
 		for (Object child : children) {
@@ -152,6 +155,9 @@ public class DiagramRebuildUtils {
 
 	public static void rebuld(DiagramEditor editor) {
 		Diagram diagram = editor.getDiagram();
+		if (diagram == null) {
+			return;
+		}
 		List<EditPart> parts = new ArrayList<EditPart>();
 		collectParts(editor.getDiagramGraphicalViewer().getEditPartRegistry(), diagram, parts);
 		
