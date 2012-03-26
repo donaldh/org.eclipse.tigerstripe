@@ -157,7 +157,7 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 					fqn, true);
 			if (art == null) {
 				IStatus s = getErrorStatus("Undefined class for Instance '"
-						+ instance.getName() + "' ('" + fqn + "').");
+						+ instance.getInstanceName() + "' ('" + fqn + "').");
 				parentStatus.add(s);
 			} else {
 				EList<Variable> variables = instance.getVariables();
@@ -177,7 +177,7 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 					if (!attributeFound) {
 						IStatus s = getErrorStatus("Undefined variable '"
 								+ varName + "' in instance '"
-								+ instance.getName() + "' (" + fqn + ")");
+								+ instance.getInstanceName() + "' (" + fqn + ")");
 						parentStatus.add(s);
 					}
 				}
@@ -195,7 +195,7 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 					fqn, true);
 			if (art == null) {
 				IStatus s = getErrorStatus("Undefined Association for Instance '"
-						+ instance.getName() + "' ('" + fqn + "').");
+						+ instance.getInstanceName() + "' ('" + fqn + "').");
 				parentStatus.add(s);
 			}
 		}
