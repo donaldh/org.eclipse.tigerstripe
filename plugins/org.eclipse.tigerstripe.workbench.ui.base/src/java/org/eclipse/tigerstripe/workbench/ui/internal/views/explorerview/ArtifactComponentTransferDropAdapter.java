@@ -41,10 +41,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.InTransaction;
 import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
@@ -305,9 +302,16 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
                                 srcArtifact = method.getContainingArtifact()
                                         .makeWorkingCopy(null);
                             }
-                            
-                            srcArtifact.removeMethods(Collections
-                                    .singleton(method));
+                            {
+								for (IMethod m : srcArtifact.getMethods()) {
+									if (m.getLabelString().equals(
+											method.getLabelString())) {
+										srcArtifact.removeMethods(Collections
+												.singleton(m));
+										break;
+									}
+								}
+                            }
                             targetArtifact.addMethod(method);
                             newValue = (URI) method.getAdapter(URI.class);
                             
