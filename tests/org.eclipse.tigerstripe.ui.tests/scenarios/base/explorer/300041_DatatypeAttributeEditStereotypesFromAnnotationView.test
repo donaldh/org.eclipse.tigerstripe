@@ -1,0 +1,74 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 300041_DatatypeAttributeEditStereotypesFromAnnotationView
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
+Save-Time: 3/27/12 3:44 PM
+Id: _d84coHfoEeG4HefzK52cHw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open class digram;
+2. Double-click Datatype and edit attribute stereotypes in Annotation Properties View;
+3. Save your changes;
+4. Make sure that stereotype is displayed both in TS Explorer and on a diagram.
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Dt 
+    | get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0] {
+    mouse-move 51 7 button1 -height 16 -width 112
+    mouse-press 51 7 button1 -height 16 -width 112
+    mouse-release 51 7 button1 524288 -height 16 -width 112
+    mouse-move 47 4 button1 -height 16 -width 112
+    mouse-press 47 4 button1 -height 16 -width 112
+    mouse-release 47 4 button1 524288 -height 16 -width 112
+    mouse-hover 47 4 -height 16 -width 112
+}
+get-view "Annotation Property View" | click
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Dt/attribute0:String"
+get-view "Annotation Property View" | get-table | get-menu "Add Stereotype" | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype0
+    get-button OK | click
+}
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Dt | get-edit-part 
+    -text "<<aStereotype0>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
+    | equals "<<aStereotype0>> +attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "MyProject/src/com.mycompany/Dt/<<aStereotype0>>attribute0:String" | get-property caption 
+    | equals "<<aStereotype0>>attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Dt/<<aStereotype0>>attribute0:String"
+get-view "Annotation Property View" | get-table | get-menu "Add Stereotype" | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype1
+    get-button OK | click
+}
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Dt | get-edit-part 
+    -text "<<aStereotype0, aStereotype1>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
+    | equals "<<aStereotype0, aStereotype1>> +attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "MyProject/src/com.mycompany/Dt/<<aStereotype0,aStereotype1>>attribute0:String" | get-property caption 
+    | equals "<<aStereotype0,aStereotype1>>attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "MyProject/src/com.mycompany/Dt/<<aStereotype0,aStereotype1>>attribute0:String"
+set-dialog-result MessageBox 64
+get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Dt | get-edit-part 
+    -text "+attribute0:String" | get-edit-part -name attribute0 | get-property text | equals "+attribute0:String" 
+    | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Dt/attribute0:String" 
+    | get-property caption | equals "attribute0:String" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

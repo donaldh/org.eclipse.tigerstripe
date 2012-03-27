@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/23/12 9:20 AM
+Save-Time: 3/27/12 3:45 PM
 Id: _E66z4XSOEeGt0e6zlLLRcg
 Testcase-Type: ecl
 
@@ -25,14 +25,9 @@ TEST STEPS
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default.wbp" | double-click
-get-editor "MyProject/default.wbp" | get-section "General Information" | get-link "Save as active profile and reload" 
-    | click
-get-window "Save as Active Profile" | get-button OK | click
-wait-until-eclipse-is-ready
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "MyProject/default" | double-click
-    select "MyProject/src/com.mycompany/Dt" | double-click
+    select "MyProject/src/com.mycompany/Dt"
 }
 get-view "Annotation Property View" | click
 get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Dt"
@@ -41,7 +36,6 @@ with [get-window "Stereotype Selection"] {
     get-table | select aStereotype0
     get-button OK | click
 }
-get-editor "default.wvd" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Dt | get-edit-part 
     -text "<<aStereotype0>>" | get-property text | equals "<<aStereotype0>>" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0>>Dt" 
@@ -57,11 +51,10 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompa
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Dt | get-edit-part 
     -text "<<aStereotype0, aStereotype1>>" | get-property text | equals "<<aStereotype0, aStereotype1>>" | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>Dt"
-get-view "Annotation Property View" | get-table | select aStereotype1
 set-dialog-result MessageBox 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
-get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Dt" | get-property caption 
-    | equals Dt | verify-true
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Dt | get-edit-part 
     -text Dt | get-property text | equals Dt | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Dt" | get-property caption 
+    | equals Dt | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
