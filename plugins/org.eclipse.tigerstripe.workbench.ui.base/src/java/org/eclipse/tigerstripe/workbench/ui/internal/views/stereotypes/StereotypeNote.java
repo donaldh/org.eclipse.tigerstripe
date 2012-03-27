@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.swt.graphics.Image;
@@ -34,7 +35,7 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 	private static final EObject NULL_CONTENT = EcoreFactory.eINSTANCE
 			.createEObject();
 	private final IStereotypeInstance stereotype;
-	private final IStereotypeCapable capable;
+	private IStereotypeCapable capable;
 	private EObject eObject;
 
 	public StereotypeNote(IStereotypeCapable capable,
@@ -93,6 +94,7 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 	}
 	
 	public void remove() {
+		updateCapable();
 		capable.removeStereotypeInstance(stereotype);
 		try {
 			StereotypeCapableSaveHelper.save(capable);
@@ -102,11 +104,13 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 	}
 
 	public void revert() throws CoreException {
+		updateCapable();
 		initEObject();
 		StereotypeCapableSaveHelper.save(capable);
 	}
 
 	public void save() throws CoreException {
+		updateCapable();
 		StereotypeConverter.copyEObjectAttributes(eObject, stereotype);
 		StereotypeCapableSaveHelper.save(capable);
 	}
@@ -129,6 +133,14 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 	public boolean isLoadable() {
 		getContent();
 		return eObject != NULL_CONTENT;
+	}
+
+	private void updateCapable() {
+		URI uri = StereotypeCapableModelHelper.getUri(capable);
+		IStereotypeCapable updated = StereotypeCapableModelHelper.getCapable(uri);
+		if (updated != null) {
+			capable = updated;
+		}
 	}
 
 }
