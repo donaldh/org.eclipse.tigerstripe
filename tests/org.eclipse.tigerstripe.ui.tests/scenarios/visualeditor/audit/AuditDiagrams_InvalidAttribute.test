@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 3/14/12 10:36 AM
+Save-Time: 3/27/12 9:45 PM
 Id: _5Bg_EE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -47,8 +47,12 @@ with [get-window "Diagrams Audit" | get-window "Audit Result" | get-tree] {
         | get-property caption | equals attribute1 | verify-true
     get-item [get-by-os
     -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" 
-    -default "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" ]
+    -default "\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/attribute2" ]
         | get-property caption | equals attribute2 | verify-true
+        
+        
+               
+        
     get-item [get-by-os
     -win "\\test\\src\\InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" 
     -default "\\/test\\/src\\/InvalidAttribute.wvd/Artifacts/com.mycompany.Entity55/Attributes/Attributes are missing in the diagram: attribute0" ]
