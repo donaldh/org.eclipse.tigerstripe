@@ -1,0 +1,58 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: DiagramsCanBeCreatedOnlyInTigerstripeProject
+External-Reference: http://bugs.xored.com/browse/XMP-986
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ
+Save-Time: 3/28/12 10:10 AM
+Id: _FwuXMXiDEeGcodmeDwJ6Aw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create Tigerstripe Generation Project;
+2. Try to create Class or Instane diagrams in it. It shouldn't be allowed.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Generator Project" | click
+with [get-window "New Tigerstripe M1-Level Generation Project"] {
+    get-editbox -after [get-label "Project Name:"] | set-text GenProject
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select GenProject | get-menu "New/Other..." | click
+with [get-window New] {
+    get-tree | select "Tigerstripe/Class Diagram"
+    get-button "Next >" | click
+}
+with [get-window "New Tigerstripe Diagram"] {
+    get-editbox -after [get-label "Create Class Diagram"] | get-property text 
+        | equals "Diagram can be created only for model project" | verify-true
+    get-button "Next >" | get-property enablement | equals false | verify-true
+    get-button Finish | get-property enablement | equals false | verify-true
+}
+get-window "New Tigerstripe Diagram" | get-button "< Back" | click
+with [get-window New] {
+    get-tree | select "Tigerstripe/Instance Diagram"
+    get-button "Next >" | click
+}
+with [get-window "New Instance Diagram"] {
+    get-editbox -after [get-label "Create Instance Diagram"] | get-property text 
+        | equals "Diagram can be created only for model project" | verify-true
+    get-button "Next >" | get-property enablement | equals false | verify-true
+    get-button Finish | get-property enablement | equals false | verify-true
+}
+get-window "New Instance Diagram" | get-button Cancel | click
+
+verify-error {get-view "Tigerstripe Explorer" | get-tree | select GenProject | get-menu "New/Instance Diagram"}
+verify-error {get-view "Tigerstripe Explorer" | get-tree | select GenProject | get-menu "New/Class Diagram"}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
