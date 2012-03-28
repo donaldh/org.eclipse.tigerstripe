@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/22/12 5:16 PM
+Save-Time: 3/28/12 3:40 PM
 Id: _djv3IHQHEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -32,53 +32,14 @@ get-editor "MyProject/default.wbp" | get-section "General Information" | get-lin
     | click
 get-window "Save as Active Profile" | get-button OK | click
 wait-until-eclipse-is-ready
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF] {
-    with [get-edit-part -text SF] {
-        mouse-move 120 10 button1 -height 16 -width 150
-        mouse-press 120 10 button1 -height 16 -width 150
-        mouse-release 120 10 button1 524288 -height 16 -width 150
-        mouse-press 120 10 button1 -height 16 -width 150
-        mouse-double-click 120 10 button1 -height 16 -width 150
-    }
-    get-edit-part -text "+method0(String):void" | get-edit-part -name method0 | mouse-release 115 9 button1 524288 
-        -height 16 -width 140
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "MyProject/default" | double-click
+    select "MyProject/src/com.mycompany/SF/method0\\(String\\):void" | double-click
 }
-with [get-editor SF | get-section Methods] {
-    get-section | get-table | select "method0\\(String\\):void"
-    get-section -index 1 | get-button Add | click
-}
+get-editor SF | get-section Methods | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype0
     get-button OK | click
-}
-get-editor SF | get-section Methods | get-section -index 1 | get-table | key-type "M1+s"
-get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/SF/<<aStereotype0>>method0\\(String\\):void" 
-    | get-property caption | equals "<<aStereotype0>>method0(String):void" | verify-true
-get-editor "default.wvd" | click
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
-    -text "<<aStereotype0>> +method0(String):void" | get-edit-part -name method0 | get-property text 
-    | equals "<<aStereotype0>> +method0(String):void" | verify-true
-with [get-editor "default.wvd" | get-diagram] {
-    with [get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
-        -text "<<aStereotype0>> +method0(String):void" | get-edit-part -name method0] {
-        mouse-move 135 14 button3 -height 16 -width 243
-        mouse-press 135 14 button3 -height 16 -width 243
-        mouse-release 135 14 button3 2097152 -height 16 -width 243
-        mouse-press 114 6 button1 -height 16 -width 243
-        mouse-drag 114 6 -mask 524288 -height 16 -width 243
-    }
-    mouse-drag 465 365 -mask 524288 -height 539 -width 801
-    with [get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
-        -text "<<aStereotype0>> +method0(String):void"] {
-        mouse-drag 119 8 button1 524288 -height 19 -width 253
-        mouse-release 119 8 button1 524288 -height 19 -width 253
-        with [get-edit-part -name method0] {
-            mouse-press 114 6 button3 -height 16 -width 243
-            mouse-release 114 6 button3 2097152 -height 16 -width 243
-        }
-    }
-    get-menu "Edit Stereotypes" | click
 }
 get-editor SF | get-section Methods | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
@@ -86,19 +47,18 @@ with [get-window "Stereotype Selection"] {
     get-button OK | click
 }
 get-editor SF | get-section Methods | get-section -index 1 | get-table | key-type "M1+s"
-get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "MyProject/src/com.mycompany/SF/<<aStereotype0,aStereotype1>>method0\\(String\\):void" | get-property caption 
-    | equals "<<aStereotype0,aStereotype1>>method0(String):void" | verify-true
 get-editor "default.wvd" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "MyProject/src/com.mycompany/SF/<<aStereotype0,aStereotype1>>method0\\(String\\):void" 
+    | get-property caption | equals "<<aStereotype0,aStereotype1>>method0(String):void" | verify-true
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
     -text "<<aStereotype0, aStereotype1>> +method0(String):void" | get-edit-part -name method0 | get-property text 
     | equals "<<aStereotype0, aStereotype1>> +method0(String):void" | verify-true
-with [get-editor SF] {
-    click
-    with [get-section Methods | get-section -index 1] {
-        get-table | select aStereotype0
-        get-button Remove | click
-    }
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "MyProject/src/com.mycompany/SF/<<aStereotype0,aStereotype1>>method0\\(String\\):void" | double-click
+with [get-editor SF | get-section Methods | get-section -index 1] {
+    get-table | select aStereotype0
+    get-button Remove | click
 }
 get-window "Remove Stereotype" | get-button Yes | click
 with [get-editor SF | get-section Methods | get-section -index 1] {
@@ -108,8 +68,7 @@ with [get-editor SF | get-section Methods | get-section -index 1] {
 get-window "Remove Stereotype" | get-button Yes | click
 get-editor SF | get-section Methods | get-section -index 1 | get-button Add | key-type "M1+s"
 get-editor "default.wvd" | click
-get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "MyProject/src/com.mycompany/SF/method0\\(String\\):void" 
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/SF/method0\\(String\\):void" 
     | get-property caption | equals "method0(String):void" | verify-true
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SF | get-edit-part 
     -text "+method0(String):void" | get-edit-part -name method0 | get-property text | equals "+method0(String):void" 

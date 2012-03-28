@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/23/12 5:22 PM
+Save-Time: 3/28/12 3:36 PM
 Id: _2-Xa4HQIEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -32,35 +32,16 @@ get-editor "MyProject/default.wbp" | get-section "General Information" | get-lin
     | click
 get-window "Save as Active Profile" | get-button OK | click
 wait-until-eclipse-is-ready
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd] {
-    with [get-edit-part -text Upd] {
-        mouse-move 106 9 button1 -height 16 -width 122
-        mouse-press 106 9 button1 -height 16 -width 122
-        mouse-release 106 9 button1 524288 -height 16 -width 122
-        mouse-press 106 9 button1 -height 16 -width 122
-        mouse-double-click 106 9 button1 -height 16 -width 122
-    }
-    get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 | mouse-release 101 8 button1 524288 
-        -height 16 -width 112
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "MyProject/default" | double-click
+    select "MyProject/src/com.mycompany/Upd/literal0=\"0\"" | double-click
 }
-with [get-editor Upd | get-section Constants] {
-    click
-    get-section | get-table | select "literal0=\"0\""
-    get-section -index 1 | get-button Add | click
-}
+get-editor Upd | get-section Constants | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype0
     get-button OK | click
 }
-get-editor Upd | get-section Constants | get-section -index 1 | get-table | key-type "M1+s"
-get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0>>literal0=\"0\"" 
-    | get-property caption | equals "<<aStereotype0>>literal0=\"0\"" | verify-true
-get-editor "default.wvd" | click
-with [get-editor Upd] {
-    click
-    get-section Constants | get-section -index 1 | get-button Add | click
-}
+get-editor Upd | get-section Constants | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype1
     get-button OK | click
@@ -69,12 +50,8 @@ get-editor Upd | get-section Constants | get-section -index 1 | get-table | key-
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>literal0=\"0\"" | get-property caption 
     | equals "<<aStereotype0,aStereotype1>>literal0=\"0\"" | verify-true
-    
-    
-    get-view "Tigerstripe Explorer" | get-tree 
+get-view "Tigerstripe Explorer" | get-tree 
     | select "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>literal0=\"0\"" | double-click
-get-editor Upd | get-section Constants | get-section | get-table | select "literal0=\"0\""
-    
 with [get-editor Upd | get-section Constants | get-section -index 1] {
     get-table | select aStereotype0
     get-button Remove | click
@@ -84,9 +61,8 @@ with [get-editor Upd | get-section Constants | get-section -index 1] {
     get-table | select aStereotype1
     get-button Remove | click
 }
-
 get-window "Remove Stereotype" | get-button Yes | click
-get-editor Upd | get-section Constants | get-section | get-table | key-type "M1+s"
+get-editor Upd | get-section Constants | get-section -index 1 | get-button Add | key-type "M1+s"
 get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Upd/literal0=\"0\"" 
     | get-property caption | equals "literal0=\"0\"" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

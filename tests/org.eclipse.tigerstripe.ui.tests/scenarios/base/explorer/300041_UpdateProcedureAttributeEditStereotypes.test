@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/23/12 5:46 PM
+Save-Time: 3/28/12 3:22 PM
 Id: _fraRwHQIEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -32,76 +32,60 @@ get-editor "MyProject/default.wbp" | get-section "General Information" | get-lin
     | click
 get-window "Save as Active Profile" | get-button OK | click
 wait-until-eclipse-is-ready
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
-with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd] {
-    with [get-edit-part -text Upd] {
-        mouse-move 90 9 button1 -height 16 -width 122
-        mouse-press 90 9 button1 -height 16 -width 122
-        mouse-release 90 9 button1 524288 -height 16 -width 122
-        mouse-press 90 9 button1 -height 16 -width 122
-        mouse-double-click 90 9 button1 -height 16 -width 122
-    }
-    get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 | mouse-release 85 8 button1 524288 
-        -height 16 -width 112
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "MyProject/default" | double-click
+    select "MyProject/src/com.mycompany/Upd" | double-click
+    select "MyProject/src/com.mycompany/Upd/attribute0:String" | double-click
 }
-with [get-editor Upd | get-section Attributes] {
-    get-section | get-table | select attribute0
-    get-section -index 1 | get-button Add | click
-}
+get-editor Upd | get-section Attributes | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype0
     get-button OK | click
 }
 get-editor Upd | get-section Attributes | get-section -index 1 | get-table | key-type "M1+s"
-get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0>>attribute0:String" | get-property caption 
-    | equals "<<aStereotype0>>attribute0:String" | verify-true
 get-editor "default.wvd" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
     -text "<<aStereotype0>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
     | equals "<<aStereotype0>> +attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0>>attribute0:String" | get-property caption 
+    | equals "<<aStereotype0>>attribute0:String" | verify-true
 with [get-editor "default.wvd" | get-diagram] {
     with [get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
         -text "<<aStereotype0>> +attribute0:String" | get-edit-part -name attribute0] {
-        mouse-move 107 9 button3 -height 16 -width 215
-        mouse-press 107 9 button3 -height 16 -width 215
-        mouse-release 107 9 button3 2097152 -height 16 -width 215
-        mouse-press 68 5 button1 -height 16 -width 215
-        mouse-drag 68 5 -mask 524288 -height 16 -width 215
-    }
-    mouse-drag 224 464 -mask 524288 -height 539 -width 801
-    with [get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
-        -text "<<aStereotype0>> +attribute0:String"] {
-        mouse-drag 73 7 button1 524288 -height 19 -width 225
-        mouse-release 73 7 button1 524288 -height 19 -width 225
-        with [get-edit-part -name attribute0] {
-            mouse-press 68 5 button3 -height 16 -width 215
-            mouse-release 68 5 button3 2097152 -height 16 -width 215
-        }
+        mouse-move 50 3 button1 -height 16 -width 215
+        mouse-press 50 3 button1 -height 16 -width 215
+        mouse-release 50 3 button1 524288 -height 16 -width 215
+        mouse-hover 50 3 -height 16 -width 215
+        mouse-move 50 6 button1 -height 16 -width 215
+        mouse-press 50 6 button1 -height 16 -width 215
+        mouse-release 50 6 button1 524288 -height 16 -width 215
+        mouse-hover 50 6 -height 16 -width 215
+        mouse-press 50 6 button3 -height 16 -width 215
+        mouse-release 50 6 button3 2097152 -height 16 -width 215
     }
     get-menu "Edit Stereotypes" | click
 }
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Upd/<<aStereotype0>>attribute0:String" 
+    | double-click
 get-editor Upd | get-section Attributes | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype1
     get-button OK | click
 }
-get-editor Upd | get-section Attributes | get-section -index 1 | get-table | key-type "M1+s"
-get-editor "default.wvd" | click
+get-editor Upd | get-section Attributes | get-section | get-table | key-type "M1+s"
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>attribute0:String" | get-property caption 
     | equals "<<aStereotype0,aStereotype1>>attribute0:String" | verify-true
+get-editor "default.wvd" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
     -text "<<aStereotype0, aStereotype1>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
     | equals "<<aStereotype0, aStereotype1>> +attribute0:String" | verify-true
-
 get-view "Tigerstripe Explorer" | get-tree 
     | select "MyProject/src/com.mycompany/Upd/<<aStereotype0,aStereotype1>>attribute0:String" | double-click
-    
-    
-with [get-editor Upd] {
-    //click
-    with [get-section Attributes | get-section -index 1] {
+with [get-editor Upd | get-section Attributes] {
+    get-section | get-table | select attribute0
+    with [get-section -index 1] {
         get-table | select aStereotype0
         get-button Remove | click
     }
@@ -113,9 +97,10 @@ with [get-editor Upd | get-section Attributes | get-section -index 1] {
 }
 get-window "Remove Stereotype" | get-button Yes | click
 get-editor Upd | get-section Attributes | get-section -index 1 | get-button Add | key-type "M1+s"
-get-editor "default.wvd" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Upd/attribute0:String" 
     | get-property caption | equals "attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Upd/attribute0:String" | double-click
+get-editor "default.wvd" | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
     -text "+attribute0:String" | get-edit-part -name attribute0 | get-property text | equals "+attribute0:String" 
     | verify-true

@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/23/12 5:48 PM
+Save-Time: 3/28/12 3:42 PM
 Id: _qiI1oHQGEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -32,55 +32,15 @@ get-editor "MyProject/default.wbp" | get-section "General Information" | get-lin
     | click
 get-window "Save as Active Profile" | get-button OK | click
 wait-until-eclipse-is-ready
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
-with [get-editor "default.wvd" | get-diagram] {
-    with [get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part -text Exc] {
-        mouse-move 107 8 button3 -height 16 -width 122
-        mouse-press 107 8 button3 -height 16 -width 122
-        mouse-release 107 8 button3 2097152 -height 16 -width 122
-        mouse-press 81 4 button1 -height 16 -width 122
-        mouse-drag 81 4 -mask 524288 -height 16 -width 122
-    }
-    mouse-drag 142 340 -mask 524288 -height 539 -width 801
-    with [get-edit-part -className MapEditPart] {
-        mouse-drag 136 334 button1 524288 -height 539 -width 801
-        mouse-release 136 334 button1 524288 -height 539 -width 801
-        with [get-edit-part -name Exc] {
-            with [get-edit-part -text Exc] {
-                mouse-press 81 4 button1 -height 16 -width 122
-                mouse-double-click 81 4 button1 -height 16 -width 122
-            }
-            get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0 
-                | mouse-release 76 3 button1 524288 -height 16 -width 112
-        }
-    }
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "MyProject/default.wbp" | double-click
+    select "MyProject/default" | double-click
+    select "MyProject/src/com.mycompany/Exc/attribute0:String" | double-click
 }
-with [get-editor Exc | get-section Attributes] {
-    get-section | get-table | select attribute0
-    get-section -index 1 | get-button Add | click
-}
+get-editor Exc | get-section Attributes | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype0
     get-button OK | click
-}
-get-editor Exc | get-section Attributes | get-section -index 1 | get-table | key-type "M1+s"
-get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "MyProject/src/com.mycompany/Exc/<<aStereotype0>>attribute0:String" | get-property caption 
-    | equals "<<aStereotype0>>attribute0:String" | verify-true
-get-editor "default.wvd" | click
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part 
-    -text "<<aStereotype0>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
-    | equals "<<aStereotype0>> +attribute0:String" | verify-true
-with [get-editor "default.wvd" | get-diagram] {
-    with [get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part 
-        -text "<<aStereotype0>> +attribute0:String" | get-edit-part -name attribute0] {
-        mouse-move 154 7 button1 -height 16 -width 215
-        mouse-press 154 7 button1 -height 16 -width 215
-        mouse-release 154 7 button1 524288 -height 16 -width 215
-        mouse-press 154 7 button3 -height 16 -width 215
-        mouse-release 154 7 button3 2097152 -height 16 -width 215
-    }
-    get-menu "Edit Stereotypes" | click
 }
 get-editor Exc | get-section Attributes | get-section -index 1 | get-button Add | click
 with [get-window "Stereotype Selection"] {
@@ -95,17 +55,11 @@ get-view "Tigerstripe Explorer" | get-tree
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part 
     -text "<<aStereotype0, aStereotype1>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
     | equals "<<aStereotype0, aStereotype1>> +attribute0:String" | verify-true
-
 get-view "Tigerstripe Explorer" | get-tree 
     | select "MyProject/src/com.mycompany/Exc/<<aStereotype0,aStereotype1>>attribute0:String" | double-click
-get-editor Exc | get-section Attributes | get-section | get-table | select attribute0
-
-with [get-editor Exc] {
-    //click
-    with [get-section Attributes | get-section -index 1] {
-        get-table | select aStereotype0
-        get-button Remove | click
-    }
+with [get-editor Exc | get-section Attributes | get-section -index 1] {
+    get-table | select aStereotype0
+    get-button Remove | click
 }
 get-window "Remove Stereotype" | get-button Yes | click
 with [get-editor Exc | get-section Attributes | get-section -index 1] {
