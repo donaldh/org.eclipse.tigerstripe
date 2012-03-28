@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/28/12 10:36 AM
+Save-Time: 3/28/12 3:50 PM
 Id: _YvmYEHfrEeG4HefzK52cHw
 Testcase-Type: ecl
 
@@ -51,6 +51,8 @@ with [get-window "Stereotype Selection"] {
     get-table | select aStereotype1
     get-button OK | click
 }
+
+
 get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>En" 
     | get-property caption | equals "<<aStereotype0,aStereotype1>>En" | verify-true
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name En | get-edit-part 
