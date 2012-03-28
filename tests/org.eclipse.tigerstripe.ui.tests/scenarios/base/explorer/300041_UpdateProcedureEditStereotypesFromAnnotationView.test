@@ -1,0 +1,62 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 300041_UpdateProcedureEditStereotypesFromAnnotationView
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
+Save-Time: 3/28/12 11:04 AM
+Id: _6pV5cHiKEeGcodmeDwJ6Aw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open class digram;
+2. Select Update Procedure and edit stereotypes in Annotation Properties view;
+3. Make sure that stereotype is displayed both in TS Explorer and on a diagram;
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default.wbp" | double-click
+get-editor "MyProject/default.wbp" | get-section "General Information" | get-link "Save as active profile and reload" 
+    | click
+get-window "Save as Active Profile" | get-button OK | click
+wait-until-eclipse-is-ready
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
+get-view "Annotation Property View" | click
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Upd"
+get-view "Annotation Property View" | get-table | get-menu "Add Stereotype" | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype0
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0>>Upd" 
+    | get-property caption | equals "<<aStereotype0>>Upd" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd 
+    | get-property text | equals "<<aStereotype0>>Upd" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/<<aStereotype0>>Upd"
+get-view "Annotation Property View" | get-table | get-menu "Add Stereotype" | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype1
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>Upd" 
+    | get-property caption | equals "<<aStereotype0,aStereotype1>>Upd" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd 
+    | get-property text | equals "<<aStereotype0, aStereotype1>>Upd" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>Upd"
+set-dialog-result MessageBox 64
+get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Upd" | get-property caption 
+    | equals Upd | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Upd | get-edit-part 
+    -text Upd | get-property text | equals Upd | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

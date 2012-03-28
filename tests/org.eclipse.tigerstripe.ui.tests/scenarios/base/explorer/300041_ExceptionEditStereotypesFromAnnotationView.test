@@ -1,13 +1,13 @@
 --- Q7 testcase ---
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
-Element-Name: 300041_EnumerationEditStereotypesFromAnnotationView
+Element-Name: 300041_ExceptionEditStereotypesFromAnnotationView
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/28/12 10:36 AM
-Id: _YvmYEHfrEeG4HefzK52cHw
+Save-Time: 3/28/12 10:55 AM
+Id: _k_yMgHiJEeGcodmeDwJ6Aw
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -17,7 +17,7 @@ Content-Type: text/plain
 TEST STEPS
 
 1. Open class digram;
-2. Select Enumeration and edit stereotypes in Annotation Properties view;
+2. Select Exception and edit stereotypes in Annotation Properties view;
 3. Make sure that stereotype is displayed both in TS Explorer and on a diagram;
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
@@ -30,36 +30,33 @@ get-editor "MyProject/default.wbp" | get-section "General Information" | get-lin
     | click
 get-window "Save as Active Profile" | get-button OK | click
 wait-until-eclipse-is-ready
-with [get-view "Tigerstripe Explorer" | get-tree] {
-    select "MyProject/default" | double-click
-    select "MyProject/src/com.mycompany/En"
-}
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default" | double-click
 get-view "Annotation Property View" | click
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/En"
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Exc"
 get-view "Annotation Property View" | get-table | get-menu "Add Stereotype" | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype0
     get-button OK | click
 }
-get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0>>En" 
-    | get-property caption | equals "<<aStereotype0>>En" | verify-true
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name En | get-edit-part 
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part 
     -text "<<aStereotype0>>" | get-property text | equals "<<aStereotype0>>" | verify-true
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/<<aStereotype0>>En"
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0>>Exc" 
+    | get-property caption | equals "<<aStereotype0>>Exc" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/<<aStereotype0>>Exc"
 get-view "Annotation Property View" | get-table | get-menu "Add Stereotype" | click
 with [get-window "Stereotype Selection"] {
     get-table | select aStereotype1
     get-button OK | click
 }
-get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>En" 
-    | get-property caption | equals "<<aStereotype0,aStereotype1>>En" | verify-true
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name En | get-edit-part 
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>Exc" 
+    | get-property caption | equals "<<aStereotype0,aStereotype1>>Exc" | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part 
     -text "<<aStereotype0, aStereotype1>>" | get-property text | equals "<<aStereotype0, aStereotype1>>" | verify-true
-get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>En"
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/<<aStereotype0,aStereotype1>>Exc"
 set-dialog-result MessageBox 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
-get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/En" | get-property caption 
-    | equals En | verify-true
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name En | get-edit-part 
-    -text En | get-property text | equals En | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "MyProject/src/com.mycompany/Exc" | get-property caption 
+    | equals Exc | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exc | get-edit-part 
+    -text Exc | get-property text | equals Exc | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
