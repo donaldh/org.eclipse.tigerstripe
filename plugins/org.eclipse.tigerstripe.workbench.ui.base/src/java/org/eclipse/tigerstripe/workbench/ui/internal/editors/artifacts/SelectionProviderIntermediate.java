@@ -121,8 +121,6 @@ public class SelectionProviderIntermediate implements IPostSelectionProvider {
 	}
 
 	public void setSelection(ISelection selection) {
-		if (delegate != null) {
-			delegate.setSelection(selection);
-		}
+		// Do nothing
 	}
 }
