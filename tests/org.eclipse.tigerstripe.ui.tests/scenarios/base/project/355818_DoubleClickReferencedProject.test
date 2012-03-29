@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 355818_DoubleClickReferencedProject
 Tags: TS_Project/Edit, TS_Project/References
 External-Reference: http://docs.xored.com/display/TS/355818_DoubleClickReferencedProject
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_HbU74PhGEd-iKuOiJgVXVQ,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_HbU74PhGEd-iKuOiJgVXVQ
+Save-Time: 3/23/12 4:09 PM
 Id: _DQ_zMNkTEeCrRbabNEcanQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -46,52 +48,3 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 get-view Problems | click -nowait
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNklFPwjAUhd9N/A9Nn2UVEZkLgxiY
-KAQEBoS3pWvLKGwtrh0b/nqLgWmMIb6193w9vee2zXaRxGDPUsWlcGHVuoWACSIpF5ELM72q2LDdur5q
-EplYhUwZtd4bliJM4JRLxz8tQJFwp3S5O7oYX6EcU3fhWuudg1Ce55ZMIkumEVoOX8/In87lIaOiLxW9
-N9BZtRgxJQgETpgLa/W6XbWDrszCmHViTrZTtmKpicHoOJUbRjT8jlg7NsepC4PuJPgYjrYzj3XSaYjD
-kUewmECgcaRcOPOD02HkUa5vwI9C6a8MfdiZHhiJzeAKzVKB41IuU1BJ1CnkMRDlahfjA5r56D/Nm/kD
-YF5AaHODagXPvZU/H+i1Ryt7u58vQ5EFetJEJfGLfwnnjfvxumd4PsjeeD9aLBcX+Mfuw+YJ6+iC/3Fz
-6UMY5BNQSwcIHBumfkcBAABbAgAAUEsBAhQAFAAIAAgAAAAhABwbpn5HAQAAWwIAAAgAAAAAAAAAAAAA
-AAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAH0BAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AAEANgAAAMkGAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

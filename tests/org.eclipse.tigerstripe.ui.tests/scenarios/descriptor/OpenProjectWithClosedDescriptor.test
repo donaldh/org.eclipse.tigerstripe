@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: OpenProjectWithClosedDescriptor
 Tags:  Descriptor, Dependency, I41
 External-Reference: http://docs.xored.com/display/TS/OpenProjectWithClosedDescriptor
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,__8ZooMxeEeCTcJc7g1x7bg,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/22/11 2:23 PM
+Save-Time: 3/29/12 4:38 PM
 Id: _QptvUPY0EeCee55EhZjojA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -56,50 +58,3 @@ with [get-tab-folder] {
     get-property tabCount | equals 1 | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFkV9PwjAUxd9N/A5Nn2EFFYcLgxBA
-A4YIAhF5WUZ72Z9s7WgLG9/eYmAkRvGtvffcX+85bXWKNEF7kCoS3MV1q4YRcCpYxAMX7/Sm2sSd9u1N
-i4rUKoQEZm1tS1HgvoyEMzsdUJFGTkm5O1IMlyvH1F0cap05hOR5bok0sIQMyHI8PEt+JZdDpku+u2Rr
-k3PXAmpKGHE/BRe/ZcAnUsRA9Uekw14iFLA+KCqjTAuJL/buj4tFzMXeNNP7xeSzNoAeQKMxCFexiLsY
-aT9QLkaX6Yo5Gz4zoRwqaPhQN5pDZl4FmpioCg2S+8k7bEAaCZR7M0HVydbRAotUlvgHMp+R/9Y1aSNk
-8uba0FXbe37ZzBavOhyw6r45ypdrvvP0tEVKxQ+911wJMS7AWJvTEbWDemGvg7/1T/3HuOvr4Ar/eLn2
-/UbyBVBLBwjcFbk/RgEAAEkCAABQSwECFAAUAAgACAAAACEA3BW5P0YBAABJAgAACAAAAAAAAAAAAAAA
-AAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAfAEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtW91vm0gQfz/p/gfESfcWY8COE1/d
-Xs91q0qNVDVRew+VqjWsybYLi5YlTu+vv9nl0wlgk4KTOFFe8LI7O/ObT2aUF6+ufapdYR4RFsx0czDU
-NRw4zCWBN9NjsTo60V+9/P23Fw7zB9eMY3cgcETRwIHnQciZYA6jA47W0wu5fu7gAHHCtGufTHOyliQL
-FwXRFNZn+qUQ4dQw1uv1gPnegHHP+Pfsfb4l2tyyttUOazg0YduHc+cS++iIBJFAgYOzU40M5vQM2Gao
-bYbaZshtRi4Hlj93oihF3pGqAVt3oByTLfRisklF/dhACjuUhBFWcGF/JSGzjIU6AzrUNKlFHwVupAHG
-U/EzhOONUk7PMcWOmCfHEiJAxkUCaT9I4M70RXLlF/jB1rrmx1SQkBKHiJ9gTrqR3GtkF/fFxmeC4fYQ
-CYE5GNyCc8a1D8y7zVF6GI6HiONAaOSmFGCrlbK5OHI4CYUy6QvigXUL+I21Iy3dqX2kSKwY91O5peSS
-yT2B8E8sBAtKMMwpRgoGTeKD+Y5oyM05CArZPsR5h8W5QAJnNtKawBzE+JHjAOD4mQAJELkIKS4d2eIX
-RMRbxhPes9sj+UvdrdbzqzckfEasHjGzF8Taxo2yVy+uQwrEdnWawwghFxzjFlHC7D1KnIPNK6YBskrL
-lRzncCv2czZArZcvP3L2HY6bLwz1s/xKFAoYQEot7fhltt+weElxvb/Vcf2g8TpjLqZaukH7hFcYjMHB
-UcVWqEDyaqQMM7AsBj5zY4q/QbEJf98hQx1p8+lXEMHjyI++iujIHJlfQxp7UOQ96+1g9NZEvGL7wnzW
-7BbNRtypWHXxCkEEPxD02ha9yQntNaWHlLl7r/3M+6v9rPup/RYuEYyXLOdGXjkk80m0r62JuJQamekr
-RCNcaQ4JLIUgCUodKWVO2X1c294W0hg6WF+5T9oOzIeikCwLGs9eWmjHuh8v7e3aR2KcZziIm+0O6q63
-hOKN4ix78QnKXcTF7XePy1h7rEgkvrnYCuxuq5FUA3fm/El2xb+Z42pLfBSNqhL3vfWqXkcRBqvSAG9O
-lrGAA0Rgf87iAFavEI1hZVj7/VTmcfMzUB29AA5KrKjpz3TxBriXb3TtkuPVjtOgPwxj8T4Q+0vmD9Id
-umr2Wt/M48frGXaJ+x67uFuYfg9+sjWjpiWg1ZA5pfBliTb9qF6i1BfPUBiSwNPSlzPdMP7ONg5ueW60
-c7LOOXBYIDijW5GLyTTzFhygZXIffKHyGHS7ZNzF/AuUSRIkTRBB8dYSoIBriZwfHoeg5M4ZGL0GV890
-awSse4BWkD4vVbSSj0ZxFCjh0tHSm6VcBLFm+ukQykOpvvGxrOVcxeXQGkGEwsS7BCkmxyclnWSQpHrZ
-1MTu2jGrtdMwy2yhiyRy3NZECn2RWPeGsiXRBZRHk2GO8mRkFiCbk1H3IFvVIDdND9sBnXXzKqBmTAaH
-qqF26uqwoW/8HaTq7ZcAaPrUMcB2NcBNQ+W7XnXccFXNNPauV53W+2bNBLE736zM8ntzU1s56bjwUWtU
-CoTj0x581KzJUw1jhhZoJ9XFbbQlCUQC+bGWLalsno8+stW8IgYstuphPC70IJ9TPcBjGz1sg152pDM2
-8yWtafpSvK6fRSZKvUm4OzXXOFVTN7/zWJzOWv5EfviXGrgcUCi2avyoaWRx57tq4n5TU7ydMrN+am2c
-vNlW3XOItI6ryxj7dNxDGVOT+5q6ih3DXZ4vPBSoJ3YPUJ80QV3dSO4Y6trJwUPBvQ8Tt2tK9brWajvM
-5cHkkz0NvjM966lW6AHuwvKTZSi3Rw5ycfrmV8Om3VQu292GaLsuZrRsku6tA5CbfcQdoxRu7rU5MDkZ
-J80B63SfzQF70vAFUtsaPowGwehkjw0CuybcN/e3+/n+oCTA0WcSkSXNAg4ID9GHby7u9SNkUwWjSZmG
-w2jsB1ERU89wFCEP2OY4Iv+hkhwpNXs4bCTwkcbeEQnyEGzWkzLHzaTeyCCah/Ld6HRmVqNdeq879OGf
-g+89BN9RQ2u2fvrwRDpAE6sHwGtqv+bhyFNsAvWCfk1RKutlq5QCVf18V/RvFN/ZZKwU6PeDKlwlE5oM
-KkWZAVmtSHFtAoqayrX5N1M48z9QSwcIaDy+JEIGAADCOgAAUEsBAhQAFAAIAAgAAAAhAGg8viRCBgAA
-wjoAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAHgGAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

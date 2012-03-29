@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: DisplayStereotypesInExplorer
 Tags: TS_Project/Preferences, Stereotypes
 External-Reference: http://docs.xored.com/display/TS/DisplayStereotypesInExplorer
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _pGxrsGdIEeCWiLpyewgyVA
-Save-Time: 1/18/12 1:44 PM
+Save-Time: 3/29/12 4:30 PM
 Id: _2iKvUEuoEeCaoMSzIEHw9Q
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -65,7 +67,7 @@ Content-Type: text/ecl
 get-view "Tigerstripe Explorer" | get-tree | select "Test_project/default.wbp" | double-click -nowait
 get-editor "Test_project/default.wbp" | get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
 get-window "Save as Active Profile" | get-button OK | click -nowait
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "Test_project/src/test_new"
     with [get-item "Test_project/src/test_new"] {
@@ -214,41 +216,5 @@ with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
 }
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kc1OwzAQhO9IvIPlM9hQDoUoboUg
-KhFUKqT83KLI2QajxE5tt0l4ejbQBg6oJ692xp9md8NpW5VkC9YpowU9Z2eUgJYmV7oQdONXp5d0Ojk+
-CqWpWGss5Gw9Zk6CzqwyQbIrSFupYKCMegpytQuwL+i793XAedM0zFQFM7bgb/N4b/mXPHxClX+rfD3m
-e5WBxBYlOqtA0Fvl6jLrEg8WjO9qcLGO2rpEi6W/s130qVQuaDpS99vnaGMiuMnMPPmMo7vm6pESnxVO
-0GWSLqz5AOn5wsIKoVqCOyF/+GjFR1CQJa6rRUFn5dPeO2TPjXS70fox8p+cfJnwg5Fx3YTgwrVHtJuk
-9ay1bpbHGPdVPdQdNEX3ch3ywYHn4Yfvg5YvUEsHCBi2nZYhAQAA6gEAAFBLAQIUABQACAAIAAAAIQAY
-tp2WIQEAAOoBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABXAQAAAAA=
-
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTdWNFu2zoMfb/A/kHwe63YXZouaNpt
-3XYx9BYb1gHd26DITKLVtgyZXtq/v5Qju0nruM6WBOueassUKZ5zKDI9ObtNYvYTTK50OvICv+cxSKWO
-VDodeQVODo69s9MX/5xInfi32kDkI+Sx8CU9+5nRqKWOfSPmw692/UpCKozS7DZRw9ptaN1SoDQf0vrI
-myFmQ87n87mvk6mvzZR/u/xYm+SrJvPD0iLs9QIy++9KziARByrNUaQSql2tB6z9cTLjpRkvzbg143Ue
-YF87ebQpd/TKybSD50I94a9QzgvxwZhlJBFplDPCa4h3GYy81hMPryAGieeLbQsn5CYSKNiNSqOR917G
-Ksvhml703GNJEaPKYiUV3pE0PL6Iy6vAuzrGJaTF4+jOkEwzgbPTr2pK6kKjMjjh5crq9zcS1U9gn42e
-qBjYO0Ch4tz3/cfWBlJk6mH+pNhGVCLIJUXFUthLp2AHjCoAv1OePyg/HsFEUAr+fJzRJ+eEfY4FTrRJ
-HJgWTpv5dpD9F/AKBULF1MYOzgnum5oS4impoLGc1IiUBG1JDddC4QdtFueuIuf2rYxbrteBV7LbuQ4r
-xkkvCIbYbtZUu1T/GnE9CdfbAlGnS3B9gRywQqsjSg/gacRlDQ3PrKIWcNWZOvT2WFXBH1JVC5k4UjNH
-Kmr2QUjU5o74LbWenz1PCW1eN58uNso0aM20O7rPsn6CndYPgYfCYOXVhb8UWUbjMXNeRx7nr6sINOg+
-OGze+favCZA6RaPjJ49bqGHFOU3d40W8kYemoOt2rE0E5lrhzOqHocIYfqen3CtwLOTN1Ogijc51rA2j
-U9GI/5KymhqA1D2P4wIWj/x+K3mCpa1LX8Z2kTIeecd9Oi6Jvj/w2FxF5fl74UuPzUBNZ5Tf4Oh4SawV
-WI74VY668xY087Zu7tmMJbvxI0LiMSlabyCaT5u4pOhAyBzZ/bkUEbgP/DeTDpuTbhu6fjVUvzlU82W9
-j0pY0wL2JnP6OVvKvPzrdN63z5XMD3u97cv8qJmGtmFkMxqqbvaYBtTa9rSqJS31oonrRe4G2iMJg0HJ
-QTA4rDmwSxUFYX/Zoavd05W5lphxy1tmatBSm2tGt1+++9Y0reb5Yh/F2X1q2ZtUguNXrl7v+1I/DJfE
-EvR30JbW9KW26WdLBbsfZB2Sr8Knqu7Txc5KLWjrg2HHWitnzk3+RUp7/gdQSwcIb7gUR4oDAAB+FQAA
-UEsBAhQAFAAIAAgAAAAhAG+4FEeKAwAAfhUAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAA
-AAABAAEANgAAAMADAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: PackageWithArtifactsRefactoringPresentationHierarchical
 Tags: TS_Project/Edit/Artifacts/Refactor/Rename
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _RR91gMiqEeCVYvz9uSPZwA,_2smyoE5PEeGrX_dWnrkcag,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 2/3/12 6:15 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_2smyoE5PEeGrX_dWnrkcag
+Save-Time: 3/23/12 4:11 PM
 Id: _1xbqME5XEeGrX_dWnrkcag
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -24,82 +26,19 @@ Select package org.eclipse.test in Tigerstripe explorer and select Refactor Mode
 Rename package from org.eclipse.test to org.eclipse.test1
 Check artifacts count in renamed package
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9Ud9PwjAQfjfxf1j6zioYBBYmIbr4
-IyGZYGT6spTuKAXWQnuw4V9vZ2QGoz71et9333131x+U+drbg7FSq5A0/QvigeI6k0qEZIfzRpcMrs/P
-+lznfqkNZP6241sOihmpg8lX4JW5DGqVVqXidJUNXD4kC8RNQGlRFL7Oha+NoMno4Uj5Vbkucij9ROm2
-Q4+oD9yliKdYDiGJGV8xAVOJi6FBOWcc7RiqRxs3RmzAgkKGztu9BMMMX0jO1uR77MvKsMxCkjbL2XYU
-tZMI7kySZlNlVpwJ4iETNiTPkzQ2egkcaZRJpHU7euzngsqUKzhsnDXga+K253lufwqhRHudjse9phjJ
-bQQ3L6/7995uEr8Vwz6tGT/4LZsfdNSOTy39ze/dXi2HDEWUNfbdxyKZqV2KTyf86vPfOR3lA1BLBwjz
-7QfPPQEAABkCAABQSwECFAAUAAgACAAAACEA8+0Hzz0BAAAZAgAACAAAAAAAAAAAAAAAAAAAAAAALmNv
-bnRlbnRQSwUGAAAAAAEAAQA2AAAAcwEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+with [get-view "Tigerstripe Explorer"] {
+    get-menu "Package Presentation/Hierarchical" | click
+    get-tree | select "New Project/src/org/eclipse/test" | get-menu "Refactor Model/Rename..." | click
+}
+with [get-window "Refactor Model Artifact"] {
+    get-editbox -after [get-label "New name:"] | set-text "org.eclipse.test1"
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org/eclipse/test1" | get-property childCount 
+    | equals 12 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

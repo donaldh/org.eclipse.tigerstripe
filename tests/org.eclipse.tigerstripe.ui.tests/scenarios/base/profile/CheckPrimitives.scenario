@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: CheckPrimitives
 Tags: TS_Project/Profile 
 External-Reference: http://docs.xored.com/display/TS/CheckPrimitives
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _Jp774BGJEeC46s5Prxi4vQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 3/29/12 4:30 PM
 Id: _f3dhgA5pEeCNwqgXAnPIdw
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -50,7 +52,7 @@ with [get-editor "Project2/ProfileProject2.wbp"] {
     get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
 }
 get-window "Save as Active Profile" | get-button OK | click -nowait
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 get-view "Tigerstripe Explorer" | get-tree | select "Project2/src" | get-menu "New/Datatype" | click
 with [get-window "Create a new Datatype"] {
     get-editbox -after [get-label "Name:"] | set-text Datatype
@@ -64,74 +66,5 @@ with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
 }
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kNFKwzAUhu8F3yHk3kTdZqWsG3OI
-bKBUu4vdjZKcdtEmaZO4dm/vqWwVRLxKOP/Jx59vOu90RQ7gvLImoTfsmhIwwkplyoR+huLqns5nlxdT
-YTXrrAPJmoh5ASZ3ysbZ6UI6reKBcttTkGt8jPOE7kOoY87btmVWl8y6km+fV+eVP8nDI0z5d8qbiJ9T
-BgJHlJhcQ0KXexAfqVNaBXUAT3++M+qLKJnQXTGS+3IxqR9h+dI25XZh0pVsKQl56RO6yXaps+8gAsez
-UBUQjI41wkFUaKQL4ExevUEBDvXAUE9a4U/t+6ZS+brKj3yT8d+tUCIhqNEEpPnZbl1H0fjhaY2Nxnd+
-krpOjQ+vUz5soHT+v3Vc+QJQSwcIS0F13hcBAADAAQAAUEsBAhQAFAAIAAgAAAAhAEtBdd4XAQAAwAEA
-AAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAE0BAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

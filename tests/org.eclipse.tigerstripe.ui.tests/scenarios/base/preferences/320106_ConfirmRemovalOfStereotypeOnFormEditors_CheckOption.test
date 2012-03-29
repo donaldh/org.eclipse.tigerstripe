@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _pGxrsGdIEeCWiLpyewgyVA
-Save-Time: 2/16/12 12:50 PM
+Save-Time: 3/29/12 4:30 PM
 Id: _J7T9cFLVEeG1ps2f3Ic7Yg
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ get-view "Tigerstripe Explorer" | get-tree | select "Test_project/default.wbp" |
 get-editor "Test_project/default.wbp" | get-section "General Information" 
     | get-link "Save as active profile and reload" | click
 get-window "Save as Active Profile" | get-button OK | click
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 get-preferences-menu | click
 with [get-window Preferences] {
     get-tree | select "Tigerstripe/General"
@@ -56,5 +56,5 @@ with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click
 }
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

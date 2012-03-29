@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: CreateProfile
 Tags: TS_Project/Profile 
 External-Reference: http://docs.xored.com/display/TS/CreateProfile
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _6gHaIA50EeCNwqgXAnPIdw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 3/29/12 4:30 PM
 Id: _njL3EA5pEeCNwqgXAnPIdw
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -30,7 +32,7 @@ with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
 }
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "New/Workbench Profile" | click
 with [get-window "New Tigerstripe Workbench Profile"] {
     get-editbox -after [get-label "File name:"] | set-text testProject
@@ -63,59 +65,3 @@ with [get-editor "Project1/testProject.wbp"] {
 }
 get-button "Save \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kNFKwzAUhu8F3yHk3mQ65qS0G2UM
-LKgMu4vdlZCc1ow2aZNou7f3VLbCYHh3OP85Hx9/vB6amvyA89qahD6yGSVgpFXaVAn9DuXDC12v7u9i
-aRs2WAeKdUvmJRjhtI3y80CGRkcT5WmkINf4CPcJ/QqhjTjv+57ZpmLWVfzwnl1ObpKnJ0z5X8q7Jb+k
-DCSuKDGigYRuHIgAO2dLXeNy0piPGloltDDHt/k2XbRb2Hz0XXVIzS5TPSVBVD6h+7zA5yPIwM8QgtGp
-RTTIGvsYAjgj6k8owWE5MMkpK/3ZffRU2re1OPF9zq+dsEBCsEITkOVXxXP1KrJ0Mbv2ifl0gYXz/xvH
-k19QSwcIiPjVKggBAAC8AQAAUEsBAhQAFAAIAAgAAAAhAIj41SoIAQAAvAEAAAgAAAAAAAAAAAAAAAAA
-AAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAD4BAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

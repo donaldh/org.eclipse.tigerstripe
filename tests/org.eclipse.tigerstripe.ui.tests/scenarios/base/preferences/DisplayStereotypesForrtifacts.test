@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: DisplayStereotypesForArtifacts
 Tags: TS_Project/Preferences/ExplorerPreferences
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_pu4uwDwWEeGvce_60BRGbQ
-Save-Time: 1/18/12 1:44 PM
+Save-Time: 3/29/12 4:30 PM
 Id: _E-ooIDwYEeGvce_60BRGbQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -26,7 +28,7 @@ Content-Type: text/ecl
 get-view "Tigerstripe Explorer" | get-tree | select "MyProject/MyProfile.wbp" 
     | get-menu "Profile/Set as active profile." | click
 get-window "Save as Active Profile" | get-button OK | click
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 
 get-preferences-menu | click 
 with [get-window Preferences] {
@@ -42,76 +44,3 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         | equals "<<MyStereotype>>Datatype1" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV9PwjAUxd9N/A5N32nxT4QsK0TD
-RDQmTEzEp2V0d6O6taPt6Pj2FiNTjPGtPed3z729DcdtVaItaCOUZPiM9DECyVUmZMFwY/PeEI9Hpych
-VxVplYaMbAbEcJCpFipYfB1QW4mgSznfp/hcaQKvM7y2tg4odc4RVRVE6YIuH2cH5M/krsi79NOlmwE9
-uAS4lzCSaQUMT4Spy3S3sKBB2V0N5lbpa21FnnJr8PfrLvZziYzhJOopNZu41wimWw7JVf/mabqKMbJp
-YRh+XiRzrd6AWzrXkPtYycHQqK1L31b/0HyF78cw8BL7LSHk9yQttNaMEn2Xv8cPdh1lve3w3i1Xskls
-HNKO+MXXzWXjJu7leKYjfn/57xs88gFQSwcIRcTP6B0BAADRAQAAUEsBAhQAFAAIAAgAAAAhAEXEz+gd
-AQAA0QEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFMBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AJ8MAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

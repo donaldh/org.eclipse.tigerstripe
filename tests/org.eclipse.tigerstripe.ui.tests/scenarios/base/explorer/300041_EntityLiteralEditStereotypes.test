@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
-Save-Time: 3/28/12 3:35 PM
+Save-Time: 3/29/12 4:31 PM
 Id: _bvUT0HQBEeGzfKsLsjcekw
 Testcase-Type: ecl
 
@@ -31,7 +31,7 @@ get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default.wbp" | do
 get-editor "MyProject/default.wbp" | get-section "General Information" | get-link "Save as active profile and reload" 
     | click
 get-window "Save as Active Profile" | get-button OK | click
-wait-until-eclipse-is-ready
+////wait-until-eclipse-is-ready
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "MyProject/default" | double-click
     select "MyProject/src/com.mycompany/En" | double-click

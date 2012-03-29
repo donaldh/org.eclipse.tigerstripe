@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/SaveAndDeployProfile
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_rIExwA53EeCNwqgXAnPIdw
-Save-Time: 3/23/12 12:17 PM
+Save-Time: 3/29/12 4:30 PM
 Id: _edH1AA5qEeCNwqgXAnPIdw
 Testcase-Type: ecl
 
@@ -39,14 +39,14 @@ with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
     }
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 get-menu "Tigerstripe/Active Profile Details..." | click
 get-window "Active Profile Details" | get-editbox -after [get-label Name] | get-property value | is-equal "NO_NAME" | verify
 get-window "Active Profile Details" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/testProject.wbp" | double-click
 get-editor "Project1/testProject.wbp" | get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
 get-window "Save as Active Profile" | get-button OK | click -nowait
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 get-menu "Tigerstripe/Active Profile Details..." | click
 get-window "Active Profile Details" | get-editbox -after [get-label Name] | get-property value | is-equal testProject | verify
 get-window "Active Profile Details" | get-editbox -after [get-label Version] | get-property value | is-equal "1.0" | verify
@@ -55,7 +55,7 @@ with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
 }
-wait-until-eclipse-is-ready
+//wait-until-eclipse-is-ready
 get-menu "Tigerstripe/Active Profile Details..." | click
 get-window "Active Profile Details" | get-editbox -after [get-label Name] | get-property value | is-equal "NO_NAME" | verify
 get-window "Active Profile Details" | get-button OK | click
