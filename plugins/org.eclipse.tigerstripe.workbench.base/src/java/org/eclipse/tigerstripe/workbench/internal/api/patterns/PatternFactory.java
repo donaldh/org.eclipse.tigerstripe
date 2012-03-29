@@ -77,116 +77,123 @@ import org.w3c.dom.NodeList;
 
 public class PatternFactory implements IPatternFactory {
 
-	private static String NEW_MENU_NAME= "org.eclipse.tigerstripe.workbench.ui.menu.new";
-	
-	private static AbstractContributionFactory artifactPatternMenuAddition;
-	private static AbstractContributionFactory artifactPatternToolbarAddition;
-	private static AbstractContributionFactory artifactPatternToolbarDropDownsAddition;
-	private static AbstractContributionFactory projectPatternToolbarAddition;
-	private static AbstractContributionFactory projectPatternToolbarDropDownsAddition;
+	private static final String NEW_MENU_NAME= "org.eclipse.tigerstripe.workbench.ui.menu.new";
 	private static PatternFactory instance = null;
-	private static Map<String,IPattern> discoveredPatterns = new HashMap<String,IPattern>();
-	private static Map<String,IPattern> registeredPatterns = new LinkedHashMap<String,IPattern>();
-	private static Collection<String> disabledPatterns = new ArrayList<String>();
+	
+	private AbstractContributionFactory artifactPatternMenuAddition;
+	private AbstractContributionFactory artifactPatternToolbarAddition;
+	private AbstractContributionFactory artifactPatternToolbarDropDownsAddition;
+	private AbstractContributionFactory projectPatternToolbarAddition;
+	private AbstractContributionFactory projectPatternToolbarDropDownsAddition;
+	private Map<String,IPattern> discoveredPatterns = new HashMap<String,IPattern>();
+	private Map<String,IPattern> registeredPatterns = new LinkedHashMap<String,IPattern>();
+	private Collection<String> disabledPatterns = new ArrayList<String>();
 
-	private static ModelChangeRequestFactory requestFactory = new ModelChangeRequestFactory();
+	private ModelChangeRequestFactory requestFactory = new ModelChangeRequestFactory();
 	
 	
 	// Important stuff for the XML parsing and Validation
-	private static Bundle baseBundle = org.eclipse.core.runtime.Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
-	private static String schemaLocation = "resources/schemas/tigerstripeCreationPatternSchema-v1-0.xsd";
+	private Bundle baseBundle = org.eclipse.core.runtime.Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
+	private String schemaLocation = "resources/schemas/tigerstripeCreationPatternSchema-v1-0.xsd";
 	
-	private static String tigerstripeNamespace = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0";
-	private static String patternNamespace     = "http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0";
-	private static TigerstripeXMLParserUtils xmlParserUtils;
-	private static Document patternDoc;
-	private static DocumentBuilder parser;
+	private String tigerstripeNamespace = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0";
+	private String patternNamespace     = "http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0";
+	private TigerstripeXMLParserUtils xmlParserUtils;
+	private Document patternDoc;
+	private DocumentBuilder parser;
 
-	private static Integer undefined = 10000;
-	private static IArtifactManagerSession session;
+	private Integer undefined = 10000;
+	private IArtifactManagerSession session;
 	
-	public static PatternFactory getInstance(){
+	public synchronized static void reset(){
+		instance = null;
+	}
+	
+	public synchronized static PatternFactory getInstance(){
 		if (instance == null){
 			instance = new PatternFactory();
-			
-			xmlParserUtils = new TigerstripeXMLParserUtils(tigerstripeNamespace);
-			
-			// read any new Patterns form the extension.
-			try {
-				IConfigurationElement[] elements  = Platform.getExtensionRegistry()
-					.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.creationPatterns");
-				
-				Map<Integer,String> patternList = new TreeMap<Integer,String>();
-				
-				for (IConfigurationElement element : elements){
-					if (element.getName().equals("patternDefinition")){
-						// Need to get the file from the contributing plugin
-						String patternFileName  = element.getAttribute("patternFile");
-						IContributor contributor = ((IExtension) element.getParent()).getContributor();
-						
-						Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
-						
-						try {
-							IPattern newPattern = parsePatternFile(bundle,patternFileName);
-							
-							if (element.getAttribute("validator_class") != null){
-								IPatternBasedCreationValidator validator = (IPatternBasedCreationValidator) element
-									.createExecutableExtension("validator_class");
-								if (validator != null){
-									((Pattern) newPattern).setValidator(validator);
-								}
-							}
-							
-							if (!discoveredPatterns.containsKey(newPattern.getName())){
-								discoveredPatterns.put(newPattern.getName(), newPattern);
-								int index = newPattern.getIndex();
-								
-								// protect against two indexes the same
-								while (patternList.get(index) != null){
-									index++;
-								}
-								patternList.put(index, newPattern.getName());
-								
-							} else {
-								throw new TigerstripeException("Duplicate pattern name definition");
-							}
-						} catch (TigerstripeException t){
-							BasePlugin.logErrorMessage("Failed to instantiate creation Pattern");
-							BasePlugin.log(t);
-						}
-					
-					} else if (element.getName().equals("disabledPattern")){
-						String disabledName  = element.getAttribute("patternName");
-						if (!disabledPatterns.contains(disabledName)){
-							disabledPatterns.add(disabledName);
-						}
-					}
-					
-				}
-				
-			// sort the discovered patterns based on their indexes 
-			// into a LinkedHashSet
-				for (Integer patternIndex : patternList.keySet()){
-					String patt = patternList.get(patternIndex);
-					registeredPatterns.put(patt, discoveredPatterns.get(patt));
-				}
-				
-			
-			// Make patterns available from menu
-				
-			addPatternMenuContribution();
-				
-			}catch (Exception e ){
-				BasePlugin.logErrorMessage("Failed to instantiate creation Patterns");
-				BasePlugin.log(e);
-			}
-
+			instance.init();
 		}
-
 		return instance;
 	}
 	
-	public static IPattern parsePatternFile(IResource pluginRoot,String patternFileName) throws Exception {
+	private void init() {
+		xmlParserUtils = new TigerstripeXMLParserUtils(tigerstripeNamespace);
+		
+		// read any new Patterns form the extension.
+		try {
+			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.creationPatterns");
+			
+			Map<Integer,String> patternList = new TreeMap<Integer,String>();
+			
+			for (IConfigurationElement element : elements){
+				if (element.getName().equals("patternDefinition")){
+					// Need to get the file from the contributing plugin
+					String patternFileName  = element.getAttribute("patternFile");
+					IContributor contributor = ((IExtension) element.getParent()).getContributor();
+					
+					Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
+					
+					try {
+						IPattern newPattern = parsePatternFile(bundle,patternFileName);
+						
+						if (element.getAttribute("validator_class") != null){
+							IPatternBasedCreationValidator validator = (IPatternBasedCreationValidator) element
+								.createExecutableExtension("validator_class");
+							if (validator != null){
+								((Pattern) newPattern).setValidator(validator);
+							}
+						}
+						
+						if (!discoveredPatterns.containsKey(newPattern.getName())){
+							discoveredPatterns.put(newPattern.getName(), newPattern);
+							int index = newPattern.getIndex();
+							
+							// protect against two indexes the same
+							while (patternList.get(index) != null){
+								index++;
+							}
+							patternList.put(index, newPattern.getName());
+							
+						} else {
+							throw new TigerstripeException("Duplicate pattern name definition");
+						}
+					} catch (TigerstripeException t){
+						BasePlugin.logErrorMessage("Failed to instantiate creation Pattern");
+						BasePlugin.log(t);
+					}
+				
+				} else if (element.getName().equals("disabledPattern")){
+					String disabledName  = element.getAttribute("patternName");
+					if (!disabledPatterns.contains(disabledName)){
+						disabledPatterns.add(disabledName);
+					}
+				}
+				
+			}
+			
+		// sort the discovered patterns based on their indexes 
+		// into a LinkedHashSet
+			for (Integer patternIndex : patternList.keySet()){
+				String patt = patternList.get(patternIndex);
+				registeredPatterns.put(patt, discoveredPatterns.get(patt));
+			}
+			
+		
+		// Make patterns available from menu
+			
+		addPatternMenuContribution();
+			
+		}catch (Exception e ){
+			BasePlugin.logErrorMessage("Failed to instantiate creation Patterns");
+			BasePlugin.log(e);
+		}
+
+		
+	}
+
+	public IPattern parsePatternFile(IResource pluginRoot,String patternFileName) throws Exception {
 		if ( pluginRoot instanceof IContainer){
 			IContainer container = (IContainer) pluginRoot;
 			IResource patternResource = container.findMember(patternFileName);
@@ -197,13 +204,13 @@ public class PatternFactory implements IPatternFactory {
 		return null;
 	}
 	
-	public static IPattern parsePatternFile(Bundle bundle,String patternFileName) throws Exception {
+	public IPattern parsePatternFile(Bundle bundle,String patternFileName) throws Exception {
 		URL patternURL = bundle.getEntry(patternFileName);
 		URL rootURL = bundle.getEntry("/");
 		return parsePattern(rootURL, patternURL);
 	}
 	
-	private static IPattern parsePattern(URL rootURL,URL patternURL) throws Exception {
+	private IPattern parsePattern(URL rootURL,URL patternURL) throws Exception {
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory
 			.newInstance();
@@ -407,7 +414,7 @@ public class PatternFactory implements IPatternFactory {
 		return enabledPatterns;
 	}
 
-	public static void addPatternMenuContribution() {
+	public void addPatternMenuContribution() {
 		//final Map<String,Expression> expressions = loadExpressionDefinitions();
 		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
 		.getService(IMenuService.class);

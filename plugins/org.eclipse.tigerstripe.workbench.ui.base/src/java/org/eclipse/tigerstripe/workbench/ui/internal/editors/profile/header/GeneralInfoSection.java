@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -40,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchP
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.WeakRestart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.IFocusedControlProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
@@ -267,7 +269,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 						public void run(IProgressMonitor monitor) {
 							try {
 								monitor.beginTask(
-										"Deploying new Active Profile", 2);
+										"Deploying new Active Profile", 10);
 
 								IWorkbenchProfileSession session = TigerstripeCore
 										.getWorkbenchProfileSession();
@@ -278,7 +280,9 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 								monitor.worked(2);
 
 								monitor.subTask("Reloading workbench");
+								monitor.worked(1);
 								session.reloadActiveProfile();
+								WeakRestart.restart(new SubProgressMonitor(monitor, 7));
 								monitor.done();
 								operationSucceeded = true;
 							} catch (TigerstripeException e) {
@@ -296,8 +300,6 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 						ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 								shell);
 						dialog.run(true, false, op);
-						IWorkbench workbench = PlatformUI.getWorkbench();
-						workbench.restart();
 					} catch (InterruptedException e) {
 						EclipsePlugin.log(e);
 					} catch (InvocationTargetException e) {
@@ -373,7 +375,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
-							monitor.beginTask("Rolling back...", 2);
+							monitor.beginTask("Rolling back...", 10);
 
 							monitor
 									.subTask("Rolling back to previous active profile");
@@ -383,6 +385,8 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 
 							monitor.subTask("Reloading Workbench");
 							session.reloadActiveProfile();
+							monitor.worked(1);
+							WeakRestart.restart(new SubProgressMonitor(monitor, 7));
 							monitor.done();
 							operationSucceeded = true;
 						} catch (TigerstripeException e) {
@@ -400,8 +404,6 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
-					IWorkbench workbench = PlatformUI.getWorkbench();
-					workbench.restart();
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
@@ -431,7 +433,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
-							monitor.beginTask("Resetting profile...", 2);
+							monitor.beginTask("Resetting profile...", 10);
 
 							monitor
 									.subTask("Resetting profile to factory defaults");
@@ -442,6 +444,8 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 
 							monitor.subTask("Reloading Workbench");
 							session.reloadActiveProfile();
+							monitor.worked(1);
+							WeakRestart.restart(new SubProgressMonitor(monitor, 7));
 							monitor.done();
 							operationSucceeded = true;
 						} catch (TigerstripeException e) {
@@ -459,8 +463,6 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
-					IWorkbench workbench = PlatformUI.getWorkbench();
-					workbench.restart();
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {

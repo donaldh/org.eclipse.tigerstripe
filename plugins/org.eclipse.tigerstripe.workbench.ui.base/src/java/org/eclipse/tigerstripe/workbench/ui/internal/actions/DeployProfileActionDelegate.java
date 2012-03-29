@@ -12,20 +12,33 @@ package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorHelper;
+import org.eclipse.tigerstripe.workbench.ui.internal.WeakRestart;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractDiagramEditor;
+import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -48,16 +61,19 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
 					try {
-						monitor.beginTask("Deploying new Active Profile", 2);
+						monitor.beginTask("Deploying new Active Profile", 10);
 
 						IWorkbenchProfileSession session = TigerstripeCore
 								.getWorkbenchProfileSession();
 						rollbackCreated = session.saveAsActiveProfile(handle);
 						monitor.worked(2);
 						session.reloadActiveProfile();
+						monitor.worked(1);
+						WeakRestart.restart(new SubProgressMonitor(monitor, 7));
 						monitor.done();
 						operationSucceeded = true;
-					} catch (TigerstripeException e) {
+						
+					} catch (Exception e) {
 						EclipsePlugin.log(e);
 						operationSucceeded = false;
 					}
@@ -72,8 +88,6 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 				ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
 				// We still need to do this as it replaces the profile that will be used on start up
 				dialog.run(true, false, op);
-				IWorkbench workbench = PlatformUI.getWorkbench();
-				workbench.restart();
 			} catch (InterruptedException e) {
 				EclipsePlugin.log(e);
 			} catch (InvocationTargetException e) {

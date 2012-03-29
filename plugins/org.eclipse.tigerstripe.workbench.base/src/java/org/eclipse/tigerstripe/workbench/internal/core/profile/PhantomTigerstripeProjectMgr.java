@@ -55,6 +55,11 @@ public class PhantomTigerstripeProjectMgr {
 	private PhantomTigerstripeProjectMgr() {
 	}
 
+	public void reset() {
+		phantomProject = null;
+		needACompile = false;
+	}
+	
 	public static PhantomTigerstripeProjectMgr getInstance() {
 		if (instance == null) {
 			instance = new PhantomTigerstripeProjectMgr();

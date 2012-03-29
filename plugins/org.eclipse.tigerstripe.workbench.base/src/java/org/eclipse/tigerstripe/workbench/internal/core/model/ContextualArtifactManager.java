@@ -454,4 +454,7 @@ public class ContextualArtifactManager implements ArtifactManager {
 		mgr.removeDisposeListener(listener);
 	}
 
+	public void loadPhantomManager() {
+		mgr.loadPhantomManager();
+	}
 }

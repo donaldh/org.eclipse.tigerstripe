@@ -55,6 +55,7 @@ import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.WeakRestart;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 import org.eclipse.ui.IMemento;
@@ -93,6 +94,8 @@ public class TigerstripeContentProvider extends
 	private AbstractTreeViewer viewer;
 
 	private TigerstripeChangeAdapter tigerstripeChangeListener;
+	
+	private WeakRestart.Listener weakRestartListener;
 	
 	private void asyncExec(final Runnable r)  {
 		final Control control = viewer.getControl();
@@ -181,6 +184,18 @@ public class TigerstripeContentProvider extends
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
 				tigerstripeChangeListener, ARTIFACT_RESOURCES
 						| ITigerstripeChangeListener.PROJECT);
+		weakRestartListener = new WeakRestart.Listener() {
+
+			public void afterRestart() throws Throwable {
+				asyncExec(new Runnable() {
+					
+					public void run() {
+						viewer.refresh();						
+					}
+				});
+			}
+		};
+		WeakRestart.addListener(weakRestartListener);
 	}
 
 	protected void refreshReferences() {
@@ -237,6 +252,9 @@ public class TigerstripeContentProvider extends
 		if (tigerstripeChangeListener != null) {
 			TigerstripeWorkspaceNotifier.INSTANCE
 					.removeTigerstripeChangeListener(tigerstripeChangeListener);
+		}
+		if (weakRestartListener != null) {
+			WeakRestart.removeListener(weakRestartListener);
 		}
 	}
 

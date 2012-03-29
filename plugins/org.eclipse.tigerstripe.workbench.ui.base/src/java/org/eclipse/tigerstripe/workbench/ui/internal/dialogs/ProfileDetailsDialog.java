@@ -14,6 +14,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -44,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.WeakRestart;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -204,14 +206,14 @@ public class ProfileDetailsDialog extends Dialog {
 
 							monitor.subTask("Reloading Workbench");
 							session.reloadActiveProfile();
+							monitor.worked(1);
+							WeakRestart.restart(new SubProgressMonitor(monitor, 7));
 							monitor.done();
 							operationSucceeded = true;
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
 							operationSucceeded = false;
-						} finally {
-							TigerstripeProjectAuditor.setTurnedOffForImport(false);
-						}
+						} 
 					}
 				};
 
@@ -223,10 +225,6 @@ public class ProfileDetailsDialog extends Dialog {
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
-
-					IWorkbench workbench = PlatformUI.getWorkbench();
-					workbench.restart();
-					TigerstripeProjectAuditor.setTurnedOffForImport(true);
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
@@ -256,9 +254,6 @@ public class ProfileDetailsDialog extends Dialog {
 			String file = dialog.open();
 			if (file != null) {
 				internalDeploy(getShell(), file);
-				IWorkbench workbench = PlatformUI.getWorkbench();
-				workbench.restart();
-
 			}
 		}
 	}
@@ -315,69 +310,50 @@ public class ProfileDetailsDialog extends Dialog {
 												+ "') as the active profile. \n\nThis may restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
 							
 
-//							IRunnableWithProgress op = new IRunnableWithProgress() {
-//								public void run(IProgressMonitor monitor) {
-//									try {
-//										monitor.beginTask(
-//												"Deploying new Active Profile",
-//												2);
-//
-//										IWorkbenchProfileSession session = TigerstripeCore
-//												.getWorkbenchProfileSession();
-//										monitor.subTask("Creating Profile");
-//
-//										staticRollbackCreated = session
-//												.saveAsActiveProfile(handle);
-//										monitor.worked(2);
-//
-//										monitor.subTask("Reloading workbench");
-//										TigerstripeProjectAuditor.setTurnedOffForImport(true);
-//										session.reloadActiveProfile();
-//										monitor.done();
-//
-//										staticOperationSucceeded = true;
-//										
-//
-//									} catch (TigerstripeException e) {
-//										EclipsePlugin.log(e);
-//										staticOperationSucceeded = false;
-//									} finally {
-//										TigerstripeProjectAuditor.setTurnedOffForImport(false);
-//									}
-//								}
-//							};
+							IRunnableWithProgress op = new IRunnableWithProgress() {
+								public void run(IProgressMonitor monitor) {
+									try {
+										monitor.beginTask(
+												"Deploying new Active Profile",
+												10);
 
-							IWorkbenchProfileSession session = TigerstripeCore.getWorkbenchProfileSession();
-							staticRollbackCreated = session.saveAsActiveProfile(handle);
-							session.reloadActiveProfile();
+										IWorkbenchProfileSession session = TigerstripeCore
+												.getWorkbenchProfileSession();
+										monitor.subTask("Creating Profile");
 
-							
-							//Removed the progress dialog completely - this makes no sense if you do a restart!
-							
-							// moved the actual restart to the caller, as in one case this being called on start up...
-							// so start up was calling restart - and throwing an exception in the log
-							
-//							IWorkbench wb = PlatformUI.getWorkbench();
-//							IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-							//Shell shell = win != null ? win.getShell() : null;
+										staticRollbackCreated = session
+												.saveAsActiveProfile(handle);
+										monitor.worked(3);
 
-//							try {
-//								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
-//										shell);
-//								pDialog.run(true, false, op);
-//							} catch (InterruptedException e) {
-//								EclipsePlugin.log(e);
-//							} catch (InvocationTargetException e) {
-//								EclipsePlugin.log(e);
-//							}
+										monitor.subTask("Reloading workbench");
+										
+										session.reloadActiveProfile();
+										WeakRestart.restart(new SubProgressMonitor(monitor, 7));
+										monitor.done();
 
+										staticOperationSucceeded = true;
+										
 
+									} catch (TigerstripeException e) {
+										EclipsePlugin.log(e);
+										staticOperationSucceeded = false;
+									} 
+								}
+							};
+
+							try {
+								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
+										shell);
+								pDialog.run(true, false, op);
+							} catch (InterruptedException e) {
+								EclipsePlugin.log(e);
+							} catch (InvocationTargetException e) {
+								EclipsePlugin.log(e);
+							}
 						}
-
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					}
-
 				}
 	}
 }

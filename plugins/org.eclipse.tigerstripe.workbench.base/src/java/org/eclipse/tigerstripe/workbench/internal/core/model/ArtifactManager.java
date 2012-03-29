@@ -1,7 +1,6 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Reader;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -372,5 +371,6 @@ public interface ArtifactManager {
 	void addDisposeListener(IDisposeListener listener);
 
 	void removeDisposeListener(IDisposeListener listener);
-
+	
+	void loadPhantomManager();
 }

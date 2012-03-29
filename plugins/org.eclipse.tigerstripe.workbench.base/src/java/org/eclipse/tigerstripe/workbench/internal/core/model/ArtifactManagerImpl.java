@@ -313,19 +313,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			// It's a bit of a hack but we need to check that this is not the
 			// ArtifactManager of the phantom project itself! We can tell by the
 			// type of the tsProject that is passed
-			if (!(getTSProject() instanceof PhantomTigerstripeProject)) {
-				try {
-					IPhantomTigerstripeProject phantomProject = TigerstripeProjectFactory.INSTANCE
-							.getPhantomProject();
-					phantomArtifactMgrSession = phantomProject
-							.getArtifactManagerSession();
-
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-
-				}
-			}
+			loadPhantomManager();
 
 			// Register for changes of the profile or model
 
@@ -335,6 +323,22 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					this, ITigerstripeChangeListener.ARTIFACT_RESOURCES);
 			RefactoringChangeListener.getInstance().addArtifactManager(this);
 			writeLock.unlock();
+		}
+	}
+
+	public void loadPhantomManager() {
+		if (!(getTSProject() instanceof PhantomTigerstripeProject)) {
+			try {
+				IPhantomTigerstripeProject phantomProject = TigerstripeProjectFactory.INSTANCE
+						.getPhantomProject();
+				phantomArtifactMgrSession = phantomProject
+						.getArtifactManagerSession();
+
+			} catch (TigerstripeException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"TigerstripeException detected", e);
+
+			}
 		}
 	}
 
