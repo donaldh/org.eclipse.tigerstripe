@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_izWI8MinEeCVYvz9uSPZwA
-Save-Time: 3/23/12 4:06 PM
+Save-Time: 3/29/12 4:52 PM
 Id: _K8wHAFbgEeG3C4FnvvBmwQ
 Testcase-Type: ecl
 
@@ -37,6 +37,7 @@ with [get-window "Create a new Enumeration"] {
     get-editbox -after [get-label "Name:"] | set-text Enumeration2
     get-button Finish | click
 }
+
 with [get-view "Tigerstripe Explorer" | get-tree] {
     select "Project1/src/com.mycompany/ClassDiagram" | double-click
     select "Project1/src/com.mycompany/Enumeration2"
