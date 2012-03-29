@@ -18,7 +18,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -56,6 +55,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.progress.IProgressService;
+import org.eclipse.ui.progress.UIJob;
 
 /**
  * This class is responsible for synchronizing the content of a class diagram
@@ -306,9 +306,9 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		if (!isEnabled()) {
 			return;
 		}
-		Job job = new Job("Updating diagram...") {
+		UIJob job = new UIJob("Updating diagram...") {
 			@Override
-			public IStatus run(IProgressMonitor monitor) {
+			public IStatus runInUIThread(IProgressMonitor arg0) {
 				handleArtifactChanged(artifact);
 				return Status.OK_STATUS;
 			}
