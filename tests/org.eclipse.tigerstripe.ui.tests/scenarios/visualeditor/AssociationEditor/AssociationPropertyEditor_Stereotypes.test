@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/AssociationPropertyEditor_S
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_1vqZYOILEeCOm5a5GamGdA
-Save-Time: 3/29/12 4:30 PM
+Save-Time: 3/30/12 12:56 PM
 Id: _F3uzsOINEeCOm5a5GamGdA
 Testcase-Type: ecl
 
@@ -78,6 +78,7 @@ get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+    get-button "OK" | click
 }
 //wait-until-eclipse-is-ready
 get-menu "Tigerstripe/Active Profile Details..." | click

@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/CreateProfile
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _6gHaIA50EeCNwqgXAnPIdw
-Save-Time: 3/29/12 4:30 PM
+Save-Time: 3/30/12 12:57 PM
 Id: _njL3EA5pEeCNwqgXAnPIdw
 Testcase-Type: ecl
 
@@ -31,6 +31,7 @@ get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+    get-button "OK" | click
 }
 //wait-until-eclipse-is-ready
 get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "New/Workbench Profile" | click

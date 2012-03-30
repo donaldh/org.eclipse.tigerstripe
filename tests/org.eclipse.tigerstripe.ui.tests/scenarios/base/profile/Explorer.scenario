@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/Explorer
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _XzgU8BMFEeCrTY2DkyxR-A
-Save-Time: 3/29/12 4:30 PM
+Save-Time: 3/30/12 12:53 PM
 Id: _aHf4kA5qEeCNwqgXAnPIdw
 Testcase-Type: ecl
 
@@ -63,6 +63,7 @@ get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+    get-button "OK" |click
 }
 //wait-until-eclipse-is-ready
 get-view "Tigerstripe Explorer" | get-tree | select "Project3/Project3Profile.wbp" | double-click
