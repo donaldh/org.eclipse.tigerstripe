@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 232727_ValidateDefaultValue
 Tags: TS_Project/Profile, I37
 External-Reference: http://docs.xored.com/display/TS/232727_ValidateDefaultValue
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 3/30/12 5:08 PM
 Id: _Y1afYakaEeCQuoNCiruvtQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -59,13 +61,13 @@ get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type
 with [get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Details" | get-editbox 
     -after [get-label "Validation (Regular Expression):"]] {
     get-property enablement | equals false | verify-true
-    get-property rawValue | equals "[-+]?[0-9]*\\.?[0-9]+" | verify-true
+    get-property rawValue | equals "[-+]?[0-9]*\\.?[0-9]+[dD]?" | verify-true
 }
 get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Definitions" | get-table | select float
 with [get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Details" | get-editbox 
     -after [get-label "Validation (Regular Expression):"]] {
     get-property enablement | equals false | verify-true
-    get-property rawValue | equals "[-+]?[0-9]*\\.?[0-9]+" | verify-true
+    get-property rawValue | equals "[-+]?[0-9]*\\.?[0-9]+[fF]?" | verify-true
 }
 get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Definitions" | get-table | select int
 with [get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Details" | get-editbox 
@@ -77,7 +79,7 @@ get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type
 with [get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Details" | get-editbox 
     -after [get-label "Validation (Regular Expression):"]] {
     get-property enablement | equals false | verify-true
-    get-property rawValue | equals "[+-]?[0-9]{1,19}" | verify-true
+    get-property rawValue | equals "[+-]?[0-9]{1,19}[lL]?" | verify-true
 }
 get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Definitions" | get-table | select short
 with [get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Details" | get-editbox 
@@ -158,16 +160,3 @@ get-view Problems | get-tree
     + "\\+\\?\\*12\r?\n"
     + "\\^" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UUFuwjAQvFfqHyyfi13gkCpK4ABI
-oLaoFFSVU2TZm+CS2GA7JPy+SwU5VZxs74xnZ2eTcVuV5ATOa2tS2mfPlICRVmlTpLQOee+FjkePD4m0
-FWutA8WOEfMSjHDaxuvrhbSVjjuVwUUFdY2PsZ7SXQiHmPOmaZitCmZdwb/fFzfKv8rdJ0T5H8qPEb+h
-DCSWKDGiAmw3HESDKPsSpVYiwBRyUZcBnzVSOlPDiymtUppt+yLfir2YwWRV2+VEu/oUVpQEUfiUbtbZ
-h7M/IAPHM9clPJHFMEL4fMBmIEtMqA3gjCg/IQeHcUFnV1npr9NcnCvtD6U4882a33OJAROCEZuAyn6U
-LXbzt/1rs5qp3nQu1VKETPgm4R0DF8LvbwQpv1BLBwiT0MIPIgEAANwBAABQSwECFAAUAAgACAAAACEA
-k9DCDyIBAADcAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAWAEAAAAA
-
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
