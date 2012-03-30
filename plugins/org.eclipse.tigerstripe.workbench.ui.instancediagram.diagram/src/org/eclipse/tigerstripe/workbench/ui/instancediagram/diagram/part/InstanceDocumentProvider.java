@@ -66,7 +66,7 @@ public class InstanceDocumentProvider extends FileDiagramDocumentProvider {
 			if (nextResource != diagramResource && nextResource.isLoaded()) {
 				try {
 					nextResource.save(Collections.EMPTY_MAP);
-				} catch (IOException e) {
+				} catch (Exception e) {
 					InstanceDiagramEditorPlugin
 							.getInstance()
 							.logError(

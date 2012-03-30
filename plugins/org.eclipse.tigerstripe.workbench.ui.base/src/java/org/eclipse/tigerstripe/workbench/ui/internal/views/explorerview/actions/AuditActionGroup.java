@@ -22,7 +22,6 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.BuildAction;
 import org.eclipse.ui.ide.IDEActionFactory;
-import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 
 /**
  * Contributes all build related actions to the context menu and installs
@@ -39,6 +38,7 @@ public class AuditActionGroup extends BaseActionProvider {
 	private BuildAction fBuildAction;
 	private OpenGenerateInterfaceWizardAction fGenerateAction;
 	private RefreshAction fRefreshAction;
+	private RemoveFromBuildAction removeFromBuildAction;
 
 	@Override
 	protected void doInit(IWorkbenchPartSite site) {
@@ -47,6 +47,9 @@ public class AuditActionGroup extends BaseActionProvider {
 		fBuildAction.setText("Clean Audit Now");
 		fBuildAction
 				.setActionDefinitionId("org.eclipse.ui.project.buildProject"); //$NON-NLS-1$
+
+		removeFromBuildAction = new RemoveFromBuildAction();
+		removeFromBuildAction.setExcludeText();
 
 		fGenerateAction = new OpenGenerateInterfaceWizardAction();
 		fGenerateAction.setText("Generate...");
@@ -57,6 +60,7 @@ public class AuditActionGroup extends BaseActionProvider {
 		ISelectionProvider provider = site.getSelectionProvider();
 
 		provider.addSelectionChangedListener(fBuildAction);
+		provider.addSelectionChangedListener(removeFromBuildAction);
 		provider.addSelectionChangedListener(fRefreshAction);
 		provider.addSelectionChangedListener(fGenerateAction);
 	}
@@ -86,6 +90,7 @@ public class AuditActionGroup extends BaseActionProvider {
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
 		appendToGroup(menu, fBuildAction);
+		appendToGroup(menu, removeFromBuildAction);
 		appendToGroup(menu, fGenerateAction);
 		appendToGroup(menu, fRefreshAction);
 		super.fillContextMenu(menu);
@@ -99,6 +104,7 @@ public class AuditActionGroup extends BaseActionProvider {
 		ISelectionProvider provider = getSelectionProvider();
 		provider.removeSelectionChangedListener(fBuildAction);
 		provider.removeSelectionChangedListener(fRefreshAction);
+		provider.removeSelectionChangedListener(removeFromBuildAction);
 		super.dispose();
 	}
 

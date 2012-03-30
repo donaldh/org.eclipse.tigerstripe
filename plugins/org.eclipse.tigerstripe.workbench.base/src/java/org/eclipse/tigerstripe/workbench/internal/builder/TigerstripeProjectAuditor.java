@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
+import static org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory.extractFQN;
+import static org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory.uriToArgument;
+import static org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory.uriToComponent;
+import static org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory.uriToDiagram;
+import static org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory.uriToProject;
 import static org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants.ANNOTATION_MARKER_ID;
 import static org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants.MISSED_STORAGE_MARKER_ID;
 import static org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener.CLASS_DIAGRAM_EXTENSION;
@@ -18,8 +23,10 @@ import static org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListen
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,6 +69,7 @@ import org.eclipse.tigerstripe.annotation.core.InTransaction;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.ExcludeArtifactService;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -137,19 +145,18 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	 * @param kind
 	 * @param monitor
 	 */
-	protected void smartModelAudit(int kind, IProgressMonitor monitor) {
+	protected void smartModelAudit(int kind, Set<String> excluded, IProgressMonitor monitor) {
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject().getAdapter(
+				ITigerstripeModelProject.class);
 		if (modelAuditorHelper == null) {
 			modelAuditorHelper = new ModelAuditorHelper(
-					(ITigerstripeModelProject) getProject().getAdapter(
-							ITigerstripeModelProject.class));
+					tsProject);
 		}
 
 		Set<String> artifactsToAudit = new HashSet<String>();
-
+		
 		if (fullBuildRequired || kind == FULL_BUILD || kind == CLEAN_BUILD) {
 			fullBuildRequired = false;
-			ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
-					.getAdapter(ITigerstripeModelProject.class);
 
 			try {
 				modelAuditorHelper.reset();
@@ -168,6 +175,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				monitor.beginTask("Auditing Artifacts", artifacts.size());
 				for (IAbstractArtifact artifact : artifacts) {
 					deleteAuditMarkers(artifact);
+					if (excluded.contains(artifact.getFullyQualifiedName())) {
+						continue;
+					}
 					monitor.subTask(artifact.getFullyQualifiedName());
 					IArtifactAuditor auditor = ArtifactAuditorFactory.INSTANCE
 							.newArtifactAuditor(getProject(), artifact);
@@ -200,9 +210,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 						.auditListForArtifactFQNRemoved(artifactFQN));
 
 			// Clear any existing marker for these
-			ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
-					.getAdapter(ITigerstripeModelProject.class);
-
 			// Ready to audit
 
 			for (String artifactFQN : artifactsToAudit) {
@@ -213,6 +220,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 							.getArtifactByFullyQualifiedName(artifactFQN);
 					if (artifact != null) {
 						deleteAuditMarkers(artifact);
+						if (excluded.contains(artifactFQN)) {
+							continue;
+						}
 						monitor.subTask(artifact.getFullyQualifiedName());
 						IArtifactAuditor auditor = ArtifactAuditorFactory.INSTANCE
 								.newArtifactAuditor(getProject(), artifact);
@@ -312,19 +322,28 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	@Override
 	protected IProject[] build(final int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
+		ITigerstripeModelProject modelProject = AdaptHelper.adapt(getProject(),
+				ITigerstripeModelProject.class);
+		final Set<String> excluded;
+		if (modelProject == null) {
+			excluded = Collections.emptySet();
+		} else {
+			excluded = ExcludeArtifactService.getExcluded(modelProject);
+		}
+		
 		InTransaction.run(new InTransaction.Operation() {
 			
 			public void run() throws Throwable {
-				checkAnnotations(kind);
+				checkAnnotations(kind, excluded);
 			}
 		});
 		
 		checkUnresolvedModelReferences();
 
 		if ("True".equals(args.get("rebuildIndexes"))) {
-			smartModelAudit(kind, monitor);
+			smartModelAudit(kind, excluded, monitor);
 		} else if (shouldAudit(kind)) {
-			auditProject(kind, monitor);
+			auditProject(kind, excluded, monitor);
 		}
 		return getRequiredProjects();
 	}
@@ -369,9 +388,10 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	/**
 	 * Run auditors that need to run on specific files
+	 * @param excluded 
 	 * 
 	 */
-	private void runAuditorsByFileExtensions(int kind, IProgressMonitor monitor) {
+	private void runAuditorsByFileExtensions(int kind, final Set<String> excluded, IProgressMonitor monitor) {
 
 		// Run any custom rules that are defined in the extension point.
 		try {
@@ -393,6 +413,16 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 						List<IResource> resources = findAll(getProject(),
 								extension);
 						deleteAuditMarkers(resources, IResource.DEPTH_ZERO);
+						Iterator<IResource> it = resources.iterator();
+						while (it.hasNext()) {
+							IResource resource = it.next();
+							IAbstractArtifact artifact = AdaptHelper.adapt(resource, IAbstractArtifact.class);
+							if (artifact != null
+									&& excluded.contains(artifact
+											.getFullyQualifiedName())) {
+								it.remove();
+							}
+						}
 						customRule.run(getProject(), resources, finalMonitor);
 					}
 
@@ -506,9 +536,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		return result;
 	}
 
-	private void auditProject(int kind, IProgressMonitor monitor) {
+	private void auditProject(int kind, Set<String> excluded, IProgressMonitor monitor) {
 		monitor.beginTask("Audit Tigerstripe Project", 9);
-		runAuditorsByFileExtensions(kind, monitor);
+		runAuditorsByFileExtensions(kind, excluded, monitor);
 		if (checkCancel(monitor)) {
 			return;
 		}
@@ -519,7 +549,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		if (checkCancel(monitor)) {
 			return;
 		}
-		smartModelAudit(kind, monitor);
+		smartModelAudit(kind, excluded, monitor);
 		if (checkCancel(monitor)) {
 			return;
 		}
@@ -776,7 +806,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 	}
 
-	protected void checkAnnotations(int kind) throws TigerstripeException, CoreException {
+	protected void checkAnnotations(int kind, Set<String> excluded) throws TigerstripeException, CoreException {
 		if (kind == CLEAN_BUILD) {
 			deleteAnnMarkers();
 			return;
@@ -829,21 +859,21 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		for (Annotation annotation : annotations) {
 			removeDanglingAnnotationMarker(annotation);
 			URI uri = annotation.getUri();
-			ITigerstripeModelProject proj = TigerstripeURIAdapterFactory.uriToProject(uri);
+			ITigerstripeModelProject proj = uriToProject(uri);
 			if (proj == null) {
-				IDiagram diagram = TigerstripeURIAdapterFactory.uriToDiagram(uri);
+				IDiagram diagram = uriToDiagram(uri);
 				
 				if (diagram == null) {
 
-					IModelComponent comp = TigerstripeURIAdapterFactory
-							.uriToComponent(uri);
+					IModelComponent comp = uriToComponent(uri);
 
-					if (comp == null
+					String extractedFQN = extractFQN(new Path(uri.path()));
+					if (!excluded.contains(extractedFQN)
+							&& comp == null
 							|| (uri.hasFragment() && comp instanceof IAbstractArtifact)) {
-
-						IArgument argument = TigerstripeURIAdapterFactory
-								.uriToArgument(uri);
-
+						
+						IArgument argument = uriToArgument(uri);
+						
 						if (argument == null) {
 							addDanglingAnnotationMarker(annotation);
 						}
