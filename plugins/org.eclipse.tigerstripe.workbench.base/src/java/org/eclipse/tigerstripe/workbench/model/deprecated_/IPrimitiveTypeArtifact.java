@@ -21,10 +21,10 @@ public interface IPrimitiveTypeArtifact extends IAbstractArtifact,
 			{ "boolean", "Reserved boolean primitive Type.", "true|false" },
 			{ "byte", "Reserved byte primitive Type.", "[+-]?[0-9]{1,3}" },
 			{ "double", "Reserved double primitive Type.",
-					"[-+]?[0-9]*\\.?[0-9]+" },
+					"[-+]?[0-9]*\\.?[0-9]+[dD]?" },
 			{ "float", "Reserved float primitive Type.",
-					"[-+]?[0-9]*\\.?[0-9]+" },
-			{ "long", "Reserved long primitive Type.", "[+-]?[0-9]{1,19}" },
+					"[-+]?[0-9]*\\.?[0-9]+[fF]?" },
+			{ "long", "Reserved long primitive Type.", "[+-]?[0-9]{1,19}[lL]?" },
 			{ "short", "Reserved short primitive Type.", "[+-]?[0-9]{1,5}" },
 			{ "void", "Reserved void primitive Type.", null } };
 
