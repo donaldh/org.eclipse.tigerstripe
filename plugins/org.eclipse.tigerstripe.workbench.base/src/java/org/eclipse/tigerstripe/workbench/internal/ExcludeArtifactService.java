@@ -108,6 +108,18 @@ public class ExcludeArtifactService {
 	private static void save(Set<String> exclude,
 			ITigerstripeModelProject project) {
 		try {
+			
+			IFile file = getBuildInfoFile(project);
+
+			if (file == null) {
+				return;
+			}
+
+			if (exclude.isEmpty()) {
+				file.delete(true, null);
+				return;
+			}
+			
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -123,24 +135,6 @@ public class ExcludeArtifactService {
 				Element excludeNode = document.createElement(EXCLUDE);
 				excludeNode.setAttribute(FQN, ex);
 				excludes.appendChild(excludeNode);
-			}
-
-			IFile file = getBuildInfoFile(project);
-
-			if (file == null) {
-				return;
-			}
-
-			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
-
-				public void run(IProgressMonitor monitor) throws CoreException {
-					// TODO Auto-generated method stub
-
-				}
-			}, file, 0, null);
-
-			if (exclude.isEmpty()) {
-				file.delete(true, null);
 			}
 
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

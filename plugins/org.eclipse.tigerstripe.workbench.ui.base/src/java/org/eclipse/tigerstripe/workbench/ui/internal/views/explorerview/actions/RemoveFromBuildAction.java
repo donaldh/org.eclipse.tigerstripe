@@ -26,11 +26,12 @@ public class RemoveFromBuildAction extends Action implements
 		}
 		if (excluded) {
 			ExcludeArtifactService.include(selected);
-			setExcludeText();
+			excluded = false;
 		} else {
 			ExcludeArtifactService.exclude(selected);
-			setIncludeText();
+			excluded = true;
 		}
+		updateLabel();
 	}
 
 	public void selectionChanged(SelectionChangedEvent event) {
@@ -48,11 +49,7 @@ public class RemoveFromBuildAction extends Action implements
 								.getExcluded(selected.getProject());
 						excluded = excludes.contains(selected
 								.getFullyQualifiedName());
-						if (excluded) {
-							setIncludeText();
-						} else {
-							setExcludeText();
-						}
+						updateLabel();
 					}
 				}
 			}
@@ -60,6 +57,14 @@ public class RemoveFromBuildAction extends Action implements
 			BasePlugin.log(e);
 		}
 		setEnabled(selected != null);
+	}
+
+	private void updateLabel() {
+		if (excluded) {
+			setIncludeText();
+		} else {
+			setExcludeText();
+		}
 	}
 
 	public void setExcludeText() {
