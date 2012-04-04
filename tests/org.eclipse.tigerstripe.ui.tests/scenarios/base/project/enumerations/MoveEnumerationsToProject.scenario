@@ -1,0 +1,92 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: MoveEnumerationsToProject 
+Tags: TS_Project/Edit/Artifacts/Enumeration
+External-Reference: http://docs.xored.com/display/TS/MoveEnumerationsToProject  http://jira4.xored.com/browse/QS-1674
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3uHT4H-DEeCcSOu_oe8o1g
+Save-Time: 4/4/12 4:38 PM
+Id: _3RgzMIK_EeCrs9yxFtn9Ig
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Move Enumerations from one project to a another project. All editors are closed
+
+Precondition:
+SeveralProjectsContext
+
+Steps:
+1. Create project2 with package2
+2. Move Enumeration1 to project2/package2
+3. Verify that artifact is moved
+4. Move Enumeration1 to project2/package2 via 'Refactor model/move'
+5. Check errors in Problems view
+6. Remove extends link
+7. Check empty Problems view
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
+with [get-window "New Tigerstripe Project"] {
+    get-editbox -after [get-label "Project Name:"] | set-text Project2
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select Project2 | get-menu "New/Package" | click
+with [get-window "Create a new Package"] {
+    get-editbox -after [get-label "Name:"] | set-text package2
+    get-button Finish | click
+}
+get-editor package2 | close
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 7 | verify-true
+get-editor "Project2/tigerstripe.xml" | click -nowait
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Enumeration1" | get-item "Project1/src/com.mycompany/Enumeration1" | drag-start 54 6 none
+    with [get-item "Project1/src/com.mycompany/Enumeration2"] {
+        drag-enter 63 11 none -detail 2 -operation 7
+        drag-over 63 17 none -detail 2 -operation 7
+    }
+    get-item "Project1/src/com.mycompany/Enumeration3" | drag-over 63 15 none -detail 2 -operation 7
+    get-item "Project1/src/com.mycompany/default" | drag-over 63 16 none -operation 7
+    get-item "Project1/tigerstripe.xml" | drag-over 101 16 none -detail 1 -operation 7
+    get-item Project2 | drag-over 118 16 none -detail 1 -operation 7
+    get-item "Project2/src" | drag-over 97 17 none -detail 2 -operation 7
+    get-item "Project2/src/com.mycompany.package2" | drag-over 77 7 none -detail 2 -operation 7
+    get-item "Project1/src/com.mycompany/Enumeration2" | drag-exit -button none
+    get-item "Project2/src/com.mycompany.package2" | drag-accept 77 7 none -detail 2 -operation 7
+    get-item Project1 | drag-set-data "-41" -button none
+    get-item "Project2/src/com.mycompany.package2" | drop 77 7 none -detail 2 -operation 7
+    get-item Project1 | drag-end "-41" -button none
+}
+get-window Move | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration1" | get-property caption | equals Enumeration1 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 1 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 6 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration3" | get-menu "Refactor Model/Move..." | click
+with [get-window Move] {
+    get-tree | select "Project2/src/com/mycompany/package2"
+    get-button Finish | click
+}
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany.package2/Enumeration3" | double-click 
+    -nowait
+get-editor Enumeration3 | get-label "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
+    | get-property caption | equals "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
+    | verify-true
+get-editor Enumeration3 | get-section "General Information" | get-button Select | click
+with [get-window "Super Enumeration"] {
+    get-table | select "<clear extension>"
+    get-button OK | click
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true
+    
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
