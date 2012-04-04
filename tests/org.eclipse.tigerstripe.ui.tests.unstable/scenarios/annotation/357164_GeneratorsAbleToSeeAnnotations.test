@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 357164_GeneratorsAbleToSeeAnnotations 
 Tags: Annotation/generator, TS_Generator
 External-Reference: http://docs.xored.com/display/TS/357164_GeneratorsAbleToSeeAnnotations http://jira4.xored.com/browse/QS-1590
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_duue0dqKEeC6qsfYFclGSA,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_duue0dqKEeC6qsfYFclGSA
+Save-Time: 4/4/12 2:01 PM
 Id: _KmwdgNqMEeC6qsfYFclGSA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -61,50 +63,3 @@ get-view "Tigerstripe Explorer" | get-tree
 get-editor "org.eclipse.tigerstripe.test.module.txt" | get-editbox | get-property rawValue 
     | equals ".*CheckAnnotation.*" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkm9PwjAQxt+b+B2avpYV5P/CIIsC
-UYIJDhN8tZT1Nka2lrWFjW9vZ2CoUeK79u65X5+762BUpAk6gFSx4A5uWHWMgAeCxTxy8F6HtR4eDW9v
-BoFIrUJIYFbWtVQAnMpY2N7pgIo0tivKfUkxXK5sE3fwRuudTUie55ZII0vIiKzmT2fJr+SqyGTJZ5Zk
-XXLOWhCYEEacpuDgZrvb6LT8KXCQVAup3HUCS+EBuJwLTbUxpRC+dNks/cXMwf4szVn0ks3H8NDJVPg+
-CZKp52KkaaQcfCkn0Rl+h5be5SmjPO6MBQgSM7dCg+Q0eYUQpBkiVE0wEahTj2U/LFa7hB7J0iP/837C
-bGNJW184aylyBWTh1Rrtfh2bNSFkFsW1caKG/mQaem8zvRmz2qH3nK/WfO/rxYBUih96tt9DnWWz78P4
-W99/7GxdqqMr/PJy7d8YyQdQSwcIU5T/XFMBAACCAgAAUEsBAhQAFAAIAAgAAAAhAFOU/1xTAQAAggIA
-AAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAIkBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

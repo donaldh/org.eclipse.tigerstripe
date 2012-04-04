@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 359863_DuplicateReferenceToAttribute
 Tags: Annotation/functionality/ComplexAnnotationAttributes 
 External-Reference: http://docs.xored.com/display/TS/359863_DuplicateReferenceToAttribute, http://jira4.xored.com/browse/QS-1573
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _RR91gMiqEeCVYvz9uSPZwA,_7u2BYAqLEeG4YKJLWO2_8Q,_9D6jAatgEd-v8JwXbnu_tQ
-Save-Time: 12/7/11 12:37 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_7u2BYAqLEeG4YKJLWO2_8Q
+Save-Time: 4/4/12 2:02 PM
 Id: _OMH7oRsMEeGf3Pd3joiaBQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -31,101 +33,31 @@ Steps
 
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUl1PwjAUfTfxPzR9llUYOCAMMj6i
-IoTPKPiylK3Mkq0dbceGv97OwPyIGt9u7zn39JzbtjpZFIIDEZJyZsOycQ0BYR73KQtsmKhtqQ477cuL
-lscjI+OC+MbeMqRHGBaUNxenAmQRbRYqlVxF6zLZ1H0bvigVNxFK09TgUWBwEaDV+P5M+VG5GNIoekfR
-3kJn1CCebkHAcERsaNYa9RvT7SdxSD2syJxsidAhyJI7Sgm6SZTmFu7M3B31behOxncWn8vxgNxuzalv
-7jjF3RkECgfShg5jXGGlZ9A2YV5e4JCqI+rxKA5J9oEXt0igh4+x9kS8UC8yU0ToocJQkcrnnjyFzgP6
-VMYhPqLlAv0nzBU4yeyowNVPOhvBU0nQbFEq1ywT6ncDQL8cU9qJbLvzeaMcjOl+QHqP68NrI1lMn1On
-hQrGN76VVLprZz/S+6muH4ajp0nFrc9+5zf6NzsHq2Dglw71YbrasMRVX/n54a+PpClvUEsHCI7+DsB1
-AQAAkwIAAFBLAQIUABQACAAIAAAAIQCO/g7AdQEAAJMCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVu
-dFBLBQYAAAAAAQABADYAAACrAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/<<ReferencesExample>>Entity0"
+get-view "Annotation Property View" | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/<<ReferencesExample>>Entity0"
+with [get-view "Annotation Property View"] {
+    get-table | select ReferencesExample
+    with [get-tree] {
+        get-cell 3 0 | click
+        select stringRefsToAttributes | get-cell 3 0 | click
+        select "stringRefsToAttributes/EString" | get-cell 4 1 | click
+        //select "stringRefsToAttributes/EString" | activate-cell-edit
+        get-button "..." | click
+    }
+}
+with [get-window "Select Attribute"] {
+    get-tree | select "org.eclipse.Entity1/attribute0"
+    get-button OK | click
+}
+//get-view "Annotation Property View" | get-tree | apply-cell-edit
+get-window "Set property value" | get-label "Can\'t set value. The \'no duplicates\' constraint is violated" 
+    | get-property caption | equals "Can\'t set value. The \'no duplicates\' constraint is violated" | verify-true
+get-window "Set property value" | get-button OK | click
+get-view "Annotation Property View" | get-tree | get-item "stringRefsToAttributes/EString" | get-property columns 
+    -index 1 | equals "org.eclipse.Entity0:entity0_testField0" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
