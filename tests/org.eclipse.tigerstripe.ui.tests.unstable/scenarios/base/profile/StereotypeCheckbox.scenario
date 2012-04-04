@@ -3,10 +3,12 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: StereotypeCheckbox
 External-Reference: http://jira4.xored.com/browse/QS-1670
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _7M3rEA53EeCNwqgXAnPIdw
-Save-Time: 1/18/12 1:27 PM
+Save-Time: 4/4/12 3:51 PM
 Id: _eh9msBJlEeCrTY2DkyxR-A
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -23,8 +25,10 @@ with [get-editor "Project1/testProject.wbp"] {
     get-tab-folder | get-tab-item Stereotypes | click
     with [get-section] {
         get-section "Stereotype Definitions" | get-button Add | click
-        get-section "Stereotype Details" | get-table -after [get-label "Scope:"] | get-item "" -index 0 | click -nowait
+        get-section "Stereotype Details" | get-table -after [get-label "Scope:"] | select "" | get-cell 0 0 | click
     }
+    
+           
 }
 get-button "Save \(.*\)" | click
 get-editor "Project1/testProject.wbp" | close
@@ -37,49 +41,3 @@ with [get-editor "Project1/testProject.wbp"] {
     get-section | get-section "Stereotype Definitions" | get-table -after [get-label "Stereotype Definitions"] | select aStereotype0
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFTwjAQhe/O+B8yuTcBqlY7DUxF
-DjiDo9QDnpiSLm2lTSCNpvx7tg7Ui+Mts+/tl7cvmrR1Rb7BNKVWgg7ZgBJQUmelygX9slvvnk7G11eR
-1DVrtYGMHQLWSFCpKXWYnB+krcuwp4w6CnJVE+Jc0MLafci5c47pOmfa5Hy1mF8sf5L7JVT5j8oPAb+o
-DCSOKFFpDYImFgxoe9zDtAC52+iW/l7kd1nKTNA1FA918/hczWBq3j9GT7tju/RiSrpFQUFWeHmLKJVW
-S9giUknoY3yWJr05x+wibYx2DfC3xBveBQOKDRGCHSmLiGa8Dha+mcW3Pv714g75Klav88xFvHdgo/z/
-StFyAlBLBwjWM9k5CgEAAJ0BAABQSwECFAAUAAgACAAAACEA1jPZOQoBAACdAQAACAAAAAAAAAAAAAAA
-AAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAQAEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AABMBgAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

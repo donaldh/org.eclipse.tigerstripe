@@ -3,11 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 344572_CustomPrimitiveTypes
 Tags: TS_Project/Profile, TS_Project/Edit/Artifacts
-External-Reference: http://docs.xored.com/display/TS/344572_CustomPrimitiveTypes, http://bugs.xored.com/browse/XMP-872
+External-Reference: http://docs.xored.com/display/TS/344572_CustomPrimitiveTypes, http://bugs.xored.com/browse/XMP-1080
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _CqRlYHZCEeCl96NjdO1nlQ
-Save-Time: 3/29/12 4:30 PM
+Save-Time: 4/4/12 3:22 PM
 Id: _xQJbYHZCEeCl96NjdO1nlQ
 Testcase-Type: ecl
 
@@ -42,6 +42,7 @@ get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+    get-button OK | click
 }
 //wait-until-eclipse-is-ready
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity1" | double-click -nowait
@@ -75,11 +76,12 @@ with [get-window "Artifact Type Selection"] {
 }
 get-button "Save \(.*\)" | click
 get-editor Entity1 | get-section Attributes | get-section -index 1 | get-editbox -after [get-label "Type:"] 
-    | get-property rawValue | equals "datetime" | verify-true
+    | get-property rawValue | equals "primitive.datetime" | verify-true
 get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+    get-button OK | click
 }
 //wait-until-eclipse-is-ready
 get-editor Entity1 | get-label "Error Detected: primitive cannot be resolved to a type" | get-property caption 
