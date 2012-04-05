@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/359863_GenerateWithReferenc
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_BVY2UAqQEeG4YKJLWO2_8Q
-Save-Time: 4/4/12 2:02 PM
+Save-Time: 4/5/12 4:31 PM
 Id: _XfkkEAqREeG4YKJLWO2_8Q
 Testcase-Type: ecl
 
@@ -58,5 +58,7 @@ with [get-window "Generate Tigerstripe Project"] {
 }
 get-view "Tigerstripe Explorer" | get-tree | select "New Project/target/tigerstripe.gen/New_Project.txt" | double-click 
     -nowait
-get-editor "New_Project.txt" | get-editbox | get-property rawValue | equals ".*stringRefToAttribute: org.eclipse.Entity1:attribute2, stringRefsToAttributes: .*org.eclipse.Entity0:entity0_testField0, org.eclipse.Entity1:attribute0.*" | verify-true
+get-editor "New_Project.txt" | get-editbox | get-property text | contains "stringRefToAttribute: org.eclipse.Entity1:attribute2, stringRefsToAttributes:" | verify-true
+get-editor "New_Project.txt" | get-editbox | get-property text | contains "org.eclipse.Entity0:entity0_testField0, org.eclipse.Entity1:attribute0" | verify-true
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
