@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescri
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 4/4/12 3:07 PM
+Save-Time: 4/5/12 4:13 PM
 Id: _RMXh0WcYEeCtOtMnB4cfpA
 Testcase-Type: ecl
 
@@ -30,6 +30,8 @@ Steps:
  5. Check the description associated with attribute on the bottom of the dialog.
  6. Click context help button in the attribute dialog. Check details about the stereotype and its attributes.
  7. Reset profile
+
+Ulyana: test faile on linux because of "set-focus" problem. It is still unfixed. 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
@@ -71,6 +73,10 @@ with [get-window "Stereotype Selection"] {
     get-table | select "attribute_stereo"
     get-button OK | click
 }
+
+
+//get-window "Stereotype Details" | get-editbox -after [get-label "string_attr"] | click
+
 get-window "Stereotype Details" | get-editbox -after [get-label "string_attr description:"] | get-property rawValue 
     | equals "string_attr description" | verify-true
 get-window "Stereotype Details" | get-button Help | click
