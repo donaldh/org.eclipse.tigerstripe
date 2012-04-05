@@ -1,0 +1,82 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CopyToClipboardButtonOfGenerationResult
+Tags: TS_Generator/Generate, I45
+External-Reference: http://jira4.xored.com/browse/QS-1590
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _AFuq4K9WEd-zMOysButwpg
+Save-Time: 4/5/12 2:00 PM
+Id: _oZBYQDEDEeGcHog4af2eaw
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+CopyToClipboardButtonOfGenerationResult
+
+Precondition
+GeneratorContextGroup
+
+Steps
+Deploy generator on ts-plugin.xml
+Enable generator for the project
+Generate project
+Verify button on Generation Result window
+Verify generation result
+Click on button
+Create Text file
+Paste copied result and verify generation result info
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+get-window "Generate Tigerstripe Project" | get-button Finish | click
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result"] {
+    get-label "Generation Successful." | get-property caption | equals "Generation Successful." | verify-true
+    with [get-tree] {
+        get-item "New Generator Project.*" | get-property columns -index 0 | equals "New Generator Project.*" 
+            | verify-true
+        get-item "New Generator Project.*" | get-property columns -index 1 
+            | equals "org.eclipse.tigerstripe.workbench.base" | verify-true
+    }
+    with [get-button "Copy to Clipboard"] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals "Copy to Clipboard" | verify-true
+        get-property tooltip | equals "Copy log to clipboard." | verify-true
+    }
+}
+with [get-window "Generate Tigerstripe Project" | get-window "Generation Result"] {
+    get-button "Copy to Clipboard" | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "New/Other..." | click
+with [get-window New] {
+    get-tree | select "General/Untitled Text File"
+    get-button Finish | click
+}
+get-editor "Untitled.*" | get-editbox | get-menu Paste | click
+get-editor "Untitled.*" | get-editbox | get-property text | contains "New Generator Project" | verify-true
+get-editor "Untitled.*" | close
+get-window "Save Resource" | get-button No | click
+get-editor "model-refactoring/tigerstripe.xml" | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

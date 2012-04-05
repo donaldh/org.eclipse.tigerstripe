@@ -1,0 +1,74 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 325174_ConvertAssociationClassToAssociationExplorerChildRemove
+Tags: TS_Project/VisualEditor/Convert, TS_Project/Edit/Artifacts, I37
+External-Reference: http://docs.xored.com/display/TS/325174_ConvertAssociationClassToAssociationExplorerChildRemove
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_fPm4sKOVEeCnVOKduz-xbg,_9D6jAatgEd-v8JwXbnu_tQ
+Save-Time: 4/5/12 2:30 PM
+Id: _l7cbYKOREeCnVOKduz-xbgu
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Convert extended Association Class  to Association on Tigerstripe Explorer and remove parent
+
+Precondition:
+AssociationClassExtendsEntityClassDiagramContextWorkspace
+
+Steps:
+    Check item counts in Tigerstripe Explorer
+    Open all editors and check editors count
+    Select Association Class AC2 in Tigerstripe Explorer and select 'Refactor/convert to Association'
+    Select 'Remove'
+    Check editors count
+    Check that artifact AC2 is converted and AC is removed
+    On class diagram check AC2 item is displayed as Association 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 7 
+    | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/A1" | double-click -nowait
+    select "Project1/src/com.mycompany/AC" | double-click -nowait
+    select "Project1/src/com.mycompany/AC2" | double-click -nowait
+    select "Project1/src/com.mycompany/Entity1" | double-click -nowait
+    select "Project1/src/com.mycompany/Entity2" | double-click -nowait
+    select "Project1/src/com.mycompany/Entity3" | double-click -nowait
+    select "Project1/src/com.mycompany/Class Diagram" | double-click -nowait
+}
+with [get-tab-folder] {
+    get-property pages -index 0 | equals A1 | verify-true
+    get-property pages -index 1 | equals AC | verify-true
+    get-property pages -index 2 | equals AC2 | verify-true
+    get-property pages -index 3 | equals Entity1 | verify-true
+    get-property pages -index 4 | equals Entity2 | verify-true
+    get-property pages -index 5 | equals Entity3 | verify-true
+    get-property pages -index 6 | equals "Class Diagram.wvd" | verify-true
+    get-property tabCount | equals 7 | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/AC2" 
+    | get-menu "Refactor Model/Convert to Association..." | click
+with [get-window "Convert com.mycompany.AC2"] {
+    get-group "Artifact children" | get-button Remove | click
+    get-button OK | click
+}
+
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/AC2" 
+with [get-editor "Class Diagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    with [get-edit-part -name Entity2 | get-target-connection 0] {
+        get-property text | equals "AC211+entity3+entity2" | verify-true
+        get-property className 
+            | equals "org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart" 
+            | verify-true
+    }
+    get-property childrenCount | equals 3 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
