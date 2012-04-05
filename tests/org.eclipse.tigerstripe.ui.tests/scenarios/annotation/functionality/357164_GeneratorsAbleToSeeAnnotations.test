@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/357164_GeneratorsAbleToSeeA
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_duue0dqKEeC6qsfYFclGSA
-Save-Time: 4/4/12 2:01 PM
+Save-Time: 4/5/12 4:20 PM
 Id: _KmwdgNqMEeC6qsfYFclGSA
 Testcase-Type: ecl
 
@@ -60,6 +60,8 @@ with [get-window "Generate Tigerstripe Project"] {
 }
 get-view "Tigerstripe Explorer" | get-tree 
     | select "Project/target/tigerstripe.gen/org.eclipse.tigerstripe.test.module.txt" | double-click -nowait
-get-editor "org.eclipse.tigerstripe.test.module.txt" | get-editbox | get-property rawValue 
-    | equals ".*CheckAnnotation.*" | verify-true
+get-editor "org.eclipse.tigerstripe.test.module.txt" | get-editbox | get-property text 
+    | contains "CheckAnnotation" | verify-true
+    
+    
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
