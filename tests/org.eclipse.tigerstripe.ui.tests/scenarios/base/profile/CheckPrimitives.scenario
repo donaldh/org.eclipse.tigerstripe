@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/CheckPrimitives
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _Jp774BGJEeC46s5Prxi4vQ
-Save-Time: 3/29/12 4:30 PM
+Save-Time: 4/6/12 3:26 PM
 Id: _f3dhgA5pEeCNwqgXAnPIdw
 Testcase-Type: ecl
 
@@ -35,7 +35,7 @@ with [get-editor "Project2/ProfileProject2.wbp"] {
     with [get-section] {
         get-section "Primitive Type Definitions" | get-button Add | click
         with [get-section "Primitive Type Details" | get-editbox -after [get-label "Name:"]] {
-            key-type "CTRL+a"
+            key-type "M1+a"
             set-text string
         }
     }

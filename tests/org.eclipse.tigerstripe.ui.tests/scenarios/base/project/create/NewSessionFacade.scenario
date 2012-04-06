@@ -3,10 +3,12 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: NewSessionFacade
 External-Reference: 
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/6/12 4:06 PM
 Id: _UyIjwP0OEd-lsuiu6qRsWA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -35,7 +37,7 @@ with [get-editor Session0] {
     with [get-section Methods] {
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "session0_testMethod0"
         }
     }
@@ -50,14 +52,3 @@ with [get-view "Tigerstripe Explorer"] {
     }
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1LwzAUfRf8D+G+L5k+OCnNhqCy
-ok7dEH0rIbl20TZZm9R0/947cX0S3y7n63JOvhiamn1hF6x3Es74FBg67Y11lYQ+vk8uYTE/Pcm1b/jg
-OzS8nfGg0anO+mzze7ChsdmYcn5IoVwXMsIlbGPcZUKklLhvKu67Srw9FEfJn8mjiVjxw4p2Jo4sR00Q
-MKcalLDCtMFweH2rtDKEWyOhfNkXH+lp+nhjJnXobX/RrsPrFbC435EJdQ3UizFq5iIOMczLYru8/7xL
-z+S4XmqzUrFUIeViVNAO4v8hSPINUEsHCBM35NzfAAAAUwEAAFBLAQIUABQACAAIAAAAIQATN+Tc3wAA
-AFMBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAAVAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

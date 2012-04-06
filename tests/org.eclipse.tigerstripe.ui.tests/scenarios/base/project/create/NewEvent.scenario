@@ -3,10 +3,12 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: NewEvent
 External-Reference: 
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 1/18/12 1:27 PM
+Save-Time: 4/6/12 4:05 PM
 Id: _8nDKsP0LEd-lsuiu6qRsWA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -37,7 +39,7 @@ with [get-editor Event0] {
     with [get-section Attributes] {
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "event0_testField0"
         }
     }
@@ -54,7 +56,7 @@ with [get-editor Event0] {
         click
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "event0_testLiteral0"
         }
     }
@@ -76,14 +78,3 @@ with [get-view "Tigerstripe Explorer"] {
     }
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEtrwzAQhO+F/gex90hpD00wVkIh
-gYQ86OPQ3IyRNo6oJcWWHDn/vtvS+FR6W2a+GZjN572t2QXbYLyT8MDHwNApr42rJHTxOJrCfHZ/lytv
-ee9b1LyZ8KDQla3x2fvvwXprsqHl8buFel3ISJdwivGcCZFS4t5W3LeVOOzWN+TP5iFErvhxRTMRN5ej
-IgmYKy1K2GNaXtBFYEZLKKZusQkv4+1Sj+rQme6peQsfz8Di9UwwqhpoD2O0yEXsY5gV69Nq+7lJr5RY
-rJTel7EoQ8rFQNB+8f8DCPkCUEsHCEET9DrcAAAASwEAAFBLAQIUABQACAAIAAAAIQBBE/Q63AAAAEsB
-AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAASAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

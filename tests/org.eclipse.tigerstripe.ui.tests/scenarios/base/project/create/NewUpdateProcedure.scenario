@@ -3,10 +3,12 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: NewUpdateProcedure
 External-Reference: 
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/6/12 4:07 PM
 Id: _HVNEkP0OEd-lsuiu6qRsWA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -49,9 +51,9 @@ with [get-editor Update0] {
         click
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+d"
-            key-type "Ctrl+s"
-            key-type "Ctrl+a"
+            key-type "M1+d"
+            key-type "M1+s"
+            key-type "M1+a"
             set-text "update0_testLiteral0"
         }
     }
@@ -73,14 +75,3 @@ with [get-view "Tigerstripe Explorer"] {
     }
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kF9LwzAUxd8Fv0O470umD05KsyE4
-6FDrdPjnrYTk2oU1Sdukpn57M3F9Et8u53fOgXvy1Wga8om9185yuKBzIGilU9rWHIbwMbuG1fL8LJfO
-0NH1qGi3oF6iFb122e73IKPR2dRyeWxJvdZnSeewD6HNGIsxUmdq6vqavT9sTpY/m6dQouyHsm7BTpSi
-TBIQKwxyKDG+tEoE3PZOohqORCsOVfFarg/b+eNazRo/6OGqe/ZvN0DCV5tiKBtInxGSfrMBx+CX1WZf
-3B/u4lNK3BZSlSJUwsecTY60BPt/imT5BlBLBwiLvzsu4wAAAFUBAABQSwECFAAUAAgACAAAACEAi787
-LuMAAABVAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAGQEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

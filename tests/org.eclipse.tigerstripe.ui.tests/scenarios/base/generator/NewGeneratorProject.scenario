@@ -4,17 +4,13 @@ Format-Version: 1.0
 Element-Name: NewGeneratorProject
 Tags: Generator/Create
 External-Reference: 
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/6/12 3:25 PM
 Id: _HYc4cKtiEd-v8JwXbnu_tQ
+Testcase-Type: ecl
 
-------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
-Entry-Name: .description
-Content-Type: text/plain
-
-
-------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
 Content-Type: text/ecl
@@ -28,12 +24,12 @@ with [get-window New] {
 }
 with [get-editor "New Generator Project/ts-plugin.xml"] {
     click
-    get-section "General Information" | get-editbox -after [get-label "Version:"] | key-type "CTRL+a"
+    get-section "General Information" | get-editbox -after [get-label "Version:"] | key-type "M1+a"
     get-section Testing | get-canvas | mouse-move 100 7
     with [get-section "General Information"] {
         get-editbox -after [get-label "Version:"] | set-text "3.0"
         with [get-editbox -after [get-label "Description:"]] {
-            key-type "CTRL+a"
+            key-type "M1+a"
             set-text "A generator for testing"
         }
     }
@@ -46,52 +42,3 @@ with [get-editor "New Generator Project/ts-plugin.xml"] {
 }
 get-button "Save \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kE1LAzEQhu+C/yHMvUkVoWXZtIci
-Voti8dKeljU73UabpE2mzfrvHcUuCOJteD8emLecdm4nThiTDV7DlRyCQG9CY32r4UibwRimk8uL0gQn
-uxCxkYeRTAZ9HW0oXn4O0Tlb9JTrLwpzfSpY17Al2hdK5ZxlcK0MsVWrx/tz5E9yX2JXfbvqMFJnV6Jh
-CYSvHWp4wnyHHmNNIT7H8IaGQNhGQzVfmxuzIHvbDE7jh7x69ceKliCobpOGvqRmEWtiHn3smYdmB/yy
-EPy0J+woTao437wvF7T9TSpVn+CJ1P8bceQTUEsHCPQbHeDlAAAAbgEAAFBLAQIUABQACAAIAAAAIQD0
-Gx3g5QAAAG4BAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAAbAQAAAAA=
-
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTlXNuO2zYQfS/Qf1D1ELQooqvvXW+a
-OpcGyKYF1ugWCPLAlbk2G1kyKHrt9Os7pK62JNpaSLK9fZNFiuScGZ4ZDge+erVdusojpgHxvbFqaoaq
-YM/xZ8Sbj9U1e3g5UF9df//dleMvta1P8UxjOHCR5sCztqI+8x3f1SjajKb8/a2DPUSJr2yXZJQMa/Fh
-YSIvGMH7sbpgbDXS9c1mo/nLuebTuf73zYekS7DbZWOLHpZhmNDt462zwEv0kngBQ56D46+kC0zG06Gb
-LrrpopvOu+mJHJj/PGpEbUbQnKLlgZGjXlUGBiyPXK4OXY8YeU0OjLcm0SigaEXhql4ibxYooIgR+7bC
-Y1W64tEtdrHDJuFn4SAwzAwxpHwl3mysvnVcsgrwHfzwN6qyXLuMrFziEPYNbE7Vw3n1eOKmlnGDvXV+
-9qgjdF0htrh+R1x8pYvH3YZPeFP4/g+2wFTTtHwjxR5TyL78sBWKUNHjBet8xfUg8h6zW4YYjhGuPMAE
-YPqaQAn4LmOROJaJJALYmrR4hwh759Nw3fHMAf8l5hXvk4l3pGvcfmL7BT0zTIHXwCTk9nRyCzgo00d0
-j92MSHfkX0RnwehIufYEOqUkU4qxbNXoASQUixYyJ2sOEdBPLh4LJQSHWbjhuHjJQoSsyTIE70zJHNwt
-o2S1S1+5VuU99jBFzKfKn9T/B6bM9G9eTb+tGQMRs5toy5Trs7O3BrkzhCARIkKkRf40T8Of+1wTmZ/y
-CS3xJRIOGG4FwjHPjnBCAR6Ru8bCl+WZoZiJ4LOUifgYbRlQjjveEY8Ei7Mznca5wzwdd1in4Y63MwJ2
-uRt75e1VZ8HLlbueE0+DA9GZx2ahkpUNYQsO/Fh9QG6AC7UeSp+uLQSjNey3K2hB9y7O4B9i7yofvAef
-LpGIW47EWyLMiaPfv8KMxbHOKAUmlSbF6hKcknWMU2pfzCn0URXBPGPV6llmp6Mqjj+DX8M+PC0QRQ4I
-kpEt56LMk7iowr0yxQEj3vzy9scEeY8oqLwbzHbMJM7BjW78dYBjMZQtrNAA+GCl/SRD4T+CQu79NQx/
-R2ZsMVbtQT9+8zsm8wXjrwqtKUQhUUgESm0WtRuH2ZpxZia9T5JvcODAQZL9r4jSfr5EaTVjVbtm/VqZ
-J8EaBAwKiyixzUWV80UnpIveJdBFxd0qzfw8R4+0t3E7R23ctgSUuKyhLWzQlNhgv2/v26DZldigeSIb
-rBY2nAH2g3D/27YM/GE3RwAdCfjWicGHH3gr7OlS1NAfPAP4p77v3iN65rmH6qm2W/SIlR8njLo/3/50
-5tI1nn9LjKv9/FtCUbL8W7TiG7RaQZClRI1jVdd/jTvmjxlBdZ05vseo7x6UcE1Gk7ArLy/h0TCfcKwy
-uhb7nM4wvSN8m2ct6R45X+eUb/mJ70LQAoNCkMtjtTnF2Iue70V8yR8zvh1CTJz5NNMSUogI+niszI13
-0OFZOMEypjGEIHAREcxgaGbsMxY2QnwX4+NxzwXiwYEL9adOZBVPJLtBf+pUuSAkOCbjftHW07fjmMFI
-rKdrdVPj6RpG/cbTKwZadqNdBebo8JAH2UHivD9WX6Dl6pekSKA1tLsC626CNN+6izQErh3nfjHOkkv4
-CiiHlQpySwYPQxheTgABLqJxEOpuN4WaP0dQd7uVoI7hHQxTfC2rlx0jiMsUklfKgRKEwh7SMoRQl/sz
-1abdYbF2Zffy1TQcR085Hbe2YYZWslf4Y6LLHXOIdvX11Q+fJ29eT19/fhEWY3z5cg1YR411u7+SuENW
-mPDkuWwJXZbcxzdAl7t1Di1z5iCxg363Wc40c8exQFovUJE0RTbxIGlG6caW6BJQHuRck5HlziYCyJIg
-QFYacGn0ZRlmGJvbT6KxsC6kURoriRBkNRJPDuTLjmrSqoAnz1ZybjjycqOWoL613dsTVtbplOxeY1D/
-9rVkTqnkPr5epxRXOSjt4RySpG0mOPd6zTojS+KMiq5Rm3RGhmZobQXw/GTa2wfbNnvNuiSrxCUdWRJw
-iZxh9Upcft9qAN8SbyO7aqwtwcJHQcTjOam2od6PrcQl7CK9fq0daLvE1cpqAOol52x1ResE3e23RtB2
-SR607PL/eZwWIm7O4LzDzf0GUoZ2SXJWdjter0nLSxCaOFPEaku+5LiHH5rApRJaT7lGHEHSSLABxZQ4
-Tdnd/XMkdVHV0CjV5Op0goMXxW1FJa1Y9yZzhb5IL89rB7pT4j1DZO3nD3RYvxMTiJmxa7sBAumUnNSj
-EoQ05xaVJJw/4IV8YaaQDjrZa4kGEC05m8tu/WtKrSkMtMTIKldpkeqwaciTPFpTSbNOyaFcVtiQm0vU
-OlT5Lwr45j9QSwcIPcrHm+oGAADnQgAAUEsBAhQAFAAIAAgAAAAhAD3Kx5vqBgAA50IAAAgAAAAAAAAA
-AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAACAHAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

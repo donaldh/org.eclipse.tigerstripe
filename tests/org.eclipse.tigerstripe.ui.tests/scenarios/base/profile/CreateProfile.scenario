@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/CreateProfile
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _6gHaIA50EeCNwqgXAnPIdw
-Save-Time: 3/30/12 12:57 PM
+Save-Time: 4/6/12 3:27 PM
 Id: _njL3EA5pEeCNwqgXAnPIdw
 Testcase-Type: ecl
 
@@ -45,11 +45,11 @@ get-window "Active Profile Details" | get-editbox -after [get-label Name] | get-
 get-window "Active Profile Details" | get-button OK | click
 with [get-editor "Project1/testProject.wbp" | get-section "General Information"] {
     with [get-editbox -after [get-label "Version:"]] {
-        key-type "CTRL+a"
+        key-type "M1+a"
         set-text "1.0"
     }
     with [get-editbox -after [get-label "Description:"]] {
-        key-type "CTRL+a"
+        key-type "M1+a"
         set-text "A profile for testing"
     }
 }
@@ -59,7 +59,7 @@ with [get-editor "Project1/testProject.wbp"] {
     with [get-section] {
         get-section "Primitive Type Definitions" | get-button Add | click
         with [get-section "Primitive Type Details" | get-editbox -after [get-label "Name:"]] {
-            key-type "CTRL+a"
+            key-type "M1+a"
             set-text string
         }
     }

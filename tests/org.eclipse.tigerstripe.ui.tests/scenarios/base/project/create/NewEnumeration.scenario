@@ -3,10 +3,12 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: NewEnumeration
 External-Reference: 
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/6/12 4:05 PM
 Id: _O1m3wf0KEd-lsuiu6qRsWA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -43,7 +45,7 @@ with [get-section Details] {
     with [get-section Constants] {
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "enumeration0_testLiteral0"
         }
     }
@@ -53,14 +55,3 @@ get-button "Save \(.*\)" | click
 
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Enumeration0/enumeration0_testLiteral0=0" | get-property caption | is-equal "enumeration0_testLiteral0=0" | verify
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UE1LAzEQvQv+hzD3Jq2ClWXTIlho
-qVa0B70tIZlug5uku8ma9d87it2TeBve1/BeuRxcwz6wizZ4CTM+BYZeB2N9LaFPh8ktLBeXF6UOjg+h
-Q8PbOY8avepsKPa/BxucLcaUq+8UyvWxIFzCMaVTIUTOmQdX89DV4u1xc5b8mTyaiBU/rGjn4sxy1AQB
-88qhhB3mle8ddirRe2DWSKieZu46H6bblZk0sbf9TfsSX++Apc8TWVA3QK0Yo14+4ZDiotoc1w/v2/xM
-jvu1NjuVKhVzKUYFrSD+n4EkX1BLBwg9jR3q3QAAAFEBAABQSwECFAAUAAgACAAAACEAPY0d6t0AAABR
-AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAEwEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

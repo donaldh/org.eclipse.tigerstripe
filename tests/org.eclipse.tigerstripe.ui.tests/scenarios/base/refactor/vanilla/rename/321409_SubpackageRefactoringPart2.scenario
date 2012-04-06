@@ -1,5 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="321409_SubpackageRefactoringPart2" version="3.0" id="_ywujYR_JEeCTofGXI5xbzA" description="Rename package with subpackages.&#xD;&#xA;I have a project with the following three packages which contain all possible artifacts and diagrams: &#xD;&#xA;MyProject &#xD;&#xA;   com.mycompany.&#xD;&#xA;        Entity1 &#xD;&#xA;   com.mycompany.package1 &#xD;&#xA;        Entity2 &#xD;&#xA;   com.mycompany.package2 &#xD;&#xA;        Entity3 &#xD;&#xA;&#xD;&#xA;3.Rename package 'com.mycompany' to 'com.mycompany.test' with checked &quot;rename subpackage&quot;. &#xD;&#xA;Package is renamed, none of contained artifacts is removed, com.mycompany.package1 is renamed to 'com.mycompany.test.package1'.&#xD;&#xA;4.Rename package 'com.mycompany.test' to 'com.mycompany' with checked &quot;rename subpackage&quot;. &#xD;&#xA;Package is renamed, none of contained artifacts is removed, com.mycompany.package1 is renamed to 'com.mycompany.test.package1'." type="ecl">
-  <contexts>_o74D4OCsEd-O58X7lLKZZg</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;test/src/com.mycompany&quot; | get-item &quot;test/src/com.mycompany&quot; | get-property caption | is-equal &quot;com.mycompany&quot; | verify&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany&quot; | get-property childCount | is-equal 17 | verify&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany.package1&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany.package1&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 14 | verify&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany.package2&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany.package2&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 14 | verify&#xD;&#xA;}&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;test/src/com.mycompany&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xD;&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xD;&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xD;&#xA;        key-type &quot;CTRL+a&quot;&#xD;&#xA;        set-text &quot;com.mycompany.test&quot;&#xD;&#xA;    }&#xD;&#xA;    get-button &quot;Rename subpackages&quot; | click&#xD;&#xA;    get-button &quot;Next >&quot; | click&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany.test&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany.test&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 17 | verify&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany.test.package1&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany.test.package1&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 14 | verify&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany.test.package2&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany.test.package2&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 14 | verify&#xD;&#xA;}&#xD;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;test/src/com.mycompany.test&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xD;&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xD;&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xD;&#xA;        key-type &quot;CTRL+a&quot;&#xD;&#xA;        set-text &quot;com.mycompany&quot;&#xD;&#xA;    }&#xD;&#xA;    get-button &quot;Rename subpackages&quot; | click&#xD;&#xA;    get-button &quot;Next >&quot; | click&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 17 | verify&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany.package1&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany.package1&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 14 | verify&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;test/src/com.mycompany.package2&quot;] {&#xD;&#xA;    get-property caption | is-equal &quot;com.mycompany.package2&quot; | verify&#xD;&#xA;    get-property childCount | is-equal 14 | verify&#xD;&#xA;}"/>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 321409_SubpackageRefactoringPart2
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _o74D4OCsEd-O58X7lLKZZg
+Save-Time: 4/6/12 4:12 PM
+Id: _ywujYR_JEeCTofGXI5xbzA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Rename package with subpackages.
+I have a project with the following three packages which contain all possible artifacts and diagrams: 
+MyProject 
+   com.mycompany.
+        Entity1 
+   com.mycompany.package1 
+        Entity2 
+   com.mycompany.package2 
+        Entity3 
+
+3.Rename package 'com.mycompany' to 'com.mycompany.test' with checked "rename subpackage". 
+Package is renamed, none of contained artifacts is removed, com.mycompany.package1 is renamed to 'com.mycompany.test.package1'.
+4.Rename package 'com.mycompany.test' to 'com.mycompany' with checked "rename subpackage". 
+Package is renamed, none of contained artifacts is removed, com.mycompany.package1 is renamed to 'com.mycompany.test.package1'.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany" | get-item "test/src/com.mycompany" | get-property caption | is-equal "com.mycompany" | verify
+get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany" | get-property childCount | is-equal 17 | verify
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.package1"] {
+    get-property caption | is-equal "com.mycompany.package1" | verify
+    get-property childCount | is-equal 14 | verify
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.package2"] {
+    get-property caption | is-equal "com.mycompany.package2" | verify
+    get-property childCount | is-equal 14 | verify
+}
+get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text "com.mycompany.test"
+    }
+    get-button "Rename subpackages" | click
+    get-button "Next >" | click
+    get-button Finish | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.test"] {
+    get-property caption | is-equal "com.mycompany.test" | verify
+    get-property childCount | is-equal 17 | verify
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.test.package1"] {
+    get-property caption | is-equal "com.mycompany.test.package1" | verify
+    get-property childCount | is-equal 14 | verify
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.test.package2"] {
+    get-property caption | is-equal "com.mycompany.test.package2" | verify
+    get-property childCount | is-equal 14 | verify
+}
+get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany.test" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text "com.mycompany"
+    }
+    get-button "Rename subpackages" | click
+    get-button "Next >" | click
+    get-button Finish | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany"] {
+    get-property caption | is-equal "com.mycompany" | verify
+    get-property childCount | is-equal 17 | verify
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.package1"] {
+    get-property caption | is-equal "com.mycompany.package1" | verify
+    get-property childCount | is-equal 14 | verify
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.package2"] {
+    get-property caption | is-equal "com.mycompany.package2" | verify
+    get-property childCount | is-equal 14 | verify
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

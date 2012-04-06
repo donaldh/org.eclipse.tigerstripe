@@ -3,10 +3,12 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: NewQuery
 External-Reference: 
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/6/12 4:06 PM
 Id: _kAiLIP0PEd-lsuiu6qRsWA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -39,7 +41,7 @@ with [get-editor Query0] {
     with [get-section Attributes] {
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "query0_testField0"
         }
     }
@@ -56,7 +58,7 @@ with [get-editor Query0] {
         click
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "query0_testLiteral0"
         }
     }
@@ -72,14 +74,3 @@ with [get-view "Tigerstripe Explorer"] {
     }
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kMFOwzAQRO9I/IO199otB4qiuFWl
-IjWiVC0c4BZF9pJaTezGdnD69yyI5oS4rWbejDSbL4e2YZ/og3FWwoxPgaFVThtbS+jjx+QBlovbm1y5
-lg/Oo+bdnAeFtvLGZa+/Bxtak40td98t1GtDRrqEY4znTIiUEndtzZ2vxftzcUX+bB5D5IofV3RzcXU5
-KpKA2apFCTtMhx79BZjREsrTymyL/XT/qCdN6E1/372EtxWweDkTjKoB2sMYLbIRhxgWZXHcbE9P6UCJ
-9UbpXRXLKqRcjATtF/8/gJAvUEsHCMpDQvjcAAAASwEAAFBLAQIUABQACAAIAAAAIQDKQ0L43AAAAEsB
-AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAAASAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

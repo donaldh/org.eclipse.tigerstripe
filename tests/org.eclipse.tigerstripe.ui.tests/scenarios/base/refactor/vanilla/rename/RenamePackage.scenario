@@ -1,357 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="RenamePackage" id="_jYMu8dBQEd-igr716Jx3tA" description="Rename Package in Tigerstripe Explorer.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' package.&#xD;&#xA;Create 'simple.moved' and 'simple.movedOther' subpackages.&#xD;&#xA;Create artifacts of all types in 'simple' package.&#xD;&#xA;Create class diagram with artifacts from 'simple' package.&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;In Tigerstripe Explorer check package name and package items count.&#xD;&#xA;Select menu item &quot;Refactor Model/Rename...&quot; for the package. &#xD;&#xA;Check 'rename subpackages' checkbox.&#xD;&#xA;Rename 'simple' package to 'complicated'.&#xD;&#xA;In Tigerstripe Explorer check new package name and package items count.&#xD;&#xA;Check that all artifacts moved to new package&#xD;&#xA;&#xD;&#xA;" type="ecl">
-  <contexts>_NG89gMz6Ed-6Q5V9pxn_5A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    with [get-item &quot;model-refactoring/src/simple&quot;] {&#xA;        get-property caption | is-equal simple | verify&#xA;        get-property childCount | is-equal 19 | verify&#xA;    }&#xA;    with [get-item &quot;model-refactoring/src/simple.moved&quot;] {&#xA;        get-property caption | is-equal &quot;simple.moved&quot; | verify&#xA;        get-property childCount | is-equal 1 | verify&#xA;    }&#xA;    with [get-item &quot;model-refactoring/src/simple.movedOther&quot;] {&#xA;        get-property caption | is-equal &quot;simple.movedOther&quot; | verify&#xA;        get-property childCount | is-equal 0 | verify&#xA;    }&#xA;    select &quot;model-refactoring/src/simple&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;}&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    get-button &quot;Rename subpackages&quot; | click&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;CTRL+a&quot;&#xA;        set-text complicated&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    get-item &quot;model-refactoring/src/complicated/AssociatedEnt&quot; | get-property caption | equals AssociatedEnt | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Association0&quot; | get-property caption | equals Association0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Association1&quot; | get-property caption | equals Association1 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Association2&quot; | get-property caption | equals Association2 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/AssociationClass0&quot; | get-property caption | equals AssociationClass0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/DataBottom&quot; | get-property caption | equals DataBottom | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/DataMiddle&quot; | get-property caption | equals DataMiddle | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/DataTop&quot; | get-property caption | equals DataTop | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Dependency0&quot; | get-property caption | equals Dependency0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Ent1&quot; | get-property caption | equals Ent1 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Ent2&quot; | get-property caption | equals Ent2 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Enumeration0&quot; | get-property caption | equals Enumeration0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Event0&quot; | get-property caption | equals Event0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Exception0&quot; | get-property caption | equals Exception0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Query0&quot; | get-property caption | equals Query0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/SessionFacade0&quot; | get-property caption | equals SessionFacade0 | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/SuperEnt&quot; | get-property caption | equals SuperEnt | verify-true&#xA;    get-item &quot;model-refactoring/src/complicated/Update0&quot; | get-property caption | equals Update0 | verify-true&#xA;}"/>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow9" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View8" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>model-refactoring</path>
-        <path>src</path>
-        <path>simple</path>
-        <parent id="Tree8" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="simple">
-      <element id="Item17" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="19">
-      <element id="Item17" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow10" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View9" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>model-refactoring</path>
-        <path>src</path>
-        <path>simple.moved</path>
-        <parent id="Tree9" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="simple.moved">
-      <element id="Item23" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="1">
-      <element id="Item23" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow11" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View10" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>model-refactoring</path>
-        <path>src</path>
-        <path>simple.movedOther</path>
-        <parent id="Tree10" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="simple.movedOther">
-      <element id="Item26" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="0">
-      <element id="Item26" kind="Item"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow12" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View11" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree11" kind="Tree"/>
-      <path>model-refactoring</path>
-      <path>src</path>
-      <path>simple</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Menu" multiplicity="1">
-        <path>Refactor Model</path>
-        <path>Rename...</path>
-        <parent id="Tree11" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Menu1" kind="Menu"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State3" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Refactor Model Artifact" multiplicity="1">
-        <parent id="EclipseWindow12" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Rename subpackages" multiplicity="1">
-        <parent id="Window1" kind="Window" description="Refactor Model Artifact"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button2" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State4" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="New name:" multiplicity="1">
-        <parent id="Window1" kind="Window" description="Refactor Model Artifact"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Text" multiplicity="1">
-        <after id="Label1" kind="Label"/>
-        <parent id="Window1" kind="Window" description="Refactor Model Artifact"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
-      <element id="Text1" kind="Text"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="complicated">
-      <element id="Text1" kind="Text"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Next >" multiplicity="1">
-        <parent id="Window1" kind="Window" description="Refactor Model Artifact"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button3" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State5" kind="State"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Finish" multiplicity="1">
-        <parent id="Window1" kind="Window" description="Refactor Model Artifact"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
-    <commands xsi:type="com.xored.tesla.core.protocol:Click">
-      <element id="Button4" kind="Button"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
-      <state id="State6" kind="State"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow9" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View8" kind="View"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree8" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.3">
-      <elements id="Item17" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="simple" childCount="19">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="79" y="36" width="39" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="EclipseWindow10" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.7">
-      <elements id="View9" kind="View"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.8">
-      <elements id="Tree9" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-        <selection>
-          <path>model-refactoring</path>
-          <path>src</path>
-          <path>simple</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
-      <elements id="Item23" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="simple.moved" childCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="79" y="396" width="79" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="EclipseWindow11" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="View10" kind="View"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.14">
-      <elements id="Tree10" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-        <selection>
-          <path>model-refactoring</path>
-          <path>src</path>
-          <path>simple.moved</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.15">
-      <elements id="Item26" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="simple.movedOther">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="79" y="432" width="109" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.18">
-      <elements id="EclipseWindow12" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="-8" y="-8" width="1936" height="1056"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.19">
-      <elements id="View11" kind="View"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.20">
-      <elements id="Tree11" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="472" height="906"/>
-        <selection>
-          <path>model-refactoring</path>
-          <path>src</path>
-          <path>simple</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.22">
-      <elements id="Menu1" kind="Menu"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.23">
-      <elements id="State3" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.26">
-      <elements id="Window1" kind="Window"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="698" y="232" width="525" height="433"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.27">
-      <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Rename subpackages" selected="true" kind="Check">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="70" y="31" width="135" height="16"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.28">
-      <elements id="State4" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.31">
-      <elements id="Label1" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="New name:">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="5" y="8" width="60" height="15"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.32">
-      <elements id="Text1" kind="Text"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="simple">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="70" y="5" width="424" height="21"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.35">
-      <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="92" width="92" height="25"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.36">
-      <elements id="State5" kind="State"/>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.39">
-      <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="201" y="13" width="92" height="25"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.40">
-      <elements id="State6" kind="State"/>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: RenamePackage
+External-Reference: 
+Element-Type: testcase
+Element-Version: 2.0
+Contexts: _NG89gMz6Ed-6Q5V9pxn_5A
+Save-Time: 4/6/12 4:16 PM
+Id: _jYMu8dBQEd-igr716Jx3tA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Rename Package in Tigerstripe Explorer.
+
+Precondition:
+Create a Tigerstripe Project with 'simple' package.
+Create 'simple.moved' and 'simple.movedOther' subpackages.
+Create artifacts of all types in 'simple' package.
+Create class diagram with artifacts from 'simple' package.
+
+
+Steps:
+In Tigerstripe Explorer check package name and package items count.
+Select menu item "Refactor Model/Rename..." for the package. 
+Check 'rename subpackages' checkbox.
+Rename 'simple' package to 'complicated'.
+In Tigerstripe Explorer check new package name and package items count.
+Check that all artifacts moved to new package
+
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    with [get-item "model-refactoring/src/simple"] {
+        get-property caption | is-equal simple | verify
+        get-property childCount | is-equal 19 | verify
+    }
+    with [get-item "model-refactoring/src/simple.moved"] {
+        get-property caption | is-equal "simple.moved" | verify
+        get-property childCount | is-equal 1 | verify
+    }
+    with [get-item "model-refactoring/src/simple.movedOther"] {
+        get-property caption | is-equal "simple.movedOther" | verify
+        get-property childCount | is-equal 0 | verify
+    }
+    select "model-refactoring/src/simple" | get-menu "Refactor Model/Rename..." | click
+}
+with [get-window "Refactor Model Artifact"] {
+    get-button "Rename subpackages" | click
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text complicated
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/src/complicated/AssociatedEnt" | get-property caption | equals AssociatedEnt | verify-true
+    get-item "model-refactoring/src/complicated/Association0" | get-property caption | equals Association0 | verify-true
+    get-item "model-refactoring/src/complicated/Association1" | get-property caption | equals Association1 | verify-true
+    get-item "model-refactoring/src/complicated/Association2" | get-property caption | equals Association2 | verify-true
+    get-item "model-refactoring/src/complicated/AssociationClass0" | get-property caption | equals AssociationClass0 | verify-true
+    get-item "model-refactoring/src/complicated/DataBottom" | get-property caption | equals DataBottom | verify-true
+    get-item "model-refactoring/src/complicated/DataMiddle" | get-property caption | equals DataMiddle | verify-true
+    get-item "model-refactoring/src/complicated/DataTop" | get-property caption | equals DataTop | verify-true
+    get-item "model-refactoring/src/complicated/Dependency0" | get-property caption | equals Dependency0 | verify-true
+    get-item "model-refactoring/src/complicated/Ent1" | get-property caption | equals Ent1 | verify-true
+    get-item "model-refactoring/src/complicated/Ent2" | get-property caption | equals Ent2 | verify-true
+    get-item "model-refactoring/src/complicated/Enumeration0" | get-property caption | equals Enumeration0 | verify-true
+    get-item "model-refactoring/src/complicated/Event0" | get-property caption | equals Event0 | verify-true
+    get-item "model-refactoring/src/complicated/Exception0" | get-property caption | equals Exception0 | verify-true
+    get-item "model-refactoring/src/complicated/Query0" | get-property caption | equals Query0 | verify-true
+    get-item "model-refactoring/src/complicated/SessionFacade0" | get-property caption | equals SessionFacade0 | verify-true
+    get-item "model-refactoring/src/complicated/SuperEnt" | get-property caption | equals SuperEnt | verify-true
+    get-item "model-refactoring/src/complicated/Update0" | get-property caption | equals Update0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

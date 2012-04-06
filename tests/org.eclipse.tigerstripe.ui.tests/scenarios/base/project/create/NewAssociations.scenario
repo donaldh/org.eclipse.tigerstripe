@@ -3,10 +3,12 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: NewAssociations
 External-Reference: 
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _9Z7WcLAaEd-GWvy5TzCqJA
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/6/12 3:29 PM
 Id: _GVAHoP0VEd-lsuiu6qRsWA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -45,11 +47,11 @@ with [get-window "Create a new Association"] {
     get-canvas -index 1 | mouse-move 64 29
     get-section Details | get-canvas -after [get-label Details] -index 1 | mouse-move 333 12
     with [get-section "aEnd Details" | get-editbox -after [get-label "Name:"]] {
-        key-type "Ctrl+a"
+        key-type "M1+a"
         set-text "aEnd_Entity0"
     }
     with [get-section "zEnd Details" | get-editbox -after [get-label "Name:"]] {
-        key-type "Ctrl+a"
+        key-type "M1+a"
         set-text "zEnd_Entity1"
     }
 }
@@ -101,11 +103,11 @@ with [get-editor AssocClass0] {
         mouse-move 335 29
     }
     with [get-section "aEnd Details" | get-editbox -after [get-label "Name:"]] {
-        key-type "Ctrl+a"
+        key-type "M1+a"
         set-text "aEnd_entity0_0"
     }
     with [get-section "zEnd Details" | get-editbox -after [get-label "Name:"]] {
-        key-type "Ctrl+a"
+        key-type "M1+a"
         set-text "zEnd_entity1_0"
     }
 }
@@ -117,7 +119,7 @@ with [get-editor AssocClass0] {
         click
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "assocClass0_testField0"
         }
     }
@@ -134,7 +136,7 @@ with [get-editor AssocClass0] {
         click
         get-button Add | click
         with [get-editbox -after [get-label "Name:"]] {
-            key-type "Ctrl+a"
+            key-type "M1+a"
             set-text "assocClass0_testMethod0"
         }
     }
@@ -152,14 +154,3 @@ with [get-view "Tigerstripe Explorer"] {
     }
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UF1LwzAUfRf8D+G+L5mCVkuzEUSm
-oiJT1uHLKGmsgSZZe9O189d7Fdcn2dvlfF3OyeaDq9nOtGiDl3DGp8CM16G0vpLQxY/JFcxnpyeZDo4P
-oTUlbxKO2viitSF9/TvY4Gw6ppz/pFCux5RwCZ8xblMh+r7nwVU8tJVYP90fJP8mjyZixS8rmkQcWG40
-QcB84YyEZ9MrxKBtEek9ArOlhM1ipe7Cy3R1W05q7Gx32SwxV8Difkseo2ugWoxRMR/NEHG2uX5Pcv2o
-CnIs8t3+4u3rpnlQmRgVNIM4vgNJvgFQSwcId0A+8+EAAABSAQAAUEsBAhQAFAAIAAgAAAAhAHdAPvPh
-AAAAUgEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAABcBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

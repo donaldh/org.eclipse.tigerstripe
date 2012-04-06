@@ -1,5 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="OneArtifact" id="_bVpwkP0NEd-lsuiu6qRsWA" description="Check that changes of artifact are not saved on close editor with no save &#xD;&#xA;&#xD;&#xA;Try Removing the item&#xD;&#xA;Then close editor, with No save&#xD;&#xA;The item should still be in the explorer and in the reopened editor" type="ecl">
-  <contexts>_IhHLkKwQEd-DHcdNat_asw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    click&#xD;&#xA;    get-tree | select &quot;New Project/src&quot; | get-menu &quot;New/Entity&quot; | click&#xD;&#xA;}&#xD;&#xA;with [get-window &quot;Create a new Entity&quot;] {&#xD;&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Entity2&#xD;&#xA;    get-editbox -after [get-label &quot;Artifact Package:&quot;] | get-property value | is-equal &quot;org.eclipse&quot; | verify&#xD;&#xA;    get-button Finish | click&#xD;&#xA;}&#xD;&#xA;with [get-editor Entity2] {&#xD;&#xA;    click&#xD;&#xA;    get-canvas -index 1 | mouse-move 48 4&#xD;&#xA;    with [get-section &quot;General Information&quot;] {&#xD;&#xA;        get-editbox -after [get-label &quot;Project:&quot;] | get-property value | is-equal &quot;New Project&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Qualified Name:&quot;] | get-property value | is-equal &quot;org.eclipse.Entity2&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Description:&quot;] -index 1 | get-property value | is-equal &quot;&quot; | verify&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    get-tree | get-item &quot;New Project/src/org.eclipse/Entity2&quot; | get-property caption | is-equal Entity2 | verify&#xD;&#xA;    click&#xD;&#xA;}&#xD;&#xA;with [get-editor Entity2] {&#xD;&#xA;    get-section Details | get-canvas | mouse-move 214 102&#xD;&#xA;    get-canvas | mouse-move 483 3&#xD;&#xA;    get-section Details | get-canvas -after [get-label Details] -index 1 | mouse-move 327 0&#xD;&#xA;    with [get-section Attributes] {&#xD;&#xA;        get-table -after [get-label Attributes] | get-property itemCount | is-equal 0 | verify&#xD;&#xA;        get-button Add | click&#xD;&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xD;&#xA;            key-type &quot;Ctrl+a&quot;&#xD;&#xA;            set-text &quot;entity2_testField0&quot;&#xD;&#xA;            key-type &quot;Ctrl+s&quot;&#xD;&#xA;            set-text &quot;entity2_testField0&quot;&#xD;&#xA;        }&#xD;&#xA;        get-table -after [get-label Attributes] | get-item &quot;entity2_testField0&quot; | get-property caption | is-equal &quot;entity2_testField0&quot; | verify&#xD;&#xA;        get-editbox -after [get-label &quot;Type:&quot;] | get-property value | is-equal String | verify&#xD;&#xA;        get-button Public | get-property selected | is-equal true | verify&#xD;&#xA;        get-table -after [get-label Attributes] | select &quot;entity2_testField0&quot;&#xD;&#xA;        get-button Remove | click&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;get-window &quot;Remove attribute&quot; | get-button Yes | click&#xD;&#xA;with [get-editor Entity2] {&#xD;&#xA;    get-section Attributes | get-table -after [get-label Attributes] | get-property itemCount | is-equal 0 | verify&#xD;&#xA;    close&#xD;&#xA;}&#xD;&#xA;get-window &quot;Save Resource&quot; | get-button No | click&#xD;&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xD;&#xA;    click&#xD;&#xA;    get-tree | select &quot;New Project/src/org.eclipse/Entity2&quot; | double-click&#xD;&#xA;}&#xD;&#xA;with [get-editor Entity2] {&#xD;&#xA;    click&#xD;&#xA;    with [get-section Details] {&#xD;&#xA;        get-canvas -after [get-label Details] -index 1 | mouse-move 268 1&#xD;&#xA;        get-canvas | mouse-move 326 57&#xD;&#xA;    }&#xD;&#xA;    get-canvas | mouse-move 891 3&#xD;&#xA;    with [get-section Attributes | get-table -after [get-label Attributes]] {&#xD;&#xA;        get-property itemCount | is-equal 1 | verify&#xD;&#xA;        get-item &quot;entity2_testField0&quot; | get-property columns -index 0 | is-equal &quot;entity2_testField0&quot; | verify&#xD;&#xA;    }&#xD;&#xA;}"/>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: OneArtifact
+External-Reference: 
+Element-Type: testcase
+Element-Version: 2.0
+Contexts: _IhHLkKwQEd-DHcdNat_asw
+Save-Time: 4/6/12 4:07 PM
+Id: _bVpwkP0NEd-lsuiu6qRsWA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Check that changes of artifact are not saved on close editor with no save 
+
+Try Removing the item
+Then close editor, with No save
+The item should still be in the explorer and in the reopened editor
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "New Project/src" | get-menu "New/Entity" | click
+}
+with [get-window "Create a new Entity"] {
+    get-editbox -after [get-label "Name:"] | set-text Entity2
+    get-editbox -after [get-label "Artifact Package:"] | get-property value | is-equal "org.eclipse" | verify
+    get-button Finish | click
+}
+with [get-editor Entity2] {
+    click
+    get-canvas -index 1 | mouse-move 48 4
+    with [get-section "General Information"] {
+        get-editbox -after [get-label "Project:"] | get-property value | is-equal "New Project" | verify
+        get-editbox -after [get-label "Qualified Name:"] | get-property value | is-equal "org.eclipse.Entity2" | verify
+        get-editbox -after [get-label "Description:"] | get-property value | is-equal "" | verify
+        get-editbox -after [get-label "Description:"] -index 1 | get-property value | is-equal "" | verify
+    }
+}
+with [get-view "Tigerstripe Explorer"] {
+    get-tree | get-item "New Project/src/org.eclipse/Entity2" | get-property caption | is-equal Entity2 | verify
+    click
+}
+with [get-editor Entity2] {
+    get-section Details | get-canvas | mouse-move 214 102
+    get-canvas | mouse-move 483 3
+    get-section Details | get-canvas -after [get-label Details] -index 1 | mouse-move 327 0
+    with [get-section Attributes] {
+        get-table -after [get-label Attributes] | get-property itemCount | is-equal 0 | verify
+        get-button Add | click
+        with [get-editbox -after [get-label "Name:"]] {
+            key-type "M1+a"
+            set-text "entity2_testField0"
+            key-type "M1+s"
+            set-text "entity2_testField0"
+        }
+        get-table -after [get-label Attributes] | get-item "entity2_testField0" | get-property caption | is-equal "entity2_testField0" | verify
+        get-editbox -after [get-label "Type:"] | get-property value | is-equal String | verify
+        get-button Public | get-property selected | is-equal true | verify
+        get-table -after [get-label Attributes] | select "entity2_testField0"
+        get-button Remove | click
+    }
+}
+get-window "Remove attribute" | get-button Yes | click
+with [get-editor Entity2] {
+    get-section Attributes | get-table -after [get-label Attributes] | get-property itemCount | is-equal 0 | verify
+    close
+}
+get-window "Save Resource" | get-button No | click
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "New Project/src/org.eclipse/Entity2" | double-click
+}
+with [get-editor Entity2] {
+    click
+    with [get-section Details] {
+        get-canvas -after [get-label Details] -index 1 | mouse-move 268 1
+        get-canvas | mouse-move 326 57
+    }
+    get-canvas | mouse-move 891 3
+    with [get-section Attributes | get-table -after [get-label Attributes]] {
+        get-property itemCount | is-equal 1 | verify
+        get-item "entity2_testField0" | get-property columns -index 0 | is-equal "entity2_testField0" | verify
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

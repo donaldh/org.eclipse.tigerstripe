@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: CreateFacetAndUpdateGeneralInformation
 Tags: TS_Project/Facet/Define
 External-Reference: http://docs.xored.com/display/TS/DefineFacet
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 2/6/12 10:35 AM
+Save-Time: 4/6/12 2:48 PM
 Id: _mstUQDsaEeCt76CYYPZ_qw
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -49,71 +51,17 @@ get-editor "New Project/default.wfc" | get-section "General Information" | get-e
     | get-property value | equals "default.wfc" | verify-true
 with [get-editor "New Project/default.wfc" | get-section "General Information"] {
     with [get-editbox -after [get-label "Name:"]] {
-        key-type "CTRL+a"
+        key-type "M1+a"
         set-text "default facet"
     }
     with [get-editbox -after [get-label "Version:"]] {
-        key-type "CTRL+a"
+        key-type "M1+a"
         set-text "1.0"
     }
     with [get-editbox -after [get-label "Description:"]] {
-        key-type "CTRL+a"
+        key-type "M1+a"
         set-text "Test facet"
     }
 }
 get-button "Save \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kU1PAjEQhu8m/oemd1o/EjEbFmIA
-hfgREEjEy6ZpZ5fqtl3a6i7/3oHAejHeOvNOn5l5pzdoTEm+wQftbEov2QUlYKVT2hYp/Yp555YO+udn
-PekMa5wHxbZdFiRY4bVLFscHaYxOWsrVnoJcGxLMp3QTY5VwXtc1c6Zgzhf87Xl6KvmT3H5ClR9Uvu3y
-k8pAYooSKwykdOhBRLgXEuKdVatKYfQAFrwopzZ33oiIY9HfLa/382mV0syEuJqPghjDMHZvhuv17D3b
-1pREUYSULhfZzLsPkJEf6HwEubbYN+4q7AuyRLOaCN6K8hVy8OgctJMrJ8Nxsf0SSoeqFDu+XBwxByRF
-bwlBd21EUuhn083k6fOxno9VZzSR6kXETIS6x9sKvAX//xhY8gNQSwcI27ojgSwBAADXAQAAUEsBAhQA
-FAAIAAgAAAAhANu6I4EsAQAA1wEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEA
-NgAAAGIBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AAEANgAAAPUHAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

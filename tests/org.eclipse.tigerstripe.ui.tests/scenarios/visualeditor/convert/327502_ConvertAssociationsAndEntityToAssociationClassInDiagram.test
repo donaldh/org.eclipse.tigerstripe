@@ -7,7 +7,7 @@ External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=327502
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_qEobgKFmEeCjS6NbCUXM_w
-Save-Time: 3/5/12 8:32 PM
+Save-Time: 4/6/12 4:22 PM
 Id: _Nyf9sWaaEeGDCa7Vk2pKFQ
 Testcase-Type: ecl
 
@@ -74,14 +74,14 @@ with [get-editor "ClassDiagram.wvd" | get-diagram] {
                 mouse-hover 65 5 -height 16 -width 112
             }
             with [get-target-connection 0 | get-edit-part -text A1] {
-                mouse-move 8 10 button1 CTRL -height 15 -width 14
-                mouse-press 8 10 button1 CTRL -height 15 -width 14
+                mouse-move 8 10 button1 M1 -height 15 -width 14
+                mouse-press 8 10 button1 M1 -height 15 -width 14
                 mouse-release 8 10 button1 786432 -height 15 -width 14
             }
         }
         with [get-edit-part -name Entity3 | get-target-connection 1 | get-edit-part -text A2] {
-            mouse-move 12 8 button1 CTRL -height 15 -width 14
-            mouse-press 12 8 button1 CTRL -height 15 -width 14
+            mouse-move 12 8 button1 M1 -height 15 -width 14
+            mouse-press 12 8 button1 M1 -height 15 -width 14
             mouse-release 12 8 button1 786432 -height 15 -width 14
             mouse-move 8 8 button3 -height 15 -width 14
             mouse-press 8 8 button3 -height 15 -width 14
