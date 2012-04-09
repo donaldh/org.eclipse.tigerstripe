@@ -51,7 +51,7 @@
                                 <licenseFile>${project.basedir}/../q7runner.l9</licenseFile>
 							</q7>
 							<testOptions>
-								<execTimeout>10800</execTimeout>
+								<execTimeout>18000</execTimeout>
 							</testOptions>
 						</configuration>
 					</plugin>
