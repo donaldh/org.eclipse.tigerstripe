@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_k8pBMEDLEeGsUJ1NDdsGXw,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 3/23/12 3:12 PM
+Save-Time: 4/12/12 5:10 PM
 Id: _35BVMEDXEeGsUJ1NDdsGXw
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ Open created Enumeration0 artifact and check enumeration0_testLiteral0 is not in
 Entry-Name: .content
 Content-Type: text/ecl
 
-get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait 
 get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
     | click
 get-window "Deploy new generator" | get-button OK | click

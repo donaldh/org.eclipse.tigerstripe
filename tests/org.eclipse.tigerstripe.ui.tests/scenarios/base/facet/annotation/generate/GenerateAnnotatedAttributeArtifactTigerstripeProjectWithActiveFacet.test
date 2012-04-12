@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_k8pBMEDLEeGsUJ1NDdsGXw,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 3/23/12 3:11 PM
+Save-Time: 4/12/12 5:10 PM
 Id: _wYR1sEDZEeGsUJ1NDdsGXw
 Testcase-Type: ecl
 
@@ -50,7 +50,7 @@ with [get-editor "New Project/tigerstripe.xml"] {
         get-button "Enable Generator" | click
     }
 }
-get-button "Save \(.*\)" | click
+get-button "Save \(.*\)" | click 
 get-view "Tigerstripe Explorer" | get-tree | select "New Project" | get-menu "Generate..." | click
 with [get-window "Generate Tigerstripe Project"] {
     get-button Finish | click
