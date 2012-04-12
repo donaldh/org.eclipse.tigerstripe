@@ -124,7 +124,7 @@
 	</profiles>
 
 	<properties>																																																		
-		<q7-maven-version>1.2.0</q7-maven-version>
+		<q7-maven-version>1.2.1-M3</q7-maven-version>
 		<q7-client-version>1.2.0-SNAPSHOT</q7-client-version>																																																																																																																																																																																																																							
 		<q7-runner-version>1.2.0</q7-runner-version>																									
 	</properties>																																		
