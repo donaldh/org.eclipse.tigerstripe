@@ -1,0 +1,85 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: AddStereotypeForAssociationEnd
+Tags: Stereotypes
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_WnrlQHP5EeGzfKsLsjcekw,_86MI0XP3EeGzfKsLsjcekw
+Save-Time: 4/12/12 5:59 PM
+Id: _85qB8ISNEeGBS_5w_rQIBQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Open Profile and add new stereotype;
+2. Select Association End as its scope;
+3. Save and deploy profile;
+4. Try to add the stereotype to Association End - make sure it is possible;
+5. Try to add the stereotype to any other artifact - make sure it's not possible. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select MyProject | get-menu "New/Association" | click
+with [get-window "Create a new Association"] {
+    get-editbox -after [get-label "Name:"] | set-text Ass
+    get-button Browse -after [get-label "aEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table | select "com.mycompany.En"
+        get-button OK | click
+    }
+    get-button Browse -after [get-label "zEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table | select "com.mycompany.Exc"
+        get-button OK | click
+    }
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/default.wbp" | double-click
+with [get-editor "MyProject/default.wbp"] {
+    get-tab-folder | get-tab-item Stereotypes | click
+    with [get-section] {
+        get-section "Stereotype Definitions" | get-button Add | click
+        with [get-section "Stereotype Details"] {
+            get-table | select "" | get-cell 0 0 | click
+            with [get-button "Association End"] {
+                click
+                key-type "M1+s"
+            }
+        }
+    }
+    get-tab-folder | get-tab-item Overview | click
+    get-section "General Information" | get-link "Save as active profile and reload" | click
+}
+get-window "Save as Active Profile" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Ass" | double-click
+get-editor Ass | get-section -after [get-label "Association Artifact"] -index 5 | get-section "aEnd Details" 
+    | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype2
+    get-button OK | click
+}
+get-editor Ass | get-section -after [get-label "Association Artifact"] -index 5 | get-section "zEnd Details" 
+    | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table | select aStereotype2
+    get-button OK | click
+}
+with [get-editor Ass | get-section -after [get-label "Association Artifact"] -index 5] {
+    get-section "aEnd Details" | get-table | select aStereotype2
+    get-section "zEnd Details" | get-table | select aStereotype2
+}
+get-view "Tigerstripe Explorer" | get-tree | select "MyProject/src/com.mycompany/Dt" | double-click
+get-editor Dt | get-section Stereotypes | get-section | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table | verify-error{select aStereotype2}
+    get-button Cancel | click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
