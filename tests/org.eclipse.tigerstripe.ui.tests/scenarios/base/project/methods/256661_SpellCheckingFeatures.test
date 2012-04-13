@@ -2,12 +2,14 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 256661_SpellCheckingFeatures
-Tags: TS_Project/Edit/Artifacts, I35
+Tags: TS_Project/Edit/Artifacts
 External-Reference: http://docs.xored.com/display/TS/256661_SpellCheckingFeatures
+Element-Type: testcase
 Element-Version: 3.0
 Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/13/12 2:54 PM
 Id: _zIO_QI24EeCQJ7V2A3r4wA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -57,44 +59,3 @@ get-preferences-menu | click
 get-window Preferences | get-tree | select "General/Editors/Text Editors/Spelling"
 get-window Preferences | get-button OK | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UdFOwjAUfTfxH5o+yyoDBlkYhAAm
-0xjEEWN8WWp7N6pbO9rihl9vMTBfDG/NPafnnnPueNqUBfoCbYSSEe56txiBZIoLmUd4b7POCE8n11dj
-pkqvURq4txt6hoGkWqgwOT1QU4qwVfGPKk5XmtDNI7y1tgoJqevaU2XuKZ2T18f4TPlXuf3kUPKLkt2Q
-nFEPmBthJGkJbt0gCIJumlRQFPMtsE/n/Q6o3Wsw+C9b7+hK8Ain3/EqXcd+fwnz9f3wxZ/1dL+eYWRp
-biK8SdInrT6AWbLkwpKZtiKjzJobFPcGjnWo3FJghWuqsaAlLZ4hA+1qg9Y2V8ycUh0TcGGqgh7IJiEX
-3bqmEXJdS+ukzSSlKx7ED/VoyTssefPfs0WnXORj0jLcZcjl0zjKD1BLBwh6v9rqLgEAAOUBAABQSwEC
-FAAUAAgACAAAACEAer/a6i4BAADlAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEA
-AQA2AAAAZAEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTlWV1v2zYUfR+w/0DwpRuGWLYi+Qtx
-OszNigDNWsBBs1daom0ukihQVOz++11Sn44lWWptt9ieQpPU5b3nHt7Lg9y83fkeeqEiYjyY4UGvjxEN
-HO6yYD3DsVxdjfHb259/unG439txQd2epJFHeg6Me6Hgkjvc6wmynT6q+YVDAyIYRzufTXOzpjILBwXR
-FOZneCNlODWM7Xbb4/66x8Xa+PvhPt8S7W/ZXusdZr8/gG0fFs6G+uSKBZEkgUOzrxodzO0ZsM3Q2wy9
-zVDbjDwOqn62sqhCbmnVgK0tLMfsiL2YpVYgHwipjPgkcCMEeE3ll5DOcKPH0wX1qCPnyWeJETDjEknQ
-MwvcGb5zPBZG9Al+8C1GfuxJFnrMYfILUAMbyblGdvC53PjMKJweEimpAPI8sjXwSAoWUnS3Cz0wJg6d
-S+2ApZAIGkjEXgc0muDqOF0aOWBdaqqWT7tC6U70ySNyxYWfYqBQUA5fCJBHQWnLiBV2lo3LSJ7HZZl4
-DZjlHsOEn/mhXLbGuBxA7gdkdnP7F92iT4L/AzZuDD1TXo2EUzELVQBugM5IxepdIAGZfmnlm8N8x+Ol
-R+eA+XO3KM/PiTuXSS5K1yQN//91M6AewAqBJJWQeE8DKoiH7gPlGNEcbYmKBtUe4X2Qv0toH8iSeqWo
-3hW5mLYNJ0fneogPEfs+tYzuZJP7ZAXhau81AKaJ9/AwfpRAH2FPEgs8QyRsh5sn4Td8JyiR1eUC1gdF
-uVBfn6xcSGXu42oVUXCJ67/w7sLIY4F27tL+HKHBAw3iZhZDDZ9vSLCmSHL0Bt58RL7Zq/r7FKiN5bRp
-fw+NT+U7A6qzgfpmoiAZ5JVYA3SibDwRJv/kInE8O1rTVh+s54s2thffmYhp/7DE/COWUvWLvO4uyAtF
-v8yl8H5b/Pqf6q5n5HKCopUX7xTVS/J50obPqc8PJAxB8KJ0cYYN4/dsY++AolH7HOdpc3ggBfeOxhiz
-aUYPENLL5MAZliKGF86SC5eKJyY3inkI3nsePcqcgqBL4jyvBY8Dd85BRSE4GlqEBY1rDS/XIB0vvZgm
-w1KvBUu09GlpZakmIawZHvcBBLgTY2jBW+ZqJ/umhdGGsvUGghgNxyUeZ4ikednPRPvsDKqz06SDOuQi
-kaKHmaiAPpemFwP8WsNt93O4TauEtj2xTo+2WY12k9rrgHaicw/RViYIC1RLzKZ0Gc4laDbLJPXngI/c
-r8zVebDtIg9qnOYBhl3ycAx6VZkyN/OpYyK42PFaCBcrdWK42HEoiBMuvPbnZOywayrlEVXVgSGZ6q29
-kZkKvvAlNIuaN7IGBROuJ/bpL+GwBuaWIqgD3PNkawXel7lcgO9Q41vAaw/NAl5zODo9vKNqeBvlaBdQ
-U2FfUeZI+hYsS310OajtpJ+McqyHwwLqwRmIPK7pJg1Srks30eq8VTd5IRqzy7YMyyoxeTIsmxBk+1m5
-dHtj5MNTv5tqHk61KrQb+OrDe+jGJVYfqPmq5MCpNKGiQyKHuDRdML413JqXS6P2/erDaip0oyrqhm8m
-UysaIedKoR4I1/Q2weq5m2OacSBvNjo1d2tKdKPwOzhMa8Eu/9OEb/4FUEsHCCWQKFS0BAAALx0AAFBL
-AQIUABQACAAIAAAAIQAlkChUtAQAAC8dAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAA
-AQABADYAAADqBAAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

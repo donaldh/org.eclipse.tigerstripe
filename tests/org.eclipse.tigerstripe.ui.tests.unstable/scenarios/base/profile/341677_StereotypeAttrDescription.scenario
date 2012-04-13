@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 341677_StereotypeAttrDescription
-Tags: TS_Project/Profile, I33
+Tags: TS_Project/Profile
 External-Reference: http://docs.xored.com/display/TS/341677_StereotypeAttrDescription http://jira4.xored.com/browse/QS-1677
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 4/5/12 4:13 PM
+Save-Time: 4/13/12 2:53 PM
 Id: _RMXh0WcYEeCtOtMnB4cfpA
 Testcase-Type: ecl
 

@@ -2,12 +2,14 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 330528_ClearExtensionForAssociationClass
-Tags: TS_Project/Edit/Artifacts/Extends, I27
+Tags: TS_Project/Edit/Artifacts/Extends
 External-Reference: http://docs.xored.com/display/TS/330528_ClearExtensionForAssociationClass
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _ZW1iYAR_EeC3S_PC6IM0yQ
-Save-Time: 1/18/12 1:27 PM
+Save-Time: 4/13/12 2:52 PM
 Id: _hj974AR_EeC3S_PC6IM0yQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -42,49 +44,3 @@ get-window "Super Artifact" | get-table -after [get-label "Select the artifact t
 get-window "Super Artifact" | get-button OK | click
 get-button "Save \(.*\)" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUctuwjAQvFfqP1g+tzaEtqERAaGI
-ShyQWkDq4xJZ9iYYJTbYbgl/3w2CXFpVvXl3xrOzs6NJU1fkC5zX1qS0z3qUgJFWaVOm9DMUt0M6GV9f
-jaStWWMdKLaPmZdghNM2WZ0fpKl10qlErQrqGp9gP6WbEHYJ54fDgdm6ZNaV/G0xv1B+Ve4+IcpPKN/H
-/IIykNiixIgaUjoY9O6jYZ5VINysCWBaF0/WTb23UouAVVYJ7ynRKqX5ZvsY302X+QyywSp/zh7mi97x
-hZIgSp/SNbac3YIMfKZ04FMXdCFk8PwkrfwNmUcxso87HA2ywrwQcEZUSyjAYXjQmVdW+vNu7R5K+10l
-jny94v/2jNkTgumbgGP8OP947ev3H+5HvGPgrfjfx0LKN1BLBwj+AhiGKAEAAPcBAABQSwECFAAUAAgA
-CAAAACEA/gIYhigBAAD3AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA
-XgEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

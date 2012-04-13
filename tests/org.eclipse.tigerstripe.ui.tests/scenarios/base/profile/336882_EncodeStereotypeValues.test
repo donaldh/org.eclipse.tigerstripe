@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 336882_EncodeStereotypeValues
-Tags: TS_Project/Profile, I33
+Tags: TS_Project/Profile
 External-Reference: http://docs.xored.com/display/TS/336882_EncodeStereotypeValues
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _yFRb4BGBEeC46s5Prxi4vQ
-Save-Time: 3/29/12 4:30 PM
+Save-Time: 4/13/12 2:53 PM
 Id: _w1yC4JGGEeCHIbo4rEr7oQ
 Testcase-Type: ecl
 

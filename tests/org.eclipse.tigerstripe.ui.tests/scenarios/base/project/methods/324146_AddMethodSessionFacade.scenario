@@ -2,12 +2,14 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 324146_AddMethodSessionFacade
-Tags: TS_Project/Edit/Artifacts/Method, I25
+Tags: TS_Project/Edit/Artifacts/Method
 External-Reference: http://docs.xored.com/display/TS/324146_AddMethodSessionFacade
+Element-Type: testcase
 Element-Version: 2.0
 Contexts: _GizKINWkEd-EHrO7kvtrmw
-Save-Time: 1/18/12 1:28 PM
+Save-Time: 4/13/12 2:51 PM
 Id: _GmeugdUbEd-EHrO7kvtrmw
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -50,51 +52,3 @@ get-view "Tigerstripe Explorer" | get-tree
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/TestSessionFacade" 
     | get-property childCount | equals 2 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kVFPwjAUhd9N/A9Nn2UVRDELg/CA
-SAxqHEbfltpeRmVtoS1s+Ou9U1hiYnhr7jn9enpuf1jpguzAeWVNQtvRJSVghJXK5AndhkXrlg4H52d9
-YXVUWQcy2vQiL8Bwp2ycHg6k0ipuKJ2aglzjY5wndBnCOmasLMvI6jyyLmfvs+nR8i+5uYQq+1HZpseO
-agQCR5QYriGhV51uu3uTjaScQVhamYKvc9xxwSWalExoNtGwzeXrx1i2xvfuqbfaBadLSgLPfULnafbs
-7CeIwMZSBTZyQS24CJ79Ei/ItHON5v0anwNRYEdVAGd48QILcFgYNIGlFf7wnzq7VH5d8D2bp+x0TiyZ
-EKzZBGT7QTZRXw/Tx7fV38R91jhwKez0VtDyDVBLBwihS+tlIgEAAOABAABQSwECFAAUAAgACAAAACEA
-oUvrZSIBAADgAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAWAEAAAAA
-
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

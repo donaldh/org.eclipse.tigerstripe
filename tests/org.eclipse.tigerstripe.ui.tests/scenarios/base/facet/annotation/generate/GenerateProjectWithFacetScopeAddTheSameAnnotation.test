@@ -2,12 +2,12 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: GenerateProjectWithFacetScopeAddTheSameAnnotation
-Tags: Facet/Generate, Annotations
+Tags: Facet/Generate, Annotation
 External-Reference: 
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _-4wv8DtwEeGvPsO-LSiu4Q,_9D6jAatgEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 4/4/12 2:52 PM
+Save-Time: 4/13/12 2:50 PM
 Id: _F53WwDwXEeGvPsO-LSiu4Q
 Testcase-Type: ecl
 

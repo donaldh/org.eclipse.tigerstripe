@@ -2,11 +2,13 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: SetActiveFacetAnnotationsIncludedAndExcluded
-Tags: Facet/Active, Annotations
+Tags: Facet/Active, Annotation
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Save-Time: 1/12/12 7:41 PM
+Save-Time: 4/13/12 2:50 PM
 Id: _bHRxAD0aEeG1Htud4Cd1VA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -16,14 +18,3 @@ Check facet activation for artifact with Included and Excluded annotations
 
 Add two annotation types in exclusion and inclusion tables. Add these annotations to Artifact. Set Active Facet
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkEFPAjEQhe8m/odmztiyYILZUMlG
-ETh4kYR4M7Ud1ybbKWy7bP33FhD04O1l3sw3b2Y6S65he2yD9SSh4ENgSNobS7WELn7c3MHs/vpqqr3j
-ybdo+G7Cg0ZSrfXl+kew5Gx5oYwOlMylUOa6hM8Yt6UQfd9z72ru21q8Pq/OLf+SL0PZFUdX7Cbi7HLU
-uQSMlEMJa4yVjnaPT0pnSeSjijlIWJFuOoOmIjNPJwm/t44PKa2R8Pa+fEnV41DNcVEsY2duH0yxqYBF
-VQcJR6o4bRiwP/jc8LXN+1E3IPKPvgFQSwcI43Th6OEAAABMAQAAUEsBAhQAFAAIAAgAAAAhAON04ejh
-AAAATAEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAABcBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
