@@ -386,7 +386,7 @@ public class Type implements IType {
 	@ProvideModelComponents
 	public IAbstractArtifactInternal getArtifact() {
 		IAbstractArtifactInternal artifact = getArtifactManager()
-				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
+				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true, true,
 						new NullProgressMonitor());
 		return artifact;
 	}
