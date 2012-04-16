@@ -11,9 +11,11 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.project;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -48,6 +50,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.statushandlers.IStatusAdapterConstants;
+import org.eclipse.ui.statushandlers.StatusAdapter;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 /**
  * This is a sample new wizard. Its role is to create a new file resource in the
@@ -154,19 +159,63 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			}
 		};
 
+		
 		// run the new project creation operation
+		boolean succeed = true;
 		try {
 			getContainer().run(true, true, op);
 		} catch (InterruptedException e) {
 			EclipsePlugin.log(e);
 		} catch (InvocationTargetException e) {
-			EclipsePlugin.log(e);
+			succeed = handleErrors(details, e);
 		}
-
+		
+		if (!succeed) {
+			return false;
+		}
+		
 		openPerspective(TigerstripePerspectiveFactory.ID);
 		openProject(details.getProjectName());
 		return true;
+	}
 
+	// Returns true if resource creation problems detected
+	private boolean handleErrors(final NewProjectDetails details,
+			InvocationTargetException e) {
+		Throwable target = e.getTargetException();
+
+		// Detect & handle creation problems
+		if (target instanceof CoreException) {
+			Throwable c = ((CoreException) target).getStatus().getException();
+			if (c instanceof TigerstripeException) {
+				TigerstripeException te = (TigerstripeException) c;
+				Exception ex = te.getException();
+				if (ex instanceof CoreException) {
+					CoreException cause = (CoreException) ex;
+					StatusAdapter status;
+					String msg;
+					if (cause.getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS) {
+						msg = MessageFormat
+								.format("The underlying file system is case insensitive. "
+										+ "There is an existing project or directory that conflicts with ''{0}''.",
+										details.getProjectName());
+					} else {
+						msg = "Creation Problems";
+					}
+					status = new StatusAdapter(
+							new Status(cause.getStatus().getSeverity(),
+									EclipsePlugin.PLUGIN_ID, msg, cause));
+					status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY,
+							"Creation Problems");
+					StatusManager.getManager().handle(status,
+							StatusManager.BLOCK | StatusManager.LOG);
+					return false;
+				}
+			}
+		}
+
+		EclipsePlugin.log(target);
+		return true;
 	}
 
 	/**
