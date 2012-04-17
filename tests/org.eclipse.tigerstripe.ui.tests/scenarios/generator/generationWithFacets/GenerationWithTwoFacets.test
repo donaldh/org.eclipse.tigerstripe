@@ -1,0 +1,62 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: GenerationWithTwoFacets
+Tags: TS_Generator/Generate
+External-Reference: http://bugs.xored.com/browse/XMP-948
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_F13BQIhaEeG2ZPrsJlpKXA
+Save-Time: 4/17/12 1:55 PM
+Id: _3GBvwYhZEeG2ZPrsJlpKXA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Run Generator;
+2. Make sure that "www" directory contains Association1, Association2, AssociationClass0, DataMiddle, DataTop, Ent1, Enumeration0, Query0.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "NewGenPro2/ts-plugin.xml" | double-click
+get-editor "NewGenPro2/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "NewGenPro2 Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project" | get-group Facets | get-table] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "default.wfc" | get-property caption | equals "default.wfc" | verify-true
+    get-item "default2.wfc" | get-property caption | equals "default2.wfc" | verify-true
+}
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/target/tigerstripe.gen/www" | get-property childCount | equals 10 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/allArtifacts.txt" | get-property caption 
+        | equals "allArtifacts.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/Association1.txt" | get-property caption 
+        | equals "Association1.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/Association2.txt" | get-property caption 
+        | equals "Association2.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/AssociationClass0.txt" | get-property caption 
+        | equals "AssociationClass0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/DataMiddle.txt" | get-property caption 
+        | equals "DataMiddle.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/DataTop.txt" | get-property caption | equals "DataTop.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/Ent1.txt" | get-property caption | equals "Ent1.txt" 
+        | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/Enumeration0.txt" | get-property caption 
+        | equals "Enumeration0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/www/Query0.txt" | get-property caption | equals "Query0.txt" 
+        | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
