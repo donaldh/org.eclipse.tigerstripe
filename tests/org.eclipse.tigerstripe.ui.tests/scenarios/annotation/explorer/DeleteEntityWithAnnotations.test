@@ -1,0 +1,33 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: DeleteEntityWithAnnotations
+Tags: Annotation/explorer
+External-Reference: http://bugs.xored.com/browse/XMP-1070
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_rPiGEIhdEeG2ZPrsJlpKXA
+Save-Time: 4/17/12 2:22 PM
+Id: _vhWgkIhdEeG2ZPrsJlpKXA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Right click Entity0 in TS explorer and select "Delete" command in a context menu;
+2. Press OK button in a window;
+3. Make sure Entity0 has been deleted. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity0" | get-menu Delete | click
+get-window "Confirm Delete" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse" | get-property childCount 
+    | equals 1 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | verify-error{select "New Project/src/org.eclipse/Entity0"}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
