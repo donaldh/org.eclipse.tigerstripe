@@ -26,59 +26,15 @@
             <classifier>win32.win32.x86</classifier>
           </classifiers>
           <aut>
-            <uri>http://maven.xored.com/nexus/content/repositories/thirdparty/eclipse/sdk/3.6.2/sdk-3.6.2.zip</uri>
+            <locations>
+            	<aut>
+            		<classifier>win32.win32.x86</classifier>
+            		<path>${basedir}/../../releng/org.eclipse.tigerstripe.rcp/target/products/org.eclipse.tigerstripe.rcp-win32.win32.x86.zip</path>
+            	</aut>
+            </locations>
             <injections>
               <injection>
                 <site>http://download.xored.com/q7/${q7-runtime-version}/runtime/</site>
-              </injection>
-              <injection>
-                <site>http://build.xored.com/browse/TS-CVSDEPLOY/latest/artifact/JOB1/repository/</site>
-                <features>
-                  <feature>com.cisco.tigerstripe.test.modules.feature.group</feature>
-                  <feature>org.eclipse.buckminster.core.feature.feature.group</feature>
-                  <feature>org.eclipse.draw2d.feature.group</feature>
-                  <feature>org.eclipse.emf.codegen.ecore.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.codegen.ecore.feature.group</feature>
-                  <feature>org.eclipse.emf.codegen.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.codegen.feature.group</feature>
-                  <feature>org.eclipse.emf.common.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.common.feature.group</feature>
-                  <feature>org.eclipse.emf.converter.feature.group</feature>
-                  <feature>org.eclipse.emf.databinding.edit.feature.group</feature>
-                  <feature>org.eclipse.emf.databinding.feature.group</feature>
-                  <feature>org.eclipse.emf.ecore.edit.feature.group</feature>
-                  <feature>org.eclipse.emf.ecore.editor.feature.group</feature>
-                  <feature>org.eclipse.emf.ecore.feature.group</feature>
-                  <feature>org.eclipse.emf.edit.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.edit.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.ecore.editor.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.ecore.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.ui.feature.group</feature>
-                  <feature>org.eclipse.emf.mapping.feature.group</feature>
-                  <feature>org.eclipse.emf.query.ocl.feature.group</feature>
-                  <feature>org.eclipse.emf.query.feature.group</feature>
-                  <feature>org.eclipse.emf.transaction.feature.group</feature>
-                  <feature>org.eclipse.emf.validation.feature.group</feature>
-                  <feature>org.eclipse.emf.workspace.feature.group</feature>
-                  <feature>org.eclipse.emf.feature.group</feature>
-                  <feature>org.eclipse.equinox.p2.user.ui.feature.group</feature>
-                  <feature>org.eclipse.gef.feature.group</feature>
-                  <feature>org.eclipse.gmf.runtime.notation.feature.group</feature>
-                  <feature>org.eclipse.gmf.runtime.thirdparty.feature.group</feature>
-                  <feature>org.eclipse.gmf.feature.group</feature>
-                  <feature>org.eclipse.help.feature.group</feature>
-                  <feature>org.eclipse.ocl.all.feature.group</feature>
-                  <feature>org.eclipse.ocl.uml.feature.group</feature>
-                  <feature>org.eclipse.ocl.feature.group</feature>
-                  <feature>org.eclipse.team.svn.feature.group</feature>
-                  <feature>org.eclipse.tigerstripe.annotation.example.feature.feature.group</feature>
-                  <feature>org.eclipse.tigerstripe.annotation.feature.feature.group</feature>
-                  <feature>org.eclipse.tigerstripe.base.feature.group</feature>
-                  <feature>org.eclipse.tigerstripe.workbench.feature.group</feature>
-                  <feature>org.eclipse.uml2.feature.group</feature>
-                  <feature>org.eclipse.zest.feature.group</feature>
-                </features>
-
               </injection>
             </injections>
             <ignoreOtherInjections>true</ignoreOtherInjections>
@@ -113,9 +69,9 @@
   </pluginRepositories>
 
   <properties>             
-    <q7-runtime-version>1.2.0-M2</q7-runtime-version>
+    <q7-runtime-version>1.2</q7-runtime-version>
     <q7-client-version>1.2.0-SNAPSHOT</q7-client-version>
-    <q7-runner-version>1.1.8-RC4</q7-runner-version>
-    <q7-maven-version>1.1.7</q7-maven-version>
+    <q7-runner-version>1.2.0</q7-runner-version>
+    <q7-maven-version>1.2.0</q7-maven-version>
   </properties>                                  
 </project>
