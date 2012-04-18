@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.WizardUtils;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -128,7 +129,10 @@ public class NewM0GeneratorProjectWizard extends Wizard implements INewWizard {
 		} catch (InterruptedException e) {
 			EclipsePlugin.log(e);
 		} catch (InvocationTargetException e) {
-			EclipsePlugin.log(e);
+			boolean projectCreationFailed = WizardUtils.handleProjectCreationErrors(e, details.projectName);
+			if (projectCreationFailed) {
+				return false;
+			}
 		}
 
 		openPerspective(TigerstripePerspectiveFactory.ID);

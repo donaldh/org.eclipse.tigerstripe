@@ -10,14 +10,21 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards;
 
+import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceStatus;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
@@ -27,7 +34,11 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.AttributeRef;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.statushandlers.IStatusAdapterConstants;
+import org.eclipse.ui.statushandlers.StatusAdapter;
+import org.eclipse.ui.statushandlers.StatusManager;
 
+@SuppressWarnings("restriction")
 public class WizardUtils {
 
 	private final static String[] scalarTypes = { "int", "boolean", "double",
@@ -181,4 +192,42 @@ public class WizardUtils {
 		return jelem;
 	}
 
+	// Returns true if resource creation problems detected
+	public static boolean handleProjectCreationErrors(InvocationTargetException e,
+			String projectName) {
+		Throwable target = e.getTargetException();
+
+		// Detect & handle creation problems
+		if (target instanceof CoreException) {
+			Throwable c = ((CoreException) target).getStatus().getException();
+			if (c instanceof TigerstripeException) {
+				TigerstripeException te = (TigerstripeException) c;
+				Exception ex = te.getException();
+				if (ex instanceof CoreException) {
+					CoreException cause = (CoreException) ex;
+					String msg;
+					if (cause.getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS) {
+						msg = MessageFormat
+								.format("The underlying file system is case insensitive. "
+										+ "There is an existing project or directory that conflicts with ''{0}''.",
+										projectName);
+					} else {
+						msg = "Creation Problems";
+					}
+					StatusAdapter status = new StatusAdapter(
+							new Status(cause.getStatus().getSeverity(),
+									EclipsePlugin.PLUGIN_ID, msg, cause));
+					status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY,
+							"Creation Problems");
+					StatusManager.getManager().handle(status,
+							StatusManager.BLOCK | StatusManager.LOG);
+					return true;
+				}
+			}
+		}
+
+		EclipsePlugin.log(target);
+		return false;
+	}
+	
 }
