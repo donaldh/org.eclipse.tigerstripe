@@ -111,11 +111,16 @@ public abstract class TigerstripeProjectHandle extends
 			if (manager == null) {
 				manager = new ArtifactManagerImpl(getTSProject());
 			}
-			setArtifactManagerSession(new ArtifactManagerSessionImpl(manager));
-
+			ArtifactManagerSessionImpl session = new ArtifactManagerSessionImpl(manager);
+			setArtifactManagerSession(session);
+			initArtifactManagerSession(session);
 		}
 
 		return artifactMgrSession;
+	}
+
+	protected void initArtifactManagerSession(IArtifactManagerSession session)
+			throws TigerstripeException {
 	}
 
 	public boolean wasDisposed() {

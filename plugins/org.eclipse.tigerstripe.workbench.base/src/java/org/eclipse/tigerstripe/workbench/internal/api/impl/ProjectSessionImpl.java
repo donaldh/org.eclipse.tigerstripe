@@ -126,7 +126,7 @@ public class ProjectSessionImpl {
 		return "";
 	}
 
-	public IPhantomTigerstripeProject getPhantomProject()
+	public synchronized IPhantomTigerstripeProject getPhantomProject()
 			throws TigerstripeException {
 		if (phantomHandle == null) {
 			phantomHandle = new TigerstripePhantomProjectHandle();
