@@ -29,6 +29,7 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Tuple;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
@@ -179,6 +180,21 @@ public class ConvertUtils {
 		for (Object o : map.getClassInstances()) {
 			ClassInstance ci = (ClassInstance) o;
 			deleteInstanceByFqn(fqn, ci.getAssociations());
+		}
+		for (Object o : map.getAssociationInstances()) {
+			AssociationInstance ai = (AssociationInstance) o;
+			Instance aEnd = ai.getAEnd();
+			if (aEnd != null) {
+				if (fqn.contains(aEnd.getFullyQualifiedName())) {
+					ai.setAEnd(null);	
+				}
+			}
+			Instance zEnd = ai.getZEnd();
+			if (zEnd != null) {
+				if (fqn.contains(zEnd.getFullyQualifiedName())) {
+					ai.setZEnd(null);	
+				}
+			}
 		}
 	}
 	
