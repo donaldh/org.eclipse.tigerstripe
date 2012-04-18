@@ -3,11 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 337884_SaveTigerstripeDescriptor
 Tags: TS_Project/Edit/Descriptor
-External-Reference: 
+External-Reference: http://bugs.xored.com/browse/XMP-1086
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _E-NZMfhGEd-iKuOiJgVXVQ
-Save-Time: 4/13/12 2:52 PM
+Save-Time: 4/18/12 5:05 PM
 Id: _rEDgMUDGEeCa8cJcfiVdxQ
 Testcase-Type: ecl
 

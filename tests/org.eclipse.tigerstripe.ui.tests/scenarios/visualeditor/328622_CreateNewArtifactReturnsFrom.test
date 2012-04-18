@@ -1,0 +1,62 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 328622_CreateNewArtifactReturnsFrom
+Tags: TS_Project/VisualEditor 
+External-Reference: http://docs.xored.com/display/TS/328622_CreateNewArtifactDragConnection
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _luehIAKVEeCI5eYSA_LRBA
+Save-Time: 4/18/12 5:41 PM
+Id: _psdtwIlCEeG2ZPrsJlpKXA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Precondition: create diagram with artifacts of types Entity, Session Facade and Query. Add created artifact to diagram
+
+TEST STEPS:
+
+1. Select Entity artifact. Drag connection "from" and drop in arbitrary place. Select in the popup menu "Create Returns From" -> "New Element: Query"
+2. Check new artifacts in Tigerstripe explorer
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/default" | double-click
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Entity1] {
+        with [get-edit-part -className ManagedEntityArtifactAttributeCompartmentEditPart] {
+            mouse-move 24 8 button1 -height 12 -width 56
+            mouse-press 24 8 button1 -height 12 -width 56
+            mouse-release 24 8 button1 524288 -height 12 -width 56
+        }
+        with [get-connection-handle 0] {
+            mouse-move 8 16 button1 -height 20 -width 16
+            mouse-press 8 16 button1 -height 20 -width 16
+            mouse-drag 12 16 -mask 524288 -height 20 -width 16
+        }
+    }
+    mouse-drag 271 179 -mask 524288 -height 461 -width 630
+    with [get-edit-part -className MapEditPart] {
+        mouse-drag 468 176 button1 524288 -height 461 -width 630
+        mouse-release 468 176 button1 524288 -height 461 -width 630
+    }
+}
+get-menu "Create Returns From/New Element: Query" | click
+with [get-editor "default.wvd"] {
+    get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Query3 | get-edit-part -text Query3 
+        | activate-direct-edit
+    get-editbox | key-type "M1+s"
+    get-diagram | cancel-direct-edit
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Query3" | get-property caption 
+    | equals Query3 | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/Entity1" | double-click
+    select "Project1/src/com.mycompany/Query3" | double-click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
