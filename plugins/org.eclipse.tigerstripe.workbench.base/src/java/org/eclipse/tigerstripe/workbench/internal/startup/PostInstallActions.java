@@ -30,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
-import org.eclipse.tigerstripe.workbench.utils.OSGIUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
@@ -43,13 +42,11 @@ import org.osgi.framework.Constants;
  */
 public class PostInstallActions {
 
-	public static void init() {
-		new Lazy();
-	}
+	private static volatile boolean initialized = false;
 	
-	public static class Lazy {
-		
-		static {
+	public static void init() {
+		if (!initialized) {
+			initialized = true;
 			try {
 				new PostInstallActions().run();
 			} catch (TigerstripeException e) {
