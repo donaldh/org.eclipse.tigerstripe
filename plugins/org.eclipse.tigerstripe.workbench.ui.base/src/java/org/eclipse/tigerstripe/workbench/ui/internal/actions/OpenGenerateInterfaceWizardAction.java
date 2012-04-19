@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 
+import static org.eclipse.jface.dialogs.MessageDialog.openError;
+import static org.eclipse.jface.dialogs.MessageDialog.openQuestion;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -19,8 +22,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -89,22 +90,16 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction
 			IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) project
 					.getAdapter(IAbstractTigerstripeProject.class);
 			if (!(tsProject instanceof ITigerstripeModelProject)) {
-				MessageBox dialog = new MessageBox(shell, SWT.ICON_ERROR);
-				dialog.setText("Generate Tigerstripe Project");
-				dialog
-						.setMessage("No valid Tigerstripe Project is in Focus.\nPlease select a project in the Tigerstripe Explorer or set focus on the editor.");
-				dialog.open();
+				String msg = "No valid Tigerstripe Project is in Focus.\nPlease select a project in the Tigerstripe Explorer or set focus on the editor.";
+				openError(shell, "Generate Tigerstripe Project", msg);
 				return false;
 			}
 
 			if (!project.isAccessible()) {
-				MessageBox dialog = new MessageBox(shell, SWT.ICON_ERROR);
-				dialog.setText("Generate Tigerstripe Project");
-				dialog
-						.setMessage("Project "
-								+ project.getName()
-								+ " is closed.\nPlease open this project first to generate.");
-				dialog.open();
+				String msg = "Project "
+						+ project.getName()
+						+ " is closed.\nPlease open this project first to generate.";
+				openError(shell, "Generate Tigerstripe Project", msg);
 				return false;
 			}
 
@@ -114,14 +109,10 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction
 				for (int i = 0; i < markers.length; i++) {
 					if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(
 							IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
-						MessageBox dialog = new MessageBox(shell,
-								SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-						dialog
-								.setMessage("This project contains errors: generation may only be partial. Do you want to continue?");
-						dialog.setText("Generate Tigerstripe Project - Errors");
-						if (dialog.open() == SWT.YES)
-							return true;
-						return false;
+						return openQuestion(
+								shell,
+								"Generate Tigerstripe Project - Errors",
+								"This project contains errors: generation may only be partial. Do you want to continue?");
 					}
 				}
 			} catch (CoreException e) {
