@@ -135,6 +135,11 @@ public class ProjectSessionImpl {
 		return phantomHandle;
 	}
 
+	public synchronized void resetPhantomProject() {
+		phantomHandle.dispose();
+		phantomHandle = null;
+	}
+
 	/**
 	 * This removes a project from the cache. It is called upon deletion of the
 	 * project from the workspace.

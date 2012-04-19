@@ -174,6 +174,10 @@ public class TigerstripeProjectFactory {
 		return session.getPhantomProject();
 	}
 
+	public void resetPhantomProject() {
+		session.resetPhantomProject();
+	}
+
 	// FIXME this is temporary until the project session disappears.
 	public ProjectSessionImpl getProjectSession() {
 		return this.session;

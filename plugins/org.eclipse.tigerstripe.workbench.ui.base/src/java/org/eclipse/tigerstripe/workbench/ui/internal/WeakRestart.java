@@ -7,6 +7,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
@@ -31,8 +32,8 @@ public class WeakRestart {
 					.getProjects();
 
 			monitor.beginTask("Restart", 10 + projects.length + 5);
-			
-			PhantomTigerstripeProjectMgr.getInstance().getPhantomProject().dispose();
+
+			TigerstripeProjectFactory.INSTANCE.resetPhantomProject();
 			PhantomTigerstripeProjectMgr.getInstance().reset();
 			monitor.worked(10);
 			

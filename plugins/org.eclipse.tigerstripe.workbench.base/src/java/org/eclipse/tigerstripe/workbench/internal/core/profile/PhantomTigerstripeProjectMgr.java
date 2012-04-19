@@ -34,6 +34,7 @@ public class PhantomTigerstripeProjectMgr {
 	}
 
 	public void reset() {
+		phantomProject.dispose();
 		phantomProject = null;
 	}
 	
