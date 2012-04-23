@@ -11,9 +11,11 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.preferences;
 
 import org.eclipse.gmf.runtime.common.ui.preferences.ComboFieldEditor;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -50,6 +52,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 	public static final String P_DONT_REMIND_METHODS_REMOVING = "p.general.ask.removing.methods";
 	public static final String P_DONT_REMIND_LITERAL_REMOVING = "p.general.ask.removing.literals";
 	public static final String P_DONT_REMIND_STEREOTYPES_REMOVING = "p.general.ask.removing.stereotypes";
+	
+	public static final String P_CASCADE_DELETE = "p.general.ask.cascade.delete";
 
 	public static final String P_WEAK_RESTART = "p.general.weakRestart";
 
@@ -76,6 +80,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 		store.setDefault(P_DONT_REMIND_METHODS_REMOVING, false);
 		store.setDefault(P_DONT_REMIND_LITERAL_REMOVING, false);
 		store.setDefault(P_DONT_REMIND_STEREOTYPES_REMOVING, false);
+		store.setDefault(P_CASCADE_DELETE, MessageDialogWithToggle.PROMPT);
 		store.setDefault(P_WEAK_RESTART, false);
 		// See bug 298971
 //		store.setDefault(P_CASCADEDELETE_RELATIONSHIPS, "true");
@@ -168,7 +173,13 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 		addField(new BooleanFieldEditor(P_DONT_REMIND_STEREOTYPES_REMOVING,
 				"&Stereotypes", reminderGroup));
 
-	
+		addField(new RadioGroupFieldEditor(P_CASCADE_DELETE,
+				"Casca&de Delete", 3, new String[][] {
+						{ "Always delete", MessageDialogWithToggle.ALWAYS },
+						{ "Never delete", MessageDialogWithToggle.NEVER },
+						{ "Prompt", MessageDialogWithToggle.PROMPT } },
+				getFieldEditorParent(), true));
+		
 		Group otherGroup = new Group(getFieldEditorParent(), SWT.TITLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;

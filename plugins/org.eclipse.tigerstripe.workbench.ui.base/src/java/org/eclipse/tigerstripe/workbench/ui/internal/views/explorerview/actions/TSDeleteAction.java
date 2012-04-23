@@ -53,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.Ask;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.action.LogicalNodeDeleteAction;
@@ -243,8 +244,8 @@ public class TSDeleteAction extends DeleteAction {
                             pair.artifact);
                 }
             }
-
-            if (true) {
+            
+            if (Ask.aboutCascadeRemoving(getShell(), relationshipsToCascadeDelete)) {
                 handleRelationshipToCascadeDelete(relationshipsToCascadeDelete);
             }
         } else if (iAbstractArtifactComponentSelected) {
