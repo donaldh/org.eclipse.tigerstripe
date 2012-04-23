@@ -225,6 +225,9 @@ public class ProfileDetailsDialog extends Dialog {
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
+					if (!WeakRestart.isEnabled()) {
+						PlatformUI.getWorkbench().restart();
+					}
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
@@ -345,6 +348,9 @@ public class ProfileDetailsDialog extends Dialog {
 								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
 										shell);
 								pDialog.run(true, false, op);
+								if (!WeakRestart.isEnabled()) {
+									PlatformUI.getWorkbench().restart();
+								}
 							} catch (InterruptedException e) {
 								EclipsePlugin.log(e);
 							} catch (InvocationTargetException e) {

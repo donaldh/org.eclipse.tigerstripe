@@ -300,6 +300,9 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 						ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 								shell);
 						dialog.run(true, false, op);
+						if (!WeakRestart.isEnabled()) {
+							PlatformUI.getWorkbench().restart();
+						}
 					} catch (InterruptedException e) {
 						EclipsePlugin.log(e);
 					} catch (InvocationTargetException e) {
@@ -404,6 +407,9 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
+					if (!WeakRestart.isEnabled()) {
+						PlatformUI.getWorkbench().restart();
+					}
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
@@ -463,6 +469,9 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
+					if (!WeakRestart.isEnabled()) {
+						PlatformUI.getWorkbench().restart();
+					}
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {

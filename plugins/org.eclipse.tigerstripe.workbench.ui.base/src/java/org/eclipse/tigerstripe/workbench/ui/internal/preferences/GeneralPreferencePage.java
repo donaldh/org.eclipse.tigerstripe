@@ -45,10 +45,13 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 	public static final String P_DEFAULTPACKAGE = "p.general.default.artifact.package";
 
 	public static final String P_LOGGINGLEVEL = "p.general.logging.level";
+	
 	public static final String P_DONT_REMIND_FILEDS_REMOVING = "p.general.ask.removing.fields";
 	public static final String P_DONT_REMIND_METHODS_REMOVING = "p.general.ask.removing.methods";
 	public static final String P_DONT_REMIND_LITERAL_REMOVING = "p.general.ask.removing.literals";
 	public static final String P_DONT_REMIND_STEREOTYPES_REMOVING = "p.general.ask.removing.stereotypes";
+
+	public static final String P_WEAK_RESTART = "p.general.weakRestart";
 
 	
 	// See bug 298971
@@ -73,6 +76,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 		store.setDefault(P_DONT_REMIND_METHODS_REMOVING, false);
 		store.setDefault(P_DONT_REMIND_LITERAL_REMOVING, false);
 		store.setDefault(P_DONT_REMIND_STEREOTYPES_REMOVING, false);
+		store.setDefault(P_WEAK_RESTART, false);
 		// See bug 298971
 //		store.setDefault(P_CASCADEDELETE_RELATIONSHIPS, "true");
 	}
@@ -163,6 +167,17 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 
 		addField(new BooleanFieldEditor(P_DONT_REMIND_STEREOTYPES_REMOVING,
 				"&Stereotypes", reminderGroup));
+
+	
+		Group otherGroup = new Group(getFieldEditorParent(), SWT.TITLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		otherGroup.setLayoutData(gd);
+		otherGroup.setText("Other");
+		
+		addField(new BooleanFieldEditor(P_WEAK_RESTART, "Weak &Restart",
+				otherGroup));
+
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 package org.eclipse.tigerstripe.workbench.ui.internal;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage.P_WEAK_RESTART;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -24,7 +27,18 @@ import org.eclipse.ui.PlatformUI;
 
 public class WeakRestart {
 
+	public static boolean isEnabled() {
+		IPreferenceStore store = EclipsePlugin.getDefault()
+				.getPreferenceStore();
+		return store.getBoolean(P_WEAK_RESTART);
+	}
+	
 	public static void restart(IProgressMonitor monitor) {
+		if (!isEnabled()) {
+			monitor.done();
+			return;
+		}
+		
 		try {
 			TigerstripeProjectAuditor.setTurnedOffForImport(true);
 			

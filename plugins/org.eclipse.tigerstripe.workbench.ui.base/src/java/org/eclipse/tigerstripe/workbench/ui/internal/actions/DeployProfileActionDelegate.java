@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -88,6 +89,9 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 				ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
 				// We still need to do this as it replaces the profile that will be used on start up
 				dialog.run(true, false, op);
+				if (!WeakRestart.isEnabled()) {
+					PlatformUI.getWorkbench().restart();
+				}
 			} catch (InterruptedException e) {
 				EclipsePlugin.log(e);
 			} catch (InvocationTargetException e) {
