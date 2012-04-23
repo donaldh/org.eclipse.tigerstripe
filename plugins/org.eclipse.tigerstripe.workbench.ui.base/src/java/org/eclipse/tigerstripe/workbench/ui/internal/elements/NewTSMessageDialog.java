@@ -10,19 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.elements;
 
-import static org.eclipse.swt.layout.GridData.FILL_BOTH;
-import static org.eclipse.swt.layout.GridData.HORIZONTAL_ALIGN_BEGINNING;
-import static org.eclipse.swt.layout.GridData.VERTICAL_ALIGN_CENTER;
-
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
@@ -106,20 +103,14 @@ public class NewTSMessageDialog extends Dialog {
 			titleLabel.setImage(null);
 			// Message composite
 			messageComposite = new Composite(parent, SWT.NONE);
-			GridLayout messageLayout = new GridLayout();
-			messageLayout.numColumns = 2;
-			messageLayout.marginWidth = 0;
-			messageLayout.marginHeight = 0;
-			messageLayout.makeColumnsEqualWidth = false;
-			messageComposite.setLayout(messageLayout);
+			GridLayoutFactory.fillDefaults().numColumns(2).applyTo(messageComposite);
 			// Message label
 			messageLabel = new CLabel(messageComposite, SWT.NONE);
 			messageLabel.setFont(JFaceResources.getDialogFont());
 			messageLabel.setImage(null);
-			GridData textData = new GridData(VERTICAL_ALIGN_CENTER);
-			messageLabel.setLayoutData(textData);
+			GridDataFactory.fillDefaults().grab(true, true).applyTo(messageLabel);
 			link = new Link(messageComposite, SWT.NONE);
-			link.setLayoutData(new GridData(HORIZONTAL_ALIGN_BEGINNING | VERTICAL_ALIGN_CENTER));
+			GridDataFactory.swtDefaults().applyTo(link);
 		}
 
 		public void showTitle(String titleMessage) {
