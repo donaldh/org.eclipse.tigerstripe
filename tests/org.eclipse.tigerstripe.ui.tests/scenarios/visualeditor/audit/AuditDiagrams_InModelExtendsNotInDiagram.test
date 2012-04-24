@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 4/23/12 2:35 PM
+Save-Time: 4/24/12 9:38 PM
 Id: _ocUHYE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -44,6 +44,7 @@ with [get-view "Error Log" | get-tree]{
     | get-property caption | equals "In model extends com.mycompany.Entity1 but not in diagram (null)." | verify-true
     
     }
+    
     
     
     
