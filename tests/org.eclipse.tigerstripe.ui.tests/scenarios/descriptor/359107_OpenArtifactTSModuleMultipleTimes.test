@@ -1,10 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="359107_OpenArtifactTSModuleMultipleTimes" version="3.0" id="_W5Ur8fu1EeCMDZGX7ynCKQ" description="When an artifact in a TS module is open multiple times, an editor should open only once time&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ModuleAddRemoveAnnotationContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Expand Model Project References > ts_module&#xD;&#xA;    Open an artifact in the TS module by double clicking on it.&#xD;&#xA;    Open it again by double clicking on it.&#xD;&#xA;    Verify number of opened editors&#xD;&#xA;" tags="Descriptor/Dependency" type="ecl" externalReference="http://docs.xored.com/display/TS/359107_OpenArtifactTSModuleMultipleTimes">
-  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
-  <contexts>__8ZooMxeEeCTcJc7g1x7bg</contexts>
-  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 359107_OpenArtifactTSModuleMultipleTimes
+Tags: Descriptor/Dependency
+External-Reference: http://docs.xored.com/display/TS/359107_OpenArtifactTSModuleMultipleTimes
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,__8ZooMxeEeCTcJc7g1x7bg
+Save-Time: 4/24/12 3:25 PM
+Id: _W5Ur8fu1EeCMDZGX7ynCKQ
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+When an artifact in a TS module is open multiple times, an editor should open only once time
+
+Precondition
+ModuleAddRemoveAnnotationContextWorkspace
+
+Steps
+    Expand Model Project References > ts_module
+    Open an artifact in the TS module by double clicking on it.
+    Open it again by double clicking on it.
+    Verify number of opened editors
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree 
     | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1" 
     | double-click -nowait
 with [get-tab-folder -index 1] {
@@ -20,189 +47,5 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 with [get-tab-folder -index 1] {
     get-property pages -index 0 | equals E1 | verify-true
     get-property tabCount | equals 1 | verify-true
-}]]></content>
-  </content>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View1" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree1" kind="Tree"/>
-      <path>Project1</path>
-      <path>Model References</path>
-      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\ts-160\plugins</path>
-      <path>org.eclipse.tigerstripe.test</path>
-      <path>E1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree1" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabFolder" index="1" multiplicity="1">
-        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - org.eclipse.tigerstripe.test.E1 (read-only) - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="E1" index="0">
-      <element id="TabFolder0" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="tabCount" value="1">
-      <element id="TabFolder0" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - org.eclipse.tigerstripe.test.E1 (read-only) - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View4" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree4" kind="Tree"/>
-      <path>Project1</path>
-      <path>Model References</path>
-      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\ts-160\plugins</path>
-      <path>org.eclipse.tigerstripe.test</path>
-      <path>E1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree4" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree4" kind="Tree"/>
-      <path>Project1</path>
-      <path>Model References</path>
-      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\ts-160\plugins</path>
-      <path>org.eclipse.tigerstripe.test</path>
-      <path>E1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
-      <element id="Tree4" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabFolder" index="1" multiplicity="1">
-        <parent id="EclipseWindow5" kind="EclipseWindow" description="Tigerstripe - org.eclipse.tigerstripe.test.E1 (read-only) - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="E1" index="0">
-      <element id="TabFolder1" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="tabCount" value="1">
-      <element id="TabFolder1" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow1" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="741" y="169" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View1" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree1" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>Project1</path>
-          <path>Model References</path>
-          <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\ts-160\plugins</path>
-          <path>org.eclipse.tigerstripe.test</path>
-          <path>E1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="EclipseWindow2" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - org.eclipse.tigerstripe.test.E1 (read-only) - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="741" y="169" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="TabFolder0" kind="TabFolder"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="E1" tabCount="1">
-        <pages>E1</pages>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.9">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - org.eclipse.tigerstripe.test.E1 (read-only) - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="741" y="169" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.10">
-      <elements id="View4" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.11">
-      <elements id="Tree4" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>Project1</path>
-          <path>Model References</path>
-          <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\ts-160\plugins</path>
-          <path>org.eclipse.tigerstripe.test</path>
-          <path>E1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.16">
-      <elements id="EclipseWindow5" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - org.eclipse.tigerstripe.test.E1 (read-only) - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="741" y="169" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.17">
-      <elements id="TabFolder1" kind="TabFolder"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="E1" tabCount="1">
-        <pages>E1</pages>
-      </controls>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

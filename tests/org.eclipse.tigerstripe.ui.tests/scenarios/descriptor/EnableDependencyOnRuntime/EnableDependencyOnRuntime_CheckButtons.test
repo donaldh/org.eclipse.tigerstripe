@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: EnableDependencyOnRuntime_CheckButtons
 Tags: Descriptor/EnableDependencyOnRuntime, I44
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _FGfSUKthEd-v8JwXbnu_tQ,_9D6jAatgEd-v8JwXbnu_tQ,_HNJU4CVgEeGRa87APBuv3g
-Save-Time: 12/13/11 3:13 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_HNJU4CVgEeGRa87APBuv3g
+Save-Time: 4/24/12 3:21 PM
 Id: _fn0DESVXEeGRa87APBuv3g
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -27,113 +29,27 @@ Verify enabled Select and Deselect buttons
 Uncheck  "Modify" checkbox
 Verify disabled Select and Deselect buttons
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkV9PwjAUxd9N/A5Nn6VFIYILgwCb
-CMZ/EAhvy9gupcpux9qx8e0tRjAYNb619/zu6bm3rU6ZrMkWMi0VuvSSVSkBjFQsUbg0N8tKk3ba52et
-SCWsVBnEbNNgOgIMM6mcyeeBlIl0ji5Xexfri9qxdZeujEkdzouiYCoRTGWCzx+GB+RH52OTVfmHyjcN
-flAZRLZECYYJuNTHcLEGD1LA2GbfPeE4RyMTCPoriN56uTEKNf2asrbPJ2OXBkusev5kNvdhMA6bje5z
-L9/WBCUmFNqlHugok6lRGf/1jQsyrNdtwy61SSBaU7ssQuy60EBpdDu4HSwn03uz8uPKtjkq5gvMA/PS
-4kfiG3/jXb92QyP+y989jqb1/kycjnDC7y9//Z5F3gFQSwcIFBaX+iYBAAAIAgAAUEsBAhQAFAAIAAgA
-AAAhABQWl/omAQAACAIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFwB
-AAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "Project/tigerstripe.xml" | double-click
+get-editor "Project/tigerstripe.xml" | get-tab-folder | get-tab-item Dependencies | click
+with [get-editor "Project/tigerstripe.xml" | get-section Dependencies] {
+    get-button "Modify dependencies at generation time (advanced)" | get-property selected | equals false | verify-true
+    get-button "Select All" | get-property enablement | equals false | verify-true
+    get-button "Deselect All" | get-property enablement | equals false | verify-true
+}
+get-editor "Project/tigerstripe.xml" | get-section Dependencies 
+    | get-button "Modify dependencies at generation time (advanced)" | click
+with [get-editor "Project/tigerstripe.xml" | get-section Dependencies] {
+    get-button "Select All" | get-property enablement | equals true | verify-true
+    get-button "Deselect All" | get-property enablement | equals true | verify-true
+}
+get-editor "Project/tigerstripe.xml" | get-section Dependencies 
+    | get-button "Modify dependencies at generation time (advanced)" | click
+with [get-editor "Project/tigerstripe.xml" | get-section Dependencies] {
+    get-button "Select All" | get-property enablement | equals false | verify-true
+    get-button "Deselect All" | get-property enablement | equals false | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
