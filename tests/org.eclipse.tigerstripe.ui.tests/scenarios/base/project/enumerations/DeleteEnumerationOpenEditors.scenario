@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_zysnMH-DEeCcSOu_oe8o1g
-Save-Time: 4/24/12 3:05 PM
+Save-Time: 4/24/12 9:25 PM
 Id: _oHcJ4H-XEeCcSOu_oe8o1g
 Testcase-Type: ecl
 
@@ -74,6 +74,7 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-property childrenCount | equals 4 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration3" | get-menu Delete | click
 get-window "Confirm Delete" | get-button OK | click
+get-window "Confirm Cascade Delete" | get-button Yes | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-property childrenCount | equals 3 | verify-true
 get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-true
 get-button "Save All \(.*\)" | click

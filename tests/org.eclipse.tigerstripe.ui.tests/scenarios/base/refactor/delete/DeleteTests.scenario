@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 2.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_Kt4xMMz2Ed-ncakhinV22g
-Save-Time: 4/24/12 3:14 PM
+Save-Time: 4/24/12 9:18 PM
 Id: _pP4XEM9rEd-G8MgdqOh4zw
 Testcase-Type: ecl
 
@@ -99,6 +99,7 @@ with [get-view "Tigerstripe Explorer"] {
     get-tree | select "model-refactoring/src/simple/Ent1" | get-menu Delete | click
 }
 get-window "Confirm Delete" | get-button OK | click
+get-window "Confirm Cascade Delete" | get-button Yes | click
 get-editor "outside-instance-diagram.wod" | get-diagram | get-figure "0/1/0/0" | mouse-move 170 9 -height 491 -width 968
 get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple" | get-property childCount | is-equal 13 | verify
 with [get-editor "default.wvd"] {

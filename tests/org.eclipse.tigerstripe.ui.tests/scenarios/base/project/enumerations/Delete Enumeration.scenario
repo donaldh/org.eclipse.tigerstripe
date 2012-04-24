@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/Base+Tigerstripe+Project+Te
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_zysnMH-DEeCcSOu_oe8o1g
-Save-Time: 4/24/12 3:04 PM
+Save-Time: 4/24/12 9:20 PM
 Id: _Eq-L4H-EEeCcSOu_oe8o1g
 Testcase-Type: ecl
 
@@ -50,6 +50,7 @@ get-menu "Window/Show View/Error Log" | click
 get-view "Error Log" | get-button "Clear Log Viewer" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration3" | get-menu Delete | click
 get-window "Confirm Delete" | get-button OK | click
+get-window "Confirm Cascade Delete" | get-button Yes | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 3 | verify-true
 get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-true
 get-view Problems | click -nowait
