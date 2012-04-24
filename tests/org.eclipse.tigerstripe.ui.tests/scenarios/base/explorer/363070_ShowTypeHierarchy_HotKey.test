@@ -1,153 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="363070_ShowTypeHierarchy_HotKey" version="3.0" id="_H0j9ABGSEeGZBttbjQGKaA" description="Open Artifact Hierarchy View with hot keys&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ExtendsContextGroup&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;Select Entity in TS Explorer&#xD;&#xA;Press Shift+F4 to open Artifact Hierarchy View&#xD;&#xA;Check opened view with selected artifact" tags="Explorer/Show Type Hierarchy" type="ecl" externalReference="http://docs.xored.com/display/TS/363070_ShowTypeHierarchy_HotKey">
-  <contexts>_OPC4UOdkEd-SavNKxJeMNg</contexts>
-  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View0" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
-      <element id="Tree0" kind="Tree"/>
-      <path>New Project</path>
-      <path>src</path>
-      <path>org.eclipse</path>
-      <path>Entity1</path>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="131072" code="16777229" meta="2">
-      <element id="Tree0" kind="Tree"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabFolder" index="1" multiplicity="1">
-        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="Tigerstripe Explorer" index="0">
-      <element id="TabFolder0" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="Artifact Type Hierarchy" index="1">
-      <element id="TabFolder0" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="activePage" value="Artifact Type Hierarchy">
-      <element id="TabFolder0" kind="TabFolder"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="EclipseWindow" multiplicity="1"/>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="View" pattern="Artifact Type Hierarchy" multiplicity="1">
-        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Tree" multiplicity="1">
-        <parent id="View2" kind="View"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Item" multiplicity="1">
-        <path>Entity1</path>
-        <path>Entity2</path>
-        <parent id="Tree2" kind="Tree"/>
-      </data>
-    </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Entity2">
-      <element id="Item2" kind="Item"/>
-      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </commands>
-    <elementMapping command="//@teslaContent/@commands.0">
-      <elements id="EclipseWindow0" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="507" y="98" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.1">
-      <elements id="View0" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.2">
-      <elements id="Tree0" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="594"/>
-        <selection>
-          <path>New Project</path>
-          <path>src</path>
-          <path>org.eclipse</path>
-          <path>Entity1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.5">
-      <elements id="EclipseWindow1" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="507" y="98" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.6">
-      <elements id="TabFolder0" kind="TabFolder"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Artifact Type Hierarchy" tabCount="2">
-        <pages>Tigerstripe Explorer</pages>
-        <pages>Artifact Type Hierarchy</pages>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.10">
-      <elements id="EclipseWindow2" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="507" y="98" width="1024" height="768"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.11">
-      <elements id="View2" kind="View"/>
-      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Artifact Type Hierarchy">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="3" y="50" width="244" height="594"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.12">
-      <elements id="Tree2" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" itemCount="1">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="244" height="393"/>
-        <selection>
-          <path>Entity1</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@teslaContent/@commands.13">
-      <elements id="Item2" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Entity2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="60" y="18" width="40" height="18"/>
-      </controls>
-    </elementMapping>
-  </teslaContent>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 363070_ShowTypeHierarchy_HotKey
+Tags: Explorer/Show Type Hierarchy
+External-Reference: http://docs.xored.com/display/TS/363070_ShowTypeHierarchy_HotKey
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_HgxCcedkEd-SavNKxJeMNg
+Save-Time: 4/24/12 2:13 PM
+Id: _H0j9ABGSEeGZBttbjQGKaA
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Open Artifact Hierarchy View with hot keys
+
+Precondition
+ExtendsContextGroup
+
+Steps
+Select Entity in TS Explorer
+Press Shift+F4 to open Artifact Hierarchy View
+Check opened view with selected artifact
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity1" | key-type "M2+F4"
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "Tigerstripe Explorer" | verify-true
+    get-property pages -index 1 | equals "Artifact Type Hierarchy" | verify-true
+    get-property activePage | equals "Artifact Type Hierarchy" | verify-true
+}
+get-view "Artifact Type Hierarchy" | get-tree | get-item "Entity1/Entity2" | get-property caption | equals Entity2 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
