@@ -1,9 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="GeneratorContextGroup" id="_AFuq4K9WEd-zMOysButwpg">
-  <contextReferences>_QvBToOcVEd-g0KdReJmlNQ</contextReferences>
-  <contextReferences>_WLclYOMKEd-nvv6n1ieo6A</contextReferences>
-  <contextReferences>_FGfSUKthEd-v8JwXbnu_tQ</contextReferences>
-  <contextReferences>_4LXcYK9VEd-zMOysButwpg</contextReferences>
-  <contextReferences>_9D6jAatgEd-v8JwXbnu_tQ</contextReferences>
-  <contextReferences>_EXP7gAnlEeG4YKJLWO2_8Q</contextReferences>
-</com.xored.q7.scenario:GroupContext>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: GeneratorContextGroup
+Context-Type: com.xored.q7.ui.context.group
+Element-Type: context
+Element-Version: 2.0
+Save-Time: 4/24/12 2:28 PM
+Id: _AFuq4K9WEd-zMOysButwpg
+
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFkFFLwzAUhd8F/0O470t0FLqVZmNK
+LdqNTR9c91RKe1cLS9Kmqa3+erPiBuLE13O+fNwTf96LA3lH3ZRKcrilN0BQZiovZcGhNfvRBOaz6ys/
+U4L2SmNOa5c2GcpUl8oLtWqreyUN9ob0ovTOpvHRZN2y8WzO4c2YymOs6zqqREGVLli8ejwhF+3nR7Zl
+Q8tql51aipmNgMhUIIcQJerUKP19zHAYkDLnkCwe2tqJptsgH32u1h/NXWu6qgC7ihC7a+BfcI/aDsdm
+ljjLONtF09efvM9+o38ZgnjjFgt5CDB0dtHTcrseJ5Pny4Zj+t/XWuwLUEsHCMMw5kj0AAAAqQEAAFBL
+AQIUABQACAAIAAAAIQDDMOZI9AAAAKkBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAA
+AQABADYAAAAqAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
