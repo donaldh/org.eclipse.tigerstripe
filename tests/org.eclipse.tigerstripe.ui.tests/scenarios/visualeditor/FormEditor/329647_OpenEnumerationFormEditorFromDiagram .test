@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 329647_OpenEnumerationFormEditorFromDiagram 
 Tags: TS_Project/VisualEditor/FormEditor, I45 
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _izWI8MinEeCVYvz9uSPZwA,_9D6jAatgEd-v8JwXbnu_tQ,_FGfSUKthEd-v8JwXbnu_tQ
-Save-Time: 12/26/11 2:03 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_izWI8MinEeCVYvz9uSPZwA
+Save-Time: 4/24/12 3:45 PM
 Id: _t7B8gC-IEeGLGPctzMXQtA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -23,91 +25,27 @@ Open Class Diagram
 Double click on Enumeration item
 Check opened Editor
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kV1PwjAUhu9N/A9Nr2VVQDYWBkEY
-ZCoRMj/Qm6VuZZTQFrozNvn1FhVIjHLXnvP06dvTVqcUS7RhOuNKevjKusSIyVglXKYezmFWcXCnfX7W
-ipWwSqVZYq1tK4uZpJorN/xZoFJw92Cp7izGKzPX1D08B1i5hBRFYSmRWkqnZDoK9sif5sMh0yVfXbK2
-yb5rsdiUMJJUMA/Xqs1G3Y4eVkz6MhdMUzAxBkoLP+Gg9EAr0ec01VQgfHxrbZeSJx6OwL5x0l4l8Nnw
-fjiOYTuaTqCLEdA08/BjGI21WrAYyDPPcrr8tpLjBRcoqF8bNXysTBwWL7GZGEJmZhJYCVk74tuXwBlx
-6bPe8+tm28zD8VvRbZED8Ytv9huLLoXUTyob57aYvss8gsn//GA4C5/uYH6C321OfaFBPgFQSwcIiO0K
-cDsBAAANAgAAUEsBAhQAFAAIAAgAAAAhAIjtCnA7AQAADQIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250
-ZW50UEsFBgAAAAABAAEANgAAAHEBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part 
+    -name Enumeration] {
+    with [get-edit-part -text int] {
+        mouse-move 53 0 button1 -height 15 -width 87
+        mouse-press 53 0 button1 -height 15 -width 87
+        mouse-release 53 0 button1 524288 -height 15 -width 87
+        mouse-press 53 0 button1 -height 15 -width 87
+        mouse-double-click 53 0 button1 -height 15 -width 87
+    }
+    get-edit-part -text "+literal0=0" | get-edit-part -name literal0 | mouse-release 48 0 button1 524288 -height 16 
+        -width 77
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "ClassDiagram.wvd" | verify-true
+    get-property pages -index 1 | equals Enumeration | verify-true
+    get-property activePage | equals Enumeration | verify-true
+    get-property tabCount | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

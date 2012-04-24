@@ -1,4 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="AssociationEditingWithAssociationPropertyEditor" version="3.0" id="_L3yfMd98EeCo36Hn5h9s0A" description="Association Property Editor could be found by double clicking on an association artifact at class diagram. " tags="TS_Project/VisualEditor/Association, I40" type="ecl">
-  <contexts>_HUHnoO41Ed-ertF0bt14Pg</contexts>
-</com.xored.q7.scenario:Scenario>
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: AssociationEditingWithAssociationPropertyEditor
+Tags: TS_Project/VisualEditor/Association, I40
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Save-Time: 4/24/12 3:59 PM
+Id: _L3yfMd98EeCo36Hn5h9s0A
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Association Property Editor could be found by double clicking on an association artifact at class diagram. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--

@@ -4,80 +4,32 @@ Format-Version: 1.0
 Element-Name: OpenExceptionFormEditorFromDiagram
 Tags: TS_Project/VisualEditor/FormEditor, I45
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 12/26/11 5:15 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 4/24/12 3:46 PM
 Id: _TTuAgC-lEeGcHog4af2eaw
+Testcase-Type: ecl
 
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFPwzAMhe9I/IcoZ5qMMTRUtZvG
-6MYQqBOrEJyqKPVCUJN0aUoLv54MWHdB3Cy/58/2i6adKtE72FoaHeNzMsAINDeF1CLGjdsGV3g6OT2J
-uFGkMxYKshuTmoNmVppw81ugTsmwpwz3FM/Vdej7MX51rgopbduWGCWIsYI+P6wOlj/J/ZBX6bdKd2N6
-UAlw38JIMwUxTivQScehcn77wliVFNIZu7BG3UgmLFP4+OHF/jZZxDjPsmYm5kGZwJLfGjFi2yGwFiPH
-RB3jbJOvrXkD7uiTrBtW/kDpkX+GVqNLb/+o/A3AS+xjQsgHpR10rp7kyeyxe0mXd0kRpPo+aD7Xg+t5
-G9He4WOl/+fqLV9QSwcIpjIb8REBAACiAQAAUEsBAhQAFAAIAAgAAAAhAKYyG/ERAQAAogEAAAgAAAAA
-AAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAEcBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exception0] {
+    with [get-edit-part -text Exception0] {
+        mouse-move 56 11 button1 -height 19 -width 77
+        mouse-press 56 11 button1 -height 19 -width 77
+        mouse-release 56 11 button1 524288 -height 19 -width 77
+        mouse-press 56 11 button1 -height 19 -width 77
+        mouse-double-click 56 11 button1 -height 19 -width 77
+    }
+    get-edit-part -className ExceptionArtifactAttributeCompartmentEditPart | mouse-release 56 9 button1 524288 
+        -height 16 -width 77
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "default.wvd" | verify-true
+    get-property pages -index 1 | equals Exception0 | verify-true
+    get-property activePage | equals Exception0 | verify-true
+    get-property tabCount | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

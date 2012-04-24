@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: OpenQueryFormEditorFromDiagram
 Tags: TS_Project/VisualEditor/FormEditor, I45
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 12/26/11 5:27 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 4/24/12 3:46 PM
 Id: _VXeA8C-lEeGcHog4af2eaw
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -23,76 +25,28 @@ Open Class Diagram
 Double click on Query item
 Check opened Editor
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kNFPwjAQxt9N/B+aPrsWEQNZNgji
-QIxmKIbg09J0R61ZW+g6N/zrLSrjxfh2ue+739190ahRBfoAW0qjY3xJOhiB5iaXWsS4cptggEfD87OI
-G0UaYyEnuz4pOWhmpQmXvwVqlAxbSvdA8Vxdhr4f4zfntiGldV0TowQxVtD14/xo+ZPcDnmVfqt016dH
-lQD3LYw0UxDjdAv6qQK7nxqrklw6Y6fWqFvJhGUKn767Otwl8xhnqzWMB5OgSGDG74zosU0XWI2RY6KM
-8csyW1jzDtzRlSwrVvxA6Yl/gea9a2/fb/1+4AX2ESHkQ9IOGlcOs2T83Lyms/skD1L9EFSfi87NpI5o
-6/CR0v8z9ZYvUEsHCLWkqPAPAQAAngEAAFBLAQIUABQACAAIAAAAIQC1pKjwDwEAAJ4BAAAIAAAAAAAA
-AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABFAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AAAAAQABADYAAACpDAAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    with [get-edit-part -name Event0] {
+        with [get-edit-part -text Event0] {
+            mouse-move 39 10 button1 -height 19 -width 55
+            mouse-press 39 10 button1 -height 19 -width 55
+            mouse-release 39 10 button1 524288 -height 19 -width 55
+        }
+        with [get-edit-part -className NotificationArtifactAttributeCompartmentEditPart] {
+            mouse-press 39 11 button1 -height 16 -width 55
+            mouse-double-click 39 11 button1 -height 16 -width 55
+        }
+    }
+    mouse-release 234 482 button1 524288 -height 468 -width 596
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "default.wvd" | verify-true
+    get-property pages -index 1 | equals Event0 | verify-true
+    get-property activePage | equals Event0 | verify-true
+    get-property tabCount | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

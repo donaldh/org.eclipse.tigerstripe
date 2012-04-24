@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: CreateServiceContractFacetPerformanceTest
 Tags: performance/smallScale, skipExecution
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 2/1/12 6:50 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EgIpcKwQEd-DHcdNat_asw
+Save-Time: 4/24/12 3:33 PM
 Id: _WDymIEzKEeGNjJ3pRrpsng
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -22,58 +24,10 @@ Steps
 1. Click "Finish" in "New Tigerstripe Workbench Profile" window
 2. Wait until project in Tigerstripe Explorer becomes available 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFPAjEQhe8m/oemZ2lVDpjNLhxg
-lRUl6probdN0h6WybZd2YBd+vcUIXIy3yXtvvsy8eNTpmmzBeWVNQm/YNSVgpC2VqRK6wUXvjo6Glxex
-tJp11kHJ1gPmJRjhlI3y34F0WkUnyu2BErjGR0FP6BKxiThv25ZZXTHrKv75nB0jf5JPS8HlPy5fD/jR
-ZSCDRIkRGhI6diAQcnBbJWFsDToh8V5IwBdwC+u0MBLewSM9P9o/nKjKhBYfk53O0v0shYf512O/eXON
-NxUlKCqf0OZM4F6Lus6lqOGK+JVq0g7kBgMuhHdNOARkTUNXhIS2DEKHflhky+nTata+pmVvMpXlXGAh
-fBvzUyJ0y/8vN0S+AVBLBwiLWJi5EwEAAKcBAABQSwECFAAUAAgACAAAACEAi1iYuRMBAACnAQAACAAA
-AAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAASQEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-Y29udGVudFBLBQYAAAAAAQABADYAAAB9CAAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "New Project" | get-menu "New/Workbench Profile" | click
+get-window "New Tigerstripe Workbench Profile" | get-button Finish | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

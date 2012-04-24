@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: OpenEditorPerformanceTest
 Tags: performance, skipExecution
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _P443IEi5EeG6xYWzBUR3Fg
-Save-Time: 1/31/12 4:20 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_P443IEi5EeG6xYWzBUR3Fg
+Save-Time: 4/24/12 3:34 PM
 Id: _i7eekEvrEeG6xYWzBUR3Fg
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -22,59 +24,10 @@ Steps
 1. Double-click on org.tmforum.tip.cbe.party.Individual entity in Tigerstripe Explorer to open it in Editor
 2. Wait until editor becomes available
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFLAzEQhe+C/yHMWRN1qyvLpgVh
-lR7EYhX1VJbsdA1tkm2SdqO/3qnYFkG8DfPefDPzylEyS7ZBH7SzEs75GTC0yjXathLWcX56DaPh8VGp
-nOHJeWz4KudBoa29dsX0p2DJ6GJPudhSiGtDQX0J7zF2hRB933NnWu58K17vxzvLn+T9EKniWxWrXOxU
-jopawGxtUMJDh7ZqdHR+gn7uvKmtwicMEQ6PZduTdCNhpnPERbXxFd5dpbeXz5vnx+y2BRbrNkjoDoQT
-Fha6qxKqdSQGOT462oZqCRQIYxSJjZhiGM4mg0E2rvTlb2Yp9g4KUPyfIFm+AFBLBwh1SWlc+AAAAIwB
-AABQSwECFAAUAAgACAAAACEAdUlpXPgAAACMAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUG
-AAAAAAEAAQA2AAAALgEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "SID95/src/org.tmforum.tip.cbe.party/Individual" | double-click
+get-tab-folder -index 1 | get-property activePage | equals Individual | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 329647_OpenDatatypeFormEditorFromDiagram 
 Tags: TS_Project/VisualEditor/FormEditor, I45
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 12/26/11 1:52 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 4/24/12 3:45 PM
 Id: _yKveMC-IEeGLGPctzMXQtA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -23,77 +25,27 @@ Open Class Diagram
 Double click on Datatype item
 Check opened Editor
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFPAjEQhe8m/oemZ7dFQNENhSAs
-BISwijF42jTdca2hLXQLu/DrLSrLxXibzHvzzcxrd0u1QjuwuTSa4WtSwwi0MKnUGcNb9x7c4W7n8qIt
-jCKlsZCSTYvkAjS30oSL3wKVSoYVpX6keK7OQ99n+MO5dUhpURTEqIwYm9HlbHyy/EmuhrxKv1W6adGT
-SkD4FkaaK2C4Ub+/bbaS+Rr0gDvu9msYGquiVDpjh9aogeSZ5Qrh86ON44kyZTjZP+5g1g/GEYymo1i4
-w2z55HoYOZ7lDL8sktiaTxCOvsp8y1c/VHpecIXGzRtv91sZBrHCPi2EfF7aQenyThL1nsu3+WgSpcFc
-T4PtIa499Is2rRw+Xfp/vN7yBVBLBwiCzQeCGQEAAKkBAABQSwECFAAUAAgACAAAACEAgs0HghkBAACp
-AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAATwEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Datatype1] {
+    with [get-edit-part -text Datatype1] {
+        mouse-move 47 5 button1 -height 16 -width 73
+        mouse-press 47 5 button1 -height 16 -width 73
+        mouse-release 47 5 button1 524288 -height 16 -width 73
+    }
+    with [get-edit-part -className DatatypeArtifactAttributeCompartmentEditPart] {
+        mouse-press 47 6 button1 -height 12 -width 73
+        mouse-double-click 47 6 button1 -height 12 -width 73
+    }
+    get-edit-part -className DatatypeArtifactMethodCompartmentEditPart | mouse-release 47 11 button1 524288 -height 12 
+        -width 73
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "default.wvd" | verify-true
+    get-property pages -index 1 | equals Datatype1 | verify-true
+    get-property activePage | equals Datatype1 | verify-true
+    get-property tabCount | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

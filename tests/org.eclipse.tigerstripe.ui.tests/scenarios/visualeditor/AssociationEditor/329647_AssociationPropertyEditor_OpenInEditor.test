@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 329647_AssociationPropertyEditor_OpenInEditor
 Tags: TS_Project/VisualEditor/AssociationPropertyEditor, I45
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 12/26/11 1:33 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 4/24/12 3:35 PM
 Id: _QjJAAC-JEeGLGPctzMXQtA
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -24,89 +26,25 @@ Check link "Open in Editor"
 Click on link
 Check that Association Editor opens
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kFFPgzAUhd9N/A9Nn6Wd2xQlsAUX
-QiBbxpwx84mQUrELtKwtwvbr1zmHL+pbe8+5X0+PO+2qEnxSqZjgHrxFAwgoJyJnvPBgo9+tBzidXF+5
-RFSoE5LmaGcjRSjPJBPO+vsAuoo5PWV4ohguV46Ze/BD69rBuG1bJKoCCVngzSK6WH4l90tGxV8q3tn4
-oiJKzAgCnlXUg6Ph4/3YTn2lBGGZNhESKWoq9T7ImRYyXdaUR/x8gT+fHZ1istyD6Wob+/7MigMazsOE
-6MNis9I+BDorlAdf1qkBbinR+JWpJivPJPzngzcgGt+Z7X1t0lFSQlMgAKZCrmmn1SQN/OfubRnGQW4t
-+dxqDsngada6uHeYwvH/jRvLEVBLBwhHaxlYGQEAALwBAABQSwECFAAUAAgACAAAACEAR2sZWBkBAAC8
-AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAATwEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-dFBLBQYAAAAAAQABADYAAAC7DwAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Datatype1 
+    | get-target-connection 0] {
+    mouse-move 61 94 button1 -height 298 -width 117
+    mouse-press 61 94 button1 -height 298 -width 117
+    mouse-release 61 94 button1 524288 -height 298 -width 117
+    mouse-press 61 94 button1 -height 298 -width 117
+    mouse-double-click 61 94 button1 -height 298 -width 117
+}
+get-window "Association Property Editor" | get-link "<a>open in editor</a>" | get-property caption 
+    | equals "<a>open in editor</a>" | verify-true
+get-window "Association Property Editor" | get-link "<a>open in editor</a>" | click
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "default.wvd" | verify-true
+    get-property pages -index 1 | equals Association0 | verify-true
+    get-property activePage | equals Association0 | verify-true
+    get-property tabCount | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

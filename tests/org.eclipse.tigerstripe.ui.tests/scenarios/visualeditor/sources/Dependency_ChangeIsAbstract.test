@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: Dependency_ChangeIsAbstract
 Tags: SourceEditor/Dependency
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 1/30/12 2:55 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 4/24/12 3:49 PM
 Id: _n2rAkEsXEeG3o-yW8LXAvQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -21,121 +23,31 @@ TEST STEPS
 4. Go to artifact editor and verify that your changes have been applied;
 5. Do backward changes and make sure that source editor has been updated. 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kEFvwjAMhe+T9h8i35swOIAqAupY
-hZiY2OCw7lR1iVeq0aQkKW336xemUS7Tbpbf82f7TedteSAnNLbQisMdHQBBJbQsVM6hdh/BBOaz25up
-0CVttUFJj2NqBarMFDrc/RakLYuwpwzPFM9VNvR9DnvnqpCxpmmoLnOqTc6Sp9XF8ie5H/Iq+1HZccwu
-KkXhW0BUViKHB6xQSX91ly72mcpxZaN360wmHFxfG52PKiSHVA1N9BnbJMblSAfd62SdRKcXIC7LLYed
-ro3AWBZOG3ZFe7mr/DIUB/B5EOITUQ5bZ2dpHG3bt83yMZbBRq2D+ut5cL9opqx3+PzY/wF6yzdQSwcI
-gRcPEgIBAACLAQAAUEsBAhQAFAAIAAgAAAAhAIEXDxICAQAAiwEAAAgAAAAAAAAAAAAAAAAAAAAAAC5j
-b250ZW50UEsFBgAAAAABAAEANgAAADgBAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-ACsXAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany/Dependency0" | double-click
+with [get-editor Dependency0] {
+    with [get-section "General Information" | get-button "This artifact is abstract"] {
+        click
+        key-type "M1+s"
+    }
+    get-tab-folder | get-tab-item Source | click
+}
+get-editor Dependency0 | get-editbox | get-property text | contains "isAbstract = \"true\"" | verify-true
+with [get-editor Dependency0] {
+    with [get-editbox] {
+        set-text-offset 18 18
+        key-type Del
+        key-type Del
+        key-type Del
+        key-type Del
+        type-text false
+        key-type "M1+s"
+    }
+    get-tab-folder | get-tab-item Overview | click
+}
+get-editor Dependency0 | get-section "General Information" | get-button "This artifact is abstract" 
+    | get-property selected | equals false | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

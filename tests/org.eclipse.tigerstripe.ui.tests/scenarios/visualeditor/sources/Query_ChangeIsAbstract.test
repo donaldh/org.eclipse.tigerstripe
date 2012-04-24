@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: Query_ChangeIsAbstract
 Tags: SourceEditor/Query
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _EARxYOGJEd-OnL-uzP0BCw
-Save-Time: 1/31/12 1:17 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EARxYOGJEd-OnL-uzP0BCw
+Save-Time: 4/24/12 3:53 PM
 Id: _GIiLkEvTEeG5RMpJ7XJCMw
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -21,121 +23,31 @@ TEST STEPS
 4. Go to artifact editor and verify that your changes have been applied;
 5. Do backward changes and make sure that source editor has been updated. 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kNFPgzAQxt9N/B+ae6edGoMhdMsk
-hEBGppsP84lgqaxxtKwtg/nX2y0bvhjfLvd997u7L5wNzQ4duDZCSQp3eAKIS6YqIWsKnf30nmA2vb0J
-mWrwoDSv8N7HhnFZaqGC9aVAQyOCkXJ/ojiuNIHrU9ha2waE9H2PVVNjpWuyydOr5U/yOORUclbJ3idX
-FXPmWoBk2XAKrx3XxyLalrLmqZl/GKtLZuH3q4fTPaKiUCSpWHzFh7eYJ4+rvM38TRblPSBb1obCWnWa
-8bgSVmlypjrl2LoVnO3ApYCQy0FaPlgzLeL5anhfJllceUu58Lrvl8lz1IdkdLjUyP+xOcsPUEsHCJji
-UiAAAQAAgQEAAFBLAQIUABQACAAIAAAAIQCY4lIgAAEAAIEBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29u
-dGVudFBLBQYAAAAAAQABADYAAAA2AQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-BQYAAAAAAQABADYAAAA4FwAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
+get-view "Tigerstripe Explorer" | get-tree | select "test/src/com.mycompany/Query0" | double-click
+with [get-editor Query0] {
+    with [get-section "General Information" | get-button "This artifact is abstract"] {
+        click
+        key-type "M1+s"
+    }
+    get-tab-folder | get-tab-item Source | click
+}
+get-editor Query0 | get-editbox | get-property text | contains "isAbstract = \"true\"" | verify-true
+with [get-editor Query0] {
+    with [get-editbox] {
+        set-text-offset 18 21
+        key-type Del
+        key-type Del
+        key-type Del
+        key-type Del
+        type-text false
+        key-type "M1+s"
+    }
+    get-tab-folder | get-tab-item Overview | click
+}
+get-editor Query0 | get-section "General Information" | get-button "This artifact is abstract" | get-property selected 
+    | equals false | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
