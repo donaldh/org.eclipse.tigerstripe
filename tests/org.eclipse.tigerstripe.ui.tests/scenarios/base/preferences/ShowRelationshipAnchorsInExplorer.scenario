@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: ShowRelationshipAnchorsInExplorer
 Tags: TS_Project/Preferences, TS_Project/Profile 
 External-Reference: http://docs.xored.com/display/TS/ShowRelationshipAnchorsInExplorer
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _pGxrsGdIEeCWiLpyewgyVA
-Save-Time: 1/18/12 1:44 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_F9d_sEupEeCaoMSzIEHw9Q
+Save-Time: 4/24/12 2:38 PM
 Id: _WIdAwEvOEeCpX88hChjiUw
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -121,16 +123,3 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Dependency/Event" | get-property caption | equals Event | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Test_project/src/test_new/Dependency/Enum" | get-property caption | equals Enum | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSFUV1rwjAUfR/sP4Q8b80+HpRiFRGR
-wsbEbtM3Kcm1jaRJTDLT/vtdh3YMxvYWzj335Jx7RpO2UeQIzkujM3qf3FECmhshdZXRj7C7HdLJ+Ppq
-xE2TtMaBSA6DxHPQpZMmLc4P0jYy7VUeTiqoq32KeEbrEGzKWIwxMU2VGFexzXN+ofyq3C/hlH1N2WHA
-LtMEOEKU6LKBjBa1iStQZcDPfS3tVPPaOJ/reWsV8hz9Dvh4siZFRrfrXEzj/Pgyh5ndDIf1rN7Lt0hJ
-KCuf0ddiu3RmDzywpYMdODwK+BvyAzc7qYDgSmfRBnCFt2sDOF2q1WWnDyIM9+ecp0xCeqvKjr0W7H//
-WAAhWIEOqO/HW7tonV+IHL2v5ZPtIFbd+3TEegYWxv5uDCmfUEsHCGpGuxwqAQAA/AEAAFBLAQIUABQA
-CAAIAAAAIQBqRrscKgEAAPwBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
-AABgAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

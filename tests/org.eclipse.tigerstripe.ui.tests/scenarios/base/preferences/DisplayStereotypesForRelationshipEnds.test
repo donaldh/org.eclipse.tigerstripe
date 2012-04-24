@@ -4,10 +4,11 @@ Format-Version: 1.0
 Element-Name: DisplayStereotypesForRelationshipEnds
 Tags: TS_Project/Preferences/ExplorerPreferences, skipExecution
 External-Reference: 
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_pu4uwDwWEeGvce_60BRGbQ
-Save-Time: 1/11/12 1:38 PM
+Save-Time: 4/24/12 2:36 PM
 Id: _4JvKkDwdEeGvce_60BRGbQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -19,16 +20,3 @@ TEST STEPS
 2. Check "On Relationship nds" preference;
 3. Make sure that stereotypes are displayed in Tigerstripe Explorer for Relationship Ends.
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UV1PwjAUfTfxPzR9lhaVCFkoJIaJ
-Qkz4MJG3ZXSXUdna0Xbr+Pd0RlCM8a095/Scc2/7wzrPUAXaCCUZviVtjEBylQiZMlzaTauHh4Prqz5X
-OamVhoTsu8RwkLEWKlh+HVCdi+Dscte4eF9pAo8zvLW2CCh1zhGVp0TplK5eX06SP53PjzxLP1m679IT
-S4B7CCMZ58DwSJgiiw9LCxqUPRRgnpReQBZb38ZsRRHKxODvIe+beiJhOOpMqulu5JIQxhWH6KH9uBiv
-5xjZODUMvy2jmVYfwC2dadh4d8nB0LAuMp+uf2A3yOx8TA28bDK9gW/BMPAM+90h5LcnLdTWDCL9vNnN
-p3YbJq2qN3GrtSwjO+/Ts+KXvig7pRu598uKF/rm8t/neMkRUEsHCDeKMhEqAQAA5wEAAFBLAQIUABQA
-CAAIAAAAIQA3ijIRKgEAAOcBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
-AABgAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

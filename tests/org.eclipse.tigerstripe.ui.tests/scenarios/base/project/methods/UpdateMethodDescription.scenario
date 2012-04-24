@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: UpdateMethodDescription
 Tags: TS_Project/Edit/Artifacts/Method
 External-Reference: http://docs.xored.com/display/TS/UpdateMethodDescription
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 1/18/12 1:28 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_SSBA8Kw8Ed-cSZ2bfD-mDg
+Save-Time: 4/24/12 3:11 PM
 Id: _Eak5kIpzEeCErZSBFQ0SKQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -64,58 +66,3 @@ get-editor Entity1 | get-section Methods | get-section -index 1 | get-editbox -a
     | equals "test description\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n"
     + "///123@<>. test" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9kdFPwjAQxt9N/B+avtMiRiELk6jM
-hBCiOEwML6S2t1HZ2tFWN/zrPRTmi/rW3H3363ffDUdNWZB3cF5bE9Mz1qUEjLRKmzymbyHrDOjo6vRk
-KG3JGutAsW2feQlGOG2j9PAgTamjltLbU5BrfIT1mK5DqCLO67pmtsyZdTl/nk2Okl/J7RB2+VeXb/v8
-2GUgsUSJESXE9KlSIsAMwtqqMXjpdBXQB/1Z63xvSKuYrhKxudhMqo8EbhO3TG/u5t10OqckiNzHdJGu
-Hpx9BRl4onTg1y7oTMjg+TcddbsKfwRZYExNAGdE8QgZOMwMWs/KSn9YaW9faV8VYscXKf/LKiZMCGZs
-AlL91Urcq8vJtB4kqiPTZe8lG3fKcT7krQIvwv8/CUo+AVBLBwh69WLAKAEAAN0BAABQSwECFAAUAAgA
-CAAAACEAevViwCgBAADdAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA
-XgEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

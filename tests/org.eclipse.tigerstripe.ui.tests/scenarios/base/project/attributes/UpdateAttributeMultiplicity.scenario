@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: UpdateAttributeMultiplicity
 Tags: TS_Project/Edit/Artifacts/Attribute
 External-Reference: http://docs.xored.com/display/TS/Base+Tigerstripe+Project+Tests
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _aOd6IKw8Ed-cSZ2bfD-mDg
-Save-Time: 1/18/12 1:28 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_SSBA8Kw8Ed-cSZ2bfD-mDg
+Save-Time: 4/24/12 2:43 PM
 Id: _0fInIItPEeCRoeGZa_Dvtg
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -149,39 +151,3 @@ with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-b
 get-editor Entity1 | close
 get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[1..\\*\\]" | get-property caption | equals "attribute0:String[1..*]" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9Ud9rwjAQfh/sfyh5FRvnYI5iFTdl
-lCET28HwpcTk2mW0SU1Oq//9zqHdy9hbuPvy/brx9FhXwQGc19bE7C4csACMtEqbMmZ7LPqPbDq5vRlL
-W4dH60CFu1HoJRjhtI3SyyM41jrqWIZnFuI1PqJ5zD4Rm4jztm1DW5ehdSX/WCZXyJ/M3Sfa8p8t3434
-dRuCpBELjKghZu+NEggzRKe3e4TlvkLdVFpqPLHfaPdnU1rFLB8UiUkSXC3geW3hZSPy+QFLFqAofcyy
-NF85+wUS+UJp5DOHuhASPe8UCHpqSBhkRW0dEZwR1RoKcFQddNaVlf6S7JxCad9U4sSzlD8JD71Ml+SN
-KBvoXRR7GXj0jPoOAmrcIJH7SS7e1EPy2j4uVF+mm+G2mPfreTnmHYLuw/8/EEG+AVBLBwiBYTsUNwEA
-AOsBAABQSwECFAAUAAgACAAAACEAgWE7FDcBAADrAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQ
-SwUGAAAAAAEAAQA2AAAAbQEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtWFtP2zAUfp+0/2Blb0jETXqhRBQ2
-sT4gjQkJNCYNHtzEpB6JHTnOWv79jp0LKU2bdqJsGrw59vG5fOf4O6c9OpnHEfpFZcoEH1mO3bEQ5b4I
-GA9HVqbu9ofWyfH7d0e+iO25kDSwFU0jYvuwthMplPBFZEsy8670/qVPOZFMoHnMvEqtq9WCIZ56sD+y
-pkolHsaz2cwWcWgLGeLv52eVSLooMusaCbfTcUDsy6U/pTHZZzxVhPu0vLXWwUofBjFsxLARw1oMV3FQ
-/bmRRh3yhloxiG6gOWMt+jK2qMV8LCBF/YglKTVw0fhOQ+bisbkDOURIZzEmPEgRYOyphwSur43Su6QR
-9dVpfi1XAmoCogi6ZzwYWePc5DV8iJmF4ixSLImYz9QDlJOFc7u4NLwrN74xCtYTohSVUHBXLITaU5Il
-FI3nSQTK5LJzhR7QlBBJuULsaUBQto1hBjT1Qbky1V03to8KSXQREXUnZFxAoEHQ/r4QHleS0g0D1tBV
-cRoc/4rHZ4rG6z1W0+OvdIYupPgJqo6w2Vk8T6XfuA8PonwcjedjrsCg03gGNSXZJFO0413Cioc3Pxzb
-vtm7uV0Wr0DV+FegmmTsAtRPaUqlslDlIlwgpiot9ItEGXwvea+d37utMgBpiUundQq6Vj0fldNG2xW4
-VPPN8I83/gzh6BMLTSW925CPPmA8zv15MYr4v5nKfSVM1X09TGVfEP+ehLTTwjPdbXmmePPnJEngAaLi
-cGRh/LEUhIHtCUOkG3fHygNfcCVF1Ap9xryyXGF6nOT2RpaSGVTGRMiAymumphplBDwd0dZKfsRqAhiG
-UmQ8OBXwuBCYhnm0B66HgBYv1hPDlXqJH6+CJlq7WjuZ6E0Ia2QNekML6fz3QcuMBcbLjtsDMqQsnEIU
-B4NhLSclJEVeFjOxeXac5uysaeVb5CJnqOVMNEBfMdaLAd41cNfQdns1sPuHvecH220Ge02L3wLsnP6W
-wdYqCOPnlGfllmGcnJ0Mm+e7DNjoFOBRiyTUnIZ+/zENel2kAZbbpKENeZBMSzerrXZiXE2N7WNcyyCH
-n/rzbMXRbS6ONaPUlsWRd5tirGud53aceXiAjnOQM97AfWQ8p1YJzg74rr9BN1oxAb11o513o8HqbrRi
-XHvrRn8M9sHqbrRiEHzrRv9WN9r+j4Xdta/h6vbV30X7avp5A1XDAzp/uYoBUweH5uW6w+EzNDHz+2qb
-f8fhzm9QSwcIgQBRpJ8DAAB5FwAAUEsBAhQAFAAIAAgAAAAhAIEAUaSfAwAAeRcAAAgAAAAAAAAAAAAA
-AAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAANUDAAAAAA==
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
