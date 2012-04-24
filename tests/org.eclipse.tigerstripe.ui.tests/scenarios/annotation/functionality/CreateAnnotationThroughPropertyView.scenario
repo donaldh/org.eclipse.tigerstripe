@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: CreateAnnotationThroughPropertyView
 Tags: Annotation/functionality
 External-Reference: http://docs.xored.com/display/TS/CreateAnnotationThroughPropertyView
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _IhHLkKwQEd-DHcdNat_asw
-Save-Time: 12/16/11 12:40 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_EgIpcKwQEd-DHcdNat_asw
+Save-Time: 4/24/12 2:04 PM
 Id: _Wha1kGvnEeC-86eLlbu98w
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -50,52 +52,3 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUdFOwjAUfd9XLH2nFU0EFzZikAgR
-jQpR30htL1vD1o62c9vfe2dgvBjj28k5p+eeezuZNkUefoF1yuiYDOkFCUELI5VOY1L53WBMpkkwEaag
-jbEg6WFEnQDNrTLR+gjCplBRH3LZhWCsdhHyMcm8LyPG6rqmpkipsSn7eFyeLL8m949QZT8qO4zYSaUg
-kCKh5gXEZGaBe7jV2njuscAms6ZKs2drSrC+fVNQk/OGV105JWOyfc/4cH//pecwG4yvYZV/VjdjtHqe
-upic89iu0qIDPFe+Rb0tcSqIHC/VeLDIv8IOLJ4N+t7SCHdcq1tBKlfmvGWbNftP3SQIQzy59jjAJdtl
-tljtH+qXuRzcLYR84n7LXT1hvSPo8F8flATfUEsHCFDl5LYhAQAA6QEAAFBLAQIUABQACAAIAAAAIQBQ
-5eS2IQEAAOkBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABXAQAAAAA=
-
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-AAAAAQABADYAAADNBgAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

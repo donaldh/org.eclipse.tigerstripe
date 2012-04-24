@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 343503_AnnotationsOfDeletedArtifacts
 Tags: Annotation
 External-Reference: http://docs.xored.com/display/TS/343503_AnnotationsOfDeletedArtifacts
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _pje2YGyZEeC-86eLlbu98w
-Save-Time: 12/21/11 12:26 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_pje2YGyZEeC-86eLlbu98w
+Save-Time: 4/24/12 1:55 PM
 Id: _WytPYMfoEeCbRKPVX6qmIQ
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -44,52 +46,3 @@ with [get-window "Create a new Entity"] {
 get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity0" | double-click -nowait
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUdFOwjAUfTfxH5q+0yJTwIVBiBpD
-lIhgFHwhpbubNVs72uK2v/diYLwY41tzzum55547GFV5Rr7AOmV0RC9YmxLQ0sRKpxHd+aTVp6Ph+dlA
-mpxVxkLMtj3mJGhhlQkXhwepchU2Lp29C/pqFyIe0Q/vi5DzsiyZyVNmbMqX08lR8qtz8wlZ/sPybY8f
-WQYSIUq0yCGiwWVw1Q7WY62NFx4TuKfkFjLwEI+tV4mQ3tHTjsE+nYojun6r/Ww1Tcwd3GzmD7PXZXeb
-T54p8SJ1ET35IVIXOAhkhu1UHqwW2RwSsFgVNFFjI91hk33qWLkiEzV/WfB/JcSWCcGetccRbrguPqGz
-uq/fMV2r34XHbLO77pcD3ijwKvzvs6DkG1BLBwi5VO6kHwEAAOEBAABQSwECFAAUAAgACAAAACEAuVTu
-pB8BAADhAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAVQEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-BQYAAAAAAQABADYAAAAMBwAAAAA=
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--

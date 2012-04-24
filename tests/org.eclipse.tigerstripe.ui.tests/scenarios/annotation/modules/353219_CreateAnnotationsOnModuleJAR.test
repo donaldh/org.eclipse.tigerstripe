@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: 353219_CreateAnnotationsOnModuleJAR.test
 Tags: I38, Annotation/module
 External-Reference: http://docs.xored.com/display/TS/353219_CreateAnnotationsOnModuleJAR
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _h-k60POVEd-s8v7FVtLgHw
-Save-Time: 1/18/12 1:28 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_2OSx4fOUEd-s8v7FVtLgHw
+Save-Time: 4/24/12 2:06 PM
 Id: _SY-54MoIEeC0xcEXnuyT1g
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -74,16 +76,3 @@ with [get-window "Create Annotation Wizard"] {
 get-view "Tigerstripe Explorer" | get-tree | select "One/Two_0.0.0.jar/com.mycompany/Ent2" | double-click -nowait
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 2 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUcFqAjEUvBf6DyHnbqJurXZxFRFL
-LRWLitiThOS5Lt1NNInu+vc+RddLKb2FN5N5M/M6vTLPyAGsS42OaZ3VKAEtjUp1EtO9Xwdt2us+PnSk
-yVlpLCi2azEnQQubmmh2fZAyT6NKpXFWQV3tIpzHdOP9NuK8KApm8oQZm/DleHSj/KpcfUKUX1C+a/Eb
-ykDiiBItcohp2Awb9dfVwILw0NfaeOHRh5vosVH7DD76U+bBeXrPGZ4dpiqmq9l30Hwem9EQBrVSDpd6
-f5zXE0q8SFxMR2H7idwleX4RRPS4xcUgM2yr9GC1yKawBovVQWVdGemuyc4pVOq2mTjy+Yz/wzHF0gnB
-2rXHDa672gQ/L7WvyWKoAtc+tN4W/jN5Lzq8YuCR+N9XQsoJUEsHCCh5p2IqAQAA8AEAAFBLAQIUABQA
-CAAIAAAAIQAoeadiKgEAAPABAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
-AABgAQAAAAA=
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

@@ -4,10 +4,12 @@ Format-Version: 1.0
 Element-Name: ColorAnnotation
 Tags: Annotation/functionality
 External-Reference: http://docs.xored.com/display/TS/ColorAnnotation
+Element-Type: testcase
 Element-Version: 3.0
-Contexts: _pje2YGyZEeC-86eLlbu98w
-Save-Time: 12/26/11 1:47 PM
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_pje2YGyZEeC-86eLlbu98w
+Save-Time: 4/24/12 2:00 PM
 Id: _9zIlkMb5EeCcO-GLhlk1dg
+Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Entry-Name: .description
@@ -41,45 +43,3 @@ with [get-view "Annotation Property View"] {
 get-view "Annotation Property View" | get-group Color | get-editbox -after [get-label Red] | get-property rawValue 
     | equals "4.0" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
-
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnR9UNFKw0AQfBf8h+Pec2cr2jYkLVKk
-FFoE64P6UtLLJj17uUvvLibx691Im4KIb8vM7OzsRLOmUOQTrJNGx3TAbigBLUwqdR7TymfBmM6m11eR
-MAVrjIWUHUfMCdCJlSbcnAbSFDLsXYadC/pqFyIe0733Zch5XdfMFDkzNuev6+VZ8qdzv4Qs/2H5ccTP
-LAOBECU6KSCmc6OMfdDa+MTjfXp557YLItOYbidfS3VY7+4eYS6egsVqrw6DNKfEJ7mL6WWZZ5UW3ZAo
-6Vvk2xIvgFBYS+PBIv4MGVjsCPqMqRHu9EIXN5WuVEnLXzb8dzRskhDsUnt0c9Nt+QHDt0X7jrGC8T2s
-1K6ajOuI9wpsnv9fPUq+AVBLBwg52d8uFgEAAMUBAABQSwECFAAUAAgACAAAACEAOdnfLhYBAADFAQAA
-CAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAATAEAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9
-Content-Type: q7/binary
-Entry-Name: .content.raw
-
-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
-------=_.content.raw-c2dfba28-ebef-3afe-bd39-76376d333cc9--
