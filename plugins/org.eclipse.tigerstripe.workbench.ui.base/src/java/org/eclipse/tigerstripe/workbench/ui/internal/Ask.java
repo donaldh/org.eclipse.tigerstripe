@@ -86,7 +86,7 @@ public class Ask {
 				Collection<?> elements) {
 			super(shell, "Confirm Cascade Delete", null, null,
 					MessageDialog.QUESTION,
-					new String[] { YES_LABEL, NO_LABEL }, 1,
+					new String[] { YES_LABEL, NO_LABEL }, 0,
 					"Remember my choice", false);
 			
 			this.elements = elements;
@@ -96,7 +96,7 @@ public class Ask {
 			} else {
 				message = MessageFormat
 						.format("Found {0} dangling references. Do you want to remove them?",
-								1);
+								elements.size());
 			}
 		}
 
