@@ -3,11 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: 220933_CascadeDeletion_AssociationClass
 Tags: Refactoring
-External-Reference: 
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=220933
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_YiZ2kJ4TEeC0FMmSWvz47w
-Save-Time: 4/25/12 1:48 PM
+Save-Time: 4/25/12 2:25 PM
 Id: __OsYUI6hEeGgMKTIYINo8g
 Testcase-Type: ecl
 

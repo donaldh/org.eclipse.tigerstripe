@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_9RS90E2CEeGqpqal-Tsjiw
-Save-Time: 4/24/12 9:38 PM
+Save-Time: 4/25/12 3:19 PM
 Id: _ocUHYE5QEeGqpqal-Tsjiw
 Testcase-Type: ecl
 
@@ -36,6 +36,7 @@ exec-with-options -allowStatusDialog -command {
     get-window "Diagrams Audit" | get-window "Audit Result" | get-button OK | click
 }
 
+wait 300
 with [get-view "Error Log" | get-tree]{ 
     get-item [get-by-os
     
