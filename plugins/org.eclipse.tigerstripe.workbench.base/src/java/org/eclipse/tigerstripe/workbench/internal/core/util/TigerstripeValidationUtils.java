@@ -25,6 +25,7 @@ public final class TigerstripeValidationUtils {
 	public static final Pattern allUppercase = compilePattern("^[A-Z_][A-Z0-9_]*$");
 	public static final Pattern literalNamePattern = compilePattern("^[A-Za-z_][A-Za-z0-9_]*$");
 	public static final Pattern packageNamePattern = compilePattern("^[A-Za-z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
+	public static final Pattern instanceNamePattern = compilePattern("^[a-z0-9A-Z_\\-]+$");
 	public static final Set<String> keywordList = buildKeywords();
 
 	private TigerstripeValidationUtils() {

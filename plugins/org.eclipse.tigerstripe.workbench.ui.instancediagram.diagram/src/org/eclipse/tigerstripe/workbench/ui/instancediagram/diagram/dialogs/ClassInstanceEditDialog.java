@@ -216,15 +216,12 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			return;
 		if (eventSource instanceof Text) {
 			instanceName = ((Text) eventSource).getText();
-			Matcher classNameMatcher = TigerstripeValidationUtils.classNamePattern
-					.matcher(instanceName);
-			Matcher elementNameMatcher = TigerstripeValidationUtils.elementNamePattern
+			Matcher instanceNameMatcher = TigerstripeValidationUtils.instanceNamePattern
 					.matcher(instanceName);
 			if (instanceName == null || "".equals(instanceName)) {
 				okButton.setEnabled(false);
 				setInfoMessage("Enter an instance name");
-			} else if (!classNameMatcher.matches()
-					&& !elementNameMatcher.matches()) {
+			} else if (!instanceNameMatcher.matches()) {
 				okButton.setEnabled(false);
 				setErrorMessage("'" + instanceName
 						+ "' is not a legal instance name");
