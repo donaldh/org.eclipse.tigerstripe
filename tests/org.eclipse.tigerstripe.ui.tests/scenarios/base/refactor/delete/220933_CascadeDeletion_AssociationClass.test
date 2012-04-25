@@ -1,0 +1,42 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 220933_CascadeDeletion_AssociationClass
+Tags: Refactoring
+External-Reference: 
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_YiZ2kJ4TEeC0FMmSWvz47w
+Save-Time: 4/25/12 1:48 PM
+Id: __OsYUI6hEeGgMKTIYINo8g
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create two entities E0 and E1
+2. Create an association class with the entities
+3.  Remove E0 from model.  Notice that Cascade Delete window is occured. 
+4. Click "Yes". Make sure that association class has been deleted as well. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/AssociationClass6" | double-click
+with [get-editor AssociationClass6 | get-section -after [get-label "Association Class Artifact"] -index 5] {
+    get-section "aEnd Details" | get-editbox -after [get-label "Type:"] | get-property text 
+        | equals "com.mycompany.Entity1" | verify-true
+    get-section "zEnd Details" | get-editbox -after [get-label Type] | get-property text 
+        | equals "com.mycompany.Entity5" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity5" | key-type Del
+get-window "Confirm Delete" | get-button OK | click
+get-window "Confirm Cascade Delete" | get-table | get-item "com.mycompany.AssociationClass6" | get-property caption 
+    | equals "com.mycompany.AssociationClass6" | verify-true
+get-window "Confirm Cascade Delete" | get-button Yes | click
+get-view "Tigerstripe Explorer" | get-tree | verify-error{select "Project/src/com.mycompany/AssociationClass6"}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
