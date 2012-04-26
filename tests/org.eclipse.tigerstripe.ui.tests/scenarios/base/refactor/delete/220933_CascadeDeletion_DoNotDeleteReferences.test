@@ -1,0 +1,40 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 220933_CascadeDeletion_DoNotDeleteReferences
+Tags: Refactoring
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=220933
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_YiZ2kJ4TEeC0FMmSWvz47w
+Save-Time: 4/26/12 7:26 PM
+Id: _2bj7oI-aEeGgMKTIYINo8g
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create two entities E0 and E1
+2. Create an association between the entities
+3.  Remove E0 from model.  Notice that Cascade Delete window is occured. 
+4. Click "No". Make sure that association hasn't been deleted as well. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity1" | key-type Del
+get-window "Confirm Delete" | get-button OK | click
+get-window "Confirm Cascade Delete" | get-label "Found 3 dangling references. Do you want to remove them?" 
+    | get-property caption | equals "Found 3 dangling references. Do you want to remove them?" | verify-true
+get-window "Confirm Cascade Delete" | get-button No | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "Project/src/com.mycompany/Association" | get-property caption | equals Association | verify-true
+    get-item "Project/src/com.mycompany/AssociationClass6" | get-property caption | equals AssociationClass6 
+        | verify-true
+    get-item "Project/src/com.mycompany/Dependency4" | get-property caption | equals Dependency4 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

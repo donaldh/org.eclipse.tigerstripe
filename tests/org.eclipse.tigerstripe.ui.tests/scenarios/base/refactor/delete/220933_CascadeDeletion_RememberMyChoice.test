@@ -1,0 +1,65 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 220933_CascadeDeletion_RememberMyChoice
+Tags: Refactoring
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=220933
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_YiZ2kJ4TEeC0FMmSWvz47w
+Save-Time: 4/26/12 7:37 PM
+Id: _Ji1ugI-bEeGgMKTIYINo8g
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create two entities E0 and E1
+2. Create an association between the entities
+3.  Remove E0 from model.  Notice that Cascade Delete window is occured. 
+4. Check "Remember My choice" option; 
+5. Make sure that the corresponding preference was changed in Tigerstripe preferences;
+6. Make sure that this preference works with next deletion.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity1" | key-type Del
+get-window "Confirm Delete" | get-button OK | click
+with [get-window "Confirm Cascade Delete"] {
+    get-button "Remember my choice" | click
+    get-button Yes | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select Project | get-menu "New/Association" | click
+with [get-window "Create a new Association"] {
+    get-editbox -after [get-label "Name:"] | set-text Acc
+    get-button Browse -after [get-label "aEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table | select "com.mycompany.Entity2"
+        get-button OK | click
+    }
+    get-button Browse -after [get-label "zEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table | select "com.mycompany.Entity3"
+        get-button OK | click
+    }
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity2" | key-type Del
+get-window "Confirm Delete" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | verify-error{select "Project/src/com.mycompany/Acc"}
+
+get-preferences-menu | click
+get-window Preferences | get-tree | select "Tigerstripe/General"
+get-window Preferences | get-group "Cascade Delete" | get-button "Always delete" | get-property selected | equals true 
+    | verify-true
+with [get-window Preferences] {
+    get-group "Cascade Delete" | get-button Prompt | click
+    get-button Apply | click
+    get-button OK | click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
