@@ -1,0 +1,58 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: 376551_InstanceNamesRuleMixedTest
+Tags: Instance Diagram
+External-Reference: http://bugs.xored.com/browse/XMP-1088
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_YPBoYI-WEeGgMKTIYINo8g
+Save-Time: 4/26/12 7:10 PM
+Id: _3MKZgI-XEeGgMKTIYINo8g
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create instance diagram;
+2. Create instance with name more then 64 characters long and containing dashes, underscores and numbers;
+3. Make sure that no errors occurs.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project/IDiagram" | double-click
+    select "Project/src/com.mycompany/Entity"
+    get-item "Project/src/com.mycompany/Entity" | drag-start 9 6
+    get-item "Project/src/com.mycompany/Entity" | drag-enter 72 4 -detail 2 -operation 7
+    get-item "Project/src/com.mycompany/Entity" | drag-over 136 5 -detail 2 -operation 7
+    get-item "Project/src/com.mycompany/Entity" | drag-exit
+}
+with [get-editor "IDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart] {
+    drag-enter 12 85 -detail 2 -operation 7
+    drag-over 118 94 -detail 1 -operation 7
+    drag-exit
+    drag-accept 118 94 -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item Project | drag-set-data
+get-editor "IDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | drop 118 94 -detail 1 
+    -operation 7
+with [get-window "Class Instance Editor"] {
+    get-group "Instance name" | get-editbox 
+        | set-text "123_456-qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiop--__asdfghjklzxc"
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item Project | drag-end -detail 1
+get-editor "IDiagram.wod" | get-diagram | key-type "M1+s"
+get-view Problems | click
+get-editor "IDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name Entity 
+    | get-edit-part -text "123_456-qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiop--__asdfghjklzxc:Entity" 
+    | get-property text | equals "123_456-qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiop--__asdfghjklzxc:Entity" 
+    | verify-true
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
