@@ -53,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext.ICycle;
@@ -225,6 +226,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			return;
 		}
 		try {
+			resetActiveFacet();
 			TigerstripeWorkspaceNotifier.INSTANCE
 					.removeTigerstripeChangeListener(this);
 			RefactoringChangeListener.getInstance().removeArtifactManager(this);
@@ -256,6 +258,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			pojosMap = null;
 			relationshipCache = null;
 			tsProject = null;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
 		} finally {
 			wasDisposed = true;
 		}
@@ -2771,6 +2775,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		try {
 			writeLock.lock();
 			resetScopingPredicate();
+			if (oldFacet !=null) {
+				((FacetReference) oldFacet).stopListeningToManager();
+			}
 		} finally {
 			writeLock.unlock();
 		}
@@ -2808,6 +2815,10 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			try {
 				writeLock.lock();
 				setScopingPredicate(facetRef.getFacetPredicate());
+				if (oldFacet !=null) {
+					((FacetReference) oldFacet).stopListeningToManager();
+				}
+				((FacetReference) facetRef).startListeningToManager(this);
 			} finally {
 				writeLock.unlock();
 			}

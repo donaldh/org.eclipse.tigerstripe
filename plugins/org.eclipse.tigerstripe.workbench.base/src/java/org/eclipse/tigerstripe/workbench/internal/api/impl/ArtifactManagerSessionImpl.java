@@ -549,7 +549,6 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
 			throws TigerstripeException {
 		getArtifactManager().setActiveFacet(facet, monitor);
-		((FacetReference) facet).startListeningToManager(getArtifactManager());
 	}
 
 	public void addActiveFacetListener(IActiveFacetChangeListener listener) {

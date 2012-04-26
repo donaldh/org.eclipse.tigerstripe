@@ -622,13 +622,6 @@ public abstract class TigerstripeProjectHandle extends
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (artifactMgrSession != null) {
-			try {
-				artifactMgrSession.resetActiveFacet();
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
-		}
 		if (manager != null) {
 			manager.dispose();
 		}
