@@ -7,7 +7,7 @@ External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=220933
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_YiZ2kJ4TEeC0FMmSWvz47w
-Save-Time: 4/25/12 1:44 PM
+Save-Time: 4/26/12 12:18 PM
 Id: _dTmoUY6gEeGgMKTIYINo8g
 Testcase-Type: ecl
 
@@ -32,8 +32,8 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
 }
 get-window "Confirm Delete" | get-button OK | click
 with [get-window "Confirm Cascade Delete"] {
-    get-label "Found 1 dangling references. Do you want to remove them?" | get-property caption 
-        | equals "Found 1 dangling references. Do you want to remove them?" | verify-true
+    get-label "Found 3 dangling references. Do you want to remove them?" | get-property caption 
+        | equals "Found 3 dangling references. Do you want to remove them?" | verify-true
     with [get-table] {
         get-item "com.mycompany.Association" | get-property caption | equals "com.mycompany.Association" | verify-true
         get-item "com.mycompany.Dependency4" | get-property caption | equals "com.mycompany.Dependency4" | verify-true
