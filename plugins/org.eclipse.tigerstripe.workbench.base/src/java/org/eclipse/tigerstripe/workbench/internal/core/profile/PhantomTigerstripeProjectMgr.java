@@ -34,8 +34,10 @@ public class PhantomTigerstripeProjectMgr {
 	}
 
 	public void reset() {
-		phantomProject.dispose();
-		phantomProject = null;
+		if (phantomProject != null) {
+			phantomProject.dispose();
+			phantomProject = null;
+		}
 	}
 	
 	public static PhantomTigerstripeProjectMgr getInstance() {

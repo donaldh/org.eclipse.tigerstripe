@@ -136,8 +136,10 @@ public class ProjectSessionImpl {
 	}
 
 	public synchronized void resetPhantomProject() {
-		phantomHandle.dispose();
-		phantomHandle = null;
+		if (phantomHandle != null) {
+			phantomHandle.dispose();
+			phantomHandle = null;
+		}
 	}
 
 	/**
