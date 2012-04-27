@@ -14,15 +14,11 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
@@ -265,6 +261,10 @@ public class FacetReference extends AbstractContainedObject implements
 		try {
 			facetPredicate.resolve(monitor);
 			computedTStamp = System.currentTimeMillis();
+			ITigerstripeModelProject tsProject = getTSProject();
+			if (tsProject != null) {
+				notifyFacetChanged(tsProject);
+			}
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 			TigerstripeRuntime.logErrorMessage(
@@ -321,22 +321,22 @@ public class FacetReference extends AbstractContainedObject implements
 	// IArtifactChangeListener implementation
 
 	public void artifactAdded(IAbstractArtifact artifact) {
-		scheduleRecomputeFacetPredicate();
+		resetFacetPredicate();
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
-		scheduleRecomputeFacetPredicate();
+		resetFacetPredicate();
 	}
 
 	public void artifactRemoved(IAbstractArtifact artifact) {
 		if (artifact instanceof IRelationship) {
 			handleRelationshipRemoved(artifact);
 		}
-		scheduleRecomputeFacetPredicate();
+		resetFacetPredicate();
 	}
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
-		scheduleRecomputeFacetPredicate();
+		resetFacetPredicate();
 	}
 
 	public void managerReloaded() {
@@ -355,7 +355,7 @@ public class FacetReference extends AbstractContainedObject implements
 							.getModelId();
 					String modelId = tsProject.getModelId();
 					if (modelId != null && modelId.equals(originalModelId)) {
-						scheduleRecomputeFacetPredicate();
+						resetFacetPredicate();
 					}
 				} catch (TigerstripeException e) {
 					BasePlugin.log(e);
@@ -392,7 +392,7 @@ public class FacetReference extends AbstractContainedObject implements
 					project = ((ContextualModelProject)project).getContextProject();
 				}
 				if (project != null && project.getModelId().equals(tsProject.getModelId())) {
-					scheduleRecomputeFacetPredicate();
+					resetFacetPredicate();
 				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
@@ -446,26 +446,8 @@ public class FacetReference extends AbstractContainedObject implements
 	
 	}
 
-	private void scheduleRecomputeFacetPredicate() {
-		final ITigerstripeModelProject tsProject = getTSProject();
-		if (tsProject == null || tsProject.wasDisposed()) {
-			return;
-		}
-		IProject project = (IProject) tsProject.getAdapter(IProject.class);
-		if (project == null) {
-			return;
-		}
-		Job job = new Job("Updating facet predicate...") {
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				computeFacetPredicate(monitor);
-				notifyFacetChanged(tsProject);
-				return getInconsistencies();
-			}
-		};
-		job.setRule(project);
-		job.schedule();
+	private void resetFacetPredicate() {
+		facetPredicate = null;
 	}
 
 	private void notifyFacetChanged(final ITigerstripeModelProject tsProject) {
@@ -595,13 +577,5 @@ public class FacetReference extends AbstractContainedObject implements
 		// it did
 		// so the facet will be reevaluated.
 		return true;
-	}
-
-	private IStatus getInconsistencies() {
-		IFacetPredicate predicate = getFacetPredicate();
-		if (predicate != null){
-			return predicate.getInconsistencies();
-		}
-		return Status.OK_STATUS;
 	}
 }

@@ -540,9 +540,6 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	}
 
 	public void resetActiveFacet() throws TigerstripeException {
-		if (getActiveFacet() != null) {
-			((FacetReference) getActiveFacet()).stopListeningToManager();
-		}
 		getArtifactManager().resetActiveFacet();
 	}
 
