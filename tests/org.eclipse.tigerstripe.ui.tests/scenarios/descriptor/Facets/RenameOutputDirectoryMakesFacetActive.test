@@ -1,0 +1,87 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: RenameOutputDirectoryMakesFacetActive
+Tags: Facet
+External-Reference: http://bugs.xored.com/browse/XMP-1097
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_ZjuwgUZjEeG4Y7AG6wNDZw
+Save-Time: 4/27/12 10:57 AM
+Id: _1J5lYJAcEeGgMKTIYINo8g
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1) Run the attached UseSameOutputDirForTwoFacets test - it should pass; 
+2) Open tigerstripe.xml in model-refactoring project; 
+3) Switch to Facets tab; 
+4) Selet default2.wfc and edit its Output directory to qqq2 (add "2" to the end of "qqq");
+5) Press Ctrl+S 
+6) Make sure the facet is not marked as active
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Facets | click
+    with [get-section -after [get-label "Facets References"] -index 1] {
+        get-section "Facet References" | get-table | select "default2.wfc"
+        with [get-section "Facet Reference Details" | get-editbox -after [get-label "Output Directory:"]] {
+            set-text qqq
+            key-type "M1+s"
+        }
+    }
+    close
+}
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "New Generator Project/ts-plugin.xml" | double-click
+}
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-editor "New Generator Project/ts-plugin.xml" | close
+
+wait 3000
+with [get-view "Tigerstripe Explorer"] {
+    click
+    get-tree | select "model-refactoring" | get-menu "Generate..." | click
+}
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generation Result" | get-button OK | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/target/tigerstripe.gen" | get-property childCount | equals 2 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/logs" | get-property caption | equals logs | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/qqq" | get-property caption | equals qqq | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-item "model-refactoring/target/tigerstripe.gen/qqq" | get-property childCount | equals 4 | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/qqq/Exception0.txt" | get-property caption 
+        | equals "Exception0.txt" | verify-true
+    get-item "model-refactoring/target/tigerstripe.gen/qqq/Exception2.txt" | get-property caption 
+        | equals "Exception2.txt" | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Facets | click
+    with [get-section -after [get-label "Facets References"] -index 1] {
+        get-section "Facet References" | get-table | select "default2.wfc"
+        with [get-section "Facet Reference Details" | get-editbox -after [get-label "Output Directory:"]] {
+            set-text qqq2
+            key-type "M1+s"
+        }
+    }
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | get-property caption 
+    | equals "model-refactoring" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
