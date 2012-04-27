@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_nxxioTQ6EeCmgJdYh3-lUg
-Save-Time: 4/24/12 3:56 PM
+Save-Time: 4/26/12 7:42 PM
 Id: _PIHwQTTSEeC7of9QSgx3oQ
 Testcase-Type: ecl
 
@@ -85,4 +85,5 @@ with [get-editor "default.wvd" | get-diagram] {
     get-figure "0/1/0/0" | mouse-move 162 60 -height 356 -width 500
 }
 get-button "Save \(.*\)" | click
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
