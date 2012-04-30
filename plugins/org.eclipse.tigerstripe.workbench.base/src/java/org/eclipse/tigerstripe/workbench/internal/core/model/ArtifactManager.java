@@ -325,7 +325,12 @@ public interface ArtifactManager {
 
 	void resetActiveFacet() throws TigerstripeException;
 
+	void resetActiveFacet(ExecutionContext context) throws TigerstripeException;
+
 	void setActiveFacet(IFacetReference facetRef, IProgressMonitor monitor)
+			throws TigerstripeException;
+
+	void setActiveFacet(IFacetReference facetRef, ExecutionContext context)
 			throws TigerstripeException;
 
 	/**

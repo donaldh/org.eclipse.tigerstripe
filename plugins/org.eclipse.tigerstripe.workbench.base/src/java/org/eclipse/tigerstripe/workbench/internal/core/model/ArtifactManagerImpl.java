@@ -2700,13 +2700,16 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	 * @throws TigerstripeException
 	 */
 	private void propagateFacetChangeToDependencies(IFacetReference oldFacet,
-			IFacetReference newFacet, IProgressMonitor monitor)
+			IFacetReference newFacet, ExecutionContext context)
 			throws TigerstripeException {
+		if (!context.addToCycle(Cycles.FACET_UPDATE, getTSProject())) {
+			return;
+		}
 		if (newFacet == null) {
 			// reseting all referenced projects
 			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
-					project.getArtifactManagerSession().resetActiveFacet();
+					project.getArtifactManagerSession().resetActiveFacet(context);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2714,7 +2717,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			}
 			for (IDependency dep : getTSProject().getEnabledDependencies()) {
 				try {
-					((Dependency)dep).getArtifactManager(null).resetActiveFacet();
+					((Dependency)dep).getArtifactManager(null).resetActiveFacet(context);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2726,14 +2729,14 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			relationshipCache.resetActiveFacet();
 
 			if (phantomArtifactMgrSession != null)
-				phantomArtifactMgrSession.resetActiveFacet();
+				phantomArtifactMgrSession.resetActiveFacet(context);
 
 		} else {
 			// this is a new facet being set
 			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
 					project.getArtifactManagerSession().setActiveFacet(
-							newFacet, monitor);
+							newFacet, context);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2742,7 +2745,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			for (IDependency dep : getTSProject().getEnabledDependencies()) {
 				try {
 					((Dependency)dep).getArtifactManager(null).setActiveFacet(
-							newFacet, monitor);
+							newFacet, context);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2752,7 +2755,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			relationshipCache.setActiveFacet(newFacet);
 
 			if (phantomArtifactMgrSession != null)
-				phantomArtifactMgrSession.setActiveFacet(newFacet, monitor);
+				phantomArtifactMgrSession.setActiveFacet(newFacet, context);
 		}
 	}
 
@@ -2767,6 +2770,10 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager#resetActiveFacet()
 	 */
 	public void resetActiveFacet() throws TigerstripeException {
+		resetActiveFacet(newContext());
+	}
+	
+	public void resetActiveFacet(ExecutionContext context) throws TigerstripeException {
 		if (wasDisposed) {
 			return;
 		}
@@ -2781,8 +2788,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		} finally {
 			writeLock.unlock();
 		}
-		propagateFacetChangeToDependencies(oldFacet, null,
-				new NullProgressMonitor()); // FIXME: monitor?
+		propagateFacetChangeToDependencies(oldFacet, null, context);
 		notifyFacetChanged(oldFacet);
 	}
 
@@ -2806,6 +2812,11 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	 */
 	public void setActiveFacet(IFacetReference facetRef,
 			IProgressMonitor monitor) throws TigerstripeException {
+		setActiveFacet(facetRef, newContext(monitor));
+	}
+	
+	public void setActiveFacet(IFacetReference facetRef,
+			ExecutionContext context) throws TigerstripeException {
 		if (wasDisposed) {
 			return;
 		}
@@ -2822,7 +2833,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			} finally {
 				writeLock.unlock();
 			}
-			propagateFacetChangeToDependencies(oldFacet, activeFacet, monitor);
+			propagateFacetChangeToDependencies(oldFacet, activeFacet, context);
 			notifyFacetChanged(oldFacet);
 			return;
 		}
@@ -3052,6 +3063,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 		INSTALLED_MODULES_ALL, INSTALLED_MODULES_FQN, INSTALLED_MODULES_BY_MODEL,
 
-		PHANTOM;
+		PHANTOM,
+		
+		FACET_UPDATE;
 	}
 }

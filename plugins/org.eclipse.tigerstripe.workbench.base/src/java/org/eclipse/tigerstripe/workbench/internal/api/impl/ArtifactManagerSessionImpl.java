@@ -543,9 +543,18 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		getArtifactManager().resetActiveFacet();
 	}
 
+	public void resetActiveFacet(ExecutionContext context) throws TigerstripeException {
+		getArtifactManager().resetActiveFacet(context);
+	}
+
 	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
 			throws TigerstripeException {
 		getArtifactManager().setActiveFacet(facet, monitor);
+	}
+
+	public void setActiveFacet(IFacetReference facet, ExecutionContext context)
+			throws TigerstripeException {
+		getArtifactManager().setActiveFacet(facet, context);
 	}
 
 	public void addActiveFacetListener(IActiveFacetChangeListener listener) {

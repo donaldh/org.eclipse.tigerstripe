@@ -190,8 +190,13 @@ public interface IArtifactManagerSession {
 	// Facet Management
 	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
 			throws TigerstripeException;
+	
+	public void setActiveFacet(IFacetReference facet, ExecutionContext context)
+		throws TigerstripeException;
 
 	public void resetActiveFacet() throws TigerstripeException;
+	
+	public void resetActiveFacet(ExecutionContext context) throws TigerstripeException;
 
 	public IFacetReference getActiveFacet() throws TigerstripeException;
 

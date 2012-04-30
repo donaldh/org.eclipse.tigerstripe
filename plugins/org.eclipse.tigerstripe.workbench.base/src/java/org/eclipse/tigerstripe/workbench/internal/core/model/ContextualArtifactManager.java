@@ -386,8 +386,17 @@ public class ContextualArtifactManager implements ArtifactManager {
 		// Do nothing
 	}
 
+	public void resetActiveFacet(ExecutionContext context) throws TigerstripeException {
+		// Do nothing
+	}
+
 	public void setActiveFacet(IFacetReference facetRef,
 			IProgressMonitor monitor) throws TigerstripeException {
+		// Do nothing
+	}
+
+	public void setActiveFacet(IFacetReference facetRef,
+			ExecutionContext context) throws TigerstripeException {
 		// Do nothing
 	}
 
