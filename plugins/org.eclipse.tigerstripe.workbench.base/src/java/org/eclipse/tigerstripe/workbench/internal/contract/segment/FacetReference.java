@@ -237,7 +237,7 @@ public class FacetReference extends AbstractContainedObject implements
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IResource res = workspace.getRoot().findMember(projectLabel);
 				aProject = TigerstripeCore.findProjectOrCreate(res.getLocation());
-			} else {
+			} else if (project != null) {
 				File file = project.getBaseDir();
 //				IPath path = new Path(file.getAbsolutePath());
 //				IContainer container = root.getContainerForLocation(path);
@@ -349,7 +349,7 @@ public class FacetReference extends AbstractContainedObject implements
 		Object original = event.getOriginal();
 		if (original != null && original instanceof ITigerstripeModelProject) {
 			ITigerstripeModelProject tsProject = getTSProject();
-			if (tsProject != null) {
+			if (tsProject != null && !tsProject.wasDisposed() && tsProject.exists()) {
 				try {
 					String originalModelId = ((ITigerstripeModelProject) original)
 							.getModelId();
@@ -379,20 +379,24 @@ public class FacetReference extends AbstractContainedObject implements
 	}
 
 	private void handleAnnotationEvent(Annotation annotation) {
-		// Checking if annotation event happened with an artifact related to current project
 		ITigerstripeModelProject tsProject = getTSProject();
-		if (tsProject == null || tsProject.wasDisposed()) {
-			return;
-		}
-		Object object = AnnotationPlugin.getManager().getAnnotatedObject(annotation.getUri());
-		if (object instanceof IModelComponent) {
+		if (tsProject != null && !tsProject.wasDisposed() && tsProject.exists()) {
 			try {
-				ITigerstripeModelProject project = ((IModelComponent)object).getProject();
-				if (project instanceof ContextualModelProject) {
-					project = ((ContextualModelProject)project).getContextProject();
-				}
-				if (project != null && project.getModelId().equals(tsProject.getModelId())) {
-					resetFacetPredicate();
+				String modelId = tsProject.getModelId();
+				Object object = AnnotationPlugin.getManager()
+						.getAnnotatedObject(annotation.getUri());
+				if (object instanceof IModelComponent) {
+					ITigerstripeModelProject project = ((IModelComponent) object)
+							.getProject();
+					if (project instanceof ContextualModelProject) {
+						project = ((ContextualModelProject) project)
+								.getContextProject();
+					}
+					// Checking if annotation event happened with an artifact
+					// related to current project
+					if (project != null && project.getModelId().equals(modelId)) {
+						resetFacetPredicate();
+					}
 				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
