@@ -133,6 +133,9 @@ public class DependenciesContentCache {
 				continue;
 			}
 			Dependency dep = (Dependency) dependency;
+			if (!dep.isValid(context.getMonitor())) {
+				continue;
+			}
 			ArtifactManager artifactManager = new ContextualArtifactManager(dep.getArtifactManager(context
 					.getMonitor()), manager.getTSProject().getTSProject());
 			if (dep != null && artifactManager != null)

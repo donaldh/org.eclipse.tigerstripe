@@ -2717,7 +2717,10 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			}
 			for (IDependency dep : getTSProject().getEnabledDependencies()) {
 				try {
-					((Dependency)dep).getArtifactManager(null).resetActiveFacet(context);
+					Dependency dependency = (Dependency) dep;
+					if (dependency.isValid(context.getMonitor())) {
+						dependency.getArtifactManager(null).resetActiveFacet(context);
+					}
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
@@ -2744,8 +2747,11 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			}
 			for (IDependency dep : getTSProject().getEnabledDependencies()) {
 				try {
-					((Dependency)dep).getArtifactManager(null).setActiveFacet(
-							newFacet, context);
+					Dependency dependency = (Dependency) dep;
+					if (dependency.isValid(context.getMonitor())) {
+						dependency.getArtifactManager(null).setActiveFacet(
+								newFacet, context);
+					}
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
