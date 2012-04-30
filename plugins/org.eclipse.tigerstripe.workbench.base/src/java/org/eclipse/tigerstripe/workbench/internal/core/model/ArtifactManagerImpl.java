@@ -2826,10 +2826,12 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			try {
 				writeLock.lock();
 				setScopingPredicate(facetRef.getFacetPredicate());
-				if (oldFacet !=null) {
-					((FacetReference) oldFacet).stopListeningToManager();
+				if (oldFacet != facetRef) {
+					if (oldFacet != null) {
+						((FacetReference) oldFacet).stopListeningToManager();
+					}
+					((FacetReference) facetRef).startListeningToManager(this);
 				}
-				((FacetReference) facetRef).startListeningToManager(this);
 			} finally {
 				writeLock.unlock();
 			}

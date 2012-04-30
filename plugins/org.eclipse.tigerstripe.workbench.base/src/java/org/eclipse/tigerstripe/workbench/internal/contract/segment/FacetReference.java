@@ -14,11 +14,14 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
@@ -49,6 +52,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.ui.progress.UIJob;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -261,10 +265,6 @@ public class FacetReference extends AbstractContainedObject implements
 		try {
 			facetPredicate.resolve(monitor);
 			computedTStamp = System.currentTimeMillis();
-			ITigerstripeModelProject tsProject = getTSProject();
-			if (tsProject != null) {
-				notifyFacetChanged(tsProject);
-			}
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 			TigerstripeRuntime.logErrorMessage(
@@ -349,7 +349,7 @@ public class FacetReference extends AbstractContainedObject implements
 		Object original = event.getOriginal();
 		if (original != null && original instanceof ITigerstripeModelProject) {
 			ITigerstripeModelProject tsProject = getTSProject();
-			if (tsProject != null && !tsProject.wasDisposed() && tsProject.exists()) {
+			if (isAccessible(tsProject)) {
 				try {
 					String originalModelId = ((ITigerstripeModelProject) original)
 							.getModelId();
@@ -380,7 +380,7 @@ public class FacetReference extends AbstractContainedObject implements
 
 	private void handleAnnotationEvent(Annotation annotation) {
 		ITigerstripeModelProject tsProject = getTSProject();
-		if (tsProject != null && !tsProject.wasDisposed() && tsProject.exists()) {
+		if (isAccessible(tsProject)) {
 			try {
 				String modelId = tsProject.getModelId();
 				Object object = AnnotationPlugin.getManager()
@@ -452,6 +452,32 @@ public class FacetReference extends AbstractContainedObject implements
 
 	private void resetFacetPredicate() {
 		facetPredicate = null;
+		ITigerstripeModelProject tsProject = getTSProject();
+		if (isAccessible(tsProject)) {
+			try {
+				IFacetReference activeFacet = tsProject.getActiveFacet();
+				if (activeFacet == this) {
+					IProject project = (IProject) tsProject.getAdapter(IProject.class);
+					if (project != null && project.isAccessible()) {
+						UIJob job = new UIJob("Facet refresh") {
+							@Override
+							public IStatus runInUIThread(IProgressMonitor monitor) {
+								computeFacetPredicate(monitor);
+								ITigerstripeModelProject tsProject = getTSProject();
+								if (isAccessible(tsProject)) {
+									notifyFacetChanged(tsProject);
+								}
+								return Status.OK_STATUS;
+							}
+						};
+						job.setRule(project);
+						job.schedule();
+					}
+				}
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
 	}
 
 	private void notifyFacetChanged(final ITigerstripeModelProject tsProject) {
@@ -581,5 +607,10 @@ public class FacetReference extends AbstractContainedObject implements
 		// it did
 		// so the facet will be reevaluated.
 		return true;
+	}
+
+	private boolean isAccessible(ITigerstripeModelProject tsProject) {
+		return tsProject != null && !tsProject.wasDisposed()
+				&& tsProject.exists();
 	}
 }
