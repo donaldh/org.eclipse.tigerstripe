@@ -1,0 +1,45 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: CreateMOLevelProjectWithSameNameButDifferentCase
+Tags: TS_Project/Create
+External-Reference: http://bugs.xored.com/browse/XMP-923
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ
+Save-Time: 5/3/12 4:48 PM
+Id: _COwUEJUFEeG9ydl8JQ1YKg
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+TEST STEPS
+
+1. Create TS Project named "Project1";
+2. Try to create MO Level Project named "project1";
+3. Make sure that conflict message window occurs.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe M0-Level Generator Project" | click
+with [get-window "New M0-Level Generator Project"] {
+    get-editbox -after [get-label "Project Name:"] | set-text Project1
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe M0-Level Generator Project" | click
+get-window "New M0-Level Generator Project" | get-editbox -after [get-label "Project Name:"] | set-text project1
+exec-with-options {
+    get-window "New M0-Level Generator Project" | get-button Finish | click
+    get-window "New M0-Level Generator Project" | get-window "Problem Occurred" 
+        | get-label "The underlying file system is case insensitive. There is an existing project or directory that conflicts with \'project1\'." 
+        | get-property caption 
+        | equals "The underlying file system is case insensitive. There is an existing project or directory that conflicts with \'project1\'." 
+        | verify-true
+    get-window "New M0-Level Generator Project" | get-window "Problem Occurred" | get-button OK | click
+} -allowStatusDialog
+get-window "New M0-Level Generator Project" | get-button Cancel | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
