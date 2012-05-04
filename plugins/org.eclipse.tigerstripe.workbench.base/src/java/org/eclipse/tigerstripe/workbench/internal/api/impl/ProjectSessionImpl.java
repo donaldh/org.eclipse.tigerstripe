@@ -130,6 +130,7 @@ public class ProjectSessionImpl {
 			throws TigerstripeException {
 		if (phantomHandle == null) {
 			phantomHandle = new TigerstripePhantomProjectHandle();
+			phantomHandle.init();
 		}
 
 		return phantomHandle;

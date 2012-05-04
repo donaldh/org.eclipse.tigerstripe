@@ -38,9 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstrip
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
@@ -104,11 +102,7 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 		return false;
 	}
 	
-	@Override
-	protected void initArtifactManagerSession(IArtifactManagerSession session)
-			throws TigerstripeException {
-		if (getPhantomProject() == null)
-			return;
+	public void init() throws TigerstripeException {
 		boolean needACompile = populatePrimitiveTypes(new NullProgressMonitor()) != 0;
 		createJarForEclipsePath(needACompile);
 	}
@@ -144,8 +138,7 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 		int numberCreated = 0;
 		ArtifactManagerSessionImpl artifactMgrSession = null;
 		try {
-			artifactMgrSession = (ArtifactManagerSessionImpl) TigerstripeProjectFactory.INSTANCE
-					.getPhantomProject().getArtifactManagerSession();
+			artifactMgrSession = (ArtifactManagerSessionImpl) getArtifactManagerSession();
 
 			// Bug 536
 			artifactMgrSession.getArtifactManager().reset(monitor);

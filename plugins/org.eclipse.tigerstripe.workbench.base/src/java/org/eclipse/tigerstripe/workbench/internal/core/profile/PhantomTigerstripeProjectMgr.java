@@ -15,6 +15,7 @@ import java.net.URI;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 
 /**
@@ -59,9 +60,10 @@ public class PhantomTigerstripeProjectMgr {
 	/**
 	 * Creates and populate the phantom project based on the current active
 	 * profile
+	 * @throws TigerstripeException 
 	 * 
 	 */
-	protected void createPhantomProject() {
+	protected void createPhantomProject() throws TigerstripeException {
 
 		URI phantomURI = getPhantomURI();
 		// first remove any existing stuff
@@ -74,6 +76,9 @@ public class PhantomTigerstripeProjectMgr {
 		phantomProject = new PhantomTigerstripeProject(phantomDir);
 		phantomProject.createEmpty(); // creates an empty Project Structure on
 		// disk
+		
+		// set up the phantom project
+		TigerstripeProjectFactory.INSTANCE.getPhantomProject();
 	}	
 
 	/**
