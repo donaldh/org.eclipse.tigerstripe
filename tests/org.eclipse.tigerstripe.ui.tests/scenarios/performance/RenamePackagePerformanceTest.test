@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_P443IEi5EeG6xYWzBUR3Fg,_dzUmIEjDEeG6xYWzBUR3Fg
-Save-Time: 4/24/12 3:34 PM
+Save-Time: 5/4/12 12:49 PM
 Id: _mwF4YEi5EeG6xYWzBUR3Fg
 Testcase-Type: ecl
 
@@ -28,6 +28,13 @@ Measured Step
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
 Content-Type: text/ecl
+
+//exec-with-options -disableJobWaiting -command {
+//      get-button "Search..." | click
+//      wait 1000
+//      get-window "Progress Information" | get-button Stop | click
+//     } 
+
 
 with [get-window "Refactor Model Artifact"] {
     get-button Finish | click

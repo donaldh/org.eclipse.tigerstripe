@@ -1,0 +1,40 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: PerfomanceTestSuite
+Element-Type: testsuite
+Element-Version: 2.0
+Save-Time: 5/4/12 12:44 PM
+Id: _EbRVEJWsEeGgMKTIYINo8g
+
+------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
+Entry-Name: testcase-items
+Content-Type: text/testcase
+
+_jzOFAEySEeGKuYGNYLIANg	// kind: 'test' name: 'CreateClassDiagramAfterPackageRenamePerformanceTest' path: 'CreateClassDiagramAfterPackageRenamePerformanceTest.test'
+_3SK0cEv3EeG6xYWzBUR3Fg	// kind: 'test' name: 'ExportProjectAsTigerstripeModulePerformanceTest' path: 'ExportProjectAsTigerstripeModule.test'
+_hlZxkEvtEeG6xYWzBUR3Fg	// kind: 'test' name: 'ReparentPackagePerformanceTest' path: 'ReparentPackagePerformanceTest.test'
+_vpADYEyWEeGKuYGNYLIANg	// kind: 'test' name: 'ReparentPackageWithClassDiagamPerformanceTest' path: 'ReparentPackageWithClassDiagamPerformanceTest.test'
+_C_tlIEyyEeGNjJ3pRrpsng	// kind: 'test' name: 'RenamePackageWithOpenedClassDiagramPerformanceTest' path: 'RenamePackageWithOpenedClassDiagramPerformanceTest.test'
+_IUFZIEv_EeGPbuHuoZRGlQ	// kind: 'test' name: 'RenamePackageWithOpenedEditorsPerformanceTest' path: 'RenamePackageWithOpenedEditorsPerformanceTest.test'
+_mwF4YEi5EeG6xYWzBUR3Fg	// kind: 'test' name: 'RenamePackagePerformanceTest' path: 'RenamePackagePerformanceTest.test'
+_4h2hYEv8EeGPbuHuoZRGlQ	// kind: 'test' name: 'DeleteArtifactPerformanceTest' path: 'DeleteArtifactPerformanceTest.test'
+_mtj7wEx9EeGyts7xHQMAOA	// kind: 'test' name: 'CreateClassDiagramPreformanceTest' path: 'CreateClassDiagramPreformanceTest.test'
+_r1PooEy8EeGNjJ3pRrpsng	// kind: 'test' name: 'CreateTigerstripeProjectPerformanceTest ' path: 'CreateTigerstripeProjectPerformanceTest .test'
+_i7eekEvrEeG6xYWzBUR3Fg	// kind: 'test' name: 'OpenEditorPerformanceTest' path: 'OpenEditorPerformanceTest.test'
+_K8LTIEy3EeGNjJ3pRrpsng	// kind: 'test' name: 'RenamePackageWithRemovedClassDiagramPerformanceTest' path: 'RenamePackageWithRemovedClassDiagramPerformanceTest.test'
+_zrlZIEzEEeGNjJ3pRrpsng	// kind: 'test' name: 'CreateEntityArtifactPerformanceTest' path: 'CreateEntityArtifactPerformanceTest.test'
+_PtbBYUwDEeGyts7xHQMAOA	// kind: 'test' name: 'ConvertEntityToDatatypePerformanceTest' path: 'ConvertEntityToDatatype PerformanceTest.test'
+_UFpyMEyNEeGKuYGNYLIANg	// kind: 'test' name: 'ReopenDiagramPerformanceTest' path: 'ReopenDiagramPerformanceTest.test'
+_J8dPoEzEEeGNjJ3pRrpsng	// kind: 'test' name: 'CreateM0LevelGeneratorProject PerformanceTest' path: 'CreateM0LevelGeneratorProject PerformanceTest.test'
+_GvFNIEyiEeGNjJ3pRrpsng	// kind: 'test' name: 'DeleteArtifactWithInstanceAndClassDiagramPerformanceTest' path: 'DeleteArtifactWithInstanceAndClassDiagramPerformanceTest.test'
+_JQmL0EybEeGNjJ3pRrpsng	// kind: 'test' name: 'CreateInstanceDiagramPerformanceTest' path: 'CreateInstanceDiagram.test'
+_-izHAEyHEeGyts7xHQMAOA	// kind: 'test' name: 'AddArtifactsOnClassDiagramPerformanceTest' path: 'AddArtifactsOnClassDiagramPerformanceTest.test'
+_OYC0gEygEeGNjJ3pRrpsng	// kind: 'test' name: 'AddArtifactsOnInstanceDiagramPerformanceTest' path: 'AddArtifactsOnInstanceDiagramPerformanceTest.test'
+_3udqoEzCEeGNjJ3pRrpsng	// kind: 'test' name: 'CreateGeneratorProjectPerformanceTest' path: 'CreateGeneratorProjectPerformanceTest.test'
+_pds4sEi6EeG6xYWzBUR3Fg	// kind: 'test' name: 'DeleteTigerstripeProjectPerformanceTest' path: 'DeleteTigerstripeProjectPerformanceTest.test'
+_G40cMUvXEeGFhL1hdPKWGQ	// kind: 'test' name: 'ImportProjectPerformanceTest' path: 'ImportProjectPerformanceTest.test'
+_gxsd0EzLEeGNjJ3pRrpsng	// kind: 'test' name: 'CreateWorkbenchProfilePerformanceTest' path: 'CreateWorkbenchProfilePerformanceTest.test'
+_WDymIEzKEeGNjJ3pRrpsng	// kind: 'test' name: 'CreateServiceContractFacetPerformanceTest' path: 'CreateServiceContractFacet.test'
+
+------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
