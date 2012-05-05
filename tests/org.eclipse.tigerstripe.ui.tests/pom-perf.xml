@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.tigerstripe</groupId>
+    <artifactId>org.eclipse.tigerstripe.tests.parent</artifactId>
+    <version>0.7.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>org.eclipse.tigerstripe.ui.tests.performance</artifactId>
+  <packaging>q7test</packaging>
+  <name>o.e.t.q7.tests</name>
+  <version>0.7.0-SNAPSHOT</version>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.xored.q7</groupId>
+        <artifactId>q7-maven-plugin</artifactId>
+        <version>${q7-maven-version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <aut>
+            <injections>
+              <injection>
+                <site>http://build.xored.com/browse/TS-CVSDEPLOY/latest/artifact/JOB1/repository/</site>
+                <features>
+                  <feature>com.cisco.tigerstripe.test.modules.feature.group</feature>
+                  <feature>org.eclipse.draw2d.feature.group</feature>
+                  <feature>org.eclipse.gef.feature.group</feature>
+                  <feature>org.eclipse.gmf.runtime.notation.feature.group</feature>
+                  <feature>org.eclipse.gmf.runtime.thirdparty.feature.group</feature>
+                  <feature>org.eclipse.gmf.feature.group</feature>
+                  <feature>org.eclipse.ocl.all.feature.group</feature>
+                  <feature>org.eclipse.ocl.uml.feature.group</feature>
+                  <feature>org.eclipse.ocl.feature.group</feature>
+                  <feature>org.eclipse.tigerstripe.annotation.example.feature.feature.group</feature>
+                  <feature>org.eclipse.tigerstripe.annotation.feature.feature.group</feature>
+                  <feature>org.eclipse.tigerstripe.base.feature.group</feature>
+                  <feature>org.eclipse.tigerstripe.workbench.feature.group</feature>
+                  <feature>org.eclipse.uml2.feature.group</feature>
+                  <feature>org.eclipse.zest.feature.group</feature>
+                </features>
+              </injection>
+            </injections>
+
+            <groupId>eclipse</groupId>
+            <artifactId>sdk</artifactId>
+            <version>3.6.2</version>
+
+            <vmArgs>
+              <vmArg>-Xms128m</vmArg>
+              <vmArg>-Xmx1024m</vmArg>
+              <vmArg>-XX:MaxPermSize=256M</vmArg>
+            </vmArgs>
+          </aut>
+
+          <q7>
+            <version>${q7-runner-version}</version>
+            <licenseFile>${project.basedir}/../q7runner.l9</licenseFile>
+          </q7>
+
+          <testOptions>
+            <execTimeout>18000</execTimeout>
+          </testOptions>
+
+          <skipTags>
+            <skipTag>foo</skipTag>
+          </skipTags>
+
+          <suites>
+            <suite>PerfomanceTestSuite</suite>
+          </suites>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>eclipses</id>
+      <name>Xored thirdparty repo</name>
+      <url>http://maven.xored.com/nexus/content/repositories/thirdparty</url>
+    </repository>
+  </repositories>
+
+  <properties>
+    <q7-maven-version>1.2.0</q7-maven-version>
+    <q7-client-version>1.2.0-SNAPSHOT</q7-client-version>
+    <q7-runner-version>1.2.0</q7-runner-version>
+  </properties>																																		
+</project>
