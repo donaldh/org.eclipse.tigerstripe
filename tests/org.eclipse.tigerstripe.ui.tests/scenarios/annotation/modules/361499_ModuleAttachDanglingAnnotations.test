@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/pages/editpage.action?pageId=12650232
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_Ue7PMAEdEeGqZPLc-tTWzw
-Save-Time: 3/23/12 1:28 PM
+Save-Time: 5/5/12 12:47 PM
 Id: _7wrXUAEdEeGqZPLc-tTWzw
 Testcase-Type: ecl
 
@@ -64,6 +64,7 @@ get-view "Tigerstripe Explorer" | get-tree
     | get-property caption | equals "<<IntegerAnnotation>>method0():void" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
     | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/<<IntegerAnnotation>>method0\\(\\):void"
+wait 100    
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Annotation Property View" | get-table | get-item IntegerAnnotation | get-property caption 
     | equals IntegerAnnotation | verify-true
