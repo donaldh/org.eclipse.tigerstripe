@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/ReturnImplementsLinkMenuRem
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_YiZ2kJ4TEeC0FMmSWvz47w,_6z53YJyTEeCwQoDghmuRmQ
-Save-Time: 4/24/12 3:40 PM
+Save-Time: 5/5/12 12:42 PM
 Id: _n5DWAJ5LEeC0FMmSWvz47w
 Testcase-Type: ecl
 
@@ -111,11 +111,11 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
         drag-exit -button none
     }
 }
-with [get-control Any -index 110] {
-    drag-enter -y 153 -button none -detail 16 -operation 5
-    drag-over -y 153 -button none -detail 1 -operation 5
-    drag-exit -button none
-}
+//with [get-control Any -index 110] {
+//    drag-enter -y 153 -button none -detail 16 -operation 5
+ //   drag-over -y 153 -button none -detail 1 -operation 5
+  //  drag-exit -button none
+//}
 with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart] {
     drag-enter 4 126 none -detail 2 -operation 7
     drag-over 105 93 none -detail 1 -operation 7

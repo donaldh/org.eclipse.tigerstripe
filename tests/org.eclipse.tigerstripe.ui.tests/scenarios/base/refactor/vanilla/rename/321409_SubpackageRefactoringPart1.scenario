@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 2.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_cCXa0OCsEd-O58X7lLKZZg
-Save-Time: 4/24/12 3:16 PM
+Save-Time: 5/5/12 12:39 PM
 Id: _cJZGofenEd-1S9BQoCd86g
 Testcase-Type: ecl
 
@@ -57,7 +57,7 @@ with [get-window "Refactor Model Artifact"] {
     get-button "Next >" | click
     get-button Finish | click
 }
-get-control Any -index 117 | click
+//get-control Any -index 117 | click
 with [get-view "Tigerstripe Explorer" | get-tree | get-item "test/src/com.mycompany.package1"] {
     get-property caption | is-equal "com.mycompany.package1" | verify
     get-property childCount | is-equal 14 | verify

@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_nxxioTQ6EeCmgJdYh3-lUg
-Save-Time: 4/24/12 3:56 PM
+Save-Time: 5/5/12 12:42 PM
 Id: _ii8C0DTVEeC7of9QSgx3oQ
 Testcase-Type: ecl
 
@@ -100,11 +100,11 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
     drag-over 430 64 none -detail 2 -operation 7
     drag-exit -button none
 }
-with [get-control Any -index 94] {
-    drag-enter 2 90 none -detail 16 -operation 5
-    drag-over 2 90 none -detail 1 -operation 5
-    drag-exit -button none
-}
+//with [get-control Any -index 94] {
+//    drag-enter 2 90 none -detail 16 -operation 5
+//    drag-over 2 90 none -detail 1 -operation 5
+//    drag-exit -button none
+//}
 with [get-editor "default.wvd" | get-diagram | get-edit-part 0] {
     drag-enter 52 65 none -detail 2 -operation 7
     drag-over 533 86 none -detail 1 -operation 7
