@@ -44,7 +44,7 @@ public class PostInstallActions {
 
 	private static volatile boolean initialized = false;
 	
-	public static void init() {
+	public static synchronized void init() {
 		if (!initialized) {
 			initialized = true;
 			try {
