@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import java.lang.reflect.Proxy;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -30,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -65,7 +67,7 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 
 		for (IField attribute : getArtifact().getFields()) {
 			checkStereotypes(attribute, "attribute '" + attribute.getName()
-					+ "' of artifact '" + getArtifact().getName() + "'");
+					+ "' of artifact '" + getArtifact().getName() + "'", attribute);
 			checkAttributeDefaultValue(artifact, attribute);
 			checkEnumField(attribute, artifactName);
 		}
@@ -76,12 +78,12 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		IStatus vStatus = isDefaultValueValid(attribute.getType(),
 				attribute.getDefaultValue());
 		if (!vStatus.isOK()) {
-			TigerstripeProjectAuditor.reportError(
+			TigerstripeProjectAuditor.reportProblem(
 					"Default value of '" + artifact.getFullyQualifiedName()
 							+ "." + attribute.getName()
 							+ "' attribute is incorrect. "
 							+ vStatus.getMessage(), (IResource) getArtifact()
-							.getAdapter(IResource.class), 222);
+							.getAdapter(IResource.class), 222, IMarker.SEVERITY_ERROR, attribute);
 		}
 	}
 
@@ -90,10 +92,10 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		IStatus vStatus = isDefaultValueValid(method.getReturnType(),
 				method.getDefaultReturnValue());
 		if (!vStatus.isOK()) {
-			TigerstripeProjectAuditor.reportError("Default value of '"
+			TigerstripeProjectAuditor.reportProblem("Default value of '"
 					+ artifact.getFullyQualifiedName() + "." + method.getName()
 					+ "' method is incorrect. " + vStatus.getMessage(),
-					(IResource) getArtifact().getAdapter(IResource.class), 222);
+					(IResource) getArtifact().getAdapter(IResource.class), 222, IMarker.SEVERITY_ERROR, method);
 		}
 	}
 
@@ -129,7 +131,7 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 				IEnumArtifact enumArtifact = (IEnumArtifact) typeArtifact;
 				if (!isEnumFieldDefaultValueCorrect(field, enumArtifact)) {
 					TigerstripeProjectAuditor
-							.reportError(
+							.reportProblem(
 									"Default value of '"
 											+ artifactName
 											+ field.getName()
@@ -140,7 +142,7 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 											+ field.getDefaultValue()
 											+ "' literal.",
 									(IResource) getArtifact().getAdapter(
-											IResource.class), 222);
+											IResource.class), 222, IMarker.SEVERITY_ERROR, field);
 				}
 			}
 		}
@@ -170,18 +172,18 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		checkSuperArtifact();
 		checkImplementedArtifacts();
 		checkStereotypes(getArtifact(), "artifact '" + getArtifact().getName()
-				+ "'");
+				+ "'", null);
 
 	}
 
-	private void checkStereotypes(IStereotypeCapable capable, String location) {
+	private void checkStereotypes(IStereotypeCapable capable, String location, IModelComponent member) {
 		for (IStereotypeInstance instance : capable.getStereotypeInstances()) {
 			if (instance instanceof UnresolvedStereotypeInstance) {
-				TigerstripeProjectAuditor.reportWarning("Stereotype '"
+				TigerstripeProjectAuditor.reportProblem("Stereotype '"
 						+ instance.getName() + "' on " + location
 						+ " not defined in the current profile",
 						TigerstripeProjectAuditor.getIResourceForArtifact(
-								getIProject(), getArtifact()), 222);
+								getIProject(), getArtifact()), 222, IMarker.SEVERITY_WARNING, member);
 			}
 		}
 	}
@@ -198,11 +200,11 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 			if (instance instanceof UnresolvedStereotypeInstance) {
 				String location = " return of method '" + method.getName()
 						+ "' of artifact '" + getArtifact().getName() + "'";
-				TigerstripeProjectAuditor.reportWarning("Stereotype "
+				TigerstripeProjectAuditor.reportProblem("Stereotype "
 						+ instance.getName() + " on " + location
 						+ " not defined in the current profile",
 						TigerstripeProjectAuditor.getIResourceForArtifact(
-								getIProject(), getArtifact()), 222);
+								getIProject(), getArtifact()), 222, IMarker.SEVERITY_WARNING, method);
 			}
 		}
 		for (IArgument argument : method.getArguments()) {
@@ -212,11 +214,11 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 					String location = " argument '" + argument.getName()
 							+ "' of method '" + method.getName()
 							+ "' of artifact '" + getArtifact().getName() + "'";
-					TigerstripeProjectAuditor.reportWarning("Stereotype '"
+					TigerstripeProjectAuditor.reportProblem("Stereotype '"
 							+ instance.getName() + "' on '" + location
 							+ "' not defined in the current profile",
 							TigerstripeProjectAuditor.getIResourceForArtifact(
-									getIProject(), getArtifact()), 222);
+									getIProject(), getArtifact()), 222, IMarker.SEVERITY_WARNING, method);
 				}
 			}
 		}
@@ -249,7 +251,7 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 	private void checkLabels(IProgressMonitor monitor) {
 		for (ILiteral literal : getArtifact().getLiterals()) {
 			checkStereotypes(literal, "literal '" + literal.getName()
-					+ "' of artifact '" + getArtifact().getName() + "'");
+					+ "' of artifact '" + getArtifact().getName() + "'", null);
 		}
 	}
 
@@ -257,16 +259,16 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		// Checking that abstract methods only belong to abstract artifacts
 		for (IMethod method : getArtifact().getMethods()) {
 			if (method.isAbstract() && !getArtifact().isAbstract()) {
-				TigerstripeProjectAuditor.reportError(
+				TigerstripeProjectAuditor.reportProblem(
 						"Method " + method.getName()
 								+ " is marked Abstract although "
 								+ getArtifact().getFullyQualifiedName()
 								+ " is not marked as Abstract.",
 						TigerstripeProjectAuditor.getIResourceForArtifact(
-								getIProject(), getArtifact()), 222);
+								getIProject(), getArtifact()), 222, IMarker.SEVERITY_ERROR, method);
 			}
 			checkStereotypes(method, "method '" + method.getName()
-					+ "' of artifact '" + getArtifact().getName() + "'");
+					+ "' of artifact '" + getArtifact().getName() + "'", method);
 			// Need separate method to check the Return and Argument steros.
 			// Possible change with new metamodel
 			checkMethodDefaultValue(getArtifact(), method);
@@ -286,13 +288,13 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		IStatus vStatus = isDefaultValueValid(argument.getType(),
 				argument.getDefaultValue());
 		if (!vStatus.isOK()) {
-			TigerstripeProjectAuditor.reportError(
+			TigerstripeProjectAuditor.reportProblem(
 					"Default value of argument '" + argument.getName()
 							+ "' in method '"
 							+ artifact.getFullyQualifiedName() + "."
 							+ method.getName() + "' is incorrect. "
 							+ vStatus.getMessage(), (IResource) getArtifact()
-							.getAdapter(IResource.class), 222);
+							.getAdapter(IResource.class), 222, IMarker.SEVERITY_ERROR, method);
 		}
 	}
 

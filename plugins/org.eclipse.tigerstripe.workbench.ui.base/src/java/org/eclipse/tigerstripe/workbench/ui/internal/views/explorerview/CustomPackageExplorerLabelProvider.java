@@ -10,6 +10,7 @@ public class CustomPackageExplorerLabelProvider extends PackageExplorerLabelProv
 
 	public CustomPackageExplorerLabelProvider(PackageExplorerContentProvider cp) {
 		super(cp);
+		addLabelDecorator(new TigerstripeProblemsLabelDecorator());
 	}
 
 	@Override
@@ -21,10 +22,10 @@ public class CustomPackageExplorerLabelProvider extends PackageExplorerLabelProv
 	public Image decorateImage(Image image, Object element) {
 		return super.decorateImage(image, element);
 	}
-	
+
 	@Override
 	public String decorateText(String text, Object element) {
 		return super.decorateText(text, element);
 	}
-	
+
 }
