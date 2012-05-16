@@ -2,10 +2,8 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import java.lang.reflect.Proxy;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.IElementComparer;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 
 public class TSExplorerElementComparer implements IElementComparer {
 
@@ -29,22 +27,13 @@ public class TSExplorerElementComparer implements IElementComparer {
 		// improper TSExplorer refresh for artifact methods. In order to have
 		// proper TS Explorer refresh we need to perform equals as it was
 		// defined in ArtifactComponent.
-
-		if (a == b) {
-			return true;
-		}
-
-		if (a instanceof IMethod && b instanceof IMethod) {
+		if (a instanceof Method && b instanceof Method) {
 			if (Proxy.isProxyClass(a.getClass())) {
 				return a.equals(b);
 			} else if (Proxy.isProxyClass(b.getClass())) {
 				return b.equals(a);
 			}
-
-			URI uriA = (URI) ((IMethod) a).getAdapter(URI.class);
-			URI uriB = (URI) ((IMethod) b).getAdapter(URI.class);
-
-			return uriA == null ? false : uriA.equals(uriB);
+			return a == b;
 		}
 		return a.equals(b);
 	}

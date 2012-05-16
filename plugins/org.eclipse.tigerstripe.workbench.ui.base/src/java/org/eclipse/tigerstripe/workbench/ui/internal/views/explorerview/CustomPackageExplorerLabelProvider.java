@@ -4,13 +4,19 @@ import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
+import org.eclipse.tigerstripe.workbench.ui.viewers.ITigerstripeLabelDecorator;
 
 @SuppressWarnings("restriction")
-public class CustomPackageExplorerLabelProvider extends PackageExplorerLabelProvider {
+public class CustomPackageExplorerLabelProvider extends
+		PackageExplorerLabelProvider {
 
 	public CustomPackageExplorerLabelProvider(PackageExplorerContentProvider cp) {
 		super(cp);
-		addLabelDecorator(new TigerstripeProblemsLabelDecorator());
+		for (ITigerstripeLabelDecorator decorator : TigerstripeDecoratorManager
+				.getDefault().getDecorators()) {
+			addLabelDecorator(decorator);
+		}
 	}
 
 	@Override

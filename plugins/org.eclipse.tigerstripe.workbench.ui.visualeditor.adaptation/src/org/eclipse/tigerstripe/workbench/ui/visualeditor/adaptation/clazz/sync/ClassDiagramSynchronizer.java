@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -24,9 +25,10 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramGraphicalViewer;
-import org.eclipse.gmf.runtime.diagram.ui.render.editparts.RenderedDiagramRootEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
+import org.eclipse.jdt.internal.ui.JavaPlugin;
+import org.eclipse.jdt.internal.ui.viewsupport.IProblemChangedListener;
+import org.eclipse.jdt.internal.ui.viewsupport.ProblemMarkerManager;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
@@ -36,7 +38,6 @@ import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -72,11 +73,18 @@ import org.eclipse.ui.progress.UIJob;
  * @author Eric Dillon
  * @since 1.2
  */
+@SuppressWarnings("restriction")
 public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		IActiveFacetChangeListener {
 
 	private FileDiagramEditor editor;
-	private Comparer comp = new Comparer();
+
+	private IProblemChangedListener problemChangedListener = new IProblemChangedListener() {
+		public void problemsChanged(IResource[] changedResources,
+				boolean isMarkerChange) {
+			facetChanged(null, null);
+		}
+	};
 
 	public ClassDiagramSynchronizer(FileDiagramEditor editor) {
 		this.editor = editor;
@@ -106,10 +114,11 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	public void startSynchronizing() {
 		try {
 			doInitialRefresh();
-			
+
 			// Register for changes in the Diagrams
 			registerModelAdapters();
 			startListeningToArtifactMgr();
+			addProblemChangedListener();
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -178,6 +187,7 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 
 	public void stopSynchronizing() {
 		try {
+			removeProblemChangedListener();
 
 			// Don't bother un-registering if the project's been deleted
 			if (getTSProject() == null)
@@ -316,14 +326,14 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}
-	
+
 	private void handleArtifactChanged(IAbstractArtifact artifact) {
 		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
-		
-		if (editor==null || editor.getDiagram()==null)
+
+		if (editor == null || editor.getDiagram() == null)
 			return;
-		
+
 		final Map map = (Map) editor.getDiagram().getElement();
 		final IAbstractArtifact fArtifact = artifact;
 		try {
@@ -364,22 +374,22 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		if (!isEnabled()) {
 			return;
 		}
-	
+
 		if (artifact == null || fromFQN == null || fromFQN.length() == 0)
 			return;
 
 		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
 		final Map map = (Map) editor.getDiagram().getElement();
-        final IAbstractArtifact fArtifact = artifact;
+		final IAbstractArtifact fArtifact = artifact;
 		try {
 			ClassDiagramSynchronizerUtils.handleQualifiedNamedElementRenamed(
 					map, fromFQN, artifact.getFullyQualifiedName(),
 					editingDomain, diagramEditDomain);
-            //Bug 327698 - Need to make sure any internal references in the artifact to itself gets updated
-            ClassDiagramSynchronizerUtils.handleQualifiedNamedElementChanged(
-                    editor.getDiagram(), editor.getDiagramEditPart(), map,
-                    fArtifact, editingDomain, diagramEditDomain);
+			// Bug 327698 - Need to make sure any internal references in the artifact to itself gets updated
+			ClassDiagramSynchronizerUtils.handleQualifiedNamedElementChanged(
+					editor.getDiagram(), editor.getDiagramEditPart(), map,
+					fArtifact, editingDomain, diagramEditDomain);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -472,6 +482,7 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 			monitor.worked(1);
 		}
 		monitor.done();
+		facetChanged(null, null);
 	}
 
 	private static Display getDisplay() {
@@ -493,14 +504,12 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		// re-picked-up.
 		getDisplay().asyncExec(new Runnable() {
 			public void run() {
-				IDiagramGraphicalViewer viewer = editor
-						.getDiagramGraphicalViewer();
-				RenderedDiagramRootEditPart rootPart = (RenderedDiagramRootEditPart) viewer
-						.getRootEditPart();
-				List<EditPart> partList = rootPart.getChildren();
+				List<EditPart> partList = editor.getDiagramEditPart().getChildren();
 				for (EditPart part : partList) {
+					// these are the shapes and nodes in the diagram
 					for (EditPart subPart : (List<EditPart>) part.getChildren()) {
-						// these are the shapes and nodes in the diagram
+						subPart.refresh();
+						// these are the components in the diagram node
 						for (EditPart subsubPart : (List<EditPart>) subPart
 								.getChildren()) {
 							subsubPart.refresh();
@@ -515,4 +524,17 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	protected boolean isEnabled() {
 		return DiagramSynchronizationManager.getInstance().isEnabled();
 	}
+
+	private ProblemMarkerManager getProblemMarkerManager() {
+		return JavaPlugin.getDefault().getProblemMarkerManager();
+	}
+
+	private void addProblemChangedListener() {
+		getProblemMarkerManager().addListener(problemChangedListener);
+	}
+	
+	private void removeProblemChangedListener() {
+		getProblemMarkerManager().removeListener(problemChangedListener);
+	}
+	
 }

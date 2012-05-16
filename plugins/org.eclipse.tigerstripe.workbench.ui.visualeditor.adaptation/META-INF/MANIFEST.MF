@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.gmf.runtime.diagram.ui.render;visibility:=reexport,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide;visibility:=reexport,
  org.eclipse.tigerstripe.workbench.ui.base,
- org.eclipse.tigerstripe.workbench.ui.visualeditor
+ org.eclipse.tigerstripe.workbench.ui.visualeditor,
+ org.eclipse.jdt.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation,

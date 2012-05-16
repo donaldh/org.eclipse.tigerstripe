@@ -21,7 +21,10 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 
 /**
@@ -62,9 +65,14 @@ public class AttributeItemProvider extends TypedElementItemProvider implements
 	/**
 	 * This returns Attribute.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 */
+	@SuppressWarnings("restriction")
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, Images.get(Images.FIELD_ICON));
+		Image image = Images.get(Images.FIELD_ICON);
+		Attribute attr = object instanceof Attribute ? (Attribute)object : null;
+		IField model = attr == null ? null : attr.getField();
+		image = TigerstripeDecoratorManager.getDefault().decorateImage(image, model); 
+		return overlayImage(object, image);
 	}
 
 	/**

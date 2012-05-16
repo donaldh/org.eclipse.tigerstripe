@@ -1911,4 +1911,10 @@
            class="org.eclipse.tigerstripe.workbench.ui.internal.UILogAppender">
      </appender>
   </extension>
+  <extension
+        point="org.eclipse.tigerstripe.workbench.ui.base.labelDecorator">
+     <decorator
+           class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeProblemsLabelDecorator">
+     </decorator>
+  </extension>
 </plugin>

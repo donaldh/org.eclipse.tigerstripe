@@ -1,39 +1,36 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
-import org.eclipse.jdt.internal.ui.viewsupport.IProblemChangedListener;
 import org.eclipse.jdt.internal.ui.viewsupport.ImageDescriptorRegistry;
 import org.eclipse.jdt.internal.ui.viewsupport.ImageImageDescriptor;
-import org.eclipse.jdt.internal.ui.viewsupport.ProblemMarkerManager;
 import org.eclipse.jdt.ui.JavaElementImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
-import org.eclipse.jface.viewers.ILabelDecorator;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMember;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.viewers.ITigerstripeLabelDecorator;
 
 @SuppressWarnings("restriction")
 public class TigerstripeProblemsLabelDecorator extends LabelProvider implements
-		ILabelDecorator, ILightweightLabelDecorator {
+		ITigerstripeLabelDecorator {
+
+	public Image decorateImage(Image image, IModelComponent component) {
+		return decorateImage(image, (Object) component);
+	}
+
+	public String decorateText(String text, IModelComponent component) {
+		return decorateText(text, (Object) component);
+	}
 
 	public void decorate(Object element, IDecoration decoration) {
 		int adornmentFlags = computeAdornmentFlags(element);
@@ -127,76 +124,5 @@ public class TigerstripeProblemsLabelDecorator extends LabelProvider implements
 		String location = marker.getAttribute(IMarker.LOCATION, (String) null);
 		return location == null ? null : URI.createURI(location, true);
 	}
-
-	private IProblemChangedListener fProblemChangedListener;
-
-	@Override
-	public void addListener(ILabelProviderListener listener) {
-		super.addListener(listener);
-		if (fProblemChangedListener == null) {
-			fProblemChangedListener = new IProblemChangedListener() {
-				public void problemsChanged(IResource[] changedResources,
-						boolean isMarkerChange) {
-					fireProblemsChanged(changedResources);
-				}
-			};
-			getProblemMarkerManager().addListener(fProblemChangedListener);
-		}
-	}
-
-	@Override
-	public void removeListener(ILabelProviderListener listener) {
-		super.removeListener(listener);
-		if (getListeners().length == 0 && fProblemChangedListener != null) {
-			getProblemMarkerManager().removeListener(fProblemChangedListener);
-			fProblemChangedListener = null;
-		}
-	}
-
-	@Override
-	public void dispose() {
-		if (fProblemChangedListener != null) {
-			getProblemMarkerManager().removeListener(fProblemChangedListener);
-			fProblemChangedListener = null;
-		}
-		super.dispose();
-	}
-
-	private ProblemMarkerManager getProblemMarkerManager() {
-		return JavaPlugin.getDefault().getProblemMarkerManager();
-	}
-
-	protected void fireProblemsChanged(IResource[] changedResources) {
-		Set<IMember> newInvalidMembers = new HashSet<IMember>();
-		for (IResource resource : changedResources) {
-			final IMarker[] markers;
-			try {
-				markers = resource
-						.findMarkers(null, true, IResource.DEPTH_ZERO);
-				for (IMarker marker : markers) {
-					URI uri = getUri(marker);
-					if (uri != null) {
-						IModelComponent model = TigerstripeURIAdapterFactory
-								.uriToComponent(uri);
-						if (model instanceof IMember) {
-							newInvalidMembers.add((IMember) model);
-						}
-					}
-				}
-			} catch (CoreException ex) {
-				EclipsePlugin.logErrorMessage("Can't get markers for "
-						+ resource.getLocationURI(), ex);
-			}
-		}
-
-		invalidMembers.addAll(newInvalidMembers);
-		if (invalidMembers.size() > 0) {
-			fireLabelProviderChanged(new LabelProviderChangedEvent(this,
-					invalidMembers.toArray()));
-		}
-		invalidMembers = newInvalidMembers;
-	}
-
-	Set<IMember> invalidMembers = new HashSet<IMember>();
 
 }
