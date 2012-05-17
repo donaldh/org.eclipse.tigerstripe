@@ -184,18 +184,6 @@ public class TigerstripeContentProvider extends
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
 				tigerstripeChangeListener, ARTIFACT_RESOURCES
 						| ITigerstripeChangeListener.PROJECT);
-		weakRestartListener = new WeakRestart.Listener() {
-
-			public void afterRestart() throws Throwable {
-				asyncExec(new Runnable() {
-					
-					public void run() {
-						viewer.refresh();						
-					}
-				});
-			}
-		};
-		WeakRestart.addListener(weakRestartListener);
 	}
 
 	protected void refreshReferences() {

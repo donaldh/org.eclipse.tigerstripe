@@ -3,6 +3,9 @@ package org.eclipse.tigerstripe.workbench.ui.internal;
 import static org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage.P_WEAK_RESTART;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -124,6 +127,12 @@ public class WeakRestart {
 			} catch (Throwable e) {
 				EclipsePlugin.log(e);
 			}
+		}
+
+		try {
+			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+		} catch(CoreException ex) {
+			EclipsePlugin.log(ex);
 		}
 	}
 
