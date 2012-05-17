@@ -37,7 +37,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.ProfileValidator;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
@@ -228,6 +227,7 @@ public class ProfileDetailsDialog extends Dialog {
 					if (!WeakRestart.isEnabled()) {
 						PlatformUI.getWorkbench().restart();
 					}
+					okPressed();
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
