@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/359336_DeleteReferencedProj
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_3kArwX96EeCcSOu_oe8o1g
-Save-Time: 4/24/12 3:25 PM
+Save-Time: 5/21/12 7:02 PM
 Id: _4KVrUes7EeCRApZ7U5vdRw
 Testcase-Type: ecl
 
@@ -49,7 +49,7 @@ with [get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Unresolved mo
     get-property columns -index 0 | equals "Unresolved model reference with id \'Project2\'" | verify-true
     get-property columns -index 1 | equals "tigerstripe.xml" | verify-true
     get-property columns -index 2 | equals "/Project1" | verify-true
-    get-property columns -index 3 | equals Unknown | verify-true
+    get-property columns -index 3 | matches ".*/Project1/tigerstripe.xml" | verify-true
     get-property columns -index 4 | equals "Tigerstripe References Audit Marker" | verify-true
 }
 with [get-editor "Project1/tigerstripe.xml" | get-section Dependencies] {

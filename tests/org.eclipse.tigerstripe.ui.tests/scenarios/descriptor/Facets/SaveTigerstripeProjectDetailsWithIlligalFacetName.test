@@ -7,7 +7,7 @@ External-Reference: http://bugs.xored.com/browse/XMP-938
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_De6GwDs7EeCt76CYYPZ_qw,_lwLroGN1EeGptfzUqVrV0w
-Save-Time: 4/24/12 3:22 PM
+Save-Time: 5/21/12 7:10 PM
 Id: _uppn8GLLEeGptfzUqVrV0w
 Testcase-Type: ecl
 
@@ -53,7 +53,7 @@ with [get-view Problems | get-tree] {
     get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
         | get-property columns -index 2 | equals "/model-refactoring" | verify-true
     get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
-        | get-property columns -index 3 | equals Unknown | verify-true
+        | get-property columns -index 3 | matches ".*/model-refactoring/tigerstripe.xml" | verify-true
     get-item "Errors.*/Facet \'\\/\' referenced in project \'model-refactoring\' in settings for generator \'New Generator Project\\(3.0\\)\' cannot be found." 
         | get-property columns -index 4 | equals "Tigerstripe Audit Marker" | verify-true
 }
