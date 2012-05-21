@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/361882_WorkWithAnnotationWi
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_ky17wAnzEeG4YKJLWO2_8Q,_RR91gMiqEeCVYvz9uSPZwA
-Save-Time: 4/18/12 5:00 PM
+Save-Time: 5/21/12 11:13 AM
 Id: _xyZicAnzEeG4YKJLWO2_8Q
 Testcase-Type: ecl
 
@@ -33,7 +33,7 @@ get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click
-    get-button OK | click
+    //get-button OK | click
 }
 get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Entity/attribute0:String" 
     | get-menu "Annotations/Create/Primitive/Check Annotation" | click

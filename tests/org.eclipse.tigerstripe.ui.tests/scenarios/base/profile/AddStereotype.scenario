@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/AddStereotype
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_ITlGkRGBEeC46s5Prxi4vQ
-Save-Time: 4/24/12 2:39 PM
+Save-Time: 5/21/12 11:16 AM
 Id: _PqnSsA5ZEeCNwqgXAnPIdw
 Testcase-Type: ecl
 
@@ -58,7 +58,7 @@ get-menu "Tigerstripe/Active Profile Details..." | click
 with [get-window "Active Profile Details"] {
     get-button "Reset Profile" | click
     get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
-    get-button "OK" | click
+   // get-button "OK" | click
     
 }
 //wait-until-eclipse-is-ready
