@@ -40,11 +40,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelChangeRequestFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -89,9 +87,6 @@ public class PatternFactory implements IPatternFactory {
 	private Map<String,IPattern> registeredPatterns = new LinkedHashMap<String,IPattern>();
 	private Collection<String> disabledPatterns = new ArrayList<String>();
 
-	private ModelChangeRequestFactory requestFactory = new ModelChangeRequestFactory();
-	
-	
 	// Important stuff for the XML parsing and Validation
 	private Bundle baseBundle = org.eclipse.core.runtime.Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
 	private String schemaLocation = "resources/schemas/tigerstripeCreationPatternSchema-v1-0.xsd";
@@ -103,18 +98,41 @@ public class PatternFactory implements IPatternFactory {
 	private DocumentBuilder parser;
 
 	private Integer undefined = 10000;
-	private IArtifactManagerSession session;
-	
-	public synchronized static void reset(){
-		instance = null;
+
+	public synchronized static void reset() {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			public void run() {
+				if (instance != null) {
+					instance.resetAll();
+				}
+				instance = new PatternFactory();
+				instance.init();
+			}
+		});
 	}
-	
-	public synchronized static PatternFactory getInstance(){
-		if (instance == null){
-			instance = new PatternFactory();
-			instance.init();
+
+	public synchronized static PatternFactory getInstance() {
+		if (instance == null) {
+			reset();
 		}
 		return instance;
+	}
+
+	private void resetAll() {
+		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
+				.getService(IMenuService.class);
+		reset(menuService, artifactPatternMenuAddition);
+		reset(menuService, artifactPatternToolbarAddition);
+		reset(menuService, artifactPatternToolbarDropDownsAddition);
+		reset(menuService, projectPatternToolbarAddition);
+		reset(menuService, projectPatternToolbarDropDownsAddition);
+	}
+
+	private void reset(IMenuService menuService,
+			AbstractContributionFactory contributionFactory) {
+		if (contributionFactory != null) {
+			menuService.removeContributionFactory(contributionFactory);
+		}
 	}
 	
 	private void init() {
@@ -455,6 +473,7 @@ public class PatternFactory implements IPatternFactory {
 
 		final String ddProjectItemName = dropDownProjectItemName;
 		final String ddProjectItemId = dropDownProjectItemId;
+		
 		if (projectCount != 0){
 			//=======================
 			int style;
