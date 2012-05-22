@@ -2,25 +2,36 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: RenamePackageWithRemovedClassDiagramECLContext
+Context-Type: com.xored.q7.ecl.context
+Element-Type: context
 Element-Version: 2.0
-Save-Time: 2/1/12 4:52 PM
+Save-Time: 5/22/12 3:07 PM
 Id: _tHuEgEy5EeGNjJ3pRrpsng
 
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Entry-Name: .ecl.context
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1VW1P2zAQ/o7Ef7j506YpDmVjHVVb
-xNqKdRoVAqRtQmhynWvwSOLgXF/2wn/fuUnaIg3BtPGp9uW553nubF/bB4s0gRm6wtisIxpyRwBm2kYm
-iztiSpPgrTjobm+1tU3lwjqM5E1Tok6kthnhgloDnfTKJSxS01pR7XoqJs+KFsc74ooob4XhfD6XNo2l
-dXH4+XhYQ+6jX+WFjAiXiPCmGTIirBCM5qiATKXYEafof0+UvlYxfjJ0dYqpnWHUS1RR9I2KnUoHvY+V
-YwEm6oiv9H46iAff9wZ4NPr24VV+6vIiiwWXDdAutDM5Lde8W4pm1G0/u+j1D88PL+asARcxUjAzOAdx
-bmLuAHEOwmCRJ+zNCfgFHkEO8RJ+llQFJqgJxNmwv78XFk6H3BJJ6cS6aSrJ5FKPUY5N+G5amAyLYsjK
-Tmni7g4JU1HSeF7D238gYneRU3FQkHIEjdfQ3N663d5aV4aRIetARDhR04TkfBbVJUVlS6udBwa5Zwm0
-b/iIzwKOVT7g+AmHV8Uv9dD7gN29N7C/D0GEpEwCuxDYnO15d97ICs2n6MFNaOzsrNCN+9C4MLSxVVpj
-Tg+mc9WPP8lq+bjmr5vsm6ZIlUr/rbNLeps/WOFTl4dZtNYu5cZTIhYXZ2qG8LxHLnl59sIn6MTo67+0
-9OhXU3W0Tk8xm0KfkwnvKs9NFlnWLr9JKeuMyvYXLJ7YqoDyom4Y5TE24QfKN+PYRpiE5VSrzFVe1s+z
-LuFuEhw6Mj4gVq+uvkhju4BATfzrWxIkasx4MeLCvE6LM7x9rsRPdfFn2z82BlB9xCOP726YvL287LbD
-emgu52m4Gqj+w4N/Koz7DVBLBwi+3U9mfgIAAKQGAABQSwECFAAUAAgACAAAACEAvt1PZn4CAACkBgAA
-CAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAtAIAAAAA
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem"
+    get-item "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem" | drag-start 14 7
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 256 99 -detail 2 -operation 7
+    drag-over 257 100 -detail 1 -operation 7
+    drag-exit
+    drag-accept 257 100 -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.bi" | drag-set-data
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 257 100 -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.bi" | drag-end -detail 1
+get-button "Save All \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "SID95/src/org.tmforum.tip.cbe.bi/default" | get-menu Delete | click
+get-window "Delete..." | get-button Yes | click
+get-view "Tigerstripe Explorer" | get-tree | select "SID95/src/org.tmforum.tip.cbe.bi" 
+    | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    get-editbox -after [get-label "New name:"] | set-text "org.tmforum.tip.cbe.biz"
+    get-button "Next >" | click
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

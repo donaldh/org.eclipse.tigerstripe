@@ -7,7 +7,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_P443IEi5EeG6xYWzBUR3Fg,_dzUmIEjDEeG6xYWzBUR3Fg
-Save-Time: 5/4/12 12:49 PM
+Save-Time: 5/22/12 1:16 PM
 Id: _mwF4YEi5EeG6xYWzBUR3Fg
 Testcase-Type: ecl
 
@@ -36,9 +36,15 @@ Content-Type: text/ecl
 //     } 
 
 
+
+exec-with-options -disableJobWaiting -command {
+
 with [get-window "Refactor Model Artifact"] {
     get-button Finish | click
 }
 get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.biz" | get-property caption 
     | equals "org.tmforum.tip.cbe.biz" | verify-true
+
+}
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

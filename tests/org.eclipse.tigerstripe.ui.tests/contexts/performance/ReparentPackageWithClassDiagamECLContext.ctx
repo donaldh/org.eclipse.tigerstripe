@@ -2,26 +2,45 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: ReparentPackageWithClassDiagamECLContext
+Context-Type: com.xored.q7.ecl.context
+Element-Type: context
 Element-Version: 2.0
-Save-Time: 2/1/12 12:58 PM
+Save-Time: 5/22/12 3:07 PM
 Id: _nQcVoUyZEeGNjJ3pRrpsng
 
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Entry-Name: .ecl.context
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnS1VttOGzEQfUfiH1w/tap2TYJoSJQE
-0RC1qQqihF5UhCrjHRaX3fViTy5Vy793vLlSCBAa3mznzDlzZj3j1HeGacL6YJ02WYOXwg3OIFMm0lnc
-4D08D7b5TnN9ra5MGg6NhSi8qoSgklCZDGGItbZKWqMlG6a6NqUqeyoiz1yNzhv8AjGvCTEYDEKTxqGx
-sfi235lAFtFP4wQhRIEQVxVBCDFGEJpOOctkCg1+BLm0kOGhVJcyhq8aL1qJdG5Py1im7dbHca6c6ajB
-f2Sf1Bfz+df3Nrw7+PlhMz+yuctiToYZqztldY7FmnaFXIbN+ouT1t7u8e7JgLjZSQwY9DUMGD/WMXlH
-igHWHuYJZWU5+8M8Ai3AKfs9onKQgELGu5296pZwVgkqRojpubG9NESdh+oMwjMt3vaczsC5DilbqZDq
-2kFI+YjG82ra/gcRZRdZGQcOpUVWLbHSxvra9frazBpEGo1lPIJz2UswHPSjiaeISmplOt55YJB7mkD5
-gh/Q52D7Mm/T+SEdT90XguATYeU3VVKssCAClDphZRaYnBL0+bHKHNz070CXFqFhqHFuK5WCHB8MJ9uP
-/5bj5ePKPyuzr5pEOVJaWWkLepM/6PC57UEWzbRHcmc9RBLnXdkH9rKFNnndfeUDVKLV5fxFuyex6dXx
-uBSyHuPj9maHFhzdpcKieK/JrFUXWslkTsNHznRudOLCbhRjm4JsCrIpyOYsZEFt7gq62WE8KPGix5Zm
-kg7m6uybh7i2Oave2zxPligabtUKdKcB6PvhvzKbVJUVidxysLUS6pu05ecq+2xyLZvXZMgtk1nBens2
-LS3vR8+TdWlojCA0f69PT5t1MXloizdYTB9h/8ODf0EI9xdQSwcIWykOJ5ECAADSCAAAUEsBAhQAFAAI
-AAgAAAAhAFspDieRAgAA0ggAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
-AMcCAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem"
+    get-item "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem" | drag-start 91 10
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 269 107 -detail 2 -operation 7
+    drag-over 269 107 -detail 1 -operation 7
+    drag-exit
+    drag-accept 269 107 -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.bi" | drag-set-data
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 269 107 -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.bi" | drag-end -detail 1
+get-button "Save All \(.*\)" | click
+with [get-view "Tigerstripe Explorer"] {
+    get-menu "Package Presentation/Hierarchical" | click
+    with [get-tree] {
+        select "SID95/src/org/tmforum/tip/cbe/bi"
+        get-item "SID95/src/org/tmforum/tip/cbe/bi" | drag-start "-1" 10
+        get-item "SID95/src/org/tmforum/tip/cbe/base" | drag-enter "-18" 9 -detail 2 -operation 7
+        get-item "SID95/src/org/tmforum/tip/cbe/base" | drag-over "-18" 9 -detail 2 -operation 7
+        get-item "SID95/src/org/tmforum/tip/cbe/agreement" | drag-over "-31" -detail 2 -operation 7
+        get-item "SID95/src/org/tmforum/tip/cbe" | drag-over "-15" -detail 2 -operation 7
+        get-item "SID95/src/org/tmforum/tip" | drag-over 2 9 -detail 2 -operation 7
+        get-item "SID95/src/org/tmforum/tip/cbe/base" | drag-exit
+        get-item "SID95/src/org/tmforum/tip" | drag-accept 2 9 -detail 2 -operation 7
+        get-item SID95 | drag-set-data
+        get-item "SID95/src/org/tmforum/tip" | drop 2 9 -detail 2 -operation 7
+        get-item SID95 | drag-end
+    }
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

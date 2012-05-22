@@ -2,26 +2,51 @@
 Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: DeleteArtifactWithInstanceAndClassDiagramECLContext
+Context-Type: com.xored.q7.ecl.context
+Element-Type: context
 Element-Version: 2.0
-Save-Time: 2/1/12 2:15 PM
+Save-Time: 5/22/12 3:20 PM
 Id: _Y3LJAEykEeGNjJ3pRrpsng
 
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
-Content-Type: q7/binary
-Entry-Name: .q7.content
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Entry-Name: .ecl.context
+Content-Type: text/ecl
 
-UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTVVu9v0zAQ/T5p/8PhTyCUZG3Zyqp2
-U9dWU8c2EJsEaJpQ6lwzs8TOHKcpAv53zkmTDsHU7gdIfKhku+/O9975Oe7uz+MIZqhToWSPNdwtBii5
-CoQMeywzU+c129/b3OhyFbtzpTFwb9ou8sjlShqcm86IR4NyCPNYdOpUTZuKksu0Q+s9dmVM0vG8PM9d
-FYeu0qH38WRcQe5KX8d5hPAKhHfT9gjhLRCEplUG0o+xx4YYocG+NmLqc/NBmKuxTI0vOfZlMIj8NB0K
-P9R+PBocL8pmIIIe+/ypdXzUH329HuHh6ZejVvJeJ6kMGXEH6KZci8QUY5oVO0uz1312MRj2z/sXOe0D
-FyEaZyYwB3YuQpLBUAzCaJ5EVKBm8B0swmjES/hWpkqpXG6AnY2Hu9teqrlHurgmniqdxa4Ricsn6E6E
-F+DUzyJjkwQqm0To8Ejwa3Ckyn1h7pntIEuFxDQdEw9NOlHDxgZjVqaxVQqaPiKRLVP7oUPSawONrRa8
-2tz4sbmxFAoDYZQGtiDm5rOgUigoO7SYWaCT2DREmfp3Sn2GEz8Z0fo7Wq61LDZEWwg02tvQaO2AE6Dx
-RQRNcFRCBdr6oH0LrmZ/QDfuQuO8UrqY+pxjYlaGE+31T8ZiuI78JBJiTISXalvxfOOXGz6ZwkV6lawk
-+o9YogyWJZS7TjJjqAZ25s8Qng+Mjl6evbABhUluH7u/7M/qsvk/fbq7u8qmFT83V/c5TFXYKts2W9DY
-aa1r251m8XuobVeEP9i2RTPWsuTTqVlb9DdSJfFfqS3bmwsZKOJXfBnrxDAq6mR1jyw01CpLgNUY+71l
-t8qcqDnNLN/iLXAwXoYu7Pn2zdKRT6PuA66Ce+36aKMu5C+T0i2WQflAqeq5vNzretVzonhpePVTw/6x
-8s1FuJ9QSwcIr6q/Ua8CAADDCQAAUEsBAhQAFAAIAAgAAAAhAK+qv1GvAgAAwwkAAAgAAAAAAAAAAAAA
-AAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAOUCAAAAAA==
-------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "SID95/src/org.tmforum.tip.cbe.bi/default" | double-click -nowait
+    select "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem"
+    get-item "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem" | drag-start 103 4
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 175 136 -detail 2 -operation 7
+    drag-over 175 136 -detail 1 -operation 7
+    drag-exit
+    drag-accept 175 136 -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.agreement" | drag-set-data
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 175 136 -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "SID95/src/org.tmforum.tip.cbe.agreement" | drag-end -detail 1
+get-button "Save All \(.*\)" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "SID95/src/org.tmforum.tip.cbe.bi/defaultInstance" | double-click -nowait
+    select "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem"
+    get-item "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem" | drag-start 99 4
+}
+with [get-editor "defaultInstance.wod" | get-diagram | get-edit-part -className InstanceMapEditPart] {
+    drag-enter 123 163 -detail 2 -operation 7
+    drag-over 162 162 -detail 1 -operation 7
+    drag-exit
+    drag-accept 162 162 -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item SID95 | drag-set-data
+get-editor "defaultInstance.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | drop 162 162 -detail 1 
+    -operation 7
+with [get-window "Class Instance Editor"] {
+    get-group "Instance name" | get-editbox | set-text BI
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item SID95 | drag-end -detail 1
+get-button "Save All \(.*\)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "SID95/src/org.tmforum.tip.cbe.bi/BusinessInteractionItem" 
+    | get-menu Delete | click
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
