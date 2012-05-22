@@ -1,0 +1,48 @@
+--- Q7 testcase ---
+Q7-vendor: www.xored.com/q7
+Format-Version: 1.0
+Element-Name: UnresolvedTypeWarningAppearsOnlyAfterTSProjectIsCleaned
+External-Reference: http://bugs.xored.com/browse/XMP-1080
+Element-Type: testcase
+Element-Version: 3.0
+Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_MZ9ywaPKEeG14_r8QwImxg
+Save-Time: 5/22/12 11:58 AM
+Id: _jAWw0KPKEeG14_r8QwImxg
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Entry-Name: .description
+Content-Type: text/plain
+
+Test Steps:
+
+1) Set the default.wbp profile as active;
+2) Set Entity attribute type as datetime, save it;
+3) Reset profile to Factory defaults;
+4) Unresolved type warning should appear.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Entry-Name: .content
+Content-Type: text/ecl
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/default.wbp" 
+    | get-menu "Profile/Set as active profile." | click
+get-window "Save as Active Profile" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Entity1" | double-click
+with [get-editor Entity1 | get-section Attributes] {
+    get-section | get-table | select attribute0
+    get-section -index 1 | get-button Browse | click
+}
+with [get-window "Artifact Type Selection"] {
+    get-table | select " datetime"
+    get-button OK | click
+}
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Browse | key-type "M1+s"
+get-menu "Tigerstripe/Active Profile Details..." | click
+with [get-window "Active Profile Details"] {
+    get-button "Reset Profile" | click
+    get-window "Reset Active profile to Factory Defaults?" | get-button OK | click
+}
+get-editor Entity1 | get-label "Error Detected: primitive cannot be resolved to a type" | get-property caption 
+    | equals "Error Detected: primitive cannot be resolved to a type" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
