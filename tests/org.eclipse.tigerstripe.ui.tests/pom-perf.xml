@@ -64,6 +64,8 @@
 
           <testOptions>
             <execTimeout>18000</execTimeout>
+            <contextRunnableTimeout>300000</contextRunnableTimeout>
+            
           </testOptions>
 
           <skipTags>
