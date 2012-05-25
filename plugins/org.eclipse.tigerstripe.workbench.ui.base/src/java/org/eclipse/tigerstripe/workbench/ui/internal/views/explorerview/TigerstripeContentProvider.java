@@ -95,8 +95,6 @@ public class TigerstripeContentProvider extends
 
 	private TigerstripeChangeAdapter tigerstripeChangeListener;
 	
-	private WeakRestart.Listener weakRestartListener;
-	
 	private void asyncExec(final Runnable r)  {
 		final Control control = viewer.getControl();
 		if(viewer != null && !control.isDisposed()) {
@@ -240,9 +238,6 @@ public class TigerstripeContentProvider extends
 		if (tigerstripeChangeListener != null) {
 			TigerstripeWorkspaceNotifier.INSTANCE
 					.removeTigerstripeChangeListener(tigerstripeChangeListener);
-		}
-		if (weakRestartListener != null) {
-			WeakRestart.removeListener(weakRestartListener);
 		}
 	}
 

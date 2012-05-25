@@ -362,6 +362,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		this.filenameMap = new HashMap();
 		this.sourceMap = new HashMap();
 
+		discoverableArtifacts.clear();
+		registerDefaultArtifacts();
+		
 		depContentCache.updateCache(newContext(monitor));
 		relationshipCache.updateCache(monitor);
 	}

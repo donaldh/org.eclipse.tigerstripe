@@ -182,6 +182,7 @@ public class ProfileDetailsDialog extends Dialog {
 			MessageDialog.openError(getShell(), "Reset Profile Error",
 					errMessage);
 		} else {
+			final WeakRestart weakRestart = WeakRestart.INSTANCE;
 			if (MessageDialog
 					.openConfirm(
 							getShell(),
@@ -206,7 +207,7 @@ public class ProfileDetailsDialog extends Dialog {
 							monitor.subTask("Reloading Workbench");
 							session.reloadActiveProfile();
 							monitor.worked(1);
-							WeakRestart.restart(new SubProgressMonitor(monitor, 7));
+							weakRestart.restart(new SubProgressMonitor(monitor, 7));
 							monitor.done();
 							operationSucceeded = true;
 						} catch (TigerstripeException e) {
@@ -224,7 +225,7 @@ public class ProfileDetailsDialog extends Dialog {
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
-					if (!WeakRestart.isEnabled()) {
+					if (!weakRestart.isEnabled()) {
 						PlatformUI.getWorkbench().restart();
 					}
 					okPressed();
@@ -311,7 +312,7 @@ public class ProfileDetailsDialog extends Dialog {
 										"You are about to set this profile ('"
 												+ handle.getName()
 												+ "') as the active profile. \n\nThis may restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
-							
+							final WeakRestart weakRestart = WeakRestart.INSTANCE;
 
 							IRunnableWithProgress op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
@@ -331,7 +332,7 @@ public class ProfileDetailsDialog extends Dialog {
 										monitor.subTask("Reloading workbench");
 										
 										session.reloadActiveProfile();
-										WeakRestart.restart(new SubProgressMonitor(monitor, 7));
+										weakRestart.restart(new SubProgressMonitor(monitor, 7));
 										monitor.done();
 
 										staticOperationSucceeded = true;
@@ -348,7 +349,7 @@ public class ProfileDetailsDialog extends Dialog {
 								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
 										shell);
 								pDialog.run(true, false, op);
-								if (!WeakRestart.isEnabled()) {
+								if (!weakRestart.isEnabled()) {
 									PlatformUI.getWorkbench().restart();
 								}
 							} catch (InterruptedException e) {

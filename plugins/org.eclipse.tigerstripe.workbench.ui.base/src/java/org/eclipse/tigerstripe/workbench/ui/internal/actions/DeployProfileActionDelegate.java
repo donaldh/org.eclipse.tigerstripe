@@ -59,6 +59,7 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 								+ handle.getName()
 								+ "') as the active profile.\n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
 			
+			final WeakRestart weakRestart = WeakRestart.INSTANCE;
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
 					try {
@@ -70,7 +71,7 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 						monitor.worked(2);
 						session.reloadActiveProfile();
 						monitor.worked(1);
-						WeakRestart.restart(new SubProgressMonitor(monitor, 7));
+						weakRestart.restart(new SubProgressMonitor(monitor, 7));
 						monitor.done();
 						operationSucceeded = true;
 						
@@ -89,7 +90,7 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 				ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
 				// We still need to do this as it replaces the profile that will be used on start up
 				dialog.run(true, false, op);
-				if (!WeakRestart.isEnabled()) {
+				if (!weakRestart.isEnabled()) {
 					PlatformUI.getWorkbench().restart();
 				}
 			} catch (InterruptedException e) {

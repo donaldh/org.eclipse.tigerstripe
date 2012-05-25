@@ -8,6 +8,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
@@ -30,21 +32,26 @@ import org.eclipse.ui.PlatformUI;
 
 public class WeakRestart {
 
-	public static boolean isEnabled() {
+	public static WeakRestart INSTANCE = new WeakRestart();
+
+	protected WeakRestart() {
+	}
+
+	public boolean isEnabled() {
 		IPreferenceStore store = EclipsePlugin.getDefault()
 				.getPreferenceStore();
 		return store.getBoolean(P_WEAK_RESTART);
 	}
-	
-	public static void restart(IProgressMonitor monitor) {
+
+	public void restart(IProgressMonitor monitor) {
 		if (!isEnabled()) {
 			monitor.done();
 			return;
 		}
-		
+
 		try {
 			TigerstripeProjectAuditor.setTurnedOffForImport(true);
-			
+
 			IProject[] projects = EclipsePlugin.getWorkspace().getRoot()
 					.getProjects();
 
@@ -53,98 +60,120 @@ public class WeakRestart {
 			TigerstripeProjectFactory.INSTANCE.resetPhantomProject();
 			PhantomTigerstripeProjectMgr.getInstance().reset();
 			monitor.worked(10);
-			
+
 			for (IProject proj : projects) {
 				try {
 					if (!proj.isOpen()) {
 						continue;
 					}
-					ITigerstripeModelProject mp = AdaptHelper.adapt(proj, ITigerstripeModelProject.class);
+					ITigerstripeModelProject mp = AdaptHelper.adapt(proj,
+							ITigerstripeModelProject.class);
 					if (mp == null) {
 						continue;
 					}
 					try {
-						ArtifactManager artifactManager = mp.getArtifactManagerSession().getArtifactManager();
+						ArtifactManager artifactManager = mp
+								.getArtifactManagerSession()
+								.getArtifactManager();
 						artifactManager.loadPhantomManager();
-						artifactManager.refresh(true, null);
+						// artifactManager.refresh(true, null);
+						artifactManager.reset(SubMonitor.convert(monitor));
 					} catch (Exception e) {
 						EclipsePlugin.log(e);
 					}
-					
+
 				} finally {
 					monitor.worked(1);
 				}
 			}
-	
+
 			PatternFactory.reset();
 			monitor.worked(5);
+
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				
 				public void run() {
-					IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+					IWorkbenchWindow[] windows = PlatformUI.getWorkbench()
+							.getWorkbenchWindows();
 					for (IWorkbenchWindow window : windows) {
 						IWorkbenchPage[] pages = window.getPages();
 						for (IWorkbenchPage page : pages) {
-							try {
-								IEditorReference[] editorReferences = page.getEditorReferences();
-								for (IEditorReference er : editorReferences) {
-									IEditorPart editor = er.getEditor(false);
-									if (editor instanceof ArtifactEditorBase
-											|| editor instanceof AbstractDiagramEditor
-											|| editor instanceof ProfileEditor) {
-										IEditorInput input = editor.getEditorInput();
-										page.closeEditor(editor, true);
-										String id = er.getId();
-										try {
-											page.openEditor(input, id);
-										} catch (PartInitException e) {
-											EclipsePlugin.log(e);
-										}
-									}
-								}
-							} finally {
-//								monitor.worked(1);
-							}
+							closeEditors(page);
 						}
 					}
 				}
 			});
+
+			rebuild();
 		} catch (Exception e) {
 			EclipsePlugin.log(e);
 		} finally {
 			TigerstripeProjectAuditor.setTurnedOffForImport(false);
 		}
-		restarted();
+
 		monitor.done();
 	}
-	
-	private static ListenerList activeProfileListeners = new ListenerList();
 
-	private static void restarted() {
-		for (Object obj : activeProfileListeners.getListeners()) {
-			try {
-				((Listener) obj).afterRestart();
-			} catch (Throwable e) {
-				EclipsePlugin.log(e);
-			}
-		}
+	private ListenerList activeProfileListeners = new ListenerList();
 
+	private void rebuild() {
 		try {
-			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
-		} catch(CoreException ex) {
+			ResourcesPlugin.getWorkspace().build(
+					IncrementalProjectBuilder.CLEAN_BUILD,
+					new NullProgressMonitor() {
+						@Override
+						public void done() {
+							fireUpdated();
+						}
+					});
+		} catch (CoreException ex) {
 			EclipsePlugin.log(ex);
 		}
 	}
 
-	public static void addListener(Listener listener) {
+	protected void closeEditors(IWorkbenchPage page) {
+		try {
+			IEditorReference[] editorReferences = page.getEditorReferences();
+			for (IEditorReference er : editorReferences) {
+				IEditorPart editor = er.getEditor(false);
+				if (editor instanceof ArtifactEditorBase
+						|| editor instanceof AbstractDiagramEditor
+						|| editor instanceof ProfileEditor) {
+					IEditorInput input = editor.getEditorInput();
+					page.closeEditor(editor, true);
+					String id = er.getId();
+					try {
+						page.openEditor(input, id);
+					} catch (PartInitException e) {
+						EclipsePlugin.log(e);
+					}
+				}
+			}
+		} finally {
+			// monitor.worked(1);
+		}
+	}
+
+	public void addListener(Listener listener) {
 		activeProfileListeners.add(listener);
 	}
 
-	public static void removeListener(Listener listener) {
+	public void removeListener(Listener listener) {
 		activeProfileListeners.remove(listener);
 	}
 
-	public static interface Listener {
-		void afterRestart() throws Throwable;
+	protected void fireUpdated() {
+		final Object[] listeners = activeProfileListeners.getListeners();
+		for (Object listener : listeners) {
+			try {
+				((Listener) listener).updated();
+			} catch (Throwable e) {
+				EclipsePlugin.log(e);
+			}
+		}
 	}
+
+	public interface Listener {
+		void updated();
+	}
+
 }

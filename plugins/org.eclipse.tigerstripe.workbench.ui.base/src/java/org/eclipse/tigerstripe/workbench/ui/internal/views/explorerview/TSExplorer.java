@@ -10,6 +10,8 @@ import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.workbench.ui.internal.WeakRestart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.navigator.CommonViewer;
 import org.eclipse.ui.navigator.ICommonActionConstants;
@@ -18,11 +20,14 @@ import org.eclipse.ui.navigator.INavigatorContentExtension;
 @SuppressWarnings("restriction")
 public class TSExplorer extends CommonNavigator {
 
+	private WeakRestart weakRestart = WeakRestart.INSTANCE;
+
 	@Override
 	protected CommonViewer createCommonViewer(Composite aParent) {
 		CommonViewer viewer = super.createCommonViewer(aParent);
 		viewer.setComparer(new TSExplorerElementComparer());
 		addProblemListener();
+		addWeakRestartListener();
 		return viewer;
 	}
 
@@ -32,11 +37,13 @@ public class TSExplorer extends CommonNavigator {
 	}
 
 	public TigerstripeContentProvider findContentProvider() {
-		return (TigerstripeContentProvider) getContentExtension().getContentProvider();
+		return (TigerstripeContentProvider) getContentExtension()
+				.getContentProvider();
 	}
 
 	public TigerstripeLabelProvider findLabelProvider() {
-		return (TigerstripeLabelProvider) getContentExtension().getLabelProvider();
+		return (TigerstripeLabelProvider) getContentExtension()
+				.getLabelProvider();
 	}
 
 	public INavigatorContentExtension getContentExtension() {
@@ -72,38 +79,68 @@ public class TSExplorer extends CommonNavigator {
 		}
 	}
 
+	protected void refreshContent() {
+		CommonViewer viewer = getCommonViewer();
+		viewer.getControl().setRedraw(false);
+		Object[] expandedObjects = viewer.getExpandedElements();
+		viewer.setInput(viewer.getInput());
+		viewer.setExpandedElements(expandedObjects);
+		viewer.getControl().setRedraw(true);
+	}
+
 	private IProblemChangedListener problemChangedListener;
 
 	private ProblemMarkerManager getProblemMarkerManager() {
 		return JavaPlugin.getDefault().getProblemMarkerManager();
 	}
 
-	public void addProblemListener() {
+	protected void addProblemListener() {
 		if (problemChangedListener == null) {
 			problemChangedListener = new IProblemChangedListener() {
 				public void problemsChanged(final IResource[] changedResources,
 						boolean isMarkerChange) {
-					CommonViewer viewer = getCommonViewer();
-					viewer.getControl().setRedraw(false);
-					Object[] expandedObjects = viewer.getExpandedElements();
-					viewer.setInput(viewer.getInput());
-					viewer.setExpandedElements(expandedObjects);
-					viewer.getControl().setRedraw(true);
+					refreshContent();
 				}
 			};
 			getProblemMarkerManager().addListener(problemChangedListener);
 		}
 	}
 
-	public void removeProblemListener() {
+	protected void removeProblemListener() {
 		if (problemChangedListener != null) {
 			getProblemMarkerManager().removeListener(problemChangedListener);
 			problemChangedListener = null;
 		}
 	}
 
+	private WeakRestart.Listener weakRestartListener;
+
+	protected void addWeakRestartListener() {
+		if (weakRestartListener == null) {
+			weakRestartListener = new WeakRestart.Listener() {
+				public void updated() {
+					PlatformUI.getWorkbench().getDisplay()
+							.syncExec(new Runnable() {
+								public void run() {
+									refreshContent();
+								}
+							});
+				}
+			};
+			weakRestart.addListener(weakRestartListener);
+		}
+	}
+
+	protected void removeWeakRestartListener() {
+		if (weakRestartListener != null) {
+			weakRestart.removeListener(weakRestartListener);
+			weakRestartListener = null;
+		}
+	}
+
 	@Override
 	public void dispose() {
+		removeWeakRestartListener();
 		removeProblemListener();
 		super.dispose();
 	}

@@ -254,6 +254,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 			MessageDialog.openError(getBody().getShell(),
 					"Save and Reload Profile Error", errMessage);
 		} else {
+			final WeakRestart weakRestart = WeakRestart.INSTANCE;
 			try {
 				final IWorkbenchProfile handle = getProfile();
 
@@ -282,7 +283,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 								monitor.subTask("Reloading workbench");
 								monitor.worked(1);
 								session.reloadActiveProfile();
-								WeakRestart.restart(new SubProgressMonitor(monitor, 7));
+								weakRestart.restart(new SubProgressMonitor(monitor, 7));
 								monitor.done();
 								operationSucceeded = true;
 							} catch (TigerstripeException e) {
@@ -300,7 +301,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 						ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 								shell);
 						dialog.run(true, false, op);
-						if (!WeakRestart.isEnabled()) {
+						if (!weakRestart.isEnabled()) {
 							PlatformUI.getWorkbench().restart();
 						}
 					} catch (InterruptedException e) {
@@ -358,6 +359,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 			MessageDialog.openError(getBody().getShell(),
 					"Rollback Profile Error", errMessage);
 		} else {
+			final WeakRestart weakRestart = WeakRestart.INSTANCE;
 			final IWorkbenchProfileSession session = TigerstripeCore
 					.getWorkbenchProfileSession();
 			if (!session.canRollback()) {
@@ -389,7 +391,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 							monitor.subTask("Reloading Workbench");
 							session.reloadActiveProfile();
 							monitor.worked(1);
-							WeakRestart.restart(new SubProgressMonitor(monitor, 7));
+							weakRestart.restart(new SubProgressMonitor(monitor, 7));
 							monitor.done();
 							operationSucceeded = true;
 						} catch (TigerstripeException e) {
@@ -407,7 +409,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
-					if (!WeakRestart.isEnabled()) {
+					if (!weakRestart.isEnabled()) {
 						PlatformUI.getWorkbench().restart();
 					}
 				} catch (InterruptedException e) {
@@ -430,6 +432,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 			MessageDialog.openError(getBody().getShell(),
 					"Reset Profile Error", errMessage);
 		} else {
+			final WeakRestart weakRestart = WeakRestart.INSTANCE;
 			if (MessageDialog
 					.openConfirm(
 							getBody().getShell(),
@@ -451,7 +454,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 							monitor.subTask("Reloading Workbench");
 							session.reloadActiveProfile();
 							monitor.worked(1);
-							WeakRestart.restart(new SubProgressMonitor(monitor, 7));
+							weakRestart.restart(new SubProgressMonitor(monitor, 7));
 							monitor.done();
 							operationSucceeded = true;
 						} catch (TigerstripeException e) {
@@ -469,7 +472,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart implements IFocus
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
-					if (!WeakRestart.isEnabled()) {
+					if (!weakRestart.isEnabled()) {
 						PlatformUI.getWorkbench().restart();
 					}
 				} catch (InterruptedException e) {
