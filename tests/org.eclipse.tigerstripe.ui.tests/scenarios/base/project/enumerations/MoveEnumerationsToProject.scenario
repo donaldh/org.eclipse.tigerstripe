@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/MoveEnumerationsToProject  
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_zysnMH-DEeCcSOu_oe8o1g
-Save-Time: 4/24/12 3:05 PM
+Save-Time: 5/30/12 12:09 PM
 Id: _3RgzMIK_EeCrs9yxFtn9Ig
 Testcase-Type: ecl
 
@@ -74,17 +74,32 @@ with [get-window Move] {
     get-button Finish | click
 }
 
-get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany.package2/Enumeration3" | double-click 
-    -nowait
-get-editor Enumeration3 | get-label "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
-    | get-property caption | equals "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
-    | verify-true
+//get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany.package2/Enumeration3" | double-click 
+//    -nowait
+//get-editor Enumeration3 | get-label "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
+//    | get-property caption | equals "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
+ //   | verify-true
+//get-editor Enumeration3 | get-section "General Information" | get-button Select | click
+//with [get-window "Super Enumeration"] {
+//    get-table | select "<clear extension>"
+//    get-button OK | click
+//}
+//get-button "Save \(.*\)" | click
+//get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
+//get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
+//get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true
+    
+get-view Problems | click
+get-view Problems | get-tree | get-item "Errors.*/com.mycompany.Enumeration2 cannot be resolved to a type" 
+    | get-property caption | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany.package2/Enumeration3" | double-click
 get-editor Enumeration3 | get-section "General Information" | get-button Select | click
 with [get-window "Super Enumeration"] {
     get-table | select "<clear extension>"
     get-button OK | click
 }
-get-button "Save \(.*\)" | click
+get-editor Enumeration3 | get-section "General Information" | get-button Select | key-type "M1+s"
+get-view Problems | get-tree | verify-error {get-item "Errors.*/com.mycompany.Enumeration2 cannot be resolved to a type" }
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true
