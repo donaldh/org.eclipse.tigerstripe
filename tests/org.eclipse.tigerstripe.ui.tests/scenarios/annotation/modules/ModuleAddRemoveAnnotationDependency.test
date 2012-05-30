@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/ModuleAddRemoveAnnotationDe
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_86MI0XP3EeGzfKsLsjcekw,__8ZooMxeEeCTcJc7g1x7bg
-Save-Time: 4/26/12 6:34 PM
+Save-Time: 5/30/12 11:05 AM
 Id: _TUg-oNLHEeCino64Gq4rnQ
 Testcase-Type: ecl
 
@@ -53,7 +53,10 @@ get-view "Annotation Property View" | click -nowait
 
 
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<IntegerAnnotation>>Dependency" 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<IntegerAnnotation>>Dependency"
+get-view "Annotation Property View" | click -nowait   
+     
+    
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Annotation Property View" | get-table | get-item IntegerAnnotation | get-property caption 
     | equals IntegerAnnotation | verify-true
