@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/328622_CreateNewArtifactDra
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_dFsGYAKVEeCI5eYSA_LRBA
-Save-Time: 4/24/12 3:58 PM
+Save-Time: 5/30/12 11:59 AM
 Id: _psdtwIlCEeG2ZPrsJlpKXA
 Testcase-Type: ecl
 
@@ -48,10 +48,10 @@ with [get-editor "default.wvd" | get-diagram] {
 }
 get-menu "Create Returns From/New Element: Query" | click
 with [get-editor "default.wvd"] {
-    get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Query3 | get-edit-part -text Query3 
-        | activate-direct-edit
+   // get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Query3 | get-edit-part -text Query3 
+   //     | activate-direct-edit
     get-editbox | key-type "M1+s"
-    get-diagram | cancel-direct-edit
+   // get-diagram | cancel-direct-edit
 }
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Query3" | get-property caption 
     | equals Query3 | verify-true
