@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/328622_CreateNewArtifactDra
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_dFsGYAKVEeCI5eYSA_LRBA
-Save-Time: 4/24/12 3:57 PM
+Save-Time: 5/30/12 11:46 AM
 Id: _HkYDkIlBEeG2ZPrsJlpKXA
 Testcase-Type: ecl
 
@@ -48,15 +48,15 @@ with [get-editor "default.wvd" | get-diagram] {
 }
 get-menu "Create Extends To/New Element: Entity" | click
 with [get-editor "default.wvd"] {
-    with [get-diagram | get-edit-part -className MapEditPart] {
-        get-edit-part -name Entity3 | get-edit-part -text Entity3 | activate-direct-edit
-        mouse-hover 600 244 -height 461 -width 630
-    }
+    //with [get-diagram | get-edit-part -className MapEditPart] {
+   //     get-edit-part -name Entity3 | get-edit-part -text Entity3 | activate-direct-edit
+   //     mouse-hover 600 244 -height 461 -width 630
+    //}
     get-editbox | key-type "M1+s"
-    with [get-diagram] {
-        cancel-direct-edit
-        get-edit-part -className MapEditPart | mouse-hover 597 240 -height 461 -width 630
-    }
+   // with [get-diagram] {
+   //     cancel-direct-edit
+   //     get-edit-part -className MapEditPart | mouse-hover 597 240 -height 461 -width 630
+   // }
 }
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity3" | get-property caption 
     | equals Entity3 | verify-true

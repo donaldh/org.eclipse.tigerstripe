@@ -3,11 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: AssociationPropertyEditor_Stereotypes
 Tags: TS_Project/VisualEditor/AssociationPropertyEditor, Stereotypes
-External-Reference: http://docs.xored.com/display/TS/AssociationPropertyEditor_Stereotypes
+External-Reference: http://docs.xored.com/display/TS/AssociationPropertyEditor_Stereotypes, http://bugs.xored.com/browse/XMP-1113
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_1vqZYOILEeCOm5a5GamGdA
-Save-Time: 5/21/12 11:16 AM
+Save-Time: 5/30/12 11:35 AM
 Id: _F3uzsOINEeCOm5a5GamGdA
 Testcase-Type: ecl
 

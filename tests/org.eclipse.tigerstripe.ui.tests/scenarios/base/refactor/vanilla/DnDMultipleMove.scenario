@@ -6,7 +6,7 @@ External-Reference:
 Element-Type: testcase
 Element-Version: 2.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_Kt4xMMz2Ed-ncakhinV22g
-Save-Time: 4/24/12 3:19 PM
+Save-Time: 5/30/12 11:41 AM
 Id: _gG5aodBuEd-PzvsVlAwdIg
 Testcase-Type: ecl
 
@@ -52,22 +52,22 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
     select "model-refactoring/src/simple/DataBottom" "model-refactoring/src/simple/DataMiddle" "model-refactoring/src/simple/DataTop"
     get-item "model-refactoring/src/simple/DataBottom" | drag-start 12 12
     get-item "model-refactoring/src/simple/DataMiddle" | drag-enter 11 12 -detail 2 -operation 7
-    get-item "model-refactoring/src/simple/DataMiddle" | drag-over 11 15 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/DataTop" | drag-over 11 16 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Dependency0" | drag-over 11 17 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Ent1" | drag-over 11 16 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Ent1/enumRef:Enumeration0" | drag-over "-6" 17 -operation 7
-    get-item "model-refactoring/src/simple/Ent1/attribute1:DataMiddle" | drag-over "-5" 14 -operation 7
-    get-item "model-refactoring/src/simple/Ent2" | drag-over 14 15 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Enumeration0" | drag-over 14 16 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Event0" | drag-over 14 17 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Exception0" | drag-over 14 15 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Query0" | drag-over 16 15 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/SessionFacade0" | drag-over 17 16 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/SuperEnt" | drag-over 20 17 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple/Update0" | drag-over 26 17 -detail 1 -operation 7
-    get-item "model-refactoring/src/simple.moved" | drag-over 48 17 -detail 2 -operation 7
-    get-item "model-refactoring/src/simple.moved" | drag-over 34 2 -detail 2 -operation 7
+    //get-item "model-refactoring/src/simple/DataMiddle" | drag-over 11 15 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/DataTop" | drag-over 11 16 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Dependency0" | drag-over 11 17 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Ent1" | drag-over 11 16 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Ent1/enumRef:Enumeration0" | drag-over "-6" 17 -operation 7
+    //get-item "model-refactoring/src/simple/Ent1/attribute1:DataMiddle" | drag-over "-5" 14 -operation 7
+    //get-item "model-refactoring/src/simple/Ent2" | drag-over 14 15 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Enumeration0" | drag-over 14 16 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Event0" | drag-over 14 17 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Exception0" | drag-over 14 15 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Query0" | drag-over 16 15 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/SessionFacade0" | drag-over 17 16 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/SuperEnt" | drag-over 20 17 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple/Update0" | drag-over 26 17 -detail 1 -operation 7
+    //get-item "model-refactoring/src/simple.moved" | drag-over 48 17 -detail 2 -operation 7
+    //get-item "model-refactoring/src/simple.moved" | drag-over 34 2 -detail 2 -operation 7
     get-item "model-refactoring/src/simple/DataMiddle" | drag-exit
     get-item "model-refactoring/src/simple.moved" | drag-accept 34 2 -detail 2 -operation 7
     drag-set-data
