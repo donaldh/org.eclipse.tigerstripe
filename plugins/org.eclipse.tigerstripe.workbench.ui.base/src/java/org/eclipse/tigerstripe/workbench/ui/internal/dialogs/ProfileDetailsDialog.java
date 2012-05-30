@@ -257,14 +257,14 @@ public class ProfileDetailsDialog extends Dialog {
 			dialog.setText("Select profile");
 			String file = dialog.open();
 			if (file != null) {
-				internalDeploy(getShell(), file);
+				if(internalDeploy(getShell(), file)) {
+					okPressed();
+				}
 			}
 		}
 	}
-	 static boolean staticRollbackCreated = false;
 
-	static boolean staticOperationSucceeded = false;
-	public static void internalDeploy(Shell shell, String file){
+	public static boolean internalDeploy(Shell shell, String file){
 
 
 				final File srcFile = new File(file);
@@ -272,7 +272,6 @@ public class ProfileDetailsDialog extends Dialog {
 					MessageDialog.openError(shell, "Profile Deploy Error",
 							"Can't deploy profile " + file
 									+ ": unable to read file.");
-					return;
 				} else {
 					try {
 						final IWorkbenchProfile handle = TigerstripeCore
@@ -302,7 +301,7 @@ public class ProfileDetailsDialog extends Dialog {
 							}
 
 							if (msgDialog.open() == Window.CANCEL)
-								return;
+								return false;
 						}
 
 						if (MessageDialog
@@ -325,8 +324,7 @@ public class ProfileDetailsDialog extends Dialog {
 												.getWorkbenchProfileSession();
 										monitor.subTask("Creating Profile");
 
-										staticRollbackCreated = session
-												.saveAsActiveProfile(handle);
+										session.saveAsActiveProfile(handle);
 										monitor.worked(3);
 
 										monitor.subTask("Reloading workbench");
@@ -335,12 +333,8 @@ public class ProfileDetailsDialog extends Dialog {
 										weakRestart.restart(new SubProgressMonitor(monitor, 7));
 										monitor.done();
 
-										staticOperationSucceeded = true;
-										
-
 									} catch (TigerstripeException e) {
 										EclipsePlugin.log(e);
-										staticOperationSucceeded = false;
 									} 
 								}
 							};
@@ -352,6 +346,7 @@ public class ProfileDetailsDialog extends Dialog {
 								if (!weakRestart.isEnabled()) {
 									PlatformUI.getWorkbench().restart();
 								}
+								return true;
 							} catch (InterruptedException e) {
 								EclipsePlugin.log(e);
 							} catch (InvocationTargetException e) {
@@ -362,5 +357,6 @@ public class ProfileDetailsDialog extends Dialog {
 						EclipsePlugin.log(e);
 					}
 				}
+				return false;
 	}
 }
