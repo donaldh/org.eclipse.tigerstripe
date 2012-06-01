@@ -1,14 +1,18 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import org.eclipse.core.internal.runtime.AdapterManager;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.viewsupport.ImageDescriptorRegistry;
 import org.eclipse.jdt.internal.ui.viewsupport.ImageImageDescriptor;
 import org.eclipse.jdt.ui.JavaElementImageDescriptor;
+import org.eclipse.jdt.ui.ProblemsLabelDecorator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -23,6 +27,8 @@ import org.eclipse.tigerstripe.workbench.ui.viewers.ITigerstripeLabelDecorator;
 @SuppressWarnings("restriction")
 public class TigerstripeProblemsLabelDecorator extends LabelProvider implements
 		ITigerstripeLabelDecorator {
+
+	private JavaProblemsLabelDecorator delegate = new JavaProblemsLabelDecorator();
 
 	public Image decorateImage(Image image, IModelComponent component) {
 		return decorateImage(image, (Object) component);
@@ -70,13 +76,24 @@ public class TigerstripeProblemsLabelDecorator extends LabelProvider implements
 			IModelComponent model = (IModelComponent) element;
 			URI uri = (URI) model.getAdapter(URI.class);
 
-			return getErrorTicksFromMarkers(res, uri);
+			int ticks = getErrorTicksFromMarkers(res, uri);
+			if (ticks != JavaElementImageDescriptor.ERROR) {
+				IJavaElement javaElement = (IJavaElement) Platform
+						.getAdapterManager().getAdapter(model,
+								IJavaElement.class);
+				ticks = Math.max(ticks, getErrorTicksFromMarkers(javaElement));
+			}
+			return ticks;
 		}
 		return 0;
 	}
 
 	protected ImageDescriptorRegistry getRegistry() {
 		return JavaPlugin.getImageDescriptorRegistry();
+	}
+
+	protected int getErrorTicksFromMarkers(IJavaElement element) {
+		return delegate.computeJavaAdornmentFlags(element);
 	}
 
 	protected int getErrorTicksFromMarkers(IResource res, URI emfUri) {
@@ -123,6 +140,13 @@ public class TigerstripeProblemsLabelDecorator extends LabelProvider implements
 	protected URI getUri(IMarker marker) {
 		String location = marker.getAttribute(IMarker.LOCATION, (String) null);
 		return location == null ? null : URI.createURI(location, true);
+	}
+
+	private static class JavaProblemsLabelDecorator extends
+			ProblemsLabelDecorator {
+		public int computeJavaAdornmentFlags(IJavaElement element) {
+			return computeAdornmentFlags(element);
+		}
 	}
 
 }

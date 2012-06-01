@@ -401,6 +401,13 @@
                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship">
          </adapter>
       </factory>
+      <factory
+            adaptableType="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
+            class="org.eclipse.tigerstripe.workbench.internal.adapt.ModelToJavaAdapterFactory">
+         <adapter
+               type="org.eclipse.jdt.core.IJavaElement">
+         </adapter>
+      </factory>
    </extension>
    <extension
          id="m0GeneratorProject"
