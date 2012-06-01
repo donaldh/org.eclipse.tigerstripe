@@ -1,6 +1,5 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
-import org.eclipse.core.internal.runtime.AdapterManager;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
