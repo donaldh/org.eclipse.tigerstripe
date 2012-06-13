@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.builder.ProjectInfo;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -47,6 +48,8 @@ public class BasePlugin extends Plugin implements BundleListener {
 	private static BasePlugin plugin;
 
 	private WorkspaceListener listener;
+	private PhantomTigerstripeProjectMgr tsProjectManager;
+
 
 	public BasePlugin() {
 		super();
@@ -64,9 +67,14 @@ public class BasePlugin extends Plugin implements BundleListener {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		tsProjectManager = new PhantomTigerstripeProjectMgr();
 		context.addBundleListener(this);
 	}
 
+	public PhantomTigerstripeProjectMgr getPhantomTigerstripeProjectMgr() {
+		return tsProjectManager;
+	}
+	
 	public void bundleChanged(BundleEvent event) {
 		
 		Bundle bundle = event.getBundle();

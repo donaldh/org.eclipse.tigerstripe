@@ -80,7 +80,8 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 			throws TigerstripeException {
 		// there's only one phantom project it's maintained exclusively by
 		// the PhantomTigerstripeProjectMgr
-		return PhantomTigerstripeProjectMgr.getInstance().getPhantomProject();
+		return BasePlugin.getDefault().getPhantomTigerstripeProjectMgr()
+				.getPhantomProject();
 	}
 
 	public IModulePackager getPackager() {
@@ -88,7 +89,8 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 	}
 
 	public static URI getPhantomURI() {
-		return PhantomTigerstripeProjectMgr.getInstance().getPhantomURI();
+		return BasePlugin.getDefault().getPhantomTigerstripeProjectMgr()
+				.getPhantomURI();
 	}
 
 	@Override

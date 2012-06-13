@@ -27,11 +27,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
  */
 public class PhantomTigerstripeProjectMgr {
 
-	private static PhantomTigerstripeProjectMgr instance;
-
 	private PhantomTigerstripeProject phantomProject;
 
-	private PhantomTigerstripeProjectMgr() {
+	public PhantomTigerstripeProjectMgr() {
 	}
 
 	public void reset() {
@@ -41,13 +39,6 @@ public class PhantomTigerstripeProjectMgr {
 		}
 	}
 	
-	public static PhantomTigerstripeProjectMgr getInstance() {
-		if (instance == null) {
-			instance = new PhantomTigerstripeProjectMgr();
-		}
-		return instance;
-	}
-
 	public synchronized PhantomTigerstripeProject getPhantomProject()
 			throws TigerstripeException {
 		if (phantomProject == null) {

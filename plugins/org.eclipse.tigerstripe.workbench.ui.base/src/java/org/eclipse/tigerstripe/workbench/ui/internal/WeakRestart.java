@@ -11,10 +11,10 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -175,7 +175,7 @@ public class WeakRestart {
 			monitor.beginTask(operation.getName(), 10 + projects.length + 5);
 
 			TigerstripeProjectFactory.INSTANCE.resetPhantomProject();
-			PhantomTigerstripeProjectMgr.getInstance().reset();
+			BasePlugin.getDefault().getPhantomTigerstripeProjectMgr().reset();
 			monitor.worked(10);
 
 			for (IProject proj : projects) {

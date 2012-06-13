@@ -18,8 +18,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
@@ -45,8 +45,8 @@ public class ProjectLocatorFacilityForEclipse implements IProjectLocator {
 
 	public String getLocalLabel(URI uri) throws TigerstripeException {
 
-		URI phantomURI = PhantomTigerstripeProjectMgr.getInstance()
-				.getPhantomURI();
+		URI phantomURI = BasePlugin.getDefault()
+				.getPhantomTigerstripeProjectMgr().getPhantomURI();
 
 		if (uri.equals(phantomURI))
 			return "Phantom Project";

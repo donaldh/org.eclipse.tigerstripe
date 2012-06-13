@@ -102,7 +102,8 @@ public class PostInstallActions {
 				
 				// create the phantom project
 				// references are set up through an Ext pt
-				PhantomTigerstripeProjectMgr.getInstance().getPhantomProject();
+			BasePlugin.getDefault().getPhantomTigerstripeProjectMgr()
+					.getPhantomProject();
 			
 				// Make sure the AnnotationUtils class is loaded!
 				// Otherwise it causes issues when the job is run
@@ -254,8 +255,10 @@ public class PostInstallActions {
 		// before forceCreationOfPhantomProject to be stored in the properties
 		// file.
 		try {
-			String pathStr = PhantomTigerstripeProjectMgr.getInstance()
-					.getPhantomURI().getPath()
+			PhantomTigerstripeProjectMgr prjManager = BasePlugin.getDefault()
+					.getPhantomTigerstripeProjectMgr();
+
+			String pathStr = prjManager.getPhantomURI().getPath()
 					+ ITigerstripeConstants.PHANTOMLIB_DEF;
 			Path phantomPath = new Path(pathStr);
 			JavaCore.setClasspathVariable(ITigerstripeConstants.PHANTOMLIB,

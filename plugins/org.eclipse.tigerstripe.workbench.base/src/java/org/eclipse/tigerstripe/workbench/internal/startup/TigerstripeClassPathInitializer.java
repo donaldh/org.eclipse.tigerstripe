@@ -27,9 +27,12 @@ public class TigerstripeClassPathInitializer extends ClasspathVariableInitialize
 	@Override
 	public void initialize(String variable) {
 		if (variable.equals(ITigerstripeConstants.PHANTOMLIB)){
-			String pathStr = PhantomTigerstripeProjectMgr.getInstance()
-			.getPhantomURI().getPath()
-			+ ITigerstripeConstants.PHANTOMLIB_DEF;
+			PhantomTigerstripeProjectMgr prjManager = BasePlugin.getDefault()
+					.getPhantomTigerstripeProjectMgr();
+
+			String pathStr = prjManager.getPhantomURI().getPath()
+					+ ITigerstripeConstants.PHANTOMLIB_DEF;
+			
 			Path phantomPath = new Path(pathStr);
 			try {
 				JavaCore.setClasspathVariable(ITigerstripeConstants.PHANTOMLIB,

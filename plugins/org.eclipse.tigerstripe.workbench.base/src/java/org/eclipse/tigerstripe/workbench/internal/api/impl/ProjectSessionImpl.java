@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.M0GeneratorProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
@@ -126,20 +127,24 @@ public class ProjectSessionImpl {
 		return "";
 	}
 
-	public synchronized IPhantomTigerstripeProject getPhantomProject()
+	public IPhantomTigerstripeProject getPhantomProject()
 			throws TigerstripeException {
-		if (phantomHandle == null) {
-			phantomHandle = new TigerstripePhantomProjectHandle();
-			phantomHandle.init();
+		synchronized (BasePlugin.getDefault().getPhantomTigerstripeProjectMgr()) {
+			if (phantomHandle == null) {
+				phantomHandle = new TigerstripePhantomProjectHandle();
+				phantomHandle.init();
+			}
 		}
 
 		return phantomHandle;
 	}
 
-	public synchronized void resetPhantomProject() {
-		if (phantomHandle != null) {
-			phantomHandle.dispose();
-			phantomHandle = null;
+	public void resetPhantomProject() {
+		synchronized (BasePlugin.getDefault().getPhantomTigerstripeProjectMgr()) {
+			if (phantomHandle != null) {
+				phantomHandle.dispose();
+				phantomHandle = null;
+			}
 		}
 	}
 
