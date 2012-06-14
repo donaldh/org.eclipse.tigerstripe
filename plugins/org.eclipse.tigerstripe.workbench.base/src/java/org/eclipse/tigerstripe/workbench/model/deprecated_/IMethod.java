@@ -37,7 +37,7 @@ public interface IMethod extends IModelComponent, IMember {
 		public IMethod getContainingMethod();
 	}
 
-	public interface IArgument extends IMethodElement {
+	public interface IArgument extends INamedElement, IMethodElement {
 
 		public enum EDirection {
 			IN("in"), OUT("out"), INOUT("inOut");
@@ -99,35 +99,6 @@ public interface IMethod extends IModelComponent, IMember {
 		 * @return the containing artifact.
 		 */
 		public IAbstractArtifact getContainingArtifact();
-
-		/**
-		 * Returns the comment (or plain-english description) associated with
-		 * this argument.
-		 * 
-		 * @return String - the comment
-		 */
-		public String getComment();
-
-		/**
-		 * Sets the comment for this argument.
-		 * 
-		 * @param description
-		 */
-		public void setComment(String description);
-
-		/**
-		 * Returns the name associated with this argument.
-		 * 
-		 * @return String - the name of the argument
-		 */
-		public String getName();
-
-		/**
-		 * Set the name for this argument.
-		 * 
-		 * @param name
-		 */
-		public void setName(String name);
 
 		/**
 		 * Returns true if the return of this argument contains ordered values.

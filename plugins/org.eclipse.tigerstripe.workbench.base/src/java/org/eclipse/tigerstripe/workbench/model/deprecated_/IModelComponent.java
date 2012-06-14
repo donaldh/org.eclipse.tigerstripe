@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * 
  * @author Eric Dillon
  */
-public interface IModelComponent extends IStereotypeCapable, IAnnotationCapable, IAdaptable {
+public interface IModelComponent extends INamedElement, IStereotypeCapable, IAnnotationCapable, IAdaptable {
 
 	/**
 	 * An enum of the possible values for the multiplicity of an component.
@@ -162,35 +162,6 @@ public interface IModelComponent extends IStereotypeCapable, IAnnotationCapable,
 					+ index);
 		}
 	}
-
-	/**
-	 * Returns the name associated with this component.
-	 * 
-	 * @return String - the name of the component
-	 */
-	public String getName();
-
-	/**
-	 * Sets the name associated with this component
-	 * 
-	 * @return
-	 */
-	public void setName(String name);
-
-	/**
-	 * Returns the comment (or plain-english description) associated with this
-	 * model component.
-	 * 
-	 * @return String - the comment
-	 */
-	public String getComment();
-
-	/**
-	 * Set the comment for this component.
-	 * 
-	 * @param comment
-	 */
-	public void setComment(String comment);
 
 	/**
 	 * Returns an integer value indicating the visibility of this component.
