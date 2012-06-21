@@ -7,7 +7,7 @@ External-Reference: http://docs.xored.com/display/TS/358078_RemoveAnnotationsWit
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,_k1r5oPCzEeCsq4k6WT7AWw
-Save-Time: 3/23/12 12:59 PM
+Save-Time: 6/19/12 12:53 PM
 Id: _TutAAfCyEeCsq4k6WT7AWw
 Testcase-Type: ecl
 
@@ -33,6 +33,8 @@ Steps
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Entry-Name: .content
 Content-Type: text/ecl
+
+
 
 get-view "Tigerstripe Explorer" | get-tree 
     | select "New Project/src/org.eclipse/<<CheckAnnotation,IntegerAnnotation,TextAnnotation,Color,Font>>Entity0/<<CheckAnnotation>>entity0_testField0:String" 
