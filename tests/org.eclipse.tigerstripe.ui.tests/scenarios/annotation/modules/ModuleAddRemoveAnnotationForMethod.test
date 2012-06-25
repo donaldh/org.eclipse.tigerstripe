@@ -3,11 +3,11 @@ Q7-vendor: www.xored.com/q7
 Format-Version: 1.0
 Element-Name: ModuleAddRemoveAnnotationForMethod
 Tags: Annotation/module
-External-Reference: http://docs.xored.com/display/TS/ModuleAddRemoveAnnotationForMethod
+External-Reference: http://docs.xored.com/display/TS/ModuleAddRemoveAnnotationForMethod, http://bugs.xored.com/browse/XMP-1115
 Element-Type: testcase
 Element-Version: 3.0
 Contexts: _rHfkQKthEd-v8JwXbnu_tQ,_RR91gMiqEeCVYvz9uSPZwA,__8ZooMxeEeCTcJc7g1x7bg
-Save-Time: 3/23/12 1:29 PM
+Save-Time: 6/21/12 1:52 PM
 Id: _dd8qkNK4EeCino64Gq4rnQ
 Testcase-Type: ecl
 
@@ -67,6 +67,7 @@ get-view "Tigerstripe Explorer" | get-tree
     | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>method0\\(\\):void"
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
+//get-editor E1 | get-section Methods | get-section | get-table | select "method0\\(\\):void"
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
     | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/method0\\(\\):void" 
