@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
@@ -275,7 +276,9 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 		if (getProject() != null) {
 			URI uri = URI.createPlatformResourceURI(getProject()
 					.getProjectLabel(), true);
-			uri = uri.appendSegment(getPath());
+			for(String segmant : new Path(getPath()).segments()) {
+				uri = uri.appendSegment(segmant);
+			}
 			return uri;
 		}
 		return URI.createFileURI(path);
