@@ -35,6 +35,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.MultiRule;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeListener;
@@ -572,6 +574,18 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 				if (!project.equals(resource.getProject())) {
 					return false;
 				}
+
+				try {
+					IJavaProject javaProject = (IJavaProject) getProject().getAdapter(IJavaProject.class);
+					IPath output = javaProject.getOutputLocation();
+					IPath resPath = resource.getFullPath();
+					if(resPath.toString().startsWith(output.toString())) {
+						return false;
+					}
+				} catch (JavaModelException ex) {
+					EclipsePlugin.log(ex);
+				}
+
 				return Arrays.asList(diagramFileExtensions).contains(
 						resource.getFileExtension());
 			}
