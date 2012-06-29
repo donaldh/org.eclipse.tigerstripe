@@ -34,25 +34,22 @@ public abstract class ArtifactFilter {
 	public static Collection<IAbstractArtifact> filter(
 			Collection<IAbstractArtifact> artifactList, ArtifactFilter filter) {
 
-		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-		
-		// Little acceleration for performance
-		if (filter == null || filter instanceof ArtifactNoFilter){
-			if (artifactList != null){
-				return artifactList;
-			} else {
-				return result;
-			}
+		if (filter instanceof ArtifactNoFilter) {
+			return artifactList;
 		}
-			
 
-		for (Iterator iter = artifactList.iterator(); iter.hasNext();) {
-			IAbstractArtifact artifact = (IAbstractArtifact) iter.next();
-			if (filter.select(artifact)) {
-				result.add(artifact);
+		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+		if (filter != null) {
+			for (Iterator<IAbstractArtifact> iter = artifactList.iterator(); iter
+					.hasNext();) {
+				IAbstractArtifact artifact = iter.next();
+				if (filter.select(artifact)) {
+					result.add(artifact);
+				}
 			}
 		}
 
 		return result;
 	}
+
 }

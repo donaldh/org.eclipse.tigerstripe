@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import static org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime.logErrorMessage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -1954,31 +1957,37 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 	// ==================================================
 	// Logic for Chained ArtifactMgrs
-	protected Collection<IAbstractArtifact> getArtifactsByModelInChained(
-			IAbstractArtifactInternal model, ExecutionContext context) {
+	protected Collection<IAbstractArtifact> getArtifactsByModelInChained(IAbstractArtifactInternal model,
+			ExecutionContext context) {
 		try {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-			result.addAll(depContentCache.getArtifactsByModelInChained(model,
-					context));
-			result.addAll(toContextProjectAwareArtifacts(getArtifactsByModelInReferences(
-					model, context)));
-			result.addAll(toContextProjectAwareArtifacts(getArtifactsByModelInInstalledModules(
-					model, context)));
+			result.addAll(depContentCache.getArtifactsByModelInChained(model, context));
+
+			Set<ITigerstripeModelProject> projects = new HashSet<ITigerstripeModelProject>();
+			fillProjectsFromReferences(projects, context, Cycles.REFERENCES_BY_MODEL);
+			fillProjectsFromInstalledModules(projects, context, Cycles.INSTALLED_MODULES_BY_MODEL);
+			fillProjectsFromDependencies(projects, context, Cycles.DEPENDENCIES_BY_MODEL);
+
+			result.addAll(toContextProjectAwareArtifacts(getAllArtifacts(projects, context, model)));
 			return result;
 		} finally {
 			readLock.unlock();
 		}
 	}
 
-	protected Collection<IAbstractArtifact> getAllChainedArtifacts(
-			ExecutionContext context, boolean isOverridePredicate) {
+	protected Collection<IAbstractArtifact> getAllChainedArtifacts(ExecutionContext context, boolean isOverridePredicate) {
 		try {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 			result.addAll(depContentCache.getAllChainedArtifacts(context, isOverridePredicate));
-			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromReferences(context, isOverridePredicate)));
-			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromInstalledModules(context, isOverridePredicate)));
+
+			Set<ITigerstripeModelProject> projects = new HashSet<ITigerstripeModelProject>();
+			fillProjectsFromReferences(projects, context, Cycles.REFERENCES_ALL);
+			fillProjectsFromInstalledModules(projects, context, Cycles.INSTALLED_MODULES_ALL);
+			fillProjectsFromDependencies(projects, context, Cycles.DEPENDENCIES_ALL);
+
+			result.addAll(toContextProjectAwareArtifacts(getAllArtifacts(projects, context, isOverridePredicate)));
 			return result;
 		} finally {
 			readLock.unlock();
@@ -1995,6 +2004,44 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		} else {
 			return ContextProjectAwareProxy.newInstance(element, context);
 		}
+	}
+
+	private Collection<IAbstractArtifact> getAllArtifacts(Collection<ITigerstripeModelProject> projects,
+			ExecutionContext context, boolean isOverridePredicate) {
+		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+		for (ITigerstripeModelProject project : projects) {
+			try {
+				IArtifactManagerSession session = project.getArtifactManagerSession();
+				IArtifactQuery query = session.makeQuery(IQueryAllArtifacts.class.getName());
+				query.setIncludeDependencies(false);
+				query.setExecutionContext(context);
+				query.setOverridePredicate(isOverridePredicate);
+				result.addAll(project.getArtifactManagerSession().queryArtifact(query));
+			} catch (TigerstripeException ex) {
+				logErrorMessage("Can't get artifacts from {0} " + project, ex);
+			}
+		}
+		return result;
+	}
+
+	private Collection<IAbstractArtifact> getAllArtifacts(Collection<ITigerstripeModelProject> projects,
+			ExecutionContext context, IAbstractArtifactInternal model) {
+		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+		for (ITigerstripeModelProject project : projects) {
+			try {
+				IArtifactManagerSession session = project.getArtifactManagerSession();
+				IQueryArtifactsByType query = (IQueryArtifactsByType) session.makeQuery(IQueryArtifactsByType.class
+						.getName());
+				query.setArtifactType(model.getClass().getName());
+				query.setIncludeDependencies(false);
+				query.setExecutionContext(context);
+
+				result.addAll(project.getArtifactManagerSession().queryArtifact(query));
+			} catch (TigerstripeException ex) {
+				logErrorMessage("Can't get artifacts from {0} " + project, ex);
+			}
+		}
+		return result;
 	}
 	
 	private <T> Collection<T> toContextProjectAwareArtifacts(
@@ -2055,72 +2102,62 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		return getTSProject().getEnabledDependencies();
 	}
 
-	// Access to artifacts living in the Referenced projects
-	protected Collection<IAbstractArtifact> getAllArtifactsFromReferences(
-			ExecutionContext context, boolean isOverridePredicate) {
+	protected void fillProjectsFromReferences(Collection<ITigerstripeModelProject> projects, ExecutionContext context,
+			ICycle cycle) {
 		try {
 			readLock.lock();
-			addSelfToCycle(context, Cycles.REFERENCES_ALL);
-			ArrayList<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
+			addSelfToCycle(context, cycle);
 			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 				try {
-					if (!context.addToCycle(Cycles.REFERENCES_ALL,
-							project.getModelId())) {
-						continue;
+					if (context.addToCycle(cycle, project.getModelId())) {
+						projects.add(project);
 					}
-					IArtifactManagerSession session = project
-							.getArtifactManagerSession();
-					IArtifactQuery query = session
-							.makeQuery(IQueryAllArtifacts.class.getName());
-					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies 			
-					query.setExecutionContext(context);
-					query.setOverridePredicate(isOverridePredicate);
-					list.addAll(project.getArtifactManagerSession()
-							.queryArtifact(query));
 				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
+					TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
 				}
 			}
-			return list;
 		} finally {
 			readLock.unlock();
 		}
 	}
 
-	protected Collection<IAbstractArtifact> getAllArtifactsFromInstalledModules(
-			ExecutionContext context, boolean isOverridePredicate) {
-
+	protected void fillProjectsFromInstalledModules(Collection<ITigerstripeModelProject> projects,
+			ExecutionContext context, ICycle cycle) {
 		try {
 			readLock.lock();
-			addSelfToCycle(context, Cycles.INSTALLED_MODULES_ALL);
-			ArrayList<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
+			addSelfToCycle(context, cycle);
 			for (ModelReference ref : getTSProject().getEnabledModelReferences()) {
 				try {
 					if (!ref.isInstalledModuleReference())
 						continue;
 					ITigerstripeModelProject project = ref.getResolvedModel();
-
-					if (!context.addToCycle(Cycles.INSTALLED_MODULES_ALL,
-							project.getModelId())) {
-						continue;
+					if (context.addToCycle(cycle, project.getModelId())) {
+						projects.add(project);
 					}
-
-					IArtifactManagerSession session = project
-							.getArtifactManagerSession();
-					IArtifactQuery query = session
-							.makeQuery(IQueryAllArtifacts.class.getName());
-					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies	
-					query.setExecutionContext(context);
-					query.setOverridePredicate(isOverridePredicate);
-					list.addAll(project.getArtifactManagerSession()
-							.queryArtifact(query));
 				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
+					TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
 				}
 			}
-			return list;
+		} finally {
+			readLock.unlock();
+		}
+	}
+	
+	protected void fillProjectsFromDependencies(Collection<ITigerstripeModelProject> projects,
+			ExecutionContext context, ICycle cycle) {
+		try {
+			readLock.lock();
+			addSelfToCycle(context, cycle);
+			for (IDependency dep : getTSProject().getEnabledDependencies()) {
+				try {
+					ITigerstripeModelProject project = dep.makeModuleProject(getTSProject().getTSProject());
+					if (context.addToCycle(cycle, project.getModelId())) {
+						projects.add(project);
+					}
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
+				}
+			}
 		} finally {
 			readLock.unlock();
 		}
@@ -2129,11 +2166,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	private boolean addSelfToCycle(ExecutionContext ctx, ICycle cycle) {
 		ITigerstripeModelProject mp = getTSProject().getTSProject();
 		try {
-			if (mp != null) {
-				return ctx.addToCycle(cycle, mp.getModelId());
-			} else {
-				return false;
-			}
+			return mp != null ? ctx.addToCycle(cycle, mp.getModelId()) : false;
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage(
 					"Can't get model id for project", e);
@@ -2171,42 +2204,6 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		}
 	}
 
-	protected Collection<IAbstractArtifact> getArtifactsByModelInReferences(
-			IAbstractArtifactInternal model, ExecutionContext context) {
-		try {
-			readLock.lock();
-			addSelfToCycle(context, Cycles.REFERENCES_BY_MODEL);
-			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-			for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
-				try {
-					if (!context.addToCycle(Cycles.REFERENCES_BY_MODEL,
-							project.getModelId())) {
-						continue;
-					}
-					IArtifactManagerSession session = project
-							.getArtifactManagerSession();
-					IQueryArtifactsByType query = (IQueryArtifactsByType) session
-							.makeQuery(IQueryArtifactsByType.class.getName());
-					query.setArtifactType(model.getClass().getName());
-					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies
-					query.setExecutionContext(context);
-					
-					// referenced project
-					// shall not be included
-
-					result.addAll(project.getArtifactManagerSession()
-							.queryArtifact(query));
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			}
-			return result;
-		} finally {
-			readLock.unlock();
-		}
-	}
-
 	protected IAbstractArtifactInternal getArtifactByFullyQualifiedNameInInstalledModules(
 			String name, ExecutionContext context) {
 		try {
@@ -2237,46 +2234,6 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 				}
 			}
 			return (IAbstractArtifactInternal) result;
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	protected Collection<IAbstractArtifact> getArtifactsByModelInInstalledModules(
-			IAbstractArtifactInternal model, ExecutionContext context) {
-		try {
-			readLock.lock();
-			addSelfToCycle(context, Cycles.INSTALLED_MODULES_BY_MODEL);
-			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-			for (ModelReference ref : getTSProject().getEnabledModelReferences()) {
-				try {
-					if (!ref.isInstalledModuleReference())
-						continue;
-					ITigerstripeModelProject project = ref.getResolvedModel();
-
-					if (!context.addToCycle(Cycles.INSTALLED_MODULES_BY_MODEL,
-							project.getModelId())) {
-						continue;
-					}
-
-					IArtifactManagerSession session = project
-							.getArtifactManagerSession();
-					IQueryArtifactsByType query = (IQueryArtifactsByType) session
-							.makeQuery(IQueryArtifactsByType.class.getName());
-					query.setArtifactType(model.getClass().getName());
-					query.setIncludeDependencies(false); // NM: Exclude transitive dependencies				
-					query.setExecutionContext(context);
-					// referenced project
-					// shall not be included
-
-					result.addAll(project.getArtifactManagerSession()
-							.queryArtifact(query));
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			}
-			return result;
 		} finally {
 			readLock.unlock();
 		}
@@ -3073,6 +3030,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		REFERENCES_ALL, REFERENCES_FQN, REFERENCES_BY_MODEL, REFERENCES_FQN_ALL,
 
 		INSTALLED_MODULES_ALL, INSTALLED_MODULES_FQN, INSTALLED_MODULES_BY_MODEL,
+		
+		DEPENDENCIES_ALL, DEPENDENCIES_BY_MODEL,
 
 		PHANTOM,
 		

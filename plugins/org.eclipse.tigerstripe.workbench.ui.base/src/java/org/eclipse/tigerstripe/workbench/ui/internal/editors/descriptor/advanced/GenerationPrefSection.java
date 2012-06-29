@@ -737,12 +737,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 							IProjectDetails.IGNORE_FACETS,
 							IProjectDetails.IGNORE_FACETS_DEFAULT)));
 			generateContainedModules
-					.setEnabled(handle.getDependencies().length > 1); // there
-			// the
-			// OSSJ
-			// legacy
-			// one
-			// always...
+					.setEnabled(handle.getDependencies().length > 1); // there the OSSJ legacy one always...
 			generateContainedModules.setSelection("true"
 					.equalsIgnoreCase(handle.getProjectDetails().getProperty(
 							IProjectDetails.GENERATE_MODULES,
