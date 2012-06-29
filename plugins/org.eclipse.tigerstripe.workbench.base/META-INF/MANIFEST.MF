@@ -15,7 +15,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ltk.core.refactoring;bundle-version="3.4.0",
  org.eclipse.jdt.core.manipulation;bundle-version="1.2.0",
  org.eclipse.osgi.util;bundle-version="3.2.0",
- org.eclipse.gmf.runtime.emf.core
+ org.eclipse.gmf.runtime.emf.core,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.workbench.texteditor
 Bundle-ActivationPolicy: lazy
 Export-Package: com.thoughtworks.qdox,
  com.thoughtworks.qdox.model,
@@ -353,6 +356,7 @@ Export-Package: com.thoughtworks.qdox,
  org.eclipse.tigerstripe.workbench.queries,
  org.eclipse.tigerstripe.workbench.refactor,
  org.eclipse.tigerstripe.workbench.refactor.diagrams,
+ org.eclipse.tigerstripe.workbench.spellcheck,
  org.eclipse.tigerstripe.workbench.utils
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  lib/qdox-1.6.3.jar,
