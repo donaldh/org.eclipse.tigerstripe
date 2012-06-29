@@ -156,7 +156,7 @@ public class ProjectDetails extends BaseContainerObject implements
 
 		if (parentProject.getBaseDir() == null) {
 			// parent.getBaseDir()==null when this is a module.
-			result = result + File.separator + parentProject.getProjectLabel();
+			result = result + File.separator + parentProject.getProjectDetails().getModelId();
 			return result;
 		}
 

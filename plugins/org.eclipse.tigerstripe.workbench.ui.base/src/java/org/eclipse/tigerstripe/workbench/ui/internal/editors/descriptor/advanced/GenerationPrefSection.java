@@ -36,8 +36,10 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -46,8 +48,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPreferencePage;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -736,8 +736,8 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 					.getProjectDetails().getProperty(
 							IProjectDetails.IGNORE_FACETS,
 							IProjectDetails.IGNORE_FACETS_DEFAULT)));
-			generateContainedModules
-					.setEnabled(handle.getDependencies().length > 1); // there the OSSJ legacy one always...
+
+			generateContainedModules.setEnabled(hasDependencies(handle));
 			generateContainedModules.setSelection("true"
 					.equalsIgnoreCase(handle.getProjectDetails().getProperty(
 							IProjectDetails.GENERATE_MODULES,
@@ -807,6 +807,28 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		setSilentUpdate(false);
 	}
 
+	protected boolean hasDependencies(ITigerstripeModelProject handle) {
+		IDependency[] dependencies= new IDependency[] { };
+		try {
+			dependencies = handle.getDependencies();
+		} catch(TigerstripeException ex) {
+			EclipsePlugin.log(ex);
+			return false;
+		}
+
+		String corePath = TigerstripeRuntime.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
+		if(corePath == null) {
+			return dependencies.length > 0;
+		}
+
+		for (IDependency dependency : dependencies) {
+			if (!corePath.equals(dependency.getPath())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	protected boolean getShownDescriptorUpgrade() {
 		AdvancedConfigurationPage page = (AdvancedConfigurationPage) getPage();
 		return page.getShownDescriptorUpgrade();
@@ -827,56 +849,56 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		applyDefaultPreferences.addSelectionListener(listener);
 	}
 
-	private void createGenerationExpandable(Composite composite,
-			FormToolkit toolkit, DefaultPageListener listener) {
-
-		Section lclSection = toolkit.createSection(composite,
-				ExpandableComposite.TWISTIE);
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 8;
-		lclSection.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 8;
-		lclSection.setLayoutData(gd);
-		lclSection.addExpansionListener(new ExpansionAdapter() {
-			@Override
-			public void expansionStateChanged(ExpansionEvent e) {
-				if (getManagedForm() != null)
-					getManagedForm().reflow(true);
-			}
-		});
-		lclSection.setText("Other Properties");
-
-		Composite innerComposite = toolkit.createComposite(lclSection);
-		layout = new GridLayout();
-		layout.numColumns = 8;
-		innerComposite.setLayout(layout);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 8;
-		innerComposite.setLayoutData(gd);
-		lclSection.setClient(innerComposite);
-
-		// Bug 219765 - moved the buttons in the expandable to the main page
-
-		/*
-		 * generateReportButton = toolkit.createButton(innerComposite, "Generate
-		 * report", SWT.CHECK); gd = new
-		 * GridData(GridData.HORIZONTAL_ALIGN_BEGINNING); gd.horizontalSpan = 8;
-		 * generateReportButton.setLayoutData(gd);
-		 * generateReportButton.addSelectionListener(listener);
-		 * 
-		 * logMessagesButton = toolkit.createButton(innerComposite, "Capture
-		 * standard output/error during generation.", SWT.CHECK);
-		 * logMessagesButton .setToolTipText("Redirects standard output/error to
-		 * a 'generation.log' log file during generation"); gd = new
-		 * GridData(GridData.HORIZONTAL_ALIGN_BEGINNING); gd.horizontalSpan = 8;
-		 * logMessagesButton.setLayoutData(gd);
-		 * logMessagesButton.addSelectionListener(listener);
-		 */
-
-		getToolkit().paintBordersFor(innerComposite);
-
-	}
+//	private void createGenerationExpandable(Composite composite,
+//			FormToolkit toolkit, DefaultPageListener listener) {
+//
+//		Section lclSection = toolkit.createSection(composite,
+//				ExpandableComposite.TWISTIE);
+//		GridLayout layout = new GridLayout();
+//		layout.numColumns = 8;
+//		lclSection.setLayout(layout);
+//		GridData gd = new GridData(GridData.FILL_BOTH);
+//		gd.horizontalSpan = 8;
+//		lclSection.setLayoutData(gd);
+//		lclSection.addExpansionListener(new ExpansionAdapter() {
+//			@Override
+//			public void expansionStateChanged(ExpansionEvent e) {
+//				if (getManagedForm() != null)
+//					getManagedForm().reflow(true);
+//			}
+//		});
+//		lclSection.setText("Other Properties");
+//
+//		Composite innerComposite = toolkit.createComposite(lclSection);
+//		layout = new GridLayout();
+//		layout.numColumns = 8;
+//		innerComposite.setLayout(layout);
+//		gd = new GridData(GridData.FILL_BOTH);
+//		gd.horizontalSpan = 8;
+//		innerComposite.setLayoutData(gd);
+//		lclSection.setClient(innerComposite);
+//
+//		// Bug 219765 - moved the buttons in the expandable to the main page
+//
+//		/*
+//		 * generateReportButton = toolkit.createButton(innerComposite, "Generate
+//		 * report", SWT.CHECK); gd = new
+//		 * GridData(GridData.HORIZONTAL_ALIGN_BEGINNING); gd.horizontalSpan = 8;
+//		 * generateReportButton.setLayoutData(gd);
+//		 * generateReportButton.addSelectionListener(listener);
+//		 * 
+//		 * logMessagesButton = toolkit.createButton(innerComposite, "Capture
+//		 * standard output/error during generation.", SWT.CHECK);
+//		 * logMessagesButton .setToolTipText("Redirects standard output/error to
+//		 * a 'generation.log' log file during generation"); gd = new
+//		 * GridData(GridData.HORIZONTAL_ALIGN_BEGINNING); gd.horizontalSpan = 8;
+//		 * logMessagesButton.setLayoutData(gd);
+//		 * logMessagesButton.addSelectionListener(listener);
+//		 */
+//
+//		getToolkit().paintBordersFor(innerComposite);
+//
+//	}
 
 	private void createPreferenceLinkMsg(Composite parent, FormToolkit toolkit) {
 		GridData gd = null;
