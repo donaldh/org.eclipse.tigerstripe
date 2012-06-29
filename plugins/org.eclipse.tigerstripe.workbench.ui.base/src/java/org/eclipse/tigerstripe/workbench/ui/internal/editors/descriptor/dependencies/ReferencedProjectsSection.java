@@ -356,13 +356,12 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 					selectAllButton.setEnabled(true);
 					deselectAllButton.setEnabled(true);
 					getActualTSProject().setDirty();
-					markPageModified();
-					
 				} else {
 					enableAllDependencies(true);
 					selectAllButton.setEnabled(false);
 					deselectAllButton.setEnabled(false);
-				} 
+				}
+				markPageModified();
 			}
 			
 		});
