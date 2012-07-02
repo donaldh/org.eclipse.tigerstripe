@@ -78,8 +78,7 @@ public abstract class AbstractTigerstripeProjectHandle extends
 	}
 
 	public IPath getLocation() {
-		Path path = new Path(new File(getURI()).getAbsolutePath());
-		return path;
+		return getURI() == null ? null : new Path(new File(getURI()).getAbsolutePath());
 	}
 
 	public IPath getFullPath() {

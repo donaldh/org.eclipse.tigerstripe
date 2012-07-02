@@ -458,11 +458,13 @@ public abstract class TemplateBasedRule extends Rule implements
 				outputDir = outputDir + File.separator + relDir;
 			}
 		}
-		String projectDir = pluginConfig.getProjectHandle().getLocation()
-				.toOSString();
+		outputPath = outputDir + File.separator + outputFile;
 
-		outputPath = projectDir + File.separator + outputDir + File.separator
-				+ outputFile;
+		IPath projectDir = pluginConfig.getProjectHandle().getLocation();
+		if(projectDir != null) {
+			outputPath = projectDir.toOSString() + File.separator + outputPath;
+		}
+
 		if (config != null && config.getAbsoluteOutputDir() != null) {
 			outputPath = config.getAbsoluteOutputDir() + File.separator
 					+ outputDir + File.separator + outputFile;

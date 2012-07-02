@@ -737,13 +737,15 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 							IProjectDetails.IGNORE_FACETS,
 							IProjectDetails.IGNORE_FACETS_DEFAULT)));
 
-			generateContainedModules.setEnabled(hasDependencies(handle));
+			boolean hasRef = handle.getReferencedProjects().length != 0;
+
+			generateContainedModules.setEnabled(hasRef || hasDependencies(handle));
 			generateContainedModules.setSelection("true"
 					.equalsIgnoreCase(handle.getProjectDetails().getProperty(
 							IProjectDetails.GENERATE_MODULES,
 							IProjectDetails.GENERATE_MODULES_DEFAULT)));
-			generateRefProjects
-					.setEnabled(handle.getReferencedProjects().length != 0);
+			
+			generateRefProjects.setEnabled(hasRef);
 			generateRefProjects.setSelection("true".equalsIgnoreCase(handle
 					.getProjectDetails().getProperty(
 							IProjectDetails.GENERATE_REFPROJECTS,

@@ -387,19 +387,22 @@ public class M1Generator {
 	        }
 		    
 			resetAfterGeneration();
-			IPath output = config.getOutputPath();
-			IProject iProj = (IProject) project.getAdapter(IProject.class);
-			if (iProj != null) {
-				IResource res = iProj.findMember(output);
-				try {
-					if (res != null)
-						res.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-					else {
-						iProj.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			if(project.getLocation() != null) {
+				IPath output = config.getOutputPath();
+				IProject iProj = (IProject) project.getAdapter(IProject.class);
+				if (iProj != null) {
+					IResource res = iProj.findMember(output);
+					try {
+						if (res != null)
+							res.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+						else {
+							iProj.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+						}
+					} catch (CoreException e) {
+						BasePlugin.log(e);
 					}
-				} catch (CoreException e) {
-					BasePlugin.log(e);
 				}
+
 			}
 		}
         return overallResult.toArray(new PluginRunStatus[overallResult.size()]);
@@ -627,8 +630,12 @@ public class M1Generator {
 			// if System.out/System.err were redirected, need to replace the
 			// redirected streams with the originals
 			if (changedStdOutStdErr) {
-				stdoutAppender.close();
-				stderrAppender.close();
+				if(stdoutAppender != null) {
+					stdoutAppender.close();
+				}
+				if(stderrAppender != null) {
+					stderrAppender.close();
+				}
 				System.setErr(stdErrStreamRef);
 				System.setOut(stdOutStreamRef);
 			}
@@ -872,16 +879,19 @@ public class M1Generator {
 	private PluginRunStatus[] generateModules(IProgressMonitor monitor) throws TigerstripeException {
 		String corePath = TigerstripeRuntime.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
 		PluginRunStatus[] result = new PluginRunStatus[0];
+
 		IDependency[] dependencies = project.getDependencies();
+		ITigerstripeModelProject[] refProjects = project.getReferencedProjects();
 
 		SubProgressMonitor subMonitor = new SubProgressMonitor(monitor, dependencies.length * WORK_UNIT);
-		subMonitor.beginTask("Generating Dependencies", dependencies.length);
+		subMonitor.beginTask("Generating Dependencies", dependencies.length + refProjects.length);
 
 		// for each dependency we create an ITigerstripeProjectModule to which
 		// we had
 		// the previous dependencies in the list so that the build path is
 		// respected.
 		int index = 0;
+		List<ITigerstripeModelProject> projects = new ArrayList<ITigerstripeModelProject>();
 		for (IDependency dep : dependencies) {
 
 			if (corePath != null && corePath.equals(dep.getPath())) {
@@ -890,16 +900,20 @@ public class M1Generator {
 			}
 
 			ITigerstripeModuleProject modProj = dep.makeModuleProject(project);
-
 			for (int i = 0; i < index; i++) {
 				modProj.addTemporaryDependency(dependencies[i]);
 			}
 
-			modProj.updateDependenciesContentCache(monitor); // necessary
-			// step so
-			// added
-			// deps are taken into
-			// account
+			// necessary step so added deps are taken into account
+			modProj.updateDependenciesContentCache(monitor);
+			projects.add(modProj);
+		}
+
+		for(ITigerstripeModelProject refProject : refProjects) {
+			projects.add(index, refProject);			
+		}
+
+		for (ITigerstripeModelProject modProj : projects) {
 			M1RunConfig myConfig = new M1RunConfig();
 			if (config.isOverrideSubprojectSettings()) {
 				IPluginConfig[] theConfigs = config.getPluginConfigs();
@@ -912,6 +926,11 @@ public class M1Generator {
 				myConfig.setPluginConfigs(newConfigs.toArray(theConfigs));
 
 			}
+
+			if(modProj.getLocation() == null) {
+				myConfig.setAbsoluteOutputDir(project.getLocation().toOSString());
+			}
+			
 			myConfig.setGenerateModules(false);
 			myConfig.setUseCurrentFacet(false);
 			myConfig.setIgnoreFacets(true);
@@ -921,9 +940,12 @@ public class M1Generator {
 			for (PluginRunStatus res : result) {
 				res.setContext("dependency");
 			}
-			modProj.clearTemporaryDependencies(monitor); // necessary step so
-			// module
-			// is clean
+
+			// necessary step so module is clean
+			if(modProj instanceof ITigerstripeModuleProject) {
+				ITigerstripeModuleProject module = (ITigerstripeModuleProject)modProj;
+				module.clearTemporaryDependencies(monitor);
+			}
 			index++;
 			subMonitor.worked(1);
 			if (subMonitor.isCanceled()) {
