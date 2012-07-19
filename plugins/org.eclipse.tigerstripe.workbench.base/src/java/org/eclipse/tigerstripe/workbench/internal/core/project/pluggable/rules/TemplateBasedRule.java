@@ -393,8 +393,6 @@ public abstract class TemplateBasedRule extends Rule implements
 		if (exec.getPlugin().isLogEnabled()) {
 			
 			
-			String projectDir = pluginConfig.getProjectHandle().getLocation()
-					.toOSString();
 			String outputDir = pluginConfig.getProjectHandle()
 					.getProjectDetails().getOutputDirectory();
 			String logPath = exec.getPlugin().getLogPath();
@@ -418,6 +416,15 @@ public abstract class TemplateBasedRule extends Rule implements
 				velocityLogPath = path.toOSString();
 			} else {
 				velocityLogPath = logPath + ".velocity";
+			}
+
+			final String projectDir;
+			if(exec.getConfig() != null && exec.getConfig().getAbsoluteOutputDir() != null) {
+				projectDir = exec.getConfig().getAbsoluteOutputDir();
+			} else if(pluginConfig.getProjectHandle().getLocation() != null) {
+				projectDir = pluginConfig.getProjectHandle().getLocation().toOSString();				
+			} else {
+				throw new IOException("Project Directory is NULL");				
 			}
 
 			result.setProperty("runtime.log", projectDir + File.separatorChar

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.plugins;
 
+import static java.text.MessageFormat.format;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -93,17 +95,7 @@ public class PluginLogger {
 		try {
 			String tigerstripeLoggerID = PluginLogger.class.getCanonicalName();
 
-			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
-					.getOutputDirectory();
-			String projectDir = pluginConfig.getProjectHandle().getLocation().toOSString();
-
-			String outputPath = projectDir + File.separator + outputDir
-					+ File.separator + pluginConfig.getLogPath();
-			if (config != null && config.getAbsoluteOutputDir() != null) {
-				outputPath = config.getAbsoluteOutputDir() + File.separator
-						+ outputDir + File.separator + pluginConfig.getLogPath();
-			}
-
+			String outputPath = getOutputPath(pluginConfig, config);
 			File outputFile = new File(outputPath);
 			// the current time (to the nearest millisecond) is used as a
 			// unique ID for this process's logfile entries (in case there are
@@ -136,7 +128,20 @@ public class PluginLogger {
 					"Error while trying to set up log for generator: "
 							+ pluginConfig.getLabel(), e);
 		}
+	}
+	
+	private static String getOutputPath(PluginConfig pluginConfig, RunConfig config) throws TigerstripeException, IOException {
+		String outputDir = pluginConfig.getProjectHandle().getProjectDetails().getOutputDirectory();
 
+		final String projectDir;
+		if (pluginConfig.getProjectHandle().getLocation() != null) {
+			projectDir = pluginConfig.getProjectHandle().getLocation().toOSString();
+		} else if (config != null && config.getAbsoluteOutputDir() != null) {
+			projectDir = config.getAbsoluteOutputDir();
+		} else {
+			throw new IOException("Project Directory is NULL");
+		}
+		return format("{1}{0}{2}{0}{3}", File.separator, projectDir, outputDir, pluginConfig.getLogPath());
 	}
 
 	public static void logVelocity(String templateName,

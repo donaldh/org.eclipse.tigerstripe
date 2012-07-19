@@ -748,13 +748,16 @@ public class M1Generator {
 				// target directory)
 				String outputFile = "generation.log";
 				String outputDir = ref.getProjectHandle().getProjectDetails().getOutputDirectory();
-				String projectDir = ref.getProjectHandle().getLocation().toOSString();
 
-				String outputPath = projectDir + File.separator + outputDir + File.separator + outputFile;
-				if (config != null && config.getAbsoluteOutputDir() != null) {
-					outputPath = config.getAbsoluteOutputDir() + File.separator + outputDir + File.separator
-							+ outputFile;
+				final String projectDir;
+				if (ref.getProjectHandle().getLocation() != null) {
+					projectDir = ref.getProjectHandle().getLocation().toOSString();
+				} else if (config != null && config.getAbsoluteOutputDir() != null) {
+					projectDir = config.getAbsoluteOutputDir();
+				} else {
+					throw new IOException("Project Directory is NULL");
 				}
+				String outputPath = projectDir + File.separator + outputDir + File.separator + outputFile;
 				// now, make sure that everything sent to System.err
 				// is logged
 				PatternLayout stderrPatternLayout = new PatternLayout();
@@ -858,6 +861,11 @@ public class M1Generator {
 			// + project.getProjectDetails().getOutputDirectory()
 			// + File.separator + refProject.getProjectLabel();
 			// refConfig.setAbsoluteOutputDir(absDir);
+
+			if(refProject.getLocation() == null) {
+				refConfig.setAbsoluteOutputDir(project.getLocation().toOSString());
+			}
+			
 			M1Generator gen = new M1Generator(refProject, refConfig);
 			PluginRunStatus[] subResult = gen.run();
 			for (PluginRunStatus res : subResult) {

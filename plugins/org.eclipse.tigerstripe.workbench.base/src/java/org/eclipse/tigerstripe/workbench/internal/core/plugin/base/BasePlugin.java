@@ -49,11 +49,13 @@ public abstract class BasePlugin implements PluginBody {
 	protected void setDefaultDestination(PluginConfig ref, File file,
 			M1RunConfig config) throws IOException {
 
-		String baseDir = ref.getProjectHandle().getLocation().toOSString();
-
+		final String baseDir;
 		if (config != null && config.getAbsoluteOutputDir() != null) {
 			baseDir = config.getAbsoluteOutputDir();
-
+		} else if(ref.getProjectHandle().getLocation() == null) {
+			baseDir = ref.getProjectHandle().getLocation().toOSString();
+		} else {
+			throw new IOException("Project Directory is NULL");
 		}
 		File targetInCorrectPath = new File(baseDir + File.separator
 				+ file.getPath());

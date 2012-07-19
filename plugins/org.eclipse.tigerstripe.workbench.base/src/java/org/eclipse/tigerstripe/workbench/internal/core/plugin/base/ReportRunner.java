@@ -122,17 +122,13 @@ public class ReportRunner {
 			String filename = model.getDestinationDir() + File.separator
 					+ model.getName();
 
-			// setDefaultDestination(pluginConfig, new File(filename));
-			File defaultDestination;
-			File file = new File(filename);
-			File targetInCorrectPath = new File(project.getBaseDir()
-					+ File.separator + file.getPath());
-
+			final String targetInCorrectPath;
 			if (config != null && config.getAbsoluteOutputDir() != null) {
-				targetInCorrectPath = new File(config.getAbsoluteOutputDir()
-						+ File.separator + file.getPath());
+				targetInCorrectPath = config.getAbsoluteOutputDir() + File.separator + filename;
+			} else {
+				targetInCorrectPath = project.getBaseDir() + File.separator + filename;
 			}
-			defaultDestination = targetInCorrectPath;
+			File defaultDestination = new File(targetInCorrectPath);
 
 			// Do we need to create the target dir ?
 			if (!defaultDestination.getParentFile().exists()) {

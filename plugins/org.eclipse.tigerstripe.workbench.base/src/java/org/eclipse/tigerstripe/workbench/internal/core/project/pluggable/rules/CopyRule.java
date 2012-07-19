@@ -127,7 +127,6 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 		getReport().setToDirectory(expandedToDir);
 
 		// Get target absolute directory (Created it if needed)
-		String outputPath = "";
 		File outputDirectory = null;
 		String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 				.getOutputDirectory();
@@ -138,15 +137,16 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 				outputDir = outputDir + File.separator + relDir;
 			}
 		}
-		String projectDir = pluginConfig.getProjectHandle().getLocation()
-				.toOSString();
 
-		outputPath = projectDir + File.separator + outputDir;
-		if (exec.getConfig() != null
-				&& exec.getConfig().getAbsoluteOutputDir() != null) {
-			outputPath = exec.getConfig().getAbsoluteOutputDir()
-					+ File.separator + outputDir;
+		final String projectDir;
+		if (exec.getConfig() != null && exec.getConfig().getAbsoluteOutputDir() != null) {
+			projectDir = exec.getConfig().getAbsoluteOutputDir();
+		} else if (pluginConfig.getProjectHandle().getLocation() != null) {
+			projectDir = pluginConfig.getProjectHandle().getLocation().toOSString();
+		} else {
+			throw new TigerstripeException("Project Directory is NULL");
 		}
+		String outputPath = projectDir + File.separator + outputDir;
 
 		// create any subdir in the outputDir if any is included
 		// in the outputFile
@@ -155,11 +155,11 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 			outputDirectory.mkdirs();
 		}
 
-		String srcPrefix = pluginConfig.getProjectHandle().getLocation()
-				.toOSString();
+		final String srcPrefix;
 		if (getCopyFrom() == ICopyRule.FROM_PLUGIN) {
-			srcPrefix = exec.getPlugin().getPProject().getBaseDir()
-					.getAbsolutePath();
+			srcPrefix = exec.getPlugin().getPProject().getBaseDir().getAbsolutePath();
+		} else {
+			srcPrefix = projectDir;
 		}
 
 		String expandedFromDir = expander.expandVar(getFilesetMatch(),
