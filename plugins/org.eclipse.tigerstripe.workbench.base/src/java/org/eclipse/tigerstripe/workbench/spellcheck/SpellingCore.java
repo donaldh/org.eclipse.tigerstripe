@@ -8,8 +8,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.text.Document;
+import org.eclipse.swt.SWTError;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector;
 import org.eclipse.ui.texteditor.spelling.SpellingContext;
@@ -31,9 +32,9 @@ public class SpellingCore {
 
 	private static boolean isHeadlessMode() {
 		try {
-			PlatformUI.getWorkbench();
+			Display.getDefault();
 			return true;
-		} catch (IllegalStateException ex) {
+		} catch (SWTError ex) {
 			IStatus status = new Status(IStatus.INFO, BasePlugin.PLUGIN_ID,
 					"Start on Headless mode");
 			BasePlugin.getDefault().getLog().log(status);
