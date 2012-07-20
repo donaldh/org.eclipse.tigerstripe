@@ -578,16 +578,13 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 				try {
 					IJavaProject javaProject = (IJavaProject) getProject().getAdapter(IJavaProject.class);
-					if(!javaProject.isOpen()) {
-						return false;
-					}
 					IPath output = javaProject.getOutputLocation();
 					IPath resPath = resource.getFullPath();
 					if(resPath.toString().startsWith(output.toString())) {
 						return false;
 					}
 				} catch (JavaModelException ex) {
-					EclipsePlugin.log(ex);
+					// Ignore
 				}
 
 				return Arrays.asList(diagramFileExtensions).contains(
