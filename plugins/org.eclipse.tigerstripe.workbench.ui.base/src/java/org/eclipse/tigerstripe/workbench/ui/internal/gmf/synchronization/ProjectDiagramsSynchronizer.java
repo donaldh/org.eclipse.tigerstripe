@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.internal.jobs.Queue;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -571,12 +572,15 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		// We only care about diagram files
 		IResourceFilter diagramFilesFilter = new IResourceFilter() {
 			public boolean select(IResource resource) {
-				if (!project.equals(resource.getProject())) {
+				if (!project.equals(resource.getProject()) || !(resource instanceof IFile)) {
 					return false;
 				}
 
 				try {
 					IJavaProject javaProject = (IJavaProject) getProject().getAdapter(IJavaProject.class);
+					if(!javaProject.isOpen()) {
+						return false;
+					}
 					IPath output = javaProject.getOutputLocation();
 					IPath resPath = resource.getFullPath();
 					if(resPath.toString().startsWith(output.toString())) {
