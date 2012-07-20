@@ -33,12 +33,7 @@ public class SpellingCore {
 		try {
 			Display.getDefault();
 			return false;
-		} catch (Exception ex) {
-			IStatus status = new Status(
-				IStatus.INFO, BasePlugin.PLUGIN_ID, "Start on Headless mode");
-			BasePlugin.getDefault().getLog().log(status);
-			return true;
-		} catch (Error e) {
+		} catch (Throwable t) {
 			IStatus status = new Status(
 				IStatus.INFO, BasePlugin.PLUGIN_ID, "Start on Headless mode");
 			BasePlugin.getDefault().getLog().log(status);
