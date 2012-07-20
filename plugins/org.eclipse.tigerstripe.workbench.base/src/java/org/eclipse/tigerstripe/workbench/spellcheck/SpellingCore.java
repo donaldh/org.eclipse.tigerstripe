@@ -33,12 +33,12 @@ public class SpellingCore {
 	private static boolean isHeadlessMode() {
 		try {
 			Display.getDefault();
-			return true;
+			return false;
 		} catch (SWTError ex) {
 			IStatus status = new Status(IStatus.INFO, BasePlugin.PLUGIN_ID,
 					"Start on Headless mode");
 			BasePlugin.getDefault().getLog().log(status);
-			return false;
+			return true;
 		}
 	}
 
