@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.text.Document;
-import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector;
 import org.eclipse.ui.texteditor.spelling.SpellingContext;
 import org.eclipse.ui.texteditor.spelling.SpellingProblem;
@@ -14,12 +13,13 @@ import org.eclipse.ui.texteditor.spelling.SpellingService;
 
 public class SpellingCore {
 
-	private static final SpellingService spellingService = EditorsUI.getSpellingService();
+	private static final SpellingService spellingService;
 	private static final SpellingContext textContext;
 
 	static {
 		textContext = new SpellingContext();
 		textContext.setContentType(Platform.getContentTypeManager().getContentType(IContentTypeManager.CT_TEXT));
+		spellingService = new ValidationSpellingService();
 	}
 
 	public static List<String> checkText(String text) {
