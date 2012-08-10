@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjArtifactSpecifics;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
@@ -402,38 +403,35 @@ public class CompareUtils {
 		aIt = aInstances.iterator();
 		while (aIt.hasNext()) {
 			IStereotypeInstance aInst = aIt.next();
+			IStereotype aStereo = aInst.getCharacterizingStereotype();
 			boolean foundit = false;
-			Iterator<IStereotypeInstance> bIt = bInstances
-					.iterator();
+			Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				
-				// Bugzilla 319758: NPE during project import
-				if ((aInst.getCharacterizingStereotype() != null) && 
-						(aInst.getCharacterizingStereotype().equals(bInst.getCharacterizingStereotype()))) {
+				IStereotype bStereo = bInst.getCharacterizingStereotype();
+				if (aInst!= null 
+						&& aStereo != null 
+						&& aStereo.equals(bStereo)) {
 					// compare the values
 					foundit = true;
-					for (IStereotypeAttribute attr : aInst
-							.getCharacterizingStereotype()
-							.getIAttributes()) {
+					for (IStereotypeAttribute attr : aStereo.getIAttributes()) {
 						try {
-							if (attr.isArray()) {
+							if (attr!=null && attr.isArray()) {
 								// compare the array values...
 								// order is NOT important
-								differences.addAll(compareLists(aArtifact
-										.getFullyQualifiedName(), bArtifact
-										.getFullyQualifiedName(), tag
-										+ ":Stereotype:ArrayValue", object
-										+ aInst.getName() + ":"
-										+ attr.getName() + ":", new ArrayList(
-										Arrays.asList(aInst
+								differences.addAll(compareLists(
+										aArtifact.getFullyQualifiedName(), 
+										bArtifact.getFullyQualifiedName(), 
+										tag	+ ":Stereotype:ArrayValue", 
+										object	+ aInst.getName() + ":"	+ attr.getName() + ":", 
+										new ArrayList<String>(Arrays.asList(aInst
 												.getAttributeValues(attr))),
-										new ArrayList(Arrays.asList(bInst
+										new ArrayList<String>(Arrays.asList(bInst
 												.getAttributeValues(attr)))));
 							} else {
-
-								if (!aInst.getAttributeValue(attr).equals(
-										bInst.getAttributeValue(attr))) {
+								String aAttrValue = aInst.getAttributeValue(attr);
+								String bAttrValue = bInst.getAttributeValue(attr);
+								if (aAttrValue!=null && !aAttrValue.equals(bAttrValue)) {
 									differences.add(new Difference("value",
 											aArtifact.getFullyQualifiedName(),
 											bArtifact.getFullyQualifiedName(),
@@ -464,14 +462,13 @@ public class CompareUtils {
 		Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 		while (bIt.hasNext()) {
 			IStereotypeInstance bInst = bIt.next();
+			IStereotype bStereo = bInst.getCharacterizingStereotype();
 			boolean foundit = false;
 			aIt = aInstances.iterator();
 			while (aIt.hasNext()) {
 				IStereotypeInstance aInst = aIt.next();
-				
-				// Bugzilla 319758: NPE during project import
-				if ((aInst.getCharacterizingStereotype() != null) && 
-					(aInst.getCharacterizingStereotype().equals(bInst.getCharacterizingStereotype()))) {
+				IStereotype aStereo = aInst.getCharacterizingStereotype();
+				if (aStereo!=null && aStereo.equals(bStereo)) {
 					foundit = true;
 				}
 			}
@@ -512,34 +509,43 @@ public class CompareUtils {
 		aIt = aInstances.iterator();
 		while (aIt.hasNext()) {
 			IStereotypeInstance aInst = aIt.next();
+			if (aInst == null) {
+				continue;
+			}
+			IStereotype aStereo = aInst.getCharacterizingStereotype();
+			if (aStereo == null) {
+				continue;
+			}
+			
 			boolean foundit = false;
 			Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingStereotype().equals(
-						bInst.getCharacterizingStereotype())) {
+				if (bInst == null) {
+					continue;
+				}
+				IStereotype bStereo = bInst.getCharacterizingStereotype();
+				if (aStereo.equals(bStereo)) {
 					// compare the values
 					foundit = true;
-					for (IStereotypeAttribute attr : aInst
-							.getCharacterizingStereotype().getAttributes()) {
+					for (IStereotypeAttribute attr : aStereo.getAttributes()) {
 						try {
-							if (attr.isArray()) {
+							if (attr!= null && attr.isArray()) {
 								// compare the array values...
 								// order is NOT important
-								differences.addAll(compareLists(aArtifact
-										.getFullyQualifiedName(), bArtifact
-										.getFullyQualifiedName(), tag
-										+ ":Stereotype:ArrayValue", object
-										+ aInst.getName() + ":"
-										+ attr.getName() + ":", new ArrayList(
-										Arrays.asList(aInst
+								differences.addAll(compareLists(
+										aArtifact.getFullyQualifiedName(), 
+										bArtifact.getFullyQualifiedName(), 
+										tag	+ ":Stereotype:ArrayValue", 
+										object	+ aInst.getName() + ":"	+ attr.getName() + ":", 
+										new ArrayList<String>(Arrays.asList(aInst
 												.getAttributeValues(attr))),
-										new ArrayList(Arrays.asList(bInst
+										new ArrayList<String>(Arrays.asList(bInst
 												.getAttributeValues(attr)))));
 							} else {
-
-								if (!aInst.getAttributeValue(attr).equals(
-										bInst.getAttributeValue(attr))) {
+								String aAttrValue = aInst.getAttributeValue(attr);
+								String bAttrValue = bInst.getAttributeValue(attr);
+								if (aAttrValue!=null && !aAttrValue.equals(bAttrValue)) {
 									differences.add(new Difference("value",
 											aArtifact.getFullyQualifiedName(),
 											bArtifact.getFullyQualifiedName(),
@@ -566,16 +572,24 @@ public class CompareUtils {
 						+ aInst.getName(), "present", "absent"));
 			}
 		}
-
+		
+			
 		Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 		while (bIt.hasNext()) {
 			IStereotypeInstance bInst = bIt.next();
+			if (bInst == null) {
+				continue;
+			}
+			IStereotype bStereo = bInst.getCharacterizingStereotype();
 			boolean foundit = false;
 			aIt = aInstances.iterator();
 			while (aIt.hasNext()) {
 				IStereotypeInstance aInst = aIt.next();
-				if (aInst.getCharacterizingStereotype().equals(
-						bInst.getCharacterizingStereotype())) {
+				if (aInst == null) {
+					continue;
+				}
+				IStereotype aStereo = aInst.getCharacterizingStereotype();
+				if (aStereo!=null && aStereo.equals(bStereo)) {
 					foundit = true;
 				}
 			}
@@ -615,34 +629,35 @@ public class CompareUtils {
 		aIt = aInstances.iterator();
 		while (aIt.hasNext()) {
 			IStereotypeInstance aInst = aIt.next();
+			IStereotype aStereo = aInst.getCharacterizingStereotype();
 			boolean foundit = false;
 			Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingStereotype().equals(
-						bInst.getCharacterizingStereotype())) {
+				IStereotype bStereo = bInst.getCharacterizingStereotype();
+				if (aInst!= null 
+						&& aStereo != null 
+						&& aStereo.equals(bStereo)) {
 					// compare the values
 					foundit = true;
-					for (IStereotypeAttribute attr : aInst
-							.getCharacterizingStereotype().getAttributes()) {
+					for (IStereotypeAttribute attr : aStereo.getAttributes()) {
 						try {
-							if (attr.isArray()) {
+							if (attr!=null && attr.isArray()) {
 								// compare the array values...
 								// order is NOT important
-								differences.addAll(compareLists(aArtifact
-										.getFullyQualifiedName(), bArtifact
-										.getFullyQualifiedName(), tag
-										+ ":Stereotype:ArrayValue", object
-										+ aInst.getName() + ":"
-										+ attr.getName() + ":", new ArrayList(
-										Arrays.asList(aInst
+								differences.addAll(compareLists(
+										aArtifact.getFullyQualifiedName(), 
+										bArtifact.getFullyQualifiedName(), 
+										tag + ":Stereotype:ArrayValue", 
+										object	+ aInst.getName() + ":"	+ attr.getName() + ":",
+										new ArrayList<String>(Arrays.asList(aInst
 												.getAttributeValues(attr))),
-										new ArrayList(Arrays.asList(bInst
+										new ArrayList<String>(Arrays.asList(bInst
 												.getAttributeValues(attr)))));
 							} else {
-
-								if (!aInst.getAttributeValue(attr).equals(
-										bInst.getAttributeValue(attr))) {
+								String aAttrValue = aInst.getAttributeValue(attr);
+								String bAttrValue = bInst.getAttributeValue(attr);
+								if (aAttrValue!=null && !aAttrValue.equals(bAttrValue)) {
 									differences.add(new Difference("value",
 											aArtifact.getFullyQualifiedName(),
 											bArtifact.getFullyQualifiedName(),
@@ -673,12 +688,13 @@ public class CompareUtils {
 		Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 		while (bIt.hasNext()) {
 			IStereotypeInstance bInst = bIt.next();
+			IStereotype bStereo = bInst.getCharacterizingStereotype();
 			boolean foundit = false;
 			aIt = aInstances.iterator();
 			while (aIt.hasNext()) {
 				IStereotypeInstance aInst = aIt.next();
-				if (aInst.getCharacterizingStereotype().equals(
-						bInst.getCharacterizingStereotype())) {
+				IStereotype aStereo = aInst.getCharacterizingStereotype();
+				if (aStereo!=null && aStereo.equals(bStereo)) {
 					foundit = true;
 				}
 			}
