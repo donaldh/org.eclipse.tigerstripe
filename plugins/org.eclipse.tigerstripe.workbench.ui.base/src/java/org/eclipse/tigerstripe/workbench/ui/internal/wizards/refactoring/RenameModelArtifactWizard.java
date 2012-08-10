@@ -16,10 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -106,11 +111,22 @@ public class RenameModelArtifactWizard extends Wizard implements
 
 				final SubMonitor monitor = SubMonitor.convert(pm,
 						"Executing commands", getRefactorCommands().length);
-				for (IRefactorCommand command : getRefactorCommands()) {
+				for (final IRefactorCommand command : getRefactorCommands()) {
 					try {
 						closeEditors(command);
-						command.execute(monitor.newChild(1));
-					} catch (TigerstripeException e) {
+						IWorkspace workspace = ResourcesPlugin.getWorkspace();
+						workspace.run(new IWorkspaceRunnable() {
+							
+							public void run(IProgressMonitor monitor) throws CoreException {
+								try {
+									command.execute(monitor);
+								} catch (TigerstripeException e) {
+									throw new CoreException(EclipsePlugin.getStatus(e));
+								}
+							}
+							
+						}, workspace.getRoot(), 0, monitor.newChild(1));
+					} catch (Exception e) {
 						throw new InvocationTargetException(e);
 					}
 				}

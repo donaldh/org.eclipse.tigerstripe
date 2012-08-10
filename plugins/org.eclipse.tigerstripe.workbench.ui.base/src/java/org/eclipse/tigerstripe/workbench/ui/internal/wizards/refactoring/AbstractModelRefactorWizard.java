@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -124,7 +128,7 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 								.toArray(new IRefactorCommand[cmds.size()]));
 					}
 
-					IRefactorCommand command = ModelRefactorCommandFactory.INSTANCE
+					final IRefactorCommand command = ModelRefactorCommandFactory.INSTANCE
 							.combine(getRefactorCommands());
 
 					try {
@@ -167,8 +171,21 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 
 						}
 
-						command.execute(monitor);
-					} catch (TigerstripeException e) {
+						IWorkspace workspace = ResourcesPlugin.getWorkspace();
+						
+						workspace.run(new IWorkspaceRunnable() {
+							
+							public void run(IProgressMonitor monitor) throws CoreException {
+								try {
+									command.execute(monitor);
+								} catch (TigerstripeException e) {
+									throw new CoreException(EclipsePlugin.getStatus(e));
+								}
+							}
+						}, workspace.getRoot(), 0, monitor);
+						
+	
+					} catch (Exception e) {
 						throw new InvocationTargetException(e);
 					}
 				}
