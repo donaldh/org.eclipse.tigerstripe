@@ -488,10 +488,10 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 		boolean needReload = false;
 		File theFile = getFullPath();
-		if (!theFile.exists())
-			throw new TigerstripeException(Messages.formatMessage(
-					Messages.TIGERSTRIPE_XML_NOT_FOUND, theFile));
-
+		if (!theFile.exists()) {
+			return;
+		}
+		
 		if (notLoaded || forceReload) {
 			needReload = true;
 			// } else {

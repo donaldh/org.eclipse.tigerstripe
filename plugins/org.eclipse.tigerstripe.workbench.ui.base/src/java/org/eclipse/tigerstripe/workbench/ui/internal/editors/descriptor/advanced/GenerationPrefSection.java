@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -737,15 +738,31 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 							IProjectDetails.IGNORE_FACETS,
 							IProjectDetails.IGNORE_FACETS_DEFAULT)));
 
-			boolean hasRef = handle.getReferencedProjects().length != 0;
-
-			generateContainedModules.setEnabled(hasRef || hasDependencies(handle));
+			boolean dependencyRef = false;
+			boolean workspaceRef = false;
+			for(ModelReference ref: getTSProject().getModelReferences()) {
+				if (!dependencyRef && ref.isInstalledModuleReference()) {
+					dependencyRef = true;
+					if (workspaceRef) {
+						break;
+					}
+				}
+				if (!workspaceRef && ref.isWorkspaceReference()) {
+					workspaceRef = true;
+					if (dependencyRef) {
+						break;
+					}
+				}
+			}
+			
+			generateContainedModules.setEnabled(dependencyRef || hasDependencies(handle));
 			generateContainedModules.setSelection("true"
 					.equalsIgnoreCase(handle.getProjectDetails().getProperty(
 							IProjectDetails.GENERATE_MODULES,
 							IProjectDetails.GENERATE_MODULES_DEFAULT)));
 			
-			generateRefProjects.setEnabled(hasRef);
+			
+			generateRefProjects.setEnabled(workspaceRef);
 			generateRefProjects.setSelection("true".equalsIgnoreCase(handle
 					.getProjectDetails().getProperty(
 							IProjectDetails.GENERATE_REFPROJECTS,

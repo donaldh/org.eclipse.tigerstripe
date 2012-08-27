@@ -115,6 +115,12 @@ public class LogicalNodePromptForNameDialog extends NewTSMessageDialog {
 			if (okButton == null)
 				return;
 			okButton.setEnabled(false);
+		} else if (getNewName().length()==0) {
+			setErrorMessage("Enter element name");
+			Button okButton = this.getButton(IDialogConstants.OK_ID);
+			if (okButton == null)
+				return;
+			okButton.setEnabled(false);
 		} else {
 			setMessage("Enter new name for this element.");
 			Button okButton = this.getButton(IDialogConstants.OK_ID);
