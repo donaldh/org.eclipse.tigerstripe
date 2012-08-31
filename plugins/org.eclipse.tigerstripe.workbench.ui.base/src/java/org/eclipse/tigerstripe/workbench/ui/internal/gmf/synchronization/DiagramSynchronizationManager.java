@@ -92,12 +92,6 @@ public class DiagramSynchronizationManager extends
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
-		while (!TigerstripeRuntime.isLoggerInitialized()) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException exIgnore) {
-			}
-		}
 		try {
 			addProjects(Arrays.asList(root.members()));
 		} catch (CoreException e) {

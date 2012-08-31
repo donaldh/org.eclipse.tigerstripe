@@ -131,8 +131,6 @@ public class TigerstripeRuntime {
 
 	private static RollingFileAppender appender;
 
-	private static AtomicBoolean loggerInitialized = new AtomicBoolean(false);
-
 	private static Level defaultLoggingLevel = Level.ALL;
 
 	private static int maxNumBackupLogs = 9;
@@ -159,10 +157,6 @@ public class TigerstripeRuntime {
 	private TigerstripeRuntime() {
 	}
 
-	public static boolean isLoggerInitialized() {
-		return loggerInitialized.get();
-	}
-	
 	/**
 	 * Initialize any Tigerstripe Logging related logic
 	 * 
@@ -177,7 +171,7 @@ public class TigerstripeRuntime {
 
 		String loggingDirStr = getTigerstripeRuntimeRoot();
 
-		if (!isLoggerInitialized() && loggingDirStr != null) {
+		if (loggingDirStr != null) {
 
 			// First check that the loggingDir exists: upon first run
 			// it would not have been created at this stage.
@@ -218,7 +212,6 @@ public class TigerstripeRuntime {
 				tigerstripeLogger.addAppender(appender);
 				tigerstripeLogger.setAdditivity(false);
 				tigerstripeLogger.setLevel(defaultLoggingLevel);
-				loggerInitialized.set(true);
 			} catch (IOException e) {
 				e.printStackTrace(System.err);
 			}
@@ -236,7 +229,9 @@ public class TigerstripeRuntime {
 	}
 
 	public static void setLogLevel(PluginLog.LogLevel plLevel) {
-		tigerstripeLogger.setLevel(plLevel.toLog4j());
+		if (tigerstripeLogger != null) {
+			tigerstripeLogger.setLevel(plLevel.toLog4j());
+		}
 	}
 
 	public static void logDebugMessage(String message) {
@@ -292,11 +287,15 @@ public class TigerstripeRuntime {
 	}
 
 	public static void logMessageSilently(Level level, String message, Throwable t) {
-		tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
+		if (tigerstripeLogger != null) {
+			tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
+		}
 	}
 	
 	public static void logMessage(Level level, String message, Throwable t) {
-		tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
+		if (tigerstripeLogger != null) {
+			tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
+		}
 		AppenderHolder.loggerAppender.log(toEclipseLevel(level), message, t);
 	}
 
