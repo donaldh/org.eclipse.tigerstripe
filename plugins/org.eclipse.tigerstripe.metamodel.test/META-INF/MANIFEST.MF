@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.test_common,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
- org.junit4
+ org.junit
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

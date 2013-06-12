@@ -23,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.update.internal.core.CoreExceptionWithRootCause;
 
 public class UseCaseBodyDocumentProvider extends FileDocumentProvider {
 
@@ -51,7 +50,7 @@ public class UseCaseBodyDocumentProvider extends FileDocumentProvider {
 		} catch (TigerstripeException e) {
 			IStatus status = new Status(IStatus.WARNING, EclipsePlugin
 					.getPluginId(), 222, "Couldn't parse use Case", e);
-			throw new CoreExceptionWithRootCause(status);
+			throw new CoreException(status);
 		}
 
 		return true;

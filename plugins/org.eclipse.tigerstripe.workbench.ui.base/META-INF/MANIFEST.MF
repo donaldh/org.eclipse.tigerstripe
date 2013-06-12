@@ -8,7 +8,6 @@ Bundle-Vendor:
 Require-Bundle: org.eclipse.ui.editors,
  org.eclipse.ui.ide,
  org.eclipse.jdt.ui,
- org.eclipse.update.core,
  org.eclipse.gmf.runtime.diagram.ui,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor,
  org.eclipse.search,
