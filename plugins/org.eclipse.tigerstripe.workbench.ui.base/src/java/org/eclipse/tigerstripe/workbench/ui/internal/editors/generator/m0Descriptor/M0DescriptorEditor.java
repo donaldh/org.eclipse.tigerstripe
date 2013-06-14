@@ -13,10 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.m0Descri
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorErrorPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.m0Descriptor.header.M0OverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.m0Descriptor.rules.M0DescriptorRulesPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.properties.PluginDescriptorPropertiesPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.runtime.RuntimePage;
 import org.eclipse.ui.PartInitException;
@@ -26,7 +26,7 @@ import org.eclipse.ui.PartInitException;
  * @author Eric Dillon
  * @since 1.2
  */
-public class M0DescriptorEditor extends GeneratorDescriptorEditor {
+public class M0DescriptorEditor extends PluginDescriptorEditor {
 
 	@Override
 	public void addPages() {

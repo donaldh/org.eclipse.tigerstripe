@@ -19,6 +19,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.M0GlobalRunnableRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.M0GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
@@ -30,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetailsBuilder;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.GlobalRunnableRuleDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.SimpleRuleDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -156,8 +158,13 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 
 	@Override
 	protected MasterDetails createMasterDeatils(Composite parent) {
-		return MasterDetailsBuilder.create().addDetail(
+		return MasterDetailsBuilder.create()
+			.addDetail(
 				M0GlobalTemplateRule.class,
-				new SimpleRuleDetailsPage(this, getToolkit(), parent)).build();
+				new SimpleRuleDetailsPage(this, getToolkit(), parent))
+			.addDetail(
+				M0GlobalRunnableRule.class,
+				new GlobalRunnableRuleDetailsPage(this, getToolkit(), parent))
+			.build();
 	}
 }
