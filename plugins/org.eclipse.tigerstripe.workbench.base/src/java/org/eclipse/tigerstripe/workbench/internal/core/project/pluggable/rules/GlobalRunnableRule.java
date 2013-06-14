@@ -72,6 +72,13 @@ public class GlobalRunnableRule extends RunnableRule implements IRunnableRule, I
 		super.initializeReport(pluginConfig);
 
 	}
+
+	
+	protected Map<String, Object> addContextEntries(Map<String, Object> context, IPluginRuleExecutor exec ){
+		
+			return context;
+	}
+	
 	
 	@Override
 	public void trigger(PluggablePluginConfig pluginConfig,
@@ -94,6 +101,7 @@ public class GlobalRunnableRule extends RunnableRule implements IRunnableRule, I
 			}
 			
 			Map<String, Object> context = getGlobalContext(pluginConfig, includeDependencies);
+			context = addContextEntries(context, exec);
 
 			// We need to add a few extra items that should be respected by the plugin, but are in fact out of our control!
 			context.put(REPORT,getReport());

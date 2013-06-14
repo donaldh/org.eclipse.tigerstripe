@@ -25,8 +25,10 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.M0GlobalRunnableRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.M0GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.w3c.dom.Document;
@@ -46,12 +48,12 @@ public class M0ProjectDescriptor extends GeneratorProjectDescriptor {
 	private final static String ROOT_TAG = "m0-generator";
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] SUPPORTED_RULES = { IGlobalTemplateRule.class };
+	private final static Class[] SUPPORTED_RULES = { IGlobalTemplateRule.class, IGlobalRunnableRule.class };
 
-	private final static String[] SUPPORTED_RULES_LABELS = { M0GlobalTemplateRule.LABEL };
+	private final static String[] SUPPORTED_RULES_LABELS = { M0GlobalTemplateRule.LABEL, M0GlobalRunnableRule.LABEL };
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] RULES_IMPL = { M0GlobalTemplateRule.class };
+	private final static Class[] RULES_IMPL = { M0GlobalTemplateRule.class, M0GlobalRunnableRule.class };
 
 	public M0ProjectDescriptor(File baseDir) {
 		super(baseDir, ITigerstripeConstants.M0_GENERATOR_DESCRIPTOR);

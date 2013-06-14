@@ -89,7 +89,7 @@ public abstract class TemplateBasedRule extends Rule implements
 	}
 
 	protected VelocityContext getDefaultContext(
-			PluggablePluginConfig pluginConfig, Map<String, Object> context)
+			PluggablePluginConfig pluginConfig, Map<String, Object> context, IPluginRuleExecutor exec)
 			throws TigerstripeException {
 		if (this.defaultVContext == null) {
 			this.defaultVContext = new VelocityContext();

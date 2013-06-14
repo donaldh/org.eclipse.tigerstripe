@@ -151,7 +151,7 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 
 				writer = getDefaultWriter(pluginConfig, targetFile, exec.getConfig());
 
-				VelocityContext defaultContext = getDefaultContext(pluginConfig, context);
+				VelocityContext defaultContext = getDefaultContext(pluginConfig, context, exec);
 				VelocityContext localContext = exec.getPlugin().getLocalVelocityContext(defaultContext, this);
 
 				localContext.put("templateName", template.getName());
