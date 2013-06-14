@@ -180,9 +180,10 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		return string;
 	}
 
-	protected void initVersionInfo() {
+	protected void initVersionInfo()throws TigerstripeException {
 		setSilentUpdate(true);
 		OSGIRef ref;
+		try {
 		if (getPluginConfig() != null) {
 			ref = OSGIRef.parseRef(getPluginConfig().getVersion());
 		} else {
@@ -198,7 +199,13 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		maxVersionCombo.select(ref.getMaxConstraint());
 
 		availableVersionsLabel.setText(getAvailableVersions(false));
-		setSilentUpdate(false);
+		
+		} catch (Exception e){
+				throw new TigerstripeException(e.getMessage());
+		} finally {
+		
+			setSilentUpdate(false);
+		}
 	}
 
 	public void handleModifyText(ModifyEvent e) {
