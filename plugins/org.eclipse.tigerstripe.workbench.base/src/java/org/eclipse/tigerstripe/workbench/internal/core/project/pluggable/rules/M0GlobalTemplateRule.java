@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -41,7 +42,7 @@ public class M0GlobalTemplateRule extends GlobalTemplateRule {
 
 	@Override
 	protected VelocityContext getDefaultContext(
-			PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
+			PluggablePluginConfig pluginConfig, Map<String, Object> context, IPluginRuleExecutor exec)
 			throws TigerstripeException {
 		VelocityContext result = super.getDefaultContext(pluginConfig, exec);
 

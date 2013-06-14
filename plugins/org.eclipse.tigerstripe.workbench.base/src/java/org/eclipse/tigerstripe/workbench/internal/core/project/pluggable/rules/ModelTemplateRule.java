@@ -163,7 +163,7 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 					exec.getPlugin());
 
 			VelocityContext defaultContext = getDefaultContext(pluginConfig,
-					context);
+					context, exec);
 
 			// LOOP
 			for (ModelProject model : resultSet) {

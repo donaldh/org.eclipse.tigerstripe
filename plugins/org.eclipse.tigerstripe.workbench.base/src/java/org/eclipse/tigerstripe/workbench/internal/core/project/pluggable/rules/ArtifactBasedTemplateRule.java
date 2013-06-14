@@ -214,7 +214,7 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 					exec.getPlugin());
 			// VelocityContext defaultContext = getDefaultContext(
 			// pluginConfig, exec);
-			VelocityContext defaultContext = getDefaultContext(pluginConfig, context);
+			VelocityContext defaultContext = getDefaultContext(pluginConfig, context, exec);
 
 			// LOOP
 			for (IAbstractArtifact artifact : resultSet) {
