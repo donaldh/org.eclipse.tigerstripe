@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M0RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 
 public class M0GlobalRunnableRule extends GlobalRunnableRule {
 
@@ -14,7 +15,7 @@ public class M0GlobalRunnableRule extends GlobalRunnableRule {
 	protected Map<String, Object> addContextEntries(Map<String, Object> context, IPluginRuleExecutor exec ){
 		M0RunConfig config = (M0RunConfig) exec.getConfig();
 
-		context.put("artifactInstances", config.getInstanceMap());
+		context.put(IRule.ARTIFACTINSTANCES, config.getInstanceMap());
 
 		// FIXME: this is a work around until we have a proper Metamodel defined
 		// for instances
@@ -32,8 +33,8 @@ public class M0GlobalRunnableRule extends GlobalRunnableRule {
 				}
 			}
 		}
-		context.put("classInstances", classInstances);
-		context.put("associationInstances", associationInstances);
+		context.put(IRule.CLASSINSTANCES, classInstances);
+		context.put(IRule.ASSOCIATOININSTANCES , associationInstances);
 		
 		return context;
 	}

@@ -80,6 +80,13 @@ public interface IRule {
 	public String  ALLSESSIONS = "allSessions";
 	public String  ALLPACKAGES = "allPackages";
 	
+	
+	// These are only for instance generators
+	public String ARTIFACTINSTANCES = "artifactInstances";
+	public String CLASSINSTANCES = "classInstances";
+	public String ASSOCIATOININSTANCES = "associationInstances";
+	
+	
 	// The following items are not always in the context.
 	public String  SUPPRESSFILES = "suppressFiles";
 	public String  OVERWRITEFILES = "overwriteFiles";
