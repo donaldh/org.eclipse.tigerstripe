@@ -12,7 +12,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.eclipse.tigerstripe.workbench.ui.base.m0GeneratorProject</nature>
+		<nature>org.eclipse.tigerstripe.workbench.base.m0GeneratorProject</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

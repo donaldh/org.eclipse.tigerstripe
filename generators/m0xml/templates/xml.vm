@@ -4,7 +4,7 @@
 
 #foreach( $cInstance in $classInstances )
 #set($type=$xmlUtils.getArtifactType($cInstance.Artifact))
-  <$type artifactName="$cInstance.InstanceName" class="$cInstance.Artifact.FullyQualifiedName" name="$cInstance.Artifact.name">
+  <$type artifactName="$cInstance.Artifact.name" class="$cInstance.Artifact.FullyQualifiedName" name="$cInstance.InstanceName">
 #foreach( $variable in $cInstance.Variables )
     <Variable name="$variable.Name" type="$variable.type" >
 #set($values = $xmlUtils.splitValues($variable.type,$variable.value))

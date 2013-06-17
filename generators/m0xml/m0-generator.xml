@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <m0-generator>
-<project name="MO Instance XML Plugin">
-<outputDirectory/>
-<version>0.3M1</version>
-<description>Convert M0 instance diagram to XML representation</description>
+<project modelId="" name="MO Instance XML Plugin">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>0.1.1</version>
+<description>Convert M0 instance diagram to XML representation by me</description>
 <provider>Cisco</provider>
 </project>
 <pluginNature type="M0"/>
-<logger defautLevel="0" isEnabled="false" logPath="TestOut.log" maxRoll="9"/>
-<globalProperties/>
+<logger defautLevel="4" isEnabled="true" logPath="TestOut.log" maxRoll="9"/>
+<globalProperties>
+<property name="aProperty0" tipToolText="prop0" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">Hello</property>
+</globalProperties>
 <globalRules>
-<rule description="" enabled="true" name="XMLFile" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<rule description="A template based rule" enabled="true" name="XMLFile" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
 <contextEntry classname="org.eclipse.tigerstripe.plugins.m0xml.XmlUtils" entry="xmlUtils"/>
-<body outputFile="instances.xml" overwriteFiles="true" suppressFiles="true" template="templates\xml.vm"/>
+<body outputFile="instances.xml" overwriteFiles="true" suppressFiles="true" template="templates/xml.vm"/>
 </rule>
 </globalRules>
 <classpathEntries>
 <entry relativePath="commons-lang-2.2.jar"/>
+<entry relativePath="commons-lang-2.1.jar"/>
 </classpathEntries>
 <additionalFiles/>
 <advanced/>
