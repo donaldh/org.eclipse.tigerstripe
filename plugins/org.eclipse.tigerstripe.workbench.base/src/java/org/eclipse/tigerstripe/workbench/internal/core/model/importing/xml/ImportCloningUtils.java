@@ -163,6 +163,9 @@ public class ImportCloningUtils {
 		outEnd.setUnique(inEnd.isUnique());
 		outEnd.setVisibility(inEnd.getVisibility());
 		
+		for (IStereotypeInstance inst : inEnd.getStereotypeInstances()){
+			outEnd.addStereotypeInstance(inst);
+		}		
 		
 		return outEnd;
 	}
