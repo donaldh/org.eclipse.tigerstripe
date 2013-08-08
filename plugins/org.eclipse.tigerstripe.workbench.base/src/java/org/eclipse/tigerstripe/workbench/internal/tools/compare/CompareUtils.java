@@ -216,6 +216,9 @@ public class CompareUtils {
 					aName, aEnd.getVisibility().getLabel(),
 					bEnd.getVisibility().getLabel()));
 		}
+		differences.addAll(compareStereotypes(
+				aEnd.getContainingArtifact(), bEnd.getContainingArtifact(), aEnd, bEnd, "Association:AssociationEnd:" + aORz));
+		
 		return differences;
 	}
 
