@@ -515,8 +515,11 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					// everything!
 					// Hoever this may not be called "bin" so we have to do some
 					// Gymnastics to work out if we are the "outputLocation"...
-					if (root.getParent() instanceof IProject) {
-						IProject project = (IProject) root.getParent();
+					//if (root.getParent() instanceof IProject ) {
+						
+						IProject project = (IProject) root.getProject();
+						
+						
 						try {
 							IJavaProject jProject = JavaCore.create(project);
 							if (jProject != null) {
@@ -530,7 +533,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 						} catch (JavaModelException j) {
 							// ignore
 						}
-					}
+					//}
 					IContainer rootFolder = (IContainer) root;
 					for (IResource res : rootFolder.members()) {
 						result.addAll(findAll(res, extension));

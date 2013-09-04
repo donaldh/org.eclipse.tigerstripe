@@ -62,6 +62,8 @@ public class DiagramResourceValidator {
 			modelFileUri = Helper.makeUri(modelFile);
 			modelSegments = modelFileUri.segments();
 		} else {
+			statuses.add(new Status(Status.ERROR, PLUGIN_ID,format(
+					"Missing model File for diagram file '%s' ",diagramFile.getFullPath())));
 			modelFileUri = null;
 			modelSegments = null;
 		}
@@ -263,6 +265,9 @@ public class DiagramResourceValidator {
 
 					if (packageStr != null && packageStr.length() != 0)
 						return packageStr;
+				} else {
+					// wtf
+					String a="b";
 				}
 			}
 
