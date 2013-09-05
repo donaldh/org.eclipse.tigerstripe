@@ -44,7 +44,7 @@ public final class TigerstripeValidationUtils {
 				"instanceof", "return", "transient", "catch", "extends", "int",
 				"short", "try", "char", "final", "interface", "static", "void",
 				"class", "finally", "long", "strictfp", "volatile", "const",
-				"float", "native", "super", "while", "true", "false", "null", "String" };
+				"float", "native", "super", "while", "true", "false", "null" };
 		// convert to set of keywords
 		return unmodifiableSet( new HashSet<String>(asList(strArray)) );
 	}
