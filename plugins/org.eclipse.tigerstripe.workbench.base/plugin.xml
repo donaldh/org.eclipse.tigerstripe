@@ -704,4 +704,10 @@
           uri="http:///org/eclipse/tigerstripe/workbench/annotation/modelreference.ecore">
     </package>
  </extension>
+ <extension
+       point="org.eclipse.core.runtime.preferences">
+       <initializer
+            class="org.eclipse.tigerstripe.workbench.internal.preferences.CorePreferencesInitializer">
+      </initializer>
+ </extension>
 </plugin>

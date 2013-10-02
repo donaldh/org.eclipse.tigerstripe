@@ -53,6 +53,11 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -77,6 +82,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.internal.preferences.PreferenceConstants;
 import org.eclipse.tigerstripe.workbench.model.FqnUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -97,7 +103,7 @@ import org.eclipse.tigerstripe.workbench.utils.BitMask;
  * 
  */
 public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
-		implements IProjectDependencyChangeListener {
+		implements IProjectDependencyChangeListener, IPreferenceChangeListener{
 
 	private ModelAuditorHelper modelAuditorHelper = null;
 
@@ -107,13 +113,27 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	private IPath javaOutputPath = null;
 
+	
 	public TigerstripeProjectAuditor() {
 		super();
 	}
 
+	
+	
+	public void preferenceChange(PreferenceChangeEvent evt) {
+		if (evt.getKey().equals(PreferenceConstants.AUDIT_IGNORE_FOLDERS)){
+			setIgnoreFolders();
+		}
+		
+	}
+
+	
+
 	@Override
 	protected void startupOnInitialize() {
 		super.startupOnInitialize();
+		IEclipsePreferences node = new ConfigurationScope().getNode(BasePlugin.PLUGIN_ID);
+		node.addPreferenceChangeListener(this);
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);
 		tsProject.addProjectDependencyChangeListener(this);
@@ -128,6 +148,34 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		} catch (JavaModelException j) {
 			// ignore
 		}
+		setIgnoreFolders();
+	}
+
+	
+	private static List<String> ignoreFolders;
+
+	
+	
+	public static List<String> getIgnoreFolders() {
+		if (ignoreFolders == null){
+			setIgnoreFolders();
+		}
+		return ignoreFolders;
+	}
+
+	private static void setIgnoreFolders() {
+		ignoreFolders = new ArrayList<String>();		
+		IEclipsePreferences node = new ConfigurationScope().getNode(BasePlugin.PLUGIN_ID);
+		String ignoreFolderList = node.get(PreferenceConstants.AUDIT_IGNORE_FOLDERS, PreferenceConstants.AUDIT_IGNORE_FOLDERS_DEFAULT);
+		
+		String[] folders = ignoreFolderList.split(",");
+		if (folders.length == 0){
+			ignoreFolders.add(ignoreFolderList);
+		} else {
+			ignoreFolders.addAll(Arrays.asList(folders));
+		}
+
+
 	}
 
 	// ===================================================================
@@ -511,14 +559,12 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				result.add(root);
 			} else {
 				if (root instanceof IContainer) {
-					// We need to avoid the "bin" directory - or we get two of
-					// everything!
-					// Hoever this may not be called "bin" so we have to do some
-					// Gymnastics to work out if we are the "outputLocation"...
-					//if (root.getParent() instanceof IProject ) {
 						
 						IProject project = (IProject) root.getProject();
 						
+						if (getIgnoreFolders().contains(root.getName())){
+							return result;
+						}
 						
 						try {
 							IJavaProject jProject = JavaCore.create(project);

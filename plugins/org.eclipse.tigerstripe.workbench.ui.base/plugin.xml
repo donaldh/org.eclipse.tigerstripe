@@ -295,6 +295,13 @@
             id="org.eclipse.tigerstripe.ui.eclipse.preferences.GeneralPreferencePage"
             name="General"/>
       
+      <page
+            category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.preferences.AuditPreferencePage"
+            id="org.eclipse.tigerstripe.ui.eclipse.preferences.AuditPreferencePage"
+            name="Audit"/>
+      
+      
       <!--
       TA24515: Clean up Tigerstripe preferences
       <page
