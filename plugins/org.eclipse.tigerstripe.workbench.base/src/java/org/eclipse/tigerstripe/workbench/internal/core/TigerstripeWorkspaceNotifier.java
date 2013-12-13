@@ -10,7 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core;
 
+import java.net.URI;
+
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -23,16 +27,20 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.osgi.service.prefs.BackingStoreException;
 
 
 /**
@@ -344,6 +352,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	
 	public void activeFacetChanged(ITigerstripeModelProject project) {
 	    broadcastFacetChange(project);
+	    updateFacetPreference(project);
 	}
 	
 	private void broadcastFacetChange(final ITigerstripeModelProject project) {
@@ -363,6 +372,35 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	                });
 	        }
+	}
+
+	// This helps restore the active Facet on startup.
+	private void updateFacetPreference(final ITigerstripeModelProject project){
+		URI projectRelativePath = null;
+
+		try {
+			if (project.getActiveFacet() != null){
+				projectRelativePath = project.getActiveFacet().getURI();
+			}
+
+			IProject iProject = (IProject) project.getAdapter(IProject.class);
+
+			IScopeContext projectScope = new ProjectScope(iProject);
+
+			IEclipsePreferences projectNode = projectScope.getNode(BasePlugin.PLUGIN_ID);
+
+			if (projectRelativePath == null || projectRelativePath.toString().length()== 0){
+				projectNode.remove("activeFacet");
+			} else {
+				projectNode.put("activeFacet", projectRelativePath.toString());
+			}
+
+			projectNode.flush();
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		} catch (BackingStoreException e) {
+			BasePlugin.log(e);
+		}
 	}
 
 }

@@ -20,6 +20,8 @@ import static org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstant
 import static org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener.CLASS_DIAGRAM_EXTENSION;
 import static org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener.INSTANCE_DIAGRAM_EXTENSION;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -43,6 +45,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -52,12 +55,13 @@ import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -79,7 +83,10 @@ import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapt
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
+import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.preferences.PreferenceConstants;
@@ -132,11 +139,33 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	@Override
 	protected void startupOnInitialize() {
 		super.startupOnInitialize();
+		
+		IScopeContext projectScope = new ProjectScope(getProject());
+		
+		IEclipsePreferences projectNode = projectScope.getNode(BasePlugin.PLUGIN_ID);
+		
+		String activeFacet = projectNode.get("activeFacet", "");		
+		
 		IEclipsePreferences node = new ConfigurationScope().getNode(BasePlugin.PLUGIN_ID);
 		node.addPreferenceChangeListener(this);
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);
 		tsProject.addProjectDependencyChangeListener(this);
+		
+		if (activeFacet.length() != 0){
+			java.net.URI projectRelativePath;
+			try {
+				projectRelativePath = new java.net.URI(activeFacet);
+				IFacetReference facetRef = new FacetReference(projectRelativePath,tsProject);
+				tsProject.setActiveFacet(facetRef, null);
+			} catch (URISyntaxException e) {
+				BasePlugin.log(e);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+			
+		}
+		
 		// See if its a java project, and that the start of the resource path is
 		// equal to the output directory
 		IProject project = getProject();
