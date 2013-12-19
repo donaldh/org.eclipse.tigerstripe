@@ -11,7 +11,10 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -47,10 +50,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
+import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
@@ -464,6 +469,19 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		});
 		addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
+		
+		// Add Missing Transitive Dependency button
+		Button addMissingTransitiveDependenciesButton = toolkit.createButton(buttonsClient, "Add Transitive", SWT.PUSH);
+		addMissingTransitiveDependenciesButton.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				addMissingTransitiveDependenciesButtonSelected();
+			}
+		});
+		addMissingTransitiveDependenciesButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
 		// Remove Dependency button
 		removeButton = toolkit.createButton(buttonsClient, "Remove", SWT.PUSH);
 		removeButton.addSelectionListener(new SelectionListener() {
@@ -588,7 +606,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 						getTSProject().addModelReference(ref);
 						viewer.refresh(true);
 						viewer.setChecked(ref, true);  // NM: Check newly added dependency
-						markPageModified();
+						markPageModified();				
+						if (dialog.isIncludeTransitiveDependencies()){
+							addMissingTransitiveDependencies( new ModelReference[]{ref});
+						}
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					}
@@ -607,10 +628,86 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				}
 			}
 			
+			
+			
 		}
 		viewer.refresh();
 	}
 
+	
+	
+	
+	protected void addMissingTransitiveDependenciesButtonSelected(){
+		
+		// Take the list of current Dependencies and work out
+		// the list of "missing" transitive" dependencies
+		// these could be project, or modules
+		// check for circular/repeats.
+		//Add the ones found, and highlight any not found in a dialog.
+		
+		try {
+			ModelReference[] existingReferences = getTSProject().getModelReferences();
+			addMissingTransitiveDependencies(existingReferences);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		
+	}
+	
+	
+	protected void addMissingTransitiveDependencies(ModelReference[] existingReferences){	
+
+		try {
+			List<ModelReference> newRefs = new ArrayList<ModelReference>();
+			Set<String> existingModels = new HashSet<String>();
+			for (ModelReference ref : existingReferences) {
+				newRefs.addAll(getTransitiveRefs(ref));
+				existingModels.add(ref.getToModelId());
+			}
+
+			// deDuplicate
+			Set<String> referencedModels = new HashSet<String>();
+			for (ModelReference ref : newRefs) {
+				if (! existingModels.contains(ref.getToModelId())){
+					referencedModels.add(ref.getToModelId());
+				}
+			}
+
+
+			// set on the model...
+			for (String ref : referencedModels) {
+				ModelReference newRef = new ModelReference(getTSProject(), ref);
+				if (newRef.getResolvedModel() != null){
+					getTSProject().addModelReference(newRef);
+					viewer.refresh(true);
+					viewer.setChecked(newRef, true);  // NM: Check newly added dependency
+					markPageModified();
+				}
+
+			}
+
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+
+	}
+	
+	//recurse on the transitive dependencies
+			
+	private List<ModelReference> getTransitiveRefs(ModelReference modelRef) throws TigerstripeException{
+		List<ModelReference> newRefs = new ArrayList<ModelReference>();
+		if (modelRef.getResolvedModel() != null){
+			List<ModelReference> addedRefs = Arrays.asList(modelRef.getResolvedModel().getModelReferences());
+			newRefs.addAll(addedRefs);
+			for (ModelReference ref : addedRefs) {
+				newRefs.addAll(getTransitiveRefs(ref));
+			}
+		}
+		return newRefs;
+
+	}
+
+	
 	protected void removeButtonSelected() {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
 		List<ModelReference> modelRefFields = new ArrayList<ModelReference>();

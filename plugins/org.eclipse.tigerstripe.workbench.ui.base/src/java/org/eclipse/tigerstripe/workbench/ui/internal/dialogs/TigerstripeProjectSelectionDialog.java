@@ -42,9 +42,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -334,18 +337,21 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 				KIND_RESOLVER));
 		fTableViewer.getControl().setFont(font);
 
-		// Button checkbox= new Button(composite, SWT.CHECK);
-		// checkbox.setText(PreferencesMessages.ProjectSelectionDialog_filter);
-		// checkbox.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true,
-		// false));
-		// checkbox.addSelectionListener(new SelectionListener() {
-		// public void widgetSelected(SelectionEvent e) {
-		// updateFilter(((Button) e.widget).getSelection());
-		// }
-		// public void widgetDefaultSelected(SelectionEvent e) {
-		// updateFilter(((Button) e.widget).getSelection());
-		// }
-		// });
+		 Button checkbox = new Button(composite, SWT.CHECK);
+		 checkbox.setText("Add Transitive dependencies");
+		 checkbox.setSelection(isIncludeTransitiveDependencies());
+		 checkbox.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true,
+		 false));
+		 
+		 checkbox.addSelectionListener(new SelectionListener() {
+			 public void widgetSelected(SelectionEvent e) {
+				 setIncludeTransitiveDependencies(true);
+
+			 }
+			 public void widgetDefaultSelected(SelectionEvent e) {
+
+			 }
+		 });
 		// IDialogSettings dialogSettings=
 		// JavaPlugin.getDefault().getDialogSettings();
 		// boolean doFilter=
@@ -361,6 +367,16 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 		doSelectionChanged(new Object[0]);
 		Dialog.applyDialogFont(composite);
 		return composite;
+	}
+
+	private boolean includeTransitive = true;
+	
+	public boolean isIncludeTransitiveDependencies(){
+		return includeTransitive;
+	}
+	
+	private void setIncludeTransitiveDependencies(boolean b) {
+		includeTransitive = b;
 	}
 
 	// protected void updateFilter(boolean selected) {
