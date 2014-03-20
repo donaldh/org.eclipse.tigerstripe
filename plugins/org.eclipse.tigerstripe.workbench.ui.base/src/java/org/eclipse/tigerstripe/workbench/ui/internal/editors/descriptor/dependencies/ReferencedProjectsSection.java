@@ -608,7 +608,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 						viewer.setChecked(ref, true);  // NM: Check newly added dependency
 						markPageModified();				
 						if (dialog.isIncludeTransitiveDependencies()){
-							addMissingTransitiveDependencies( new ModelReference[]{ref});
+							addMissingTransitiveDependencies(new ModelReference[] { ref });
 						}
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
@@ -646,8 +646,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		//Add the ones found, and highlight any not found in a dialog.
 		
 		try {
-			ModelReference[] existingReferences = getTSProject().getModelReferences();
-			addMissingTransitiveDependencies(existingReferences);
+			ModelReference[] references = getTSProject().getModelReferences();
+			addMissingTransitiveDependencies(references);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -655,24 +655,27 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	}
 	
 	
-	protected void addMissingTransitiveDependencies(ModelReference[] existingReferences){	
+	protected void addMissingTransitiveDependencies(ModelReference[] references){	
 
 		try {
+                        Set<String> existingModels = new HashSet<String>();
+	                ModelReference[] existingReferences = getTSProject().getModelReferences();
+	                for (ModelReference ref : existingReferences) {
+	                    existingModels.add(ref.getToModelId());
+	                }
+	                
 			List<ModelReference> newRefs = new ArrayList<ModelReference>();
-			Set<String> existingModels = new HashSet<String>();
-			for (ModelReference ref : existingReferences) {
-				newRefs.addAll(getTransitiveRefs(ref));
-				existingModels.add(ref.getToModelId());
+			for (ModelReference ref : references) {
+			    newRefs.addAll(getTransitiveRefs(ref));
 			}
 
 			// deDuplicate
 			Set<String> referencedModels = new HashSet<String>();
-			for (ModelReference ref : newRefs) {
-				if (! existingModels.contains(ref.getToModelId())){
-					referencedModels.add(ref.getToModelId());
-				}
-			}
-
+                        for (ModelReference ref : newRefs) {
+                            if (!existingModels.contains(ref.getToModelId())) {
+                                referencedModels.add(ref.getToModelId());
+                            }
+                        }
 
 			// set on the model...
 			for (String ref : referencedModels) {

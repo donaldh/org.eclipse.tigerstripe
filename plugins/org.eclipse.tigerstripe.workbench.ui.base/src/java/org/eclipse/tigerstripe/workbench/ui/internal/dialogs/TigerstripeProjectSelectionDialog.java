@@ -337,7 +337,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 				KIND_RESOLVER));
 		fTableViewer.getControl().setFont(font);
 
-		 Button checkbox = new Button(composite, SWT.CHECK);
+		 final Button checkbox = new Button(composite, SWT.CHECK);
 		 checkbox.setText("Add Transitive dependencies");
 		 checkbox.setSelection(isIncludeTransitiveDependencies());
 		 checkbox.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true,
@@ -345,7 +345,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 		 
 		 checkbox.addSelectionListener(new SelectionListener() {
 			 public void widgetSelected(SelectionEvent e) {
-				 setIncludeTransitiveDependencies(true);
+				 setIncludeTransitiveDependencies(checkbox.getSelection());
 
 			 }
 			 public void widgetDefaultSelected(SelectionEvent e) {
