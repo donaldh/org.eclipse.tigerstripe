@@ -1000,6 +1000,12 @@ public class XML2TS {
 			IType type = thisEnd.makeType();
 			type.setFullyQualifiedName(endNode.getAttribute("type"));
 			thisEnd.setType(type);
+			
+			for (IStereotypeInstance st : getStereotypes(endNode, out, messages)) {
+				thisEnd.addStereotypeInstance(st);
+			}
+			
+			setAnnotations(endNode, thisEnd, out, messages);
 
 			if (endNode.getAttribute("end").equals("AEnd")) {
 				assArt.setAEnd(thisEnd);
