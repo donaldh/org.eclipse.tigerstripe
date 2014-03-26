@@ -603,12 +603,21 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				}
 				if (ref != null) {
 					try {
-						getTSProject().addModelReference(ref);
+					        boolean exists = false;
+					        for (ModelReference existingRef : getTSProject().getModelReferences()) {
+					            if (existingRef.getToModelId().equals(ref.getToModelId())) {
+					                exists = true;
+					                break;
+					            }
+					        }
+					        if (!exists) {
+					            getTSProject().addModelReference(ref);					            
+					        }
 						viewer.refresh(true);
 						viewer.setChecked(ref, true);  // NM: Check newly added dependency
 						markPageModified();				
 						if (dialog.isIncludeTransitiveDependencies()){
-							addMissingTransitiveDependencies(new ModelReference[] { ref });
+						    addMissingTransitiveDependencies(new ModelReference[] { ref });
 						}
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
