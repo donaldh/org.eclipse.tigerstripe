@@ -53,7 +53,7 @@ public abstract class AbstractArtifactPersister {
 				.put("class.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 		properties.put("class.resource.loader.cache", "true");
-		properties.put("runtime.log", "tigerstripe/velocity.log");
+		properties.put("runtime.log", "target/tigerstripe.gen/velocity.log");
 		
 		ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
 		try {

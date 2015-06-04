@@ -430,7 +430,7 @@ public abstract class TemplateBasedRule extends Rule implements
 			result.setProperty("runtime.log", projectDir + File.separatorChar
 					+ outputDir + File.separator + velocityLogPath);
 		} else {
-			result.setProperty("runtime.log", "tigerstripe/velocity.log");
+			result.setProperty("runtime.log", "target/tigerstripe.gen/velocity.log");
 		}
 
 		LogChute logger = new Log4JLogChute();
