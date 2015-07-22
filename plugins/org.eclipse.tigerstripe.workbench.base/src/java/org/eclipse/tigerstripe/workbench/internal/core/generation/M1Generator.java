@@ -150,27 +150,25 @@ public class M1Generator {
         try {
             // work out progress count .. (Bugzilla 241405)
             int workCount =
-            // for setup...
             WORK_UNIT +
-            // allocate 30 ticks for each plugin run against this project.
+                    // for each plugin run against this project.
                     config.getPluginConfigs().length * WORK_UNIT +
-                    // allocate 40 ticks for each dependent project.
+                    // for each dependent project.
                     project.getDependencies().length * WORK_UNIT +
                     // for pre generation work
                     WORK_UNIT +
-                    // allocate 40 ticks for each referenced project.
+                    // for each referenced project.
                     project.getReferencedProjects().length * WORK_UNIT +
-                    // and another for stuff in internal run
+                    // for internal run
                     WORK_UNIT +
                     // for post generation work
                     WORK_UNIT;
 
             monitor.subTask("Setup");
             monitor.beginTask("Generating project", workCount);
-            // long before = System.currentTimeMillis();
+            
             refreshAndSetupForGeneration();
-            // long after = System.currentTimeMillis();
-            // System.out.println("Refresh of "+project.getProjectLabel()+" :"+(after-before));
+            
             if (project == null)
                 throw new TigerstripeException("Invalid project");
 
