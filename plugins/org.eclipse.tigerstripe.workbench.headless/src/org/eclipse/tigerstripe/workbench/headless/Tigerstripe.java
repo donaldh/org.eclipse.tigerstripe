@@ -19,17 +19,19 @@ import java.util.List;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
@@ -48,9 +50,9 @@ import org.osgi.framework.Constants;
  * 
  * nmehrega: Fixed Bug 331457 - [Headless] Project import does not work in
  * headless mode
- *
+ * 
  */
-public class Tigerstripe implements IApplication, IResourceChangeListener {
+public class Tigerstripe implements IApplication {
 
     private static final String DELIMITER = "=";
 
@@ -62,32 +64,40 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 
     private String generationProject;
 
-    private static String postBuildLock = "LOCK";
-
     public Object start(IApplicationContext context) throws Exception {
 
         long start = System.currentTimeMillis();
+
+        System.out.println("Starting Tigerstripe...");
         printTigerstipeVersionInfo();
         setPluginParams(context);
+        
         try {
-
             PostInstallActions.init();
             printProfile();
-            initializeWorkspace();
 
+            System.out.println("Importing projects...");
+            initializeWorkspace();
+            
             File projectFile = new File(generationProject);
             ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
                     .findProject(projectFile.toURI());
+
+            System.out.println("Validating project...");
             validateProject(project);
+            
+            System.out.println("Running generators...");
             generateTigerstripeOutput(project);
+            
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             e.printStackTrace();
             return 1;
         }
+
         long finish = System.currentTimeMillis();
         System.out.println("Generation complete. Took " + (finish - start)
                 + " milliseconds.");
+
         return EXIT_OK;
     }
 
@@ -126,42 +136,57 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
             return;
 
         importProjectsToWorkspace(projects);
-        for (String project : projects) {
-            System.out.println("Imported " + project + " into workspace.");
-        }
+
         System.out.println("Generation project: " + generationProject);
     }
 
     private void validateProject(ITigerstripeModelProject project)
             throws TigerstripeException {
-        try {
-            IProject iProject = (IProject) project.getAdapter(IProject.class);
-            if (iProject != null) {
-                StringBuffer errorMsg = new StringBuffer();
+
+        final IProject iProject = (IProject) project.getAdapter(IProject.class);
+        if (iProject == null) {
+            throw new TigerstripeException(
+                    "Failed to adapt project as org.eclipse.core.resources.IProject, not able to run validation checks.");
+        }
+
+        final StringBuffer errorMsg = new StringBuffer();
+        IWorkspaceRunnable checkForErrorsRunnable = new IWorkspaceRunnable() {
+
+            public void run(IProgressMonitor monitor) throws CoreException {
+
                 IMarker[] markers = iProject.findMarkers(IMarker.PROBLEM, true,
                         IResource.DEPTH_INFINITE);
                 for (int i = 0; i < markers.length; i++) {
                     if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(
                             IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
+                        String message = (String) markers[i]
+                                .getAttribute(IMarker.MESSAGE);
+                        if (message
+                                .contains("Plugin execution not covered by lifecycle configuration")) {
+                            continue;
+                        }
                         errorMsg.append("\n - ")
                                 .append(markers[i].getResource()
                                         .getProjectRelativePath().toString())
-                                .append(": ")
-                                .append(markers[i].getAttribute(
-                                        IMarker.MESSAGE, ""));
+                                .append(": ").append(message);
                     }
                 }
-                if (errorMsg.length() > 0) {
-                    throw new TigerstripeException(
-                            "Unable to perform generation. Project ["
-                                    + iProject.getName()
-                                    + "] contains errors: "
-                                    + errorMsg.toString());
-                }
             }
-        } catch (CoreException e) {
+        };
+
+        try {
+            ResourcesPlugin.getWorkspace().run(checkForErrorsRunnable,
+                    new NullProgressMonitor());
+        } catch (Exception e) {
             throw new TigerstripeException("Errors during project validation. "
                     + e.getMessage(), e);
+        }
+
+        if (errorMsg.length() > 0) {
+            throw new TigerstripeException(
+                    "Unable to perform generation. Project ["
+                            + iProject.getName() + "] contains errors: "
+                            + errorMsg.toString());
         }
     }
 
@@ -176,28 +201,13 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
     private void importProjectsToWorkspace(final List<String> projects)
             throws TigerstripeException {
 
-        ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
-                IResourceChangeEvent.POST_BUILD);
-
-        IWorkspaceRunnable op = new WorkspaceRunnable(projects);
-
-        // run the new project creation operation
+        IWorkspaceRunnable op = new ImportProjectsRunnable(projects);
         try {
             ResourcesPlugin.getWorkspace().run(op, null);
         } catch (CoreException e) {
             throw new TigerstripeException(
                     "Importing projects to workspace has failed.  "
                             + e.getMessage(), e);
-        }
-
-        // NM: Wait until we get a build before proceeding. This also makes sure
-        // all POST_CHANGE resource change listeners are processed
-        synchronized (postBuildLock) {
-            try {
-                postBuildLock.wait(5000);
-            } catch (InterruptedException e) {
-                // Ignore
-            }
         }
     }
 
@@ -210,28 +220,34 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
         IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
                 project, RunConfig.M1);
         PluginRunStatus[] statuses = project.generate(config, null);
-        boolean failed = false;
+        StringBuffer failedGenerators = new StringBuffer();
         if (statuses.length != 0) {
             for (PluginRunStatus pluginRunStatus : statuses) {
                 System.out.println(pluginRunStatus);
                 if (pluginRunStatus.getSeverity() == IStatus.ERROR) {
-                    failed = true;
+                    if (failedGenerators.length() > 0) {
+                        failedGenerators.append(", ");
+                    }
+                    failedGenerators.append(pluginRunStatus.getPlugin());
                 }
             }
         }
-        if (failed)
-            throw new TigerstripeException("Generation is failed.");
+        if (failedGenerators.length() > 0) {
+            throw new TigerstripeException(
+                    "Generation failed. Check the following generators for errors: ["
+                            + failedGenerators.toString() + "]");
+        }
     }
 
     public void stop() {
         System.out.println("Stopping");
     }
 
-    class WorkspaceRunnable implements IWorkspaceRunnable, IOverwriteQuery {
+    class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQuery {
 
         private List<String> projects = null;
 
-        public WorkspaceRunnable(List<String> projects) {
+        public ImportProjectsRunnable(List<String> projects) {
             this.projects = projects;
         }
 
@@ -239,8 +255,11 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
             return IOverwriteQuery.YES;
         }
 
-        public void run(IProgressMonitor monitor) throws CoreException {
+        public void run(final IProgressMonitor monitor) throws CoreException {
+
             final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+
+            final List<IProject> importedProjects = new ArrayList<IProject>();
             for (String projectPath : projects) {
                 if (isStringValid(projectPath)) {
                     if (projectPath.contains("\\"))
@@ -285,26 +304,40 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
                             e.printStackTrace();
                         }
                     }
+                    importedProjects.add(project);
                 }
             }
-            workspace.getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
-        }
 
-    }
+            workspace.getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 
-    public void resourceChanged(IResourceChangeEvent event) {
+            for (final IProject project : importedProjects) {
+                Display.getDefault().syncExec(new Runnable() {
 
-        if (event.getType() == IResourceChangeEvent.POST_BUILD) {
-            synchronized (postBuildLock) {
+                    public void run() {
+                        try {
+                            Object adapted = ((IAdaptable) project)
+                                    .getAdapter(ITigerstripeModelProject.class);
+                            if (adapted != null) {
+                                ((ITigerstripeModelProject) adapted)
+                                        .getArtifactManagerSession()
+                                        .refreshAll(false, monitor);
+                            } else {
+                                System.out
+                                        .println("Failed to process project as Tigerstripe Project, validation will not be run.");
+                            }
+                            project.build(IncrementalProjectBuilder.FULL_BUILD,
+                                    monitor);
+                        } catch (Exception e) {
+                            System.out
+                                    .println("An error was thrown while building the project:"
+                                            + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
-                try {
-                    postBuildLock.notify();
-                } catch (Exception e) {
-                    // Ignore
-                }
             }
         }
-
     }
 
 }

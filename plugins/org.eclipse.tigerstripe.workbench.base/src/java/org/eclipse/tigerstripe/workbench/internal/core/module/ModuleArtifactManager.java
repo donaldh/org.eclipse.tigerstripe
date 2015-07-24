@@ -32,65 +32,65 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
  */
 public class ModuleArtifactManager extends ArtifactManagerImpl {
 
-	private ModuleDescriptorModel moduleModel;
-	
-	// these are used only during generation of modules and then removed. Never
-	// persisted.
-	private List<IDependency> temporaryDependencies = new ArrayList<IDependency>();
+    private ModuleDescriptorModel moduleModel;
 
-	// TODO remove local variable for embeddedProject this is now redundant
-	// with tsProject being saved in the parent.
+    // these are used only during generation of modules and then removed. Never
+    // persisted.
+    private List<IDependency> temporaryDependencies = new ArrayList<IDependency>();
 
-	public ModuleArtifactManager(ModuleDescriptorModel moduleModel) {
-		super( moduleModel.getEmbeddedProject());
-		this.moduleModel = moduleModel;
-	}
+    // TODO remove local variable for embeddedProject this is now redundant
+    // with tsProject being saved in the parent.
 
-	public TigerstripeProject getEmbeddedProject() {
-		return moduleModel.getEmbeddedProject();
-	}
-	
-	public ModuleDescriptorModel getModuleModel() {
-		return this.moduleModel;
-	}
+    public ModuleArtifactManager(ModuleDescriptorModel moduleModel) {
+        super(moduleModel.getEmbeddedProject());
+        this.moduleModel = moduleModel;
+    }
 
-	public void addTemporaryDependency(IDependency dependency)
-			throws TigerstripeException {
-		if (wasDisposed()) {
-			return;
-		}
-		temporaryDependencies.add(dependency);
-	}
+    public TigerstripeProject getEmbeddedProject() {
+        return moduleModel.getEmbeddedProject();
+    }
 
-	public void clearTemporaryDependencies(IProgressMonitor monitor) {
-		if (wasDisposed()) {
-			return;
-		}
-		temporaryDependencies.clear();
-		updateDependenciesContentCache(monitor);
-	}
+    public ModuleDescriptorModel getModuleModel() {
+        return this.moduleModel;
+    }
 
-	protected IDependency[] getTemporaryDependencies() {
-		if (wasDisposed()) {
-			return new IDependency[0];
-		}
-		return temporaryDependencies
-				.toArray(new IDependency[temporaryDependencies.size()]);
-	}
+    public void addTemporaryDependency(IDependency dependency)
+            throws TigerstripeException {
+        if (wasDisposed()) {
+            return;
+        }
+        temporaryDependencies.add(dependency);
+    }
 
-	@Override
-	public synchronized IDependency[] getProjectDependencies() {
-		return getTemporaryDependencies();
-	}
+    public void clearTemporaryDependencies(IProgressMonitor monitor) {
+        if (wasDisposed()) {
+            return;
+        }
+        temporaryDependencies.clear();
+        updateDependenciesContentCache(monitor);
+    }
 
-	@Override
-	public void dispose() {
-		if (wasDisposed()) {
-			return;
-		}
-		temporaryDependencies.clear();
-		temporaryDependencies = null;
-		super.dispose();
-	}
+    protected IDependency[] getTemporaryDependencies() {
+        if (wasDisposed()) {
+            return new IDependency[0];
+        }
+        return temporaryDependencies
+                .toArray(new IDependency[temporaryDependencies.size()]);
+    }
+
+    @Override
+    public synchronized IDependency[] getProjectDependencies() {
+        return getTemporaryDependencies();
+    }
+
+    @Override
+    public void dispose() {
+        if (wasDisposed()) {
+            return;
+        }
+        temporaryDependencies.clear();
+        temporaryDependencies = null;
+        super.dispose();
+    }
 
 }

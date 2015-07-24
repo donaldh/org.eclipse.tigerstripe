@@ -26,80 +26,81 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
 public class ModuleProjectHandle extends TigerstripeProjectHandle implements
-		ITigerstripeModuleProject {
+        ITigerstripeModuleProject {
 
-	private ModuleRef moduleRef;
+    private ModuleRef moduleRef;
 
-	/**
-	 * 
-	 * @param projectContainerURI
-	 *            , The URI of the containing project (where the module is)
-	 * @param dependency
-	 *            , the dependency to create the module project for.
-	 */
-	public ModuleProjectHandle(URI projectContainerURI, Dependency dependency) {
-		super(projectContainerURI);
-		if (dependency.isValid()) {
-			this.moduleRef = dependency.getModuleRef();
-		}
-	}
+    /**
+     * 
+     * @param projectContainerURI
+     *            , The URI of the containing project (where the module is)
+     * @param dependency
+     *            , the dependency to create the module project for.
+     */
+    public ModuleProjectHandle(URI projectContainerURI, Dependency dependency) {
+        super(projectContainerURI);
+        if (dependency.isValid()) {
+            this.moduleRef = dependency.getModuleRef();
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#
-	 * getReferencingModels()
-	 */
-	public ModelReference[] getReferencingModels(int level) throws TigerstripeException {
-		//TODO should return the containing projects?
-		return new ModelReference[0];
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @seeorg.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#
+     * getReferencingModels()
+     */
+    public ModelReference[] getReferencingModels(int level)
+            throws TigerstripeException {
+        // TODO should return the containing projects?
+        return new ModelReference[0];
+    }
 
-	@Override
-	public TigerstripeProject getTSProject() throws TigerstripeException {
-		return moduleRef.getEmbeddedProject();
-	}
+    @Override
+    public TigerstripeProject getTSProject() throws TigerstripeException {
+        return moduleRef.getEmbeddedProject();
+    }
 
-	public IModulePackager getPackager() {
-		return null;
-	}
+    public IModulePackager getPackager() {
+        return null;
+    }
 
-	@Override
-	public IArtifactManagerSession getArtifactManagerSession()
-			throws TigerstripeException {
-		if (artifactMgrSession == null) {
-			setArtifactManagerSession(new ArtifactManagerSessionImpl(moduleRef
-					.getArtifactManager()));
-		}
+    @Override
+    public IArtifactManagerSession getArtifactManagerSession()
+            throws TigerstripeException {
+        if (artifactMgrSession == null) {
+            setArtifactManagerSession(new ArtifactManagerSessionImpl(
+                    moduleRef.getArtifactManager()));
+        }
 
-		return artifactMgrSession;
-	}
+        return artifactMgrSession;
+    }
 
-	protected ModuleArtifactManager getModuleManager() {
-		return (ModuleArtifactManager) moduleRef.getArtifactManager();
-	}
+    protected ModuleArtifactManager getModuleManager() {
+        return (ModuleArtifactManager) moduleRef.getArtifactManager();
+    }
 
-	public void updateDependenciesContentCache(IProgressMonitor monitor) {
-		getModuleManager().updateDependenciesContentCache(monitor);
-	}
+    public void updateDependenciesContentCache(IProgressMonitor monitor) {
+        getModuleManager().updateDependenciesContentCache(monitor);
+    }
 
-	public void addTemporaryDependency(IDependency dependency)
-			throws TigerstripeException {
-		getModuleManager().addTemporaryDependency(dependency);
-	}
+    public void addTemporaryDependency(IDependency dependency)
+            throws TigerstripeException {
+        getModuleManager().addTemporaryDependency(dependency);
+    }
 
-	public void clearTemporaryDependencies(IProgressMonitor monitor) {
-		getModuleManager().clearTemporaryDependencies(monitor);
-	}
+    public void clearTemporaryDependencies(IProgressMonitor monitor) {
+        getModuleManager().clearTemporaryDependencies(monitor);
+    }
 
-	@Override
-	protected WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
-			throws TigerstripeException {
-		throw new TigerstripeException("Operation not supported.");
-	}
+    @Override
+    protected WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+            throws TigerstripeException {
+        throw new TigerstripeException("Operation not supported.");
+    }
 
-	@Override
-	public boolean isDirty() {
-		return false;
-	}
+    @Override
+    public boolean isDirty() {
+        return false;
+    }
 }

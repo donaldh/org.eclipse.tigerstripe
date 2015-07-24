@@ -39,95 +39,96 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtif
 
 public enum ArtifactAuditorFactory {
 
-	INSTANCE;
+    INSTANCE;
 
-	private final IConfigurationElement[] contributedElements;
+    private final IConfigurationElement[] contributedElements;
 
-	private ArtifactAuditorFactory() {
-		contributedElements = Platform
-				.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						"org.eclipse.tigerstripe.workbench.base.customArtifactAuditor");
+    private ArtifactAuditorFactory() {
+        contributedElements = Platform
+                .getExtensionRegistry()
+                .getConfigurationElementsFor(
+                        "org.eclipse.tigerstripe.workbench.base.customArtifactAuditor");
 
-	}
+    }
 
-	public IArtifactAuditor newArtifactAuditor(IProject project,
-			IAbstractArtifact artifact) throws TigerstripeException {
+    public IArtifactAuditor newArtifactAuditor(IProject project,
+            IAbstractArtifact artifact) throws TigerstripeException {
 
-		List<IArtifactAuditor> auditors = new ArrayList<IArtifactAuditor>(
-				contributedElements.length + 2);
+        List<IArtifactAuditor> auditors = new ArrayList<IArtifactAuditor>(
+                contributedElements.length + 2);
 
-		auditors.add(new CommonArtifactAuditor());
-		for (IConfigurationElement e : contributedElements) {
-			try {
-				auditors.add(wrapSafeable((IArtifactAuditor) e
-						.createExecutableExtension("auditorClass")));
-			} catch (CoreException e1) {
-				TigerstripeProjectAuditor.reportError(
-						"Invalid custom audit definitions.", project, 222);
-			}
-		}
-		auditors.add(getAuditor(artifact));
+        auditors.add(new CommonArtifactAuditor());
+        for (IConfigurationElement e : contributedElements) {
+            try {
+                auditors.add(wrapSafeable((IArtifactAuditor) e
+                        .createExecutableExtension("auditorClass")));
+            } catch (CoreException e1) {
+                TigerstripeProjectAuditor.reportError(
+                        "Invalid custom audit definitions.", project, 222);
+            }
+        }
+        auditors.add(getAuditor(artifact));
 
-		IArtifactAuditor result = new CompositeArtifactAuditor(auditors);
-		result.setDetails(project, artifact);
-		return result;
-	}
+        IArtifactAuditor result = new CompositeArtifactAuditor(auditors);
+        result.setDetails(project, artifact);
+        return result;
+    }
 
-	private IArtifactAuditor wrapSafeable(final IArtifactAuditor delegat) {
+    private IArtifactAuditor wrapSafeable(final IArtifactAuditor delegat) {
 
-		return new IArtifactAuditor() {
+        return new IArtifactAuditor() {
 
-			public void setDetails(IProject project, IAbstractArtifact artifact) {
-				delegat.setDetails(project, artifact);
-			}
+            public void setDetails(IProject project, IAbstractArtifact artifact) {
+                delegat.setDetails(project, artifact);
+            }
 
-			public void run(final IProgressMonitor monitor) {
-				SafeRunner.run(new ISafeRunnable() {
-					public void handleException(Throwable exception) {
-						BasePlugin.log(exception);
-					}
+            public void run(final IProgressMonitor monitor) {
+                SafeRunner.run(new ISafeRunnable() {
+                    public void handleException(Throwable exception) {
+                        BasePlugin.log(exception);
+                    }
 
-					public void run() throws Exception {
-						delegat.run(monitor);
-					}
-				});
-			}
+                    public void run() throws Exception {
+                        delegat.run(monitor);
+                    }
+                });
+            }
 
-		};
-	}
+        };
+    }
 
-	private IArtifactAuditor getAuditor(IAbstractArtifact artifact)
-			throws TigerstripeException {
-		if (artifact instanceof IManagedEntityArtifact) {
-			return new ManagedEntityArtifactAuditor();
-		} else if (artifact instanceof IDatatypeArtifact) {
-			return new DatatypeArtifactAuditor();
-		} else if (artifact instanceof IEnumArtifact) {
-			return new EnumerationArtifactAuditor();
-		} else if (artifact instanceof IEventArtifact) {
-			return new EventArtifactAuditor();
-		} else if (artifact instanceof IExceptionArtifact) {
-			return new ExceptionArtifactAuditor();
-		} else if (artifact instanceof IQueryArtifact) {
-			return new QueryArtifactAuditor();
-		} else if (artifact instanceof ISessionArtifact) {
-			return new SessionFacadeArtifactAuditor();
-		} else if (artifact instanceof IUpdateProcedureArtifact) {
-			return new UpdateProcedureArtifactAuditor();
-		} else if (artifact instanceof IAssociationClassArtifact) {
-			return new AssociationClassArtifactAuditor();
-		} else if (artifact instanceof IAssociationArtifact) {
-			return new AssociationArtifactAuditor();
-		} else if (artifact instanceof IDependencyArtifact) {
-			return new DependencyArtifactAuditor();
-		} else if (artifact instanceof IPackageArtifact) {
-			return new PackageArtifactAuditor();
-		} else if (artifact instanceof IPrimitiveTypeArtifact) {
-			return IArtifactAuditor.EMPTY;
-		} else {
-			throw new TigerstripeException(
-					"Internal Error, can't find artifact auditor for " + artifact);
-		}
-	}
+    private IArtifactAuditor getAuditor(IAbstractArtifact artifact)
+            throws TigerstripeException {
+        if (artifact instanceof IManagedEntityArtifact) {
+            return new ManagedEntityArtifactAuditor();
+        } else if (artifact instanceof IDatatypeArtifact) {
+            return new DatatypeArtifactAuditor();
+        } else if (artifact instanceof IEnumArtifact) {
+            return new EnumerationArtifactAuditor();
+        } else if (artifact instanceof IEventArtifact) {
+            return new EventArtifactAuditor();
+        } else if (artifact instanceof IExceptionArtifact) {
+            return new ExceptionArtifactAuditor();
+        } else if (artifact instanceof IQueryArtifact) {
+            return new QueryArtifactAuditor();
+        } else if (artifact instanceof ISessionArtifact) {
+            return new SessionFacadeArtifactAuditor();
+        } else if (artifact instanceof IUpdateProcedureArtifact) {
+            return new UpdateProcedureArtifactAuditor();
+        } else if (artifact instanceof IAssociationClassArtifact) {
+            return new AssociationClassArtifactAuditor();
+        } else if (artifact instanceof IAssociationArtifact) {
+            return new AssociationArtifactAuditor();
+        } else if (artifact instanceof IDependencyArtifact) {
+            return new DependencyArtifactAuditor();
+        } else if (artifact instanceof IPackageArtifact) {
+            return new PackageArtifactAuditor();
+        } else if (artifact instanceof IPrimitiveTypeArtifact) {
+            return IArtifactAuditor.EMPTY;
+        } else {
+            throw new TigerstripeException(
+                    "Internal Error, can't find artifact auditor for "
+                            + artifact);
+        }
+    }
 }

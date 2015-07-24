@@ -35,253 +35,254 @@ import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
  */
 public interface IArtifactManagerSession {
 
-	/**
-	 * Returns a list of all supported Artifact Types
-	 * 
-	 */
-	public Collection<Class<?>> getSupportedArtifactClasses();
+    /**
+     * Returns a list of all supported Artifact Types
+     * 
+     */
+    public Collection<Class<?>> getSupportedArtifactClasses();
 
-	/**
-	 * Returns a list of supported QueryArtifacts
-	 * 
-	 */
-	public String[] getSupportedQueries();
+    /**
+     * Returns a list of supported QueryArtifacts
+     * 
+     */
+    public String[] getSupportedQueries();
 
-	/**
-	 * Makes a new Artifact of the given type. Valid types are returned by
-	 * getSupportedArtifacts()
-	 * 
-	 * @param artifactType
-	 *            - String the fully qualified name of the artifact to make.
-	 *            Valid fully qualified artifact types are given by
-	 *            getSupportedArtifacts().
-	 * @see #getSupportedArtifacts()
-	 */
-	public IAbstractArtifact makeArtifact(String artifactType)
-			throws IllegalArgumentException;
+    /**
+     * Makes a new Artifact of the given type. Valid types are returned by
+     * getSupportedArtifacts()
+     * 
+     * @param artifactType
+     *            - String the fully qualified name of the artifact to make.
+     *            Valid fully qualified artifact types are given by
+     *            getSupportedArtifacts().
+     * @see #getSupportedArtifacts()
+     */
+    public IAbstractArtifact makeArtifact(String artifactType)
+            throws IllegalArgumentException;
 
-	/**
-	 * Makes a new Artifact of similar type.
-	 * 
-	 * This method creates a new Artifact of the same type as the one provided
-	 * as parameter. No values are duplicated from the model.
-	 * 
-	 * @param model
-	 *            - IAbstractArtifact the artifact of the type to be made
-	 */
-	public IAbstractArtifact makeArtifact(IAbstractArtifact model);
+    /**
+     * Makes a new Artifact of similar type.
+     * 
+     * This method creates a new Artifact of the same type as the one provided
+     * as parameter. No values are duplicated from the model.
+     * 
+     * @param model
+     *            - IAbstractArtifact the artifact of the type to be made
+     */
+    public IAbstractArtifact makeArtifact(IAbstractArtifact model);
 
-	/**
-	 * Adds the artifact to the session manager.
-	 * 
-	 * @param artifact
-	 *            - the artifact to add
-	 * @throws TigerstripeException
-	 *             if the artifact cannot be added
-	 */
-	public void addArtifact(IAbstractArtifact artifact)
-			throws TigerstripeException;
+    /**
+     * Adds the artifact to the session manager.
+     * 
+     * @param artifact
+     *            - the artifact to add
+     * @throws TigerstripeException
+     *             if the artifact cannot be added
+     */
+    public void addArtifact(IAbstractArtifact artifact)
+            throws TigerstripeException;
 
-	/**
-	 * Removes the artifact from the session manager.
-	 * 
-	 * @param artifact
-	 *            - the artifact to remove
-	 * @throws TigerstripeException
-	 *             if the artifact cannot be removed
-	 */
-	public void removeArtifact(IAbstractArtifact artifact)
-			throws TigerstripeException;
+    /**
+     * Removes the artifact from the session manager.
+     * 
+     * @param artifact
+     *            - the artifact to remove
+     * @throws TigerstripeException
+     *             if the artifact cannot be removed
+     */
+    public void removeArtifact(IAbstractArtifact artifact)
+            throws TigerstripeException;
 
-	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn)
-			throws TigerstripeException;
+    public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn)
+            throws TigerstripeException;
 
-	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
-			ExecutionContext context) throws TigerstripeException;
+    public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
+            ExecutionContext context) throws TigerstripeException;
 
-	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
-			boolean includeDependencies);
+    public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
+            boolean includeDependencies);
 
-	/**
-	 * Returns all known artifacts with the given FQN. If multiple definitions
-	 * are found along the classpath (modules and dependencies), they are
-	 * returned in the order they are found.
-	 * 
-	 * @param fqn
-	 * @return
-	 */
-	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
-			String fqn);
+    /**
+     * Returns all known artifacts with the given FQN. If multiple definitions
+     * are found along the classpath (modules and dependencies), they are
+     * returned in the order they are found.
+     * 
+     * @param fqn
+     * @return
+     */
+    public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
+            String fqn);
 
-	/**
-	 * Extracts an artifact from the given reader
-	 * 
-	 * @param reader
-	 * @return
-	 * @throws TigerstripeException
-	 */
-	public IAbstractArtifact extractArtifact(Reader reader,
-			IProgressMonitor monitor) throws TigerstripeException;
+    /**
+     * Extracts an artifact from the given reader
+     * 
+     * @param reader
+     * @return
+     * @throws TigerstripeException
+     */
+    public IAbstractArtifact extractArtifact(Reader reader,
+            IProgressMonitor monitor) throws TigerstripeException;
 
-	public IAbstractArtifact extractArtifactModel(Reader reader)
-			throws TigerstripeException;
+    public IAbstractArtifact extractArtifactModel(Reader reader)
+            throws TigerstripeException;
 
-	/**
-	 * Refreshes the session by re-reading all artifacts Equivalent to
-	 * refresh(false)
-	 * 
-	 * @throws TigerstripeException
-	 */
-	public void refresh(IProgressMonitor monitor) throws TigerstripeException;
+    /**
+     * Refreshes the session by re-reading all artifacts Equivalent to
+     * refresh(false)
+     * 
+     * @throws TigerstripeException
+     */
+    public void refresh(IProgressMonitor monitor) throws TigerstripeException;
 
-	/**
-	 * Refreshes the session by re-reading all artifacts
-	 * 
-	 * @param forceReload
-	 *            , it true, POJOs will be reparsed, even if they haven't
-	 *            changed.
-	 * @throws TigerstripeException
-	 */
-	public void refresh(boolean forceReload, IProgressMonitor monitor)
-			throws TigerstripeException;
+    /**
+     * Refreshes the session by re-reading all artifacts
+     * 
+     * @param forceReload
+     *            , it true, POJOs will be reparsed, even if they haven't
+     *            changed.
+     * @throws TigerstripeException
+     */
+    public void refresh(boolean forceReload, IProgressMonitor monitor)
+            throws TigerstripeException;
 
-	/**
-	 * Refreshes all the references to other projects
-	 */
-	public void refreshReferences(IProgressMonitor monitor)
-			throws TigerstripeException;
+    /**
+     * Refreshes all the references to other projects
+     */
+    public void refreshReferences(IProgressMonitor monitor)
+            throws TigerstripeException;
 
-	/**
-	 * Refreshes everything about this session (local artifacts & references)
-	 * Equivalent to refreshAll(false)
-	 */
-	public void refreshAll(IProgressMonitor monitor)
-			throws TigerstripeException;
+    /**
+     * Refreshes everything about this session (local artifacts & references)
+     * Equivalent to refreshAll(false)
+     */
+    public void refreshAll(IProgressMonitor monitor)
+            throws TigerstripeException;
 
-	/**
-	 * Refreshes everything about this session (local artifacts & references)
-	 */
-	public void refreshAll(boolean forceReload, IProgressMonitor monitor)
-			throws TigerstripeException;
+    /**
+     * Refreshes everything about this session (local artifacts & references)
+     */
+    public void refreshAll(boolean forceReload, IProgressMonitor monitor)
+            throws TigerstripeException;
 
-	/**
-	 * Makes a new Artifact of type "model" based on the providing artifact,
-	 * i.e. trying to map as much as possible from the original artifact into
-	 * the new one.
-	 */
-	public IAbstractArtifact makeArtifact(IAbstractArtifact model,
-			IAbstractArtifact orig) throws TigerstripeException;
+    /**
+     * Makes a new Artifact of type "model" based on the providing artifact,
+     * i.e. trying to map as much as possible from the original artifact into
+     * the new one.
+     */
+    public IAbstractArtifact makeArtifact(IAbstractArtifact model,
+            IAbstractArtifact orig) throws TigerstripeException;
 
-	public void addArtifactChangeListener(IArtifactChangeListener listener);
+    public void addArtifactChangeListener(IArtifactChangeListener listener);
 
-	public void removeArtifactChangeListener(IArtifactChangeListener listener);
+    public void removeArtifactChangeListener(IArtifactChangeListener listener);
 
-	/**
-	 * Returns the IModelUpdater for this session
-	 * 
-	 * @return
-	 */
-	public IModelUpdater getIModelUpdater();
+    /**
+     * Returns the IModelUpdater for this session
+     * 
+     * @return
+     */
+    public IModelUpdater getIModelUpdater();
 
-	public void updateCaches(IProgressMonitor monitor)
-			throws TigerstripeException;
+    public void updateCaches(IProgressMonitor monitor)
+            throws TigerstripeException;
 
-	// =================================================================
-	// Facet Management
-	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
-			throws TigerstripeException;
-	
-	public void setActiveFacet(IFacetReference facet, ExecutionContext context)
-		throws TigerstripeException;
+    // =================================================================
+    // Facet Management
+    public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
+            throws TigerstripeException;
 
-	public void resetActiveFacet() throws TigerstripeException;
-	
-	public void resetActiveFacet(ExecutionContext context) throws TigerstripeException;
+    public void setActiveFacet(IFacetReference facet, ExecutionContext context)
+            throws TigerstripeException;
 
-	public IFacetReference getActiveFacet() throws TigerstripeException;
+    public void resetActiveFacet() throws TigerstripeException;
 
-	public void addActiveFacetListener(IActiveFacetChangeListener listener);
+    public void resetActiveFacet(ExecutionContext context)
+            throws TigerstripeException;
 
-	public void removeActiveFacetListener(IActiveFacetChangeListener listener);
+    public IFacetReference getActiveFacet() throws TigerstripeException;
 
-	// ============================
+    public void addActiveFacetListener(IActiveFacetChangeListener listener);
 
-	/**
-	 * Removes all the artifacts contained in the given package
-	 * 
-	 * NOTE: this doesn't recursively delete the content of sub-packages
-	 * 
-	 * @param packageName
-	 * @return a collection of IRelationship to potentially cascade delete
-	 */
-	public Set<IRelationship> removePackageContent(String packageName);
+    public void removeActiveFacetListener(IActiveFacetChangeListener listener);
 
-	/**
-	 * Removes all the artifacts contained in the given package
-	 * 
-	 * NOTE: this doesn't recursively delete the content of sub-packages
-	 * 
-	 * @param packageName
-	 */
-	public void renamePackageContent(String fromPackageName,
-			String toPackageName);
+    // ============================
 
-	public void renameArtifact(IAbstractArtifact artifact, String toFQN)
-			throws TigerstripeException;
+    /**
+     * Removes all the artifacts contained in the given package
+     * 
+     * NOTE: this doesn't recursively delete the content of sub-packages
+     * 
+     * @param packageName
+     * @return a collection of IRelationship to potentially cascade delete
+     */
+    public Set<IRelationship> removePackageContent(String packageName);
 
-	public void generationStart();
+    /**
+     * Removes all the artifacts contained in the given package
+     * 
+     * NOTE: this doesn't recursively delete the content of sub-packages
+     * 
+     * @param packageName
+     */
+    public void renamePackageContent(String fromPackageName,
+            String toPackageName);
 
-	public void generationComplete();
+    public void renameArtifact(IAbstractArtifact artifact, String toFQN)
+            throws TigerstripeException;
 
-	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
-			boolean includeProjectDependencies) throws TigerstripeException;
+    public void generationStart();
 
-	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
-			boolean includeProjectDependencies) throws TigerstripeException;
+    public void generationComplete();
 
-	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypes()
-			throws TigerstripeException;
+    public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
+            boolean includeProjectDependencies) throws TigerstripeException;
 
-	/**
-	 * This mask will condition what is and what is not broadcast by the
-	 * underlying manager
-	 * 
-	 * @param broadcastMask
-	 *            - valid values are a combination of
-	 *            {@link IArtifactChangeListener#NOTIFY_ADDED} etc..
-	 */
-	public void setBroadcastMask(int broadcastMask) throws TigerstripeException;
+    public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
+            boolean includeProjectDependencies) throws TigerstripeException;
 
-	public void resetBroadcastMask() throws TigerstripeException;
+    public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypes()
+            throws TigerstripeException;
 
-	/**
-	 * Returns a list of all supported Artifact Types
-	 * 
-	 */
-	public Collection<String> getSupportedArtifacts();
+    /**
+     * This mask will condition what is and what is not broadcast by the
+     * underlying manager
+     * 
+     * @param broadcastMask
+     *            - valid values are a combination of
+     *            {@link IArtifactChangeListener#NOTIFY_ADDED} etc..
+     */
+    public void setBroadcastMask(int broadcastMask) throws TigerstripeException;
 
-	/**
-	 * Makes a new Artifact Query
-	 */
-	public IArtifactQuery makeQuery(String queryType)
-			throws IllegalArgumentException;
+    public void resetBroadcastMask() throws TigerstripeException;
 
-	/**
-	 * Query artifacts based on the given query Object
-	 * 
-	 * @param query
-	 *            - ArtifactQuery the query to execute
-	 */
-	public Collection<IAbstractArtifact> queryArtifact(IArtifactQuery query)
-			throws IllegalArgumentException, TigerstripeException;
+    /**
+     * Returns a list of all supported Artifact Types
+     * 
+     */
+    public Collection<String> getSupportedArtifacts();
 
-	/**
-	 * Returns the last time of modification on the model, whatever the change
-	 * is
-	 * 
-	 * @return
-	 */
-	public long getLocalTimeStamp() throws TigerstripeException;
+    /**
+     * Makes a new Artifact Query
+     */
+    public IArtifactQuery makeQuery(String queryType)
+            throws IllegalArgumentException;
 
-	public ArtifactManager getArtifactManager();
+    /**
+     * Query artifacts based on the given query Object
+     * 
+     * @param query
+     *            - ArtifactQuery the query to execute
+     */
+    public Collection<IAbstractArtifact> queryArtifact(IArtifactQuery query)
+            throws IllegalArgumentException, TigerstripeException;
+
+    /**
+     * Returns the last time of modification on the model, whatever the change
+     * is
+     * 
+     * @return
+     */
+    public long getLocalTimeStamp() throws TigerstripeException;
+
+    public ArtifactManager getArtifactManager();
 }

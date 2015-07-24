@@ -85,55 +85,37 @@ public class BasePlugin extends Plugin implements BundleListener {
             PostInstallActions.init();
             extensionPointRegistered();
 
-            if (!isHeadless()) {
-                
-                WorkspaceJob job = new WorkspaceJob(
-                        "Tigerstripe content refresh") {
+            WorkspaceJob job = new WorkspaceJob("Tigerstripe content refresh") {
 
-                    @Override
-                    public IStatus runInWorkspace(IProgressMonitor monitor)
-                            throws CoreException {
-                        monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
-                        for (final IProject project : ResourcesPlugin
-                                .getWorkspace().getRoot().getProjects()) {
+                @Override
+                public IStatus runInWorkspace(IProgressMonitor monitor)
+                        throws CoreException {
+                    monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
+                    for (final IProject project : ResourcesPlugin
+                            .getWorkspace().getRoot().getProjects()) {
 
-                            if (project.isOpen()
-                                    && TigerstripeProjectNature
-                                            .hasNature(project)) {
-                                try {
-                                    final IAbstractTigerstripeProject tsProject = TigerstripeCore
-                                            .findProject(project);
-                                    if (tsProject instanceof ITigerstripeModelProject) {
-                                        final ITigerstripeModelProject modelProject = (ITigerstripeModelProject) tsProject;
-                                        modelProject
-                                                .getArtifactManagerSession()
-                                                .refresh(null);
-                                    }
-                                } catch (TigerstripeException te) {
-                                    log(te);
+                        if (project.isOpen()
+                                && TigerstripeProjectNature.hasNature(project)) {
+                            try {
+                                final IAbstractTigerstripeProject tsProject = TigerstripeCore
+                                        .findProject(project);
+                                if (tsProject instanceof ITigerstripeModelProject) {
+                                    final ITigerstripeModelProject modelProject = (ITigerstripeModelProject) tsProject;
+                                    modelProject.getArtifactManagerSession()
+                                            .refresh(null);
                                 }
+                            } catch (TigerstripeException te) {
+                                log(te);
                             }
                         }
-                        monitor.done();
-                        return Status.OK_STATUS;
                     }
-                };
-                job.schedule();
-                startWorkspaceListener();
-            } else {
-                logErrorMessage("Skipping refresh since Tigerstripe is headless.");
-            }
+                    monitor.done();
+                    return Status.OK_STATUS;
+                }
+            };
+            job.schedule();
+            startWorkspaceListener();
         }
-    }
-    
-    public boolean isHeadless() {
-        try {
-            Display.getDefault();
-            return false;
-        } catch (Exception e) {
-            
-        }
-        return true;
     }
 
     @Override

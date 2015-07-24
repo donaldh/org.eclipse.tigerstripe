@@ -21,47 +21,46 @@ import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
 public abstract class ArtifactQueryBase implements IArtifactQuery {
 
-	private IProgressMonitor monitor = new NullProgressMonitor();
+    private IProgressMonitor monitor = new NullProgressMonitor();
 
-	private ExecutionContext executionContext;
+    private ExecutionContext executionContext;
 
-	private boolean includeDependencies = true;
+    private boolean includeDependencies = true;
 
-	private Boolean overridePredicate;
+    private Boolean overridePredicate;
 
-	
-	public boolean includeDependencies() {
-		return includeDependencies;
-	}
+    public boolean includeDependencies() {
+        return includeDependencies;
+    }
 
-	public void setIncludeDependencies(boolean includeDependencies) {
-		this.includeDependencies = includeDependencies;
-	}
+    public void setIncludeDependencies(boolean includeDependencies) {
+        this.includeDependencies = includeDependencies;
+    }
 
-	public void setProgressMonitor(IProgressMonitor monitor) {
-		this.monitor = monitor;
-	}
+    public void setProgressMonitor(IProgressMonitor monitor) {
+        this.monitor = monitor;
+    }
 
-	public IProgressMonitor getProgressMonitor() {
-		return this.monitor;
-	}
+    public IProgressMonitor getProgressMonitor() {
+        return this.monitor;
+    }
 
-	public abstract Collection<? extends IModelComponent> run(
-			IArtifactManagerSession managerSession);
+    public abstract Collection<? extends IModelComponent> run(
+            IArtifactManagerSession managerSession);
 
-	public void setExecutionContext(ExecutionContext executionContext) {
-		this.executionContext = executionContext;
-	}
+    public void setExecutionContext(ExecutionContext executionContext) {
+        this.executionContext = executionContext;
+    }
 
-	public ExecutionContext getExecutionContext() {
-		return executionContext;
-	}
+    public ExecutionContext getExecutionContext() {
+        return executionContext;
+    }
 
-	public void setOverridePredicate(Boolean value) {
-		overridePredicate = value;
-	}
+    public void setOverridePredicate(Boolean value) {
+        overridePredicate = value;
+    }
 
-	public Boolean overridePredicate() {
-		return overridePredicate;
-	}	
+    public Boolean overridePredicate() {
+        return overridePredicate;
+    }
 }

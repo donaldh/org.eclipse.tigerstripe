@@ -36,124 +36,122 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  */
 public class ModuleRef implements IModuleRef {
 
-	private final ITigerstripeModelProject container;
+    private final ITigerstripeModelProject container;
 
-	// The URI to the jar file
-	protected URI jarURI;
+    // The URI to the jar file
+    protected URI jarURI;
 
-	protected ModuleDescriptorModel model;
+    protected ModuleDescriptorModel model;
 
-	protected boolean isValid = false;
+    protected boolean isValid = false;
 
-	ModuleRef(ITigerstripeModelProject container, URI jarURI,
-			IProgressMonitor monitor)
-			throws InvalidModuleException {
-		this.container = container;
-		setJarURI(jarURI);
-		parse(monitor);
-	}
+    ModuleRef(ITigerstripeModelProject container, URI jarURI,
+            IProgressMonitor monitor) throws InvalidModuleException {
+        this.container = container;
+        setJarURI(jarURI);
+        parse(monitor);
+    }
 
-	ModuleRef(URI jarURI, IProgressMonitor monitor)
-			throws InvalidModuleException {
-		this(null, jarURI, monitor);
-	}
+    ModuleRef(URI jarURI, IProgressMonitor monitor)
+            throws InvalidModuleException {
+        this(null, jarURI, monitor);
+    }
 
-	// =================================================
-	public boolean isValid() {
-		return isValid;
-	}
+    // =================================================
+    public boolean isValid() {
+        return isValid;
+    }
 
-	public URI getJarURI() {
-		return this.jarURI;
-	}
+    public URI getJarURI() {
+        return this.jarURI;
+    }
 
-	private void setJarURI(URI jarURI) {
-		this.jarURI = jarURI;
-	}
+    private void setJarURI(URI jarURI) {
+        this.jarURI = jarURI;
+    }
 
-	public ModuleDescriptorModel getModel() {
-		return this.model;
-	}
+    public ModuleDescriptorModel getModel() {
+        return this.model;
+    }
 
-	public ArtifactManager getArtifactManager() {
-		return model.getArtifactManager();
-	}
+    public ArtifactManager getArtifactManager() {
+        return model.getArtifactManager();
+    }
 
-	public ProjectDetails getProjectDetails() {
-		return model.getProjectDetails();
-	}
+    public ProjectDetails getProjectDetails() {
+        return model.getProjectDetails();
+    }
 
-	public ModuleHeader getModuleHeader() {
-		return model.getModuleHeader();
-	}
+    public ModuleHeader getModuleHeader() {
+        return model.getModuleHeader();
+    }
 
-	public TigerstripeProject getEmbeddedProject() {
-		return ((ModuleArtifactManager) getArtifactManager())
-				.getEmbeddedProject();
-	}
+    public TigerstripeProject getEmbeddedProject() {
+        return ((ModuleArtifactManager) getArtifactManager())
+                .getEmbeddedProject();
+    }
 
-	private void parse(IProgressMonitor monitor)
-			throws InvalidModuleException {
-		try {
-			TigerstripeProject embeddedProjet = parseEmbeddedProjectDescriptor();
-			parseTSModuleDescriptor(embeddedProjet, monitor);
-			isValid = true;
-		} catch (IOException e) {
-			isValid = false;
-			throw new InvalidModuleException("Error reading "
-					+ this.jarURI.getPath(), e);
-		}
-	}
+    private void parse(IProgressMonitor monitor) throws InvalidModuleException {
+        try {
+            TigerstripeProject embeddedProjet = parseEmbeddedProjectDescriptor();
+            parseTSModuleDescriptor(embeddedProjet, monitor);
+            isValid = true;
+        } catch (IOException e) {
+            isValid = false;
+            throw new InvalidModuleException("Error reading "
+                    + this.jarURI.getPath(), e);
+        }
+    }
 
-	protected void parseTSModuleDescriptor(TigerstripeProject embeddedProject,
-			IProgressMonitor monitor) throws InvalidModuleException,
-			IOException {
-		JarFile file = new JarFile(this.jarURI.getPath());
-		try {
-			JarEntry tsModuleEntry = file
-					.getJarEntry(ModuleDescriptorModel.DESCRIPTOR);
+    protected void parseTSModuleDescriptor(TigerstripeProject embeddedProject,
+            IProgressMonitor monitor) throws InvalidModuleException,
+            IOException {
+        JarFile file = new JarFile(this.jarURI.getPath());
+        try {
+            JarEntry tsModuleEntry = file
+                    .getJarEntry(ModuleDescriptorModel.DESCRIPTOR);
 
-			if (tsModuleEntry == null)
-				throw new InvalidModuleException("can't find "
-						+ ModuleDescriptorModel.DESCRIPTOR + " in "
-						+ this.jarURI.getPath());
+            if (tsModuleEntry == null)
+                throw new InvalidModuleException("can't find "
+                        + ModuleDescriptorModel.DESCRIPTOR + " in "
+                        + this.jarURI.getPath());
 
-			InputStream stream = file.getInputStream(tsModuleEntry);
-			Reader reader = new InputStreamReader(stream, "UTF-8");
-			model = new ModuleDescriptorModel(embeddedProject, reader, true,
-					monitor);
-		} finally {
-			file.close();
-		}
-	}
+            InputStream stream = file.getInputStream(tsModuleEntry);
+            Reader reader = new InputStreamReader(stream, "UTF-8");
+            model = new ModuleDescriptorModel(embeddedProject, reader, true,
+                    monitor);
+        } finally {
+            file.close();
+        }
+    }
 
-	private TigerstripeProject parseEmbeddedProjectDescriptor()
-			throws InvalidModuleException, IOException {
-		TigerstripeModuleProject embeddedProject = null;
-		JarFile file = new JarFile(this.jarURI.getPath());
-		try {
-			JarEntry tsDescriptorEntry = file
-					.getJarEntry(TigerstripeProject.DEFAULT_FILENAME);
+    private TigerstripeProject parseEmbeddedProjectDescriptor()
+            throws InvalidModuleException, IOException {
+        TigerstripeModuleProject embeddedProject = null;
+        JarFile file = new JarFile(this.jarURI.getPath());
+        try {
+            JarEntry tsDescriptorEntry = file
+                    .getJarEntry(TigerstripeProject.DEFAULT_FILENAME);
 
-			if (tsDescriptorEntry == null)
-				throw new InvalidModuleException("can't find "
-						+ TigerstripeProject.DEFAULT_FILENAME + " in "
-						+ this.jarURI.getPath());
+            if (tsDescriptorEntry == null)
+                throw new InvalidModuleException("can't find "
+                        + TigerstripeProject.DEFAULT_FILENAME + " in "
+                        + this.jarURI.getPath());
 
-			InputStream stream = file.getInputStream(tsDescriptorEntry);
-			Reader reader = new InputStreamReader(stream);
-			embeddedProject = new TigerstripeModuleProject(container);
+            InputStream stream = file.getInputStream(tsDescriptorEntry);
+            Reader reader = new InputStreamReader(stream);
+            embeddedProject = new TigerstripeModuleProject(container);
 
-			embeddedProject.parse(reader);
-			// ((ModuleArtifactManager) getArtifactManager())
-			// .setEmbeddedProject(embeddedProject);
-		} catch (TigerstripeException e) {
-			throw new InvalidModuleException(
-					"Can't read embedded Project Descriptor in "
-							+ this.jarURI.getPath());
-		} finally {
-			file.close();
-		}
-		return embeddedProject;
-	}
+            embeddedProject.parse(reader);
+            // ((ModuleArtifactManager) getArtifactManager())
+            // .setEmbeddedProject(embeddedProject);
+        } catch (TigerstripeException e) {
+            throw new InvalidModuleException(
+                    "Can't read embedded Project Descriptor in "
+                            + this.jarURI.getPath());
+        } finally {
+            file.close();
+        }
+        return embeddedProject;
+    }
 }

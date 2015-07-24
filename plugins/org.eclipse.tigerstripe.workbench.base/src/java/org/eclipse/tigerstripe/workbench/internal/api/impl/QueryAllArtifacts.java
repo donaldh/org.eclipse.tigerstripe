@@ -19,31 +19,31 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 public class QueryAllArtifacts extends ArtifactQueryBase implements
-		IQueryAllArtifacts {
+        IQueryAllArtifacts {
 
-	@Override
-	public Collection<IAbstractArtifact> run(IArtifactManagerSession mgrSession) {
-		ArtifactManagerSessionImpl impl = (ArtifactManagerSessionImpl) mgrSession;
-		ArtifactManager mgr = impl.getArtifactManager();
+    @Override
+    public Collection<IAbstractArtifact> run(IArtifactManagerSession mgrSession) {
+        ArtifactManagerSessionImpl impl = (ArtifactManagerSessionImpl) mgrSession;
+        ArtifactManager mgr = impl.getArtifactManager();
 
-		ExecutionContext context = getExecutionContext();
+        ExecutionContext context = getExecutionContext();
 
-		Boolean overridePredicate = overridePredicate();
-		if (context == null) {
-			if (overridePredicate == null) {
-				return mgr.getAllArtifacts(includeDependencies(),
-						getProgressMonitor());
-			} else {
-				return mgr.getAllArtifacts(includeDependencies(),
-						overridePredicate, getProgressMonitor());
-			}
-		} else {
-			if (overridePredicate == null) {
-				return mgr.getAllArtifacts(includeDependencies(), context);
-			} else {
-				return mgr.getAllArtifacts(includeDependencies(),
-						overridePredicate, context);
-			}
-		}
-	}
+        Boolean overridePredicate = overridePredicate();
+        if (context == null) {
+            if (overridePredicate == null) {
+                return mgr.getAllArtifacts(includeDependencies(),
+                        getProgressMonitor());
+            } else {
+                return mgr.getAllArtifacts(includeDependencies(),
+                        overridePredicate, getProgressMonitor());
+            }
+        } else {
+            if (overridePredicate == null) {
+                return mgr.getAllArtifacts(includeDependencies(), context);
+            } else {
+                return mgr.getAllArtifacts(includeDependencies(),
+                        overridePredicate, context);
+            }
+        }
+    }
 }
