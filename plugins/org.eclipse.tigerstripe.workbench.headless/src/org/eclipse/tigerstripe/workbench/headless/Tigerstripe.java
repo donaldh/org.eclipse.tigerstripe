@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -31,7 +32,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
@@ -71,24 +71,27 @@ public class Tigerstripe implements IApplication {
         System.out.println("Starting Tigerstripe...");
         printTigerstipeVersionInfo();
         setPluginParams(context);
-        
+
         try {
             PostInstallActions.init();
             printProfile();
 
+            System.out.println("Generation project: " + generationProject);
             System.out.println("Importing projects...");
-            initializeWorkspace();
-            
+            if (projects != null) {
+                IWorkspaceRunnable op = new ImportProjectsRunnable(projects);
+                ResourcesPlugin.getWorkspace().run(op, null);
+            }
+
             File projectFile = new File(generationProject);
             ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
                     .findProject(projectFile.toURI());
 
-            System.out.println("Validating project...");
             validateProject(project);
-            
+
             System.out.println("Running generators...");
             generateTigerstripeOutput(project);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return 1;
@@ -130,18 +133,8 @@ public class Tigerstripe implements IApplication {
         }
     }
 
-    private void initializeWorkspace() throws TigerstripeException {
-
-        if (projects == null || projects.isEmpty())
-            return;
-
-        importProjectsToWorkspace(projects);
-
-        System.out.println("Generation project: " + generationProject);
-    }
-
     private void validateProject(ITigerstripeModelProject project)
-            throws TigerstripeException {
+            throws Exception {
 
         final IProject iProject = (IProject) project.getAdapter(IProject.class);
         if (iProject == null) {
@@ -174,13 +167,8 @@ public class Tigerstripe implements IApplication {
             }
         };
 
-        try {
-            ResourcesPlugin.getWorkspace().run(checkForErrorsRunnable,
-                    new NullProgressMonitor());
-        } catch (Exception e) {
-            throw new TigerstripeException("Errors during project validation. "
-                    + e.getMessage(), e);
-        }
+        ResourcesPlugin.getWorkspace().run(checkForErrorsRunnable,
+                new NullProgressMonitor());
 
         if (errorMsg.length() > 0) {
             throw new TigerstripeException(
@@ -196,19 +184,6 @@ public class Tigerstripe implements IApplication {
         System.out.println("Active Profile: "
                 + profileSession.getActiveProfile().getName() + " "
                 + profileSession.getActiveProfile().getVersion());
-    }
-
-    private void importProjectsToWorkspace(final List<String> projects)
-            throws TigerstripeException {
-
-        IWorkspaceRunnable op = new ImportProjectsRunnable(projects);
-        try {
-            ResourcesPlugin.getWorkspace().run(op, null);
-        } catch (CoreException e) {
-            throw new TigerstripeException(
-                    "Importing projects to workspace has failed.  "
-                            + e.getMessage(), e);
-        }
     }
 
     private boolean isStringValid(String text) {
@@ -311,31 +286,28 @@ public class Tigerstripe implements IApplication {
             workspace.getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 
             for (final IProject project : importedProjects) {
-                Display.getDefault().syncExec(new Runnable() {
-
-                    public void run() {
-                        try {
-                            Object adapted = ((IAdaptable) project)
-                                    .getAdapter(ITigerstripeModelProject.class);
-                            if (adapted != null) {
-                                ((ITigerstripeModelProject) adapted)
-                                        .getArtifactManagerSession()
-                                        .refreshAll(false, monitor);
-                            } else {
-                                System.out
-                                        .println("Failed to process project as Tigerstripe Project, validation will not be run.");
-                            }
-                            project.build(IncrementalProjectBuilder.FULL_BUILD,
-                                    monitor);
-                        } catch (Exception e) {
-                            System.out
-                                    .println("An error was thrown while building the project:"
-                                            + e.getMessage());
-                            e.printStackTrace();
-                        }
+                Object adapted = null;
+                try {
+                    adapted = ((IAdaptable) project)
+                            .getAdapter(ITigerstripeModelProject.class);
+                    if (adapted != null) {
+                        ((ITigerstripeModelProject) adapted)
+                                .getArtifactManagerSession().refreshAll(false,
+                                        monitor);
+                    } else {
+                        System.out
+                                .println("Failed to process project as Tigerstripe Project, validation will not be run.");
                     }
-                });
+                } catch (Exception e) {
+                    throw new CoreException(
+                            new Status(
+                                    IStatus.ERROR,
+                                    Activator.PLUGIN_ID,
+                                    "Failed to adapt imported project as a Tigerstripe Model project.",
+                                    e));
+                }
 
+                project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
             }
         }
     }
