@@ -42,277 +42,350 @@ import org.osgi.framework.Constants;
  */
 public class PostInstallActions {
 
-    private static volatile boolean initialized = false;
+	private static volatile boolean initialized = false;
 
-    public static synchronized void init() {
-        if (!initialized) {
-            initialized = true;
-            try {
-                new PostInstallActions().run();
-            } catch (TigerstripeException e) {
-                BasePlugin.logErrorMessage(
-                        "Error while PostInstallActions initialization", e);
-            }
-        }
-    }
+	public static synchronized void init() {
+		if (!initialized) {
+			initialized = true;
+			try {
+				new PostInstallActions().run();
+			} catch (TigerstripeException e) {
+				BasePlugin.logErrorMessage(
+						"Error while PostInstallActions initialization", e);
+			}
+		}
+	}
 
-    // TODO this should create a log file!!
+	// TODO this should create a log file!!
 
-//    private static Boolean hasRun = false;
+	private static Boolean hasRun = false;
 
-    private Location installLocation;
+	private Location installLocation;
 
-    private String tigerstripeRuntimeDir;
+	private String tigerstripeRuntimeDir;
 
-    private String workbenchFeatureVersion;
+	private String workbenchFeatureVersion;
 
-    private String baseBundleRoot = null;
+	private String baseBundleRoot = null;
 
-    void run() throws TigerstripeException {
+	void run() throws TigerstripeException {
 
-        // CSCto45728 [NM]: Commenting out synchronized block as it was causing
-        // a deadlock
-        // According to API of plugin start method, implementers should avoid
-        // synchronized blocks as it may result in deadlocks
-        // This method is only called from BasePlugin at the moment so there is
-        // no need for a synchronized block.
-        // synchronized (hasRun) {
-//        if (!hasRun) {
-            installLocation = Platform.getInstallLocation();
+		// CSCto45728 [NM]: Commenting out synchronized block as it was causing
+		// a deadlock
+		// According to API of plugin start method, implementers should avoid
+		// synchronized blocks as it may result in deadlocks
+		// This method is only called from BasePlugin at the moment so there is
+		// no need for a synchronized block.
+		// synchronized (hasRun) {
+		if (!hasRun) {
+			installLocation = Platform.getInstallLocation();
 
-            // We don't want to recreate if it exists as it might contain a
-            // key
-            if (!tigerstripeRuntimeExists()) {
-                createTigerstripeRuntimeDir();
-            }
-            TigerstripeRuntime.setTigerstripeRuntimeRoot(tigerstripeRuntimeDir);
-            TigerstripeRuntime.initLogger();
+			// We don't want to recreate if it exists as it might contain a
+			// key
+			if (!tigerstripeRuntimeExists()) {
+				createTigerstripeRuntimeDir();
+			}
+			TigerstripeRuntime.setTigerstripeRuntimeRoot(tigerstripeRuntimeDir);
+			TigerstripeRuntime.initLogger();
 
-            if (!tigerstripePluginExists()) {
-                createTigerstripePluginDir();
-            }
+			if (!tigerstripePluginExists()) {
+				createTigerstripePluginDir();
+			}
 
-            if (!tigerstripeModulesExists()) {
-                createTigerstripeModulesDir();
-            }
+			if (!tigerstripeModulesExists()) {
+				createTigerstripeModulesDir();
+			}
 
-            baseBundleRoot = findBaseBundleRoot();
-            workbenchFeatureVersion = findWorkbenchFeatureVersion();
-            createPropertiesFileForHeadlessRun();
+			baseBundleRoot = findBaseBundleRoot();
+			workbenchFeatureVersion = findWorkbenchFeatureVersion();
+			createPropertiesFileForHeadlessRun();
 
-            // create the phantom project
-            // references are set up through an Ext pt
-            BasePlugin.getDefault().getPhantomTigerstripeProjectMgr()
-                    .getPhantomProject();
-//        }
-//        hasRun = true;
-    }
+			// checkForUpgrade(workbenchFeatureVersion);
 
-    private boolean tigerstripeRuntimeExists() throws TigerstripeException {
+			// create the phantom project
+			// references are set up through an Ext pt
+			BasePlugin.getDefault().getPhantomTigerstripeProjectMgr()
+					.getPhantomProject();
 
-        String installationPath = installLocation.getURL().getPath();
+			// Make sure the AnnotationUtils class is loaded!
+			// Otherwise it causes issues when the job is run
+			// AnnotationUtils.getAnnotationPluginIds();
+			//
+			// Job setUpAnnotation = new Job("Set up Annotation Variables"){
+			//
+			// public IStatus run(IProgressMonitor monitor){
+			// try {
+			// System.out.println("setUpV begin: " + new Date());
+			// // Create lib entries for each Annotation plugin so we can
+			// reference
+			// // them directly
+			// for (String pluginId : AnnotationUtils.getAnnotationPluginIds())
+			// {
+			// IPath pPath = AnnotationUtils.getAnnotationPluginPath(pluginId);
+			// JavaCore.setClasspathVariable(pluginId, pPath, null);
+			// }
+			// System.out.println("Alll done: " + new Date());
+			// } catch (JavaModelException e){
+			// e.printStackTrace();
+			// }
+			// return Status.OK_STATUS;
+			// }
+			// };
+			//
+			// setUpAnnotation.schedule();
+		}
+		hasRun = true;
+		// }
+	}
 
-        if (installationPath != null && installationPath.length() != 0) {
-            tigerstripeRuntimeDir = installationPath + "/"
-                    + TigerstripeRuntime.TIGERSTRIPE_HOME_DIR;
-            File tsRuntimeDirFile = new File(tigerstripeRuntimeDir);
-            return tsRuntimeDirFile.exists();
-        }
+	// protected void forceCreationOfPhantomProject(BundleContext context)
+	// throws TigerstripeException {
+	// // Make sure the dir exists on the install dir
+	// // this will force creation is doesn't exist
+	// PhantomTigerstripeProjectMgr.getInstance().getPhantomProject();
+	//
+	// IPath path = JavaCore
+	// .getClasspathVariable(ITigerstripeConstants.PHANTOMLIB);
+	// if (path == null || !path.toFile().exists()) {
+	// IStatus status = new Status(
+	// IStatus.ERROR,
+	// BasePlugin.getPluginId(),
+	// 222,
+	// ITigerstripeConstants.PHANTOMLIB + " couldn't be resolved.",
+	// null);
+	// BasePlugin.log(status);
+	// }
+	// }
+	//
+	// /**
+	// * Copies the bin/ and lib/ directories into the runtime root to be
+	// * referenced during headless runs
+	// *
+	// * @param context
+	// */
+	// private void createDirectoriesForHeadlessRun(BundleContext context)
+	// throws TigerstripeException {
+	//
+	// }
+	//
+	// /**
+	// * Assemble all the jars contained in the /lib dir into an Eclipse Library
+	// * to be used when people want to use the Tigerstripe API
+	// *
+	// * @param context
+	// */
+	// private void createTigerstripeEclipseLibrary(BundleContext context) {
+	// File libDir = new File(tigerstripeRuntimeDir + File.separator + "lib");
+	//
+	// if (libDir.exists()) {
+	// // TODO NOT IMPLEMENTED
+	// }
+	// }
+	private boolean tigerstripeRuntimeExists() throws TigerstripeException {
 
-        throw new TigerstripeException(
-                "Unable to located base installation location of Eclipse");
-    }
+		String installationPath = installLocation.getURL().getPath();
 
-    private void createTigerstripeRuntimeDir() throws TigerstripeException {
-        File tsRuntimeDirFile = new File(tigerstripeRuntimeDir);
-        tsRuntimeDirFile.mkdirs();
-        if (!tsRuntimeDirFile.exists())
-            throw new TigerstripeException(
-                    "Couldn't create Tigerstripe Runtime Directory at "
-                            + tsRuntimeDirFile.toURI().toString());
-    }
+		if (installationPath != null && installationPath.length() != 0) {
+			tigerstripeRuntimeDir = installationPath + "/"
+					+ TigerstripeRuntime.TIGERSTRIPE_HOME_DIR;
+			File tsRuntimeDirFile = new File(tigerstripeRuntimeDir);
+			return tsRuntimeDirFile.exists();
+		}
 
-    private boolean tigerstripePluginExists() throws TigerstripeException {
-        String pluginPath = tigerstripeRuntimeDir + File.separator
-                + TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR;
-        File tsPluginDirFile = new File(pluginPath);
-        return tsPluginDirFile.exists();
-    }
+		throw new TigerstripeException(
+				"Unable to located base installation location of Eclipse");
+	}
 
-    private void createTigerstripePluginDir() throws TigerstripeException {
-        File pluginsDir = new File(tigerstripeRuntimeDir + File.separator
-                + TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR);
-        pluginsDir.mkdirs();
-        if (!pluginsDir.exists())
-            throw new TigerstripeException(
-                    "Couldn't create Tigerstripe Runtime Directory for plugins at "
-                            + pluginsDir.toURI().toString());
-    }
+	private void createTigerstripeRuntimeDir() throws TigerstripeException {
+		File tsRuntimeDirFile = new File(tigerstripeRuntimeDir);
+		tsRuntimeDirFile.mkdirs();
+		if (!tsRuntimeDirFile.exists())
+			throw new TigerstripeException(
+					"Couldn't create Tigerstripe Runtime Directory at "
+							+ tsRuntimeDirFile.toURI().toString());
+	}
 
-    private boolean tigerstripeModulesExists() throws TigerstripeException {
-        String modulesPath = tigerstripeRuntimeDir + File.separator
-                + TigerstripeRuntime.TIGERSTRIPE_MODULES_DIR;
-        File tsModulesDirFile = new File(modulesPath);
-        return tsModulesDirFile.exists();
-    }
+	private boolean tigerstripePluginExists() throws TigerstripeException {
+		String pluginPath = tigerstripeRuntimeDir + File.separator
+				+ TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR;
+		File tsPluginDirFile = new File(pluginPath);
+		return tsPluginDirFile.exists();
+	}
 
-    private void createTigerstripeModulesDir() throws TigerstripeException {
-        File modulesDir = new File(tigerstripeRuntimeDir + File.separator
-                + TigerstripeRuntime.TIGERSTRIPE_MODULES_DIR);
-        modulesDir.mkdirs();
-        if (!modulesDir.exists())
-            throw new TigerstripeException(
-                    "Couldn't create Tigerstripe Runtime Directory for modules at "
-                            + modulesDir.toURI().toString());
+	private void createTigerstripePluginDir() throws TigerstripeException {
+		File pluginsDir = new File(tigerstripeRuntimeDir + File.separator
+				+ TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR);
+		pluginsDir.mkdirs();
+		if (!pluginsDir.exists())
+			throw new TigerstripeException(
+					"Couldn't create Tigerstripe Runtime Directory for plugins at "
+							+ pluginsDir.toURI().toString());
+	}
 
-    }
+	private boolean tigerstripeModulesExists() throws TigerstripeException {
+		String modulesPath = tigerstripeRuntimeDir + File.separator
+				+ TigerstripeRuntime.TIGERSTRIPE_MODULES_DIR;
+		File tsModulesDirFile = new File(modulesPath);
+		return tsModulesDirFile.exists();
+	}
 
-    /**
-     * Setup variables that will be used in Tigerstripe projects
-     * 
-     * @param context
-     */
-    private void setupTigerstripeVariables(BundleContext context) {
+	private void createTigerstripeModulesDir() throws TigerstripeException {
+		File modulesDir = new File(tigerstripeRuntimeDir + File.separator
+				+ TigerstripeRuntime.TIGERSTRIPE_MODULES_DIR);
+		modulesDir.mkdirs();
+		if (!modulesDir.exists())
+			throw new TigerstripeException(
+					"Couldn't create Tigerstripe Runtime Directory for modules at "
+							+ modulesDir.toURI().toString());
 
-        // Set up the Phantom Lib to be referenced in all Tigerstripe Model
-        // Projects
-        // NOTE: the actual dir is created later, but the reference is needed
-        // before forceCreationOfPhantomProject to be stored in the properties
-        // file.
-        try {
-            PhantomTigerstripeProjectMgr prjManager = BasePlugin.getDefault()
-                    .getPhantomTigerstripeProjectMgr();
+	}
 
-            String pathStr = prjManager.getPhantomURI().getPath()
-                    + ITigerstripeConstants.PHANTOMLIB_DEF;
-            Path phantomPath = new Path(pathStr);
-            JavaCore.setClasspathVariable(ITigerstripeConstants.PHANTOMLIB,
-                    phantomPath, null);
-        } catch (JavaModelException e) {
-            BasePlugin.log(e);
-        }
+	/**
+	 * Setup variables that will be used in Tigerstripe projects
+	 * 
+	 * @param context
+	 */
+	private void setupTigerstripeVariables(BundleContext context) {
 
-        try {
-            // Add org.eclipse.equinox.common as a variable that can be
-            // referenced from Tigerstripe Generator projects.
-            IPath equinoxPath = findEquinoxCommonJarPath(context);
-            JavaCore.setClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON,
-                    equinoxPath, null);
+		// Set up the Phantom Lib to be referenced in all Tigerstripe Model
+		// Projects
+		// NOTE: the actual dir is created later, but the reference is needed
+		// before forceCreationOfPhantomProject to be stored in the properties
+		// file.
+		try {
+			PhantomTigerstripeProjectMgr prjManager = BasePlugin.getDefault()
+					.getPhantomTigerstripeProjectMgr();
 
-            // Add org.eclipse.tigerstripe.workbench.base as a variable that can
-            // be referenced from Tigerstripe generator projects too
-            IPath tigerstripeBasePath = findTigerstripeBaseJarPath(context);
-            JavaCore.setClasspathVariable(
-                    ITigerstripeConstants.EXTERNALAPI_LIB, tigerstripeBasePath,
-                    null);
+			String pathStr = prjManager.getPhantomURI().getPath()
+					+ ITigerstripeConstants.PHANTOMLIB_DEF;
+			Path phantomPath = new Path(pathStr);
+			JavaCore.setClasspathVariable(ITigerstripeConstants.PHANTOMLIB,
+					phantomPath, null);
+		} catch (JavaModelException e) {
+			BasePlugin.log(e);
+		}
 
-            // Create lib entries for each Annotation plugin so we can reference
-            // them directly
-            for (String pluginId : AnnotationUtils.getAnnotationPluginIds()) {
-                IPath pPath = AnnotationUtils.getAnnotationPluginPath(pluginId);
-                JavaCore.setClasspathVariable(pluginId, pPath, null);
-            }
-            // } catch (IOException e) {
-            // BasePlugin.log(e);
-        } catch (JavaModelException e) {
-            BasePlugin.log(e);
-        }
-    }
+		try {
+			// Add org.eclipse.equinox.common as a variable that can be
+			// referenced from Tigerstripe Generator projects.
+			IPath equinoxPath = findEquinoxCommonJarPath(context);
+			JavaCore.setClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON,
+					equinoxPath, null);
 
-    /**
-     * Save in the ${tigerstripe.home} directory a set of properties detailing
-     * the install so it can be read outside of Eclipse in a headless run
-     */
-    private void createPropertiesFileForHeadlessRun()
-            throws TigerstripeException {
-        // ED-20090109: I believe this should be removed?
-        Properties installProperties = new Properties();
+			// Add org.eclipse.tigerstripe.workbench.base as a variable that can
+			// be referenced from Tigerstripe generator projects too
+			IPath tigerstripeBasePath = findTigerstripeBaseJarPath(context);
+			JavaCore.setClasspathVariable(
+					ITigerstripeConstants.EXTERNALAPI_LIB, tigerstripeBasePath,
+					null);
 
-        installProperties.setProperty(
-                TigerstripeRuntime.TIGERSTRIPE_RUNTIME_ROOT,
-                tigerstripeRuntimeDir);
-        installProperties.setProperty(TigerstripeRuntime.BASEBUNDLE_ROOT,
-                baseBundleRoot);
-        installProperties.setProperty(
-                TigerstripeRuntime.TIGERSTRIPE_FEATURE_VERSION,
-                workbenchFeatureVersion);
-        installProperties.setProperty(TigerstripeRuntime.PRODUCT_NAME,
-                "Tigerstripe Workbench");
-        installProperties.setProperty(TigerstripeRuntime.PHANTOM_ARCHIVE,
-                JavaCore.getClasspathVariable(ITigerstripeConstants.PHANTOMLIB)
-                        .toOSString());
-        // installProperties.setProperty(TigerstripeRuntime.EXTERNAL_API_ARCHIVE,
-        // JavaCore.getClasspathVariable(
-        // ITigerstripeConstants.EXTERNALAPI_LIB).toOSString());
+			// Create lib entries for each Annotation plugin so we can reference
+			// them directly
+			for (String pluginId : AnnotationUtils.getAnnotationPluginIds()) {
+				IPath pPath = AnnotationUtils.getAnnotationPluginPath(pluginId);
+				JavaCore.setClasspathVariable(pluginId, pPath, null);
+			}
+			// } catch (IOException e) {
+			// BasePlugin.log(e);
+		} catch (JavaModelException e) {
+			BasePlugin.log(e);
+		}
+	}
 
-        // And save
-        FileOutputStream oStream = null;
-        try {
-            oStream = new FileOutputStream(tigerstripeRuntimeDir
-                    + File.separator + TigerstripeRuntime.PROPERTIES_FILE);
-            installProperties.store(oStream,
-                    "#DO NOT EDIT - THIS FILE WAS AUTOMATICALLY GENERATED.");
-        } catch (FileNotFoundException e) {
-            throw new TigerstripeException(
-                    "Couldn't create install.properties in "
-                            + tigerstripeRuntimeDir, e);
-        } catch (IOException e) {
-            throw new TigerstripeException(
-                    "Exception while trying to write content of install.properties in "
-                            + tigerstripeRuntimeDir, e);
-        } finally {
-            if (oStream != null) {
-                try {
-                    oStream.close();
-                } catch (IOException e) {
-                    // ignore here
-                }
-            }
-        }
-    }
+	/**
+	 * Save in the ${tigerstripe.home} directory a set of properties detailing
+	 * the install so it can be read outside of Eclipse in a headless run
+	 */
+	private void createPropertiesFileForHeadlessRun()
+			throws TigerstripeException {
+		// ED-20090109: I believe this should be removed?
+		Properties installProperties = new Properties();
 
-    private String findBaseBundleRoot() {
-        Bundle baseBundle = Platform
-                .getBundle(TigerstripeRuntime.BASEBUNDLE_ID);
-        if (baseBundle != null)
-            return installLocation.getURL().getPath()
-                    + File.separator
-                    + baseBundle.getLocation().substring(
-                            baseBundle.getLocation().indexOf("@") + 1,
-                            baseBundle.getLocation().length());
-        return "unknown_location_for_org.eclipse.tigerstripe.workbench.base";
-    }
+		installProperties.setProperty(
+				TigerstripeRuntime.TIGERSTRIPE_RUNTIME_ROOT,
+				tigerstripeRuntimeDir);
+		installProperties.setProperty(TigerstripeRuntime.BASEBUNDLE_ROOT,
+				baseBundleRoot);
+		installProperties.setProperty(
+				TigerstripeRuntime.TIGERSTRIPE_FEATURE_VERSION,
+				workbenchFeatureVersion);
+		installProperties.setProperty(TigerstripeRuntime.PRODUCT_NAME,
+				"Tigerstripe Workbench");
+		installProperties.setProperty(TigerstripeRuntime.PHANTOM_ARCHIVE,
+				JavaCore.getClasspathVariable(ITigerstripeConstants.PHANTOMLIB)
+						.toOSString());
+		// installProperties.setProperty(TigerstripeRuntime.EXTERNAL_API_ARCHIVE,
+		// JavaCore.getClasspathVariable(
+		// ITigerstripeConstants.EXTERNALAPI_LIB).toOSString());
 
-    private IPath findEquinoxCommonJarPath(BundleContext context) {
-        Bundle b = Platform.getBundle("org.eclipse.equinox.common");
-        try {
-            File bFile = FileLocator.getBundleFile(b);
-            return (new Path(bFile.getAbsolutePath())).makeAbsolute();
-        } catch (IOException e) {
-            BasePlugin.log(e);
-        }
-        return new Path("unknown_location_for_org.eclipse.equinox.common");
-    }
+		// And save
+		FileOutputStream oStream = null;
+		try {
+			oStream = new FileOutputStream(tigerstripeRuntimeDir
+					+ File.separator + TigerstripeRuntime.PROPERTIES_FILE);
+			installProperties.store(oStream,
+					"#DO NOT EDIT - THIS FILE WAS AUTOMATICALLY GENERATED.");
+		} catch (FileNotFoundException e) {
+			throw new TigerstripeException(
+					"Couldn't create install.properties in "
+							+ tigerstripeRuntimeDir, e);
+		} catch (IOException e) {
+			throw new TigerstripeException(
+					"Exception while trying to write content of install.properties in "
+							+ tigerstripeRuntimeDir, e);
+		} finally {
+			if (oStream != null) {
+				try {
+					oStream.close();
+				} catch (IOException e) {
+					// ignore here
+				}
+			}
+		}
+	}
 
-    private IPath findTigerstripeBaseJarPath(BundleContext context) {
-        Bundle b = Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
-        try {
-            File bFile = FileLocator.getBundleFile(b);
-            if (bFile.getName().endsWith(".jar")) {
-                return (new Path(bFile.getAbsolutePath())).makeAbsolute();
-            } else {
-                return (new Path(bFile.getAbsolutePath() + File.separator
-                        + "bin")).makeAbsolute();
-            }
-        } catch (IOException e) {
-            BasePlugin.log(e);
-        }
-        return new Path(
-                "unknown_location_for_org.eclipse.tigerstripe.workbench.base");
-    }
+	private String findBaseBundleRoot() {
+		Bundle baseBundle = Platform
+				.getBundle(TigerstripeRuntime.BASEBUNDLE_ID);
+		if (baseBundle != null)
+			return installLocation.getURL().getPath()
+					+ File.separator
+					+ baseBundle.getLocation().substring(
+							baseBundle.getLocation().indexOf("@") + 1,
+							baseBundle.getLocation().length());
+		return "unknown_location_for_org.eclipse.tigerstripe.workbench.base";
+	}
 
-    private String findWorkbenchFeatureVersion() {
-        return TigerstripeCore.getRuntimeDetails().getBaseBundleValue(
-                Constants.BUNDLE_VERSION);
-    }
+	private IPath findEquinoxCommonJarPath(BundleContext context) {
+		Bundle b = Platform.getBundle("org.eclipse.equinox.common");
+		try {
+			File bFile = FileLocator.getBundleFile(b);
+			return (new Path(bFile.getAbsolutePath())).makeAbsolute();
+		} catch (IOException e) {
+			BasePlugin.log(e);
+		}
+		return new Path("unknown_location_for_org.eclipse.equinox.common");
+	}
+
+	private IPath findTigerstripeBaseJarPath(BundleContext context) {
+		Bundle b = Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
+		try {
+			File bFile = FileLocator.getBundleFile(b);
+			if (bFile.getName().endsWith(".jar")) {
+				return (new Path(bFile.getAbsolutePath())).makeAbsolute();
+			} else {
+				return (new Path(bFile.getAbsolutePath() + File.separator
+						+ "bin")).makeAbsolute();
+			}
+		} catch (IOException e) {
+			BasePlugin.log(e);
+		}
+		return new Path(
+				"unknown_location_for_org.eclipse.tigerstripe.workbench.base");
+	}
+
+	private String findWorkbenchFeatureVersion() {
+		return TigerstripeCore.getRuntimeDetails().getBaseBundleValue(
+				Constants.BUNDLE_VERSION);
+	}
 }

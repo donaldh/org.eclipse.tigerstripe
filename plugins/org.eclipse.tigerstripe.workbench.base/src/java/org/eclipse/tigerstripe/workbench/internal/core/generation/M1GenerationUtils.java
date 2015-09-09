@@ -16,14 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.MatchedConfigHousing;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -42,12 +38,11 @@ public class M1GenerationUtils {
 	public static IPluginConfig[] m1PluginConfigs(
 			ITigerstripeModelProject project, boolean enabledOnly,
 			boolean cloneObjects) throws TigerstripeException {
+
 		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
 
-		
-		PluginManager manager =PluginManager.getManager();
-		
-		if (!manager.isOsgiVersioning()){
+		PluginManager manager = PluginManager.getManager();
+		if (!PluginManager.isOsgiVersioning()) {
 			for (IPluginConfig config : project.getPluginConfigs()) {
 				IPluginConfig theConfig = config;
 				if (cloneObjects) {
@@ -56,19 +51,18 @@ public class M1GenerationUtils {
 				}
 				if (config.getPluginNature() == EPluggablePluginNature.Validation
 						|| config.getPluginNature() == EPluggablePluginNature.Generic) {
-					if (enabledOnly && theConfig.isEnabled()) {
-						result.add(theConfig);
-					} else {
+					if ((enabledOnly && theConfig.isEnabled()) || !enabledOnly) {
 						result.add(theConfig);
 					}
 				}
 			}
-			
+
 		} else {
 			Map<String, Collection<PluggableHousing>> housingNameMap = new HashMap<String, Collection<PluggableHousing>>();
-			for (PluggableHousing housing : manager.getRegisteredPluggableHousings()) {
+			for (PluggableHousing housing : manager
+					.getRegisteredPluggableHousings()) {
 				String name = housing.getPluginName();
-				if (housingNameMap.containsKey(name)){
+				if (housingNameMap.containsKey(name)) {
 					housingNameMap.get(name).add(housing);
 				} else {
 					Collection<PluggableHousing> phs = new ArrayList<PluggableHousing>();
@@ -76,10 +70,11 @@ public class M1GenerationUtils {
 					housingNameMap.put(name, phs);
 				}
 			}
-			for (String name : housingNameMap.keySet()){
-				MatchedConfigHousing mch = manager.resolve(housingNameMap.get(name), project.getPluginConfigs());
+			for (String name : housingNameMap.keySet()) {
+				MatchedConfigHousing mch = manager.resolve(
+						housingNameMap.get(name), project.getPluginConfigs());
 				IPluginConfig config = mch.getConfig();
-				if (config != null ){
+				if (config != null) {
 					IPluginConfig theConfig = config;
 					if (cloneObjects) {
 						theConfig = config.clone();
@@ -87,9 +82,8 @@ public class M1GenerationUtils {
 					}
 					if (config.getPluginNature() == EPluggablePluginNature.Validation
 							|| config.getPluginNature() == EPluggablePluginNature.Generic) {
-						if (enabledOnly && theConfig.isEnabled()) {
-							result.add(theConfig);
-						} else {
+						if ((enabledOnly && theConfig.isEnabled())
+								|| !enabledOnly) {
 							result.add(theConfig);
 						}
 					}
