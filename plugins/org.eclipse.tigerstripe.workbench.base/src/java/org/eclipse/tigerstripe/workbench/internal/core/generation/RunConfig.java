@@ -70,8 +70,6 @@ public abstract class RunConfig {
 		if (result == null)
 			throw new IllegalArgumentException(
 					"Unknown generation config type (" + runType + ").");
-
-		result.initializeFromProject();
 		return result;
 	}
 

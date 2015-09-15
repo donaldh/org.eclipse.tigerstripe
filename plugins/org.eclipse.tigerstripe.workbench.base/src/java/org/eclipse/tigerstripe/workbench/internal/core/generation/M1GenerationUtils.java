@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
@@ -39,10 +40,12 @@ public class M1GenerationUtils {
 			ITigerstripeModelProject project, boolean enabledOnly,
 			boolean cloneObjects) throws TigerstripeException {
 
+		BasePlugin.logErrorMessage("Resolving M1 Plugin Configuration for project " + project.getName() + "...", new Exception());
 		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
 
 		PluginManager manager = PluginManager.getManager();
 		if (!PluginManager.isOsgiVersioning()) {
+			BasePlugin.logInfo("Plugin Manager is using OSGI Versioning.");
 			for (IPluginConfig config : project.getPluginConfigs()) {
 				IPluginConfig theConfig = config;
 				if (cloneObjects) {
@@ -53,7 +56,11 @@ public class M1GenerationUtils {
 						|| config.getPluginNature() == EPluggablePluginNature.Generic) {
 					if ((enabledOnly && theConfig.isEnabled()) || !enabledOnly) {
 						result.add(theConfig);
+					} else {
+						BasePlugin.logInfo("Ignoring Plugin as it is not enabled " + config.getPluginName() + " enabled=" + config.isEnabled());
 					}
+				} else {
+					BasePlugin.logInfo("Ignoring Plugin as it is not Validation or Generic " + config.getPluginName() + " type=" + config.getPluginNature());
 				}
 			}
 
@@ -85,11 +92,20 @@ public class M1GenerationUtils {
 						if ((enabledOnly && theConfig.isEnabled())
 								|| !enabledOnly) {
 							result.add(theConfig);
+						}else {
+							BasePlugin.logInfo("Ignoring Plugin as it is not enabled " + config.getPluginName() + " enabled=" + config.isEnabled());
 						}
+					} else {
+						BasePlugin.logInfo("Ignoring Plugin as it is not Validation or Generic " + config.getPluginName() + " type=" + config.getPluginNature());
 					}
+				} else {
+					BasePlugin.logInfo("Could not resolve Plugin " + name);
 				}
 			}
 		}
+		 
+		BasePlugin.logInfo("Resolved the following plugins: " + result);
+			
 		return result.toArray(new IPluginConfig[result.size()]);
 	}
 
