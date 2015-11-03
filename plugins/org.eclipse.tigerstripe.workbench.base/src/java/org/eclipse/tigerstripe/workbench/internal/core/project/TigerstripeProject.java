@@ -76,8 +76,7 @@ import org.xml.sax.SAXParseException;
  * 
  *         This conditions a run of Tigerstripe.
  */
-public class TigerstripeProject extends AbstractTigerstripeProject implements
-		IProjectDescriptor {
+public class TigerstripeProject extends AbstractTigerstripeProject implements IProjectDescriptor {
 
 	/**
 	 * This is to ensure we don't mess up the way things are saved a maintain
@@ -95,8 +94,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		 * @param projectContext
 		 * @param toModelId
 		 */
-		public LegacyModelReference(ITigerstripeModelProject projectContext,
-				String toModelId, String path) {
+		public LegacyModelReference(ITigerstripeModelProject projectContext, String toModelId, String path) {
 			super(projectContext, toModelId);
 			this.path = path;
 		}
@@ -131,7 +129,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public static final String REFERENCE_TAG = "reference";
 
 	public static final String FACET_TAG = "facetReference";
-	
+
 	public static final String ENABLED_ATTRIBUTE = "enabled";
 
 	/**
@@ -170,8 +168,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	// ==========================================
 
 	public IPluginConfig[] getPluginConfigs() {
-		return this.pluginConfigs.toArray(new IPluginConfig[this.pluginConfigs
-				.size()]);
+		return this.pluginConfigs.toArray(new IPluginConfig[this.pluginConfigs.size()]);
 	}
 
 	public void setPluginConfigs(Collection<IPluginConfig> pluginConfigs) {
@@ -206,8 +203,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		return this.artifactRepositories;
 	}
 
-	public void setArtifactRepositories(
-			Collection<ArtifactRepository> artifactRepositories) {
+	public void setArtifactRepositories(Collection<ArtifactRepository> artifactRepositories) {
 		setDirty();
 		this.artifactRepositories.clear();
 		for (ArtifactRepository repo : artifactRepositories) {
@@ -217,8 +213,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	public IDependency[] getDependencies() {
-		return this.dependencies.toArray(new IDependency[this.dependencies
-				.size()]);
+		return this.dependencies.toArray(new IDependency[this.dependencies.size()]);
 	}
 
 	public void setDependencies(Collection<IDependency> dependencies) {
@@ -253,11 +248,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			document = builder.parse(stream);
 
 			// Load the descriptor version
-			NodeList roots = document
-					.getElementsByTagName(TIGERSTRIPE_ROOT_TAG);
+			NodeList roots = document.getElementsByTagName(TIGERSTRIPE_ROOT_TAG);
 			if (roots.getLength() != 1)
-				throw new TigerstripeException(Messages.formatMessage(
-						Messages.INVALID_DESCRIPTOR, null));
+				throw new TigerstripeException(Messages.formatMessage(Messages.INVALID_DESCRIPTOR, null));
 			else {
 				Element root = (Element) roots.item(0);
 				this.descriptorVersion = root.getAttribute("version");
@@ -275,13 +268,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			loadAdvancedProperties(document);
 
 		} catch (SAXParseException spe) {
-			TigerstripeRuntime.logErrorMessage("SAXParseException detected",
-					spe);
+			TigerstripeRuntime.logErrorMessage("SAXParseException detected", spe);
 			Object[] args = new Object[2];
 			args[0] = spe.getMessage();
 			args[1] = new Integer(spe.getLineNumber());
-			throw new TigerstripeException(Messages.formatMessage(
-					Messages.XML_PARSING_ERROR, args), spe);
+			throw new TigerstripeException(Messages.formatMessage(Messages.XML_PARSING_ERROR, args), spe);
 		} catch (SAXException sxe) {
 			// Error generated during parsing)
 			Exception x = sxe;
@@ -319,13 +310,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(source, result);
 		} catch (TransformerConfigurationException tce) {
-			throw new TigerstripeException("Transformer Factory error"
-					+ tce.getMessage(), tce);
+			throw new TigerstripeException("Transformer Factory error" + tce.getMessage(), tce);
 		} catch (TransformerException te) {
-			TigerstripeRuntime.logErrorMessage("TransformerException detected",
-					te);
-			throw new TigerstripeException("Transformation error"
-					+ te.getMessage(), te);
+			TigerstripeRuntime.logErrorMessage("TransformerException detected", te);
+			throw new TigerstripeException("Transformation error" + te.getMessage(), te);
 		}
 	}
 
@@ -344,8 +332,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	protected Document buildDOM() {
 		Document document = null;
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			document = builder.newDocument();
 
@@ -362,8 +349,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			root.appendChild(buildFacetRefsElement(document));
 			root.appendChild(buildAdvancedElement(document));
 		} catch (ParserConfigurationException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"ParserConfigurationException detected", e);
+			TigerstripeRuntime.logErrorMessage("ParserConfigurationException detected", e);
 		}
 		return document;
 	}
@@ -393,8 +379,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			artifactRepositories.add(repo);
 		}
 
-		for (Iterator<ArtifactRepository> iter = artifactRepositories
-				.iterator(); iter.hasNext();) {
+		for (Iterator<ArtifactRepository> iter = artifactRepositories.iterator(); iter.hasNext();) {
 			ArtifactRepository repo = iter.next();
 			Element repository = document.createElement(REPOSITORY_TAG);
 
@@ -436,8 +421,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	private Element buildFacetRefsElement(Document document) {
-		Element facetReferencesElement = document
-				.createElement("facetReferences");
+		Element facetReferencesElement = document.createElement("facetReferences");
 		for (IFacetReference ref : facetReferences) {
 			Element refElm = FacetReference.encode(ref, document, this);
 			if (refElm != null)
@@ -448,8 +432,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	private Element buildDependenciesElement(Document document) {
 		Element dependenciesElm = document.createElement("dependencies");
-		String corePath = TigerstripeRuntime
-				.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
+		String corePath = TigerstripeRuntime.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
 
 		for (IDependency dependency : getDependencies()) {
 			Dependency dep = (Dependency) dependency;
@@ -457,9 +440,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				Element depElm = document.createElement(DEPENDENCY_TAG);
 
 				depElm.setAttribute("path", Util.fixWindowsPath(dep.getPath()));
-				depElm.setAttribute(ENABLED_ATTRIBUTE, dep.isEnabled()?"true":"false");  // Set enabled attribute
-				
-				dependenciesElm.appendChild(depElm);	
+				depElm.setAttribute(ENABLED_ATTRIBUTE, dep.isEnabled() ? "true" : "false"); // Set
+																							// enabled
+																							// attribute
+
+				dependenciesElm.appendChild(depElm);
 			}
 		}
 
@@ -476,27 +461,26 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				LegacyModelReference mLRef = (LegacyModelReference) mRef;
 				refElm.setAttribute("path", mLRef.getPath());
 			} else {
-				refElm.setAttribute("path", mRef.isResolved() ? mRef
-						.getResolvedModel().getName() : "");
+				refElm.setAttribute("path", mRef.isResolved() ? mRef.getResolvedModel().getName() : "");
 			}
 			refElm.setAttribute("modelId", mRef.getToModelId());
-			
-			refElm.setAttribute(ENABLED_ATTRIBUTE, mRef.isEnabled()?"true":"false");  // Set enabled attribute
-			
+
+			refElm.setAttribute(ENABLED_ATTRIBUTE, mRef.isEnabled() ? "true" : "false"); // Set
+																							// enabled
+																							// attribute
+
 			referencesElm.appendChild(refElm);
 		}
 
 		return referencesElm;
 	}
 
-	private void loadRepositories(Document document)
-			throws TigerstripeException {
+	private void loadRepositories(Document document) throws TigerstripeException {
 		this.artifactRepositories = new ArrayList<ArtifactRepository>();
 
 		NodeList repositories = document.getElementsByTagName(REPOSITORY_TAG);
 		if (repositories.getLength() == 0)
-			throw new TigerstripeException(Messages.formatMessage(
-					Messages.NO_REPOSITORY_SPECIFIED, getFullPath()));
+			throw new TigerstripeException(Messages.formatMessage(Messages.NO_REPOSITORY_SPECIFIED, getFullPath()));
 		for (int i = 0; i < repositories.getLength(); i++) {
 			Node node = repositories.item(i);
 			ArtifactRepository repository = null;
@@ -511,11 +495,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			baseDir = dir.getNodeValue();
 			if (".".equals(baseDir)) {
 				repository = new ArtifactRepository(getBaseDir());
-			} else if ((new File(getBaseDir().getAbsolutePath()
-					+ File.separator + baseDir)).exists()) {
+			} else if ((new File(getBaseDir().getAbsolutePath() + File.separator + baseDir)).exists()) {
 				// this is a relative path
-				repository = new ArtifactRepository(new File(getBaseDir()
-						.getAbsolutePath() + File.separator + baseDir));
+				repository = new ArtifactRepository(
+						new File(getBaseDir().getAbsolutePath() + File.separator + baseDir));
 			} else if ((new File(baseDir)).exists()) {
 				// this is an absolute path
 				repository = new ArtifactRepository(new File(baseDir));
@@ -527,11 +510,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			ArrayList<String> excludes = new ArrayList<String>();
 			for (int j = 0; j < children.getLength(); j++) {
 				if ("includes".equals(children.item(j).getNodeName())) {
-					includes.add(children.item(j).getFirstChild()
-							.getNodeValue());
+					includes.add(children.item(j).getFirstChild().getNodeValue());
 				} else if ("excludes".equals(children.item(j).getNodeName())) {
-					excludes.add(children.item(j).getFirstChild()
-							.getNodeValue());
+					excludes.add(children.item(j).getFirstChild().getNodeValue());
 				}
 			}
 
@@ -542,17 +523,14 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
-	private void loadPluginConfigs(Document document)
-			throws TigerstripeException {
+	private void loadPluginConfigs(Document document) throws TigerstripeException {
 
 		this.pluginConfigs = new ArrayList<IPluginConfig>();
-		NodeList plugins = document
-				.getElementsByTagName(PluginConfig.PLUGIN_REFERENCE_TAG);
+		NodeList plugins = document.getElementsByTagName(PluginConfig.PLUGIN_REFERENCE_TAG);
 
 		for (int i = 0; i < plugins.getLength(); i++) {
 			Node node = plugins.item(i);
-			PluginConfig ref = PluginConfigFactory.getInstance()
-					.createPluginConfig((Element) node, this);
+			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig((Element) node, this);
 
 			// Bug 219954: when loading the descriptor, make sure we keep all
 			// plugin configs even if they don't resolve. So that if the
@@ -570,21 +548,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public PluginConfig findPluginConfig(PluginConfig model) {
 		for (IPluginConfig iPluginConfig : getPluginConfigs()) {
 			PluginConfig ref = (PluginConfig) iPluginConfig;
-			if (model.getPluginId().equals(ref.getPluginId())
-					&& model.getGroupId().equals(ref.getGroupId()))
+			if (model.getPluginId().equals(ref.getPluginId()) && model.getGroupId().equals(ref.getGroupId()))
 				return ref;
 		}
 		return null;
 	}
 
 	@Override
-	public void validate(ITigerstripeVisitor visitor)
-			throws TigerstripeException {
+	public void validate(ITigerstripeVisitor visitor) throws TigerstripeException {
 		// FIXME
 	}
 
-	private void loadDependencies(Document document)
-			throws TigerstripeException {
+	private void loadDependencies(Document document) throws TigerstripeException {
 		this.dependencies = new ArrayList<IDependency>();
 
 		if (getBaseDir() == null)
@@ -599,30 +574,27 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			Node path = namedAttributes.getNamedItem("path");
 			Node enabledNode = namedAttributes.getNamedItem(ENABLED_ATTRIBUTE);
 			boolean isEnabled = true;
-			
+
 			// NM: Set enabled bit
-			if (enabledNode!=null) {
-				isEnabled = enabledNode.getNodeValue().equalsIgnoreCase("false")?false:true;
+			if (enabledNode != null) {
+				isEnabled = enabledNode.getNodeValue().equalsIgnoreCase("false") ? false : true;
 			}
-			
+
 			String pathStr = Util.fixWindowsPath(path.getNodeValue());
 			Dependency dep = new Dependency(this, pathStr);
 			dep.setEnabled(isEnabled);
-			
+
 			addDependency(dep);
 		}
 	}
 
-	private void loadFacetReferences(Document document)
-			throws TigerstripeException {
+	private void loadFacetReferences(Document document) throws TigerstripeException {
 		this.facetReferences = new ArrayList<IFacetReference>();
 
-		NodeList referencesNode = document
-				.getElementsByTagName("facetReferences");
+		NodeList referencesNode = document.getElementsByTagName("facetReferences");
 		if (referencesNode == null || referencesNode.getLength() == 0)
 			return;
-		NodeList facetRefNode = ((Element) referencesNode.item(0))
-				.getElementsByTagName(FACET_TAG);
+		NodeList facetRefNode = ((Element) referencesNode.item(0)).getElementsByTagName(FACET_TAG);
 		for (int i = 0; i < facetRefNode.getLength(); i++) {
 			Node node = facetRefNode.item(i);
 			IFacetReference ref = FacetReference.decode(node, this);
@@ -643,11 +615,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public ITigerstripeModelProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {
-				return (ITigerstripeModelProject) TigerstripeCore
-						.findProject(getBaseDir().toURI());
+				return (ITigerstripeModelProject) TigerstripeCore.findProject(getBaseDir().toURI());
 			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
+				TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
 
 			}
 		}
@@ -656,43 +626,44 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	private void loadReferences(Document document) throws TigerstripeException {
 		this.modelReferences = new ArrayList<ModelReference>();
+		synchronized (modelReferences) {
+			NodeList dependencyNode = document.getElementsByTagName(REFERENCE_TAG);
 
-		NodeList dependencyNode = document.getElementsByTagName(REFERENCE_TAG);
+			for (int i = 0; i < dependencyNode.getLength(); i++) {
+				Node node = dependencyNode.item(i);
+				NamedNodeMap namedAttributes = node.getAttributes();
+				Node pathNode = namedAttributes.getNamedItem("path");
+				Node modelIdNode = namedAttributes.getNamedItem("modelId");
+				Node enabledNode = namedAttributes.getNamedItem(ENABLED_ATTRIBUTE);
 
-		for (int i = 0; i < dependencyNode.getLength(); i++) {
-			Node node = dependencyNode.item(i);
-			NamedNodeMap namedAttributes = node.getAttributes();
-			Node pathNode = namedAttributes.getNamedItem("path");
-			Node modelIdNode = namedAttributes.getNamedItem("modelId");
-			Node enabledNode = namedAttributes.getNamedItem(ENABLED_ATTRIBUTE);
+				String modelId = "";
+				String path = pathNode.getNodeValue();
+				boolean isEnabled = true;
+				if (modelIdNode != null) {
+					modelId = modelIdNode.getNodeValue();
+				} else {
+					// default back to path if no modelId saved
+					modelId = path;
+				}
 
-			String modelId = "";
-			String path = pathNode.getNodeValue();
-			boolean isEnabled = true;
-			if (modelIdNode != null) {
-				modelId = modelIdNode.getNodeValue();
-			} else {
-				// default back to path if no modelId saved
-				modelId = path;
+				// NM: Set enabled bit
+				if (enabledNode != null) {
+					isEnabled = enabledNode.getNodeValue().equalsIgnoreCase("false") ? false : true;
+				}
+
+				// Build a model Reference for that
+				LegacyModelReference mRef = new LegacyModelReference(modelId, path);
+				mRef.setEnabled(isEnabled);
+
+				modelReferences.add(mRef);
 			}
-			
-			// NM: Set enabled bit
-			if (enabledNode!=null) {
-				isEnabled = enabledNode.getNodeValue().equalsIgnoreCase("false")?false:true;
-			}
-
-			// Build a model Reference for that
-			LegacyModelReference mRef = new LegacyModelReference(modelId, path);
-			mRef.setEnabled(isEnabled);
-			
-			modelReferences.add(mRef);
 		}
 	}
 
 	public void addDependency(IDependency dependency) {
 		URI uri = dependency.getURI();
 		IModuleHeader header = dependency.getIModuleHeader();
-		
+
 		if (!this.dependencies.contains(dependency)) {
 			setDirty();
 			this.dependencies.add(dependency);
@@ -700,9 +671,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 			try {
 				if (uri != null && header != null) {
-					ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(
-							uri,
-						header.getModuleID());
+					ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(uri, header.getModuleID());
 				}
 			} catch (IOException e) {
 				BasePlugin.log(e);
@@ -717,8 +686,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			((Dependency) dependency).setContainer(null);
 
 			try {
-				ModuleAnnotationManager.INSTANCE
-						.unRegisterAnnotationsFor(dependency.getURI());
+				ModuleAnnotationManager.INSTANCE.unRegisterAnnotationsFor(dependency.getURI());
 			} catch (IOException e) {
 				BasePlugin.log(e);
 			}
@@ -737,35 +705,38 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
-	public void addModelReference(ModelReference mRef)
-			throws TigerstripeException {
+	public void addModelReference(ModelReference mRef) throws TigerstripeException {
 		setDirty();
-		modelReferences.add(mRef);
-	}
-
-	public void addModelReferences(ModelReference[] mRefs)
-			throws TigerstripeException {
-		setDirty();
-		for (ModelReference mRef : mRefs)
+		synchronized (modelReferences) {
 			modelReferences.add(mRef);
+		}
 	}
 
-	public void removeModelReference(ModelReference mRef)
-			throws TigerstripeException {
+	public void addModelReferences(ModelReference[] mRefs) throws TigerstripeException {
 		setDirty();
-		modelReferences.remove(mRef);
+		synchronized (modelReferences) {
+			for (ModelReference mRef : mRefs)
+				modelReferences.add(mRef);
+		}
 	}
 
-	public void removeModelReferences(ModelReference[] mRefs)
-			throws TigerstripeException {
+	public void removeModelReference(ModelReference mRef) throws TigerstripeException {
 		setDirty();
-		for (ModelReference mRef : mRefs)
+		synchronized (modelReferences) {
 			modelReferences.remove(mRef);
+		}
+	}
+
+	public void removeModelReferences(ModelReference[] mRefs) throws TigerstripeException {
+		setDirty();
+		synchronized (modelReferences) {
+			for (ModelReference mRef : mRefs)
+				modelReferences.remove(mRef);
+		}
 	}
 
 	public ModelReference[] getModelReferences() {
-		return modelReferences.toArray(new ModelReference[modelReferences
-				.size()]);
+		return modelReferences.toArray(new ModelReference[modelReferences.size()]);
 	}
 
 	public ITigerstripeModelProject[] getReferencedProjects() {
@@ -777,42 +748,42 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 		return result.toArray(new ITigerstripeModelProject[result.size()]);
 	}
-	
+
 	// NM: Return just the enabled dependencies
 	public IDependency[] getEnabledDependencies() {
 		IDependency[] result = getDependencies();
-		if (result==null || result.length==0)
+		if (result == null || result.length == 0)
 			return result;
-		
+
 		ArrayList<IDependency> finalResult = new ArrayList<IDependency>();
-		for (int i=0; i < result.length; i++) {
+		for (int i = 0; i < result.length; i++) {
 			if (result[i].isEnabled())
 				finalResult.add(result[i]);
 		}
-		
+
 		return finalResult.toArray(new IDependency[finalResult.size()]);
 	}
-	
+
 	// NM: Return just the enabled model references
 	public ModelReference[] getEnabledModelReferences() {
 		ModelReference[] result = getModelReferences();
-		if (result==null || result.length==0)
+		if (result == null || result.length == 0)
 			return result;
-		
+
 		ArrayList<ModelReference> finalResult = new ArrayList<ModelReference>();
-		for (int i=0; i < result.length; i++) {
+		for (int i = 0; i < result.length; i++) {
 			if (result[i].isEnabled())
 				finalResult.add(result[i]);
 		}
-		
+
 		return finalResult.toArray(new ModelReference[finalResult.size()]);
 	}
-	
+
 	// NM: Return just the enabled referenced projects
 	public ITigerstripeModelProject[] getEnabledReferencedProjects() {
 		List<ITigerstripeModelProject> result = new ArrayList<ITigerstripeModelProject>();
 		ModelReference[] enabledModelReferences = getEnabledModelReferences();
-		if (enabledModelReferences !=null) {
+		if (enabledModelReferences != null) {
 			for (ModelReference mRef : enabledModelReferences) {
 				ITigerstripeModelProject model = mRef.getResolvedModel();
 				if (model != null)
@@ -820,7 +791,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			}
 		}
 		return result.toArray(new ITigerstripeModelProject[result.size()]);
-		
+
 	}
 
 	public boolean hasReference(ITigerstripeModelProject project) {
@@ -853,8 +824,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	 *            - whether order should be ignored during comparison
 	 * @return true if both projects have same dependencies, false otherwise
 	 */
-	public boolean hasSameDependencies(TigerstripeProject other,
-			boolean ignoreOrder) {
+	public boolean hasSameDependencies(TigerstripeProject other, boolean ignoreOrder) {
 
 		IDependency[] otherDeps = other.getDependencies();
 		if (getDependencies().length != otherDeps.length)
@@ -875,28 +845,21 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 							// 2 dependencies are considered equal in this
 							// context when
 							// they have the same relPath and moduleID
-							if (lDep.getPath().equals(dep.getPath())
-									&& lDep.getIModuleHeader()
-											.getModuleID()
-											.equals(dep.getIModuleHeader()
-													.getModuleID())) {
+							if (lDep.getPath().equals(dep.getPath()) && lDep.getIModuleHeader().getModuleID()
+									.equals(dep.getIModuleHeader().getModuleID())) {
 								matched = true;
 							}
 						}
 					}
 				} else {
 					// when not ignoring order, needs to match on the index
-					IDependency lDep = ((ArrayList<IDependency>) dependencies)
-							.get(index);
+					IDependency lDep = ((ArrayList<IDependency>) dependencies).get(index);
 					if (lDep.isValid()) {
 						// 2 dependencies are considered equal in this context
 						// when
 						// they have the same relPath and moduleID
 						if (lDep.getPath().equals(dep.getPath())
-								&& lDep.getIModuleHeader()
-										.getModuleID()
-										.equals(dep.getIModuleHeader()
-												.getModuleID())) {
+								&& lDep.getIModuleHeader().getModuleID().equals(dep.getIModuleHeader().getModuleID())) {
 							matched = true;
 						}
 					}
@@ -919,8 +882,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	 *            - whether order should be ignored during comparison
 	 * @return true if both projects have same references, false otherwise
 	 */
-	public boolean hasSameReferences(TigerstripeProject other,
-			boolean ignoreOrder) {
+	public boolean hasSameReferences(TigerstripeProject other, boolean ignoreOrder) {
 
 		ITigerstripeModelProject[] otherRefs = other.getReferencedProjects();
 		if (getReferencedProjects().length != otherRefs.length)
@@ -950,8 +912,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		return true;
 	}
 
-	public void addFacetReference(IFacetReference facetRef)
-			throws TigerstripeException {
+	public void addFacetReference(IFacetReference facetRef) throws TigerstripeException {
 		if (!facetReferences.contains(facetRef)) {
 			setDirty();
 			facetReferences.add(facetRef);
@@ -959,8 +920,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
-	public void removeFacetReference(IFacetReference facetRef)
-			throws TigerstripeException {
+	public void removeFacetReference(IFacetReference facetRef) throws TigerstripeException {
 		if (facetReferences.contains(facetRef)) {
 			setDirty();
 			facetReferences.remove(facetRef);
@@ -969,12 +929,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	public IFacetReference[] getFacetReferences() throws TigerstripeException {
-		return facetReferences.toArray(new IFacetReference[facetReferences
-				.size()]);
+		return facetReferences.toArray(new IFacetReference[facetReferences.size()]);
 	}
 
-	public ITigerstripeModelProject[] getIReferencedProjects()
-			throws TigerstripeException {
+	public ITigerstripeModelProject[] getIReferencedProjects() throws TigerstripeException {
 		return getReferencedProjects();
 	}
 
@@ -985,21 +943,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public String getRepositoryLocation() throws TigerstripeException {
 		List<ArtifactRepository> repositories = (List<ArtifactRepository>) getArtifactRepositories();
 		if (repositories == null || repositories.size() == 0)
-			throw new TigerstripeException("No defined Artifact repository in "
-					+ ITigerstripeConstants.PROJECT_DESCRIPTOR);
+			throw new TigerstripeException(
+					"No defined Artifact repository in " + ITigerstripeConstants.PROJECT_DESCRIPTOR);
 
 		ArtifactRepository repo = repositories.get(0);
 		if (repo.getIncludes().length == 0)
-			throw new TigerstripeException(
-					"No 'includes' defined for repository "
-							+ repo.getBaseDirectory());
+			throw new TigerstripeException("No 'includes' defined for repository " + repo.getBaseDirectory());
 
 		String repoLocation = repo.getIncludes()[0];
 		int index = repoLocation.indexOf("**/*.java");
 		if (index == -1)
-			throw new TigerstripeException(
-					"Incorrect 'includes' clause for repository: '"
-							+ repoLocation + "'. Must follow xxx/yyy/**/*.java");
+			throw new TigerstripeException("Incorrect 'includes' clause for repository: '" + repoLocation
+					+ "'. Must follow xxx/yyy/**/*.java");
 		repoLocation = repoLocation.substring(0, index);
 
 		return repoLocation;
@@ -1009,11 +964,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		parse(reader);
 	}
 
-	public final LegacyModelReference makeLegacyModelReferenceFrom(
-			ITigerstripeModelProject project) throws TigerstripeException {
+	public final LegacyModelReference makeLegacyModelReferenceFrom(ITigerstripeModelProject project)
+			throws TigerstripeException {
 		ModelReference mRef = ModelReference.referenceFromProject(project);
-		LegacyModelReference mLRef = new LegacyModelReference(
-				mRef.getProjectContext(), mRef.getToModelId(),
+		LegacyModelReference mLRef = new LegacyModelReference(mRef.getProjectContext(), mRef.getToModelId(),
 				project.getName());
 		return mLRef;
 	}
@@ -1028,11 +982,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			return null;
 
 		try {
-			handle = (TigerstripeProjectHandle) TigerstripeCore
-					.findProject(getBaseDir().toURI());
+			handle = (TigerstripeProjectHandle) TigerstripeCore.findProject(getBaseDir().toURI());
 		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
+			TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
 		}
 		return handle;
 	}
@@ -1047,8 +999,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				reload(true);
 			} catch (TigerstripeException e) {
 
-				TigerstripeRuntime.logErrorMessage(
-						"Error on Descriptor change", e);
+				TigerstripeRuntime.logErrorMessage("Error on Descriptor change", e);
 			}
 		}
 
