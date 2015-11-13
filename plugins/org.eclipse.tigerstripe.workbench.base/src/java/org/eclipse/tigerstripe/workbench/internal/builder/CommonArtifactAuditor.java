@@ -331,6 +331,8 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 
             if (artifact instanceof IAssociationClassArtifact) {
                 eligableHierarhy |= superArtifact instanceof IManagedEntityArtifact;
+            } else if (artifact instanceof IManagedEntityArtifact) {
+                eligableHierarhy |= superArtifact instanceof IAssociationClassArtifact;
             }
 
             if (!eligableHierarhy) {
@@ -349,7 +351,13 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
         for (Class<?> child : childClasses) {
             boolean found = false;
             for (Class<?> parent : parentClasses) {
-                if (child.equals(parent)) {
+                if (child.equals(parent)
+                    || (child.getName().endsWith("IManagedEntityArtifact") && parent
+                            .getName()
+                            .endsWith("IAssociationClassArtifact"))
+                    || (child.getName().endsWith(
+                            "IAssociationClassArtifact") && parent
+                            .getName().endsWith("IManagedEntityArtifact"))) {
                     found = true;
                     break;
                 }
