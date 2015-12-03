@@ -11,16 +11,12 @@
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.util.MatchedConfigHousing;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -36,77 +32,35 @@ public class M1GenerationUtils {
 	 * @param enabledOnly
 	 * @return
 	 */
-	public static IPluginConfig[] m1PluginConfigs(
-			ITigerstripeModelProject project, boolean enabledOnly,
+	public static IPluginConfig[] m1PluginConfigs(ITigerstripeModelProject project, boolean enabledOnly,
 			boolean cloneObjects) throws TigerstripeException {
 
-		BasePlugin.logErrorMessage("Resolving M1 Plugin Configuration for project " + project.getName() + "...", new Exception());
 		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
 
-		PluginManager manager = PluginManager.getManager();
-		if (!PluginManager.isOsgiVersioning()) {
-			BasePlugin.logInfo("Plugin Manager is using OSGI Versioning.");
-			for (IPluginConfig config : project.getPluginConfigs()) {
-				IPluginConfig theConfig = config;
-				if (cloneObjects) {
-					theConfig = config.clone();
-					theConfig.setProjectHandle(project);
-				}
-				if (config.getPluginNature() == EPluggablePluginNature.Validation
-						|| config.getPluginNature() == EPluggablePluginNature.Generic) {
-					if ((enabledOnly && theConfig.isEnabled()) || !enabledOnly) {
-						result.add(theConfig);
-					} else {
-						BasePlugin.logInfo("Ignoring Plugin as it is not enabled " + config.getPluginName() + " enabled=" + config.isEnabled());
-					}
-				} else {
-					BasePlugin.logInfo("Ignoring Plugin as it is not Validation or Generic " + config.getPluginName() + " type=" + config.getPluginNature());
-				}
-			}
-
-		} else {
-			Map<String, Collection<PluggableHousing>> housingNameMap = new HashMap<String, Collection<PluggableHousing>>();
-			for (PluggableHousing housing : manager
-					.getRegisteredPluggableHousings()) {
-				String name = housing.getPluginName();
-				if (housingNameMap.containsKey(name)) {
-					housingNameMap.get(name).add(housing);
-				} else {
-					Collection<PluggableHousing> phs = new ArrayList<PluggableHousing>();
-					phs.add(housing);
-					housingNameMap.put(name, phs);
-				}
-			}
-			for (String name : housingNameMap.keySet()) {
-				MatchedConfigHousing mch = manager.resolve(
-						housingNameMap.get(name), project.getPluginConfigs());
-				IPluginConfig config = mch.getConfig();
-				if (config != null) {
-					IPluginConfig theConfig = config;
+		for (IPluginConfig plugin : project.getPluginConfigs()) {
+			if (plugin.getPluginNature() == EPluggablePluginNature.Validation
+					|| plugin.getPluginNature() == EPluggablePluginNature.Generic) {
+				if ((enabledOnly && plugin.isEnabled()) || !enabledOnly) {
+					MatchedConfigHousing mch = PluginManager.getManager().resolve(plugin);
+					IPluginConfig config = mch.getConfig();
 					if (cloneObjects) {
-						theConfig = config.clone();
-						theConfig.setProjectHandle(project);
+						config = config.clone();
+						config.setProjectHandle(project);
 					}
-					if (config.getPluginNature() == EPluggablePluginNature.Validation
-							|| config.getPluginNature() == EPluggablePluginNature.Generic) {
-						if ((enabledOnly && theConfig.isEnabled())
-								|| !enabledOnly) {
-							result.add(theConfig);
-						}else {
-							BasePlugin.logInfo("Ignoring Plugin as it is not enabled " + config.getPluginName() + " enabled=" + config.isEnabled());
-						}
-					} else {
-						BasePlugin.logInfo("Ignoring Plugin as it is not Validation or Generic " + config.getPluginName() + " type=" + config.getPluginNature());
-					}
+					result.add(config);
 				} else {
-					BasePlugin.logInfo("Could not resolve Plugin " + name);
+					BasePlugin.logInfo("Ignoring Plugin as it is not enabled " + plugin.getPluginName());
 				}
+			} else {
+				BasePlugin.logInfo("Ignoring Plugin as it is not Validation or Generic " + plugin.getPluginName()
+						+ " type=" + plugin.getPluginNature());
 			}
 		}
-		 
+
 		BasePlugin.logInfo("Resolved the following plugins: " + result);
-			
+
 		return result.toArray(new IPluginConfig[result.size()]);
+
 	}
 
 	public static PluginHousing[] m1PluginHousings() {

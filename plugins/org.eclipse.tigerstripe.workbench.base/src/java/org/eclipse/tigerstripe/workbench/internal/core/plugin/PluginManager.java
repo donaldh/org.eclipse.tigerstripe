@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
@@ -48,7 +49,7 @@ import org.osgi.framework.Version;
 /**
  * @author Eric Dillon
  * 
- * The plugin manager (singleton) manages all plugin housings
+ *         The plugin manager (singleton) manages all plugin housings
  * 
  */
 public class PluginManager {
@@ -87,8 +88,7 @@ public class PluginManager {
 	 * @throws UnknownPluginException
 	 *             , if the PluginConfig cannot be resolved
 	 */
-	public PluginHousing resolveReference(PluginConfig ref)
-			throws UnknownPluginException {
+	public PluginHousing resolveReference(PluginConfig ref) throws UnknownPluginException {
 
 		for (PluginHousing housing : housings) {
 			if (housing.matchRef(ref))
@@ -126,11 +126,9 @@ public class PluginManager {
 
 		TigerstripeCore.getWorkbenchProfileSession().getActiveProfile()
 				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
-		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile()
-				.getProperty(IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
-		osgiVersioning = prop
-				.getPropertyValue(IGlobalSettingsProperty.OSGIVERSIONING);
+		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore.getWorkbenchProfileSession()
+				.getActiveProfile().getProperty(IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+		osgiVersioning = prop.getPropertyValue(IGlobalSettingsProperty.OSGIVERSIONING);
 		// This will load the actual pluggable plugins
 		loadPluggableHousings();
 
@@ -142,120 +140,107 @@ public class PluginManager {
 	 */
 	private void loadPluggableHousings() {
 
-        FilenameFilter filter = new FilenameFilter() {
-            public boolean accept(File arg0, String arg1) {
-                ZipFile zip = null;
-                try {
-                    zip = new ZipFile(arg0.getAbsolutePath() + File.separator
-                            + arg1);
-                    return true;
-                } catch (IOException e) {
-                    return false;
-                } finally {
-                    if (zip != null) {
-                        try {
-                            zip.close();
-                        } catch (IOException e) {
-                            // ignore
-                        }
-                    }
-                }
-            }
-        };
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File arg0, String arg1) {
+				ZipFile zip = null;
+				try {
+					zip = new ZipFile(arg0.getAbsolutePath() + File.separator + arg1);
+					return true;
+				} catch (IOException e) {
+					return false;
+				} finally {
+					if (zip != null) {
+						try {
+							zip.close();
+						} catch (IOException e) {
+							// ignore
+						}
+					}
+				}
+			}
+		};
 
-        String runtimeRoot = TigerstripeRuntime.getTigerstripeRuntimeRoot();
+		String runtimeRoot = TigerstripeRuntime.getTigerstripeRuntimeRoot();
 
-        String pluginsRoot = runtimeRoot + File.separator
-                + TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR;
-        File pluginDir = new File(pluginsRoot);
+		String pluginsRoot = runtimeRoot + File.separator + TigerstripeRuntime.TIGERSTRIPE_PLUGINS_DIR;
+		File pluginDir = new File(pluginsRoot);
 
-        if (pluginDir.exists() && pluginDir.canRead()) {
-            String[] files = pluginDir.list(filter);
+		if (pluginDir.exists() && pluginDir.canRead()) {
+			String[] files = pluginDir.list(filter);
 
-            for (String file : files) {
-                // First un-zip the file
+			for (String file : files) {
+				// First un-zip the file
 
-                String unZippedFile = pluginsRoot + File.separator + "." + file;
-                String zippedFile = pluginsRoot + File.separator + file;
+				String unZippedFile = pluginsRoot + File.separator + "." + file;
+				String zippedFile = pluginsRoot + File.separator + file;
 
-                if (unZippedFile.endsWith(".zip")) {
-                    unZippedFile = unZippedFile.substring(0,
-                            unZippedFile.length() - 4);
-                }
-                try {
+				if (unZippedFile.endsWith(".zip")) {
+					unZippedFile = unZippedFile.substring(0, unZippedFile.length() - 4);
+				}
+				try {
 
-                    // Since 2.2.0 we now check on the existence of a tstamp.txt
-                    // file
-                    // in the unzip dir to avoid un-zipping blindly everytime
-                    // all plugins
-                    long unzippedTStamp = readTStamp(unZippedFile);
-                    File zip = new File(pluginsRoot + File.separator + file);
-                    if (zip.exists()) {
-                        long zipTStamp = zip.lastModified();
-                        if (zipTStamp != unzippedTStamp) {
-                            ZipFileUnzipper.unzip(pluginsRoot + File.separator
-                                    + file, unZippedFile);
-                            writeTStamp(zipTStamp, unZippedFile);
-                        }
-                    }
+					// Since 2.2.0 we now check on the existence of a tstamp.txt
+					// file
+					// in the unzip dir to avoid un-zipping blindly everytime
+					// all plugins
+					long unzippedTStamp = readTStamp(unZippedFile);
+					File zip = new File(pluginsRoot + File.separator + file);
+					if (zip.exists()) {
+						long zipTStamp = zip.lastModified();
+						if (zipTStamp != unzippedTStamp) {
+							ZipFileUnzipper.unzip(pluginsRoot + File.separator + file, unZippedFile);
+							writeTStamp(zipTStamp, unZippedFile);
+						}
+					}
 
-                    PluggablePlugin pluginBody = new PluggablePlugin(
-                            unZippedFile, zippedFile);
-                    if (pluginBody.isValid()) {
-                        PluggableHousing housing = new PluggableHousing(
-                                pluginBody);
+					PluggablePlugin pluginBody = new PluggablePlugin(unZippedFile, zippedFile);
+					if (pluginBody.isValid()) {
+						PluggableHousing housing = new PluggableHousing(pluginBody);
 
-                        registerHousing(housing);
-                    }
-                } catch (TigerstripeException e) {
-                    TigerstripeRuntime.logErrorMessage(
-                            "TigerstripeException detected", e);
-                }
-            }
-        }
+						registerHousing(housing);
+					}
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
+				}
+			}
+		}
 
-        // Now see if there any contributed generators.
+		// Now see if there any contributed generators.
 
-        try {
-            IConfigurationElement[] elements = Platform
-                    .getExtensionRegistry()
-                    .getConfigurationElementsFor(
-                            "org.eclipse.tigerstripe.workbench.base.contributedGenerator");
-            // TODO check for only one contrib
+		try {
+			IConfigurationElement[] elements = Platform.getExtensionRegistry()
+					.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.contributedGenerator");
+			// TODO check for only one contrib
 
-            for (IConfigurationElement element : elements) {
-                if (element.getName().equals("generator")) {
-                    // Need to get the file from the contributing plugin
-                    IContributor contributor = ((IExtension) element
-                            .getParent()).getContributor();
-                    Bundle bundle = org.eclipse.core.runtime.Platform
-                            .getBundle(contributor.getName());
-                    File f = FileLocator.getBundleFile(bundle);
+			for (IConfigurationElement element : elements) {
+				if (element.getName().equals("generator")) {
+					// Need to get the file from the contributing plugin
+					IContributor contributor = ((IExtension) element.getParent()).getContributor();
+					Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
+					File f = FileLocator.getBundleFile(bundle);
 
-                    PluggablePlugin pluginBody = new ContributedPlugin(
-                            f.getAbsolutePath(), bundle);
-                    pluginBody.setCanDelete(false);
-                    if (pluginBody.isValid()) {
-                        PluggableHousing housing = new PluggableHousing(
-                                pluginBody);
-                        registerHousing(housing);
-                        BasePlugin.log(new Status(IStatus.INFO, BasePlugin.PLUGIN_ID, "Loaded Tigerstripe plugin: " + pluginBody.getPluginName()));
-                    } else {
-                    	BasePlugin.logErrorMessage("Contributed Tigerstripe plugin is not valid: " + pluginBody.getPluginName());
-                    }
-                }
-            }
-        } catch (Exception e) {
-            BasePlugin
-                    .logErrorMessage("Failed to instantiate generator from Extension Point");
-            BasePlugin.log(e);
+					PluggablePlugin pluginBody = new ContributedPlugin(f.getAbsolutePath(), bundle);
+					pluginBody.setCanDelete(false);
+					if (pluginBody.isValid()) {
+						PluggableHousing housing = new PluggableHousing(pluginBody);
+						registerHousing(housing);
+						BasePlugin.log(new Status(IStatus.INFO, BasePlugin.PLUGIN_ID,
+								"Loaded Tigerstripe plugin: " + pluginBody.getPluginName()));
+					} else {
+						BasePlugin.logErrorMessage(
+								"Contributed Tigerstripe plugin is not valid: " + pluginBody.getPluginName());
+					}
+				}
+			}
+		} catch (Exception e) {
+			BasePlugin.logErrorMessage("Failed to instantiate generator from Extension Point");
+			BasePlugin.log(e);
 
-        }
+		}
 
-    }
+	}
 
-	private static String readFileAsString(String filePath)
-			throws java.io.IOException {
+	private static String readFileAsString(String filePath) throws java.io.IOException {
 		StringBuffer fileData = new StringBuffer(1000);
 		BufferedReader reader = null;
 		FileReader fReader = null;
@@ -320,14 +305,12 @@ public class PluginManager {
 		}
 	}
 
-	private void registerHousing(PluginHousing housing)
-			throws TigerstripeException {
+	private void registerHousing(PluginHousing housing) throws TigerstripeException {
 		if (!this.housings.contains(housing))
 			this.housings.add(housing);
 	}
 
-	public void unRegisterHousing(PluginHousing housing)
-			throws TigerstripeException {
+	public void unRegisterHousing(PluginHousing housing) throws TigerstripeException {
 		if (this.housings.contains(housing))
 			this.housings.remove(housing);
 	}
@@ -336,85 +319,128 @@ public class PluginManager {
 	 * This should only ever be called if the OSGI versioning is being used. The
 	 * housings should all share the name that you are searching for.
 	 */
-	public MatchedConfigHousing resolve(Collection<PluggableHousing> housings,
-			IPluginConfig[] plugins) {
+	public MatchedConfigHousing resolve(Collection<PluggableHousing> housings, IPluginConfig[] plugins) {
 
 		PluggableHousing potentialHousing = null;
 		IPluginConfig usedPluginConfig = null;
 		Version currentVersion = null;
+		String name = null;
 
 		for (PluggableHousing candidateHousing : housings) {
-
-			// System.out.println("Housing "+candidateHousing.getPluginName());
-			// pluginRef is the "determinant" - is the one that says what we
-			// ant.
 			OSGIRef pluginRef = null;
 			if (candidateHousing.getPluginName() == null) {
-				BasePlugin.logErrorMessage("Plugin name is null:"
-						+ candidateHousing.toString());
-				// We didn't fnd any - so this is not yet used!
-				return new MatchedConfigHousing(null, candidateHousing);
+				BasePlugin.logErrorMessage("Candidate Housing name should not be null: " + candidateHousing.toString(),
+						new Exception());
+				continue;
 			}
-
-			for (int i = 0; i < plugins.length; i++) {
-				// System.out.println("    Plugin "+plugins[i].getPluginName());
-				if (candidateHousing.getPluginName().equals(
-						plugins[i].getPluginName())) {
-					try {
-						pluginRef = OSGIRef.parseRef(plugins[i].getVersion());
-						usedPluginConfig = plugins[i];
-					} catch (IllegalArgumentException e) {
-						// This ref has a bad version string.. we need to ignore
-						// it.
-						BasePlugin
-								.logErrorMessage("Illegal Version format for '"
-										+ plugins[i].getPluginName() + "'");
-						BasePlugin.log(e);
-						continue;
-					}
-					break;
-				}
-			}
-			if (pluginRef == null) {
-				// We didn't fnd any - so this is not yet used!
-				return new MatchedConfigHousing(null, candidateHousing);
-
-			}
-
+			name = candidateHousing.getPluginName();
 			Version v = null;
 			try {
 				v = new Version(candidateHousing.getVersion());
 			} catch (IllegalArgumentException e) {
 				// This housing has a bad version string.. we need to ignore it.
-				BasePlugin.logErrorMessage("Illegal Version format for '"
-						+ candidateHousing.getPluginName() + "'");
-				BasePlugin.log(e);
+				BasePlugin.logErrorMessage("Illegal Version format for Housing '" + candidateHousing.getPluginName()
+						+ "': " + candidateHousing.getVersion(), e);
 				continue;
 			}
-			// System.out.println("    Housing Ver "+v.toString());
-			if (v != null && pluginRef != null) {
-				if (pluginRef.isInScope(v)) {
-					// System.out.println("    In scope!");
-					if (potentialHousing == null) {
-						potentialHousing = candidateHousing;
-						currentVersion = v;
-					} else {
-						// newer than the previous selection
-						if (v.compareTo(currentVersion) > 0) {
-							// this is newer
-							// System.out.println("    Newer!");
-							potentialHousing = candidateHousing;
-							currentVersion = v;
-						}
 
+			for (IPluginConfig plugin : plugins) {
+				if (name.equals(plugin.getPluginName())) {
+					try {
+						pluginRef = OSGIRef.parseRef(plugin.getVersion());
+					} catch (IllegalArgumentException e) {
+						// This ref has a bad version string.. we need to ignore
+						// it.
+						BasePlugin.logErrorMessage("Illegal Version format for Plugin '" + plugin.getPluginName()
+								+ "': " + plugin.getVersion(), e);
+						continue;
 					}
+
+					if (pluginRef == null) {
+						BasePlugin.logErrorMessage("Failed to resolve OSGI Plugin Reference for Plugin "
+								+ plugin.getPluginName() + ":" + plugin.getVersion(), new Exception());
+						continue;
+					}
+					if (pluginRef.isInScope(v)) {
+						if (currentVersion == null || v.compareTo(currentVersion) > 0) {
+							currentVersion = v;
+							usedPluginConfig = plugin;
+							potentialHousing = candidateHousing;
+						}
+					} else {
+						BasePlugin.logErrorMessage("Resolved OSGI Plugin Reference " + plugin.getPluginName() + ":"
+								+ plugin.getVersion() + " is not in the required version scope: " + v, new Exception());
+					}
+				} else {
+					BasePlugin.logErrorMessage("Candidate Housing name '" + name + "' does not match plugin name '"
+							+ plugin.getPluginName() + "'.", new Exception());
 				}
-			} else {
-				// This is all a bit of a disaster - nothing more we can do here
-				return null;
 			}
 		}
+		if (currentVersion == null) {
+			BasePlugin.logErrorMessage("Candidate Housing name '" + name + "' did not match any available plugin.",
+					new Exception());
+		}
 		return new MatchedConfigHousing(usedPluginConfig, potentialHousing);
+	}
+
+	public MatchedConfigHousing resolve(IPluginConfig plugin) {
+
+		if (!isOsgiVersioning()) {
+			return new MatchedConfigHousing(plugin, null);
+		}
+
+		if (StringUtils.isEmpty(plugin.getPluginName())) {
+			BasePlugin.logErrorMessage("Plugin name must not be null: " + plugin.toString(), new Exception());
+			return new MatchedConfigHousing(plugin, null);
+		}
+
+		String id = plugin.getPluginName() + ":" + plugin.getVersion();
+
+		OSGIRef pluginRef = null;
+		try {
+			pluginRef = OSGIRef.parseRef(plugin.getVersion());
+		} catch (IllegalArgumentException e) {
+			// This ref has a bad version string.. we need to ignore it.
+			BasePlugin.logErrorMessage("Illegal Version format for Plugin '" + id, e);
+			return new MatchedConfigHousing(plugin, null);
+		}
+		if (pluginRef == null) {
+			BasePlugin.logErrorMessage("Failed to resolve OSGI Plugin Reference for Plugin " + id, new Exception());
+			return new MatchedConfigHousing(plugin, null);
+		}
+
+		PluggableHousing potentialHousing = null;
+		Version currentVersion = null;
+
+		for (PluggableHousing housing : getRegisteredPluggableHousings()) {
+			if (plugin.getPluginName().equals(housing.getPluginName())) {
+				String housingId = housing.getPluginName() + "': " + housing.getVersion();
+				Version v = null;
+				try {
+					v = new Version(housing.getVersion());
+				} catch (IllegalArgumentException e) {
+					// This housing has a bad version string.. we need to ignore
+					// it.
+					BasePlugin.logErrorMessage("Illegal Version format for Candidate Housing '" + housingId, e);
+					continue;
+				}
+
+				if (pluginRef.isInScope(v)) {
+					if (currentVersion == null || v.compareTo(currentVersion) > 0) {
+						currentVersion = v;
+						potentialHousing = housing;
+					}
+				} else {
+					BasePlugin.logErrorMessage("Candidate Housing " + housingId
+							+ " is not in the required version scope: " + pluginRef.toString(), new Exception());
+				}
+			}
+		}
+		if (currentVersion == null) {
+			BasePlugin.logErrorMessage("Did not resolve any Candidate Housing for Plugin " + id, new Exception());
+		}
+		return new MatchedConfigHousing(plugin, potentialHousing);
 	}
 
 }
