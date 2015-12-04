@@ -329,69 +329,56 @@ public class PluginManager {
 		for (PluggableHousing candidateHousing : housings) {
 			OSGIRef pluginRef = null;
 			if (candidateHousing.getPluginName() == null) {
-				BasePlugin.logErrorMessage("Candidate Housing name should not be null: " + candidateHousing.toString(),
-						new Exception());
+				BasePlugin.logErrorMessage("Candidate Housing name should not be null: " + candidateHousing.toString());
 				continue;
 			}
+			String housingId = candidateHousing.getPluginName() + ":" + candidateHousing.getVersion();
 			name = candidateHousing.getPluginName();
 			Version v = null;
 			try {
 				v = new Version(candidateHousing.getVersion());
 			} catch (IllegalArgumentException e) {
 				// This housing has a bad version string.. we need to ignore it.
-				BasePlugin.logErrorMessage("Illegal Version format for Housing '" + candidateHousing.getPluginName()
-						+ "': " + candidateHousing.getVersion(), e);
+				BasePlugin.logErrorMessage("Illegal Version format for Housing '" + housingId, e);
 				continue;
 			}
 
 			for (IPluginConfig plugin : plugins) {
 				if (name.equals(plugin.getPluginName())) {
+					String id = plugin.getPluginName() + ":" + plugin.getVersion();
 					try {
 						pluginRef = OSGIRef.parseRef(plugin.getVersion());
 					} catch (IllegalArgumentException e) {
 						// This ref has a bad version string.. we need to ignore
 						// it.
-						BasePlugin.logErrorMessage("Illegal Version format for Plugin '" + plugin.getPluginName()
-								+ "': " + plugin.getVersion(), e);
+						BasePlugin.logErrorMessage("Illegal Version format for Plugin '" + id, e);
 						continue;
 					}
 
 					if (pluginRef == null) {
-						BasePlugin.logErrorMessage("Failed to resolve OSGI Plugin Reference for Plugin "
-								+ plugin.getPluginName() + ":" + plugin.getVersion(), new Exception());
+						BasePlugin.logErrorMessage("Failed to resolve OSGI Plugin Reference for Plugin " + id);
 						continue;
 					}
+
 					if (pluginRef.isInScope(v)) {
 						if (currentVersion == null || v.compareTo(currentVersion) > 0) {
 							currentVersion = v;
 							usedPluginConfig = plugin;
 							potentialHousing = candidateHousing;
 						}
-					} else {
-						BasePlugin.logErrorMessage("Resolved OSGI Plugin Reference " + plugin.getPluginName() + ":"
-								+ plugin.getVersion() + " is not in the required version scope: " + v, new Exception());
+					} else if (currentVersion == null) {
+						usedPluginConfig = plugin;
 					}
-				} else {
-					BasePlugin.logErrorMessage("Candidate Housing name '" + name + "' does not match plugin name '"
-							+ plugin.getPluginName() + "'.", new Exception());
 				}
 			}
-		}
-		if (currentVersion == null) {
-			BasePlugin.logErrorMessage("Candidate Housing name '" + name + "' did not match any available plugin.",
-					new Exception());
 		}
 		return new MatchedConfigHousing(usedPluginConfig, potentialHousing);
 	}
 
 	public MatchedConfigHousing resolve(IPluginConfig plugin) {
 
-		if (!isOsgiVersioning()) {
-			return new MatchedConfigHousing(plugin, null);
-		}
-
 		if (StringUtils.isEmpty(plugin.getPluginName())) {
-			BasePlugin.logErrorMessage("Plugin name must not be null: " + plugin.toString(), new Exception());
+			BasePlugin.logErrorMessage("Plugin name must not be null: " + plugin.toString());
 			return new MatchedConfigHousing(plugin, null);
 		}
 
@@ -406,7 +393,7 @@ public class PluginManager {
 			return new MatchedConfigHousing(plugin, null);
 		}
 		if (pluginRef == null) {
-			BasePlugin.logErrorMessage("Failed to resolve OSGI Plugin Reference for Plugin " + id, new Exception());
+			BasePlugin.logErrorMessage("Failed to resolve OSGI Plugin Reference for Plugin " + id);
 			return new MatchedConfigHousing(plugin, null);
 		}
 
@@ -431,14 +418,8 @@ public class PluginManager {
 						currentVersion = v;
 						potentialHousing = housing;
 					}
-				} else {
-					BasePlugin.logErrorMessage("Candidate Housing " + housingId
-							+ " is not in the required version scope: " + pluginRef.toString(), new Exception());
 				}
 			}
-		}
-		if (currentVersion == null) {
-			BasePlugin.logErrorMessage("Did not resolve any Candidate Housing for Plugin " + id, new Exception());
 		}
 		return new MatchedConfigHousing(plugin, potentialHousing);
 	}

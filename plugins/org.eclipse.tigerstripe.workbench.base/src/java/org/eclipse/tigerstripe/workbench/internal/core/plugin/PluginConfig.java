@@ -10,12 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.apache.velocity.VelocityContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
@@ -41,21 +38,21 @@ import org.w3c.dom.Element;
 /**
  * @author Eric Dillon
  * 
- * A PluginConfig is a reference to a plugin that conditions what is triggered
- * for a run of Tigerstripe. PluginConfigs are captured by the ant
- * TigerstripeTask.
+ *         A PluginConfig is a reference to a plugin that conditions what is
+ *         triggered for a run of Tigerstripe. PluginConfigs are captured by the
+ *         ant TigerstripeTask.
  * 
- * A plugin is identified by 3 attributes - groupId: the organization that built
- * the plugin - pluginId: an identifier for that plugin, it is unique within the
- * groupId - version: the version for that plugin.
+ *         A plugin is identified by 3 attributes - groupId: the organization
+ *         that built the plugin - pluginId: an identifier for that plugin, it
+ *         is unique within the groupId - version: the version for that plugin.
  * 
- * Once the pluginConfig has been resolved (i.e. the corresponding PluginHousing
- * was successfully found), it can be executed (i.e. calling the actual plugin
- * code)
+ *         Once the pluginConfig has been resolved (i.e. the corresponding
+ *         PluginHousing was successfully found), it can be executed (i.e.
+ *         calling the actual plugin code)
  * 
  */
-public abstract class PluginConfig extends BaseContainerObject implements
-		IPluginConfig, IContainedObject, IContainerObject {
+public abstract class PluginConfig extends BaseContainerObject
+		implements IPluginConfig, IContainedObject, IContainerObject {
 
 	public static final String PLUGIN_REFERENCE_TAG = "plugin";
 
@@ -132,8 +129,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 			if (prop != null)
 				return prop.deSerialize(rawProperty);
 		} catch (UnknownPluginException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"UnknownPluginException detected", e);
+			TigerstripeRuntime.logErrorMessage("UnknownPluginException detected", e);
 		}
 		return rawProperty;
 	}
@@ -143,9 +139,8 @@ public abstract class PluginConfig extends BaseContainerObject implements
 	}
 
 	public boolean matches(PluginHousing housing) {
-		boolean result = getGroupId().equals(housing.getGroupId())
-				&& getPluginId().equals(housing.getPluginId())
-				// TODO This is the big place.
+		boolean result = getGroupId().equals(housing.getGroupId()) && getPluginId().equals(housing.getPluginId())
+		// TODO This is the big place.
 				&& this.version.equals(housing.getVersion());
 		return result;
 	}
@@ -177,8 +172,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 
 	@Override
 	public String toString() {
-		return getLabel() + "(" + getGroupId() + ", " + getPluginId() + ", "
-				+ getVersion() + ")";
+		return getLabel() + "(" + getGroupId() + ", " + getPluginId() + ", " + getVersion() + ")";
 	}
 
 	public boolean isEnabled() {
@@ -194,37 +188,29 @@ public abstract class PluginConfig extends BaseContainerObject implements
 	 * Resolve the Plugin Reference and attach the corresponding PluginHousing,
 	 * so it can be executed.
 	 * 
-	 * @param manager -
-	 *            PluginManager the manager to use to resolve this PluginConfig.
+	 * @param manager
+	 *            - PluginManager the manager to use to resolve this
+	 *            PluginConfig.
 	 * @throws UnknownPluginException
 	 *             if this Plugin Reference cannot be resolved.
 	 */
 	public void resolve() throws UnknownPluginException {
-		if (! PluginManager.isOsgiVersioning()){
+		if (!PluginManager.isOsgiVersioning()) {
 			this.housing = PluginManager.getManager().resolveReference(this);
 		} else {
-			String name = this.getPluginName();
-			Collection<PluggableHousing> matchedNames = new ArrayList<PluggableHousing>();
-			for (PluggableHousing housing : PluginManager.getManager().getRegisteredPluggableHousings()){
-				if (housing.getPluginName().equals(name)){
-					matchedNames.add(housing);
-				}
-			}
-			MatchedConfigHousing mch = PluginManager.getManager().resolve(
-					matchedNames
-					, new PluginConfig[]{this});
+			MatchedConfigHousing mch = PluginManager.getManager().resolve(this);
 			this.housing = mch.getHousing();
 		}
 	}
 
-	public String isResolvedTo(){
-		if (this.housing != null){
+	public String isResolvedTo() {
+		if (this.housing != null) {
 			return this.housing.getPluginId();
 		} else {
 			return "Not resolved";
 		}
 	}
-	
+
 	/**
 	 * Returns true if this plugin reference has been resolved.
 	 * 
@@ -246,9 +232,9 @@ public abstract class PluginConfig extends BaseContainerObject implements
 			return "unknown";
 		}
 
-		if (this.housing==null) 
-			return "unknown";  // Fix NPE in headless environment
-		
+		if (this.housing == null)
+			return "unknown"; // Fix NPE in headless environment
+
 		return this.housing.getLabel();
 	}
 
@@ -301,7 +287,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		}
 		if (this.housing != null) {
 			return this.housing.getDefinedProperties();
-		} else { 
+		} else {
 			return new String[0];
 		}
 	}
@@ -338,13 +324,11 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		plugin.setAttribute("version", getVersion());
 		plugin.setAttribute("enabled", String.valueOf(isEnabled()));
 		if (getCurrentLogLevel() != null)
-			plugin.setAttribute("logLevel", String.valueOf(getCurrentLogLevel()
-					.toInt()));
+			plugin.setAttribute("logLevel", String.valueOf(getCurrentLogLevel().toInt()));
 		plugin.setAttribute("disableLogging", String.valueOf(disableLogging));
 
 		Properties prop = getProperties();
-		for (Iterator<Object> iterProp = prop.keySet().iterator(); iterProp
-				.hasNext();) {
+		for (Iterator<Object> iterProp = prop.keySet().iterator(); iterProp.hasNext();) {
 			String propertyName = (String) iterProp.next();
 			String propertyValue = prop.getProperty(propertyName);
 
@@ -356,24 +340,21 @@ public abstract class PluginConfig extends BaseContainerObject implements
 
 		// Deal with potential facet Reference
 		if (getFacetReference() != null) {
-			Element facetElement = FacetReference.encode(getFacetReference(),
-					document, getProject());
+			Element facetElement = FacetReference.encode(getFacetReference(), document, getProject());
 			plugin.appendChild(facetElement);
 		}
 
 		return plugin;
 	}
 
-	public IPluginProperty getPropertyDef(String property)
-			throws UnknownPluginException {
+	public IPluginProperty getPropertyDef(String property) throws UnknownPluginException {
 		if (!isResolved()) {
 			resolve();
 		}
 
 		if (housing instanceof PluggableHousing) {
 			PluggableHousing pHousing = (PluggableHousing) housing;
-			IPluginProperty[] propDefs = pHousing.getBody().getPProject()
-					.getGlobalProperties();
+			IPluginProperty[] propDefs = pHousing.getBody().getPProject().getGlobalProperties();
 			for (IPluginProperty propDef : propDefs) {
 				if (propDef.getName().equals(property))
 					return propDef;
@@ -382,8 +363,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		return null;
 	}
 
-	protected boolean isTableProperty(String property)
-			throws UnknownPluginException {
+	protected boolean isTableProperty(String property) throws UnknownPluginException {
 		return getPropertyDef(property) instanceof ITablePluginProperty;
 	}
 
@@ -407,8 +387,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 			} else
 				return logLevel;
 		} catch (UnknownPluginException e) {
-			TigerstripeRuntime.logTraceMessage(
-					"While trying to assess if log was enabled", e);
+			TigerstripeRuntime.logTraceMessage("While trying to assess if log was enabled", e);
 			return PluginLog.LogLevel.ERROR;
 		}
 	}
@@ -437,8 +416,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 				return pHousing.isLogEnabled();
 			}
 		} catch (UnknownPluginException e) {
-			TigerstripeRuntime.logTraceMessage(
-					"While trying to assess if log was enabled", e);
+			TigerstripeRuntime.logTraceMessage("While trying to assess if log was enabled", e);
 			return false;
 		}
 		return false;
@@ -455,8 +433,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 				return pHousing.getLogPath();
 			}
 		} catch (UnknownPluginException e) {
-			TigerstripeRuntime.logTraceMessage("While trying to get log path",
-					e);
+			TigerstripeRuntime.logTraceMessage("While trying to get log path", e);
 			return PluginLogger.DEFAULT_PATH;
 		}
 		return PluginLogger.DEFAULT_PATH;
@@ -482,8 +459,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 				return pHousing.getPluginNature();
 			}
 		} catch (UnknownPluginException e) {
-			TigerstripeRuntime.logTraceMessage(
-					"While trying to get plugin nature", e);
+			TigerstripeRuntime.logTraceMessage("While trying to get plugin nature", e);
 			return EPluggablePluginNature.Generic;
 		}
 		return EPluggablePluginNature.Generic;
@@ -535,8 +511,8 @@ public abstract class PluginConfig extends BaseContainerObject implements
 	}
 
 	public abstract IPluginConfig clone();
-	
-	public String getPluginPath(){
+
+	public String getPluginPath() {
 		try {
 			if (!isResolved()) {
 				resolve();
@@ -546,8 +522,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 				return housing.getPluginPath();
 			}
 		} catch (UnknownPluginException e) {
-			TigerstripeRuntime.logTraceMessage("While trying to get plugin path",
-					e);
+			TigerstripeRuntime.logTraceMessage("While trying to get plugin path", e);
 			return PluginLogger.DEFAULT_PATH;
 		}
 		return PluginLogger.DEFAULT_PATH;

@@ -38,11 +38,21 @@ public class M1GenerationUtils {
 		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
 
 		for (IPluginConfig plugin : project.getPluginConfigs()) {
-			if (plugin.getPluginNature() == EPluggablePluginNature.Validation
-					|| plugin.getPluginNature() == EPluggablePluginNature.Generic) {
-				if ((enabledOnly && plugin.isEnabled()) || !enabledOnly) {
-					MatchedConfigHousing mch = PluginManager.getManager().resolve(plugin);
-					IPluginConfig config = mch.getConfig();
+
+			IPluginConfig config = null;
+			if (!PluginManager.isOsgiVersioning()) {
+				config = plugin;
+			} else {
+				MatchedConfigHousing mch = PluginManager.getManager().resolve(plugin);
+				config = mch.getConfig();
+				if (config == null) {
+					BasePlugin.logErrorMessage("Failed to resolve plugin " + plugin.getPluginName());
+					continue;
+				}
+			}
+			if (config.getPluginNature() == EPluggablePluginNature.Validation
+					|| config.getPluginNature() == EPluggablePluginNature.Generic) {
+				if ((enabledOnly && config.isEnabled()) || !enabledOnly) {
 					if (cloneObjects) {
 						config = config.clone();
 						config.setProjectHandle(project);
@@ -52,12 +62,10 @@ public class M1GenerationUtils {
 					BasePlugin.logInfo("Ignoring Plugin as it is not enabled " + plugin.getPluginName());
 				}
 			} else {
-				BasePlugin.logInfo("Ignoring Plugin as it is not Validation or Generic " + plugin.getPluginName()
-						+ " type=" + plugin.getPluginNature());
+				BasePlugin.logInfo("Ignoring Plugin as it is not a Validation or Generic Plugin "
+						+ plugin.getPluginName() + " type=" + plugin.getPluginNature());
 			}
 		}
-
-		BasePlugin.logInfo("Resolved the following plugins: " + result);
 
 		return result.toArray(new IPluginConfig[result.size()]);
 

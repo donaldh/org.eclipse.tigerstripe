@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
@@ -35,62 +36,36 @@ public class M0GenerationUtils {
 	 * @param enabledOnly
 	 * @return
 	 */
-	public static IPluginConfig[] m0PluginConfigs(
-			ITigerstripeModelProject project, boolean enabledOnly,
+	public static IPluginConfig[] m0PluginConfigs(ITigerstripeModelProject project, boolean enabledOnly,
 			boolean cloneObjects) throws TigerstripeException {
-List<IPluginConfig> result = new ArrayList<IPluginConfig>();
+		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
 
-		
-		PluginManager manager =PluginManager.getManager();
-		
-		if (!manager.isOsgiVersioning()){
-			for (IPluginConfig config : project.getPluginConfigs()) {
-				IPluginConfig theConfig = config;
-				
-				if (cloneObjects) {
-					theConfig = config.clone();
-					theConfig.setProjectHandle(project);
-				}
-				if (config.getPluginNature() == EPluggablePluginNature.M0) {
-					if (enabledOnly && theConfig.isEnabled()) {
-						result.add(theConfig);
-					} else {
-						result.add(theConfig);
-					}
+		for (IPluginConfig plugin : project.getPluginConfigs()) {
+			IPluginConfig config = null;
+			if (!PluginManager.isOsgiVersioning()) {
+				config = plugin;
+			} else {
+				MatchedConfigHousing mch = PluginManager.getManager().resolve(plugin);
+				config = mch.getConfig();
+				if (config == null) {
+					BasePlugin.logErrorMessage("Failed to resolve plugin " + plugin.getPluginName());
+					continue;
 				}
 			}
-			
-		} else {
-			Map<String, Collection<PluggableHousing>> housingNameMap = new HashMap<String, Collection<PluggableHousing>>();
-			for (PluggableHousing housing : manager.getRegisteredPluggableHousings()) {
-				String name = housing.getPluginName();
-				if (housingNameMap.containsKey(name)){
-					housingNameMap.get(name).add(housing);
-				} else {
-					Collection<PluggableHousing> phs = new ArrayList<PluggableHousing>();
-					phs.add(housing);
-					housingNameMap.put(name, phs);
-				}
-			}
-			for (String name : housingNameMap.keySet()){
-				MatchedConfigHousing mch = manager.resolve(housingNameMap.get(name), project.getPluginConfigs());
-				IPluginConfig config = mch.getConfig();
-				if (config != null){
-					IPluginConfig theConfig = config;
+			if (config.getPluginNature() == EPluggablePluginNature.M0) {
+				if ((enabledOnly && config.isEnabled()) || !enabledOnly) {
 					if (cloneObjects) {
-						theConfig = config.clone();
-						theConfig.setProjectHandle(project);
+						config = config.clone();
+						config.setProjectHandle(project);
 					}
-					if (config.getPluginNature() == EPluggablePluginNature.M0) {
-						if (enabledOnly && theConfig.isEnabled()) {
-							result.add(theConfig);
-						} else {
-							result.add(theConfig);
-						}
-					}
+					result.add(config);
+				} else {
+					BasePlugin.logInfo("Ignoring Plugin as it is not enabled " + plugin.getPluginName());
 				}
 			}
+
 		}
+
 		return result.toArray(new IPluginConfig[result.size()]);
 	}
 

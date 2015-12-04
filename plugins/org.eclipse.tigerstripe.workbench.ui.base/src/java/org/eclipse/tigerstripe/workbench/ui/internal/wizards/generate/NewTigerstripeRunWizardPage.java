@@ -76,14 +76,12 @@ import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.TSRuntime
 /**
  * @author Eric Dillon
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 	private final static int INDENT = 20;
-
-	private Map<String, Collection<PluggableHousing>> housingNameMap = new HashMap<String, Collection<PluggableHousing>>();
 
 	private final static String USE_CURRENTFACET_BASE = "Use current facet only";
 
@@ -94,8 +92,6 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 	private boolean controlsCreated = false;
 
 	private String[] buttonNames;
-
-	private List<PluginHousing> housings;
 
 	private M1RunConfig runConfig;
 
@@ -121,7 +117,6 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 		setTitle("Tigerstripe Generation");
 		setDescription("This wizard will generate the Service Contracts for a Tigerstripe project.");
-		
 
 	}
 
@@ -167,8 +162,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 	private void initRunConfigFromContext() {
 		if (runConfig == null) {
 			try {
-				runConfig = (M1RunConfig) RunConfig.newGenerationConfig(
-						getTSProject(), RunConfig.M1);
+				runConfig = (M1RunConfig) RunConfig.newGenerationConfig(getTSProject(), RunConfig.M1);
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}
@@ -222,15 +216,13 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		blank.setLayoutData(gd);
 
 		Link link = new Link(composite, SWT.NONE);
-		link
-				.setText("To change the generation details, please edit the corresponding project.");
-		link.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false,
-				false, nColumns, 1));
+		link.setText("To change the generation details, please edit the corresponding project.");
+		link.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false, false, nColumns, 1));
 	}
 
 	/**
-	 * Creates a separator line. Expects a <code>GridLayout</code> with at
-	 * least 1 column.
+	 * Creates a separator line. Expects a <code>GridLayout</code> with at least
+	 * 1 column.
 	 * 
 	 * @param composite
 	 *            the parent composite
@@ -239,8 +231,8 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 	 */
 	@Override
 	protected void createSeparator(Composite composite, int nColumns) {
-		(new Separator(SWT.SEPARATOR | SWT.HORIZONTAL)).doFillIntoGrid(
-				composite, nColumns, convertHeightInCharsToPixels(1));
+		(new Separator(SWT.SEPARATOR | SWT.HORIZONTAL)).doFillIntoGrid(composite, nColumns,
+				convertHeightInCharsToPixels(1));
 	}
 
 	protected void createPluginsControls(Composite composite, int nColumns) {
@@ -248,19 +240,16 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		Group pluginsGroup = new Group(composite, SWT.V_SCROLL);
 		GridLayout layout = new GridLayout(1, true);
 		pluginsGroup.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+		GridData gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.heightHint = 85;
 		gd.horizontalSpan = nColumns;
 		pluginsGroup.setLayoutData(gd);
 		pluginsGroup.setText("Plugins");
 
-		ScrolledComposite scC = new ScrolledComposite(pluginsGroup,
-				SWT.V_SCROLL);
+		ScrolledComposite scC = new ScrolledComposite(pluginsGroup, SWT.V_SCROLL);
 		scC.setExpandHorizontal(true);
 		scC.setExpandVertical(true);
-		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL);
+		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		scC.setLayoutData(gd);
 
 		final Composite content = new Composite(scC, SWT.NONE);
@@ -273,42 +262,24 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		// Controls.
 		// This should be dynamic and derived from the list of "registered"
 		// plugins
-		PluginManager manager = PluginManager.getManager();
-		housings = manager.getRegisteredHousings();
 		ArrayList<String> labels = new ArrayList<String>();
-		
-		
-		if (! PluginManager.isOsgiVersioning()){
-			for (Iterator it = housings.iterator(); it.hasNext();) {
-				PluginHousing housing = (PluginHousing) it.next();
+
+		if (!PluginManager.isOsgiVersioning()) {
+			for (PluginHousing housing : PluginManager.getManager().getRegisteredHousings()) {
 				if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY
 						&& housing.getPluginNature() != EPluggablePluginNature.M0) {
 					labels.add(housing.getLabel());
 				}
 			}
 		} else {
-			
-			//Map<String, Collection<PluggableHousing>> map = new HashMap<String, Collection<PluggableHousing>>();
-			for (PluggableHousing housing : manager.getRegisteredPluggableHousings()) {
+			for (PluggableHousing housing : PluginManager.getManager().getRegisteredPluggableHousings()) {
 				String name = housing.getPluginName();
-				if (housingNameMap.containsKey(name)){
-					housingNameMap.get(name).add(housing);
-				} else {
-					Collection<PluggableHousing> phs = new ArrayList<PluggableHousing>();
-					phs.add(housing);
-					housingNameMap.put(name, phs);
+				if (!labels.contains(name)) {
+					labels.add(name);
 				}
 			}
-			for (String name : housingNameMap.keySet()){
-				labels.add(name);
-			}
 		}
-		
-		
-		
-		
-		
-		
+
 		buttonNames = labels.toArray(new String[labels.size()]);
 
 		generatorSelectionButtons = new Button[buttonNames.length];
@@ -317,8 +288,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			generatorSelectionButtons[index].setEnabled(false);
 			generatorSelectionButtons[index].setText(buttonNames[index]);
 
-			gd = new GridData(GridData.FILL_HORIZONTAL
-					| GridData.GRAB_HORIZONTAL);
+			gd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
 			gd.horizontalIndent = INDENT * 2;
 			generatorSelectionButtons[index].setLayoutData(gd);
 		}
@@ -340,8 +310,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		generateGroup.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+		GridData gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.horizontalSpan = nColumns;
 		generateGroup.setLayoutData(gd);
 		generateGroup.setText("Generation");
@@ -388,8 +357,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 	private Button ignoreFacets;
 
-	class FacetLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+	class FacetLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			return getText(obj);
 		}
@@ -417,8 +385,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		Group facetGroup = new Group(composite, SWT.NULL);
 		GridLayout layout = new GridLayout(1, true);
 		facetGroup.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+		GridData gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.horizontalSpan = nColumns;
 		facetGroup.setLayoutData(gd);
 		facetGroup.setText("Facets");
@@ -448,8 +415,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				runConfig.setUsePluginConfigFacets(usePluginConfigFacetsButton
-						.getSelection());
+				runConfig.setUsePluginConfigFacets(usePluginConfigFacetsButton.getSelection());
 				runConfig.setUseCurrentFacet(useCurrentFacet.getSelection());
 				runConfig.setUseProjectFacets(useSelectedFacets.getSelection());
 				updatePage();
@@ -466,8 +432,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				runConfig.setUsePluginConfigFacets(usePluginConfigFacetsButton
-						.getSelection());
+				runConfig.setUsePluginConfigFacets(usePluginConfigFacetsButton.getSelection());
 				runConfig.setUseCurrentFacet(useCurrentFacet.getSelection());
 				runConfig.setUseProjectFacets(useSelectedFacets.getSelection());
 				updatePage();
@@ -475,32 +440,29 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		});
 
 		selectedFacetsTable = new Table(facetGroup, SWT.BORDER);
-		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL);
+		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.horizontalIndent = INDENT * 2;
 		gd.horizontalSpan = 2;
 		selectedFacetsTable.setLayoutData(gd);
 		selectedFacetsTable.setForeground(ColorUtils.LIGHT_GREY);
 
 		selectedFacetsTableViewer = new TableViewer(selectedFacetsTable);
-		selectedFacetsTableViewer
-				.setContentProvider(new IStructuredContentProvider() {
-					public Object[] getElements(Object inputElement) {
-						ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
-						try {
-							return project.getFacetReferences();
-						} catch (TigerstripeException e) {
-							return new IFacetReference[0];
-						}
-					}
+		selectedFacetsTableViewer.setContentProvider(new IStructuredContentProvider() {
+			public Object[] getElements(Object inputElement) {
+				ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
+				try {
+					return project.getFacetReferences();
+				} catch (TigerstripeException e) {
+					return new IFacetReference[0];
+				}
+			}
 
-					public void dispose() {
-					}
+			public void dispose() {
+			}
 
-					public void inputChanged(Viewer viewer, Object oldInput,
-							Object newInput) {
-					}
-				});
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			}
+		});
 		selectedFacetsTableViewer.setLabelProvider(new FacetLabelProvider());
 		try {
 			selectedFacetsTableViewer.setInput(getTSProject());
@@ -510,8 +472,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 		mergeFacetsButton = new Button(facetGroup, SWT.CHECK);
 		mergeFacetsButton.setText("Merge facets for generation");
-		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL);
+		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.horizontalIndent = INDENT * 2;
 		gd.horizontalSpan = 2;
 		mergeFacetsButton.setLayoutData(gd);
@@ -530,28 +491,22 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		gd = new GridData();
 		gd.horizontalIndent = INDENT;
 		usePluginConfigFacetsButton.setLayoutData(gd);
-		usePluginConfigFacetsButton
-				.addSelectionListener(new SelectionListener() {
-					public void widgetDefaultSelected(SelectionEvent e) {
-					}
+		usePluginConfigFacetsButton.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
 
-					public void widgetSelected(SelectionEvent e) {
-						runConfig
-								.setUsePluginConfigFacets(usePluginConfigFacetsButton
-										.getSelection());
-						runConfig.setUseCurrentFacet(useCurrentFacet
-								.getSelection());
-						runConfig.setUseProjectFacets(useSelectedFacets
-								.getSelection());
-						updatePage();
-					}
-				});
+			public void widgetSelected(SelectionEvent e) {
+				runConfig.setUsePluginConfigFacets(usePluginConfigFacetsButton.getSelection());
+				runConfig.setUseCurrentFacet(useCurrentFacet.getSelection());
+				runConfig.setUseProjectFacets(useSelectedFacets.getSelection());
+				updatePage();
+			}
+		});
 
 		facetControlsInitialized = true;
 	}
 
-	protected ITigerstripeModelProject getTSProject()
-			throws TigerstripeException {
+	protected ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		ITigerstripeModelProject handle = null;
 		if (getTSRuntimeContext() != null) {
 			handle = getTSRuntimeContext().getProjectHandle();
@@ -635,59 +590,47 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			try {
-				ITigerstripeModelProject handle = getTSRuntimeContext()
-						.getProjectHandle();
+				ITigerstripeModelProject handle = getTSRuntimeContext().getProjectHandle();
 				if (handle != null) {
-					IPluginConfig[] refs = handle.getPluginConfigs();
-					
-					
 					boolean oneAtleastIsEnabled = false;
-					if (! PluginManager.isOsgiVersioning()){
-						for (int i = 0; i < refs.length; i++) {
-							// oneAtleastIsEnabled = oneAtleastIsEnabled
-							if (refs[i].isEnabled()
-									&& refs[i].getCategory() == IPluginConfig.GENERATE_CATEGORY
-									&& refs[i].getPluginNature() != EPluggablePluginNature.M0) {
-								for (int j = 0; j < buttonNames.length; j++) {
-									if (buttonNames[j]
-									                .equals(((PluginConfig) refs[i])
-									                		.getLabel())) {
-										generatorSelectionButtons[j]
-										                          .setSelection(refs[i].isEnabled());
-										oneAtleastIsEnabled = true;
-									}
-								}
+					for (IPluginConfig plugin : handle.getPluginConfigs()) {
+						IPluginConfig config = null;
+						String newButtonName = null;
+						if (!PluginManager.isOsgiVersioning()) {
+							config = plugin;
+						} else {
+							MatchedConfigHousing mch = PluginManager.getManager().resolve(plugin);
+							config = mch.getConfig();
+							if (config != null && mch.getHousing() != null) {
+								newButtonName = config.getPluginName() + " " + mch.getHousing().getVersion();
 							}
 						}
-					} else {
-						for (String name : housingNameMap.keySet()){
-							MatchedConfigHousing mch = PluginManager.getManager().resolve(housingNameMap.get(name), refs);
-							if (mch.getConfig()!= null && mch.getConfig().isEnabled()
-									&& mch.getConfig().getCategory() == IPluginConfig.GENERATE_CATEGORY
-									&& mch.getConfig().getPluginNature() != EPluggablePluginNature.M0) {
-								for (int j = 0; j < buttonNames.length; j++) {
-									if (mch.getHousing() != null && buttonNames[j]
-									                .equals(((PluginConfig) mch.getConfig())
-									                		.getPluginName())) {
-										String newButtonName = name + " "+ mch.getHousing().getVersion();
-										
+						if (config != null && config.isEnabled()
+								&& config.getCategory() == IPluginConfig.GENERATE_CATEGORY
+								&& config.getPluginNature() != EPluggablePluginNature.M0) {
+							for (int j = 0; j < buttonNames.length; j++) {
+								if (buttonNames[j].equals(((PluginConfig) config).getLabel())) {
+									generatorSelectionButtons[j].setSelection(config.isEnabled());
+									if (newButtonName != null) {
 										generatorSelectionButtons[j].setText(newButtonName);
-										generatorSelectionButtons[j]
-										                          .setSelection(((PluginConfig) mch.getConfig()).isEnabled());
-
-										oneAtleastIsEnabled = true;
 									}
+									oneAtleastIsEnabled |= config.isEnabled();
 								}
 							}
 						}
 
 					}
+
 					if (!oneAtleastIsEnabled) {
 						message = "At least one generator must be selected and its version\n must fall within the selected range.";
 						setErrorMessage(message);
 					}
 				}
-			} catch (TigerstripeException e) {
+			} catch (
+
+			TigerstripeException e)
+
+			{
 				// The wizard is currently not pointing at a valid TS
 				// project
 				// We ignore
@@ -699,30 +642,14 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 	protected void updateGenerateControls() {
 		if (generateControlsInitialized) {
 			try {
-				outputDirText.setText(getTSProject().getProjectDetails()
-						.getOutputDirectory());
+				outputDirText.setText(getTSProject().getProjectDetails().getOutputDirectory());
 				ignoreFacets.setSelection(runConfig.isIgnoreFacets());
-				generateModules
-						.setSelection("true"
-								.equalsIgnoreCase(getTSProject()
-										.getProjectDetails()
-										.getProperty(
-												IProjectDetails.GENERATE_MODULES,
-												IProjectDetails.GENERATE_MODULES_DEFAULT)));
-				generateRefProjects
-						.setSelection("true"
-								.equalsIgnoreCase(getTSProject()
-										.getProjectDetails()
-										.getProperty(
-												IProjectDetails.GENERATE_REFPROJECTS,
-												IProjectDetails.GENERATE_REFPROJECTS_DEFAULT)));
-				processUseCases
-						.setSelection("true"
-								.equalsIgnoreCase(getTSProject()
-										.getProjectDetails()
-										.getProperty(
-												IProjectDetails.PROCESS_USECASES,
-												IProjectDetails.PROCESS_USECASES_DEFAULT)));
+				generateModules.setSelection("true".equalsIgnoreCase(getTSProject().getProjectDetails()
+						.getProperty(IProjectDetails.GENERATE_MODULES, IProjectDetails.GENERATE_MODULES_DEFAULT)));
+				generateRefProjects.setSelection("true".equalsIgnoreCase(getTSProject().getProjectDetails().getProperty(
+						IProjectDetails.GENERATE_REFPROJECTS, IProjectDetails.GENERATE_REFPROJECTS_DEFAULT)));
+				processUseCases.setSelection("true".equalsIgnoreCase(getTSProject().getProjectDetails()
+						.getProperty(IProjectDetails.PROCESS_USECASES, IProjectDetails.PROCESS_USECASES_DEFAULT)));
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}
@@ -767,8 +694,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 				if (activeFacet != null && activeFacet.canResolve()) {
 					useCurrentFacet.setEnabled(!runConfig.isIgnoreFacets());
 					useCurrentFacet.setSelection(runConfig.isUseCurrentFacet());
-					useCurrentFacet.setText(USE_CURRENTFACET_BASE + "("
-							+ activeFacet.resolve().getName() + ")");
+					useCurrentFacet.setText(USE_CURRENTFACET_BASE + "(" + activeFacet.resolve().getName() + ")");
 				} else {
 					useCurrentFacet.setEnabled(false);
 					useCurrentFacet.setSelection(false);
@@ -783,8 +709,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 				useSelectedFacets.setSelection(runConfig.isUseProjectFacets());
 				mergeFacetsButton.setEnabled(!runConfig.isIgnoreFacets());
 				mergeFacetsButton.setSelection(runConfig.isMergeFacets());
-				selectedFacetsTableViewer.getTable().setEnabled(
-						!runConfig.isIgnoreFacets());
+				selectedFacetsTableViewer.getTable().setEnabled(!runConfig.isIgnoreFacets());
 			} else {
 				useSelectedFacets.setEnabled(false);
 				useSelectedFacets.setSelection(false);
@@ -794,10 +719,8 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			if (pluginFacets != 0) {
-				usePluginConfigFacetsButton.setEnabled(!runConfig
-						.isIgnoreFacets());
-				usePluginConfigFacetsButton.setSelection(runConfig
-						.isUsePluginConfigFacets());
+				usePluginConfigFacetsButton.setEnabled(!runConfig.isIgnoreFacets());
+				usePluginConfigFacetsButton.setSelection(runConfig.isUsePluginConfigFacets());
 			} else {
 				usePluginConfigFacetsButton.setEnabled(false);
 				usePluginConfigFacetsButton.setSelection(false);
@@ -846,8 +769,6 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 		return result;
 	}
-	
-	
 
 	public M1RunConfig getRunConfig() {
 		return this.runConfig;
