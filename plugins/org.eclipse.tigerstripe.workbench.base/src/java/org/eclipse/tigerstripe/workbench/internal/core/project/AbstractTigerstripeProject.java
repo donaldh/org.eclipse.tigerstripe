@@ -52,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
-import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -91,8 +90,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	public static final String ADVANCEDPROPS_TAG = "advancedProperty";
 
-	private static final String VISUALSTATEDEPS_TAG = "visualSateDeps";
-
 	protected String descriptorVersion;
 
 	private File baseDir;
@@ -102,8 +99,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	private String filename;
 
 	private boolean notLoaded = true;
-
-	private long loadTStamp = -1;
 
 	private boolean isLocalDirty = false;
 
@@ -132,16 +127,15 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		this.projectDetails = new ProjectDetails(this);
 		this.projectDetails.setContainer(this);
 		if (baseDir != null) {
-			TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-					this, ITigerstripeChangeListener.MODEL
-					| ITigerstripeChangeListener.PROJECT);
+			TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(this,
+					ITigerstripeChangeListener.MODEL | ITigerstripeChangeListener.PROJECT);
 		}
 	}
 
 	public void dispose() {
 		TigerstripeWorkspaceNotifier.INSTANCE.removeTigerstripeChangeListener(this);
 	}
-	
+
 	public void setDirty() {
 		this.isLocalDirty = true;
 	}
@@ -182,8 +176,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	public File getFullPath() {
 		if (fullpath == null) {
-			this.fullpath = new File(this.baseDir.getAbsolutePath()
-					+ File.separator + this.filename);
+			this.fullpath = new File(this.baseDir.getAbsolutePath() + File.separator + this.filename);
 		}
 		return this.fullpath;
 	}
@@ -222,11 +215,9 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 			transformer.transform(source, result);
 
 		} catch (TransformerConfigurationException tce) {
-			throw new TigerstripeException("Transformer Factory error"
-					+ tce.getMessage(), tce);
+			throw new TigerstripeException("Transformer Factory error" + tce.getMessage(), tce);
 		} catch (TransformerException te) {
-			throw new TigerstripeException("Transformation error"
-					+ te.getMessage(), te);
+			throw new TigerstripeException("Transformation error" + te.getMessage(), te);
 		}
 	}
 
@@ -254,8 +245,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 		// Output Directory
 		Element outputDir = document.createElement(OUTPUT_DIRECTORY_TAG);
-		outputDir.appendChild(document.createTextNode(details
-				.getProjectOutputDirectory()));
+		outputDir.appendChild(document.createTextNode(details.getProjectOutputDirectory()));
 		projectDetails.appendChild(outputDir);
 
 		// version
@@ -265,8 +255,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 		// description
 		Element description = document.createElement(DESCRIPTION_TAG);
-		description.appendChild(document.createTextNode(details
-				.getDescription()));
+		description.appendChild(document.createTextNode(details.getDescription()));
 		projectDetails.appendChild(description);
 
 		// provider
@@ -291,8 +280,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	protected Element buildAdvancedElement(Document document) {
 		Element advancedElm = document.createElement(ADVANCED_TAG);
 
-		for (Iterator<Object> iter = advancedProperties.keySet().iterator(); iter
-				.hasNext();) {
+		for (Iterator<Object> iter = advancedProperties.keySet().iterator(); iter.hasNext();) {
 
 			Element propElm = document.createElement(ADVANCEDPROPS_TAG);
 			String key = (String) iter.next();
@@ -306,8 +294,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		return advancedElm;
 	}
 
-	protected void loadProjectDetails(Document document)
-			throws TigerstripeException {
+	protected void loadProjectDetails(Document document) throws TigerstripeException {
 		projectDetails = new ProjectDetails(this);
 
 		// Extract the project description
@@ -351,8 +338,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		if (outputs.getLength() != 0) {
 			NodeList nodes = outputs.item(0).getChildNodes();
 			if (nodes != null && nodes.getLength() != 0) {
-				projectDetails.setProjectOutputDirectory(nodes.item(0)
-						.getNodeValue());
+				projectDetails.setProjectOutputDirectory(nodes.item(0).getNodeValue());
 			}
 		}
 		if (projectDetails.getProjectOutputDirectory() == null) {
@@ -393,10 +379,8 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 				Node name = namedAttributes.getNamedItem("name");
 				Node value = prop.getFirstChild();
 
-				if (name != null && !"".equals(name.getNodeValue())
-						&& value != null) {
-					result.setProperty(name.getNodeValue(),
-							value.getNodeValue());
+				if (name != null && !"".equals(name.getNodeValue()) && value != null) {
+					result.setProperty(name.getNodeValue(), value.getNodeValue());
 				}
 			}
 		}
@@ -404,17 +388,14 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		return result;
 	}
 
-	public void validate(ITigerstripeVisitor visitor)
-			throws TigerstripeException {
+	public void validate(ITigerstripeVisitor visitor) throws TigerstripeException {
 		// FIXME
 	}
 
-	protected void loadAdvancedProperties(Document document)
-			throws TigerstripeException {
+	protected void loadAdvancedProperties(Document document) throws TigerstripeException {
 		advancedProperties.clear();
 
-		NodeList advPropertyNodes = document
-				.getElementsByTagName(ADVANCEDPROPS_TAG);
+		NodeList advPropertyNodes = document.getElementsByTagName(ADVANCEDPROPS_TAG);
 		for (int i = 0; i < advPropertyNodes.getLength(); i++) {
 			Element node = (Element) advPropertyNodes.item(i);
 
@@ -432,8 +413,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	public IProject findProject() {
 		if (baseDir == null) {
-			return ResourcesPlugin.getWorkspace().getRoot()
-					.getProject(getProjectLabel());
+			return ResourcesPlugin.getWorkspace().getRoot().getProject(getProjectLabel());
 		}
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject proj : projects) {
@@ -448,10 +428,9 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 				return proj;
 			}
 		}
-		return ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(getProjectLabel());
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(getProjectLabel());
 	}
-	
+
 	public String getProjectLabel() {
 
 		if (getBaseDir() == null)
@@ -486,32 +465,21 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	 */
 	public void reload(boolean forceReload) throws TigerstripeException {
 
-		boolean needReload = false;
 		File theFile = getFullPath();
 		if (!theFile.exists()) {
 			return;
 		}
-		
-		if (notLoaded || forceReload) {
-			needReload = true;
-			// } else {
-			// // determine if the file has changed on disk
-			// long currentTStamp = theFile.lastModified();
-			// needReload = currentTStamp != loadTStamp;
-		}
 
-		if (needReload) {
+		if (notLoaded || forceReload) {
 			FileReader reader = null;
 			try {
 				reader = new FileReader(theFile);
 				parse(reader);
 				notLoaded = false;
-				loadTStamp = theFile.lastModified();
 				clearDirty();
 			} catch (FileNotFoundException e) {
-				throw new TigerstripeException(
-						"Tigerstripe descriptor not found ("
-								+ theFile.getAbsolutePath() + ").", e);
+				throw new TigerstripeException("Tigerstripe descriptor not found (" + theFile.getAbsolutePath() + ").",
+						e);
 			} finally {
 				if (reader != null) {
 					try {
@@ -532,15 +500,14 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		IPath filePath = new Path(getFullPath().getAbsolutePath());
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IFile[] files = workspace.getRoot().findFilesForLocation(filePath);
-		assert (files.length == 1);
+		assert(files.length == 1);
 
 		IFile theFile = files[0];
 		StringWriter writer = new StringWriter();
 		write(writer);
 		try {
-			theFile.setContents(new StringInputStream(writer.toString()),
-					IResource.FORCE | IResource.KEEP_HISTORY, monitor);
-			loadTStamp = theFile.getLocalTimeStamp();
+			theFile.setContents(new StringInputStream(writer.toString()), IResource.FORCE | IResource.KEEP_HISTORY,
+					monitor);
 			// Make sure we clear our dirty state
 			clearDirty();
 		} catch (CoreException e) {
@@ -568,9 +535,10 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 			} else if (IProject.class == adapter) {
 				return findProject();
 			} else if (IJavaProject.class == adapter) {
-				IProject iProj = findProject();;
-				if (iProj != null)
+				IProject iProj = findProject();
+				if (iProj != null) {
 					return JavaCore.create(iProj);
+				}
 			}
 		} catch (Exception e) {
 			return null;
@@ -579,8 +547,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	}
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void descriptorChanged(IResource changedDescriptor) {
@@ -588,38 +554,24 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	}
 
 	public void modelChanged(IModelChangeDelta[] delta) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void projectAdded(IAbstractTigerstripeProject project) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void projectDeleted(String projectName) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void artifactResourceAdded(IResource addedArtifactResource) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void artifactResourceChanged(IResource changedArtifactResource) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
-		// TODO Auto-generated method stub
-
 	}
-    
-    public void activeFacetChanged(ITigerstripeModelProject project) {
-        // TODO Auto-generated method stub
-        
-    }
+
+	public void activeFacetChanged(ITigerstripeModelProject project) {
+	}
 
 }

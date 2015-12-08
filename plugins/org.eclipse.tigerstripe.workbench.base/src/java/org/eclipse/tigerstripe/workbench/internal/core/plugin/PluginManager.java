@@ -342,6 +342,9 @@ public class PluginManager {
 				BasePlugin.logErrorMessage("Illegal Version format for Housing '" + housingId, e);
 				continue;
 			}
+			if (potentialHousing == null) {
+				potentialHousing = candidateHousing;
+			}
 
 			for (IPluginConfig plugin : plugins) {
 				if (name.equals(plugin.getPluginName())) {

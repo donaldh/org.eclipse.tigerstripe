@@ -1204,10 +1204,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		try {
 			writeLock.lock();
 
-			if (!mgrChanged && !forceReload)
-				// TigerstripeRuntime.logTraceMessage("Wouldn't reload "
-				// + getTSProject().getProjectLabel());
+			if (!mgrChanged && !forceReload) {
 				return;
+			}
 
 			if (forceReload) {
 				clean();
@@ -1216,22 +1215,8 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 			long startTime = System.currentTimeMillis();
 			List<String> allResources = findAllResourcesFromPath(monitor);
-			// TigerstripeRuntime.logInfoMessage(" All resources " +
-			// allResources.size());
 			List<PojoState> changedPojos = pojosHaveChanged(allResources, monitor);
-
-			// allPojos = findAllPojosFromPath();
-			// List<PojoState> changedPojos = pojosHaveChanged(allPojos);
 			parsePojos(changedPojos);
-
-			// if (forceReload || changedPojos.size() != 0) {
-			// TigerstripeRuntime.logInfoMessage("---------->>>>> Reloading! "
-			// + getTSProject().getProjectLabel()
-			// + " <<<<<<<<<<--------------");
-			// clean();
-
-			// TigerstripeRuntime.logInfoMessage("Extracting: ");
-
 			if (changedPojos.size() != 0) {
 				extractFromPojos(changedPojos, monitor);
 				validateArtifacts(monitor);
@@ -1247,8 +1232,6 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 				TigerstripeRuntime.logTraceMessage(
 						"Skipped a Refresh (" + (endTime - startTime) + " ms)" + getTSProject().getProjectLabel());
 			}
-			// TigerstripeRuntime.logInfoMessage(" -- Done reloading");
-			// }
 
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
@@ -1428,12 +1411,9 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	}
 
 	private void parsePojos(List<PojoState> pojos) {
-		JavaDocBuilder builder = new JavaDocBuilder();
 
-		int addedResourceCount = 0;
+		JavaDocBuilder builder = new JavaDocBuilder();
 		for (PojoState pojo : pojos) {
-			// TigerstripeRuntime.logInfoMessage("Parsing " +
-			// pojo.getFilename());
 			try {
 				JavaSource source = null;
 				try {
@@ -1442,68 +1422,22 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					source.setURL(uri.toURL());
 					pojo.setJavaSource(source);
 				} catch (ParseException e) {
-					BasePlugin.log(e);
+					BasePlugin.log(new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID,
+							"An error occurred parsing " + pojo.getFilename(), e));
 					continue;
 				} catch (MalformedURLException e) {
-					// should not happen
+					BasePlugin.log(
+							new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID, "Could not find " + pojo.getFilename(), e));
+					continue;
 				}
-
-				if (source != null) {
-					// filenameMap.put(pojo.getFilename(), source);
-					addedResourceCount++;
-				}
-
 			} catch (FileNotFoundException e) {
-				BasePlugin.log(e);
+				BasePlugin.log(new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID,
+						"File does not exist " + pojo.getFilename(), e));
+				continue;
 			}
 		}
 	}
 
-	// /**
-	// * Figure out what is the list of POJOs we have to load from and return
-	// the
-	// * corresponding JavaSource to be extracted.
-	// *
-	// * @return the array of all JavaSources based on the current src path
-	// */
-	// protected JavaSource[] findAllPojosFromPath(List<Resource> resources) {
-	//
-	// JavaDocBuilder builder = new JavaDocBuilder();
-	//
-	// int addedResourceCount = 0;
-	// for (Iterator iter = resources.iterator(); iter.hasNext();) {
-	// Resource res = (Resource) iter.next();
-	// try {
-	// log.debug("adding resource: " + res.getName());
-	// JavaSource source = builder.addSource(new FileReader(tsProject
-	// .getBaseDir()
-	// + File.separator + res.getName()));
-	// try {
-	// URI uri = new File(tsProject.getBaseDir() + File.separator
-	// + res.getName()).toURI();
-	// source.setURL(uri.toURL());
-	// } catch (MalformedURLException e) {
-	// // should not happen
-	// }
-	// if (source != null) {
-	// filenameMap.put(tsProject.getBaseDir() + File.separator
-	// + res.getName(), source);
-	// }
-	//
-	// addedResourceCount++;
-	// } catch (FileNotFoundException e) {
-	// log.error("File " + res.getName() + " not found.");
-	// } catch (ParseException e) {
-	// TigerstripeRuntime.logErrorMessage("File " + res.getName() + ": Parse
-	// exception.", e);
-	// log.error("File " + res.getName() + ": Parse exception.");
-	// }
-	// }
-	// log.debug("Added " + addedResourceCount + " resources.");
-	//
-	// return builder.getSources();
-	// }
-	//
 	/**
 	 * Populates this Manager based on the array of sources
 	 * 
@@ -3118,16 +3052,11 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 		}
 		try {
 			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
-			if (addedArtifactResource.getProject().equals(p)) {
-				if (addedArtifactResource instanceof IFile) {
-					Reader reader;
-
-					reader = new InputStreamReader(((IFile) addedArtifactResource).getContents());
-					IAbstractArtifactInternal aArtifact = extractArtifact(reader, null);
-					// An Add replaces the existing
-					addArtifact(aArtifact, null);
-
-				}
+			if (addedArtifactResource.getProject().equals(p) && addedArtifactResource instanceof IFile) {
+				Reader reader = new InputStreamReader(((IFile) addedArtifactResource).getContents());
+				IAbstractArtifactInternal aArtifact = extractArtifact(reader, null);
+				// An Add replaces the existing
+				addArtifact(aArtifact, null);
 			}
 		} catch (Exception e) {
 			BasePlugin.logErrorMessage(

@@ -33,7 +33,6 @@ public abstract class RunConfig {
 	private ITigerstripeModelProject targetProject;
 	private IProgressMonitor monitor;
 
-
 	// Project relative output path
 	private IPath outputPath;
 
@@ -55,8 +54,7 @@ public abstract class RunConfig {
 	 * @exception TigerstripeException
 	 * @return
 	 */
-	public static RunConfig newGenerationConfig(
-			ITigerstripeModelProject project, int runType)
+	public static RunConfig newGenerationConfig(ITigerstripeModelProject project, int runType)
 			throws TigerstripeException {
 		RunConfig result = null;
 		switch (runType) {
@@ -68,14 +66,12 @@ public abstract class RunConfig {
 			break;
 		}
 		if (result == null)
-			throw new IllegalArgumentException(
-					"Unknown generation config type (" + runType + ").");
+			throw new IllegalArgumentException("Unknown generation config type (" + runType + ").");
 		return result;
 	}
 
 	protected void initializeFromProject() throws TigerstripeException {
-		setOutputPath(new Path(getTargetProject().getProjectDetails()
-				.getOutputDirectory()));
+		setOutputPath(new Path(getTargetProject().getProjectDetails().getOutputDirectory()));
 	}
 
 	public IPath getOutputPath() {
@@ -86,7 +82,6 @@ public abstract class RunConfig {
 		this.outputPath = outputPath;
 	}
 
-	
 	public IPluginConfig[] getPluginConfigs() {
 		return pluginConfigs;
 	}
@@ -102,7 +97,8 @@ public abstract class RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setAbsoluteOutputDir(java.lang.String)
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * setAbsoluteOutputDir(java.lang.String)
 	 */
 	public void setAbsoluteOutputDir(String absoluteOutputDir) {
 		this.absoluteOutputDir = absoluteOutputDir;
@@ -111,7 +107,8 @@ public abstract class RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getAbsoluteOutputDir()
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * getAbsoluteOutputDir()
 	 */
 	public String getAbsoluteOutputDir() {
 		return this.absoluteOutputDir;

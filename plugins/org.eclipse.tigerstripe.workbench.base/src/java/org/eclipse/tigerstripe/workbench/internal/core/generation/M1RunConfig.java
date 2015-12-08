@@ -12,8 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -29,16 +27,14 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	private boolean clearDirectoryBeforeGenerate = "true"
 			.equalsIgnoreCase(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT);
-	
-	private boolean ignoreFacets = "true"
-			.equalsIgnoreCase(IProjectDetails.IGNORE_FACETS_DEFAULT);
 
-	private boolean generateModules = "true"
-			.equalsIgnoreCase(IProjectDetails.GENERATE_MODULES_DEFAULT);
+	private boolean ignoreFacets = "true".equalsIgnoreCase(IProjectDetails.IGNORE_FACETS_DEFAULT);
+
+	private boolean generateModules = "true".equalsIgnoreCase(IProjectDetails.GENERATE_MODULES_DEFAULT);
 
 	private boolean overrideSubprojectSettings = "true"
-		.equalsIgnoreCase(IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS_DEFAULT);
-	
+			.equalsIgnoreCase(IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS_DEFAULT);
+
 	private boolean useCurrentFacet = false;
 
 	private boolean useProjectFacets = false;
@@ -47,11 +43,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	private boolean mergeFacets = false;
 
-	private boolean processUseCases = "true"
-			.equalsIgnoreCase(IProjectDetails.PROCESS_USECASES_DEFAULT);
+	private boolean processUseCases = "true".equalsIgnoreCase(IProjectDetails.PROCESS_USECASES_DEFAULT);
 
-	private boolean generateReferencedProjects = "true"
-			.equalsIgnoreCase(IProjectDetails.GENERATE_REFPROJECTS_DEFAULT);
+	private boolean generateReferencedProjects = "true".equalsIgnoreCase(IProjectDetails.GENERATE_REFPROJECTS_DEFAULT);
 
 	private String processUseCaseExtension = "html";
 
@@ -61,14 +55,22 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	private boolean allRulesAsLocal = false;
 
-	/* package */ M1RunConfig() {
-		this(null); // making the compiler happy
+	protected M1RunConfig() throws TigerstripeException {
+		super(null);
+	}
+
+	protected M1RunConfig(ITigerstripeModelProject tsProject) throws TigerstripeException {
+		super(tsProject);
+		if (tsProject != null) {
+			initializeFromProject();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#useUseCaseXSL()
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#useUseCaseXSL()
 	 */
 	public boolean useUseCaseXSL() {
 		return this.useUseCaseXSL;
@@ -77,7 +79,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseUseCaseXSL(boolean)
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseUseCaseXSL(
+	 * boolean)
 	 */
 	public void setUseUseCaseXSL(boolean useUseCaseXSL) {
 		this.useUseCaseXSL = useUseCaseXSL;
@@ -86,7 +90,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getUseCaseXSL()
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#getUseCaseXSL()
 	 */
 	public String getUseCaseXSL() {
 		return this.useCaseXsl;
@@ -95,7 +100,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseCaseXSL(java.lang.String)
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseCaseXSL(
+	 * java.lang.String)
 	 */
 	public void setUseCaseXSL(String useCaseXsl) {
 		this.useCaseXsl = useCaseXsl;
@@ -104,7 +111,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getProcessedUseCaseExtension()
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * getProcessedUseCaseExtension()
 	 */
 	public String getProcessedUseCaseExtension() {
 		return this.processUseCaseExtension;
@@ -113,22 +121,11 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setProcessedUseCaseExtension(java.lang.String)
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * setProcessedUseCaseExtension(java.lang.String)
 	 */
 	public void setProcessedUseCaseExtension(String processUseCaseExtension) {
 		this.processUseCaseExtension = processUseCaseExtension;
-	}
-
-	M1RunConfig(ITigerstripeModelProject tsProject) {
-		super(tsProject);
-		if (tsProject != null) {
-			try {
-				initializeFromProject();
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
-			}
-		}
 	}
 
 	public boolean isUsePluginConfigFacets() {
@@ -142,7 +139,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setMergeFacets(boolean)
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#setMergeFacets(
+	 * boolean)
 	 */
 	public void setMergeFacets(boolean mergeFacets) {
 		this.mergeFacets = mergeFacets;
@@ -151,7 +150,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isMergeFacets()
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#isMergeFacets()
 	 */
 	public boolean isMergeFacets() {
 		return this.mergeFacets;
@@ -160,7 +160,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setIgnoreFacets(boolean)
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#setIgnoreFacets(
+	 * boolean)
 	 */
 	public void setIgnoreFacets(boolean isIgnoreFacet) {
 		this.ignoreFacets = isIgnoreFacet;
@@ -169,17 +171,19 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setClearDirectoryBeforeGenerate(boolean)
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * setClearDirectoryBeforeGenerate(boolean)
 	 */
-	public void setClearDirectoryBeforeGenerate(
-			boolean clearDirectoryBeforeGenerate) {
+	public void setClearDirectoryBeforeGenerate(boolean clearDirectoryBeforeGenerate) {
 		this.clearDirectoryBeforeGenerate = clearDirectoryBeforeGenerate;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isProcessUseCases()
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#isProcessUseCases
+	 * ()
 	 */
 	public boolean isProcessUseCases() {
 		return this.processUseCases;
@@ -188,17 +192,18 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setProcessUseCases(boolean)
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * setProcessUseCases(boolean)
 	 */
 	public void setProcessUseCases(boolean processUseCases) {
 		this.processUseCases = processUseCases;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setGenerateModules(boolean)
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * setGenerateModules(boolean)
 	 */
 	public void setGenerateModules(boolean generateModules) {
 		this.generateModules = generateModules;
@@ -207,7 +212,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isUseCurrentFacet()
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#isUseCurrentFacet
+	 * ()
 	 */
 	public boolean isUseCurrentFacet() {
 		return useCurrentFacet;
@@ -216,7 +223,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseCurrentFacet(boolean)
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * setUseCurrentFacet(boolean)
 	 */
 	public void setUseCurrentFacet(boolean useCurrentFacet) {
 		this.useCurrentFacet = useCurrentFacet;
@@ -225,7 +233,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isGenerateModules()
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#isGenerateModules
+	 * ()
 	 */
 	public boolean isGenerateModules() {
 		return generateModules;
@@ -234,7 +244,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isIgnoreFacets()
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.generation.IRunConfig#isIgnoreFacets()
 	 */
 	public boolean isIgnoreFacets() {
 		return ignoreFacets;
@@ -243,7 +254,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isClearDirectoryBeforeGenerate()
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * isClearDirectoryBeforeGenerate()
 	 */
 	public boolean isClearDirectoryBeforeGenerate() {
 		return clearDirectoryBeforeGenerate;
@@ -252,7 +264,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isGenerateRefProjects()
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * isGenerateRefProjects()
 	 */
 	public boolean isGenerateRefProjects() {
 		return generateReferencedProjects;
@@ -261,7 +274,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setGenerateRefProjects(boolean)
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#
+	 * setGenerateRefProjects(boolean)
 	 */
 	public void setGenerateRefProjects(boolean generateRefProjects) {
 		this.generateReferencedProjects = generateRefProjects;
@@ -276,57 +290,43 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	}
 
 	public void setAllRulesAsLocal(boolean allRulesAsLocal) {
-		this.allRulesAsLocal  = allRulesAsLocal;
-		
+		this.allRulesAsLocal = allRulesAsLocal;
+
 	}
 
 	public boolean isAllRulesAsLocal() {
 		return allRulesAsLocal;
 	}
 
-	
-	
 	@Override
 	protected void initializeFromProject() throws TigerstripeException {
 		super.initializeFromProject();
 
 		// Clone all the M1-Level Plugin Configs
-		setPluginConfigs(M1GenerationUtils.m1PluginConfigs(getTargetProject(),
-				false, true));
+		setPluginConfigs(M1GenerationUtils.m1PluginConfigs(getTargetProject(), false, true));
 
 		IProjectDetails details = getTargetProject().getProjectDetails();
 		clearDirectoryBeforeGenerate = "true"
-				.equals(details
-						.getProperties()
-						.getProperty(
-								IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-								IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT));
-		ignoreFacets = "true".equals(details.getProperties().getProperty(
-				IProjectDetails.IGNORE_FACETS,
+				.equals(details.getProperties().getProperty(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+						IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT));
+		ignoreFacets = "true".equals(details.getProperties().getProperty(IProjectDetails.IGNORE_FACETS,
 				IProjectDetails.IGNORE_FACETS_DEFAULT));
-		generateModules = "true".equals(details.getProperties().getProperty(
-				IProjectDetails.GENERATE_MODULES,
+		generateModules = "true".equals(details.getProperties().getProperty(IProjectDetails.GENERATE_MODULES,
 				IProjectDetails.GENERATE_MODULES_DEFAULT));
-		mergeFacets = "true".equals(details.getProperties().getProperty(
-				IProjectDetails.MERGE_FACETS,
+		mergeFacets = "true".equals(details.getProperties().getProperty(IProjectDetails.MERGE_FACETS,
 				IProjectDetails.MERGE_FACETS_DEFAULT));
 		generateReferencedProjects = "true".equals(details.getProperties()
-				.getProperty(IProjectDetails.GENERATE_REFPROJECTS,
-						IProjectDetails.GENERATE_REFPROJECTS_DEFAULT));
-		processUseCases = "true".equals(details.getProperties().getProperty(
-				IProjectDetails.PROCESS_USECASES,
+				.getProperty(IProjectDetails.GENERATE_REFPROJECTS, IProjectDetails.GENERATE_REFPROJECTS_DEFAULT));
+		processUseCases = "true".equals(details.getProperties().getProperty(IProjectDetails.PROCESS_USECASES,
 				IProjectDetails.PROCESS_USECASES_DEFAULT));
-		useUseCaseXSL = "true".equals(details.getProperties().getProperty(
-				IProjectDetails.USECASE_USEXSLT,
+		useUseCaseXSL = "true".equals(details.getProperties().getProperty(IProjectDetails.USECASE_USEXSLT,
 				IProjectDetails.USECASE_USEXSLT_DEFAULT));
-		useCaseXsl = details.getProperties().getProperty(
-				IProjectDetails.USECASE_XSL,
+		useCaseXsl = details.getProperties().getProperty(IProjectDetails.USECASE_XSL,
 				IProjectDetails.USECASE_XSL_DEFAULT);
-		processUseCaseExtension = details.getProperties().getProperty(
-				IProjectDetails.USECASE_PROC_EXT,
+		processUseCaseExtension = details.getProperties().getProperty(IProjectDetails.USECASE_PROC_EXT,
 				IProjectDetails.USECASE_PROC_EXT_DEFAULT);
-		allRulesAsLocal = "true".equals(getTargetProject().getAdvancedProperty(
-				IAdvancedProperties.PROP_GENERATION_allRulesLocal));
+		allRulesAsLocal = "true"
+				.equals(getTargetProject().getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_allRulesLocal));
 
 		if (!ignoreFacets) {
 			// By default use project level facets although pluginConfig
@@ -336,19 +336,15 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 				useProjectFacets = true;
 			}
 
-			try {
-				// but if there are any plugin facet defined, they would
-				// have precedence
-				IPluginConfig[] configs = getTargetProject().getPluginConfigs();
-				for (IPluginConfig config : configs) {
-					if (config.getFacetReference() != null) {
-						usePluginConfigFacets = true;
-						useProjectFacets = false;
-						break;
-					}
+			// but if there are any plugin facet defined, they would
+			// have precedence
+			IPluginConfig[] configs = getTargetProject().getPluginConfigs();
+			for (IPluginConfig config : configs) {
+				if (config.getFacetReference() != null) {
+					usePluginConfigFacets = true;
+					useProjectFacets = false;
+					break;
 				}
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
 			}
 		}
 	}
@@ -359,6 +355,6 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	public void setOverrideSubprojectSettings(boolean overrideSubprojectSettings) {
 		this.overrideSubprojectSettings = overrideSubprojectSettings;
-		
+
 	}
 }

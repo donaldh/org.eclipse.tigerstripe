@@ -35,8 +35,11 @@ public class M1GenerationUtils {
 	public static IPluginConfig[] m1PluginConfigs(ITigerstripeModelProject project, boolean enabledOnly,
 			boolean cloneObjects) throws TigerstripeException {
 
-		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
+		if (project.getPluginConfigs() == null || project.getPluginConfigs().length == 0) {
+			BasePlugin.logErrorMessage("No Generator Plugins were found for project " + project.getName());
+		}
 
+		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
 		for (IPluginConfig plugin : project.getPluginConfigs()) {
 
 			IPluginConfig config = null;

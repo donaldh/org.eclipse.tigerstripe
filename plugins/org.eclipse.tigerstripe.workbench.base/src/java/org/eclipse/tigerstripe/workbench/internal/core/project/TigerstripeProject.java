@@ -239,9 +239,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 
 	@Override
 	public void parse(Reader reader) throws TigerstripeException {
+
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		Document document;
-
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			InputStream stream = new ReaderInputStream(reader);
@@ -266,7 +266,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 			loadReferences(document);
 			loadFacetReferences(document);
 			loadAdvancedProperties(document);
-
 		} catch (SAXParseException spe) {
 			TigerstripeRuntime.logErrorMessage("SAXParseException detected", spe);
 			Object[] args = new Object[2];
@@ -537,7 +536,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 			// corresponding plugin is deployed later on it will be picked up.
 			try {
 				ref.resolve();
-			} catch (UnknownPluginException e) {
+			} catch (Exception e) {
 			}
 
 			this.pluginConfigs.add(ref);

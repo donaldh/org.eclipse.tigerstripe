@@ -569,7 +569,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
     // - locking: nothing can be added/removed.
     // - Active facet cannot be ignored: the default behavior when non
     // generate is to ignore facets for lookups/queries.
-    public void generationStart() {
+	public void generationStart() {
         getArtifactManager().generationStart();
     }
 

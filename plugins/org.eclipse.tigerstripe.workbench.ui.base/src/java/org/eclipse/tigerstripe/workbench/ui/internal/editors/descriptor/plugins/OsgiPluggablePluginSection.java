@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
@@ -41,8 +42,7 @@ import org.osgi.framework.Version;
  * @author Eric Dillon
  * @since 1.2
  */
-public class OsgiPluggablePluginSection extends PluggablePluginSection
-		implements IPluggablePluginPropertyListener {
+public class OsgiPluggablePluginSection extends PluggablePluginSection implements IPluggablePluginPropertyListener {
 
 	private Collection<PluggableHousing> housings;
 
@@ -58,11 +58,9 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 	protected Combo minVersionCombo = null;
 	protected Combo maxVersionCombo = null;
 
-	public OsgiPluggablePluginSection(TigerstripeFormPage page,
-			Composite parent, FormToolkit toolkit,
+	public OsgiPluggablePluginSection(TigerstripeFormPage page, Composite parent, FormToolkit toolkit,
 			Collection<PluggableHousing> housings) {
-		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR
-				| ExpandableComposite.TWISTIE);
+		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE);
 
 		this.housings = housings;
 		getHousing(true);
@@ -101,14 +99,11 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 			try {
 				ITigerstripeModelProject handle = getTSProject();
 				IPluginConfig[] plugins = handle.getPluginConfigs();
-
-				MatchedConfigHousing m = PluginManager.getManager().resolve(
-						getHousings(), plugins);
+				MatchedConfigHousing m = PluginManager.getManager().resolve(getHousings(), plugins);
 				setHousing(m.getHousing());
 				usedConfig = m.getConfig();
-
 			} catch (TigerstripeException t) {
-
+				BasePlugin.logErrorMessage("An error occurred reading housing information", t);
 			}
 		}
 		return housing;
@@ -120,11 +115,9 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		return usedConfig;
 	}
 
-	protected void buildSpecifics(Composite parent, FormToolkit toolkit,
-			DefaultPageListener listener) {
+	protected void buildSpecifics(Composite parent, FormToolkit toolkit, DefaultPageListener listener) {
 		Composite versionComposite = new Composite(parent, SWT.NULL);
-		GridDataFactory.fillDefaults().span(3, SWT.DEFAULT).applyTo(
-				versionComposite);
+		GridDataFactory.fillDefaults().span(3, SWT.DEFAULT).applyTo(versionComposite);
 
 		GridLayout layout = new GridLayout(4, false);
 		versionComposite.setLayout(layout);
@@ -132,12 +125,10 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		toolkit.createLabel(versionComposite, "Minimum Version");
 		minVersionText = toolkit.createText(versionComposite, "");
 		minVersionText.setEnabled(true);
-		GridDataFactory.fillDefaults().hint(150, SWT.DEFAULT).applyTo(
-				minVersionText);
+		GridDataFactory.fillDefaults().hint(150, SWT.DEFAULT).applyTo(minVersionText);
 		minVersionText.addModifyListener(listener);
 
-		minVersionCombo = new Combo(versionComposite, SWT.READ_ONLY
-				| SWT.BORDER);
+		minVersionCombo = new Combo(versionComposite, SWT.READ_ONLY | SWT.BORDER);
 		minVersionCombo.setEnabled(true);
 		GridDataFactory.fillDefaults().applyTo(minVersionCombo);
 		toolkit.adapt(minVersionCombo, true, true);
@@ -153,8 +144,7 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		GridDataFactory.fillDefaults().applyTo(maxVersionText);
 		maxVersionText.addModifyListener(listener);
 
-		maxVersionCombo = new Combo(versionComposite, SWT.READ_ONLY
-				| SWT.BORDER);
+		maxVersionCombo = new Combo(versionComposite, SWT.READ_ONLY | SWT.BORDER);
 		maxVersionCombo.setEnabled(true);
 		GridDataFactory.fillDefaults().applyTo(maxVersionCombo);
 		toolkit.adapt(maxVersionCombo, true, true);
@@ -180,30 +170,30 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		return string;
 	}
 
-	protected void initVersionInfo()throws TigerstripeException {
+	protected void initVersionInfo() throws TigerstripeException {
 		setSilentUpdate(true);
 		OSGIRef ref;
 		try {
-		if (getPluginConfig() != null) {
-			ref = OSGIRef.parseRef(getPluginConfig().getVersion());
-		} else {
-			ref = OSGIRef.parseRef(getHousing().getVersion());
-		}
-		minVersionText.setText(ref.getMinVersion().toString());
-		minVersionCombo.select(ref.getMinConstraint());
-		if (ref.getMaxVersion() != null) {
-			maxVersionText.setText(ref.getMaxVersion().toString());
-		} else {
-			maxVersionText.setText("");
-		}
-		maxVersionCombo.select(ref.getMaxConstraint());
+			if (getPluginConfig() != null) {
+				ref = OSGIRef.parseRef(getPluginConfig().getVersion());
+			} else {
+				ref = OSGIRef.parseRef(getHousing().getVersion());
+			}
+			minVersionText.setText(ref.getMinVersion().toString());
+			minVersionCombo.select(ref.getMinConstraint());
+			if (ref.getMaxVersion() != null) {
+				maxVersionText.setText(ref.getMaxVersion().toString());
+			} else {
+				maxVersionText.setText("");
+			}
+			maxVersionCombo.select(ref.getMaxConstraint());
 
-		availableVersionsLabel.setText(getAvailableVersions(false));
-		
-		} catch (Exception e){
-				throw new TigerstripeException(e.getMessage());
+			availableVersionsLabel.setText(getAvailableVersions(false));
+
+		} catch (Exception e) {
+			throw new TigerstripeException("An error occurred reading version info.", e);
 		} finally {
-		
+
 			setSilentUpdate(false);
 		}
 	}
@@ -225,8 +215,7 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 					} else {
 
 						try {
-							Version v = new Version(minVersionText.getText()
-									.trim());
+							Version v = new Version(minVersionText.getText().trim());
 							ref.setMinVersion(v);
 
 						} catch (IllegalArgumentException iae) {
@@ -238,10 +227,8 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 							return;
 						}
 					}
-					if (!ref.toString().equals(
-							((PluginConfig) getPluginConfig()).getVersion()))
-						((PluginConfig) getPluginConfig()).setVersion(ref
-								.toString());
+					if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
+						((PluginConfig) getPluginConfig()).setVersion(ref.toString());
 
 				} else if (e.getSource() == maxVersionText) {
 
@@ -252,8 +239,7 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 
 						try {
 
-							Version v = new Version(maxVersionText.getText()
-									.trim());
+							Version v = new Version(maxVersionText.getText().trim());
 							ref.setMaxVersion(v);
 
 						} catch (IllegalArgumentException iae) {
@@ -265,10 +251,8 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 							return;
 						}
 					}
-					if (!ref.toString().equals(
-							((PluginConfig) getPluginConfig()).getVersion()))
-						((PluginConfig) getPluginConfig()).setVersion(ref
-								.toString());
+					if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
+						((PluginConfig) getPluginConfig()).setVersion(ref.toString());
 				}
 			}
 			markPageModified();
@@ -288,25 +272,20 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 			if (e.getSource() == minVersionCombo) {
 				ref.setMinConstraint(minVersionCombo.getSelectionIndex());
 				markPageModified();
-				if (!ref.toString().equals(
-						((PluginConfig) getPluginConfig()).getVersion()))
-					((PluginConfig) getPluginConfig()).setVersion(ref
-							.toString());
+				if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
+					((PluginConfig) getPluginConfig()).setVersion(ref.toString());
 			} else if (e.getSource() == maxVersionCombo) {
 				ref.setMaxConstraint(maxVersionCombo.getSelectionIndex());
 				markPageModified();
-				if (!ref.toString().equals(
-						((PluginConfig) getPluginConfig()).getVersion()))
-					((PluginConfig) getPluginConfig()).setVersion(ref
-							.toString());
+				if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
+					((PluginConfig) getPluginConfig()).setVersion(ref.toString());
 			}
 		}
 		super.handleWidgetSelected(e);
 	}
 
 	@Override
-	protected void createID(Composite parent, FormToolkit toolkit)
-			throws TigerstripeException {
+	protected void createID(Composite parent, FormToolkit toolkit) throws TigerstripeException {
 		super.createID(parent, toolkit);
 		initVersionInfo();
 	}

@@ -481,19 +481,6 @@ public abstract class TigerstripeProjectHandle extends
 	// WorkingCopy stuff
 	@Override
 	public void doCommit(IProgressMonitor monitor) throws TigerstripeException {
-		// doSave();
-		//
-		// TigerstripeProjectHandle original = (TigerstripeProjectHandle)
-		// getOriginal();
-		// original.getTSProject().reload(true); // this will force a reload.
-		//
-		// // Rebuild the cache if dependencies were added
-		// if (dependenciesCacheNeedsRefresh) {
-		// ((ArtifactManagerSessionImpl) original.getArtifactManagerSession())
-		// .getArtifactManager().updateDependenciesContentCache(
-		// monitor);
-		// dependenciesCacheNeedsRefresh = false;
-		// }
 
 		TigerstripeProjectHandle original = (TigerstripeProjectHandle) getOriginal();
 		original.reloadFrom(getTSProject(), dependenciesCacheNeedsRefresh,
