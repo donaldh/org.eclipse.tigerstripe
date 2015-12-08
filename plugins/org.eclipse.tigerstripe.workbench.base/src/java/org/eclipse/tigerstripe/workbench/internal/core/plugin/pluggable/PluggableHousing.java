@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable;
 
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
@@ -36,19 +37,18 @@ public class PluggableHousing extends PluginHousing {
 	}
 
 	/*
-	 * Says if the plugin is deployed.
-	 * The inverse is that it is Contributed through an plugin.
+	 * Says if the plugin is deployed. The inverse is that it is Contributed
+	 * through an plugin.
 	 * 
 	 */
-	public boolean isDeployed(){
+	public boolean isDeployed() {
 		return getBody().getCanDelete();
 	}
-	
-	public PluggablePluginConfig makeDefaultPluginConfig(
-			TigerstripeProjectHandle project) throws TigerstripeException {
 
-		PluggablePluginConfig result = new PluggablePluginConfig(project
-				.getTSProject(), getPluginId(), getGroupId(), getPluginName());
+	public PluggablePluginConfig makeDefaultPluginConfig(TigerstripeProjectHandle project) throws TigerstripeException {
+
+		PluggablePluginConfig result = new PluggablePluginConfig(project.getTSProject(), getPluginId(), getGroupId(),
+				getPluginName());
 		result.setVersion(getVersion());
 		result.setEnabled(true);
 
@@ -56,8 +56,16 @@ public class PluggableHousing extends PluginHousing {
 		IPluginProperty[] props = getBody().getPProject().getGlobalProperties();
 		Properties properties = result.getProperties();
 		for (IPluginProperty prop : props) {
-			properties.setProperty(prop.getName(), prop.serialize(prop
-					.getDefaultValue()));
+			String value = prop.serialize(prop.getDefaultValue());
+			if (!StringUtils.isEmpty(value)) {
+				while (value.contains("${project.name}")) {
+					value = value.replace("${project.name}", project.getName());
+				}
+				while (value.contains("${project.modelId}")) {
+					value = value.replace("${project.modelId}", project.getModelId());
+				}
+			}
+			properties.setProperty(prop.getName(), value);
 		}
 
 		return result;
