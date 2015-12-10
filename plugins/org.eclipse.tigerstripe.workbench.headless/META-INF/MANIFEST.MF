@@ -11,5 +11,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.tigerstripe.workbench.headless
+Export-Package: org.apache.commons.io,
+ org.eclipse.tigerstripe.workbench.headless
 Eclipse-BundleShape: jar
+Bundle-ClassPath: .,
+ lib/commons-io-2.4.jar

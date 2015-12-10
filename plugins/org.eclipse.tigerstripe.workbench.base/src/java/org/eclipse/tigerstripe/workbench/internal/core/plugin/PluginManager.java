@@ -196,8 +196,12 @@ public class PluginManager {
 					PluggablePlugin pluginBody = new PluggablePlugin(unZippedFile, zippedFile);
 					if (pluginBody.isValid()) {
 						PluggableHousing housing = new PluggableHousing(pluginBody);
-
 						registerHousing(housing);
+						BasePlugin.log(new Status(IStatus.INFO, BasePlugin.PLUGIN_ID, "Loaded Tigerstripe plugin: "
+								+ pluginBody.getPluginName() + " " + pluginBody.getVersion()));
+					} else {
+						BasePlugin.logErrorMessage(
+								"Contributed Tigerstripe plugin is not valid: " + pluginBody.getPluginName());
 					}
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
@@ -206,7 +210,6 @@ public class PluginManager {
 		}
 
 		// Now see if there any contributed generators.
-
 		try {
 			IConfigurationElement[] elements = Platform.getExtensionRegistry()
 					.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.contributedGenerator");
@@ -224,20 +227,17 @@ public class PluginManager {
 					if (pluginBody.isValid()) {
 						PluggableHousing housing = new PluggableHousing(pluginBody);
 						registerHousing(housing);
-						BasePlugin.log(new Status(IStatus.INFO, BasePlugin.PLUGIN_ID,
-								"Loaded Tigerstripe plugin: " + pluginBody.getPluginName()));
+						BasePlugin.log(new Status(IStatus.INFO, BasePlugin.PLUGIN_ID, "Loaded Tigerstripe generator: "
+								+ pluginBody.getPluginName() + " " + pluginBody.getVersion()));
 					} else {
 						BasePlugin.logErrorMessage(
-								"Contributed Tigerstripe plugin is not valid: " + pluginBody.getPluginName());
+								"Contributed Tigerstripe generator is not valid: " + pluginBody.getPluginName());
 					}
 				}
 			}
 		} catch (Exception e) {
-			BasePlugin.logErrorMessage("Failed to instantiate generator from Extension Point");
-			BasePlugin.log(e);
-
+			BasePlugin.logErrorMessage("Failed to instantiate generator from Extension Point", e);
 		}
-
 	}
 
 	private static String readFileAsString(String filePath) throws java.io.IOException {
@@ -306,13 +306,13 @@ public class PluginManager {
 	}
 
 	private void registerHousing(PluginHousing housing) throws TigerstripeException {
-		if (!this.housings.contains(housing))
+		if (!this.housings.contains(housing)) {
 			this.housings.add(housing);
+		}
 	}
 
 	public void unRegisterHousing(PluginHousing housing) throws TigerstripeException {
-		if (this.housings.contains(housing))
-			this.housings.remove(housing);
+		this.housings.remove(housing);
 	}
 
 	/*

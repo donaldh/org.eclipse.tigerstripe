@@ -16,7 +16,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+//import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.ICommand;
+//import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -48,21 +50,18 @@ import org.osgi.framework.Constants;
 /**
  * Main class responsible for headless Tigerstripe builds
  * 
- * nmehrega: Fixed Bug 331457 - [Headless] Project import does not work in
- * headless mode
- * 
  */
 public class Tigerstripe implements IApplication {
 
 	private static final String DELIMITER = "=";
 
-	private static final String GENERATION_PROJECT_ARG = "GENERATION_PROJECT";
+	private static final String VALUE_SEPARATOR = ",";
 
 	private static final String IMPORT_PROJECT_ARG = "PROJECT_IMPORT";
 
 	private List<String> projects;
 
-	private String generationProject;
+	private List<IProject> importedProjects;
 
 	public Object start(IApplicationContext context) throws Exception {
 
@@ -76,22 +75,17 @@ public class Tigerstripe implements IApplication {
 			PostInstallActions.init();
 			printProfile();
 
-			System.out.println("Generation project: " + generationProject);
-			System.out.println("Importing projects...");
 			if (projects != null) {
 				IWorkspaceRunnable op = new ImportProjectsRunnable(projects);
 				ResourcesPlugin.getWorkspace().run(op, null);
 			}
 
-			File projectFile = new File(generationProject);
-			ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-					.findProject(projectFile.toURI());
-
-			validateProject(project);
-
-			System.out.println("Running generators...");
-			generateTigerstripeOutput(project);
-
+			for (IProject project : importedProjects) {
+				System.out.println("Validating " + project.getName());
+				validateProject(project);
+				System.out.println("Running generation on " + project.getName());
+				generateTigerstripeOutput(project);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 1;
@@ -114,32 +108,27 @@ public class Tigerstripe implements IApplication {
 		String[] cmdLineArgs = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		for (String arg : cmdLineArgs) {
 			split = arg.split(DELIMITER);
-			if (split[0].equals(IMPORT_PROJECT_ARG)) {
-				projects.add(split[1]);
-			}
-			if (split[0].equals(GENERATION_PROJECT_ARG)) {
-				generationProject = split[1];
+			String key = split[0];
+			String[] values = split[1].split(VALUE_SEPARATOR);
+			for (String value : values) {
+				if (key.equals(IMPORT_PROJECT_ARG)) {
+					projects.add(value);
+				}
 			}
 		}
-		if (generationProject == null) {
-			throw new TigerstripeException("Must have the generation project defined.");
+		if (projects.isEmpty()) {
+			throw new TigerstripeException("Must have at least one generation project defined.");
 		}
 	}
 
-	private void validateProject(ITigerstripeModelProject project) throws Exception {
-
-		final IProject iProject = (IProject) project.getAdapter(IProject.class);
-		if (iProject == null) {
-			throw new TigerstripeException(
-					"Failed to adapt project as org.eclipse.core.resources.IProject, not able to run validation checks.");
-		}
+	private void validateProject(final IProject project) throws Exception {
 
 		final StringBuffer errorMsg = new StringBuffer();
 		IWorkspaceRunnable checkForErrorsRunnable = new IWorkspaceRunnable() {
 
 			public void run(IProgressMonitor monitor) throws CoreException {
 
-				IMarker[] markers = iProject.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+				IMarker[] markers = project.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 				for (int i = 0; i < markers.length; i++) {
 					if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
 						String message = (String) markers[i].getAttribute(IMarker.MESSAGE);
@@ -156,7 +145,7 @@ public class Tigerstripe implements IApplication {
 		ResourcesPlugin.getWorkspace().run(checkForErrorsRunnable, new NullProgressMonitor());
 
 		if (errorMsg.length() > 0) {
-			throw new TigerstripeException("Unable to perform generation. Project [" + iProject.getName()
+			throw new TigerstripeException("Unable to perform generation. Project [" + project.getName()
 					+ "] contains errors: " + errorMsg.toString());
 		}
 	}
@@ -171,10 +160,11 @@ public class Tigerstripe implements IApplication {
 		return (text != null && text.trim().length() > 0);
 	}
 
-	private void generateTigerstripeOutput(ITigerstripeModelProject project) throws TigerstripeException {
+	private void generateTigerstripeOutput(IProject project) throws TigerstripeException {
 
-		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(project, RunConfig.M1);
-		PluginRunStatus[] statuses = project.generate(config, null);
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore.findProject(project);
+		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(tsProject, RunConfig.M1);
+		PluginRunStatus[] statuses = tsProject.generate(config, null);
 		StringBuffer failedGenerators = new StringBuffer();
 		if (statuses.length != 0) {
 			for (PluginRunStatus pluginRunStatus : statuses) {
@@ -213,23 +203,36 @@ public class Tigerstripe implements IApplication {
 
 			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
-			final List<IProject> importedProjects = new ArrayList<IProject>();
+			importedProjects = new ArrayList<IProject>();
 			for (String projectPath : projects) {
 				if (isStringValid(projectPath)) {
-					if (projectPath.contains("\\"))
+					if (projectPath.contains("\\")) {
 						projectPath = projectPath.replaceAll("\\\\", "/");
+					}
 
-					if (projectPath.endsWith("/"))
+					if (projectPath.endsWith("/")) {
 						projectPath = projectPath.substring(0, projectPath.length() - 1);
+					}
+					System.out.println("Importing project: " + projectPath);
+
+					String projectName = projectPath.substring(projectPath.lastIndexOf("/") + 1);
 
 					File projectMetaFile = new File(projectPath + "/.project");
 					if (!projectMetaFile.exists()) {
-						throw new CoreException(new Status(IStatus.ERROR, "headless_plugin",
-								projectMetaFile.toString() + " does not exist!!"));
+//						try {
+//							System.out
+//									.println("Attempting to create default .project file for project: " + projectName);
+//							String content = FileUtils.readFileToString(new File("templates/project.xml"));
+//							content = content.replace("${project.name}", projectName);
+//							FileUtils.writeStringToFile(projectMetaFile, content);
+//						} catch (Exception e) {
+//							e.printStackTrace();
+							throw new CoreException(new Status(IStatus.ERROR, "Tigerstripe", projectMetaFile.toString()
+									+ " does not exist, and an error was thrown while trying to create a default. File is required and should be checked-in to your SCM."));
+//						}
 					}
 
 					ProjectRecord projectRecord = new ProjectRecord(new File(projectPath + "/.project"));
-					String projectName = projectPath.substring(projectPath.lastIndexOf("/") + 1);
 
 					IProject project = workspace.getRoot().getProject(projectName);
 					if (!project.exists()) {
@@ -242,12 +245,24 @@ public class Tigerstripe implements IApplication {
 							operation.setOverwriteResources(true);
 							operation.setCreateContainerStructure(false);
 							operation.run(monitor);
-
 						} catch (InvocationTargetException e) {
 							e.printStackTrace();
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
+//						IFile classpath = project.getFile(".classpath");
+//						if (!classpath.exists()) {
+//							try {
+//								FileUtils.copyFile(new File("templates/classpath.xml"),
+//										classpath.getLocation().toFile());
+//							} catch (Exception e) {
+//								System.err.println(
+//										"An error occurred trying to create default .classpath file for project: "
+//												+ project.getName() + ":");
+//								e.printStackTrace();
+//							}
+//						}
+
 						// Remove maven build/nature before running headless,
 						// wreaks
 						// havoc.
@@ -270,9 +285,10 @@ public class Tigerstripe implements IApplication {
 						}
 						ICommand[] build = new ICommand[builders.size()];
 						project.getDescription().setBuildSpec(builders.toArray(build));
-						project.refreshLocal(IResource.DEPTH_ZERO, monitor);
 					}
 					importedProjects.add(project);
+				} else {
+					System.err.print("Project path is not valid: " + projectPath);
 				}
 			}
 
