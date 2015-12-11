@@ -16,9 +16,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.ICommand;
-//import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -219,17 +219,17 @@ public class Tigerstripe implements IApplication {
 
 					File projectMetaFile = new File(projectPath + "/.project");
 					if (!projectMetaFile.exists()) {
-//						try {
-//							System.out
-//									.println("Attempting to create default .project file for project: " + projectName);
-//							String content = FileUtils.readFileToString(new File("templates/project.xml"));
-//							content = content.replace("${project.name}", projectName);
-//							FileUtils.writeStringToFile(projectMetaFile, content);
-//						} catch (Exception e) {
-//							e.printStackTrace();
+						try {
+							System.out
+									.println("Attempting to create default .project file for project: " + projectName);
+							String content = FileUtils.readFileToString(new File("templates/project.xml"));
+							content = content.replace("${project.name}", projectName);
+							FileUtils.writeStringToFile(projectMetaFile, content);
+						} catch (Exception e) {
+							e.printStackTrace();
 							throw new CoreException(new Status(IStatus.ERROR, "Tigerstripe", projectMetaFile.toString()
 									+ " does not exist, and an error was thrown while trying to create a default. File is required and should be checked-in to your SCM."));
-//						}
+						}
 					}
 
 					ProjectRecord projectRecord = new ProjectRecord(new File(projectPath + "/.project"));
@@ -250,19 +250,19 @@ public class Tigerstripe implements IApplication {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-//						IFile classpath = project.getFile(".classpath");
-//						if (!classpath.exists()) {
-//							try {
-//								FileUtils.copyFile(new File("templates/classpath.xml"),
-//										classpath.getLocation().toFile());
-//							} catch (Exception e) {
-//								System.err.println(
-//										"An error occurred trying to create default .classpath file for project: "
-//												+ project.getName() + ":");
-//								e.printStackTrace();
-//							}
-//						}
-
+						IFile classpath = project.getFile(".classpath");
+						if (!classpath.exists()) {
+							try {
+								FileUtils.copyFile(new File("templates/classpath.xml"),
+										classpath.getLocation().toFile());
+							} catch (Exception e) {
+								System.err.println(
+										"An error occurred trying to create default .classpath file for project: "
+												+ project.getName() + ":");
+								e.printStackTrace();
+							}
+						}
+						
 						// Remove maven build/nature before running headless,
 						// wreaks
 						// havoc.
