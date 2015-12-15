@@ -245,8 +245,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
                 Collection<IAbstractArtifact> artifacts = session
                         .queryArtifact(query);
                 monitor.beginTask("Auditing Artifacts", artifacts.size());
-                System.out.println("Auditing Artifacts, size="
-                        + artifacts.size());
                 for (IAbstractArtifact artifact : artifacts) {
 
                     deleteAuditMarkers(artifact);
@@ -287,9 +285,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
             // Clear any existing marker for these
             // Ready to audit
-
-            System.out.println("Auditing Artifacts, size="
-                    + artifactsToAudit.size());
             for (String artifactFQN : artifactsToAudit) {
                 try {
                     IArtifactManagerSession session = tsProject
