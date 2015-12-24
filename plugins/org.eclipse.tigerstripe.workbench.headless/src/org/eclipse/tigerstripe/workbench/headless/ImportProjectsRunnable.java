@@ -1,9 +1,9 @@
 package org.eclipse.tigerstripe.workbench.headless;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -59,7 +59,9 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 				if (projectPath.endsWith("/")) {
 					projectPath = projectPath.substring(0, projectPath.length() - 1);
 				}
-				System.out.println("Importing project: " + projectPath);
+
+				System.out.println("Importing project: " + projectPath + " into workspace: "
+						+ workspace.getRoot().getLocation().toString());
 
 				String projectName = projectPath.substring(projectPath.lastIndexOf("/") + 1);
 
@@ -77,67 +79,83 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 					}
 				}
 
-				IProjectDescription description = ResourcesPlugin.getWorkspace()
-						.loadProjectDescription(new Path(projectPath + "/.project"));
-				IProject project =  workspace.getRoot().getProject(description.getName());
-				project.create(description, null);
-				project.open(null);
-//				ProjectRecord projectRecord = new ProjectRecord(new File(projectPath + "/.project"));
-
-//				IProject project = workspace.getRoot().getProject(projectName);
-//				if (!project.exists()) {
-//					try {
-//						URI locationURI = projectRecord.description.getLocationURI();
-//						File importSource = new File(locationURI);
-//						List<?> filesToImport = FileSystemStructureProvider.INSTANCE.getChildren(importSource);
-//						ImportOperation operation = new ImportOperation(project.getFullPath(), importSource,
-//								FileSystemStructureProvider.INSTANCE, this, filesToImport);
-//						operation.setOverwriteResources(true);
-//						operation.setCreateContainerStructure(false);
-//						operation.run(monitor);
-//					} catch (InvocationTargetException e) {
-//						e.printStackTrace();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-					IFile classpath = project.getFile(".classpath");
-					if (!classpath.exists()) {
+				ProjectRecord projectRecord = new ProjectRecord(projectMetaFile);
+				IProject project = workspace.getRoot().getProject(projectName);
+				
+				String workspaceLocation = workspace.getRoot().getLocation().toString();
+				if (workspaceLocation.startsWith(projectPath)) {
+					System.out.println("Workspace is inside project " + projectName
+							+ ", copying project sources into the workspace.");
+					if (!project.exists()) {
 						try {
-							String content = IOUtils.toString(Activator.getFile("templates/classpath.xml"));
-							FileUtils.writeStringToFile(classpath.getLocation().toFile(), content);
-						} catch (Exception e) {
-							System.err
-									.println("An error occurred trying to create default .classpath file for project: "
-											+ project.getName() + ":");
-							e.printStackTrace();
+							URI locationURI = projectRecord.description.getLocationURI();
+							File importSource = new File(locationURI);
+							List<?> filesToImport = FileSystemStructureProvider.INSTANCE.getChildren(importSource);
+							Iterator<?> iter = filesToImport.iterator();
+							while (iter.hasNext()) {
+								Object file = iter.next();
+								if (file instanceof File && ((File)file).getName().equals("target")) {
+									System.out.println("Ignoring 'target' folder...");
+									iter.remove();
+								}
+							}
+							ImportOperation operation = new ImportOperation(project.getFullPath(), importSource,
+									FileSystemStructureProvider.INSTANCE, this, filesToImport);
+							operation.setOverwriteResources(true);
+							operation.setCreateContainerStructure(false);
+							operation.run(monitor);
+						} catch (Exception e1) {
+							e1.printStackTrace();
 						}
 					}
+				} else {
+					System.out.println("Workspace is outside the project " + project.getName()
+							+ ", generation will run directly on the project sources.");
+					IProjectDescription description = ResourcesPlugin.getWorkspace()
+							.loadProjectDescription(new Path(projectPath + "/.project"));
+					// Use the actual project folders name as seen on disk, as
+					// the .project name does not always match what is in SCM
+					description.setName(projectName);
+					project.create(description, null);
+					project.open(null);
+				}
+				
+				IFile classpath = project.getFile(".classpath");
+				if (!classpath.exists()) {
+					try {
+						String content = IOUtils.toString(Activator.getFile("templates/classpath.xml"));
+						FileUtils.writeStringToFile(classpath.getLocation().toFile(), content);
+					} catch (Exception e) {
+						System.err.println("An error occurred trying to create default .classpath file for project: "
+								+ project.getName() + ":");
+						e.printStackTrace();
+					}
+				}
 
-					// Remove maven build/nature before running headless,
-					// wreaks
-					// havoc.
-					List<String> natures = new ArrayList<String>();
-					for (String nature : project.getDescription().getNatureIds()) {
-						if (!nature.equals("org.eclipse.m2e.core.maven2Nature")
-								&& !nature.equals("org.maven.ide.eclipse.maven2Nature")) {
-							natures.add(nature);
-						}
-					}
-					String[] newNatures = new String[natures.size()];
-					project.getDescription().setNatureIds(natures.toArray(newNatures));
-
-					List<ICommand> builders = new ArrayList<ICommand>();
-					for (ICommand build : project.getDescription().getBuildSpec()) {
-						if (!build.getBuilderName().equals("org.eclipse.m2e.core.maven2Builder")
-								&& !build.getBuilderName().equals("org.maven.ide.eclipse.maven2Builder")) {
-							builders.add(build);
-						}
-					}
-					ICommand[] build = new ICommand[builders.size()];
-					project.getDescription().setBuildSpec(builders.toArray(build));
-					// Let Tigerstripe start processing the project sources
-					project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//				// Remove maven build/nature before running headless,
+//				// wreaks
+//				// havoc.
+//				List<String> natures = new ArrayList<String>();
+//				for (String nature : project.getDescription().getNatureIds()) {
+//					if (!nature.equals("org.eclipse.m2e.core.maven2Nature")
+//							&& !nature.equals("org.maven.ide.eclipse.maven2Nature")) {
+//						natures.add(nature);
+//					}
 //				}
+//				String[] newNatures = new String[natures.size()];
+//				project.getDescription().setNatureIds(natures.toArray(newNatures));
+//
+//				List<ICommand> builders = new ArrayList<ICommand>();
+//				for (ICommand build : project.getDescription().getBuildSpec()) {
+//					if (!build.getBuilderName().equals("org.eclipse.m2e.core.maven2Builder")
+//							&& !build.getBuilderName().equals("org.maven.ide.eclipse.maven2Builder")) {
+//						builders.add(build);
+//					}
+//				}
+//				ICommand[] build = new ICommand[builders.size()];
+//				project.getDescription().setBuildSpec(builders.toArray(build));
+				// Let Tigerstripe start processing the project sources
+				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				importedProjects.add(project);
 			} else {
 				System.err.print("Project path is not valid: " + projectPath);

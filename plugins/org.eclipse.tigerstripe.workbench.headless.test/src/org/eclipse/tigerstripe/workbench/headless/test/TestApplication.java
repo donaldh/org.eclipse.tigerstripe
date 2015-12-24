@@ -25,7 +25,7 @@ public class TestApplication extends Tigerstripe {
 	public Object start(IApplicationContext context) throws Exception {
 		init();
 		String modelPath = model.getLocation().toOSString();
-		String[] args = { "GENERATION_PROJECT=" + modelPath };
+		String[] args = { Tigerstripe.IMPORT_PROJECT_ARG + "=" + modelPath };
 		context.getArguments().put(APPLICATION_ARGS, args);
 		return super.start(context);
 	}

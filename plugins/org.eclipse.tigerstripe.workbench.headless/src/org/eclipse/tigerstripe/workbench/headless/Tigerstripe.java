@@ -35,9 +35,9 @@ public class Tigerstripe implements IApplication {
 
 	private static final String VALUE_SEPARATOR = ",";
 
-	private static final String IMPORT_PROJECT_ARG = "PROJECT_IMPORT";
+	public static final String IMPORT_PROJECT_ARG = "PROJECT_IMPORT";
 
-	private static final String GENERATION_THREADS_ARG = "GENERATION_THREADS";
+	public static final String GENERATION_THREADS_ARG = "GENERATION_THREADS";
 
 	private List<String> projects;
 
@@ -76,7 +76,7 @@ public class Tigerstripe implements IApplication {
 					Future<Boolean> task = threadPool.submit(new ProjectGenerationRunnable(project));
 					threadedTasks.add(task);
 				} else {
-					System.out.println("Starting project " + count++ + "/" + importedProjects.size() + " - " + project.getName());
+					System.out.println("Starting on project " + count++ + "/" + importedProjects.size() + " - " + project.getName());
 					GenerationUtils.generate(project);
 				}
 			}
