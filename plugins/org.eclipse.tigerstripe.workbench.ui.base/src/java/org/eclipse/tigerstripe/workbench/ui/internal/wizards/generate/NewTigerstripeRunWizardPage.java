@@ -609,7 +609,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 								&& config.getCategory() == IPluginConfig.GENERATE_CATEGORY
 								&& config.getPluginNature() != EPluggablePluginNature.M0) {
 							for (int j = 0; j < buttonNames.length; j++) {
-								if (buttonNames[j].equals(((PluginConfig) config).getLabel())) {
+								if (buttonNames[j].equals(((PluginConfig) config).getPluginName())) {
 									generatorSelectionButtons[j].setSelection(config.isEnabled());
 									if (newButtonName != null) {
 										generatorSelectionButtons[j].setText(newButtonName);
