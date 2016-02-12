@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+	<version position="navigation-bottom"/>
+
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-fluido-skin</artifactId>
+		<version>1.4</version>
+	</skin>
+
+	<bannerLeft>
+		<name>${project.name}</name>
+		<href>${project.url}</href>
+	</bannerLeft>
+
+	<bannerRight>
+		<name>${project.name}</name>
+	</bannerRight>
+
+	<body>
+		<head>
+			<link rel="meta" title="DOAP" href="${project.url}/doap_${project.name}.rdf"
+				type="application/rdf+xml" />
+			</head>
+
+			<breadcrumbs>
+				<item name="${project.name}" href="${project.url}" />
+			</breadcrumbs>
+
+			<menu name="Community">
+				<item name="Tigerstripe" href="https://www.eclipse.org/tigerstripe/" />
+			</menu>
+
+			<menu name="Install">
+				<item name="Update Site" href="releng/update-site"/>
+			</menu>
+
+			<menu ref="reports" />
+		</body>
+	</project>
