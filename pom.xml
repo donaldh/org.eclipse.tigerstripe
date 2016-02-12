@@ -9,6 +9,8 @@
 	<packaging>pom</packaging>
 	<name>Tigerstripe</name>
 	
+	<url>${site.url}</url>
+	
 	<properties>
 		<tycho-version>0.24.0</tycho-version>
 		<site-plugin.version>3.3</site-plugin.version>
