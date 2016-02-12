@@ -11,9 +11,8 @@
   </parent>
 
   <groupId>org.eclipse.tigerstripe</groupId>
-  <artifactId>org.eclipse.tigerstripe.releng.parent</artifactId>
+  <artifactId>releng</artifactId>
   <packaging>pom</packaging>
-  <name>releng</name>
   
   <modules>
   	<module>org.eclipse.tigerstripe.update-site</module>

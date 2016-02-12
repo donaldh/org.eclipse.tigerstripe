@@ -1,16 +1,73 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.eclipse.tigerstripe</groupId>
-    <artifactId>org.eclipse.tigerstripe.releng.parent</artifactId>
+    <artifactId>releng</artifactId>
     <version>0.7.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.tigerstripe.update-site</artifactId>
+  <artifactId>update-site</artifactId>
   <packaging>eclipse-repository</packaging>
-  <name>releng/o.e.t.update-site</name>
- 
+  
+  <build>
+   <plugins>
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-site-plugin</artifactId>
+       <configuration>
+         <skip>false</skip>
+         <skipDeploy>false</skipDeploy>
+         <generateReports>false</generateReports>
+       </configuration>
+     </plugin>
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-resources-plugin</artifactId>
+       <version>2.7</version>
+       <inherited>false</inherited>
+       <executions>
+         <execution>
+           <id>copy-site</id>
+           <phase>site</phase>
+           <goals>
+             <goal>copy-resources</goal>
+           </goals>
+           <configuration>
+             <outputDirectory>${project.build.directory}/site</outputDirectory>
+             <resources>          
+               <resource>
+                 <directory>${project.build.directory}/repository</directory>
+               </resource>
+             </resources> 
+           </configuration>
+         </execution>
+       </executions>
+     </plugin>
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-antrun-plugin</artifactId>
+       <version>1.8</version>
+       <executions>
+         <execution>
+           <phase>site</phase>
+           <goals>
+             <goal>run</goal>
+           </goals>
+           <configuration>
+             <target>
+               <delete dir="${project.build.directory}/site/css"/>
+               <delete dir="${project.build.directory}/site/img"/>
+               <delete dir="${project.build.directory}/site/images"/>
+               <delete dir="${project.build.directory}/site/fonts"/>
+               <delete dir="${project.build.directory}/site/js"/>
+             </target>
+           </configuration>
+         </execution>
+       </executions>
+     </plugin>
+   </plugins>
+ </build>
 </project>

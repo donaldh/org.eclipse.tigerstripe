@@ -7,15 +7,17 @@
 	<artifactId>org.eclipse.tigerstripe.parent</artifactId>
 	<version>0.7.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>o.e.t/pom.xml</name>
+	<name>Tigerstripe</name>
 	
 	<properties>
-		<tycho-version>0.13.0</tycho-version>
+		<tycho-version>0.24.0</tycho-version>
+		<site-plugin.version>3.3</site-plugin.version>
 		<!-- Default OSGi values. Might be overridden by a profile. -->
 		<osgi.arch>x86_64</osgi.arch>
 		<osgi.os>linux</osgi.os>
 		<osgi.ws>gtk</osgi.ws>
 		<junit.args>-Xms256m -Xmx1024m -XX:MaxPermSize=512m</junit.args>
+		<site.url>${distribution.site.url}tigerstripe/LATEST-master</site.url>
 	</properties>
 	
 	<modules>
@@ -62,9 +64,33 @@
 					<strictVersions>false</strictVersions>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<skip>false</skip>
+					<skipDeploy>false</skipDeploy>
+					<generateReports>true</generateReports>
+				</configuration>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${site-plugin.version}</version>
+					<configuration>
+						<skip>true</skip>
+						<skipDeploy>true</skipDeploy>
+						<generateReports>false</generateReports>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
-	
+
 	<profiles>
 		<profile>
 			<id>32-bit</id>
@@ -78,7 +104,7 @@
 				<osgi.arch>x86</osgi.arch>
 			</properties>
 		</profile>
-		
+
 		<profile>
 			<id>Windows</id>
 			<activation>
@@ -91,7 +117,7 @@
 				<osgi.ws>win32</osgi.ws>
 			</properties>
 		</profile>
-		
+
 		<profile>
 			<id>MacOS</id>
 			<activation>
@@ -105,10 +131,10 @@
 				<junit.args>-XstartOnFirstThread -Xms256m -Xmx1024m -XX:MaxPermSize=512m</junit.args>
 			</properties>
 		</profile>
-		
+
 		<profile>
 			<id>env-cisco</id>
-			
+
 			<activation>
 				<property>
 					<name>build.env</name>
@@ -119,11 +145,11 @@
 			<properties>
 				<tigerstripe.ecl.update.site>http://pulse-prd-sj1/update_sites/org.eclipse.tigerstripe.ecl/ts-ecl/1.0.0.201106162003</tigerstripe.ecl.update.site>
 			</properties>
-			
+
 			<modules>
 				<module>tests</module>
 			</modules>
-			
+
 			<repositories>
 				<repository>
 					<id>helios</id>
@@ -131,9 +157,27 @@
 					<url>http://download.eclipse.org/releases/helios/</url>
 				</repository>
 			</repositories>
-			
+
+			<distributionManagement>
+				<repository>
+					<id>repository</id>
+					<name>Repository</name>
+					<url>${distribution.repository.url}</url>
+				</repository>
+				<snapshotRepository>
+					<id>repository-snapshots</id>
+					<name>Repository Snapshots</name>
+					<url>${distribution.snapshotRepository.url}</url>
+				</snapshotRepository>
+				<site>
+					<id>website</id>
+					<name>website</name>
+					<url>${site.url}</url>
+				</site>
+			</distributionManagement>
+
 		</profile>
-		
+
 		<profile>
 			<id>env-xored</id>
 
@@ -148,7 +192,7 @@
 				<!--Update site with Tigerstripe specific extensions for Q7.-->
 				<tigerstripe.ecl.update.site>http://build.xored.com/browse/TS-ECL/latest/artifact/JOB1/site</tigerstripe.ecl.update.site>
 			</properties>
-			
+
 			<distributionManagement>
 				<repository>
 					<id>xored</id>
@@ -169,7 +213,7 @@
 					<url>http://updates.xored.com/helios/</url>
 				</repository>
 			</repositories>
-			
+
 			<build>
 				<plugins>
 					<plugin>

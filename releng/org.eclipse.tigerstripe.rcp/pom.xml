@@ -3,12 +3,12 @@
   
   <parent>
     <groupId>org.eclipse.tigerstripe</groupId>
-    <artifactId>org.eclipse.tigerstripe.releng.parent</artifactId>
+    <artifactId>releng</artifactId>
     <version>0.7.0-SNAPSHOT</version>
   </parent>
   
   <artifactId>org.eclipse.tigerstripe.rcp</artifactId>
-  <name>releng/o.e.t.rcp</name>
+  <name>Tigerstripe RCP</name>
   <version>0.7.0-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
   
