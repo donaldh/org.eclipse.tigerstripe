@@ -53,7 +53,6 @@ public class Tigerstripe implements IApplication {
 		printTigerstipeVersionInfo();
 		setPluginParams(context);
 
-		List<Throwable> exc = new ArrayList<Throwable>();
 		try {
 			PostInstallActions.init();
 			printProfile();
@@ -61,6 +60,12 @@ public class Tigerstripe implements IApplication {
 			ImportProjectsRunnable op = new ImportProjectsRunnable(projects);
 			ResourcesPlugin.getWorkspace().run(op, null);
 			List<IProject> importedProjects = op.getImportedProjects();
+			
+			/////////////////////
+			// Multi-threaded generation is not yet supported by Tigerstripe
+			// When support is ready, the threading code in here can be 
+			// uncommented to begin running multi-threaded generation.
+			/////////////////////	
 //			if (importedProjects.size() > 1 && numThreads > 1) {
 //				int poolSize = 
 //						importedProjects.size() < numThreads ? importedProjects.size() : numThreads;
@@ -68,43 +73,40 @@ public class Tigerstripe implements IApplication {
 //				threadPool = Executors.newFixedThreadPool(poolSize);
 //			}
 
-			List<Future<Boolean>> threadedTasks = new ArrayList<Future<Boolean>>();
+//			List<Future<Boolean>> threadedTasks = new ArrayList<Future<Boolean>>();
 			int count = 1;
 			for (IProject project : importedProjects) {
-				if (threadPool != null) {
-					System.out.println("Creating thread for project: " + project.getName());
-					Future<Boolean> task = threadPool.submit(new ProjectGenerationRunnable(project));
-					threadedTasks.add(task);
-				} else {
+//				if (threadPool != null) {
+//					System.out.println("Creating thread for project: " + project.getName());
+//					Future<Boolean> task = threadPool.submit(new ProjectGenerationRunnable(project));
+//					threadedTasks.add(task);
+//				} else {
 					System.out.println("Starting on project " + count++ + "/" + importedProjects.size() + " - " + project.getName());
 					GenerationUtils.generate(project);
-				}
+//				}
 			}
-			if (threadPool != null) {
-				for (Future<Boolean> task : threadedTasks) {
-					if (!exc.isEmpty()) {
-						task.cancel(true);
-					} else {
-						try {
-							task.get();
-						} catch (Throwable e) {
-							exc.add(e);
-							e.printStackTrace();
-						}
-					}
-				}
-			}
+//			if (threadPool != null) {
+//				for (Future<Boolean> task : threadedTasks) {
+//					if (!exc.isEmpty()) {
+//						task.cancel(true);
+//					} else {
+//						try {
+//							task.get();
+//						} catch (Throwable e) {
+//							exc.add(e);
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			exc.add(e);
+			return 1;
 		} finally {
-			if (threadPool != null) {
-				threadPool.shutdown();
-			}
-			if (!exc.isEmpty()) {
-				return 1;				
-			}
+//			if (threadPool != null) {
+//				threadPool.shutdown();
+//			}
 		}
 
 		long finish = System.currentTimeMillis();

@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -18,7 +17,6 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -83,7 +81,7 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 				IProject project = workspace.getRoot().getProject(projectName);
 				
 				String workspaceLocation = workspace.getRoot().getLocation().toString();
-				if (workspaceLocation.startsWith(projectPath)) {
+				if (workspaceLocation.startsWith(projectPath) || projectPath.contains("target/work/")) {
 					System.out.println("Workspace is inside project " + projectName
 							+ ", copying project sources into the workspace.");
 					if (!project.exists()) {
@@ -110,7 +108,7 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 					}
 				} else {
 					System.out.println("Workspace is outside the project " + project.getName()
-							+ ", generation will run directly on the project sources.");
+							+ ", generation will run directly on the project sources. [project=" + projectPath + ", workspace=" + workspaceLocation + "]");
 					IProjectDescription description = ResourcesPlugin.getWorkspace()
 							.loadProjectDescription(new Path(projectPath + "/.project"));
 					// Use the actual project folders name as seen on disk, as
@@ -132,28 +130,6 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 					}
 				}
 
-//				// Remove maven build/nature before running headless,
-//				// wreaks
-//				// havoc.
-//				List<String> natures = new ArrayList<String>();
-//				for (String nature : project.getDescription().getNatureIds()) {
-//					if (!nature.equals("org.eclipse.m2e.core.maven2Nature")
-//							&& !nature.equals("org.maven.ide.eclipse.maven2Nature")) {
-//						natures.add(nature);
-//					}
-//				}
-//				String[] newNatures = new String[natures.size()];
-//				project.getDescription().setNatureIds(natures.toArray(newNatures));
-//
-//				List<ICommand> builders = new ArrayList<ICommand>();
-//				for (ICommand build : project.getDescription().getBuildSpec()) {
-//					if (!build.getBuilderName().equals("org.eclipse.m2e.core.maven2Builder")
-//							&& !build.getBuilderName().equals("org.maven.ide.eclipse.maven2Builder")) {
-//						builders.add(build);
-//					}
-//				}
-//				ICommand[] build = new ICommand[builders.size()];
-//				project.getDescription().setBuildSpec(builders.toArray(build));
 				// Let Tigerstripe start processing the project sources
 				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				importedProjects.add(project);
@@ -162,18 +138,14 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 			}
 		}
 
-		// FIXME Is this really necessary if all projects have already
-		// refreshed?
-		workspace.getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
 		// Now that all projects have been imported, we can "build" them, to
 		// check for Tigerstripe validation errors
-		for (final IProject project : importedProjects) {
-			Object adapted = null;
+		for (IProject project : importedProjects) {
 			try {
-				adapted = ((IAdaptable) project).getAdapter(ITigerstripeModelProject.class);
-				if (adapted != null) {
-					((ITigerstripeModelProject) adapted).getArtifactManagerSession().refreshAll(false, monitor);
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
+		                .getAdapter(ITigerstripeModelProject.class);
+				if (tsProject != null) {
+					tsProject.getArtifactManagerSession().refreshAll(false, monitor);
 				} else {
 					System.out.println("Failed to process project " + project.getName()
 							+ " as a Tigerstripe Project, validation will not be run.");

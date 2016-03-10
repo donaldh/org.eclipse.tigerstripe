@@ -59,308 +59,283 @@ import com.thoughtworks.qdox.model.JavaSource;
  */
 public class ModuleDescriptorModel {
 
-    // The corresponding project
-    private ITigerstripeModelProject tsProject;
+	// The corresponding project
+	private ITigerstripeModelProject tsProject;
 
-    private ProjectDetails details;
+	private ProjectDetails details;
 
-    private ModuleHeader header;
+	private ModuleHeader header;
 
-    private ModuleArtifactManager artifactMgr;
+	private ModuleArtifactManager artifactMgr;
 
-    private TigerstripeProject embeddedProject;
+	private TigerstripeProject embeddedProject;
 
-    // The default name for the XML descriptor
-    public final static String DESCRIPTOR = "ts-module.xml";
+	// The default name for the XML descriptor
+	public final static String DESCRIPTOR = "ts-module.xml";
 
-    public ModuleDescriptorModel(ITigerstripeModelProject project) {
-        setTSProject(project);
-    }
+	public ModuleDescriptorModel(ITigerstripeModelProject project) {
+		setTSProject(project);
+	}
 
-    public ModuleDescriptorModel(TigerstripeProject embeddedProject,
-            Reader reader, boolean parseArtifacts, IProgressMonitor monitor)
-            throws InvalidModuleException {
-        this.embeddedProject = embeddedProject;
-        details = new ProjectDetails(null);
-        header = new ModuleHeader();
-        readModel(reader, parseArtifacts, monitor);
-    }
+	public ModuleDescriptorModel(TigerstripeProject embeddedProject, Reader reader, boolean parseArtifacts,
+			IProgressMonitor monitor) throws InvalidModuleException {
+		this.embeddedProject = embeddedProject;
+		details = new ProjectDetails(null);
+		header = new ModuleHeader();
+		readModel(reader, parseArtifacts, monitor);
+	}
 
-    public TigerstripeProject getEmbeddedProject() {
-        return this.embeddedProject;
-    }
+	public TigerstripeProject getEmbeddedProject() {
+		return this.embeddedProject;
+	}
 
-    // ============================================================
-    public ProjectDetails getProjectDetails() {
-        return this.details;
-    }
+	// ============================================================
+	public ProjectDetails getProjectDetails() {
+		return this.details;
+	}
 
-    public ArtifactManager getArtifactManager() {
-        return this.artifactMgr;
-    }
+	public ArtifactManager getArtifactManager() {
+		return this.artifactMgr;
+	}
 
-    private ITigerstripeModelProject getTSProject() {
-        return this.tsProject;
-    }
+	private ITigerstripeModelProject getTSProject() {
+		return this.tsProject;
+	}
 
-    protected void setTSProject(ITigerstripeModelProject project) {
-        this.tsProject = project;
-    }
+	protected void setTSProject(ITigerstripeModelProject project) {
+		this.tsProject = project;
+	}
 
-    public ModuleHeader getModuleHeader() {
-        return this.header;
-    }
+	public ModuleHeader getModuleHeader() {
+		return this.header;
+	}
 
-    public void setModuleHeader(ModuleHeader header) {
-        this.header = header;
-    }
+	public void setModuleHeader(ModuleHeader header) {
+		this.header = header;
+	}
 
-    /**
-     * Reads the module descriptor model from the given reader
-     * 
-     * @param reader
-     */
-    private void readModel(Reader reader, boolean parseArtifacts,
-            IProgressMonitor monitor) throws InvalidModuleException {
-        try {
-            SAXReader saxReader = new SAXReader();
-            Document document = saxReader.read(reader);
-            details = extractProjectDetails(document);
-            header = extractModuleHeader(document);
+	/**
+	 * Reads the module descriptor model from the given reader
+	 * 
+	 * @param reader
+	 */
+	private void readModel(Reader reader, boolean parseArtifacts, IProgressMonitor monitor)
+			throws InvalidModuleException {
+		try {
+			SAXReader saxReader = new SAXReader();
+			Document document = saxReader.read(reader);
+			details = extractProjectDetails(document);
+			header = extractModuleHeader(document);
 
-            // This is for compatibility reasons. If no originalName was set
-            if (header.getOriginalName() == null) {
-                Element root = document.getRootElement();
-                Element details = root.element("details");
+			// This is for compatibility reasons. If no originalName was set
+			if (header.getOriginalName() == null) {
+				Element root = document.getRootElement();
+				Element details = root.element("details");
 
-                if (details != null) {
-                    Node node = details;
-                    String name = ((Element) node).attributeValue("name");
-                    header.setOriginalName(name);
-                }
-            }
+				if (details != null) {
+					Node node = details;
+					String name = ((Element) node).attributeValue("name");
+					header.setOriginalName(name);
+				}
+			}
 
-            if (parseArtifacts)
-                extractArtifacts(document, monitor);
+			if (parseArtifacts)
+				extractArtifacts(document, monitor);
 
-        } catch (DocumentException e) {
-            TigerstripeRuntime.logErrorMessage("DocumentException detected", e);
-            throw new InvalidModuleException("DocumentException detected: "
-                    + e.getMessage(), e);
-        } catch (InvalidModuleException e) {
-            TigerstripeRuntime.logErrorMessage(
-                    "InvalidModuleException detected", e);
-            throw e;
-        }
-    }
+		} catch (DocumentException e) {
+			TigerstripeRuntime.logErrorMessage("DocumentException detected", e);
+			throw new InvalidModuleException("DocumentException detected: " + e.getMessage(), e);
+		} catch (InvalidModuleException e) {
+			TigerstripeRuntime.logErrorMessage("InvalidModuleException detected", e);
+			throw e;
+		}
+	}
 
-    /**
-     * Writes this module descriptor model to the given writer
-     * 
-     */
-    public void writeModel(Writer writer, IProgressMonitor monitor)
-            throws TigerstripeException {
+	/**
+	 * Writes this module descriptor model to the given writer
+	 * 
+	 */
+	public void writeModel(Writer writer, IProgressMonitor monitor) throws TigerstripeException {
 
-        Document document = createXMLDocument(monitor);
-        try {
-            OutputFormat outformat = new OutputFormat("  ", true);
-            XMLWriter xmlWriter = new XMLWriter(writer, outformat);
-            xmlWriter.write(document);
-            xmlWriter.close();
-        } catch (Exception e) {
-            throw new TigerstripeException(
-                    "An error occured while trying to write Module Descriptor.",
-                    e);
-        }
-    }
+		Document document = createXMLDocument(monitor);
+		try {
+			OutputFormat outformat = new OutputFormat("  ", true);
+			XMLWriter xmlWriter = new XMLWriter(writer, outformat);
+			xmlWriter.write(document);
+			xmlWriter.close();
+		} catch (Exception e) {
+			throw new TigerstripeException("An error occured while trying to write Module Descriptor.", e);
+		}
+	}
 
-    private Document createXMLDocument(IProgressMonitor monitor)
-            throws TigerstripeException {
-        Document document = DocumentHelper.createDocument();
-        Element module = document.addElement("module");
-        createHeader(module, monitor);
-        createDetails(module, monitor);
-        createArtifacts(module, monitor);
+	private Document createXMLDocument(IProgressMonitor monitor) throws TigerstripeException {
+		Document document = DocumentHelper.createDocument();
+		Element module = document.addElement("module");
+		createHeader(module, monitor);
+		createDetails(module, monitor);
+		createArtifacts(module, monitor);
 
-        return document;
-    }
+		return document;
+	}
 
-    private void createHeader(Element module, IProgressMonitor monitor) {
-        Element hElem = module.addElement("header");
+	private void createHeader(Element module, IProgressMonitor monitor) {
+		Element hElem = module.addElement("header");
 
-        hElem.addAttribute("originalName", getTSProject().getName());
-        hElem.addAttribute("moduleID", header.getModuleID());
-        hElem.addAttribute("build", TigerstripeRuntime
-                .getProperty(TigerstripeRuntime.TIGERSTRIPE_FEATURE_VERSION));
-        DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm");
-        String dateStr = format.format(new Date());
-        hElem.addAttribute("date", dateStr);
-    }
+		hElem.addAttribute("originalName", getTSProject().getName());
+		hElem.addAttribute("moduleID", header.getModuleID());
+		hElem.addAttribute("build", TigerstripeRuntime.getProperty(TigerstripeRuntime.TIGERSTRIPE_FEATURE_VERSION));
+		DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm");
+		String dateStr = format.format(new Date());
+		hElem.addAttribute("date", dateStr);
+	}
 
-    private void createDetails(Element module, IProgressMonitor monitor)
-            throws TigerstripeException {
-        Element details = module.addElement("details");
+	private void createDetails(Element module, IProgressMonitor monitor) throws TigerstripeException {
+		Element details = module.addElement("details");
 
-        details.addAttribute("name", getTSProject().getName());
-        details.addAttribute("version", getTSProject().getProjectDetails()
-                .getVersion());
-        Element description = details.addElement("description");
-        description
-                .addText(getTSProject().getProjectDetails().getDescription());
-    }
+		details.addAttribute("name", getTSProject().getName());
+		details.addAttribute("version", getTSProject().getProjectDetails().getVersion());
+		Element description = details.addElement("description");
+		description.addText(getTSProject().getProjectDetails().getDescription());
+	}
 
-    private void createArtifacts(Element module, IProgressMonitor monitor)
-            throws TigerstripeException {
-        Element artifacts = module.addElement("artifacts");
+	private void createArtifacts(Element module, IProgressMonitor monitor) throws TigerstripeException {
+		Element artifacts = module.addElement("artifacts");
 
-        IArtifactManagerSession session = getTSProject()
-                .getArtifactManagerSession();
-        IQueryAllArtifacts query = (IQueryAllArtifacts) session
-                .makeQuery(IQueryAllArtifacts.class.getName());
-        query.setIncludeDependencies(false); // we only package the locally
-        // defined artifacts
+		IArtifactManagerSession session = getTSProject().getArtifactManagerSession();
+		IQueryAllArtifacts query = (IQueryAllArtifacts) session.makeQuery(IQueryAllArtifacts.class.getName());
+		query.setIncludeDependencies(false); // we only package the locally
+		// defined artifacts
 
-        Collection allArtifacts = session.queryArtifact(query);
-        monitor.beginTask("Exporting Artifacts", allArtifacts.size());
-        for (Iterator iter = allArtifacts.iterator(); iter.hasNext();) {
+		Collection allArtifacts = session.queryArtifact(query);
+		monitor.beginTask("Exporting Artifacts", allArtifacts.size());
+		for (Iterator iter = allArtifacts.iterator(); iter.hasNext();) {
 
-            IAbstractArtifact artifact = (IAbstractArtifact) iter.next();
-            monitor.subTask(artifact.getFullyQualifiedName());
-            TigerstripeRuntime.logDebugMessage("Creating artifact: "
-                    + artifact.getFullyQualifiedName());
+			IAbstractArtifact artifact = (IAbstractArtifact) iter.next();
+			monitor.subTask(artifact.getFullyQualifiedName());
+			TigerstripeRuntime.logDebugMessage("Creating artifact: " + artifact.getFullyQualifiedName());
 
-            String finalText = null;
-            // For performance improvement, let's use what is already on disk if
-            // it exists. If not, revert to processing the artifact the old
-            // fashion "safe but slow" way.
-            String path = getTSProject().getLocation().toFile()
-                    + File.separator
-                    + ((IAbstractArtifactInternal) artifact).getArtifactPath();
-            File artFile = new File(path);
+			String finalText = null;
+			// For performance improvement, let's use what is already on disk if
+			// it exists. If not, revert to processing the artifact the old
+			// fashion "safe but slow" way.
+			String path = getTSProject().getLocation().toFile() + File.separator
+					+ ((IAbstractArtifactInternal) artifact).getArtifactPath();
+			File artFile = new File(path);
 
-            try {
-                byte[] bytes = Util.read(artFile);
-                finalText = Base64.encode(bytes);
-            } catch (IOException e) {
-                String artText = artifact.asText();
-                finalText = Base64.encode(artText.getBytes());
-            }
+			try {
+				byte[] bytes = Util.read(artFile);
+				finalText = Base64.encode(bytes);
+			} catch (IOException e) {
+				String artText = artifact.asText();
+				finalText = Base64.encode(artText.getBytes());
+			}
 
-            Element artifactElem = artifacts.addElement("artifact");
-            artifactElem.addAttribute("name", artifact.getFullyQualifiedName());
-            artifactElem.addAttribute("type", artifact.getClass().getName());
-            artifactElem.addCDATA(finalText);
-            if (monitor.isCanceled())
-                throw new TigerstripeException(
-                        "Interupted Packaging. Last processed was "
-                                + artifact.getFullyQualifiedName());
-            monitor.worked(1);
-        }
-        monitor.done();
-    }
+			Element artifactElem = artifacts.addElement("artifact");
+			artifactElem.addAttribute("name", artifact.getFullyQualifiedName());
+			artifactElem.addAttribute("type", artifact.getClass().getName());
+			artifactElem.addCDATA(finalText);
+			if (monitor.isCanceled())
+				throw new TigerstripeException(
+						"Interupted Packaging. Last processed was " + artifact.getFullyQualifiedName());
+			monitor.worked(1);
+		}
+		monitor.done();
+	}
 
-    /**
-     * Extracts a ITigerstripeProject from the given doc (ts-module.xml)
-     * 
-     * @param doc
-     * @return
-     */
-    private ProjectDetails extractProjectDetails(Document doc)
-            throws InvalidModuleException {
-        ProjectDetails result = new ProjectDetails(null);
+	/**
+	 * Extracts a ITigerstripeProject from the given doc (ts-module.xml)
+	 * 
+	 * @param doc
+	 * @return
+	 */
+	private ProjectDetails extractProjectDetails(Document doc) throws InvalidModuleException {
+		ProjectDetails result = new ProjectDetails(null);
 
-        Element root = doc.getRootElement();
-        Element details = root.element("details");
+		Element root = doc.getRootElement();
+		Element details = root.element("details");
 
-        Node node = details;
-        String name = ((Element) node).attributeValue("name");
-        result.setName(name);
-        String version = ((Element) node).attributeValue("version");
-        result.setVersion(version);
-        String description = node.getStringValue();
-        result.setDescription(description);
+		Node node = details;
+		String name = ((Element) node).attributeValue("name");
+		result.setName(name);
+		String version = ((Element) node).attributeValue("version");
+		result.setVersion(version);
+		String description = node.getStringValue();
+		result.setDescription(description);
 
-        return result;
-    }
+		return result;
+	}
 
-    private ModuleHeader extractModuleHeader(Document doc)
-            throws InvalidModuleException {
-        ModuleHeader header = new ModuleHeader();
-        Element root = doc.getRootElement();
-        Element headerElm = root.element("header");
+	private ModuleHeader extractModuleHeader(Document doc) throws InvalidModuleException {
+		ModuleHeader header = new ModuleHeader();
+		Element root = doc.getRootElement();
+		Element headerElm = root.element("header");
 
-        Element node = headerElm;
-        String originalName = node.attributeValue("originalName");
-        header.setOriginalName(originalName);
+		Element node = headerElm;
+		String originalName = node.attributeValue("originalName");
+		header.setOriginalName(originalName);
 
-        String moduleId = node.attributeValue("moduleID");
-        header.setModuleID(moduleId);
+		String moduleId = node.attributeValue("moduleID");
+		header.setModuleID(moduleId);
 
-        String build = node.attributeValue("build");
-        header.setBuild(build);
+		String build = node.attributeValue("build");
+		header.setBuild(build);
 
-        String date = node.attributeValue("date");
-        DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm");
-        try {
-            header.setDate(format.parse(date));
-        } catch (ParseException e) {
-            header.setDate(null);
-        }
-        return header;
-    }
+		String date = node.attributeValue("date");
+		DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm");
+		try {
+			header.setDate(format.parse(date));
+		} catch (ParseException e) {
+			header.setDate(null);
+		}
+		return header;
+	}
 
-    private void extractArtifacts(Document doc, IProgressMonitor monitor)
-            throws InvalidModuleException {
+	private void extractArtifacts(Document doc, IProgressMonitor monitor) throws InvalidModuleException {
 
-        artifactMgr = new ModuleArtifactManager(this);
+		artifactMgr = new ModuleArtifactManager(this);
 
-        Element root = doc.getRootElement();
-        if (root == null)
-            throw new InvalidModuleException("No document root");
-        Element artifacts = root.element("artifacts");
-        if (artifacts != null) {
+		Element root = doc.getRootElement();
+		if (root == null)
+			throw new InvalidModuleException("No document root");
+		Element artifacts = root.element("artifacts");
+		if (artifacts != null) {
 
-            List list = artifacts.elements("artifact");
-            monitor.beginTask("Parsing module content", list.size());
-            JavaDocBuilder builder = new JavaDocBuilder();
-            for (Iterator iter = list.iterator(); iter.hasNext();) {
-                Node node = (Node) iter.next();
+			List list = artifacts.elements("artifact");
+			monitor.beginTask("Parsing module content", list.size());
+			JavaDocBuilder builder = new JavaDocBuilder();
+			for (Iterator iter = list.iterator(); iter.hasNext();) {
+				Node node = (Node) iter.next();
 
-                String text = node.getText();
-                byte[] decode = Base64.decode(text);
-                Reader reader;
-                if (decode == null) {
-                    // Old format
-                    text = text.replaceAll("<\\?char x0005\\?>", "" + '\05');
-                    reader = new StringReader(text);
-                } else {
-                    reader = new InputStreamReader(new ByteArrayInputStream(
-                            decode));
-                }
+				String text = node.getText();
+				byte[] decode = Base64.decode(text);
+				Reader reader;
+				if (decode == null) {
+					// Old format
+					text = text.replaceAll("<\\?char x0005\\?>", "" + '\05');
+					reader = new StringReader(text);
+				} else {
+					reader = new InputStreamReader(new ByteArrayInputStream(decode));
+				}
 
-                try {
-                    JavaSource src = builder.addSource(reader);
-                    IAbstractArtifact art = artifactMgr.extractArtifact(src,
-                            monitor);
-                    if (art != null) {
-                        // note that art maybe null if the current profile
-                        // ignores
-                        // an artifact
-                        // type that was used when packaging the module
-                        monitor.subTask(art.getFullyQualifiedName()
-                                + " (from module)");
-                        // Don't resolve for the moment
-                        artifactMgr.addArtifact(art, monitor);
-                    }
-                    if (monitor.isCanceled())
-                        break;
-                } catch (TigerstripeException e) {
-                    new InvalidModuleException(
-                            "Error while decoding an artifact", e);
-                }
-                monitor.worked(1);
-            }
-            monitor.done();
-        }
-    }
+				try {
+					JavaSource src = builder.addSource(reader);
+					IAbstractArtifact art = artifactMgr.extractArtifact(src, monitor);
+					if (art != null) {
+						// note that art maybe null if the current profile
+						// ignores an artifact type that was used when packaging
+						// the module
+						monitor.subTask(art.getFullyQualifiedName() + " (from module)");
+						// Don't resolve for the moment
+						artifactMgr.addArtifact(art, monitor);
+					}
+					if (monitor.isCanceled())
+						break;
+				} catch (Exception e) {
+					TigerstripeRuntime.logErrorMessage("Error while decoding the text node:\n" + text, e);
+				}
+				monitor.worked(1);
+			}
+			monitor.done();
+		}
+	}
 }

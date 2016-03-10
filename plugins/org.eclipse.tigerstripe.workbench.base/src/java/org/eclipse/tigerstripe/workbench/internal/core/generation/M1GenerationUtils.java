@@ -35,13 +35,14 @@ public class M1GenerationUtils {
 	public static IPluginConfig[] m1PluginConfigs(ITigerstripeModelProject project, boolean enabledOnly,
 			boolean cloneObjects) throws TigerstripeException {
 
-		if (project.getPluginConfigs() == null || project.getPluginConfigs().length == 0) {
+		IPluginConfig[] pluginConfig = project.getPluginConfigs();
+		if (pluginConfig == null || pluginConfig.length == 0) {
 			BasePlugin.logErrorMessage("No Generator Plugins were found for project " + project.getName());
 		}
 
+		BasePlugin.logInfo("Project " + project.getName() + " has " + String.valueOf(pluginConfig.length) + " plugins to resolve.");
 		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
-		for (IPluginConfig plugin : project.getPluginConfigs()) {
-
+		for (IPluginConfig plugin : pluginConfig) {
 			IPluginConfig config = null;
 			if (!PluginManager.isOsgiVersioning()) {
 				config = plugin;
@@ -70,6 +71,7 @@ public class M1GenerationUtils {
 			}
 		}
 
+		BasePlugin.logInfo("Project " + project.getName() + " resolved " + String.valueOf(result.size()) + " plugins.");
 		return result.toArray(new IPluginConfig[result.size()]);
 
 	}

@@ -526,7 +526,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 
 		this.pluginConfigs = new ArrayList<IPluginConfig>();
 		NodeList plugins = document.getElementsByTagName(PluginConfig.PLUGIN_REFERENCE_TAG);
-
+		
 		for (int i = 0; i < plugins.getLength(); i++) {
 			Node node = plugins.item(i);
 			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig((Element) node, this);
@@ -537,6 +537,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 			try {
 				ref.resolve();
 			} catch (Exception e) {
+				TigerstripeRuntime.logErrorMessage("An error occurred resolving plugin reference for " + ref.getPluginName(), e);
 			}
 
 			this.pluginConfigs.add(ref);

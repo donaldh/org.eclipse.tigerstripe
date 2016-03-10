@@ -56,7 +56,8 @@ public class GenerationUtils {
 	
 	public static void generateTigerstripeOutput(IProject project) throws TigerstripeException {
 
-		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore.findProject(project);
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
+                .getAdapter(ITigerstripeModelProject.class);
 		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(tsProject, RunConfig.M1);
 		PluginRunStatus[] statuses = tsProject.generate(config, null);
 		StringBuffer failedGenerators = new StringBuffer();

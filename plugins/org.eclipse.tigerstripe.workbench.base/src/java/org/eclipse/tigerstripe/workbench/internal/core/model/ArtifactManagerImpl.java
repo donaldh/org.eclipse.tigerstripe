@@ -1639,7 +1639,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	 * #getTSProject()
 	 */
 	public TigerstripeProject getTSProject() {
-		return this.tsProject;
+		return tsProject;
 	}
 
 	/*
@@ -2508,11 +2508,11 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 		ArrayList<ITigerstripeModelProject> models = new ArrayList<ITigerstripeModelProject>();
 
-		for (ITigerstripeModelProject project : tsProject.getEnabledReferencedProjects()) {
+		for (ITigerstripeModelProject project : getTSProject().getEnabledReferencedProjects()) {
 			models.add(project);
 		}
-		for (IDependency d : tsProject.getEnabledDependencies()) {
-			models.add(d.makeModuleProject(tsProject.getTSProject()));
+		for (IDependency d : getTSProject().getEnabledDependencies()) {
+			models.add(d.makeModuleProject(getTSProject().getTSProject()));
 		}
 		return models;
 	}

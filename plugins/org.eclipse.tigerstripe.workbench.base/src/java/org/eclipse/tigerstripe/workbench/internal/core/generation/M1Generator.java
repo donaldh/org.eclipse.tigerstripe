@@ -11,8 +11,6 @@
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,10 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -89,32 +83,6 @@ public class M1Generator {
 		return run(new NullProgressMonitor());
 	}
 
-	private void initializeConfig() throws TigerstripeException {
-		config = new M1RunConfig();
-		IProjectDetails details = project.getProjectDetails();
-		config.setClearDirectoryBeforeGenerate(
-				"true".equalsIgnoreCase(details.getProperty(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-						IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
-		config.setIgnoreFacets("true".equalsIgnoreCase(
-				details.getProperty(IProjectDetails.IGNORE_FACETS, IProjectDetails.IGNORE_FACETS_DEFAULT)));
-		config.setGenerateModules("true".equalsIgnoreCase(
-				details.getProperty(IProjectDetails.GENERATE_MODULES, IProjectDetails.GENERATE_MODULES_DEFAULT)));
-		config.setMergeFacets("true".equalsIgnoreCase(
-				details.getProperty(IProjectDetails.MERGE_FACETS, IProjectDetails.MERGE_FACETS_DEFAULT)));
-		config.setGenerateRefProjects("true".equalsIgnoreCase(details.getProperty(IProjectDetails.GENERATE_REFPROJECTS,
-				IProjectDetails.GENERATE_REFPROJECTS_DEFAULT)));
-		config.setOverrideSubprojectSettings("true".equalsIgnoreCase(details.getProperty(
-				IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS, IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS)));
-		config.setProcessUseCases("true".equalsIgnoreCase(
-				details.getProperty(IProjectDetails.PROCESS_USECASES, IProjectDetails.PROCESS_USECASES_DEFAULT)));
-		config.setProcessedUseCaseExtension(
-				details.getProperty(IProjectDetails.USECASE_PROC_EXT, IProjectDetails.USECASE_PROC_EXT_DEFAULT));
-		config.setUseCaseXSL(
-				details.getProperty(IProjectDetails.USECASE_USEXSLT, IProjectDetails.USECASE_USEXSLT_DEFAULT));
-		config.setAllRulesAsLocal("true"
-				.equalsIgnoreCase(project.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_allRulesLocal)));
-	}
-
 	public void deleteDirContents(File dir) throws TigerstripeException {
 		// Delete the contents - including subDiirs
 		for (File f : dir.listFiles()) {
@@ -159,10 +127,6 @@ public class M1Generator {
 
 			if (project == null)
 				throw new TigerstripeException("Invalid project");
-
-			if (config == null) {
-				initializeConfig();
-			}
 
 			// Attempt to clear the directory if requested
 			if (config.isClearDirectoryBeforeGenerate()) {
