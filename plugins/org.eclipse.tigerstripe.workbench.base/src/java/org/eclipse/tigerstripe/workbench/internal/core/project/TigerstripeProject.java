@@ -53,7 +53,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -167,11 +166,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 
 	// ==========================================
 
-	public IPluginConfig[] getPluginConfigs() {
+	public synchronized IPluginConfig[] getPluginConfigs() {
 		return this.pluginConfigs.toArray(new IPluginConfig[this.pluginConfigs.size()]);
 	}
 
-	public void setPluginConfigs(Collection<IPluginConfig> pluginConfigs) {
+	public synchronized void setPluginConfigs(Collection<IPluginConfig> pluginConfigs) {
 		setDirty();
 		pluginConfigs.clear();
 		for (IPluginConfig config : pluginConfigs) {
@@ -183,7 +182,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public void addPluginConfig(IPluginConfig pluginConfig) {
+	public synchronized void addPluginConfig(IPluginConfig pluginConfig) {
 		setDirty();
 		if (!this.pluginConfigs.contains(pluginConfig)) {
 			this.pluginConfigs.add(pluginConfig);
@@ -191,7 +190,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public void removePluginConfig(IPluginConfig pluginConfig) {
+	public synchronized void removePluginConfig(IPluginConfig pluginConfig) {
 		setDirty();
 		if (this.pluginConfigs.contains(pluginConfig)) {
 			this.pluginConfigs.remove(pluginConfig);
@@ -199,11 +198,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public Collection<ArtifactRepository> getArtifactRepositories() {
+	public synchronized Collection<ArtifactRepository> getArtifactRepositories() {
 		return this.artifactRepositories;
 	}
 
-	public void setArtifactRepositories(Collection<ArtifactRepository> artifactRepositories) {
+	public synchronized void setArtifactRepositories(Collection<ArtifactRepository> artifactRepositories) {
 		setDirty();
 		this.artifactRepositories.clear();
 		for (ArtifactRepository repo : artifactRepositories) {
@@ -212,11 +211,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public IDependency[] getDependencies() {
+	public synchronized IDependency[] getDependencies() {
 		return this.dependencies.toArray(new IDependency[this.dependencies.size()]);
 	}
 
-	public void setDependencies(Collection<IDependency> dependencies) {
+	public synchronized void setDependencies(Collection<IDependency> dependencies) {
 		setDirty();
 		this.dependencies.clear();
 		for (IDependency dep : dependencies) {
@@ -238,7 +237,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	}
 
 	@Override
-	public void parse(Reader reader) throws TigerstripeException {
+	public synchronized void parse(Reader reader) throws TigerstripeException {
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		Document document;
@@ -295,7 +294,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	 * @throws TigerstripeException
 	 */
 	@Override
-	public void write(Writer writer) throws TigerstripeException {
+	public synchronized void write(Writer writer) throws TigerstripeException {
 
 		try {
 			Document document = buildDOM();
@@ -328,7 +327,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	 * 
 	 */
 	@Override
-	protected Document buildDOM() {
+	protected synchronized Document buildDOM() {
 		Document document = null;
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -353,7 +352,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		return document;
 	}
 
-	public String getBaseRepository() {
+	public synchronized String getBaseRepository() {
 		if (artifactRepositories == null || artifactRepositories.isEmpty())
 			return null;
 
@@ -537,15 +536,16 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 			try {
 				ref.resolve();
 			} catch (Exception e) {
-				TigerstripeRuntime.logErrorMessage("An error occurred resolving plugin reference for " + ref.getPluginName(), e);
+				BasePlugin.logErrorMessage("An error occurred resolving plugin reference for " + ref.getPluginName(), e);
 			}
 
 			this.pluginConfigs.add(ref);
 			ref.setContainer(this);
 		}
+
 	}
 
-	public PluginConfig findPluginConfig(PluginConfig model) {
+	public synchronized PluginConfig findPluginConfig(PluginConfig model) {
 		for (IPluginConfig iPluginConfig : getPluginConfigs()) {
 			PluginConfig ref = (PluginConfig) iPluginConfig;
 			if (model.getPluginId().equals(ref.getPluginId()) && model.getGroupId().equals(ref.getGroupId()))
@@ -555,7 +555,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	}
 
 	@Override
-	public void validate(ITigerstripeVisitor visitor) throws TigerstripeException {
+	public synchronized void validate(ITigerstripeVisitor visitor) throws TigerstripeException {
 		// FIXME
 	}
 
@@ -612,7 +612,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	 * 
 	 * @return
 	 */
-	public ITigerstripeModelProject getTSProject() {
+	public synchronized ITigerstripeModelProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {
 				return (ITigerstripeModelProject) TigerstripeCore.findProject(getBaseDir().toURI());
@@ -660,7 +660,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public void addDependency(IDependency dependency) {
+	public synchronized void addDependency(IDependency dependency) {
 		URI uri = dependency.getURI();
 		IModuleHeader header = dependency.getIModuleHeader();
 
@@ -679,7 +679,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public void removeDependency(IDependency dependency) {
+	public synchronized void removeDependency(IDependency dependency) {
 		if (this.dependencies.contains(dependency)) {
 			setDirty();
 			this.dependencies.remove(dependency);
@@ -693,26 +693,26 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public void addDependencies(IDependency[] dependencies) {
+	public synchronized void addDependencies(IDependency[] dependencies) {
 		for (int i = 0; i < dependencies.length; i++) {
 			addDependency(dependencies[i]);
 		}
 	}
 
-	public void removeDependencies(IDependency[] dependencies) {
+	public synchronized void removeDependencies(IDependency[] dependencies) {
 		for (int i = 0; i < dependencies.length; i++) {
 			removeDependency(dependencies[i]);
 		}
 	}
 
-	public void addModelReference(ModelReference mRef) throws TigerstripeException {
+	public synchronized void addModelReference(ModelReference mRef) throws TigerstripeException {
 		setDirty();
 		synchronized (modelReferences) {
 			modelReferences.add(mRef);
 		}
 	}
 
-	public void addModelReferences(ModelReference[] mRefs) throws TigerstripeException {
+	public synchronized void addModelReferences(ModelReference[] mRefs) throws TigerstripeException {
 		setDirty();
 		synchronized (modelReferences) {
 			for (ModelReference mRef : mRefs)
@@ -720,14 +720,14 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public void removeModelReference(ModelReference mRef) throws TigerstripeException {
+	public synchronized void removeModelReference(ModelReference mRef) throws TigerstripeException {
 		setDirty();
 		synchronized (modelReferences) {
 			modelReferences.remove(mRef);
 		}
 	}
 
-	public void removeModelReferences(ModelReference[] mRefs) throws TigerstripeException {
+	public synchronized void removeModelReferences(ModelReference[] mRefs) throws TigerstripeException {
 		setDirty();
 		synchronized (modelReferences) {
 			for (ModelReference mRef : mRefs)
@@ -735,11 +735,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public ModelReference[] getModelReferences() {
+	public synchronized ModelReference[] getModelReferences() {
 		return modelReferences.toArray(new ModelReference[modelReferences.size()]);
 	}
 
-	public ITigerstripeModelProject[] getReferencedProjects() {
+	public synchronized ITigerstripeModelProject[] getReferencedProjects() {
 		List<ITigerstripeModelProject> result = new ArrayList<ITigerstripeModelProject>();
 		for (ModelReference mRef : modelReferences) {
 			ITigerstripeModelProject model = mRef.getResolvedModel();
@@ -750,7 +750,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	}
 
 	// NM: Return just the enabled dependencies
-	public IDependency[] getEnabledDependencies() {
+	public synchronized IDependency[] getEnabledDependencies() {
 		IDependency[] result = getDependencies();
 		if (result == null || result.length == 0)
 			return result;
@@ -765,7 +765,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	}
 
 	// NM: Return just the enabled model references
-	public ModelReference[] getEnabledModelReferences() {
+	public synchronized ModelReference[] getEnabledModelReferences() {
 		ModelReference[] result = getModelReferences();
 		if (result == null || result.length == 0)
 			return result;
@@ -780,7 +780,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	}
 
 	// NM: Return just the enabled referenced projects
-	public ITigerstripeModelProject[] getEnabledReferencedProjects() {
+	public synchronized ITigerstripeModelProject[] getEnabledReferencedProjects() {
 		List<ITigerstripeModelProject> result = new ArrayList<ITigerstripeModelProject>();
 		ModelReference[] enabledModelReferences = getEnabledModelReferences();
 		if (enabledModelReferences != null) {
@@ -794,7 +794,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 
 	}
 
-	public boolean hasReference(ITigerstripeModelProject project) {
+	public synchronized boolean hasReference(ITigerstripeModelProject project) {
 		if (project == null)
 			return false;
 
@@ -824,7 +824,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	 *            - whether order should be ignored during comparison
 	 * @return true if both projects have same dependencies, false otherwise
 	 */
-	public boolean hasSameDependencies(TigerstripeProject other, boolean ignoreOrder) {
+	public synchronized boolean hasSameDependencies(TigerstripeProject other, boolean ignoreOrder) {
 
 		IDependency[] otherDeps = other.getDependencies();
 		if (getDependencies().length != otherDeps.length)
@@ -882,7 +882,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	 *            - whether order should be ignored during comparison
 	 * @return true if both projects have same references, false otherwise
 	 */
-	public boolean hasSameReferences(TigerstripeProject other, boolean ignoreOrder) {
+	public synchronized boolean hasSameReferences(TigerstripeProject other, boolean ignoreOrder) {
 
 		ITigerstripeModelProject[] otherRefs = other.getReferencedProjects();
 		if (getReferencedProjects().length != otherRefs.length)
@@ -912,7 +912,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		return true;
 	}
 
-	public void addFacetReference(IFacetReference facetRef) throws TigerstripeException {
+	public synchronized void addFacetReference(IFacetReference facetRef) throws TigerstripeException {
 		if (!facetReferences.contains(facetRef)) {
 			setDirty();
 			facetReferences.add(facetRef);
@@ -920,7 +920,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public void removeFacetReference(IFacetReference facetRef) throws TigerstripeException {
+	public synchronized void removeFacetReference(IFacetReference facetRef) throws TigerstripeException {
 		if (facetReferences.contains(facetRef)) {
 			setDirty();
 			facetReferences.remove(facetRef);
@@ -928,7 +928,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		}
 	}
 
-	public IFacetReference[] getFacetReferences() throws TigerstripeException {
+	public synchronized IFacetReference[] getFacetReferences() throws TigerstripeException {
 		return facetReferences.toArray(new IFacetReference[facetReferences.size()]);
 	}
 
@@ -940,7 +940,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		return getProjectDetails();
 	}
 
-	public String getRepositoryLocation() throws TigerstripeException {
+	public synchronized String getRepositoryLocation() throws TigerstripeException {
 		List<ArtifactRepository> repositories = (List<ArtifactRepository>) getArtifactRepositories();
 		if (repositories == null || repositories.size() == 0)
 			throw new TigerstripeException(
@@ -960,11 +960,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 		return repoLocation;
 	}
 
-	public void reloadFrom(Reader reader) throws TigerstripeException {
+	public synchronized void reloadFrom(Reader reader) throws TigerstripeException {
 		parse(reader);
 	}
 
-	public final LegacyModelReference makeLegacyModelReferenceFrom(ITigerstripeModelProject project)
+	public synchronized final LegacyModelReference makeLegacyModelReferenceFrom(ITigerstripeModelProject project)
 			throws TigerstripeException {
 		ModelReference mRef = ModelReference.referenceFromProject(project);
 		LegacyModelReference mLRef = new LegacyModelReference(mRef.getProjectContext(), mRef.getToModelId(),
@@ -975,7 +975,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	/**
 	 * 
 	 */
-	public TigerstripeProjectHandle getProjectHandle() {
+	public synchronized TigerstripeProjectHandle getProjectHandle() {
 		TigerstripeProjectHandle handle = null;
 
 		if (getBaseDir() == null)
@@ -990,7 +990,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements IP
 	}
 
 	@Override
-	public void descriptorChanged(IResource changedDescriptor) {
+	public synchronized void descriptorChanged(IResource changedDescriptor) {
 		// If the descriptor has changed, then we need to reload for sure!
 		IProject project = (IProject) this.getAdapter(IProject.class);
 		if (project != null && changedDescriptor.getProject().equals(project)) {

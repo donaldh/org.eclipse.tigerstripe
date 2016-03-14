@@ -79,7 +79,7 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 
 				ProjectRecord projectRecord = new ProjectRecord(projectMetaFile);
 				IProject project = workspace.getRoot().getProject(projectName);
-				
+
 				String workspaceLocation = workspace.getRoot().getLocation().toString();
 				if (workspaceLocation.startsWith(projectPath) || projectPath.contains("target/work/")) {
 					System.out.println("Workspace is inside project " + projectName
@@ -92,7 +92,7 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 							Iterator<?> iter = filesToImport.iterator();
 							while (iter.hasNext()) {
 								Object file = iter.next();
-								if (file instanceof File && ((File)file).getName().equals("target")) {
+								if (file instanceof File && ((File) file).getName().equals("target")) {
 									System.out.println("Ignoring 'target' folder...");
 									iter.remove();
 								}
@@ -108,7 +108,8 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 					}
 				} else {
 					System.out.println("Workspace is outside the project " + project.getName()
-							+ ", generation will run directly on the project sources. [project=" + projectPath + ", workspace=" + workspaceLocation + "]");
+							+ ", generation will run directly on the project sources. [project=" + projectPath
+							+ ", workspace=" + workspaceLocation + "]");
 					IProjectDescription description = ResourcesPlugin.getWorkspace()
 							.loadProjectDescription(new Path(projectPath + "/.project"));
 					// Use the actual project folders name as seen on disk, as
@@ -117,7 +118,7 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 					project.create(description, null);
 					project.open(null);
 				}
-				
+
 				IFile classpath = project.getFile(".classpath");
 				if (!classpath.exists()) {
 					try {
@@ -143,13 +144,12 @@ public class ImportProjectsRunnable implements IWorkspaceRunnable, IOverwriteQue
 		for (IProject project : importedProjects) {
 			try {
 				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
-		                .getAdapter(ITigerstripeModelProject.class);
-				if (tsProject != null) {
-					tsProject.getArtifactManagerSession().refreshAll(false, monitor);
-				} else {
-					System.out.println("Failed to process project " + project.getName()
-							+ " as a Tigerstripe Project, validation will not be run.");
+						.getAdapter(ITigerstripeModelProject.class);
+				if (tsProject == null) {
+					throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+							"Failed to adapt imported project as a Tigerstripe Model project."));
 				}
+				tsProject.getArtifactManagerSession().refreshAll(false, monitor);
 			} catch (Exception e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 						"Failed to adapt imported project as a Tigerstripe Model project.", e));

@@ -35,7 +35,7 @@ public class InstalledModuleManager {
 	 *            module identifier
 	 * @return installed module by ID or null if no such module
 	 */
-	public InstalledModule getModule(String id) {
+	public synchronized InstalledModule getModule(String id) {
 		if (idToModule == null) {
 			init();
 		}
@@ -49,7 +49,7 @@ public class InstalledModuleManager {
 	 *            module path
 	 * @return installed module by jar path of null if none
 	 */
-	public InstalledModule getModule(IPath path) {
+	public synchronized InstalledModule getModule(IPath path) {
 		if (pathToModule == null) {
 			init();
 		}
@@ -59,7 +59,7 @@ public class InstalledModuleManager {
 	/**
 	 * @return all installed modules
 	 */
-	public InstalledModule[] getModules() {
+	public synchronized InstalledModule[] getModules() {
 		if (modules == null) {
 			init();
 		}

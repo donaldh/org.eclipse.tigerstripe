@@ -40,7 +40,6 @@ public class M1GenerationUtils {
 			BasePlugin.logErrorMessage("No Generator Plugins were found for project " + project.getName());
 		}
 
-		BasePlugin.logInfo("Project " + project.getName() + " has " + String.valueOf(pluginConfig.length) + " plugins to resolve.");
 		List<IPluginConfig> result = new ArrayList<IPluginConfig>();
 		for (IPluginConfig plugin : pluginConfig) {
 			IPluginConfig config = null;
@@ -71,7 +70,6 @@ public class M1GenerationUtils {
 			}
 		}
 
-		BasePlugin.logInfo("Project " + project.getName() + " resolved " + String.valueOf(result.size()) + " plugins.");
 		return result.toArray(new IPluginConfig[result.size()]);
 
 	}
