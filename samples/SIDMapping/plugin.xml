@@ -50,6 +50,10 @@
             from=":"
             to="_">
       </characterMap>
+      <characterMap
+            from="?"
+            to="_">
+      </characterMap>
    </extension>
    <extension
          point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportCommentProcessor">
