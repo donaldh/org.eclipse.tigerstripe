@@ -80,7 +80,7 @@ public class AuditAction extends BuildAction {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void run() {
-		for (Iterator<IResource> i = getSelectedResources().iterator(); i
+		for (Iterator<? extends IResource> i = getSelectedResources().iterator(); i
 				.hasNext();) {
 			IResource resource = i.next();
 			IProject project = resource.getProject();

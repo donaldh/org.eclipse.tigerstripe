@@ -15,14 +15,11 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
@@ -39,7 +36,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportUtilities;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 
 public class ModelImporter {
@@ -52,7 +48,7 @@ public class ModelImporter {
 	private String importFilename;
 	private String profilesDir;
 
-	private Model model;
+	private org.eclipse.uml2.uml.Package model;
 	private String modelLibrary;
 	private Map<EObject, String> classMap;
 	private Map<String, IAbstractArtifact> extractedArtifacts;
@@ -299,7 +295,7 @@ public class ModelImporter {
 				if (!modelFile.getName().endsWith("uml2")
 						&& !modelFile.getName().endsWith("uml"))
 					continue;
-				Model model;
+				org.eclipse.uml2.uml.Package model;
 				try {
 					model = Utilities.openModelFile(modelFile);
 					if (model != null)

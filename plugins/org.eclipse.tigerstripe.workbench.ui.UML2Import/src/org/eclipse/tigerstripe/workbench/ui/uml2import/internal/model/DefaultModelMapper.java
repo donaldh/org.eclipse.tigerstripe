@@ -31,12 +31,11 @@ import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 
 public class DefaultModelMapper implements IModelMapper {
 
-	public Map<EObject, String> getMapping(Model model) {
+	public Map<EObject, String> getMapping(org.eclipse.uml2.uml.Package model) {
 		Map<EObject, String> classMap = new HashMap<EObject, String>();
 		
 		/* 

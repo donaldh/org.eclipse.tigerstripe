@@ -120,7 +120,7 @@ public class ProfileImporter {
 				if (!modelFile.getName().endsWith(UMLResource.FILE_EXTENSION)
 						&& !modelFile.getName().endsWith("uml2"))
 					continue;
-				Model model;
+				org.eclipse.uml2.uml.Package model;
 				Profile profile;
 				try {
 					model = Utilities.openModelFile(modelFile);
@@ -207,7 +207,7 @@ public class ProfileImporter {
 
 	}
 
-	private void loadUMLModel(Model model, WorkbenchProfile handle,
+	private void loadUMLModel(org.eclipse.uml2.uml.Package model, WorkbenchProfile handle,
 			SubProgressMonitor subMonitor) {
 		ArrayList existingDefs = new ArrayList();
 		Collection<IPrimitiveTypeDef> defs = handle.getPrimitiveTypeDefs(true);
@@ -252,7 +252,7 @@ public class ProfileImporter {
 	}
 
 	private void loadUMLProfile(Profile profile, WorkbenchProfile handle,
-			Model model, SubProgressMonitor subMonitor) {
+			org.eclipse.uml2.uml.Package model, SubProgressMonitor subMonitor) {
 		TreeIterator t = profile.eAllContents();
 		subMonitor.beginTask("Processing UML Classes ", profile
 				.allOwnedElements().size());

@@ -39,7 +39,6 @@ import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Stereotype;
 
@@ -53,7 +52,7 @@ import org.eclipse.uml2.uml.Stereotype;
  */
 public class SIDModelMapper implements IModelMapper {
 	
-	public Map<EObject, String> getMapping(Model model)
+	public Map<EObject, String> getMapping(org.eclipse.uml2.uml.Package model)
 	{
 		try
 		{

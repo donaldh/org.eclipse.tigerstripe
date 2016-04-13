@@ -40,7 +40,7 @@ import org.eclipse.uml2.uml.Stereotype;
  */
 public class SIDModelTrimmer implements IModelTrimmer {
 	
-	public Model trimModel(Model modelToTrim)
+	public org.eclipse.uml2.uml.Package trimModel(org.eclipse.uml2.uml.Package modelToTrim)
 	{
 		try
 		{

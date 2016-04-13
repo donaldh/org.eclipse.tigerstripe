@@ -47,16 +47,16 @@ public class Utilities {
 
 	public static Map options;
 
-	public static Model openModelFile(File file)
+	public static org.eclipse.uml2.uml.Package openModelFile(File file)
 			throws InvocationTargetException {
 		URI fileUri = URI.createFileURI(file.getAbsolutePath());
 		return openModelURI(fileUri);
 	}
 
-	public static Model openModelURI(URI fileUri)
+	public static org.eclipse.uml2.uml.Package openModelURI(URI fileUri)
 			throws InvocationTargetException {
 		Resource resource;
-		Model model = null;
+		org.eclipse.uml2.uml.Package model = null;
 		try {
 			resource = resourceSet.createResource(fileUri);
 			resource.load(options);
@@ -68,8 +68,8 @@ public class Utilities {
 			Iterator i = resource.getContents().iterator();
 			while (i.hasNext()) {
 				EObject eo = (EObject) i.next();
-				if (eo instanceof Model) {
-					model = (Model) eo;
+				if (eo instanceof org.eclipse.uml2.uml.Package) {
+					model = (org.eclipse.uml2.uml.Package) eo;
 					break;
 				}
 			} if (model == null){

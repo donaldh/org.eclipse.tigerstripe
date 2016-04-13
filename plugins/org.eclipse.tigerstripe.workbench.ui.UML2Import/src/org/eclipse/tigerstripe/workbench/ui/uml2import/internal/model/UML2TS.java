@@ -148,7 +148,7 @@ public class UML2TS {
 		return extractArtifacts(model, modelLibrary, messages, tsProject, ignoreUnknown, unknownType, "primitive.string");
 	}
 		
-	public Map<String,IAbstractArtifact> extractArtifacts(Model model, String modelLibrary,  MessageList messages,
+	public Map<String,IAbstractArtifact> extractArtifacts(org.eclipse.uml2.uml.Package model, String modelLibrary,  MessageList messages,
 			ITigerstripeModelProject tsProject,boolean ignoreUnknown, String unknownType, String stringType ){	
 		// This is where we store the extracted stuff..
 		Map<String,IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
@@ -1209,7 +1209,8 @@ public class UML2TS {
 					field.setOrdered(property.isOrdered());
 					field.setUnique(property.isUnique());
 
-					if (property.isSetDefault()){
+					//if (property.isSetDefault())
+					{
 						field.setDefaultValue(property.getDefault());
 					}
 					if (property.isReadOnly()){

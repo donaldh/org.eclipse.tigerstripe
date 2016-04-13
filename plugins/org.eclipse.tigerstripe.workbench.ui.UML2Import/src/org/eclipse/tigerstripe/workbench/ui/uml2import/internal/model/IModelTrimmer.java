@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.uml2import.internal.model;
 
-import org.eclipse.uml2.uml.Model;
-
 /**
  * This interface is used by the importer to optionally trim
  * a model prior to the import
@@ -27,5 +25,5 @@ public interface IModelTrimmer {
 	 * @param modelToTrim
 	 * @return
 	 */
-	public Model trimModel(Model modelToTrim);	
+	public org.eclipse.uml2.uml.Package trimModel(org.eclipse.uml2.uml.Package modelToTrim);	
 }
