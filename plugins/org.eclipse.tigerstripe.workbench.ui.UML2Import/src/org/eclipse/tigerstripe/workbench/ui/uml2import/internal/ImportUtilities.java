@@ -17,6 +17,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.runtime.Platform;
@@ -107,18 +108,7 @@ public class ImportUtilities {
 			for (String exp : getMappings().keySet()){
 				try{
 					if ( cleanName.contains(exp)){
-						if (exp.equals("."))
-							cleanName = cleanName.replaceAll("\\.", getMappings().get(exp));
-						else if (exp.equals("("))		
-							cleanName = cleanName.replaceAll("\\(", getMappings().get(exp));
-						else if (exp.equals("{"))		
-							cleanName = cleanName.replaceAll("\\{", getMappings().get(exp));
-						else if (exp.equals("["))		
-							cleanName = cleanName.replaceAll("\\[", getMappings().get(exp));
-						else if (exp.equals(")"))		
-							cleanName = cleanName.replaceAll("\\)", getMappings().get(exp));
-						else		
-							cleanName = cleanName.replaceAll(exp, getMappings().get(exp));
+						cleanName = cleanName.replaceAll(Pattern.quote(exp), getMappings().get(exp));
 					}
 				} catch (PatternSyntaxException p){
 					String msgText = "Invalid Pattern defintion '"+exp+"'";
