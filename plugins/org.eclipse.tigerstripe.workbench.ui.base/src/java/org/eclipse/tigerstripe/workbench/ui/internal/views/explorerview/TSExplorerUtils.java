@@ -96,7 +96,7 @@ public class TSExplorerUtils {
 						StringReader reader = new StringReader(jElem
 								.getSource());
 						art = mgr.extractArtifact(reader,
-								new NullProgressMonitor());
+								"UNKNOWN SOURCE", new NullProgressMonitor());
 					}
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);

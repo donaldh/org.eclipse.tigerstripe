@@ -2128,7 +2128,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		String textual = this.asText();
 		StringReader reader = new StringReader(textual);
 		AbstractArtifact cloned = (AbstractArtifact) getArtifactManager().extractArtifact(reader,
-				monitor);
+				"UNKNOWN SOURCE", monitor);
 		cloned.canContainDuplicates = true;
 		return cloned;
 	}

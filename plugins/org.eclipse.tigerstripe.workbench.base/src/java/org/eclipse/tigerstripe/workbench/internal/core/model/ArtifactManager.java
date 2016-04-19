@@ -216,11 +216,12 @@ public interface ArtifactManager {
      * Extracts an Artifact from the given reader
      * 
      * @param reader
+     * @param source TODO
      * @return
      * @throws TigerstripeException
      */
     IAbstractArtifactInternal extractArtifact(Reader reader,
-            IProgressMonitor monitor) throws TigerstripeException;
+            String source, IProgressMonitor monitor) throws TigerstripeException;
 
     IAbstractArtifactInternal extractArtifactModel(Reader reader)
             throws TigerstripeException;

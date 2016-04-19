@@ -82,7 +82,7 @@ public abstract class NewTSElementWizard extends Wizard implements INewWizard {
 								.getLocation().toFile());
 						IAbstractArtifact artifact = mgrSession
 								.extractArtifact(reader,
-										new NullProgressMonitor());
+										resource.getFullPath().toOSString(), new NullProgressMonitor());
 
 						// FIXME: This is when the artifact manager is notified
 						// that a new

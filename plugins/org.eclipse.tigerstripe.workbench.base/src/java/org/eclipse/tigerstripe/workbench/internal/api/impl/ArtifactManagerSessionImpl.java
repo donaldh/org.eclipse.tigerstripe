@@ -255,8 +255,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
     }
 
     public IAbstractArtifact extractArtifact(Reader reader,
-            IProgressMonitor monitor) throws TigerstripeException {
-        return artifactManager.extractArtifact(reader, monitor);
+            String source, IProgressMonitor monitor) throws TigerstripeException {
+        return artifactManager.extractArtifact(reader, source, monitor);
     }
 
     public void addArtifact(IAbstractArtifact artifact)

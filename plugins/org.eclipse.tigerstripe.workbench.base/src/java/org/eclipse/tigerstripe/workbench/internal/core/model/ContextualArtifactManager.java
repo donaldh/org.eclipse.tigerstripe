@@ -235,8 +235,8 @@ public class ContextualArtifactManager implements ArtifactManager {
 	}
 
 	public IAbstractArtifactInternal extractArtifact(Reader reader,
-			IProgressMonitor monitor) throws TigerstripeException {
-		return wrap(mgr.extractArtifact(reader, monitor));
+			String source, IProgressMonitor monitor) throws TigerstripeException {
+		return wrap(mgr.extractArtifact(reader, source, monitor));
 	}
 
 	public IAbstractArtifactInternal extractArtifactModel(Reader reader)

@@ -1417,7 +1417,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			try {
 				JavaSource source = null;
 				try {
-					source = builder.addSource(new FileReader(pojo.getFilename()));
+					source = builder.addSource(new FileReader(pojo.getFilename()), pojo.getFilename());
 					java.net.URI uri = new File(pojo.getFilename()).toURI();
 					source.setURL(uri.toURL());
 					pojo.setJavaSource(source);
@@ -1718,7 +1718,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 	 * #extractArtifact(java.io.Reader,
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public IAbstractArtifactInternal extractArtifact(Reader reader, IProgressMonitor monitor)
+	public IAbstractArtifactInternal extractArtifact(Reader reader, String sourcePath, IProgressMonitor monitor)
 			throws TigerstripeException {
 		if (wasDisposed) {
 			return null;
@@ -1726,10 +1726,10 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 
 		try {
 			JavaDocBuilder builder = new JavaDocBuilder();
-			JavaSource source = builder.addSource(reader);
+			JavaSource source = builder.addSource(reader, sourcePath);
 			return extractArtifact(source, monitor);
 		} catch (ParseException e) {
-			throw new TigerstripeException("Error trying to parse Artifact", e);
+			throw new TigerstripeException("Error trying to parse Artifact : " + e.getMessage(), e);
 		}
 	}
 
@@ -3025,7 +3025,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					Reader reader;
 
 					reader = new InputStreamReader(((IFile) changedArtifactResource).getContents());
-					IAbstractArtifactInternal aArtifact = extractArtifact(reader, null);
+					IAbstractArtifactInternal aArtifact = extractArtifact(reader, changedArtifactResource.getFullPath().toOSString(), null);
 					// An Add replaces the existing
 					addArtifact(aArtifact, null);
 
@@ -3054,7 +3054,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
 			if (addedArtifactResource.getProject().equals(p) && addedArtifactResource instanceof IFile) {
 				Reader reader = new InputStreamReader(((IFile) addedArtifactResource).getContents());
-				IAbstractArtifactInternal aArtifact = extractArtifact(reader, null);
+				IAbstractArtifactInternal aArtifact = extractArtifact(reader, addedArtifactResource.getFullPath().toOSString(), null);
 				// An Add replaces the existing
 				addArtifact(aArtifact, null);
 			}

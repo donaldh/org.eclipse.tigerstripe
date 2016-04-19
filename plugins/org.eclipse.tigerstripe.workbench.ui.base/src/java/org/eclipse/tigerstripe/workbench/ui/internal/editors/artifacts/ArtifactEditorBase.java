@@ -347,7 +347,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			StringReader reader = new StringReader(text);
 			try {
 				IAbstractArtifact newArtifact = session.extractArtifact(reader,
-						new NullProgressMonitor());
+						"UNKNOWN SOURCE", new NullProgressMonitor());
 				setIArtifact(newArtifact);
 				refreshModelPages();
 			} catch (TigerstripeException e) {

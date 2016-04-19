@@ -130,8 +130,7 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 								}
 								reader = new InputStreamReader(
 										res.getContents());
-								artifact = mgr.extractArtifact(reader,
-										new NullProgressMonitor());
+								artifact = mgr.extractArtifact(reader, res.getFullPath().toOSString(), new NullProgressMonitor());
 							} catch (CoreException e) {
 								BasePlugin.log(e);
 							} finally {
@@ -196,7 +195,7 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 													artifact = mgr
 															.extractArtifact(
 																	reader,
-																	new NullProgressMonitor());
+																	null, new NullProgressMonitor());
 													return artifact;
 												} finally {
 													if (reader != null) {
