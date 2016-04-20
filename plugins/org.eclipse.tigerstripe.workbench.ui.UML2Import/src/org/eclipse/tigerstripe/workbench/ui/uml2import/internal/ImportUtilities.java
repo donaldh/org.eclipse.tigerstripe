@@ -27,6 +27,8 @@ import org.osgi.framework.Bundle;
 
 public class ImportUtilities {
 
+	private static boolean STRIP_MODEL_NAME = false;
+
 	private static Map<String,String> mappings = new HashMap<String, String>();
 	
 	public static void printHeaderInfo(PrintWriter out)
@@ -156,30 +158,24 @@ public class ImportUtilities {
 
 			String dottedName = "";
 			String[] segments = name.split("::");
-			for (int i=0;i<segments.length-1;i++){
+			for (int i=0;i<segments.length; i++){
 				String segmentName = segments[i];
-                // Make sure the packages all start with a lower case letter
-//				String segmentName =  segments[i].substring(0,1).toLowerCase()+segments[i].substring(1);
-//				if (! segmentName.substring(0,1).equals(segments[i].substring(0,1)) && i!=0){
-//					String msgText = " Package Name Segment mapped : " + segments[i] + " -> " + segmentName;
-//					addMessage(msgText, 1, messages);
-//					out.println("WARN :" + msgText);
-//				}
 				if (i==0){
-					//dottedName = nameCheck(segmentName);
 					dottedName = ImportUtilities.nameCheck(segmentName, messages, out);
 				} else {
 					dottedName = dottedName+"."+ImportUtilities.nameCheck(segmentName, messages, out);
 				}
 			}
-			dottedName = dottedName+"."+ImportUtilities.nameCheck(segments[segments.length-1], messages, out);
+
 			// This removes the model name if its there
-			// rememberr model name may have had underscores replaced
-			if (dottedName.substring(0,dottedName.indexOf(".")).equals(ImportUtilities.nameCheck(modelName,messages,out))){
-				return dottedName.substring(dottedName.indexOf(".")+1);
-			} else{
-				return dottedName;
+			// remember model name may have had underscores replaced
+			if (STRIP_MODEL_NAME) {
+				if (dottedName.substring(0,dottedName.indexOf(".")).equals(ImportUtilities.nameCheck(modelName,messages,out))){
+					dottedName = dottedName.substring(dottedName.indexOf(".")+1);
+				}
 			}
+
+			return dottedName;
 		} else {
 			return null;
 		}
@@ -197,25 +193,19 @@ public class ImportUtilities {
 	
 				String dottedName = "";
 				String[] segments = name.split("::");
-				for (int i=0;i<segments.length-1;i++){
+				for (int i=0;i<segments.length; i++){
 					String segmentName = segments[i];
-	                // Make sure the packages all start with a lower case letter
-	//				String segmentName =  segments[i].substring(0,1).toLowerCase()+segments[i].substring(1);
-	//				if (! segmentName.substring(0,1).equals(segments[i].substring(0,1)) && i!=0){
-	//					String msgText = " Package Name Segment mapped : " + segments[i] + " -> " + segmentName;
-	//					addMessage(msgText, 1, messages);
-	//					out.println("WARN :" + msgText);
-	//				}
 					if (i==0){
-						//dottedName = nameCheck(segmentName);
 						dottedName = ImportUtilities.nameCheck(segmentName, messages, out);
 					} else {
 						dottedName = dottedName+"."+ImportUtilities.nameCheck(segmentName, messages, out);
 					}
 				}
-				dottedName = dottedName+"."+ImportUtilities.nameCheck(segments[segments.length-1], messages, out);
 				// This removes the model name
-				return dottedName.substring(dottedName.indexOf(".")+1);
+				if (STRIP_MODEL_NAME) {
+					dottedName = dottedName.substring(dottedName.indexOf(".")+1);
+				}
+				return dottedName;
 			} else {
 				return null;
 			}
