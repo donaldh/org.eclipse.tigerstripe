@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArti
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.uml2.uml.Association;
@@ -32,6 +33,7 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.PackageImport;
 
 public class DefaultModelMapper implements IModelMapper {
 
@@ -49,7 +51,6 @@ public class DefaultModelMapper implements IModelMapper {
 				
 			EObject eObject = (EObject) t.next();
 			// TODO - is this meaningful ?
-			
 			if (eObject instanceof Package){
 				classMap.put( eObject, IPackageArtifact.class.getName());
 			} 
@@ -65,7 +66,8 @@ public class DefaultModelMapper implements IModelMapper {
 				classMap.put( eObject,  IDatatypeArtifact.class.getName());
 			} else if (eObject instanceof Class) {
 				// We cannot determine "Class" types - could be Entity, Datatype, Exception etc
-				classMap.put( eObject, "");
+				// Default to Entity so at least the import does something
+				classMap.put(eObject, IManagedEntityArtifact.class.getName());
 			}
 			if (eObject instanceof Classifier) {
 				Classifier element = (Classifier) eObject;
