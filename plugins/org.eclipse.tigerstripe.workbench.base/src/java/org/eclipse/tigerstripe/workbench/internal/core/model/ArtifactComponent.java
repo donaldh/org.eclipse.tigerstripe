@@ -401,7 +401,7 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object getAdapter(Class adapter) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		if (adapter == URI.class) {
 			try {
 				return toURI();

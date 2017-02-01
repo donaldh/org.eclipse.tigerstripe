@@ -10,10 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringBufferInputStream;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -303,9 +304,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	public AbstractArtifact(ArtifactManager artifactMgr) {
 		super(artifactMgr);
-		methods = new ArrayList();
-		fields = new ArrayList();
-		literals = new ArrayList();
+		methods = new ArrayList<IMethod>();
+		fields = new ArrayList<IField>();
+		literals = new ArrayList<ILiteral>();
 
 		if (artifactMgr != null) { // it's null for MODELs
 			if (artifactMgr instanceof ModuleArtifactManager) {
@@ -443,7 +444,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 
 		// Then the methods
-		this.methods = new ArrayList();
+		this.methods = new ArrayList<IMethod>();
 		JavaMethod[] methods = clazz.getMethods();
 		for (int i = 0; i < methods.length; i++) {
 			Method method = new Method(methods[i], getArtifactManager());
@@ -461,7 +462,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 
 		// And the fields
-		this.fields = new ArrayList();
+		this.fields = new ArrayList<IField>();
 		JavaField[] fields = clazz.getFields();
 		for (int i = 0; i < fields.length; i++) {
 			Field field = new Field(fields[i], getArtifactManager());
@@ -478,7 +479,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 
 		// And the literals
-		this.literals = new ArrayList();
+		this.literals = new ArrayList<ILiteral>();
 		JavaField[] javaFields = clazz.getFields();
 		for (int i = 0; i < javaFields.length; i++) {
 			Literal literal = new Literal(javaFields[i], getArtifactManager());
@@ -847,8 +848,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	private void createUniqueFieldTypeList() {
 		// Iterate over the extracted fields to get their types
 
-		this.fieldTypes = new ArrayList();
-		Iterator it = this.fields.iterator();
+		this.fieldTypes = new ArrayList<IFieldTypeRef>();
+		Iterator<IField> it = this.fields.iterator();
 		while (it.hasNext()) {
 			Field field = (Field) it.next();
 			int refBy = field.getRefBy();
@@ -1010,7 +1011,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			TigerstripeRuntime.logErrorMessage(
 					"While trying to resolve inherited fields for "
 							+ getFullyQualifiedName(), e);
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		// }
 		return this.inheritedFields;
@@ -1033,7 +1034,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			TigerstripeRuntime.logErrorMessage(
 					"While trying to resolved inherited Literals for "
 							+ getFullyQualifiedName(), e);
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		// }
 		return this.inheritedLiterals;
@@ -1055,7 +1056,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			TigerstripeRuntime.logErrorMessage(
 					"While trying to resolve inherited Methods for "
 							+ getFullyQualifiedName(), e);
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		// }
 		return this.inheritedMethods;
@@ -1550,8 +1551,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				persister.applyTemplate();
 				StringBuffer buffer = writer.getBuffer();
 
-				StringBufferInputStream stream = new StringBufferInputStream(
-						buffer.toString());
+				InputStream stream = new ByteArrayInputStream(buffer.toString().getBytes());
+				new StringReader(buffer.toString());
 				if (!file.exists())
 					file.create(stream, true, monitor);
 				else
@@ -1571,7 +1572,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 								.getArtifactByFullyQualifiedName(getPackage());
 						IResource parentResource = null;
 						if (parent != null) {
-							parentResource = (IResource) parent
+							parentResource = parent
 									.getAdapter(IResource.class);
 						}
 						if (parent == null || parentResource == null
@@ -1741,7 +1742,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	@ProvideModelComponents
 	public Collection<IField> getInheritedFields(
 			boolean filterFacetExcludedFields) {
-		Collection fields = getInheritedFields();
+		Collection<IField> fields = getInheritedFields();
 		if (filterFacetExcludedFields) {
 			if (facetFilteredInheritedFields == null) {
 				facetFilteredInheritedFields = Field
@@ -1785,7 +1786,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	@ProvideModelComponents
 	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods) {
-		Collection methods = getMethods();
+		Collection<IMethod> methods = getMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredMethods == null) {
 				facetFilteredMethods = Method
@@ -1799,7 +1800,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	@ProvideModelComponents
 	public Collection<IMethod> getInheritedMethods(
 			boolean filterFacetExcludedMethods) {
-		Collection methods = getInheritedMethods();
+		Collection<IMethod> methods = getInheritedMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredInheritedMethods == null) {
 				facetFilteredInheritedMethods = Method
@@ -1997,8 +1998,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public Object getAdapter(Class adapter) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		if (adapter == IResource.class) {
 			try {
 				return getIResource();
@@ -2033,7 +2033,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					+ getFullyQualifiedName()); // this happens for
 		// artifacts in modules.
 
-		IProject iProject = (IProject) getProject().getAdapter(IProject.class);
+		IProject iProject = getProject().getAdapter(IProject.class);
 		if (iProject == null)
 			// This will happen when considering artifact from Phantom Project
 			throw new TigerstripeException("Unknown path for "
