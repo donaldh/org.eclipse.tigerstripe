@@ -200,7 +200,6 @@ public class UmlClassesTreeContentProvider extends ArrayContentProvider
 		}
 	}
 	
-	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		super.dispose();
@@ -211,7 +210,6 @@ public class UmlClassesTreeContentProvider extends ArrayContentProvider
 		return nodes.toArray(new Node[nodes.size()]);
 	}
 
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		if (newInput != null) {
 			this.input = (Map<EObject, String>) newInput;

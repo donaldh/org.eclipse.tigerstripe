@@ -135,7 +135,6 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 			return flavors;
 		}
 
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			methodInFocus = (IOssjMethod) newInput;
 			// viewer.refresh();

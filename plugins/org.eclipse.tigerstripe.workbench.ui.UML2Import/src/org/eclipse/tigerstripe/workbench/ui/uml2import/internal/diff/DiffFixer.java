@@ -133,7 +133,7 @@ public class DiffFixer {
 							String extName = extractedArtifact
 									.getExtendedArtifact()
 									.getFullyQualifiedName();
-							if (!extName.equals("")) {
+							if (extName != null && !extName.equals("")) {
 								secondPassDiffs.add(new Difference("value",
 										diff.getLocal(), diff.getRemote(),
 										"Artifact:Extends", "", extName, ""));

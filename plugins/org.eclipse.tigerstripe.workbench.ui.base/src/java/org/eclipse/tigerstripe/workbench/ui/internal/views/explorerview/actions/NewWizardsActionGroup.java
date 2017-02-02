@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.Adapters;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -68,7 +69,6 @@ import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.internal.actions.NewWizardShortcutAction;
 import org.eclipse.ui.internal.navigator.wizards.CommonWizardDescriptor;
 import org.eclipse.ui.internal.navigator.wizards.CommonWizardDescriptorManager;
-import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.INavigatorContentService;
 import org.eclipse.ui.wizards.IWizardDescriptor;
@@ -231,8 +231,8 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 			if (wizardDesc != null) {
 				action = new NewWizardShortcutAction(window, wizardDesc);
 				actions.put(id, action);
-				IConfigurationElement element = (IConfigurationElement) Util
-						.getAdapter(wizardDesc, IConfigurationElement.class);
+				IConfigurationElement element = (IConfigurationElement) Adapters
+						.adapt(wizardDesc, IConfigurationElement.class);
 				if (element != null) {
 					window.getExtensionTracker().registerObject(
 							element.getDeclaringExtension(), action,

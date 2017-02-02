@@ -20,7 +20,6 @@ public class DBDatatypeMappingContentProvider extends ArrayContentProvider {
 		super();
 	}
 
-	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		super.dispose();
@@ -32,7 +31,6 @@ public class DBDatatypeMappingContentProvider extends ArrayContentProvider {
 		return mapper.getMappings();
 	}
 
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		super.inputChanged(viewer, oldInput, newInput);
 	}
